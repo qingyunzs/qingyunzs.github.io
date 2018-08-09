@@ -1,4 +1,4 @@
-#+TITLE:     Apache+MySQL+PHP源码包安装指南(Linux)[cn/en]
+#+TITLE:     Apache/Nginx+MySQL+PHP源码包安装指南(Linux)[cn/en]
 #+AUTHOR:    zrg
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -16,14 +16,15 @@
 #+BEGIN_EXPORT HTML
 ---
 layout: post
-title: Apache-MySQL+PHP
+title: Apache/Nginx-MySQL+PHP
 author: zrg
 comments: false
-description: 这是我在Linux环境下的Apache+MySQL+PHP源码包安装过程。内容适用于linux操作系统，仅供参考！
+description: 这是我在Linux环境下的Apache/Nginx+MySQL+PHP源码包安装过程。内容适用于linux操作系统，仅供参考！
 categories:
-- turorial
+- Linux
 tags:
 - Apache
+- Nginx
 - MySQL
 - PHP
 photos:
@@ -48,7 +49,7 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 此时可能会出现如下错误，这是因为ARP和ARP-util缺失。
 #+END_SRC
 #+ATTR_HTML::align left
-[[./images/apache-1.png]]
+[[/assets/images/apache-1.png]]
 ** 安装APR和APR-util
 #+BEGIN_SRC emacs lisp
 到 http://apr.apache.org/download.cgi 下载apr和apr-util
@@ -58,7 +59,7 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 此时，可能会出现libtool缺失，如下图所示。
 #+END_SRC
 #+ATTR_HTML::align left
-[[./images/apache-2.png]]
+[[/assets/images/apache-2.png]]
 #+BEGIN_SRC emacs lisp
 解决办法：
  安装libtool、autoconf及automake：#zypper in autoconf libtool automake
@@ -70,13 +71,13 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 成功标志：
 #+END_SRC
 #+ATTR_HTML::height 600px
-[[./images/apache-3.png]]
+[[/assets/images/apache-3.png]]
 #+BEGIN_SRC emacs lisp
 编译安装apr
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::width 800px
-[[./images/apache-4.png]]
+[[/assets/images/apache-4.png]]
 #+BEGIN_SRC emacs lisp
 接下来，安装APR-util。
 同样，解压配置，注意使用了--with-apr：
@@ -86,30 +87,30 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 成功标志：
 #+END_SRC
 #+ATTR_HTML::height 450px
-[[./images/apache-5.png]]
+[[/assets/images/apache-5.png]]
 #+BEGIN_SRC emacs lisp
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::height 450px
-[[./images/apache-6.png]]
+[[/assets/images/apache-6.png]]
 ** 运行安装apache（httpd）
 #+BEGIN_SRC emacs lisp
 #./configure --prefix=/usr/local/apache2 --enable-so
 #+END_SRC
 #+ATTR_HTML::align left
-[[./images/apache-7.png]]
+[[/assets/images/apache-7.png]]
 #+BEGIN_SRC emacs lisp
 解决办法：到https://sourceforge.net/projects/pcre/files/ 下载pcre并安装。
 #./configure --prefix=/usr/local/pcre
 成功标志：
 #+END_SRC
 #+ATTR_HTML::height 500px
-[[./images/apache-8.png]]
+[[/assets/images/apache-8.png]]
 #+BEGIN_SRC emacs lisp
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::width 820px
-[[./images/apache-9.png]]
+[[/assets/images/apache-9.png]]
 #+BEGIN_SRC emacs lisp
 进入apache目录，重新运行配置命令：
 #./configure --prefix=/usr/local/apache2 --enable-so ，问题解决。
