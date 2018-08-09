@@ -1,0 +1,197 @@
+#+TITLE:     Emacs 使用笔记
+#+AUTHOR:    赵仁贵
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs2.swfc.edu.cn/org-info-js/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs2.swfu.edu.cn/org-info-js/org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Using Emacs
+author: zrg
+comments: false
+description:  
+categories: Emacs, 快捷键, 主题, ...
+- software
+tags:
+- emacs
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 快捷键一览表
+** 在命令行中打开Emacs
+: $ emacs -nw filename
+** Don't know how to use emacs?
+: C表示Ctrl，M表示Alt
+*** 常用的缺省Emacs按键前缀
+| 按键前缀 | 描述                   |
+|----------+------------------------|
+| C-c      | 当前编辑模式特有的命令 |
+| C-x      | 文件和缓冲区命令       |
+| C-h      | 帮助命令               |
+| M-x      | 函数名称               |
+*** 常用的快捷键
+| 快捷键   | 描述                       | 快捷键  | 描述                       | 快捷键  | 描述                                   | 快捷键  | 描述           |
+|----------+----------------------------+---------+----------------------------+---------+----------------------------------------+---------+----------------|
+| C-x  C-c | 退出                       | C-g     | 退出一个正在运行的命令     |         |                                        |         |                |
+| C-v      | 查看下一屏                 | M-v     | 查看上一屏                 | C-l     | 重绘屏幕，并将光标所在行置于屏幕的中央 |         |                |
+| C-f      | 向右移（forward,前进）     | C-b     | 向左移（backward，回退）   | C-p     | 上一行（previous）                     | C-n     | 下一行（next） |
+| M-f      | 向右移（以单词为一个单位） | M-b     | 向左移（以单词为一个单位） |         |                                        |         |                |
+| M-<      | 移动到所有文字最开头       | M->     | 移动到所有文字的最末尾     |         |                                        |         |                |
+| C-a      | 移动到行首                 | C-e     | 移动到行尾                 | M-a     | 移动到句首                             | M-e     | 移动到句尾     |
+| C-k      | 删除光标后的内容           | C-y     | 粘贴                       | C-/     | 撤销                                   | C-x C-u | 撤销           |
+| C-d      | 删除光标后的字符           | M-w     | 复制                       | C-SPACE | 选择内容模式                     | C-w     | 剪切         |
+| C-x C-f  | 新建/打开文件              | C-x C-s | 保存                       |         |                                        |         |                |
+| C-x 2    | 分屏                       | C-x 0   | 切换到窗口1                | C-x o   | 切换窗口                               | C-h t   | 查看帮助       |
+
+*** 基本文件操作
+| 快捷键 | 描述                           |
+|---------+--------------------------------|
+| C-x C-f | 打开/新建文件                |
+| C-x C-s | 保存                         |
+| C-x C-w | 另存为                      |
+| C-x C-v | 关闭当前缓冲区文件，打开新文件 |
+| C-x i   | 在当前光标位置插入文件 |
+| C-x b   | 新建/切换缓存区         |
+| C-x C-b | 显示缓存区列表          |
+| C-x k   | 关闭当前缓存区          |
+| C-x C-c | 退出emacs.                   |
+*** 光标移动
+| 快捷键 | 描述               |
+|--------+--------------------|
+| C-f    | 光标向后移动       |
+| C-b    | 光标向前移动       |
+| C-p    | 上一行             |
+| C-n    | 下一行             |
+| M-f    | 光标移动到单词尾部 |
+| M-b    | 光标移动到单词头部 |
+| C-a    | 行首               |
+| C-e    | 行尾               |
+| C-v    | 向下翻页           |
+| M-v    | 向上翻页           |
+| M-<    | 到文件开头         |
+| M->    | 到文件结尾         |
+*** 文本编辑
+| 快捷键    | 描述                                       |
+|-----------+--------------------------------------------|
+| M-n/C-u n | 重复执行后一个命令n次                      |
+| C-d       | 删除后一个字符                             |
+| M-d       | 删除前一个字符                             |
+| Del       | 删除前一个字符                             |
+| M-Del     | 删除前一个单词                             |
+| C-k       | 移除一行                                   |
+| C-@       | 设定标志位(主要是为了粘贴剪切以及删除使用) |
+| C-w       | 移除标记区域的内容（剪切）                 |
+| M-w       | 复制标记区域的内容（复制）                 |
+| C-y       | 粘贴                                       |
+| M-y       | 召回更早的内容 (在kill缓冲区内循环)        |
+| C-t       | 交换两个字符的位置                         |
+| M-t       | 交换两个单词的位置                         |
+| C-x C-t   | 交换两行的位置                             |
+| M-u       | 使从光标位置到单词结尾处的字母变成大写     |
+| M-l       | 与M-u相反                                  |
+| M-c       | 使从光标位置开始的单词的首字母变为大写     |
+*** 搜索
+| 快捷键 | 描述     |
+|--------+----------|
+| C-s    | 向前搜索 |
+| C-r    | 向前搜索 |
+*** 窗口命令
+| 快捷键 | 描述                           |
+|--------+--------------------------------|
+| C-x 2  | 水平分割窗格                   |
+| C-x 3  | 垂直分割窗格                   |
+| C-x o  | 切换至其他窗格                 |
+| C-x 0  | 关闭窗格                       |
+| C-x 1  | 关闭除了光标所在窗格外所有窗格 |
+*** 帮助
+| C-h m    | 查看当前模式                   |
+| C-h c    | 显示快捷键绑定的命令           |
+| C-h k    | 显示快捷键绑定的命令和它的作用 |
+| C-h f    | 显示函数的功能                 |
+| C-h b    | 显示当前缓冲区所有可用的快捷键 |
+| C-h t    | 打开emacs教程                  |
+| M-x quit | 退出help                       |
+** Emacs org-mode
+*** 常用org-mode快捷键
+| 快捷键                                     | 描述                                                    |
+|--------------------------------------------+---------------------------------------------------------|
+| TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
+| RET                                        | enter,Select this location.                             |
+| C-c C-n (org-next-visible-heading)         | Next heading.                                           |
+| C-c C-p (org-previous-visible-heading)     | Previous heading.                                       |
+| C-c C-f (org-forward-same-level)           | Next heading same level.                                |
+| C-c C-b (org-backward-same-level)          | Previous heading same level.                            |
+| C-c C-u (outline-up-heading)               | Backward to higher level heading.                       |
+| C-c C-j                                    | 切换到大纲浏览状态                                      |
+| M-RET (org-meta-return)                    | Insert a new heading, item or row.  插入一个同级标题    |
+| C-RET (org-insert-heading-respect-content) | Insert a new heading at the end of the current subtree. |
+| M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
+| M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
+| M-S-UP/DOWN                                | 将子树上/下移                                           |
+*** References
+: org-mode: 最好的文档编辑利器：http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html
+* 自定义Emacs
+** Emacs基础定制
+: 打开.emacs文件
+#+BEGIN_SRC emacs-lisp
+;; 显示行列号
+(setq column-number-mode t)
+(setq line-number-mode t)
+;; 设置标题栏
+(setq frame-title-format "Welcome to Emacs world! ")
+;; 禁用菜单栏；F10开启菜单栏
+(menu-bar-mode nil)
+;; 取消工具栏
+(tool-bar-mode nil)
+;; 取消滚动栏
+(set-scroll-bar-mode nil)
+;; 直接打开和显示图片
+(setq auto-image-file-mode t)
+;; 显示时间
+(display-time-mode t)
+;; 24小时制
+(setq display-time-24hr-format t)
+;; 设置F11最大化
+(global-set-key [f11] 'maximized)
+(defun maximized ()
+(interactive)
+(x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)) (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+ )
+#+END_SRC
+: 快速使用设置命令: M-x eval-buffer
+** 自定义高级配置
+: thems, log manage, ...
+*** Emacs 主题
+: .el
+: ~/.emacs.d/
+
+#+BEGIN_SRC
+//添加到.emacs文件
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'pluginname)
+#+END_SRC
+* 问题解决
+** emacs不能输入中文
+: //编辑~/.bashrc文件，加入如下内容：
+: $ vim ~/.bashrc
+: LC_CTYPE="zh_CN.utf8"
+
+: //编辑/etc/environment文件，加入如下内容：
+: $ sudo vim /etc/environment
+: LC_CTYPE="zh_CN.utf8"
+* 参考资料
+: Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html

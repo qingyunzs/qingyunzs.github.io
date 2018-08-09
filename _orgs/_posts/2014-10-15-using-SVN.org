@@ -1,0 +1,168 @@
+#+TITLE:    Install SVN in Linux
+#+AUTHOR:   Rengui Zhao
+#+EMAIL:    zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD:    <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Install SVN in Linux
+author: zrg
+comments: false
+description: I have always been fascinated website development.So,management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today.
+categories:
+- software
+tags:
+- SVN
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+#+BEGIN_CENTER 
+  If you have questions, please send email to zrg1390556487@gmail.com.
+#+END_CENTER 
+
+* Installation environment
+: Linux kernel version: 3.10.0 
+: OS: CentOS 7
+: software: subversion
+* Install
+** First Method:source package install
+*** Download and decompression
+: Official Site: https://www.visualsvn.com
+: Dowload:
+:         1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz
+:         2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz
+: Decompression command:
+:         tar zxvf subversion-1.6.1.tar.gz
+:         tar zxvf subversion-deps-1.6.1.tar.gz
+*** Compile and install
+: Command:
+:         ./configure --prefix=/usr/local/svn/
+:         make && make install
+*** Add command of svn to path
+: Comand:
+:        echo "export PATH=$PATH:/usr/local/svn/bin/" >> /etc/profile
+:        source /etc/profile
+:
+** Second Method:yum install
+: yum install subversion mod_dav_svn
+* Build warehouse of test
+** Build root directory of svn
+: mkdir -p /opt/svn
+** Build warehoust of test
+: mkdir -p /opt/svn/svntest/
+: svnadmin create /opt/svn/svntest/
+** Configure
+: 1.To directory of configure,There are three file here.
+:    cd /opt/svn/svntest/conf/
+: authz: Configure file about setting permissions of users.
+: passwd:  Configure file about setting username and password.
+: svnserve.conf: Configure file about svn.
+: 2.svnserve.conf
+: vim svnserve.conf
+: edit:
+:      [general]
+:      anon-access = none
+:      auth-access = write
+:      password-db = passwd
+:      authz-db = authz
+: 3.authz
+: add:
+:     [svntest:/]
+:     92csz.com = rw # add a user(92csz.com),read and write.
+: 4.passwd
+: edit:
+:     92csz.com = 123456 # password is 123456
+: 
+* Client
+: This is windows client.
+: 
+* Start
+** Start service of SVN
+: svnserve -d -r /opt/svn/
+** Check service
+: netstat -aux |grep svn
+: restult:
+:         tcp 000.0.0.0:3690.0.0.0:*  LISTEN  8646/svnserve
+: 
+* Change permission of user
+: Command:
+:         chmod -R 775 /opt/svn/
+:  or     chmod -R o+rw /opt/svn
+:
+* Test by client
+: Open svn client(right),Enter IP address of svn server and warehouse name
+: exmple:
+:        svn://192.168.120.166/svntest
+: 
+* Apache and Subversion
+** Add this config file to apache
+#+BEGIN_SRC emacs_lisp
+LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+
+<Location /svn>
+   DAV svn
+   SVNParentPath /var/www/unixmensvn
+   AuthType Basic
+   AuthName "Subversion repositories"
+   AuthUserFile /etc/svn-auth-users
+   Require valid-user
+</Location>
+#+END_SRC
+** Create SVN users
+: htpasswd -cm /etc/svn-auth-users testuser1
+** Create and configure SVN repository
+: mkdir /var/www/unixmensvn
+: cd  /var/www/unixmensvn
+: svnadmin create repo
+: chown -R apache.apache repo
+: 
+: # If you still have issues with SELinux Security please apply this: 
+: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo
+: chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo
+** You can open the http and https on the file with thi way
+: firewall-cmd --permanent --zone=public --add-service=http
+: firewall-cmd --permanent --zone=public --add-service=https
+: firewall-cmd --reload
+** Make trunk, branches and tags structure under repo
+: mkdir -p /tmp/svn-structure-template/{trunk,branches,tags}
+: 
+: svn import -m "Initial repository" /tmp/svn-structure-template   file:///var/www/unixmensvn/repo/
+: Adding         /tmp/svn-structure-template/branches
+: Adding         /tmp/svn-structure-template/tags
+: Adding         /tmp/svn-structure-template/trunk
+Committed revision 1.
+
+Done!
+* Question
+** 问题1
+: 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied
+: Solve:
+:       Severth(Vew 7th section).
+** 问题2
+: 2.Happen "authorization failed" error client
+: Solve:
+:       Check configure.
+: ### Evey establishment of a lirary need to be configured.This is very important.
+** 问题3
+: 3.When committing,error:
+:          post commit FS processing had error:
+:          "sqlite:attempt to write a readonly database"
+: Solve:
+:       into /opt/svn/wp-job/db , there is a file "rep-cache.db"
+: chown -R zrg.zrggroup rep-cache.db
