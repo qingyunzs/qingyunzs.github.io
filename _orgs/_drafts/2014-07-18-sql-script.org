@@ -1,0 +1,163 @@
+#+TITLE:     SQL Script
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:2 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+STYLE: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+# (setq org-export-html-use-infojs nil)
+Welcome you to mail to zrg1390556487@gmail.com, Thank you!!!
+# (setq org-export-html-style nil)
+
+* 写在前面
+: SQL Script
+* 常用SQL语句
+** Table
+*** Create Table
+#+BEGIN_SRC sql
+create table TableName(
+id int(10) not null primary key auto_increment,
+name varchar(20) not null,
+password varchar(45) not null,
+sex int(4) not null default '0',
+);
+#+END_SRC
+*** Alter Table
+#+BEGIN_SRC sql
+alter table TableName 
+characiter set=utf8mb4,
+collate=utf8mb4_general_ci
+#+END_SRC
+** 增删改查/清空
+*** 新增
+#+BEGIN_SRC sql
+insert into TableName(id,name,password) values('1','孙悟空','sduwe9uifsdddssdf23qfuieqwerq');
+#+END_SRC
+*** 删除
+#+BEGIN_SRC sql
+delete from TableName where id='1';
+#+END_SRC
+*** 修改
+#+BEGIN_SRC sql
+update TableName set name='孙悟空' where id='1'
+#+END_SRC
+*** 查询
+#+BEGIN_SRC sql
+select * from TableName;
+select id,name,password from TableName;
+#+END_SRC
+*** 清空
+#+BEGIN_SRC sql
+truncate table TableName;
+#+END_SRC
+** 索引/视图/事务处理/存储过程
+*** 索引
+*** 视图
+#+BEGIN_SRC sql
+create view ViewName AS
+    select ...
+#+END_SRC
+** 触发器/游标
+* 高级查询
+** 以某个字段进行分组查询，每组前n条记录
+#+BEGIN_SRC sql emacs-lisp
+select res.* from(
+ select * from View_ArticleChannel a
+ where a.ID in(
+	select top 3 ID from View_ArticleChannel where a.ChannelName=ChannelName order by a.ChannelName DESC
+ )
+) as res
+where res.ChannelName in('物流公司','云仓公告')
+-- group by res.ID,res.ChannelName,res.Title
+order by res.ChannelName
+#+END_SRC
+** 根据当天日期判断使用哪个字段排序（case...when...else...end） 
+#+BEGIN_SRC sql emacs-lisp
+select card_no 
+from Customer_V_InTruckInfo 
+where card_no like '%dm16%' 
+order by (
+  case 
+     when 19%2=0 then name 
+     else truck_no end
+)
+-- 如果使用C#代码，19可替换为:"+DateTime.Now.Day+"
+#+END_SRC
+** 分组获取记录的第一条数据
+#+BEGIN_SRC sql emacs-lisp
+select * from(
+SELECT   ROW_NUMBER()over(partition by VehicleId order by CreateTime DESC) as RowNumber,ID, VehicleId, VehicleNo, Driver, DriverPhone, ContactType, 
+                (CASE ContactType WHEN '1' THEN '短信' WHEN '2' THEN '电话' END) AS ContactType_ex, ContactContent, CreateUser, 
+                CreateTime, ModifyUser, ModifyTime, ContactResult, 
+                (CASE ContactResult WHEN '1' THEN '有意向' WHEN '2' THEN '无意向' WHEN '3' THEN '停卡' END) 
+                AS ContactResult_ex, NextContactTime, ContactPersonIdea, IsDelete, ExtendField1, ExtendField2, ExtendField3, 
+                ExtendField4, ExtendField5
+FROM      dbo.VehicleTrackInfo) AS track
+where track.RowNumber=1
+and track.VehicleId='95654e2ffb134f6581f94aa5ed178529'
+#+END_SRC
+* 其他操作
+** 使用SQL语句清空数据库中所有表的数据
+: 表非常多,一张一张的清空,实在麻烦,想利用SQL语句一次清空所有数据.找到了三种方法进行清空.使用的数据库为MS SQL SERVER.
+*** Method 1:搜索出所有表名,构造为一条SQL语句
+#+BEGIN_SRC sql emacs-lisp
+declare @trun_name varchar(8000)
+set @trun_name=''
+select @trun_name=@trun_name + 'truncate table ' + [name] + ' ' from sysobjects where xtype='U' and status > 0
+exec (@trun_name)
+#+END_SRC
+: 该方法适合表不是非常多的情况,否则表数量过多,超过字符串的长度,不能进行完全清理.
+*** Method 2:利用游标清理所有表
+#+BEGIN_SRC sql emacs-lisp
+declare @trun_name varchar(50)
+declare name_cursor cursor for
+select 'truncate table' + name from sysobjects where xtype='U' and status > 0
+open name_cursor
+fetch next from name_cursor into @trun_name
+while @@FETCH_STATUS = 0
+begin
+  exec (@trun_name)
+  print 'truncated table' + @trun_name
+  fetch next from name_cursor into @trun_name
+end
+close name_cursor
+deallocate name_cursor
+#+END_SRC
+: 可以做为存储过程调用, 能够一次清空所有表的数据,并且还可以进行有选择的清空表.
+*** Method 3:利用微软未公开的存储过程
+#+BEGIN_SRC sql emacs-lisp
+exec sp_msforeachtable "truncate table ?"
+#+END_SRC
+: 该方法可以一次清空所有表,但不能加过滤条件.
+: 附-删除表：exec sp_msforeachtable 'DROP table ?'
+** SQL Server修改表名前的用户
+1.只修改表前用户
+#+BEGIN_SRC
+EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
+#+END_SRC
+2.用户表/存储过程/视图/触发器/自定义函数一起改
+#+BEGIN_SRC
+declare tb cursor local for
+select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
+from sysobjects 
+where xtype in('U','V','P','TR','FN','IF','TF') and status>=0
+open tb
+declare @s nvarchar(4000)
+fetch tb into @s
+while @@fetch_status=0
+begin
+exec(@s)
+fetch tb into @s
+end
+close tb
+deallocate tb
+#+END_SRC
+* 写在最后
+: 以上内容，皆出自我的开发积累，如有任何问题请联系我。zrg1390556487@gmail.com

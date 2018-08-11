@@ -1,0 +1,107 @@
+#+TITLE:     站点调试环境集成软件
+#+AUTHOR:    赵仁贵
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3$
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.c$
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-siz$
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: 站点调试环境集成软件
+author: zrg
+comments: false
+description: WampServer, phpStudy, Tomcat, ...
+categories:
+- software
+tags:
+- WampServer
+- phpStudy
+- xampp
+- wamp
+- Tomcat
+- IIS
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* WampServer
+* phpStudy
+* xampp
+** 下载和安装
+#+BEGIN_SRC emacs-lisp
+官网地址：https://www.apachefriends.org
+下载时，有32位的、64位的，看你的系统支持那个就下哪个。
+安装：#./packgeName.run
+等待安装结束，期间会提示你是否执行，输入y即可。
+卸载：到安装目录/opt/lampp/中找到uninstall，执行即可卸载
+注意：在执行.run文件时无提示，原因是你软件与系统位数不对应，换成64或32位的执行就ok了
+#+END_SRC
+*** 配置访问
+**** 相关路径
+ #+BEGIN_SRC emacs-lisp
+ /opt/lampp/主目录
+ /opt/lampp/htdocs/xampp/网站存放目录
+ /opt/lampp/etc/配置文件存放目录
+ #+END_SRC
+**** 使外部网络能正常访问
+ #+BEGIN_SRC emacs-lisp
+ #vim /opt/lampp/etc/extra/httpd-xampp.conf
+ 找到修改：
+ <LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))">
+ #        Require local   #注释掉
+        Order deny,allow  #添加
+        Allow from all    #添加，表示允许所有都能访问
+        ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+ </LocationMatch>
+ #+END_SRC
+**** 启动服务
+ : /opt/lampp/lampp start
+ : 就这么简单，用浏览器访问一下吧！
+** 注意事项
+*** 当访问时，出现权限问题
+ #+BEGIN_SRC emacs-lisp
+ Access forbidden!
+ New XAMPP security concept:
+ Access to the requested object is only available from the local network.
+ This setting can be configured in the file "httpd-xampp.conf".
+ Error 403
+ 这个原因就是上面提到的修改httpd-xampp.conf文件，改了就能正常访问了。
+ #+END_SRC
+*** 重启后不能启动xampp服务
+ #+BEGIN_SRC emacs-lisp
+ 由于断电或其他原因，重启后服务没能开启，网站不能访问了
+ a.进入 /etc/init.d 目录下，建立 lampp.sh文件
+ #vim lampp.sh
+ b.输入如下内容
+ #!/bin/sh
+ cd /opt/lampp
+ ./lampp start
+ c.更改文件权限
+ #chmod 755 lampp.sh
+ d.编辑 /etc/rc.d/rc.local ,在最后一行后面加上:
+ exec /etc/init.d/lampp.sh
+ 如此，开机就能启动xampp了。
+ #+END_SRC
+*** 有时会因为防火墙原因，导致不能访问网站
+ #+BEGIN_SRC emacs-lisp
+ 此时，我们可以关闭防火墙，并且重启后不开启
+ chkconfig iptables off 关闭防火墙
+ systemctl stop firewalled.service --Centos中使用
+ systemctl disable firewalled.service --重启后不开启防火墙
+ #+END_SRC
+
+* wamp
+* Tomcat
+* IIS

@@ -1,0 +1,112 @@
+#+TITLE:     nginx+php+mariadb
+#+AUTHOR:    赵仁贵
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:2 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 写在前面
+: 众所周知，nginx性能高，而nginx的高性能与其架构是分不开的。那么nginx究竟是怎么样的呢？又是怎么安装？
+* 环境说明
+: OS：CentOS 7
+: Software：Nginx+PHP+Mariadb
+* Nginx介绍
+: 这是一款免费、开源、高效的 HTTP 服务器，Nginx是以稳定著称，丰富的功能，结构简单，低资源消耗。
+* Install MariaDB
+** Install and enable
+: yum install mariadb mariadb-server net-tools
+: systemctl enable mariadb.service
+: systemctl start mariadb.service
+: 检查网络启用。运行 netstat -tap | grep mysql
+** Run set password
+: mysql_secure_installation
+: Set root password? [Y/n] <– 回车
+: New password: <– 输入ROOT密码
+: Re-enter new password: <– 再输入一次ROOT密码
+: Password updated successfully!
+: Reloading privilege tables..
+: … Success!
+: Remove anonymous users? [Y/n] <– 回车 
+: … Success!
+: Disallow root login remotely? [Y/n] <– 回车
+: … Success!
+: Remove test database and access to it? [Y/n] <– 回车
+: - Dropping test database…
+: … Success! 
+: Reload privilege tables now? [Y/n] <– 回车
+: … Success!
+* Install Nginx
+** yum install -y nginx
+: systemctl enable nginx.service
+: systemctl start nginx.service
+: 注意：可能启动出错，可能原因是80端口被占用
+** 开放的HTTP和HTTPS防火墙中的端口
+: firewall-cmd –permanent –zone=public –add-service=http
+: firewall-cmd –permanent –zone=public –add-service=https
+: firewall-cmd –reload
+: 结果是success。
+* Install PHP
+** Install php
+: yum install php-fpm php-cli php-mysql php-gd php-ldap php-odbc php-pdo php-pecl-memcache php-pear php-mbstring php-xml php-xmlrpc php-mbstring php-snmp php-soap 
+: APC是一个自由和开放的PHP操作码来缓存和优化PHP的中间代码。它类似于其他PHP操作码cachers，如eAccelerator和XCache。强烈建议有这些安装，以加快您的PHP页面。
+: yum install php-devel
+: yum groupinstall 'Development Tools'
+: 安装APC
+: pecl install apc
+: 一直回车》完成
+** 配置PHP
+: 设置 cgi.fix_pathinfo=0
+: 添加 extension=apc.so
+: 为了避免时区的错误：
+: 为了避免这样的时区的错误：设置 date.timezone = "Europe/Berlin"
+: 通过运行正确的时区支持您的系统：cat /etc/sysconfig/clock
+: 创建系统启动链接的PHP-FPM并启动它：
+: systemctl enable php-fpm.service
+: systemctl start php-fpm.service
+: PHP-FPM是一个守护进程（使用init脚本/etc/init.d/php-fpm) 运行在端口9000的FastCGI服务器。
+* 配置nginx
+: 打开配置文件 /etc/nginx/nginx.conf，可增加工作进程的数量和设置keepalive_timeout到一个合理的值
+: vim /etc/nginx/conf.d/default.conf
+: location ~ .php$ {
+:        root           /usr/share/nginx/html;
+:        try_files $uri =404;
+:        fastcgi_pass   127.0.0.1:9000;
+:        fastcgi_index  index.php;
+:        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+:        include        fastcgi_params;
+:    }
+: 
+: location ~ /.ht {
+:        deny  all;
+:    }
+: 
+: 重新加载nginx：
+: systemctl restart nginx.service
+: 最后：输入ip地址测试。
+** 让PHP-FPM使用Unix套接字
+: 默认情况下监听端口 9000 。 另外，也可以使PHP-FPM使用Unix套接字，这避免了TCP的开销。要做到这一点，打开 /etc/php-fpm.d/www.conf…
+: vim /etc/php-fpm.d/www.conf
+:  修改后如下：
+: [...]
+: ;listen = 127.0.0.1:9000
+: listen = /var/run/php-fpm/php5-fpm.sock
+: [...]
+: 重新加载 PHP-FPM：
+: systemctl restart php-fpm.service 
+: 添加 vim /etc/nginx/conf.d/default.conf
+: location ~ .php$ {
+:        root           /usr/share/nginx/html;
+:        try_files $uri =404;
+: 添加行 fastcgi_pass   unix:/var/run/php-fpm/php5-fpm.sock;
+: 
+: 好了，就先讲这些吧！更多关于PHP的详细问题，可查看PHP官网提供的php手册。
