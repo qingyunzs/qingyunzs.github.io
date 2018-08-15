@@ -1,0 +1,76 @@
+#+TITLE:     ASP.NET 之序列化
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:2 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 写在前面
+: 序列化
+* Between DataTable and xml序列化code
+: DataTable to xml
+#+BEGIN_SRC
+        /// <summary>
+        /// 序列化DataTable成XML
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        private static string SerializeDataTableToXml(DataTable dt)
+        {
+            StringBuilder strBuilder = new StringBuilder();
+            XmlWriter writer = XmlWriter.Create(strBuilder);
+            XmlSerializer serializer = new XmlSerializer(typeof(DataTable));
+            serializer.Serialize(writer, dt);
+            writer.Close();
+            return strBuilder.ToString();
+        }
+#+END_SRC
+: XML to DataTable
+#+BEGIN_SRC
+        /// <summary>
+        /// 序列化XML成DataTable
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        private static DataTable SerializeXmlToDataTable(string xml)
+        {
+            StringReader strReader = new StringReader(xml);
+            XmlReader xmlReader = XmlReader.Create(strReader);
+            XmlSerializer serializer = new XmlSerializer(typeof(DataTable));
+            DataTable dt = serializer.Deserialize(xmlReader) as DataTable;
+            return dt;
+        }
+#+END_SRC
+: 读取xmlStr到ListView控件中
+#+BEGIN_SRC
+DMWebSvrSoapClient dmwss = new DMWebSvrSoapClient();
+DateTime date = DateTime.Now;
+string dataStr1 = dmwss.GetVehicleInfo_Month(date.ToString("yyyy-MM-dd"));
+      
+XmlDocument xmldoc = new XmlDocument();
+xmldoc.LoadXml(dataStr1);
+XmlNodeList xnList = xmldoc.SelectNodes("//DocumentElement/list");
+foreach (XmlNode xn in xnList)
+{
+     ListViewItem item = new ListViewItem(xn["time"].InnerText);
+     item.SubItems.Add(xn["in_vehicle_count"].InnerText);
+     item.SubItems.Add(xn["out_vehicle_count"].InnerText);
+     listView.Items.Add(item);
+}
+#+END_SRC
+* 参考资料
+: http://stackoverflow.com/questions/6402596/xml-string-to-xml-document
+: https://zhidao.baidu.com/question/574030822.html
+: https://msdn.microsoft.com/en-us/library/hcebdtae(v=vs.110).aspx
+* 结语
+: 

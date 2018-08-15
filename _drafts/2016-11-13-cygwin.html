@@ -1,0 +1,97 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9991880">1. 写在前面</a></li>
+<li><a href="#org5f9ee25">2. Cygwin简介</a></li>
+<li><a href="#orgd988bcb">3. 安装Cygwin</a>
+<ul>
+<li><a href="#orgcbb33da">3.1. 安装Cygwin</a></li>
+<li><a href="#org5253937">3.2. 安装及配置ssh</a></li>
+</ul>
+</li>
+<li><a href="#orge99c811">4. 参考资料</a></li>
+</ul>
+</div>
+</div>
+<div class="org-center">
+<p>
+Don't forget to answer the sum up questions in your email message!
+</p>
+</div>
+
+<div id="outline-container-org9991880" class="outline-2">
+<h2 id="org9991880"><span class="section-number-2">1</span> 写在前面</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example">
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5f9ee25" class="outline-2">
+<h2 id="org5f9ee25"><span class="section-number-2">2</span> Cygwin简介</h2>
+<div class="outline-text-2" id="text-2">
+<pre class="example">
+Cygwin (/ˈsɪɡwɪn/ sig-win[2]) is a Unix-like environment and command-line interface for Microsoft Windows. Cygwin provides 
+native integration of Windows-based applications, data, and other system resources with applications, software tools, and 
+data of the Unix-like environment. Thus it is possible to launch Windows applications from the Cygwin environment, as well as 
+to use Cygwin tools and applications within the Windows operating context.
+
+Cygwin consists of two parts: a dynamic-link library (DLL) as an API compatibility layer providing a substantial part of the 
+POSIX API functionality, and an extensive collection of software tools and applications that provide a Unix-like look and feel.
+
+Cygwin was originally developed by Cygnus Solutions, which was later acquired by Red Hat. It is free and open source 
+software, released under the GNU Lesser General Public License version 3.[3] Today it is maintained by employees of Red 
+Hat, NetApp and many other volunteers.
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd988bcb" class="outline-2">
+<h2 id="orgd988bcb"><span class="section-number-2">3</span> 安装Cygwin</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgcbb33da" class="outline-3">
+<h3 id="orgcbb33da"><span class="section-number-3">3.1</span> 安装Cygwin</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example">
+略
+提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5253937" class="outline-3">
+<h3 id="org5253937"><span class="section-number-3">3.2</span> 安装及配置ssh</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example">
+1.运行安装文件
+2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
+3.安装完成后，打开Cygwin，输入ssh-host-config
+当询问if privilege separation should be used 时输入 no . 
+当询问if sshd should be installed as a service 时输入yes . 
+当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
+其余询问均输入 no
+4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
+5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
+6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
+7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub &gt;&gt; authorized_keys
+8.输入 ssh localhost 启动SSH
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge99c811" class="outline-2">
+<h2 id="orge99c811"><span class="section-number-2">4</span> 参考资料</h2>
+<div class="outline-text-2" id="text-4">
+<pre class="example">
+1.Cygwin-Official Site:http://cygwin.com/
+2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
+3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
+4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+
+
+</pre>
+</div>
+</div>

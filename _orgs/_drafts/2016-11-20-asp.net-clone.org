@@ -1,0 +1,90 @@
+#+TITLE:     ASP.NET 之浅拷贝与深拷贝
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:2 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 写在前面
+: 最近两天，对"树（tree）"进行搜索，将搜索到的结果进行简单处理，并相应的改变样式。因为tree从session中取值，故而每次搜索后处理的结果都会
+: 都会改变原有session值。此时，不得不使用“深度复制”的方式去解原数据被修改的问题。
+* 关于浅拷贝与深拷贝
+** 定义
+*** 浅拷贝(Shallow Copy)
+#+BEGIN_SRC
+只复制对象的基本类型、对象类型，仍属于原来的引用。
+#+END_SRC
+*** 深拷贝(Deep Copy)
+#+BEGIN_SRC
+不仅复制对象的基本类型，同时也复制对象的数据，完全产生新对象，是克隆的过程。
+#+END_SRC
+** 区别
+#+BEGIN_SRC
+浅表复制只复制值类型的值，而对于实例所包含的对象依然指向原有实例。
+#+END_SRC
+* 浅拷贝
+1.浅拷贝code
+#+BEGIN_SRC
+public Person ShallowCopy(){
+    return this.MemberwiseClone() as Person;//MemberwiseClone:将当前对象浅拷贝一份。
+}
+#+END_SRC
+2.调用
+#+BEGIN_SRC
+Person person=new Person();
+person.name="张三";
+person.age=18;
+person.email="1234567890@qq.com;
+
+//浅拷贝
+Person person2=person.ShallowCopy();
+#+END_SRC
+* 深拷贝
+1.深拷贝code：
+#+BEGIN_SRC
+public static IList<T> Clone<T>(IList<VehicleTreeModel> list)
+{
+    BinaryFormatter formatter = new BinaryFormatter();
+    using (MemoryStream memorystream = new MemoryStream())
+    {
+        formatter.Serialize(memorystream, list);
+        memorystream.Position = 0;
+        return formatter.Deserialize(memorystream) as List<T>;
+    }
+}
+2.序列化标识
+#+BEGIN_SRC
+[Serializable]
+public class VehicleTreeModel : CompanyModel
+{
+   ...
+}
+
+[Serializable]
+public class CompanyModel
+{
+   ...
+}
+#+END_SRC
+3.调用
+#+BEGIN_SRC
+IList<VehicleTreeModel> deepCopyList = Clone<VehicleTreeModel>(list);
+#+END_SRC
+* 参考资料
+: http://blog.csdn.net/flyingdream123/article/details/9294973
+: 
+: http://blog.csdn.net/xjavasunjava/article/details/7648242
+: 
+: https://en.wikipedia.org/wiki/Object_copy
+* 结语
+: 此次完全理解了浅度复制和深度复制，并应用于实际当中。

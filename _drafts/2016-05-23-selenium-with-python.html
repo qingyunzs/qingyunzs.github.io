@@ -1,0 +1,233 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org086f086">1. Getting Started</a>
+<ul>
+<li><a href="#orgb1c715a">1.1. What is Python?</a></li>
+<li><a href="#orga0fd395">1.2. Installation</a></li>
+</ul>
+</li>
+<li><a href="#org8c62039">2. Connecting SQL Server by pymssql</a>
+<ul>
+<li><a href="#org1c15cf2">2.1. sqlserver class</a></li>
+<li><a href="#orgb690bac">2.2. test.py</a></li>
+</ul>
+</li>
+<li><a href="#orgd0caa3c">3. Solving the problem</a>
+<ul>
+<li><a href="#org990ccea">3.1. SyntaxError: Non-ASCII character '\xc2' in file</a></li>
+</ul>
+</li>
+<li><a href="#orge382408">4. Refrences</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org086f086" class="outline-2">
+<h2 id="org086f086"><span class="section-number-2">1</span> Getting Started</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgb1c715a" class="outline-3">
+<h3 id="orgb1c715a"><span class="section-number-3">1.1</span> What is Python?</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language.
+
+</pre>
+<pre class="example">
+#!/usr/bin/python3
+print("Hello, Python!")
+</pre>
+</div>
+</div>
+<div id="outline-container-orga0fd395" class="outline-3">
+<h3 id="orga0fd395"><span class="section-number-3">1.2</span> Installation</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgaf7b1eb" class="outline-4">
+<h4 id="orgaf7b1eb"><span class="section-number-4">1.2.1</span> Downloading and Installing Selenium</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<pre class="example">
+&gt;pip install selenium
+Note:"Script" dir. not's found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip):
+     Step1,To https://pypi.python.org/pypi/setuptools Download ez_setup.py;
+     Step2,&gt;python ez_setup.py
+     Step3,&gt;easy_install pip .Or Directly dowload pip-9.0.1.tar.gz,&gt;python setup.py install
+
+--Updating pip
+&gt;python -m pip install --upgrade pip
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org1a8d1a8" class="outline-4">
+<h4 id="org1a8d1a8"><span class="section-number-4">1.2.2</span> Installing pymssql</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<pre class="example">
+&gt;pip install pymssql
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8c62039" class="outline-2">
+<h2 id="org8c62039"><span class="section-number-2">2</span> Connecting SQL Server by pymssql</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org1c15cf2" class="outline-3">
+<h3 id="org1c15cf2"><span class="section-number-3">2.1</span> sqlserver class</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+sql_server.py
+</p>
+<pre class="example">
+#####
+#SQL Server class.
+#####
+import pymssql
+
+class sqlserver:
+    #Connect.
+    def __init__(self,host,user,password,database):
+        #server url or ip.
+        self.host = host
+        #User name.
+        self.user = user
+        #Password.
+        self.password = password
+        #Database.
+        self.database=database
+    def __get_connect(self):
+        #Connect SQL Server.
+        if not self.database:
+            raise(NameError,"没有连接数据库信息")
+        self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset="utf8")
+        cursor = self.conn.cursor()
+        if not cursor:
+            raise(NameError,"未能连接到数据库，请检查!")
+        else:
+            return cursor
+    #Close connect.
+    def conn_closed(self):
+        self.conn.close()
+    #Query data.
+    def query(self,sql):
+        cur=self.__get_connect()
+        cur.execute(sql)
+        dataList=cur.fetchall()
+        self.conn_closed() #Closing connect.
+        return dataList
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb690bac" class="outline-3">
+<h3 id="orgb690bac"><span class="section-number-3">2.2</span> test.py</h3>
+<div class="outline-text-3" id="text-2-2">
+<pre class="example">
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from splinter.browser import Browser
+from time import sleep
+from sql_server import sqlserver
+
+#Login
+def login(driver):
+    driver.get("http://localhost:8080/chicago/")
+    #Enter to user name.
+    userName=driver.find_element_by_name("userName")
+    userName.send_keys("admin")
+    sleep(1)
+    #Enter to pwd.
+    password=driver.find_element_by_name("password")
+    password.send_keys("123456")
+    sleep(1)
+    #Login to site.
+    password.send_keys(Keys.RETURN)
+#Get out data of vehicle. 
+def get_out_card_data(conn):
+    cardInfo=conn.query("SELECT io.card_no from chicago_io io where card_no like 'dm16%' and io.out_time is NULL order by io.card_no")
+    return cardInfo
+#Begin out
+def begin_out(driver,outData):
+    driver.find_element_by_xpath("//div[@id='ext-gen20']/div[@id='002']").click()
+    driver.find_element_by_link_text("车辆进出管理").click()
+    driver.find_element_by_link_text("车辆出场操作").click()
+    sleep(5)
+    card_no=driver.find_element_by_name("truckIo.cardNo")
+    submit_button=driver.find_element_by_id("ext-gen26")
+    for card in outData:
+        card_no.send_keys(card)
+        submit_button.click()
+        sleep(3)
+#Begin in
+#def begin_in(inData):
+
+#main
+def main():
+    driver=webdriver.Chrome()
+    #Login site.
+    login(driver)
+    #Connection.
+    conn=sqlserver("localhost","sa","123456","chicago5")
+    #Get data of vehicle out.
+    outData=get_out_card_data(conn)
+    # cardStr=""
+    # for row in outData:
+    # 	cardStr+=''.join(row)+","
+    outList=[]#Out of vehicle list.
+    inList=[]#In of vehicle list.
+    number=1
+    if outData:
+        for row in outData:
+            card_no=int(row[0][5:7])
+            outList.append(card_no)
+            while (number&lt;50):			
+                if (number!=card_no):
+                    # print(number)
+                    inList.append(number)
+                number+=1
+    else:
+        while (number&lt;50):
+            inList.append(number)
+            number+=1
+    begin_out(driver,outList)
+    print(inList)
+
+if __name__ == "__main__":
+    main()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd0caa3c" class="outline-2">
+<h2 id="orgd0caa3c"><span class="section-number-2">3</span> Solving the problem</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org990ccea" class="outline-3">
+<h3 id="org990ccea"><span class="section-number-3">3.1</span> SyntaxError: Non-ASCII character '\xc2' in file</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example">
+Solving: add to header of file
+        #coding:utf-8 or #coding=utf-8
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge382408" class="outline-2">
+<h2 id="orge382408"><span class="section-number-2">4</span> Refrences</h2>
+<div class="outline-text-2" id="text-4">
+<pre class="example">
+Selenium with Python http://selenium-python.readthedocs.io/
+pymssql http://pymssql.org/
+https://wiki.python.org/moin/SQL%20Server
+https://www.tutorialspoint.com/python
+https://www.tutorialspoint.com/python3
+
+</pre>
+</div>
+</div>

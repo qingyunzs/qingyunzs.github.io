@@ -1,0 +1,149 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5f146cd">1. 写在前面</a></li>
+<li><a href="#org9d2ca34">2. 关于浅拷贝与深拷贝</a>
+<ul>
+<li><a href="#org665f8bf">2.1. 定义</a></li>
+<li><a href="#org9a2be2c">2.2. 区别</a></li>
+</ul>
+</li>
+<li><a href="#orge3a67ac">3. 浅拷贝</a></li>
+<li><a href="#org64aaabb">4. 深拷贝</a></li>
+<li><a href="#orgd127f0a">5. 参考资料</a></li>
+<li><a href="#org8009f92">6. 结语</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5f146cd" class="outline-2">
+<h2 id="org5f146cd"><span class="section-number-2">1</span> 写在前面</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example">
+最近两天，对"树（tree）"进行搜索，将搜索到的结果进行简单处理，并相应的改变样式。因为tree从session中取值，故而每次搜索后处理的结果都会
+都会改变原有session值。此时，不得不使用“深度复制”的方式去解原数据被修改的问题。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9d2ca34" class="outline-2">
+<h2 id="org9d2ca34"><span class="section-number-2">2</span> 关于浅拷贝与深拷贝</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org665f8bf" class="outline-3">
+<h3 id="org665f8bf"><span class="section-number-3">2.1</span> 定义</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orga242679" class="outline-4">
+<h4 id="orga242679"><span class="section-number-4">2.1.1</span> 浅拷贝(Shallow Copy)</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<pre class="example">
+只复制对象的基本类型、对象类型，仍属于原来的引用。
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc0d6350" class="outline-4">
+<h4 id="orgc0d6350"><span class="section-number-4">2.1.2</span> 深拷贝(Deep Copy)</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<pre class="example">
+不仅复制对象的基本类型，同时也复制对象的数据，完全产生新对象，是克隆的过程。
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a2be2c" class="outline-3">
+<h3 id="org9a2be2c"><span class="section-number-3">2.2</span> 区别</h3>
+<div class="outline-text-3" id="text-2-2">
+<pre class="example">
+浅表复制只复制值类型的值，而对于实例所包含的对象依然指向原有实例。
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge3a67ac" class="outline-2">
+<h2 id="orge3a67ac"><span class="section-number-2">3</span> 浅拷贝</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+1.浅拷贝code
+</p>
+<pre class="example">
+public Person ShallowCopy(){
+    return this.MemberwiseClone() as Person;//MemberwiseClone:将当前对象浅拷贝一份。
+}
+</pre>
+<p>
+2.调用
+</p>
+<pre class="example">
+Person person=new Person();
+person.name="张三";
+person.age=18;
+person.email="1234567890@qq.com;
+
+//浅拷贝
+Person person2=person.ShallowCopy();
+</pre>
+</div>
+</div>
+<div id="outline-container-org64aaabb" class="outline-2">
+<h2 id="org64aaabb"><span class="section-number-2">4</span> 深拷贝</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+1.深拷贝code：
+</p>
+<pre class="example">
+public static IList&lt;T&gt; Clone&lt;T&gt;(IList&lt;VehicleTreeModel&gt; list)
+{
+    BinaryFormatter formatter = new BinaryFormatter();
+    using (MemoryStream memorystream = new MemoryStream())
+    {
+        formatter.Serialize(memorystream, list);
+        memorystream.Position = 0;
+        return formatter.Deserialize(memorystream) as List&lt;T&gt;;
+    }
+}
+2.序列化标识
+#+BEGIN_SRC
+[Serializable]
+public class VehicleTreeModel : CompanyModel
+{
+   ...
+}
+
+[Serializable]
+public class CompanyModel
+{
+   ...
+}
+</pre>
+<p>
+3.调用
+</p>
+<pre class="example">
+IList&lt;VehicleTreeModel&gt; deepCopyList = Clone&lt;VehicleTreeModel&gt;(list);
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd127f0a" class="outline-2">
+<h2 id="orgd127f0a"><span class="section-number-2">5</span> 参考资料</h2>
+<div class="outline-text-2" id="text-5">
+<pre class="example">
+http://blog.csdn.net/flyingdream123/article/details/9294973
+
+http://blog.csdn.net/xjavasunjava/article/details/7648242
+
+https://en.wikipedia.org/wiki/Object_copy
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8009f92" class="outline-2">
+<h2 id="org8009f92"><span class="section-number-2">6</span> 结语</h2>
+<div class="outline-text-2" id="text-6">
+<pre class="example">
+此次完全理解了浅度复制和深度复制，并应用于实际当中。
+
+</pre>
+</div>
+</div>

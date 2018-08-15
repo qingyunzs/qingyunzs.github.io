@@ -1,0 +1,237 @@
+#+TITLE:     C# 文件操作
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: C# File
+author: zrg
+comments: false
+description: 文件操作
+categories:
+- C#
+tags:
+- file
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。
+# (setq org-export-html-style nil)
+
+* 文件操作
+** 文件名处理
+#+BEGIN_SRC emacs-lisp
+//替换掉非法字符
+fileName = fileName.Replace(":", "_").Replace(" ", "_").Replace("\\", "_").Replace("/", "_");
+#+END_SRC
+** 获取目录下所有文件的文件名
+#+BEGIN_SRC emacs-lisp
+String path = @"X:\xxx\xxx";
+ 
+//第一种方法
+var files = Directory.GetFiles(path, "*.txt");
+             
+foreach (var file in files)
+    Console.WriteLine(file);
+ 
+//第二种方法
+DirectoryInfo folder = new DirectoryInfo(path);
+            
+foreach (FileInfo file in folder.GetFiles("*.txt"))
+{
+    Console.WriteLine(file.FullName);
+}
+#+END_SRC
+** C#判断文件和目录是否存在，不存在则创建
+#+BEGIN_SRC emacs-lisp
+文件：
+if (File.Exists(Server.MapPath("~/upimg/Data.html"))){
+   File.Create(MapPath("~/upimg/Data.html"));//创建该文件
+}
+
+文件夹：
+if (!Directory.Exists(Server.MapPath("~/upimg/hufu"))){
+   Directory.CreateDirectory(Server.MapPath("~/upimg/hufu"));
+}
+#+END_SRC
+** 删除文件
+#+BEGIN_SRC emacs-lisp
+/// <summary>
+/// 删除单个文件
+/// </summary>
+/// <param name="_filepath">文件相对路径</param>
+public static bool DeleteFile(string _filepath)
+{
+   if (string.IsNullOrEmpty(_filepath))
+   {
+       return false;
+   }
+   string fullpath = GetMapPath(_filepath);
+   if (File.Exists(fullpath))
+   {
+       File.Delete(fullpath);
+       return true;
+   }
+   return false;
+}
+/// <summary>
+/// 删除上传的文件(及缩略图)
+/// </summary>
+/// <param name="_filepath"></param>
+public static void DeleteUpFile(string _filepath)
+{
+    if (string.IsNullOrEmpty(_filepath))
+    {
+        return;
+    }
+    string thumbnailpath = _filepath.Substring(0, _filepath.LastIndexOf("/")) + "mall_" + _filepath.Substring(_filepath.LastIndexOf("/") + 1);
+    string fullTPATH = GetMapPath(_filepath); //宿略图
+    string fullpath = GetMapPath(_filepath); //原图
+    if (File.Exists(fullpath))
+    {
+        File.Delete(fullpath);
+    }
+    if (File.Exists(fullTPATH))
+    {
+        File.Delete(fullTPATH);
+    }
+}
+#+END_SRC
+** 返回文件大小KB
+#+BEGIN_SRC org emacs-lisp
+/// <summary>
+/// 返回文件大小KB
+/// </summary>
+/// <param name="_filepath">文件相对路径</param>
+/// <returns>int</returns>
+public static int GetFileSize(string _filepath)
+{
+    if (string.IsNullOrEmpty(_filepath))
+    {
+        return 0;
+    }
+    string fullpath = GetMapPath(_filepath);
+    if (File.Exists(fullpath))
+    {
+        FileInfo fileInfo = new FileInfo(fullpath);
+        return ((int)fileInfo.Length) / 1024;
+    }
+    return 0;
+}
+#+END_SRC
+** 返回文件扩展名，不含“.”
+#+BEGIN_SRC emacs-lisp
+/// <summary>
+/// 返回文件扩展名，不含“.”
+/// </summary>
+/// <param name="_filepath">文件全名称</param>
+/// <returns>string</returns>
+public static string GetFileExt(string _filepath)
+{
+    if (string.IsNullOrEmpty(_filepath))
+    {
+        return "";
+    }
+    if (_filepath.LastIndexOf(".") > 0)
+    {
+        return _filepath.Substring(_filepath.LastIndexOf(".") + 1); //文件扩展名，不含“.”
+    }
+    return "";
+}
+#+END_SRC
+* 文件下载
+** TransmitFile方式
+#+BEGIN_SRC emacs-lisp
+/* 微软为Response对象提供了一个新的方法TransmitFile来解决使用Response.BinaryWrite下载超过400MB的文件时，
+导致Aspnet_wp.exe进程回收而无法成功下载的问题。 代码如下：*/
+Response.ContentType = "application/x-zip-compressed";  
+string FileName = "test.doc";  
+//使用UTF-8对文件名进行编码  
+Response.AppendHeader("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(FileName, System.Text.Encoding.UTF8) + "\"");  
+Response.ContentType = "application/octet-stream";  
+Response.AddHeader("Content-Disposition", "attachment;filename=" + FileName);  
+string filename = Server.MapPath("../ReportTemplate/test.doc");  
+Response.TransmitFile(filename);  
+#+END_SRC
+** WriteFile方式
+#+BEGIN_SRC emacs-lisp
+/* 
+using System.IO;          
+*/
+string fileName = "test.doc";//客户端保存的文件名  
+string filePath = Server.MapPath("../ReportTemplate/test.doc");//路径  
+FileInfo fileInfo = new FileInfo(filePath);  
+Response.Clear();  
+Response.ClearContent();  
+Response.ClearHeaders();  
+Response.AddHeader("Content-Disposition", "attachment;filename=\"" + HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8) + "\"");  
+Response.AddHeader("Content-Length", fileInfo.Length.ToString());  
+Response.AddHeader("Content-Transfer-Encoding", "binary");  
+Response.ContentType = "application/octet-stream";  
+Response.WriteFile(fileInfo.FullName);  
+Response.Flush();  
+Response.End();  
+#+END_SRC
+** WriteFile分块下载方式
+#+BEGIN_SRC emacs-lisp
+string fileName = "test.doc";//客户端保存的文件名  
+string filePath = Server.MapPath("../ReportTemplate/test.doc");//路径
+
+System.IO.FileInfo fileInfo = new System.IO.FileInfo(filePath);
+
+if (fileInfo.Exists == true)  
+{  
+    const long ChunkSize = 102400; //100K 每次读取文件，只读取100K，这样可以缓解服务器的压力  
+    byte[] buffer = new byte[ChunkSize];  
+
+    Response.Clear();  
+    System.IO.FileStream iStream = System.IO.File.OpenRead(filePath);  
+    long dataLengthToRead = iStream.Length; //获取下载的文件总大小  
+    Response.ContentType = "application/octet-stream";  
+    Response.AddHeader("Content-Disposition",  
+    "attachment; filename=" + HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));  
+    while (dataLengthToRead > 0 && Response.IsClientConnected)  
+    {  
+        int lengthRead = iStream.Read(buffer, 0, Convert.ToInt32(ChunkSize)); //读取的大小  
+        Response.OutputStream.Write(buffer, 0, lengthRead);  
+        Response.Flush();  
+        dataLengthToRead = dataLengthToRead - lengthRead;  
+    }  
+    Response.Close();  
+}  
+#+END_SRC
+** 流方式下载
+#+BEGIN_SRC emacs-lisp
+string fileName = "test.doc";//客户端保存的文件名  
+string filePath = Server.MapPath("../ReportTemplate/test.doc");//路径
+
+//以字符流的形式下载文件 
+FileStream fs = new FileStream(filePath, FileMode.Open);  
+byte[] bytes = new byte[(int)fs.Length];  
+fs.Read(bytes, 0, bytes.Length);  
+fs.Close();  
+Response.ContentType = "application/octet-stream";  
+//通知浏览器下载文件而不是打开  
+Response.AddHeader("Content-Disposition", "attachment;  filename=" + HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));  
+Response.BinaryWrite(bytes);  
+Response.Flush();  
+Response.End();
+#+END_SRC
+* 参考资料
+: http://www.cnblogs.com/CookBlack/archive/2011/04/10/1883864.html
+: http://www.cnblogs.com/technology/archive/2011/07/12/2104786.html
+

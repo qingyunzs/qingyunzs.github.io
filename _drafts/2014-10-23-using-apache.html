@@ -1,0 +1,131 @@
+---
+layout: post
+title: Apache Notes
+author: zrg
+comments: false
+description: Apache Notes
+categories:
+- Web-Sever
+tags:
+- Apache
+photos:
+---
+
+<p>
+Please don't hesitate contact me if you have any questions about the article. 
+</p>
+
+
+<div id="outline-container-org21b337e" class="outline-2">
+<h2 id="org21b337e">Virtual Host</h2>
+<div class="outline-text-2" id="text-org21b337e">
+</div>
+<div id="outline-container-org984c732" class="outline-3">
+<h3 id="org984c732">Configure virtual host</h3>
+<div class="outline-text-3" id="text-org984c732">
+</div>
+<div id="outline-container-org58a12ca" class="outline-4">
+<h4 id="org58a12ca">Enable "httpd-vhosts.conf"</h4>
+<div class="outline-text-4" id="text-org58a12ca">
+<pre class="example">
+Opening httpd.conf file,
+Remove " # "
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+# Virtual hosts 
+Include conf/extra/httpd-vhosts.conf
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org40742b5" class="outline-4">
+<h4 id="org40742b5">Opening httpd-vhosts.conf file</h4>
+<div class="outline-text-4" id="text-org40742b5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;VirtualHost 127.0.0.1:80&gt;
+    #directory
+    DocumentRoot <span style="color: #5c3566;">"D:\phpStudy\WWW\ec-shop\gold"</span>
+    ServerName local.gold
+    #    ServerAlias www.dummy-host.example.com
+    #    ErrorLog <span style="color: #5c3566;">"logs/dummy-host.example.com-error.log"</span>
+    #    CustomLog <span style="color: #5c3566;">"logs/dummy-host.example.com-access.log"</span> common
+    DirectoryIndex index.html index.htm index.php
+    &lt;Directory /&gt;
+      Options FollowSymLinks
+      #&#19981;&#35768;&#21487;&#21035;&#20154;&#20462;&#25913;&#25105;&#20204;&#30340;&#39029;&#38754;
+      AllowOverride None
+      #&#35774;&#32622;&#35775;&#38382;&#26435;&#38480;
+      Order allow,deny
+      Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaa488b2" class="outline-4">
+<h4 id="orgaa488b2">Opening hosts file</h4>
+<div class="outline-text-4" id="text-orgaa488b2">
+<pre class="example">
+File location：c:\windows\system32\drivers\etc\hosts
+#add
+127.0.0.1 local.gold
+Explain:
+      a.About hosts:a computer file to be used to store information on where to find an internet host on a computer network
+      
+      b.When the user input a URL in the browser, the system will automatically search for the corresponding IP address 
+        from the Hosts file, once found, the system will immediately open the corresponding page, if not found, then the 
+        system will be submitted to the DNS domain name resolution server IP address.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org725a132" class="outline-4">
+<h4 id="org725a132">Access virtual host</h4>
+<div class="outline-text-4" id="text-org725a132">
+<pre class="example">
+Inputing "local.gold" in the browser. Finished!
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org89f5a00" class="outline-3">
+<h3 id="org89f5a00">Configure multiple ports and multiple sites</h3>
+<div class="outline-text-3" id="text-org89f5a00">
+</div>
+<div id="outline-container-org3334bce" class="outline-4">
+<h4 id="org3334bce">httpd.conf</h4>
+<div class="outline-text-4" id="text-org3334bce">
+<pre class="example">
+Add listening port:
+  Listen 81
+  Listen 82
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd38f14a" class="outline-4">
+<h4 id="orgd38f14a">httpd-vhosts.conf</h4>
+<div class="outline-text-4" id="text-orgd38f14a">
+<pre class="example">
+&lt;VirtualHost *:81&gt;
+#    ServerAdmin webmaster@dummy-host2.example.com
+     DocumentRoot "d:\wamp\www\wp-job"
+     ServerName localhost
+#    ErrorLog "logs/dummy-host2.example.com-error.log"
+#    CustomLog "logs/dummy-host2.example.com-access.log" common
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost *:82&gt;
+#    ServerAdmin webmaster@dummy-host2.example.com
+     DocumentRoot "d:\wamp\www\wordpress"
+     ServerName localhost
+#    ErrorLog "logs/dummy-host2.example.com-error.log"
+#    CustomLog "logs/dummy-host2.example.com-access.log" common
+&lt;/VirtualHost&gt;
+
+</pre>
+</div>
+</div>
+</div>
+</div>

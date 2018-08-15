@@ -1,0 +1,145 @@
+---
+layout: post
+title: 站点调试环境集成软件
+author: zrg
+comments: false
+description: WampServer, phpStudy, Tomcat, ...
+categories:
+- software
+tags:
+- WampServer
+- phpStudy
+- xampp
+- wamp
+- Tomcat
+- IIS
+photos:
+---
+
+<div id="outline-container-org2c074c0" class="outline-2">
+<h2 id="org2c074c0">WampServer</h2>
+</div>
+<div id="outline-container-org2ddc5de" class="outline-2">
+<h2 id="org2ddc5de">phpStudy</h2>
+</div>
+<div id="outline-container-org48e3555" class="outline-2">
+<h2 id="org48e3555">xampp</h2>
+<div class="outline-text-2" id="text-org48e3555">
+</div>
+<div id="outline-container-org243ff81" class="outline-3">
+<h3 id="org243ff81">下载和安装</h3>
+<div class="outline-text-3" id="text-org243ff81">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#23448;&#32593;&#22320;&#22336;&#65306;https://www.apachefriends.org
+&#19979;&#36733;&#26102;&#65292;&#26377;32&#20301;&#30340;&#12289;64&#20301;&#30340;&#65292;&#30475;&#20320;&#30340;&#31995;&#32479;&#25903;&#25345;&#37027;&#20010;&#23601;&#19979;&#21738;&#20010;&#12290;
+&#23433;&#35013;&#65306;#./packgeName.run
+&#31561;&#24453;&#23433;&#35013;&#32467;&#26463;&#65292;&#26399;&#38388;&#20250;&#25552;&#31034;&#20320;&#26159;&#21542;&#25191;&#34892;&#65292;&#36755;&#20837;y&#21363;&#21487;&#12290;
+&#21368;&#36733;&#65306;&#21040;&#23433;&#35013;&#30446;&#24405;/opt/lampp/&#20013;&#25214;&#21040;uninstall&#65292;&#25191;&#34892;&#21363;&#21487;&#21368;&#36733;
+&#27880;&#24847;&#65306;&#22312;&#25191;&#34892;.run&#25991;&#20214;&#26102;&#26080;&#25552;&#31034;&#65292;&#21407;&#22240;&#26159;&#20320;&#36719;&#20214;&#19982;&#31995;&#32479;&#20301;&#25968;&#19981;&#23545;&#24212;&#65292;&#25442;&#25104;64&#25110;32&#20301;&#30340;&#25191;&#34892;&#23601;ok&#20102;
+</pre>
+</div>
+</div>
+<div id="outline-container-org7e66e8b" class="outline-4">
+<h4 id="org7e66e8b">配置访问</h4>
+<div class="outline-text-4" id="text-org7e66e8b">
+</div>
+<ul class="org-ul">
+<li><a id="org3c4f106"></a>相关路径<br />
+<div class="outline-text-5" id="text-org3c4f106">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">/opt/lampp/&#20027;&#30446;&#24405;
+/opt/lampp/htdocs/xampp/&#32593;&#31449;&#23384;&#25918;&#30446;&#24405;
+/opt/lampp/etc/&#37197;&#32622;&#25991;&#20214;&#23384;&#25918;&#30446;&#24405;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org090fdff"></a>使外部网络能正常访问<br />
+<div class="outline-text-5" id="text-org090fdff">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#vim /opt/lampp/etc/extra/httpd-xampp.conf
+&#25214;&#21040;&#20462;&#25913;&#65306;
+&lt;LocationMatch <span style="color: #5c3566;">"^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))"</span>&gt;
+#        Require local   #&#27880;&#37322;&#25481;
+       Order deny,allow  #&#28155;&#21152;
+       Allow from all    #&#28155;&#21152;&#65292;&#34920;&#31034;&#20801;&#35768;&#25152;&#26377;&#37117;&#33021;&#35775;&#38382;
+       ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+&lt;/LocationMatch&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org42997a7"></a>启动服务<br />
+<div class="outline-text-5" id="text-org42997a7">
+<pre class="example">
+/opt/lampp/lampp start
+就这么简单，用浏览器访问一下吧！
+
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1cfa53a" class="outline-3">
+<h3 id="org1cfa53a">注意事项</h3>
+<div class="outline-text-3" id="text-org1cfa53a">
+</div>
+<div id="outline-container-orga5db528" class="outline-4">
+<h4 id="orga5db528">当访问时，出现权限问题</h4>
+<div class="outline-text-4" id="text-orga5db528">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">Access forbidden!
+New XAMPP security concept:
+Access to the requested object is only available from the local network.
+This setting can be configured in the file <span style="color: #5c3566;">"httpd-xampp.conf"</span>.
+Error 403
+&#36825;&#20010;&#21407;&#22240;&#23601;&#26159;&#19978;&#38754;&#25552;&#21040;&#30340;&#20462;&#25913;httpd-xampp.conf&#25991;&#20214;&#65292;&#25913;&#20102;&#23601;&#33021;&#27491;&#24120;&#35775;&#38382;&#20102;&#12290;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org86843db" class="outline-4">
+<h4 id="org86843db">重启后不能启动xampp服务</h4>
+<div class="outline-text-4" id="text-org86843db">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#30001;&#20110;&#26029;&#30005;&#25110;&#20854;&#20182;&#21407;&#22240;&#65292;&#37325;&#21551;&#21518;&#26381;&#21153;&#27809;&#33021;&#24320;&#21551;&#65292;&#32593;&#31449;&#19981;&#33021;&#35775;&#38382;&#20102;
+a.&#36827;&#20837; /etc/init.d &#30446;&#24405;&#19979;&#65292;&#24314;&#31435; lampp.sh&#25991;&#20214;
+#vim lampp.sh
+b.&#36755;&#20837;&#22914;&#19979;&#20869;&#23481;
+#!/bin/sh
+cd /opt/lampp
+./lampp start
+c.&#26356;&#25913;&#25991;&#20214;&#26435;&#38480;
+#chmod 755 lampp.sh
+d.&#32534;&#36753; /etc/rc.d/rc.local ,&#22312;&#26368;&#21518;&#19968;&#34892;&#21518;&#38754;&#21152;&#19978;:
+exec /etc/init.d/lampp.sh
+&#22914;&#27492;&#65292;&#24320;&#26426;&#23601;&#33021;&#21551;&#21160;xampp&#20102;&#12290;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbe5e22" class="outline-4">
+<h4 id="orgcbe5e22">有时会因为防火墙原因，导致不能访问网站</h4>
+<div class="outline-text-4" id="text-orgcbe5e22">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#27492;&#26102;&#65292;&#25105;&#20204;&#21487;&#20197;&#20851;&#38381;&#38450;&#28779;&#22681;&#65292;&#24182;&#19988;&#37325;&#21551;&#21518;&#19981;&#24320;&#21551;
+chkconfig iptables off &#20851;&#38381;&#38450;&#28779;&#22681;
+systemctl stop firewalled.service --Centos&#20013;&#20351;&#29992;
+systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&#21551;&#38450;&#28779;&#22681;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0366dea" class="outline-2">
+<h2 id="org0366dea">wamp</h2>
+</div>
+<div id="outline-container-org63c4798" class="outline-2">
+<h2 id="org63c4798">Tomcat</h2>
+</div>
+<div id="outline-container-org2cdaf0d" class="outline-2">
+<h2 id="org2cdaf0d">IIS</h2>
+</div>

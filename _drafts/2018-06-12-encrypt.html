@@ -1,0 +1,574 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6ab5ee7">1. 几种常用加密算法</a>
+<ul>
+<li><a href="#orgd2e83c8">1.1. DES加密算法</a></li>
+<li><a href="#orgd516b9c">1.2. AES加密算法</a></li>
+<li><a href="#org5456be2">1.3. RSA加密算法</a></li>
+<li><a href="#orgb8214d6">1.4. Base64加密算法</a></li>
+<li><a href="#orgaa90dfb">1.5. MD5加密算法</a></li>
+<li><a href="#orgea680e2">1.6. SHA-1加密算法</a></li>
+<li><a href="#org2e20859">1.7. 小结</a></li>
+</ul>
+</li>
+<li><a href="#orgdca202c">2. DES加密算法</a>
+<ul>
+<li><a href="#org9821e40">2.1. C# Code</a></li>
+</ul>
+</li>
+<li><a href="#org39407b7">3. MD5加密算法</a>
+<ul>
+<li><a href="#org9ba06e4">3.1. C# Code</a></li>
+</ul>
+</li>
+<li><a href="#org1dadad6">4. 3DES加密算法</a>
+<ul>
+<li><a href="#org694a02b">4.1. C# Code</a></li>
+</ul>
+</li>
+<li><a href="#orge4c37ec">5. Base64加密算法</a>
+<ul>
+<li><a href="#org627cfd5">5.1. C# Code</a></li>
+<li><a href="#org50fbbc2">5.2. JavaScript Code</a></li>
+<li><a href="#org610616f">5.3. 参考资料</a></li>
+</ul>
+</li>
+<li><a href="#orgcbecb09">6. 参考资料</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6ab5ee7" class="outline-2">
+<h2 id="org6ab5ee7"><span class="section-number-2">1</span> 几种常用加密算法</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgd2e83c8" class="outline-3">
+<h3 id="orgd2e83c8"><span class="section-number-3">1.1</span> DES加密算法</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+DES加密算法是一种分组密码，以64位为分组对数据加密，它的密钥长度是56位，加密解密用同一算法。
+
+</pre>
+
+<pre class="example">
+DES加密算法是对密钥进行保密，而公开算法，包括加密和解密算法。这样，只有掌握了和发送方相同密钥的人才能解读
+由DES加密算法加密的密文数据。因此，破译DES加密算法实际上就是搜索密钥的编码。
+
+</pre>
+
+<pre class="example">
+对于56位长度的密钥来说，如果用穷举法来进行搜索的话，其运算次数为256。随着计算机系统能力的不断发展，DES的安
+全性比它刚出现时会弱得多，然而从非关键性质的实际出发，仍可以认为它是足够的。不过，DES现在仅用于旧系统的鉴
+定，而更多地选择新的加密标准。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd516b9c" class="outline-3">
+<h3 id="orgd516b9c"><span class="section-number-3">1.2</span> AES加密算法</h3>
+<div class="outline-text-3" id="text-1-2">
+<pre class="example">
+AES加密算法是密码学中的高级加密标准，该加密算法采用对称分组密码体制，密钥长度的最少支持为128、192、256，
+分组长度128位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的区块加密标准，这个标准用来替
+代原先的DES，已经被多方分析且广为全世界所使用。
+
+</pre>
+
+<pre class="example">
+AES加密算法被设计为支持128／192／256位（/32=nb)数据块大小（即分组长度）；支持128／192／256位（/32=nk)密码
+长度，在10进制里，对应34×1038、62×1057、1.1×1077个密钥。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5456be2" class="outline-3">
+<h3 id="org5456be2"><span class="section-number-3">1.3</span> RSA加密算法</h3>
+<div class="outline-text-3" id="text-1-3">
+<pre class="example">
+RSA加密算法是目前最有影响力的公钥加密算法，并且被普遍认为是目前最优秀的公钥方案之一。RSA是第一个能同时用于
+加密和数宇签名的算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。
+
+</pre>
+
+<pre class="example">
+RSA加密算法基于一个十分简单的数论事实：将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，
+因此可以将乘积公开作为加密密钥。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb8214d6" class="outline-3">
+<h3 id="orgb8214d6"><span class="section-number-3">1.4</span> Base64加密算法</h3>
+<div class="outline-text-3" id="text-1-4">
+<pre class="example">
+Base64加密算法是网络上最常见的用于传输8bit字节代码的编码方式之一，Base64编码可用于在HTTP环境下传递较长的标识
+信息。例如，在JAVAPERSISTENCE系统HIBEMATE中，采用了Base64来将一个较长的唯一标识符编码为一个字符串，用作HTTP
+表单和HTTPGETURL中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形
+式。此时，采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgaa90dfb" class="outline-3">
+<h3 id="orgaa90dfb"><span class="section-number-3">1.5</span> MD5加密算法</h3>
+<div class="outline-text-3" id="text-1-5">
+<pre class="example">
+MD5为计算机安全领域广泛使用的一种散列函数，用以提供消息的完整性保护。对MD5加密算法简要的叙述可以为：MD5以
+512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分
+组组成，将这四个32位分组级联后将生成—个128位散列值。
+
+</pre>
+
+<pre class="example">
+MD5被广泛用于各种软件的密码认证和钥匙识别上。MD5用的是哈希函数，它的典型应用是对一段信息产生信息摘要，以防
+止被篡改。
+
+</pre>
+
+<pre class="example">
+MD5的典型应用是对一段Message产生fingerprin指纹，以防止被“篡改”。如果再有—个第三方的认证机，用MD5还可以防
+止文件作者的“抵赖”，这就是所谓的数字签名应用
+
+</pre>
+
+<pre class="example">
+MD5还广泛用于操作系统的登陆认证上，如UNIX、各类BSD系统登录密码、数字签名等诸多方。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgea680e2" class="outline-3">
+<h3 id="orgea680e2"><span class="section-number-3">1.6</span> SHA-1加密算法</h3>
+<div class="outline-text-3" id="text-1-6">
+<pre class="example">
+SHA-1是和MD5一样流行的消息摘要算法。 SHA1的全称是Secure Hash Algorithm(安全哈希算法) ，SHA加密算法模仿MD4加
+密算法。SHA1设计为和数字签名算法（DSA）一起使用。
+
+</pre>
+
+<pre class="example">
+SHA-1主要适用于数字签名标准里面定义的数字签名算法。对于长度小于264位的消息，SHA1会产生一个160位的消息摘要。
+当接收到消息的时候，这个消息摘要可以用来验证数据的完整性。在传输的过程中，数据很可能会发生变化，那么这时候
+就会产生不同的消息摘要。SHA1不可以从消息摘要中复原信息，而两个不同的消息不会产生同样的消息摘要。这样，SHA1
+就可以验证数据的完整性，所以说SHA1是为了保证文件完整性的技术。
+
+</pre>
+
+<pre class="example">
+SHA1加密算法可以采用不超过264位的数据输入，并产生一个160位的摘要。输入被划分为512位的块，并单独处理。160位
+缓冲器用来保存散列函数的中间和最后结果。缓冲器可以由5个32位寄存器（A、B、C、D和E）来表示。SHA1是一种比MD5的
+安全性强的算法，理论上，凡是采取“消息摘要”方式的数字验证算法都是有“碰撞”的——也就是两个不同的东西算出的
+消息摘要相同，互通作弊图就是如此。但是安全性高的算法要找到指定数据的“碰撞”很困难，而利用公式来计算“碰撞
+就更困难，目前为止通用安全算法中仅有MD5被破解。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2e20859" class="outline-3">
+<h3 id="org2e20859"><span class="section-number-3">1.7</span> 小结</h3>
+<div class="outline-text-3" id="text-1-7">
+<pre class="example">
+加密算法是密码技术的核心，以上这些加密算法是常用的加密算法，而这些算法有些已经遭到破译，有些安全度不高，有
+些强度不明，有些待进—步分析，有些需要深入研究，而神秘的加密算法世界，又会有新的成员加入，期待更安全的算法诞生。
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdca202c" class="outline-2">
+<h2 id="orgdca202c"><span class="section-number-2">2</span> DES加密算法</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org9821e40" class="outline-3">
+<h3 id="org9821e40"><span class="section-number-3">2.1</span> C# Code</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region DES&#21152;&#23494;&#35299;&#23494;
+/// &lt;summary&gt;
+/// DES&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"data"</span>&gt;&#21152;&#23494;&#25968;&#25454;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"key"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#23494;&#38053;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"iv"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#21021;&#22987;&#21270;&#21521;&#37327;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string DESEncrypt(string data, string key, string iv)
+{
+    byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    int i = cryptoProvider.KeySize<span style="color: #5f615c; font-style: italic;">;</span>
+    MemoryStream ms = new MemoryStream()<span style="color: #5f615c; font-style: italic;">;</span>
+    CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateEncryptor(byKey, byIV), CryptoStreamMode.Write)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    StreamWriter sw = new StreamWriter(cst)<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Write(data)<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Flush()<span style="color: #5f615c; font-style: italic;">;</span>
+    cst.FlushFinalBlock()<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Flush()<span style="color: #5f615c; font-style: italic;">;</span>
+    return Convert.ToBase64String(ms.GetBuffer(), 0, (int)ms.Length)<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// DES&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"data"</span>&gt;&#35299;&#23494;&#25968;&#25454;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"key"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#23494;&#38053;&#23383;&#31526;&#20018;(&#38656;&#35201;&#21644;&#21152;&#23494;&#26102;&#30456;&#21516;)&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"iv"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#21021;&#22987;&#21270;&#21521;&#37327;&#23383;&#31526;&#20018;(&#38656;&#35201;&#21644;&#21152;&#23494;&#26102;&#30456;&#21516;)&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string DESDecrypt(string data, string key, string iv)
+{
+    byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    byte[] byEnc<span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        byEnc = Convert.FromBase64String(data)<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch
+    {
+        return null<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+
+    DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    MemoryStream ms = new MemoryStream(byEnc)<span style="color: #5f615c; font-style: italic;">;</span>
+    CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateDecryptor(byKey, byIV), CryptoStreamMode.Read)<span style="color: #5f615c; font-style: italic;">;</span>
+    StreamReader sr = new StreamReader(cst)<span style="color: #5f615c; font-style: italic;">;</span>
+    return sr.ReadToEnd()<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org39407b7" class="outline-2">
+<h2 id="org39407b7"><span class="section-number-2">3</span> MD5加密算法</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org9ba06e4" class="outline-3">
+<h3 id="org9ba06e4"><span class="section-number-3">3.1</span> C# Code</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region MD5&#21152;&#23494;
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(string input)
+{
+    return MD5Encrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#30340;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(string input, Encoding encode)
+{
+    MD5 md5 = new MD5CryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] t = md5.ComputeHash(encode.GetBytes(input))<span style="color: #5f615c; font-style: italic;">;</span>
+    StringBuilder sb = new StringBuilder(32)<span style="color: #5f615c; font-style: italic;">;</span>
+    for (int i = 0<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">i &lt; t.Length; i++)</span>
+        sb.Append(t[i].ToString(<span style="color: #5c3566;">"x"</span>).PadLeft(2, '0'))<span style="color: #5f615c; font-style: italic;">;</span>
+        return sb.ToString()<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+
+/// &lt;summary&gt;
+/// MD5&#23545;&#25991;&#20214;&#27969;&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"sr"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(Stream stream)
+{
+    MD5 md5serv = MD5CryptoServiceProvider.Create()<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] buffer = md5serv.ComputeHash(stream)<span style="color: #5f615c; font-style: italic;">;</span>
+    StringBuilder sb = new StringBuilder()<span style="color: #5f615c; font-style: italic;">;</span>
+    foreach (byte var in buffer)
+        sb.Append(var.ToString(<span style="color: #5c3566;">"x2"</span>))<span style="color: #5f615c; font-style: italic;">;</span>
+    return sb.ToString()<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;(&#36820;&#22238;16&#20301;&#21152;&#23494;&#20018;)
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt16(string input, Encoding encode)
+{
+    MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    string result = BitConverter.ToString(md5.ComputeHash(encode.GetBytes(input)), 4, 8)<span style="color: #5f615c; font-style: italic;">;</span>
+    result = result.Replace(<span style="color: #5c3566;">"-"</span>, <span style="color: #5c3566;">""</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+    return result<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1dadad6" class="outline-2">
+<h2 id="org1dadad6"><span class="section-number-2">4</span> 3DES加密算法</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org694a02b" class="outline-3">
+<h3 id="org694a02b"><span class="section-number-3">4.1</span> C# Code</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region 3DES &#21152;&#23494;&#35299;&#23494;
+public static string DES3Encrypt(string data, string key)
+{
+   TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+
+   DES.Key = ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+   DES.Mode = CipherMode.CBC<span style="color: #5f615c; font-style: italic;">;</span>
+   DES.Padding = PaddingMode.PKCS7<span style="color: #5f615c; font-style: italic;">;</span>
+
+   ICryptoTransform DESEncrypt = DES.CreateEncryptor()<span style="color: #5f615c; font-style: italic;">;</span>
+
+   byte[] Buffer = ASCIIEncoding.ASCII.GetBytes(data)<span style="color: #5f615c; font-style: italic;">;</span>
+   return Convert.ToBase64String(DESEncrypt.TransformFinalBlock(Buffer, 0, Buffer.Length))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+public static string DES3Decrypt(string data, string key)
+{
+    TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+
+    DES.Key = ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    DES.Mode = CipherMode.CBC<span style="color: #5f615c; font-style: italic;">;</span>
+    DES.Padding = System.Security.Cryptography.PaddingMode.PKCS7<span style="color: #5f615c; font-style: italic;">;</span>
+
+    ICryptoTransform DESDecrypt = DES.CreateDecryptor()<span style="color: #5f615c; font-style: italic;">;</span>
+
+    string result = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        byte[] Buffer = Convert.FromBase64String(data)<span style="color: #5f615c; font-style: italic;">;</span>
+        result = ASCIIEncoding.ASCII.GetString(DESDecrypt.TransformFinalBlock(Buffer, 0, Buffer.Length))<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch (Exception e)
+    {
+
+    }
+    return result<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge4c37ec" class="outline-2">
+<h2 id="orge4c37ec"><span class="section-number-2">5</span> Base64加密算法</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org627cfd5" class="outline-3">
+<h3 id="org627cfd5"><span class="section-number-3">5.1</span> C# Code</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">/// &lt;summary&gt;
+/// &#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"codeType"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"code"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string codeType,string code)
+{
+    string encode = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] bytes = Encoding.GetEncoding(codeType).GetBytes(code)<span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        encode = Convert.ToBase64String(bytes)<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch (Exception ex)
+    {
+        encode = code<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    return encode<span style="color: #5f615c; font-style: italic;">;</span>
+}
+/// &lt;summary&gt;
+/// &#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"codeType"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"code"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string codeType,string code)
+{
+    string decode = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] bytes = Convert.FromBase64String(code)<span style="color: #5f615c; font-style: italic;">; </span>
+    try
+    {
+        decode = Encoding.GetEncoding(codeType).GetString(bytes)<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">//&#23558;&#25351;&#23450;&#23383;&#33410;&#25968;&#32452;&#20013;&#30340;&#19968;&#20010;&#23383;&#33410;&#24207;&#21015;&#35299;&#30721;&#20026;&#19968;&#20010;&#23383;&#31526;&#20018;&#12290; </span>
+    }
+    catch (Exception ex)
+    {
+        decode = code<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    return decode<span style="color: #5f615c; font-style: italic;">;</span>
+}
+</pre>
+</div>
+<p>
+//简写
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region Base64&#21152;&#23494;&#35299;&#23494;
+/// &lt;summary&gt;
+/// Base64&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string input)
+{
+    return Base64Encrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string input, Encoding encode)
+{
+    return Convert.ToBase64String(encode.GetBytes(input))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#35299;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string input)
+{
+    return Base64Decrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#35299;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#30340;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string input, Encoding encode)
+{
+    return encode.GetString(Convert.FromBase64String(input))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org50fbbc2" class="outline-3">
+<h3 id="org50fbbc2"><span class="section-number-3">5.2</span> JavaScript Code</h3>
+<div class="outline-text-3" id="text-5-2">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">private property</span>
+<span style="color: #346604;">var</span> <span style="color: #b35000;">_keyStr</span> = <span style="color: #5c3566;">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="</span>;
+<span style="color: #346604;">function</span> <span style="color: #a40000;">encodeBase64</span>(<span style="color: #b35000;">input</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">output</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">chr1</span>, <span style="color: #b35000;">chr2</span>, <span style="color: #b35000;">chr3</span>, <span style="color: #b35000;">enc1</span>, <span style="color: #b35000;">enc2</span>, <span style="color: #b35000;">enc3</span>, <span style="color: #b35000;">enc4</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    input = _utf8_encode(input);
+    <span style="color: #346604;">while</span> (i &lt; input.length) {
+        chr1 = input.charCodeAt(i++);
+    chr2 = input.charCodeAt(i++);
+    chr3 = input.charCodeAt(i++);
+    enc1 = chr1 &gt;&gt; 2;
+    enc2 = ((chr1 &amp; 3) &lt;&lt; 4) | (chr2 &gt;&gt; 4);
+    enc3 = ((chr2 &amp; 15) &lt;&lt; 2) | (chr3 &gt;&gt; 6);
+    enc4 = chr3 &amp; 63;
+    <span style="color: #346604;">if</span> (isNaN(chr2)) {
+        enc3 = enc4 = 64;
+        } <span style="color: #346604;">else</span> <span style="color: #346604;">if</span> (isNaN(chr3)) {
+        enc4 = 64;
+        }
+    output +=_keyStr.charAt(enc1);
+        output+= _keyStr.charAt(enc2);
+        output+=_keyStr.charAt(enc3);
+        output+= _keyStr.charAt(enc4);
+   }
+   <span style="color: #346604;">return</span> output;
+}
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">Base64 &#35299;&#23494;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">decodeBase64</span>(<span style="color: #b35000;">input</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">output</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">chr1</span>, <span style="color: #b35000;">chr2</span>, <span style="color: #b35000;">chr3</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">enc1</span>, <span style="color: #b35000;">enc2</span>, <span style="color: #b35000;">enc3</span>, <span style="color: #b35000;">enc4</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    input = input.replace(<span style="color: #5c3566;">/[^A-Za-z0-9\+\/\=]/</span>g, <span style="color: #5c3566;">""</span>);
+    <span style="color: #346604;">while</span> (i &lt; input.length) {
+        enc1 = _keyStr.indexOf(input.charAt(i++));
+        enc2 = _keyStr.indexOf(input.charAt(i++));
+        enc3 = _keyStr.indexOf(input.charAt(i++));
+        enc4 = _keyStr.indexOf(input.charAt(i++));
+        chr1 = (enc1 &lt;&lt; 2) | (enc2 &gt;&gt; 4);
+        chr2 = ((enc2 &amp; 15) &lt;&lt; 4) | (enc3 &gt;&gt; 2);
+        chr3 = ((enc3 &amp; 3) &lt;&lt; 6) | enc4;
+        output = output + String.fromCharCode(chr1);
+        <span style="color: #346604;">if</span> (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+        }
+        <span style="color: #346604;">if</span> (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+        }
+    }
+    output = _utf8_decode(output);
+    <span style="color: #346604;">return</span> output;
+}
+<span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">private method for UTF-8 decoding</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">_utf8_decode</span>(<span style="color: #b35000;">utftext</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">string</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">c</span> = c1 = c2 = 0;
+    <span style="color: #346604;">while</span> (i &lt; utftext.length) {
+        c = utftext.charCodeAt(i);
+        <span style="color: #346604;">if</span> (c &lt; 128) {
+            string += String.fromCharCode(c);
+            i++;
+        } <span style="color: #346604;">else</span> <span style="color: #346604;">if</span> ((c &gt; 191) &amp;&amp; (c &lt; 224)) {
+            c2 = utftext.charCodeAt(i + 1);
+            string += String.fromCharCode(((c &amp; 31) &lt;&lt; 6) | (c2 &amp; 63));
+            i += 2;
+        } <span style="color: #346604;">else</span> {
+            c2 = utftext.charCodeAt(i + 1);
+            c3 = utftext.charCodeAt(i + 2);
+            string += String.fromCharCode(((c &amp; 15) &lt;&lt; 12) | ((c2 &amp; 63) &lt;&lt; 6) | (c3 &amp; 63));
+            i += 3;
+        }
+    }
+    <span style="color: #346604;">return</span> string;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org610616f" class="outline-3">
+<h3 id="org610616f"><span class="section-number-3">5.3</span> 参考资料</h3>
+<div class="outline-text-3" id="text-5-3">
+<pre class="example">
+http://www.it610.com/article/1219677.htm
+https://www.bbsmax.com/A/xl56xMRkzr/
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbecb09" class="outline-2">
+<h2 id="orgcbecb09"><span class="section-number-2">6</span> 参考资料</h2>
+<div class="outline-text-2" id="text-6">
+<pre class="example">
+http://www.cnblogs.com/zyw-205520/p/5585014.html
+https://zh.wikipedia.org/wiki/SHA%E5%AE%B6%E6%97%8F
+http://www.cnblogs.com/malaohu/p/3214136.html
+
+</pre>
+</div>
+</div>

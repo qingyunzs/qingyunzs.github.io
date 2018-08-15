@@ -1,0 +1,218 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3433dd3">1. 写在前面</a></li>
+<li><a href="#org2987a78">2. 环境说明</a></li>
+<li><a href="#orgf644e22">3. Nginx介绍</a></li>
+<li><a href="#orgf90cd64">4. Install MariaDB</a>
+<ul>
+<li><a href="#orgdf63c85">4.1. Install and enable</a></li>
+<li><a href="#org5c038a2">4.2. Run set password</a></li>
+</ul>
+</li>
+<li><a href="#org61e8d67">5. Install Nginx</a>
+<ul>
+<li><a href="#orga036e82">5.1. yum install -y nginx</a></li>
+<li><a href="#orga97ebeb">5.2. 开放的HTTP和HTTPS防火墙中的端口</a></li>
+</ul>
+</li>
+<li><a href="#orgf03e8be">6. Install PHP</a>
+<ul>
+<li><a href="#org6814dda">6.1. Install php</a></li>
+<li><a href="#org44ca222">6.2. 配置PHP</a></li>
+</ul>
+</li>
+<li><a href="#orgb9b964c">7. 配置nginx</a>
+<ul>
+<li><a href="#org7f27d0a">7.1. 让PHP-FPM使用Unix套接字</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3433dd3" class="outline-2">
+<h2 id="org3433dd3"><span class="section-number-2">1</span> 写在前面</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example">
+众所周知，nginx性能高，而nginx的高性能与其架构是分不开的。那么nginx究竟是怎么样的呢？又是怎么安装？
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2987a78" class="outline-2">
+<h2 id="org2987a78"><span class="section-number-2">2</span> 环境说明</h2>
+<div class="outline-text-2" id="text-2">
+<pre class="example">
+OS：CentOS 7
+Software：Nginx+PHP+Mariadb
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf644e22" class="outline-2">
+<h2 id="orgf644e22"><span class="section-number-2">3</span> Nginx介绍</h2>
+<div class="outline-text-2" id="text-3">
+<pre class="example">
+这是一款免费、开源、高效的 HTTP 服务器，Nginx是以稳定著称，丰富的功能，结构简单，低资源消耗。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf90cd64" class="outline-2">
+<h2 id="orgf90cd64"><span class="section-number-2">4</span> Install MariaDB</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgdf63c85" class="outline-3">
+<h3 id="orgdf63c85"><span class="section-number-3">4.1</span> Install and enable</h3>
+<div class="outline-text-3" id="text-4-1">
+<pre class="example">
+yum install mariadb mariadb-server net-tools
+systemctl enable mariadb.service
+systemctl start mariadb.service
+检查网络启用。运行 netstat -tap | grep mysql
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5c038a2" class="outline-3">
+<h3 id="org5c038a2"><span class="section-number-3">4.2</span> Run set password</h3>
+<div class="outline-text-3" id="text-4-2">
+<pre class="example">
+mysql_secure_installation
+Set root password? [Y/n] &lt;– 回车
+New password: &lt;– 输入ROOT密码
+Re-enter new password: &lt;– 再输入一次ROOT密码
+Password updated successfully!
+Reloading privilege tables..
+… Success!
+Remove anonymous users? [Y/n] &lt;– 回车 
+… Success!
+Disallow root login remotely? [Y/n] &lt;– 回车
+… Success!
+Remove test database and access to it? [Y/n] &lt;– 回车
+- Dropping test database…
+… Success! 
+Reload privilege tables now? [Y/n] &lt;– 回车
+… Success!
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org61e8d67" class="outline-2">
+<h2 id="org61e8d67"><span class="section-number-2">5</span> Install Nginx</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orga036e82" class="outline-3">
+<h3 id="orga036e82"><span class="section-number-3">5.1</span> yum install -y nginx</h3>
+<div class="outline-text-3" id="text-5-1">
+<pre class="example">
+systemctl enable nginx.service
+systemctl start nginx.service
+注意：可能启动出错，可能原因是80端口被占用
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orga97ebeb" class="outline-3">
+<h3 id="orga97ebeb"><span class="section-number-3">5.2</span> 开放的HTTP和HTTPS防火墙中的端口</h3>
+<div class="outline-text-3" id="text-5-2">
+<pre class="example">
+firewall-cmd –permanent –zone=public –add-service=http
+firewall-cmd –permanent –zone=public –add-service=https
+firewall-cmd –reload
+结果是success。
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf03e8be" class="outline-2">
+<h2 id="orgf03e8be"><span class="section-number-2">6</span> Install PHP</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org6814dda" class="outline-3">
+<h3 id="org6814dda"><span class="section-number-3">6.1</span> Install php</h3>
+<div class="outline-text-3" id="text-6-1">
+<pre class="example">
+yum install php-fpm php-cli php-mysql php-gd php-ldap php-odbc php-pdo php-pecl-memcache php-pear php-mbstring php-xml php-xmlrpc php-mbstring php-snmp php-soap 
+APC是一个自由和开放的PHP操作码来缓存和优化PHP的中间代码。它类似于其他PHP操作码cachers，如eAccelerator和XCache。强烈建议有这些安装，以加快您的PHP页面。
+yum install php-devel
+yum groupinstall 'Development Tools'
+安装APC
+pecl install apc
+一直回车》完成
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org44ca222" class="outline-3">
+<h3 id="org44ca222"><span class="section-number-3">6.2</span> 配置PHP</h3>
+<div class="outline-text-3" id="text-6-2">
+<pre class="example">
+设置 cgi.fix_pathinfo=0
+添加 extension=apc.so
+为了避免时区的错误：
+为了避免这样的时区的错误：设置 date.timezone = "Europe/Berlin"
+通过运行正确的时区支持您的系统：cat /etc/sysconfig/clock
+创建系统启动链接的PHP-FPM并启动它：
+systemctl enable php-fpm.service
+systemctl start php-fpm.service
+PHP-FPM是一个守护进程（使用init脚本/etc/init.d/php-fpm) 运行在端口9000的FastCGI服务器。
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb9b964c" class="outline-2">
+<h2 id="orgb9b964c"><span class="section-number-2">7</span> 配置nginx</h2>
+<div class="outline-text-2" id="text-7">
+<pre class="example">
+打开配置文件 /etc/nginx/nginx.conf，可增加工作进程的数量和设置keepalive_timeout到一个合理的值
+vim /etc/nginx/conf.d/default.conf
+location ~ .php$ {
+       root           /usr/share/nginx/html;
+       try_files $uri =404;
+       fastcgi_pass   127.0.0.1:9000;
+       fastcgi_index  index.php;
+       fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+       include        fastcgi_params;
+   }
+
+location ~ /.ht {
+       deny  all;
+   }
+
+重新加载nginx：
+systemctl restart nginx.service
+最后：输入ip地址测试。
+
+</pre>
+</div>
+<div id="outline-container-org7f27d0a" class="outline-3">
+<h3 id="org7f27d0a"><span class="section-number-3">7.1</span> 让PHP-FPM使用Unix套接字</h3>
+<div class="outline-text-3" id="text-7-1">
+<pre class="example">
+默认情况下监听端口 9000 。 另外，也可以使PHP-FPM使用Unix套接字，这避免了TCP的开销。要做到这一点，打开 /etc/php-fpm.d/www.conf…
+vim /etc/php-fpm.d/www.conf
+ 修改后如下：
+[...]
+;listen = 127.0.0.1:9000
+listen = /var/run/php-fpm/php5-fpm.sock
+[...]
+重新加载 PHP-FPM：
+systemctl restart php-fpm.service 
+添加 vim /etc/nginx/conf.d/default.conf
+location ~ .php$ {
+       root           /usr/share/nginx/html;
+       try_files $uri =404;
+添加行 fastcgi_pass   unix:/var/run/php-fpm/php5-fpm.sock;
+
+好了，就先讲这些吧！更多关于PHP的详细问题，可查看PHP官网提供的php手册。
+
+</pre>
+</div>
+</div>
+</div>

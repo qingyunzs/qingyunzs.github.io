@@ -1,0 +1,137 @@
+---
+layout: post
+title: MySQL Notes
+author: zrg
+comments: false
+description: MySQL 笔记
+categories:
+- Database
+tags:
+- MySQL
+photos:
+---
+
+<div id="outline-container-orga6fe48e" class="outline-2">
+<h2 id="orga6fe48e">MySQL备份与还原</h2>
+<div class="outline-text-2" id="text-orga6fe48e">
+</div>
+<div id="outline-container-orge257036" class="outline-3">
+<h3 id="orge257036">备份</h3>
+<div class="outline-text-3" id="text-orge257036">
+<pre class="example">
+$mysqldump -u username -p dbname&gt;filename.sql输入密码
+//单独备份指定表
+$mysqldump -u username -p dbname table1 table2&gt;filename.sql输入密码
+//加条件备份指定表(注意单引号和双引号问题)
+$mysqldump -u username -p dbname table1 table2 -w "id&lt;10"&gt;filename.sql
+//执行SQL语句将查到的数据导出到文件
+$mysql -u gcoin -p -Ne "use gold;select * from ecs_user" &gt; ~/outfile.txt
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org0c6c8b7" class="outline-3">
+<h3 id="org0c6c8b7">还原</h3>
+<div class="outline-text-3" id="text-org0c6c8b7">
+</div>
+<div id="outline-container-org1465ddd" class="outline-4">
+<h4 id="org1465ddd">Windows</h4>
+<div class="outline-text-4" id="text-org1465ddd">
+<pre class="example">
+&gt;mysql -u username -p 输入密码
+&gt;create database dbname
+&gt;use dbname
+&gt;source filename.sql
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb2fa6c6" class="outline-4">
+<h4 id="orgb2fa6c6">Linux</h4>
+<div class="outline-text-4" id="text-orgb2fa6c6">
+<pre class="example">
+$mysql -u username -p dbname&lt;filename.sql
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc74e88d" class="outline-3">
+<h3 id="orgc74e88d">当没有备份数据库(mysql)时,恢复数据库办法</h3>
+<div class="outline-text-3" id="text-orgc74e88d">
+</div>
+<div id="outline-container-orge711564" class="outline-4">
+<h4 id="orge711564">描述</h4>
+<div class="outline-text-4" id="text-orge711564">
+<pre class="example">
+一次误操作导致系统崩溃了，数据库没来得及备份，重装系统后，进入D盘发现mysql/data目录下仍然存留frm文件和ibd文件（注意：我的www目录存在了D盘，也就是非系统盘）。此时，
+你应该这样做...
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc5364eb" class="outline-4">
+<h4 id="orgc5364eb">具体步骤</h4>
+<div class="outline-text-4" id="text-orgc5364eb">
+<pre class="example">
+a.进入mysql/data目录下，将存留的frm和ibd文件拷贝。
+
+b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5545a9c" class="outline-2">
+<h2 id="org5545a9c">MySQL用户与权限</h2>
+<div class="outline-text-2" id="text-org5545a9c">
+</div>
+<div id="outline-container-org420517e" class="outline-3">
+<h3 id="org420517e">新建用户</h3>
+<div class="outline-text-3" id="text-org420517e">
+<pre class="example">
+示例：新建一个名为admin密码为123456的用户，建议方式2： 
+--方法1： 
+&gt;insert into mysql.user(Host,User,Password)values("192.168.120.110","sa",password("123456")); 
+&gt;flush privileges; 
+--方法2： 
+&gt; create user admin@localhost identified by 'admins_password'; 
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfa60540" class="outline-3">
+<h3 id="orgfa60540">修改指定用户的密码</h3>
+<div class="outline-text-3" id="text-orgfa60540">
+<pre class="example">
+&gt;update mysql.user set password=password('123456') where User="admin" and Host="localhost";//适用于mysql5.7.6以前版本 
+&gt;update mysql.user set authentication_string=password('密码') where user='admin' and Host = 'localhost'; 或者 set password for 'admin'@'localhost'=password('密码');//适用于5.7.6以后版本 
+&gt;flush privileges; 
+下面是另一种方法： 
+&gt;mysqladmin -u root -p password 'root' 
+&gt;history -c //清除历史 
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9293edf" class="outline-3">
+<h3 id="org9293edf">给用户授权</h3>
+<div class="outline-text-3" id="text-org9293edf">
+<pre class="example">
+示例：授予用户admin全部权限，并允许该用户通过外部访问 
+&gt;GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' identified by '123456' with grant option; 
+&gt;flush privileges;  //刷新系统权限表 
+示例：授权用户admin仅拥有数据库estep的所有权限允许本地访问： 
+&gt;GRANT ALL PRIVILEGES ON estep.* TO 'admin'@'127.0.0.1' identified by '123456' with grant option; 
+&gt;flush privileges;  //刷新系统权限表 
+示例：指定数据库estep的部分权限给用户admin： 
+&gt;grant select,update on estep.* to 'admin'@'localhost' identified by '123456'; 
+&gt;flush privileges;  //刷新系统权限表 
+
+</pre>
+</div>
+</div>
+</div>

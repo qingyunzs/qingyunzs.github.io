@@ -1,0 +1,105 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9bd7f93">1. 写在前面</a></li>
+<li><a href="#orgc2439a4">2. Between DataTable and xml序列化code</a></li>
+<li><a href="#org3c50252">3. 参考资料</a></li>
+<li><a href="#org503958e">4. 结语</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9bd7f93" class="outline-2">
+<h2 id="org9bd7f93"><span class="section-number-2">1</span> 写在前面</h2>
+<div class="outline-text-2" id="text-1">
+<pre class="example">
+序列化
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc2439a4" class="outline-2">
+<h2 id="orgc2439a4"><span class="section-number-2">2</span> Between DataTable and xml序列化code</h2>
+<div class="outline-text-2" id="text-2">
+<pre class="example">
+DataTable to xml
+
+</pre>
+<pre class="example">
+/// &lt;summary&gt;
+/// 序列化DataTable成XML
+/// &lt;/summary&gt;
+/// &lt;param name="dt"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+private static string SerializeDataTableToXml(DataTable dt)
+{
+    StringBuilder strBuilder = new StringBuilder();
+    XmlWriter writer = XmlWriter.Create(strBuilder);
+    XmlSerializer serializer = new XmlSerializer(typeof(DataTable));
+    serializer.Serialize(writer, dt);
+    writer.Close();
+    return strBuilder.ToString();
+}
+</pre>
+<pre class="example">
+XML to DataTable
+
+</pre>
+<pre class="example">
+/// &lt;summary&gt;
+/// 序列化XML成DataTable
+/// &lt;/summary&gt;
+/// &lt;param name="xml"&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+private static DataTable SerializeXmlToDataTable(string xml)
+{
+    StringReader strReader = new StringReader(xml);
+    XmlReader xmlReader = XmlReader.Create(strReader);
+    XmlSerializer serializer = new XmlSerializer(typeof(DataTable));
+    DataTable dt = serializer.Deserialize(xmlReader) as DataTable;
+    return dt;
+}
+</pre>
+<pre class="example">
+读取xmlStr到ListView控件中
+
+</pre>
+<pre class="example">
+DMWebSvrSoapClient dmwss = new DMWebSvrSoapClient();
+DateTime date = DateTime.Now;
+string dataStr1 = dmwss.GetVehicleInfo_Month(date.ToString("yyyy-MM-dd"));
+
+XmlDocument xmldoc = new XmlDocument();
+xmldoc.LoadXml(dataStr1);
+XmlNodeList xnList = xmldoc.SelectNodes("//DocumentElement/list");
+foreach (XmlNode xn in xnList)
+{
+     ListViewItem item = new ListViewItem(xn["time"].InnerText);
+     item.SubItems.Add(xn["in_vehicle_count"].InnerText);
+     item.SubItems.Add(xn["out_vehicle_count"].InnerText);
+     listView.Items.Add(item);
+}
+</pre>
+</div>
+</div>
+<div id="outline-container-org3c50252" class="outline-2">
+<h2 id="org3c50252"><span class="section-number-2">3</span> 参考资料</h2>
+<div class="outline-text-2" id="text-3">
+<pre class="example">
+http://stackoverflow.com/questions/6402596/xml-string-to-xml-document
+https://zhidao.baidu.com/question/574030822.html
+https://msdn.microsoft.com/en-us/library/hcebdtae(v=vs.110).aspx
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org503958e" class="outline-2">
+<h2 id="org503958e"><span class="section-number-2">4</span> 结语</h2>
+<div class="outline-text-2" id="text-4">
+<pre class="example">
+
+
+</pre>
+</div>
+</div>
