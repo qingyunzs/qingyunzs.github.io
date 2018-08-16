@@ -39,19 +39,19 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 
 * 安装Apache
 ** 解压
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #tar jxvf httpd-2.4.18.tar.bz2
 #cd httpd-2.4.18/
 #+END_SRC
 ** 配置
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #./configure --prefix=/usr/local/apache2 --enable-so --with-included-apr
 此时可能会出现如下错误，这是因为ARP和ARP-util缺失。
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/apache-1.png]]
 ** 安装APR和APR-util
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 到 http://apr.apache.org/download.cgi 下载apr和apr-util
 #tar jxvf apr-1.5.2.tar.bz2
 #cd apr-1.5.2/
@@ -60,7 +60,7 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/apache-2.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 解决办法：
  安装libtool、autoconf及automake：#zypper in autoconf libtool automake
  然后执行：# autoreconf --force --install
@@ -72,13 +72,13 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 #+END_SRC
 #+ATTR_HTML::height 600px :align center
 [[../../../../../assets/images/apache-3.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 编译安装apr
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::width 800px :align center
 [[../../../../../assets/images/apache-4.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 接下来，安装APR-util。
 同样，解压配置，注意使用了--with-apr：
 #tar apr-util-1.5.4.tar.bz2
@@ -88,51 +88,51 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 #+END_SRC
 #+ATTR_HTML::height 450px :align center
 [[../../../../../assets/images/apache-5.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::height 450px :align center
 [[../../../../../assets/images/apache-6.png]]
 ** 运行安装apache（httpd）
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #./configure --prefix=/usr/local/apache2 --enable-so
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/apache-7.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 解决办法：到https://sourceforge.net/projects/pcre/files/ 下载pcre并安装。
 #./configure --prefix=/usr/local/pcre
 成功标志：
 #+END_SRC
 #+ATTR_HTML::height 500px :align center
 [[../../../../../assets/images/apache-8.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::width 820px :align center
 [[../../../../../assets/images/apache-9.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 进入apache目录，重新运行配置命令：
 #./configure --prefix=/usr/local/apache2 --enable-so ，问题解决。
 成功标志：
 #+END_SRC
 #+ATTR_HTML::heght 600px :width 480px :align center
 [[../../../../../assets/images/apache-10.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install ，成功标志：
 #+END_SRC
 #+ATTR_HTML::width 650px :align center
 [[../../../../../assets/images/apache-11.png]]
 : 至此，Apache安装成功
 ** 启动Apache
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 因为是源码包安装，所以只能执行下列命令：
 # /usr/local/apache2/bin/apachectl start
 此时，出现下图错误，这是因为ServerName配置不正确的原因。
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/apache-12.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 解决：# vim httpd.conf
 ServerName localhost:80
 
@@ -140,16 +140,82 @@ ServerName localhost:80
 可以查看开发端口号：# netstat -tnlp
 #+END_SRC
 ** 设置开机启动
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 # cp /usr/local/apache2/bin/apachectl /etc/init.d
 # chmod 755 /etc/init.d/apachectl
 # chkconfig --add apachectl                   ；add对应del
 # chkconfig --level 35 apachectl on        ；on对应off
 # chkconfig --list                    ；显示开机可以自动启动的服务
 #+END_SRC
+** 配置Virtual Host
+*** Configure virtual host
+ #+NAME: httpd.conf
+ #+BEGIN_SRC emacs-lisp
+  LoadModule vhost_alias_module modules/mod_vhost_alias.so
+  # Virtual hosts 
+  Include conf/extra/httpd-vhosts.conf
+ #+END_SRC
+
+ #+NAME: httpd-vhosts.conf
+ #+BEGIN_SRC emacs-lisp
+  <VirtualHost 127.0.0.1:80>
+      #directory
+      DocumentRoot "D:\phpStudy\WWW\ec-shop\gold"
+      ServerName local.gold
+      #    ServerAlias www.dummy-host.example.com
+      #    ErrorLog "logs/dummy-host.example.com-error.log"
+      #    CustomLog "logs/dummy-host.example.com-access.log" common
+      DirectoryIndex index.html index.htm index.php
+      <Directory />
+        Options FollowSymLinks
+        #不许可别人修改我们的页面
+        AllowOverride None
+        #设置访问权限
+        Order allow,deny
+        Allow from all
+      </Directory>
+  </VirtualHost>
+ #+END_SRC
+#+NAME: /etc/hosts
+#+BEGIN_SRC emacs-lisp
+ 127.0.0.1 local.gold
+ Explain:
+       a.About hosts:a computer file to be used to store information on where to find an internet host on a computer network
+       
+       b.When the user input a URL in the browser, the system will automatically search for the corresponding IP address 
+         from the Hosts file, once found, the system will immediately open the corresponding page, if not found, then the 
+         system will be submitted to the DNS domain name resolution server IP address.
+#+END_SRC
+*** Configure multiple ports and multiple sites
+ #+NAME: httpd.conf
+ #+BEGIN_SRC emacs-lisp
+  Add listening port:
+    Listen 81
+    Listen 82
+ #+END_SRC
+
+ #+NAME: httpd-vhosts.conf
+ #+BEGIN_SRC emacs-lisp
+  <VirtualHost *:81>
+  #    ServerAdmin webmaster@dummy-host2.example.com
+       DocumentRoot "d:\wamp\www\wp-job"
+       ServerName localhost
+  #    ErrorLog "logs/dummy-host2.example.com-error.log"
+  #    CustomLog "logs/dummy-host2.example.com-access.log" common
+  </VirtualHost>
+ 
+  <VirtualHost *:82>
+  #    ServerAdmin webmaster@dummy-host2.example.com
+       DocumentRoot "d:\wamp\www\wordpress"
+       ServerName localhost
+  #    ErrorLog "logs/dummy-host2.example.com-error.log"
+  #    CustomLog "logs/dummy-host2.example.com-access.log" common
+  </VirtualHost>
+ #+END_SRC
 * 安装Nginx
+** Nginx 介绍
+: Nginx是一款免费、开源、高效的 HTTP 服务器，Nginx是以稳定著称，丰富的功能，结构简单，低资源消耗。
 ** 配置yum源
-CentOS：
 #+BEGIN_SRC
 [nginx]
 name=nginx repo
@@ -220,7 +286,7 @@ server {
 #+END_SRC
 *** /etc/nginx/conf.d/vhosts/finance.conf
 : 环境要求：php, ThinkPHP5, pathinfo,  
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 server {
     listen       8080;
     server_name  localhost;
@@ -296,17 +362,17 @@ server {
  : https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 * 安装MySQL
 : 注意：这里下载的是rpm安装包。
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 1.rpm安装时，报如下错误，这是因为需要安装这些依赖包：
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/mysql-1.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 或是这样：
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/mysql-2.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 如果是第一个图所示错误，可以下载安装numactl，
 # wget http://mirror.centos.org/centos/6/os/x86_64/Packages/numactl-2.0.9-2.el6.x86_64.rpm
 # rpm -ivh numactl-2.0.9-2.el6.x86_64.rpm
@@ -314,7 +380,7 @@ server {
 如果是第二个图所示错误，可以
 #rpm -ivh glibc-2.17-4.17.1.x86_64.rpm --force
 #+END_SRC
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 接着依次安装mysql附带软件：
 # rpm -ivh mysql-community-libs-5.6.28-2.sles12.x86_64.rpm
 # rpm -ivh mysql-community-client-5.6.28-2.sles12.x86_64.rpm
@@ -330,7 +396,7 @@ server {
 * 安装PHP
 ** 安装php扩展
 *** jpeg
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 官网下载地址：http://www.ijg.org/
 安装时需要在安装目录jpeg下新建bin，include，lib，man/man1目录。
 #tar -zvxf jpegsrc.v6b.tar.gz
@@ -340,7 +406,7 @@ server {
 #+END_SRC
 #+ATTR_HTML::align center
 [[../../../../../assets/images/php-1.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 解决：复制config.guess和config.sub到安装目录下
 #cp /usr/share/libtool/config/config.guess ./
 #cp /usr/share/libtool/config/config.sub ./
@@ -351,14 +417,14 @@ make libdir=/usr/lib64 && make libdir=/usr/lib64 install
 #+END_SRC
 [[../../../../../assets/images/php-2.png]]
 *** libpng
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 libpng无需配置
 #cp scripts/makefile.std makefile
 #vim makefile 
 找到CFLAGS，加入-O3 -fPIC -I$(ZLIBINC)
 #+END_SRC
 [[../../../../../assets/images/php-3.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install
 此时，可能会出现错误，解决：先把Zlib安装了，在重新安装libpng，如果仍然报错，运行安装zlib-devel
  rpm -ivh zlib-devel-1.2.8-5.1.2.x86_64.rpm
@@ -366,48 +432,48 @@ libpng无需配置
 [[../../../../../assets/images/php-4.png]]
 重新编译出现下图提示信息，此时只需执行下面两个命令即可：
 [[../../../../../assets/images/php-5.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make clean
 在运行一下：
 #ldconfig    #动态链接库管理命令，
 #+END_SRC
 *** freetype
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 Freetypr:http://download.savannah.gnu.org/releases/freetype/freetype-2.3.5.tar.gz
 # ./configure --prefix=/usr/local/freetype
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-6.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-7.png]]
 *** zlib
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #./configure --prefix=/usr/local/zlib
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-8.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #make && make install
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-9.png]]
 *** gd
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 CFLAGS="-O3 -fPIC" ./configure --prefix=/usr/local/gd --with-jpeg=/usr/local/jpeg 
  --with-png=/usr/local/lib --with-zlib=/usr/local/zlib --with-freetype=/usr/local/freetype
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-10.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 编译安装：
 # make && make install
 可能会报如下错误，检查libpng是否安装正确。
 #+END_SRC
 [[../../../../../assets/images/php-11.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 安装完成标志：
 #+END_SRC
 [[../../../../../assets/images/php-12.png]]
@@ -417,7 +483,7 @@ CFLAGS="-O3 -fPIC" ./configure --prefix=/usr/local/gd --with-jpeg=/usr/local/jpe
 : #make && make install ，成功标志:
 [[../../../../../assets/images/php-13.png]]
 ** 安装php
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 #tar zxvf php-5.4.45.tar.gz
 #cd php-5.4.45
 #./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache2/bin/apxs --with-gd
@@ -428,18 +494,18 @@ CFLAGS="-O3 -fPIC" ./configure --prefix=/usr/local/gd --with-jpeg=/usr/local/jpe
   此时，会报下图错误，解决办法就是安装zlib-devel，# zypper in libxml2-devel -y
 #+END_SRC
 [[../../../../../assets/images/php-14.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 重新执行上面的配置命令。
 出现字样"Thank you for using PHP."，表示成功了.
 成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-15.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 编译安装：# make && make install ，成功标志：
 #+END_SRC
 [[../../../../../assets/images/php-16.png]]
 ** 检测PHP是否安装成功
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 请检查httpd.conf文件中，下面两行代码是否已添加：
 LoadModule php5_module        modules/libphp5.so
 ...
@@ -459,14 +525,14 @@ DirectoryIndex index.php index.html
 #vim php.ini
 #+END_SRC
 [[../../../../../assets/images/php-17.png]]
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 新建文件查看phpinfo是否都已加载并正常显示，
 <?php
 phpinfo();
 ?>
 #+END_SRC
 ** bcmath扩展安装
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 也许这个扩展会用到。
 
 一般情况下这个扩展在php安装的时候，是存在安装包中ext/bcmath目录下。利用phpize进行安装新的php扩展。
@@ -481,7 +547,7 @@ phpinfo();
 #+END_SRC
 [[../../../../../assets/images/php-18.png]]
 : 需要安装其他扩展，使用同样的操作。
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 特别提示1：
  可能在make的时候，会遇到错误
  错误：‘PHP_FE_END’未声明(不在函数内) -----{error: ‘PHP_FE_END’ undeclared here (not in a function)}
@@ -565,7 +631,7 @@ phpinfo();
 : Linux下的Memcache安装：http://kimi.it/257.html
 : Memcache基础教程：http://kimi.it/259.html
 * 再次声明
-#+BEGIN_SRC emacs lisp
+#+BEGIN_SRC emacs-lisp
 由于每台机器安装的系统并非完全一样，安装系统时自带的包有所差异，所以该指南仅供参考。关于该指南，如果你有任何问题，
 你可以发邮件到我的邮箱，邮箱地址为 zrg1390556487@gmail.com
 #+END_SRC
