@@ -1,0 +1,1754 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="encrypt," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rengui's Article" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="加密算法介绍">
+<meta name="keywords" content="encrypt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加密算法">
+<meta property="og:url" content="http://localhost:4000/algorithms/2018/06/12/encrypt/">
+<meta property="og:site_name" content="Rengui's Article">
+<meta property="og:description" content="加密算法介绍">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="加密算法">
+<meta name="twitter:description" content="加密算法介绍">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>加密算法 | Rengui's Article</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-123739978-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rengui's Article</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Blog, Article</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/algorithms/2018/06/12/encrypt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Rengui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rengui's Article">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            加密算法
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T00:00:00+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/algorithms" itemprop="url" rel="index">
+                    <span itemprop="name">algorithms</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    加密算法介绍
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="outline-container-org19a5697" class="outline-2">
+<h2 id="org19a5697">几种常用加密算法</h2>
+<div class="outline-text-2" id="text-org19a5697">
+</div>
+<div id="outline-container-orgc965d74" class="outline-3">
+<h3 id="orgc965d74">DES加密算法</h3>
+<div class="outline-text-3" id="text-orgc965d74">
+<pre class="example">
+DES加密算法是一种分组密码，以64位为分组对数据加密，它的密钥长度是56位，加密解密用同一算法。
+
+</pre>
+
+<pre class="example">
+DES加密算法是对密钥进行保密，而公开算法，包括加密和解密算法。这样，只有掌握了和发送方相同密钥的人才能解读
+由DES加密算法加密的密文数据。因此，破译DES加密算法实际上就是搜索密钥的编码。
+
+</pre>
+
+<pre class="example">
+对于56位长度的密钥来说，如果用穷举法来进行搜索的话，其运算次数为256。随着计算机系统能力的不断发展，DES的安
+全性比它刚出现时会弱得多，然而从非关键性质的实际出发，仍可以认为它是足够的。不过，DES现在仅用于旧系统的鉴
+定，而更多地选择新的加密标准。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org0c3e19f" class="outline-3">
+<h3 id="org0c3e19f">AES加密算法</h3>
+<div class="outline-text-3" id="text-org0c3e19f">
+<pre class="example">
+AES加密算法是密码学中的高级加密标准，该加密算法采用对称分组密码体制，密钥长度的最少支持为128、192、256，
+分组长度128位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的区块加密标准，这个标准用来替
+代原先的DES，已经被多方分析且广为全世界所使用。
+
+</pre>
+
+<pre class="example">
+AES加密算法被设计为支持128／192／256位（/32=nb)数据块大小（即分组长度）；支持128／192／256位（/32=nk)密码
+长度，在10进制里，对应34×1038、62×1057、1.1×1077个密钥。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org695baa9" class="outline-3">
+<h3 id="org695baa9">RSA加密算法</h3>
+<div class="outline-text-3" id="text-org695baa9">
+<pre class="example">
+RSA加密算法是目前最有影响力的公钥加密算法，并且被普遍认为是目前最优秀的公钥方案之一。RSA是第一个能同时用于
+加密和数宇签名的算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。
+
+</pre>
+
+<pre class="example">
+RSA加密算法基于一个十分简单的数论事实：将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，
+因此可以将乘积公开作为加密密钥。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8565f7f" class="outline-3">
+<h3 id="org8565f7f">Base64加密算法</h3>
+<div class="outline-text-3" id="text-org8565f7f">
+<pre class="example">
+Base64加密算法是网络上最常见的用于传输8bit字节代码的编码方式之一，Base64编码可用于在HTTP环境下传递较长的标识
+信息。例如，在JAVAPERSISTENCE系统HIBEMATE中，采用了Base64来将一个较长的唯一标识符编码为一个字符串，用作HTTP
+表单和HTTPGETURL中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形
+式。此时，采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9f4b6db" class="outline-3">
+<h3 id="org9f4b6db">MD5加密算法</h3>
+<div class="outline-text-3" id="text-org9f4b6db">
+<pre class="example">
+MD5为计算机安全领域广泛使用的一种散列函数，用以提供消息的完整性保护。对MD5加密算法简要的叙述可以为：MD5以
+512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分
+组组成，将这四个32位分组级联后将生成—个128位散列值。
+
+</pre>
+
+<pre class="example">
+MD5被广泛用于各种软件的密码认证和钥匙识别上。MD5用的是哈希函数，它的典型应用是对一段信息产生信息摘要，以防
+止被篡改。
+
+</pre>
+
+<pre class="example">
+MD5的典型应用是对一段Message产生fingerprin指纹，以防止被“篡改”。如果再有—个第三方的认证机，用MD5还可以防
+止文件作者的“抵赖”，这就是所谓的数字签名应用
+
+</pre>
+
+<pre class="example">
+MD5还广泛用于操作系统的登陆认证上，如UNIX、各类BSD系统登录密码、数字签名等诸多方。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb951ccc" class="outline-3">
+<h3 id="orgb951ccc">SHA-1加密算法</h3>
+<div class="outline-text-3" id="text-orgb951ccc">
+<pre class="example">
+SHA-1是和MD5一样流行的消息摘要算法。 SHA1的全称是Secure Hash Algorithm(安全哈希算法) ，SHA加密算法模仿MD4加
+密算法。SHA1设计为和数字签名算法（DSA）一起使用。
+
+</pre>
+
+<pre class="example">
+SHA-1主要适用于数字签名标准里面定义的数字签名算法。对于长度小于264位的消息，SHA1会产生一个160位的消息摘要。
+当接收到消息的时候，这个消息摘要可以用来验证数据的完整性。在传输的过程中，数据很可能会发生变化，那么这时候
+就会产生不同的消息摘要。SHA1不可以从消息摘要中复原信息，而两个不同的消息不会产生同样的消息摘要。这样，SHA1
+就可以验证数据的完整性，所以说SHA1是为了保证文件完整性的技术。
+
+</pre>
+
+<pre class="example">
+SHA1加密算法可以采用不超过264位的数据输入，并产生一个160位的摘要。输入被划分为512位的块，并单独处理。160位
+缓冲器用来保存散列函数的中间和最后结果。缓冲器可以由5个32位寄存器（A、B、C、D和E）来表示。SHA1是一种比MD5的
+安全性强的算法，理论上，凡是采取“消息摘要”方式的数字验证算法都是有“碰撞”的——也就是两个不同的东西算出的
+消息摘要相同，互通作弊图就是如此。但是安全性高的算法要找到指定数据的“碰撞”很困难，而利用公式来计算“碰撞
+就更困难，目前为止通用安全算法中仅有MD5被破解。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org14ab056" class="outline-3">
+<h3 id="org14ab056">小结</h3>
+<div class="outline-text-3" id="text-org14ab056">
+<pre class="example">
+加密算法是密码技术的核心，以上这些加密算法是常用的加密算法，而这些算法有些已经遭到破译，有些安全度不高，有
+些强度不明，有些待进—步分析，有些需要深入研究，而神秘的加密算法世界，又会有新的成员加入，期待更安全的算法诞生。
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbe4c2dd" class="outline-2">
+<h2 id="orgbe4c2dd">DES加密算法</h2>
+<div class="outline-text-2" id="text-orgbe4c2dd">
+</div>
+<div id="outline-container-org70395e7" class="outline-3">
+<h3 id="org70395e7">C# Code</h3>
+<div class="outline-text-3" id="text-org70395e7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region DES&#21152;&#23494;&#35299;&#23494;
+/// &lt;summary&gt;
+/// DES&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"data"</span>&gt;&#21152;&#23494;&#25968;&#25454;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"key"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#23494;&#38053;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"iv"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#21021;&#22987;&#21270;&#21521;&#37327;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string DESEncrypt(string data, string key, string iv)
+{
+    byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    int i = cryptoProvider.KeySize<span style="color: #5f615c; font-style: italic;">;</span>
+    MemoryStream ms = new MemoryStream()<span style="color: #5f615c; font-style: italic;">;</span>
+    CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateEncryptor(byKey, byIV), CryptoStreamMode.Write)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    StreamWriter sw = new StreamWriter(cst)<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Write(data)<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Flush()<span style="color: #5f615c; font-style: italic;">;</span>
+    cst.FlushFinalBlock()<span style="color: #5f615c; font-style: italic;">;</span>
+    sw.Flush()<span style="color: #5f615c; font-style: italic;">;</span>
+    return Convert.ToBase64String(ms.GetBuffer(), 0, (int)ms.Length)<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// DES&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"data"</span>&gt;&#35299;&#23494;&#25968;&#25454;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"key"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#23494;&#38053;&#23383;&#31526;&#20018;(&#38656;&#35201;&#21644;&#21152;&#23494;&#26102;&#30456;&#21516;)&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"iv"</span>&gt;8&#20301;&#23383;&#31526;&#30340;&#21021;&#22987;&#21270;&#21521;&#37327;&#23383;&#31526;&#20018;(&#38656;&#35201;&#21644;&#21152;&#23494;&#26102;&#30456;&#21516;)&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string DESDecrypt(string data, string key, string iv)
+{
+    byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv)<span style="color: #5f615c; font-style: italic;">;</span>
+
+    byte[] byEnc<span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        byEnc = Convert.FromBase64String(data)<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch
+    {
+        return null<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+
+    DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    MemoryStream ms = new MemoryStream(byEnc)<span style="color: #5f615c; font-style: italic;">;</span>
+    CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateDecryptor(byKey, byIV), CryptoStreamMode.Read)<span style="color: #5f615c; font-style: italic;">;</span>
+    StreamReader sr = new StreamReader(cst)<span style="color: #5f615c; font-style: italic;">;</span>
+    return sr.ReadToEnd()<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfbce5f6" class="outline-2">
+<h2 id="orgfbce5f6">MD5加密算法</h2>
+<div class="outline-text-2" id="text-orgfbce5f6">
+</div>
+<div id="outline-container-orge2812fd" class="outline-3">
+<h3 id="orge2812fd">C# Code</h3>
+<div class="outline-text-3" id="text-orge2812fd">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region MD5&#21152;&#23494;
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(string input)
+{
+    return MD5Encrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#30340;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(string input, Encoding encode)
+{
+    MD5 md5 = new MD5CryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] t = md5.ComputeHash(encode.GetBytes(input))<span style="color: #5f615c; font-style: italic;">;</span>
+    StringBuilder sb = new StringBuilder(32)<span style="color: #5f615c; font-style: italic;">;</span>
+    for (int i = 0<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">i &lt; t.Length; i++)</span>
+        sb.Append(t[i].ToString(<span style="color: #5c3566;">"x"</span>).PadLeft(2, '0'))<span style="color: #5f615c; font-style: italic;">;</span>
+        return sb.ToString()<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+
+/// &lt;summary&gt;
+/// MD5&#23545;&#25991;&#20214;&#27969;&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"sr"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt(Stream stream)
+{
+    MD5 md5serv = MD5CryptoServiceProvider.Create()<span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] buffer = md5serv.ComputeHash(stream)<span style="color: #5f615c; font-style: italic;">;</span>
+    StringBuilder sb = new StringBuilder()<span style="color: #5f615c; font-style: italic;">;</span>
+    foreach (byte var in buffer)
+        sb.Append(var.ToString(<span style="color: #5c3566;">"x2"</span>))<span style="color: #5f615c; font-style: italic;">;</span>
+    return sb.ToString()<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// MD5&#21152;&#23494;(&#36820;&#22238;16&#20301;&#21152;&#23494;&#20018;)
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string MD5Encrypt16(string input, Encoding encode)
+{
+    MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+    string result = BitConverter.ToString(md5.ComputeHash(encode.GetBytes(input)), 4, 8)<span style="color: #5f615c; font-style: italic;">;</span>
+    result = result.Replace(<span style="color: #5c3566;">"-"</span>, <span style="color: #5c3566;">""</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+    return result<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc3a6539" class="outline-2">
+<h2 id="orgc3a6539">3DES加密算法</h2>
+<div class="outline-text-2" id="text-orgc3a6539">
+</div>
+<div id="outline-container-org642e142" class="outline-3">
+<h3 id="org642e142">C# Code</h3>
+<div class="outline-text-3" id="text-org642e142">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region 3DES &#21152;&#23494;&#35299;&#23494;
+public static string DES3Encrypt(string data, string key)
+{
+   TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+
+   DES.Key = ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+   DES.Mode = CipherMode.CBC<span style="color: #5f615c; font-style: italic;">;</span>
+   DES.Padding = PaddingMode.PKCS7<span style="color: #5f615c; font-style: italic;">;</span>
+
+   ICryptoTransform DESEncrypt = DES.CreateEncryptor()<span style="color: #5f615c; font-style: italic;">;</span>
+
+   byte[] Buffer = ASCIIEncoding.ASCII.GetBytes(data)<span style="color: #5f615c; font-style: italic;">;</span>
+   return Convert.ToBase64String(DESEncrypt.TransformFinalBlock(Buffer, 0, Buffer.Length))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+public static string DES3Decrypt(string data, string key)
+{
+    TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider()<span style="color: #5f615c; font-style: italic;">;</span>
+
+    DES.Key = ASCIIEncoding.ASCII.GetBytes(key)<span style="color: #5f615c; font-style: italic;">;</span>
+    DES.Mode = CipherMode.CBC<span style="color: #5f615c; font-style: italic;">;</span>
+    DES.Padding = System.Security.Cryptography.PaddingMode.PKCS7<span style="color: #5f615c; font-style: italic;">;</span>
+
+    ICryptoTransform DESDecrypt = DES.CreateDecryptor()<span style="color: #5f615c; font-style: italic;">;</span>
+
+    string result = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        byte[] Buffer = Convert.FromBase64String(data)<span style="color: #5f615c; font-style: italic;">;</span>
+        result = ASCIIEncoding.ASCII.GetString(DESDecrypt.TransformFinalBlock(Buffer, 0, Buffer.Length))<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch (Exception e)
+    {
+
+    }
+    return result<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdb844aa" class="outline-2">
+<h2 id="orgdb844aa">Base64加密算法</h2>
+<div class="outline-text-2" id="text-orgdb844aa">
+</div>
+<div id="outline-container-org3c1af9f" class="outline-3">
+<h3 id="org3c1af9f">C# Code</h3>
+<div class="outline-text-3" id="text-org3c1af9f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">/// &lt;summary&gt;
+/// &#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"codeType"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"code"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string codeType,string code)
+{
+    string encode = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] bytes = Encoding.GetEncoding(codeType).GetBytes(code)<span style="color: #5f615c; font-style: italic;">;</span>
+    try
+    {
+        encode = Convert.ToBase64String(bytes)<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    catch (Exception ex)
+    {
+        encode = code<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    return encode<span style="color: #5f615c; font-style: italic;">;</span>
+}
+/// &lt;summary&gt;
+/// &#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"codeType"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"code"</span>&gt;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string codeType,string code)
+{
+    string decode = <span style="color: #5c3566;">""</span><span style="color: #5f615c; font-style: italic;">;</span>
+    byte[] bytes = Convert.FromBase64String(code)<span style="color: #5f615c; font-style: italic;">; </span>
+    try
+    {
+        decode = Encoding.GetEncoding(codeType).GetString(bytes)<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">//&#23558;&#25351;&#23450;&#23383;&#33410;&#25968;&#32452;&#20013;&#30340;&#19968;&#20010;&#23383;&#33410;&#24207;&#21015;&#35299;&#30721;&#20026;&#19968;&#20010;&#23383;&#31526;&#20018;&#12290; </span>
+    }
+    catch (Exception ex)
+    {
+        decode = code<span style="color: #5f615c; font-style: italic;">;</span>
+    }
+    return decode<span style="color: #5f615c; font-style: italic;">;</span>
+}
+</pre>
+</div>
+<p>
+//简写
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#region Base64&#21152;&#23494;&#35299;&#23494;
+/// &lt;summary&gt;
+/// Base64&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string input)
+{
+    return Base64Encrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#21152;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#21152;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Encrypt(string input, Encoding encode)
+{
+    return Convert.ToBase64String(encode.GetBytes(input))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#35299;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string input)
+{
+    return Base64Decrypt(input, new UTF8Encoding())<span style="color: #5f615c; font-style: italic;">;</span>
+}
+
+/// &lt;summary&gt;
+/// Base64&#35299;&#23494;
+/// &lt;/summary&gt;
+/// &lt;param name=<span style="color: #5c3566;">"input"</span>&gt;&#38656;&#35201;&#35299;&#23494;&#30340;&#23383;&#31526;&#20018;&lt;/param&gt;
+/// &lt;param name=<span style="color: #5c3566;">"encode"</span>&gt;&#23383;&#31526;&#30340;&#32534;&#30721;&lt;/param&gt;
+/// &lt;returns&gt;&lt;/returns&gt;
+public static string Base64Decrypt(string input, Encoding encode)
+{
+    return encode.GetString(Convert.FromBase64String(input))<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#endregion
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga3a5234" class="outline-3">
+<h3 id="orga3a5234">JavaScript Code</h3>
+<div class="outline-text-3" id="text-orga3a5234">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">private property</span>
+<span style="color: #346604;">var</span> <span style="color: #b35000;">_keyStr</span> = <span style="color: #5c3566;">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="</span>;
+<span style="color: #346604;">function</span> <span style="color: #a40000;">encodeBase64</span>(<span style="color: #b35000;">input</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">output</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">chr1</span>, <span style="color: #b35000;">chr2</span>, <span style="color: #b35000;">chr3</span>, <span style="color: #b35000;">enc1</span>, <span style="color: #b35000;">enc2</span>, <span style="color: #b35000;">enc3</span>, <span style="color: #b35000;">enc4</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    input = _utf8_encode(input);
+    <span style="color: #346604;">while</span> (i &lt; input.length) {
+        chr1 = input.charCodeAt(i++);
+    chr2 = input.charCodeAt(i++);
+    chr3 = input.charCodeAt(i++);
+    enc1 = chr1 &gt;&gt; 2;
+    enc2 = ((chr1 &amp; 3) &lt;&lt; 4) | (chr2 &gt;&gt; 4);
+    enc3 = ((chr2 &amp; 15) &lt;&lt; 2) | (chr3 &gt;&gt; 6);
+    enc4 = chr3 &amp; 63;
+    <span style="color: #346604;">if</span> (isNaN(chr2)) {
+        enc3 = enc4 = 64;
+        } <span style="color: #346604;">else</span> <span style="color: #346604;">if</span> (isNaN(chr3)) {
+        enc4 = 64;
+        }
+    output +=_keyStr.charAt(enc1);
+        output+= _keyStr.charAt(enc2);
+        output+=_keyStr.charAt(enc3);
+        output+= _keyStr.charAt(enc4);
+   }
+   <span style="color: #346604;">return</span> output;
+}
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">Base64 &#35299;&#23494;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">decodeBase64</span>(<span style="color: #b35000;">input</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">output</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">chr1</span>, <span style="color: #b35000;">chr2</span>, <span style="color: #b35000;">chr3</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">enc1</span>, <span style="color: #b35000;">enc2</span>, <span style="color: #b35000;">enc3</span>, <span style="color: #b35000;">enc4</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    input = input.replace(<span style="color: #5c3566;">/[^A-Za-z0-9\+\/\=]/</span>g, <span style="color: #5c3566;">""</span>);
+    <span style="color: #346604;">while</span> (i &lt; input.length) {
+        enc1 = _keyStr.indexOf(input.charAt(i++));
+        enc2 = _keyStr.indexOf(input.charAt(i++));
+        enc3 = _keyStr.indexOf(input.charAt(i++));
+        enc4 = _keyStr.indexOf(input.charAt(i++));
+        chr1 = (enc1 &lt;&lt; 2) | (enc2 &gt;&gt; 4);
+        chr2 = ((enc2 &amp; 15) &lt;&lt; 4) | (enc3 &gt;&gt; 2);
+        chr3 = ((enc3 &amp; 3) &lt;&lt; 6) | enc4;
+        output = output + String.fromCharCode(chr1);
+        <span style="color: #346604;">if</span> (enc3 != 64) {
+            output = output + String.fromCharCode(chr2);
+        }
+        <span style="color: #346604;">if</span> (enc4 != 64) {
+            output = output + String.fromCharCode(chr3);
+        }
+    }
+    output = _utf8_decode(output);
+    <span style="color: #346604;">return</span> output;
+}
+<span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">private method for UTF-8 decoding</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">_utf8_decode</span>(<span style="color: #b35000;">utftext</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">string</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">c</span> = c1 = c2 = 0;
+    <span style="color: #346604;">while</span> (i &lt; utftext.length) {
+        c = utftext.charCodeAt(i);
+        <span style="color: #346604;">if</span> (c &lt; 128) {
+            string += String.fromCharCode(c);
+            i++;
+        } <span style="color: #346604;">else</span> <span style="color: #346604;">if</span> ((c &gt; 191) &amp;&amp; (c &lt; 224)) {
+            c2 = utftext.charCodeAt(i + 1);
+            string += String.fromCharCode(((c &amp; 31) &lt;&lt; 6) | (c2 &amp; 63));
+            i += 2;
+        } <span style="color: #346604;">else</span> {
+            c2 = utftext.charCodeAt(i + 1);
+            c3 = utftext.charCodeAt(i + 2);
+            string += String.fromCharCode(((c &amp; 15) &lt;&lt; 12) | ((c2 &amp; 63) &lt;&lt; 6) | (c3 &amp; 63));
+            i += 3;
+        }
+    }
+    <span style="color: #346604;">return</span> string;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org15a58d5" class="outline-3">
+<h3 id="org15a58d5">参考资料</h3>
+<div class="outline-text-3" id="text-org15a58d5">
+<pre class="example">
+http://www.it610.com/article/1219677.htm
+https://www.bbsmax.com/A/xl56xMRkzr/
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2124f23" class="outline-2">
+<h2 id="org2124f23">参考资料</h2>
+<div class="outline-text-2" id="text-org2124f23">
+<pre class="example">
+http://www.cnblogs.com/zyw-205520/p/5585014.html
+https://zh.wikipedia.org/wiki/SHA%E5%AE%B6%E6%97%8F
+http://www.cnblogs.com/malaohu/p/3214136.html
+
+</pre>
+</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/encrypt" rel="tag"># encrypt</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/04/emoji-test/" rel="next" title="Emoji Test">
+                <i class="fa fa-chevron-left"></i> Emoji Test
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/software/2018/05/25/Are-You-Still-Using-IE/" rel="prev" title="你还在使用IE浏览器吗?">
+                你还在使用IE浏览器吗? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Rengui" />
+          <p class="site-author-name" itemprop="name">Zhao Rengui</p>
+           
+              <p class="site-description motion-element" itemprop="description">Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaorengui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org19a5697"> <span class="nav-number">1</span> <span class="nav-text">几种常用加密算法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc965d74"> <span class="nav-number">1.1</span> <span class="nav-text">DES加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c3e19f"> <span class="nav-number">1.2</span> <span class="nav-text">AES加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org695baa9"> <span class="nav-number">1.3</span> <span class="nav-text">RSA加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8565f7f"> <span class="nav-number">1.4</span> <span class="nav-text">Base64加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9f4b6db"> <span class="nav-number">1.5</span> <span class="nav-text">MD5加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb951ccc"> <span class="nav-number">1.6</span> <span class="nav-text">SHA-1加密算法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org14ab056"> <span class="nav-number">1.7</span> <span class="nav-text">小结</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe4c2dd"> <span class="nav-number">2</span> <span class="nav-text">DES加密算法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org70395e7"> <span class="nav-number">2.1</span> <span class="nav-text">C# Code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfbce5f6"> <span class="nav-number">3</span> <span class="nav-text">MD5加密算法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge2812fd"> <span class="nav-number">3.1</span> <span class="nav-text">C# Code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc3a6539"> <span class="nav-number">4</span> <span class="nav-text">3DES加密算法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org642e142"> <span class="nav-number">4.1</span> <span class="nav-text">C# Code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdb844aa"> <span class="nav-number">5</span> <span class="nav-text">Base64加密算法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3c1af9f"> <span class="nav-number">5.1</span> <span class="nav-text">C# Code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga3a5234"> <span class="nav-number">5.2</span> <span class="nav-text">JavaScript Code</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org15a58d5"> <span class="nav-number">5.3</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2124f23"> <span class="nav-number">6</span> <span class="nav-text">参考资料</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Rengui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

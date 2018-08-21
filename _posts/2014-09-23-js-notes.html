@@ -1,0 +1,397 @@
+---
+layout: post
+title: JavaScript 笔记
+author: zrg
+comments: false
+description: JS 笔记
+categories:
+- JavaScript
+tags:
+- JavaScript
+photos:
+---
+
+<div id="outline-container-org90b60be" class="outline-2">
+<h2 id="org90b60be">写在前面</h2>
+<div class="outline-text-2" id="text-org90b60be">
+<pre class="example">
+这是我的javascript开发笔记代码片段，也许能够帮助到你。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb88b9e4" class="outline-2">
+<h2 id="orgb88b9e4">JavaScript没有块级作用域</h2>
+<div class="outline-text-2" id="text-orgb88b9e4">
+<pre class="example">
+在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs">if(true){
+    var color="blue";
+}
+alert(color); //"blue"
+</pre>
+</div>
+<pre class="example">
+内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org4e82ea7" class="outline-2">
+<h2 id="org4e82ea7">字符串</h2>
+<div class="outline-text-2" id="text-org4e82ea7">
+</div>
+<div id="outline-container-orgfa4975e" class="outline-3">
+<h3 id="orgfa4975e">字符串截取</h3>
+<div class="outline-text-3" id="text-orgfa4975e">
+</div>
+<div id="outline-container-org39aa3a4" class="outline-4">
+<h4 id="org39aa3a4">substring()</h4>
+<div class="outline-text-4" id="text-org39aa3a4">
+<pre class="example">
+语法：stringObject.substring(start,stop)
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0d1cf02" class="outline-4">
+<h4 id="org0d1cf02">substr()</h4>
+<div class="outline-text-4" id="text-org0d1cf02">
+<pre class="example">
+语法：stringObject.substr(start [, length ])
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org38799ea" class="outline-4">
+<h4 id="org38799ea">indexOf()</h4>
+</div>
+<div id="outline-container-org46bb962" class="outline-4">
+<h4 id="org46bb962">split() 与 Join()</h4>
+</div>
+<div id="outline-container-orga0ff36a" class="outline-4">
+<h4 id="orga0ff36a"></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org2fff5f8" class="outline-2">
+<h2 id="org2fff5f8">根据网页实际大小来设置iframe显示区域大小</h2>
+<div class="outline-text-2" id="text-org2fff5f8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$('#iframe_i').load(<span style="color: #346604;">function</span> () {
+ // &#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;
+ var width = $(this).contents().find('#ref_page').outerWidth()<span style="color: #5f615c; font-style: italic;">;</span>
+ var height = $(this).contents().find('#ref_page').outerHeight()<span style="color: #5f615c; font-style: italic;">;</span>
+ // &#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;
+ $(this).width(width)<span style="color: #5f615c; font-style: italic;">;</span>
+ $(this).height(height)<span style="color: #5f615c; font-style: italic;">;</span>
+)}<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ce33d9" class="outline-2">
+<h2 id="org9ce33d9">动态显示收缩列表</h2>
+<div class="outline-text-2" id="text-org9ce33d9">
+<p>
+Method 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #346604;">function</span>(){
+ //&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;
+ $(<span style="color: #5c3566;">"#user_manage"</span>).click(<span style="color: #346604;">function</span>(){
+  // $(<span style="color: #5c3566;">"#user_about"</span>).fadeToggle()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#user_manage"</span>).addClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#node_manage"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#role_manage"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#setting"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+
+  $(<span style="color: #5c3566;">"#user_about"</span>).slideToggle()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#node_about"</span>).slideUp()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#role_about"</span>).slideUp()<span style="color: #5f615c; font-style: italic;">;</span>
+     /*$(<span style="color: #5c3566;">"#div2"</span>).fadeToggle(<span style="color: #5c3566;">"slow"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+         $(<span style="color: #5c3566;">"#div3"</span>).fadeToggle(3000)<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">*/</span>
+ })<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+
+<p>
+Method 2:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">http://jqueryui.com/accordion/
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6258a73" class="outline-2">
+<h2 id="org6258a73">点击按钮添加文本框</h2>
+<div class="outline-text-2" id="text-org6258a73">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;div id=<span style="color: #5c3566;">"org"</span>&gt;&lt;/div&gt;
+&lt;input type=<span style="color: #5c3566;">"button"</span> onclick=<span style="color: #5c3566;">"add();"</span> value=<span style="color: #5c3566;">"&#28155;&#21152;"</span> /&gt;
+
+&lt;script type=<span style="color: #5c3566;">"text/javascript"</span>&gt;
+function add(){
+var input1 = document.createElement('input')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('type', 'text')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('name', 'organizers[]')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('class', 'git')<span style="color: #5f615c; font-style: italic;">;</span>
+
+var btn1 = document.getElementById(<span style="color: #5c3566;">"org"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+btn1.insertBefore(input1,null)<span style="color: #5f615c; font-style: italic;">;</span>
+}
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgee2b774" class="outline-2">
+<h2 id="orgee2b774">几个常用字段校验</h2>
+<div class="outline-text-2" id="text-orgee2b774">
+</div>
+<div id="outline-container-org3e8a272" class="outline-3">
+<h3 id="org3e8a272">检查用户名</h3>
+<div class="outline-text-3" id="text-org3e8a272">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">getFocus</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#35774;&#32622;&#29992;&#25143;&#21517;&#25991;&#26412;&#26694;&#33719;&#21462;&#28966;&#28857;</span>
+{
+        document.getElementById(<span style="color: #5c3566;">"username"</span>).focus();
+}
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkusername</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#29992;&#25143;&#21517;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">username</span>=document.getElementById(<span style="color: #5c3566;">"username"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divname</span>=document.getElementById(<span style="color: #5c3566;">"divname"</span>);
+        <span style="color: #346604;">if</span>(username==<span style="color: #5c3566;">""</span>)
+        {
+                divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#29992;&#25143;&#21517;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">for</span>(<span style="color: #346604;">var</span> <span style="color: #b35000;">i</span>=0;i&lt;username.length;i++)
+        {
+                <span style="color: #346604;">var</span> <span style="color: #b35000;">text</span>=username.charAt(i);
+                <span style="color: #346604;">if</span>(!(text&lt;=9&amp;&amp;text&gt;=0)&amp;&amp;!(text&gt;=<span style="color: #5c3566;">'a'</span>&amp;&amp;text&lt;=<span style="color: #5c3566;">'z'</span>)&amp;&amp;!(text&gt;=<span style="color: #5c3566;">'A'</span>&amp;&amp;text&lt;=<span style="color: #5c3566;">'Z'</span>)&amp;&amp;text!=<span style="color: #5c3566;">"_"</span>)
+                {
+                        divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#29992;&#25143;&#21517;&#21482;&#33021;&#26159;&#25968;&#23383;&#12289;&#23383;&#27597;&#12289;&#19979;&#21010;&#32447;&#32452;&#25104;&#65281;&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">break</span>;
+                }
+        }
+        <span style="color: #346604;">if</span>(i&gt;=username.length)
+        {
+                divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ec2476" class="outline-3">
+<h3 id="org7ec2476">检查密码</h3>
+<div class="outline-text-3" id="text-org7ec2476">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">checkpassword</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#23494;&#30721; </span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">password</span>=document.getElementById(<span style="color: #5c3566;">"password"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divpassword</span>=document.getElementById(<span style="color: #5c3566;">"upassword"</span>);
+        <span style="color: #346604;">if</span>(password==<span style="color: #5c3566;">""</span>)
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#23494;&#30721;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(password.length&lt;6)
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#23494;&#30721;&#33267;&#23569;&#24212;&#20026;&#20845;&#20301;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span>
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        } 
+}
+
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkispwd</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#30830;&#35748;&#23494;&#30721;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">ispassword</span>=document.getElementById(<span style="color: #5c3566;">"ispassword"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divispassword</span>=document.getElementById(<span style="color: #5c3566;">"divispassword"</span>);
+        <span style="color: #346604;">if</span>(ispassword==<span style="color: #5c3566;">""</span>)
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#30830;&#35748;&#23494;&#30721;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(document.getElementById(<span style="color: #5c3566;">"password"</span>).value!=document.getElementById(<span style="color: #5c3566;">"txtpwdagin"</span>).value)
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#30830;&#35748;&#23494;&#30721;&#19982;&#23494;&#30721;&#19981;&#19968;&#33268;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        } 
+        <span style="color: #346604;">else</span>
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        } 
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ffccbe" class="outline-3">
+<h3 id="org9ffccbe">检查电话号码</h3>
+<div class="outline-text-3" id="text-org9ffccbe">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">checktelephone</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#30005;&#35805;&#21495;&#30721;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">telphone</span>=document.getElementById(<span style="color: #5c3566;">"telphone"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divtelphone</span>=document.getElementById(<span style="color: #5c3566;">"divtelphone"</span>);
+        <span style="color: #346604;">if</span>(telphone!=<span style="color: #5c3566;">""</span>)
+        {
+                <span style="color: #346604;">var</span> <span style="color: #b35000;">reg</span> = <span style="color: #5c3566;">/^[0-9]{11}$/</span>i;
+                <span style="color: #346604;">if</span>(!reg.test(telphone))
+                {
+                        divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#21482;&#33021;&#36755;&#20837;11&#20301;&#25968;&#23383;&#65281;&#20363;&#65306;13595144582&#25110;08514785214&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+                }
+                <span style="color: #346604;">else</span>
+                {
+                        divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#8730;&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+                }
+        }
+        <span style="color: #346604;">else</span>
+        {
+                divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org34f6d3d" class="outline-3">
+<h3 id="org34f6d3d">检查E-mail</h3>
+<div class="outline-text-3" id="text-org34f6d3d">
+<p>
+#+BEGIN_SRC js
+function checkemail()  //检查E-mail
+{
+        var email=document.getElementById("email").value;
+        var divemail=document.getElementById("divemail");
+        if(email!="")
+        {
+                if(email.indexOf("@")==-1||email.indexOf(".")==-1||(email.indexOf("@")&gt;email.indexOf(".")))
+                {
+                        divemail.innerHTML="&lt;font color='red'&gt;E-mail格式不正确！例：jiie@163.com&lt;/font&gt;";
+                        return false;
+                } 
+                else
+                {
+                        divemail.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                        return true;
+                }
+        }
+        else
+        {
+                divemail.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                return true;
+        }
+}
+#END_SRC
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd132541" class="outline-3">
+<h3 id="orgd132541">检查QQ号码</h3>
+<div class="outline-text-3" id="text-orgd132541">
+<p>
+#+BEGIN_SRC emacs-lisp
+function checkqq()  //检查QQ号码
+{
+        var qq=document.getElementById("qq").value;
+        var divqq=document.getElementById("qq");
+        if(qq!="")
+        {
+                if(qq.match(<i>\D</i>)!=null)
+                {
+                        divqq.innerHTML="&lt;font color='red'&gt;QQ号码只能输入数字！&lt;/font&gt;";
+                        return false;
+                }
+                else
+                {
+                        divqq.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                        return true;
+                }
+        }
+        else
+        {
+                divqq.innerHTML="&lt;font color='green'&gt;√&lt;/font&gt;";
+                return true;
+        }
+}
+#END_SRC
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc6866af" class="outline-3">
+<h3 id="orgc6866af">检查所有</h3>
+<div class="outline-text-3" id="text-orgc6866af">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">function checkall()  //&#26816;&#26597;&#25152;&#26377;
+{
+        if(checkusername()<span style="color: #204a87;">&amp;&amp;checkpassword</span>()<span style="color: #204a87;">&amp;&amp;checkispwd</span>()<span style="color: #204a87;">&amp;&amp;checktelphone</span>()<span style="color: #204a87;">&amp;&amp;checkemail</span>()<span style="color: #204a87;">&amp;&amp;checkqq</span>())
+        {
+                return true<span style="color: #5f615c; font-style: italic;">;</span>
+        }
+        return false<span style="color: #5f615c; font-style: italic;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org70a00ab" class="outline-3">
+<h3 id="org70a00ab">复选框的选中与否是按钮的状态</h3>
+<div class="outline-text-3" id="text-org70a00ab">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#22797;&#36873;&#26694;&#30340;&#36873;&#20013;&#19982;&#21542;&#26159;&#25353;&#38062;&#30340;&#29366;&#24577;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkcjkx</span>()
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">a</span>=document.form1.btnregister;
+        <span style="color: #346604;">if</span>(a==<span style="color: #204a87; font-weight: bold;">null</span>)
+        {
+                <span style="color: #346604;">return</span>;
+        }
+        <span style="color: #346604;">if</span>(document.form1.ckbxcjkx!=<span style="color: #204a87; font-weight: bold;">null</span>)
+        {
+                <span style="color: #346604;">if</span>(document.form1.ckbxcjkx.checked)
+                {
+                        a.disabled=<span style="color: #204a87; font-weight: bold;">false</span>;
+                        <span style="color: #346604;">return</span>;
+                }
+                <span style="color: #346604;">else</span>
+                {
+                        a.disabled=<span style="color: #204a87; font-weight: bold;">true</span>;
+                        <span style="color: #346604;">return</span>;
+                }
+        }
+        <span style="color: #346604;">else</span>
+        {
+                a.disabled=<span style="color: #204a87; font-weight: bold;">true</span>;
+                <span style="color: #346604;">return</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>

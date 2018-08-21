@@ -1,0 +1,365 @@
+---
+layout: post
+title: Install Oracle Database 12c On CentOS7
+author: zrg
+comments: false
+description: Install Oracle.
+categories:
+- software
+- Database
+tags:
+- oracle
+photos:
+---
+
+<div class="org-center">
+<p>
+Don't forget to answer the sum up questions in your email message!
+</p>
+</div>
+
+<div id="outline-container-orgdeddacd" class="outline-2">
+<h2 id="orgdeddacd">Write in front</h2>
+<div class="outline-text-2" id="text-orgdeddacd">
+<pre class="example">
+In this tutorial, we will show you how to Install Oracle Database 12c On CentOS 7.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgccf5c73" class="outline-2">
+<h2 id="orgccf5c73">Environment</h2>
+<div class="outline-text-2" id="text-orgccf5c73">
+</div>
+<div id="outline-container-org42df3c4" class="outline-3">
+<h3 id="org42df3c4">OS information</h3>
+<div class="outline-text-3" id="text-org42df3c4">
+<pre class="example">
+[root@1 ~]# cat /etc/centos-release
+CentOS Linux release 7.1.1503 (Core)
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc645018" class="outline-3">
+<h3 id="orgc645018">Linux Kernel Version</h3>
+<div class="outline-text-3" id="text-orgc645018">
+<pre class="example">
+Linux  3.10.0
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org467996e" class="outline-3">
+<h3 id="org467996e">Software Version</h3>
+<div class="outline-text-3" id="text-org467996e">
+<pre class="example">
+Oracle 12.1.0‘
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org67facb8" class="outline-2">
+<h2 id="org67facb8">Prepare</h2>
+<div class="outline-text-2" id="text-org67facb8">
+</div>
+<div id="outline-container-org4630656" class="outline-3">
+<h3 id="org4630656">Login as root and add required groups</h3>
+<div class="outline-text-3" id="text-org4630656">
+<pre class="example">
+/usr/sbin/groupadd -g 501 oinstall
+/usr/sbin/groupadd -g 502 dba
+/usr/sbin/groupadd -g 503 oper'
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgdc1f29d" class="outline-3">
+<h3 id="orgdc1f29d">Add user oracle</h3>
+<div class="outline-text-3" id="text-orgdc1f29d">
+<pre class="example">
+/usr/sbin/useradd -u 502 -g oinstall -G dba,oper oracle
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf6de9de" class="outline-3">
+<h3 id="orgf6de9de">Change password of user:</h3>
+<div class="outline-text-3" id="text-orgf6de9de">
+<pre class="example">
+passwd oracle
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orga584aca" class="outline-3">
+<h3 id="orga584aca">Add kernel parameters to /etc/sysctl.conf</h3>
+<div class="outline-text-3" id="text-orga584aca">
+<pre class="example">
+kernel.shmmni = 4096
+kernel.shmmax = 4398046511104
+kernel.shmall = 1073741824
+kernel.sem = 250 32000 100 128
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default = 262144
+net.core.rmem_max = 4194304
+net.core.wmem_default = 262144
+net.core.wmem_max = 1048586
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orga715b08" class="outline-3">
+<h3 id="orga715b08">Apply kernel parameters</h3>
+<div class="outline-text-3" id="text-orga715b08">
+<pre class="example">
+/sbin/sysctl -p
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5c9f808" class="outline-3">
+<h3 id="org5c9f808">Add following lines to set shell limits for user oracle in file /etc/security/limits.conf</h3>
+<div class="outline-text-3" id="text-org5c9f808">
+<pre class="example">
+oracle   soft   nproc    131072
+oracle   hard   nproc    131072
+oracle   soft   nofile   131072
+oracle   hard   nofile   131072
+oracle   soft   core     unlimited
+oracle   hard   core     unlimited
+oracle   soft   memlock  50000000
+oracle   hard   memlock  50000000
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org1d4a124" class="outline-3">
+<h3 id="org1d4a124">Edit /etc/hosts file:</h3>
+<div class="outline-text-3" id="text-org1d4a124">
+<pre class="example">
+[root@1 ~]# cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.120.166 ora-c7.zhao.local
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc7b4667" class="outline-3">
+<h3 id="orgc7b4667">Verify your network setting:</h3>
+<div class="outline-text-3" id="text-orgc7b4667">
+<pre class="example">
+ping -c 1 ora-c7.zhao.local
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org70e92f2" class="outline-3">
+<h3 id="org70e92f2">Modify .bash_profile for user oracle in his home directory add at the end file <i>home/oralce</i>.bash_profile.</h3>
+<div class="outline-text-3" id="text-org70e92f2">
+<pre class="example">
+# Oracle Settings
+#Oracle Settings
+export TMP=/tmp
+export TMPDIR=$TMP
+
+export ORACLE_HOSTNAME=O7-unixmen
+export ORACLE_UNQNAME=orcl
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/12.1.0/db_1
+export ORACLE_SID=orcl
+
+</pre>
+
+<pre class="example">
+export PATH=/usr/sbin:$PATH
+export PATH=$ORACLE_HOME/bin:$PATH
+
+</pre>
+
+<pre class="example">
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org15130d1" class="outline-3">
+<h3 id="org15130d1">Check which packages are installed and which are missing.as root copy this and excute this:</h3>
+<div class="outline-text-3" id="text-org15130d1">
+<pre class="example">
+yum groupinstall "GNOME Desktop" -y
+yum groupinstall "Development Tools" -y
+
+yum install binutils -y
+yum install compat-libstdc++-33 -y
+yum install compat-libstdc++-33.i686 -y
+yum install gcc -y
+yum install gcc-c++ -y
+yum install glibc -y
+yum install glibc.i686 -y
+yum install glibc-devel -y
+yum install glibc-devel.i686 -y
+yum install ksh -y
+yum install libgcc -y
+yum install libgcc.i686 -y
+yum install libstdc++ -y
+yum install libstdc++.i686 -y
+yum install libstdc++-devel -y
+yum install libstdc++-devel.i686 -y
+yum install libaio -y
+yum install libaio.i686 -y
+yum install libaio-devel -y
+yum install libaio-devel.i686 -y
+yum install libXext -y
+yum install libXext.i686 -y
+yum install libXtst -y
+yum install libXtst.i686 -y
+yum install libX11 -y
+yum install libX11.i686 -y
+yum install libXau -y
+yum install libXau.i686 -y
+yum install libxcb -y
+yum install libxcb.i686 -y
+yum install libXi -y
+yum install libXi.i686 -y
+yum install make -y
+yum install sysstat -y
+yum install unixODBC -y
+yum install unixODBC-devel -y
+yum install zlib-devel -y
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2c6f833" class="outline-3">
+<h3 id="org2c6f833">Create directory strucrure</h3>
+<div class="outline-text-3" id="text-org2c6f833">
+<pre class="example">
+mkdir -p   /u01/app/oracle/product/12.1.0
+chown  -R oracle:oinstall /u01/
+chmod  775 /u01/app
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org0d42612" class="outline-3">
+<h3 id="org0d42612">Disable selinux  by editing the “/etc/selinux/config” file</h3>
+<div class="outline-text-3" id="text-org0d42612">
+<pre class="example">
+SELINUX=permissive
+or SELINUX=disabled
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge9adcd7" class="outline-2">
+<h2 id="orge9adcd7">Start Install database</h2>
+<div class="outline-text-2" id="text-orge9adcd7">
+</div>
+<div id="outline-container-orgd281ce3" class="outline-3">
+<h3 id="orgd281ce3">Let’s start with database software installation as oracle user.</h3>
+<div class="outline-text-3" id="text-orgd281ce3">
+<pre class="example">
+su - oracle
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org18fb5f6" class="outline-3">
+<h3 id="org18fb5f6">Unzip the database install files:</h3>
+<div class="outline-text-3" id="text-org18fb5f6">
+<pre class="example">
+unzip linuxamd64_12c_database_1of2.zip
+unzip linuxamd64_12c_database_2of2.zip 
+[oracle@ora-c7 ~]$ cd  database/
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbb40393" class="outline-3">
+<h3 id="orgbb40393">Install</h3>
+<div class="outline-text-3" id="text-orgbb40393">
+<pre class="example">
+./runInstaller
+
+!!!This moment,there is a error:
+This is root...
+Introducing it in the back section.
+
+This does not show the graphical interface for the installation.
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc2e7cbf" class="outline-2">
+<h2 id="orgc2e7cbf">Problem Solving</h2>
+<div class="outline-text-2" id="text-orgc2e7cbf">
+</div>
+<div id="outline-container-orgfd3b770" class="outline-3">
+<h3 id="orgfd3b770">Error in invoking target '&#x2026;' of makefile '<i>u01</i>&#x2026;'</h3>
+<div class="outline-text-3" id="text-orgfd3b770">
+<pre class="example">
+Solving method:
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org894fb68" class="outline-3">
+<h3 id="org894fb68">Oracle Net Configure Assistant failed</h3>
+<div class="outline-text-3" id="text-org894fb68">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">Solving method&#65306;
+to: http://linux.linuxidc.com/,user and password is www.linuxidc.com
+download: /2012&#24180;&#36164;&#26009;/8&#26376;/28&#26085;/Oracle 11gR2&#25191;&#34892;DBCA&#25253;&#38169;&#35823; 
+
+Confirm ORACLE_HOME:echo $ORACLE_HOME
+
+Check perl version:perl -v
+
+Verify the OUI Inventory:opatch lsinventory
+//&#33509;&#27809;&#26377;&#23558;opath&#30340;&#36335;&#24452;&#21152;&#20837;&#21040;oralce&#29992;&#25143;&#30340;PATH&#21464;&#37327;&#20013;&#65292;&#20063;&#21487;&#20197;&#20351;&#29992;&#20197;&#19979;&#21629;&#20196;&#65306;$/u01/app/oracle/product/11.2.0/db_1/OPatch/opatch lsinventory
+!opatch command is in '$ORACLE_HOME/OPatch/',&#29615;&#22659;&#21464;&#37327;PATH&#20013;&#27809;&#26377;&#21253;&#21547;&#35813;&#30446;&#24405;&#30340;&#35805;,&#30452;&#25509;&#25970;&#20837;opatch&#21629;&#20196;&#26159;&#25552;&#31034;&#25214;&#19981;&#21040;&#25913;&#21629;&#20196;&#30340;,&#36825;&#26102;&#38656;&#35201;&#23558;&#35813;&#30446;&#24405;&#21152;&#20837;&#21040;PATH&#20013;. 
+
+cd 8670579
+opatch apply //&#22312;8670579&#19979;&#25191;&#34892;
+
+! opatch&#21629;&#20196;&#26159;&#22312;$ORACLE_HOME/OPatch/&#30446;&#24405;&#19979;,&#29615;&#22659;&#21464;&#37327;PATH&#20013;&#27809;&#26377;&#21253;&#21547;&#35813;&#30446;&#24405;&#30340;&#35805;,&#30452;&#25509;&#25970;&#20837;opatch&#21629;&#20196;&#26159;&#25552;&#31034;&#25214;&#19981;&#21040;&#25913;&#21629;&#20196;&#30340;,&#36825;&#26102;&#38656;&#35201;&#23558;&#35813;&#30446;&#24405;&#21152;&#20837;&#21040;PATH&#20013;. 
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga2d5fa3" class="outline-3">
+<h3 id="orga2d5fa3">Oracle Database Configure Assistant failed</h3>
+<div class="outline-text-3" id="text-orga2d5fa3">
+<pre class="example">
+
+
+
+
+
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3bb3a10" class="outline-2">
+<h2 id="org3bb3a10">Reference material</h2>
+<div class="outline-text-2" id="text-org3bb3a10">
+<pre class="example">
+http://www.tecmint.com/oracle-12c-installation-in-centos-6/
+http://www.unixmen.com/install-oracle-database-12c-centos-7/
+http://www.tuicool.com/articles/63mYBjN
+http://blog.itpub.net/25851087/viewspace-1419440/
+
+</pre>
+</div>
+</div>

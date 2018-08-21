@@ -1,0 +1,1606 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rengui's Article" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JS 笔记">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 笔记">
+<meta property="og:url" content="http://localhost:4000/javascript/2014/09/23/js-notes/">
+<meta property="og:site_name" content="Rengui's Article">
+<meta property="og:description" content="JS 笔记">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 笔记">
+<meta name="twitter:description" content="JS 笔记">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>JavaScript 笔记 | Rengui's Article</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-123739978-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rengui's Article</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Blog, Article</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/javascript/2014/09/23/js-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Rengui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rengui's Article">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            JavaScript 笔记
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-09-23T00:00:00+08:00">
+                2014-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/JavaScript" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    JS 笔记
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="outline-container-org90b60be" class="outline-2">
+<h2 id="org90b60be">写在前面</h2>
+<div class="outline-text-2" id="text-org90b60be">
+<pre class="example">
+这是我的javascript开发笔记代码片段，也许能够帮助到你。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgb88b9e4" class="outline-2">
+<h2 id="orgb88b9e4">JavaScript没有块级作用域</h2>
+<div class="outline-text-2" id="text-orgb88b9e4">
+<pre class="example">
+在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs">if(true){
+    var color="blue";
+}
+alert(color); //"blue"
+</pre>
+</div>
+<pre class="example">
+内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org4e82ea7" class="outline-2">
+<h2 id="org4e82ea7">字符串</h2>
+<div class="outline-text-2" id="text-org4e82ea7">
+</div>
+<div id="outline-container-orgfa4975e" class="outline-3">
+<h3 id="orgfa4975e">字符串截取</h3>
+<div class="outline-text-3" id="text-orgfa4975e">
+</div>
+<div id="outline-container-org39aa3a4" class="outline-4">
+<h4 id="org39aa3a4">substring()</h4>
+<div class="outline-text-4" id="text-org39aa3a4">
+<pre class="example">
+语法：stringObject.substring(start,stop)
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0d1cf02" class="outline-4">
+<h4 id="org0d1cf02">substr()</h4>
+<div class="outline-text-4" id="text-org0d1cf02">
+<pre class="example">
+语法：stringObject.substr(start [, length ])
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org38799ea" class="outline-4">
+<h4 id="org38799ea">indexOf()</h4>
+</div>
+<div id="outline-container-org46bb962" class="outline-4">
+<h4 id="org46bb962">split() 与 Join()</h4>
+</div>
+<div id="outline-container-orga0ff36a" class="outline-4">
+<h4 id="orga0ff36a"></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org2fff5f8" class="outline-2">
+<h2 id="org2fff5f8">根据网页实际大小来设置iframe显示区域大小</h2>
+<div class="outline-text-2" id="text-org2fff5f8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$('#iframe_i').load(<span style="color: #346604;">function</span> () {
+ // &#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;
+ var width = $(this).contents().find('#ref_page').outerWidth()<span style="color: #5f615c; font-style: italic;">;</span>
+ var height = $(this).contents().find('#ref_page').outerHeight()<span style="color: #5f615c; font-style: italic;">;</span>
+ // &#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;
+ $(this).width(width)<span style="color: #5f615c; font-style: italic;">;</span>
+ $(this).height(height)<span style="color: #5f615c; font-style: italic;">;</span>
+)}<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ce33d9" class="outline-2">
+<h2 id="org9ce33d9">动态显示收缩列表</h2>
+<div class="outline-text-2" id="text-org9ce33d9">
+<p>
+Method 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #346604;">function</span>(){
+ //&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;
+ $(<span style="color: #5c3566;">"#user_manage"</span>).click(<span style="color: #346604;">function</span>(){
+  // $(<span style="color: #5c3566;">"#user_about"</span>).fadeToggle()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#user_manage"</span>).addClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#node_manage"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#role_manage"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#setting"</span>).removeClass(<span style="color: #5c3566;">"active"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+
+  $(<span style="color: #5c3566;">"#user_about"</span>).slideToggle()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#node_about"</span>).slideUp()<span style="color: #5f615c; font-style: italic;">;</span>
+  $(<span style="color: #5c3566;">"#role_about"</span>).slideUp()<span style="color: #5f615c; font-style: italic;">;</span>
+     /*$(<span style="color: #5c3566;">"#div2"</span>).fadeToggle(<span style="color: #5c3566;">"slow"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+         $(<span style="color: #5c3566;">"#div3"</span>).fadeToggle(3000)<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">*/</span>
+ })<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+
+<p>
+Method 2:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">http://jqueryui.com/accordion/
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6258a73" class="outline-2">
+<h2 id="org6258a73">点击按钮添加文本框</h2>
+<div class="outline-text-2" id="text-org6258a73">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;div id=<span style="color: #5c3566;">"org"</span>&gt;&lt;/div&gt;
+&lt;input type=<span style="color: #5c3566;">"button"</span> onclick=<span style="color: #5c3566;">"add();"</span> value=<span style="color: #5c3566;">"&#28155;&#21152;"</span> /&gt;
+
+&lt;script type=<span style="color: #5c3566;">"text/javascript"</span>&gt;
+function add(){
+var input1 = document.createElement('input')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('type', 'text')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('name', 'organizers[]')<span style="color: #5f615c; font-style: italic;">;</span>
+input1.setAttribute('class', 'git')<span style="color: #5f615c; font-style: italic;">;</span>
+
+var btn1 = document.getElementById(<span style="color: #5c3566;">"org"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+btn1.insertBefore(input1,null)<span style="color: #5f615c; font-style: italic;">;</span>
+}
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgee2b774" class="outline-2">
+<h2 id="orgee2b774">几个常用字段校验</h2>
+<div class="outline-text-2" id="text-orgee2b774">
+</div>
+<div id="outline-container-org3e8a272" class="outline-3">
+<h3 id="org3e8a272">检查用户名</h3>
+<div class="outline-text-3" id="text-org3e8a272">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">getFocus</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#35774;&#32622;&#29992;&#25143;&#21517;&#25991;&#26412;&#26694;&#33719;&#21462;&#28966;&#28857;</span>
+{
+        document.getElementById(<span style="color: #5c3566;">"username"</span>).focus();
+}
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkusername</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#29992;&#25143;&#21517;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">username</span>=document.getElementById(<span style="color: #5c3566;">"username"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divname</span>=document.getElementById(<span style="color: #5c3566;">"divname"</span>);
+        <span style="color: #346604;">if</span>(username==<span style="color: #5c3566;">""</span>)
+        {
+                divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#29992;&#25143;&#21517;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">for</span>(<span style="color: #346604;">var</span> <span style="color: #b35000;">i</span>=0;i&lt;username.length;i++)
+        {
+                <span style="color: #346604;">var</span> <span style="color: #b35000;">text</span>=username.charAt(i);
+                <span style="color: #346604;">if</span>(!(text&lt;=9&amp;&amp;text&gt;=0)&amp;&amp;!(text&gt;=<span style="color: #5c3566;">'a'</span>&amp;&amp;text&lt;=<span style="color: #5c3566;">'z'</span>)&amp;&amp;!(text&gt;=<span style="color: #5c3566;">'A'</span>&amp;&amp;text&lt;=<span style="color: #5c3566;">'Z'</span>)&amp;&amp;text!=<span style="color: #5c3566;">"_"</span>)
+                {
+                        divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#29992;&#25143;&#21517;&#21482;&#33021;&#26159;&#25968;&#23383;&#12289;&#23383;&#27597;&#12289;&#19979;&#21010;&#32447;&#32452;&#25104;&#65281;&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">break</span>;
+                }
+        }
+        <span style="color: #346604;">if</span>(i&gt;=username.length)
+        {
+                divname.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ec2476" class="outline-3">
+<h3 id="org7ec2476">检查密码</h3>
+<div class="outline-text-3" id="text-org7ec2476">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">checkpassword</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#23494;&#30721; </span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">password</span>=document.getElementById(<span style="color: #5c3566;">"password"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divpassword</span>=document.getElementById(<span style="color: #5c3566;">"upassword"</span>);
+        <span style="color: #346604;">if</span>(password==<span style="color: #5c3566;">""</span>)
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#23494;&#30721;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(password.length&lt;6)
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#23494;&#30721;&#33267;&#23569;&#24212;&#20026;&#20845;&#20301;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span>
+        {
+                divpassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        } 
+}
+
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkispwd</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#30830;&#35748;&#23494;&#30721;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">ispassword</span>=document.getElementById(<span style="color: #5c3566;">"ispassword"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divispassword</span>=document.getElementById(<span style="color: #5c3566;">"divispassword"</span>);
+        <span style="color: #346604;">if</span>(ispassword==<span style="color: #5c3566;">""</span>)
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#30830;&#35748;&#23494;&#30721;&#19981;&#33021;&#20026;&#31354;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+        <span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(document.getElementById(<span style="color: #5c3566;">"password"</span>).value!=document.getElementById(<span style="color: #5c3566;">"txtpwdagin"</span>).value)
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#30830;&#35748;&#23494;&#30721;&#19982;&#23494;&#30721;&#19981;&#19968;&#33268;!&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        } 
+        <span style="color: #346604;">else</span>
+        {
+                divispassword.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        } 
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ffccbe" class="outline-3">
+<h3 id="org9ffccbe">检查电话号码</h3>
+<div class="outline-text-3" id="text-org9ffccbe">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">checktelephone</span>()  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26816;&#26597;&#30005;&#35805;&#21495;&#30721;</span>
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">telphone</span>=document.getElementById(<span style="color: #5c3566;">"telphone"</span>).value;
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">divtelphone</span>=document.getElementById(<span style="color: #5c3566;">"divtelphone"</span>);
+        <span style="color: #346604;">if</span>(telphone!=<span style="color: #5c3566;">""</span>)
+        {
+                <span style="color: #346604;">var</span> <span style="color: #b35000;">reg</span> = <span style="color: #5c3566;">/^[0-9]{11}$/</span>i;
+                <span style="color: #346604;">if</span>(!reg.test(telphone))
+                {
+                        divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#21482;&#33021;&#36755;&#20837;11&#20301;&#25968;&#23383;&#65281;&#20363;&#65306;13595144582&#25110;08514785214&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+                }
+                <span style="color: #346604;">else</span>
+                {
+                        divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='red'&gt;&#8730;&lt;/font&gt;"</span>;
+                        <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+                }
+        }
+        <span style="color: #346604;">else</span>
+        {
+                divtelphone.innerHTML=<span style="color: #5c3566;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;
+                <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org34f6d3d" class="outline-3">
+<h3 id="org34f6d3d">检查E-mail</h3>
+<div class="outline-text-3" id="text-org34f6d3d">
+<p>
+#+BEGIN_SRC js
+function checkemail()  //检查E-mail
+{
+        var email=document.getElementById("email").value;
+        var divemail=document.getElementById("divemail");
+        if(email!="")
+        {
+                if(email.indexOf("@")==-1||email.indexOf(".")==-1||(email.indexOf("@")&gt;email.indexOf(".")))
+                {
+                        divemail.innerHTML="&lt;font color='red'&gt;E-mail格式不正确！例：jiie@163.com&lt;/font&gt;";
+                        return false;
+                } 
+                else
+                {
+                        divemail.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                        return true;
+                }
+        }
+        else
+        {
+                divemail.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                return true;
+        }
+}
+#END_SRC
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd132541" class="outline-3">
+<h3 id="orgd132541">检查QQ号码</h3>
+<div class="outline-text-3" id="text-orgd132541">
+<p>
+#+BEGIN_SRC emacs-lisp
+function checkqq()  //检查QQ号码
+{
+        var qq=document.getElementById("qq").value;
+        var divqq=document.getElementById("qq");
+        if(qq!="")
+        {
+                if(qq.match(<i>\D</i>)!=null)
+                {
+                        divqq.innerHTML="&lt;font color='red'&gt;QQ号码只能输入数字！&lt;/font&gt;";
+                        return false;
+                }
+                else
+                {
+                        divqq.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";
+                        return true;
+                }
+        }
+        else
+        {
+                divqq.innerHTML="&lt;font color='green'&gt;√&lt;/font&gt;";
+                return true;
+        }
+}
+#END_SRC
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc6866af" class="outline-3">
+<h3 id="orgc6866af">检查所有</h3>
+<div class="outline-text-3" id="text-orgc6866af">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">function checkall()  //&#26816;&#26597;&#25152;&#26377;
+{
+        if(checkusername()<span style="color: #204a87;">&amp;&amp;checkpassword</span>()<span style="color: #204a87;">&amp;&amp;checkispwd</span>()<span style="color: #204a87;">&amp;&amp;checktelphone</span>()<span style="color: #204a87;">&amp;&amp;checkemail</span>()<span style="color: #204a87;">&amp;&amp;checkqq</span>())
+        {
+                return true<span style="color: #5f615c; font-style: italic;">;</span>
+        }
+        return false<span style="color: #5f615c; font-style: italic;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org70a00ab" class="outline-3">
+<h3 id="org70a00ab">复选框的选中与否是按钮的状态</h3>
+<div class="outline-text-3" id="text-org70a00ab">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#22797;&#36873;&#26694;&#30340;&#36873;&#20013;&#19982;&#21542;&#26159;&#25353;&#38062;&#30340;&#29366;&#24577;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">checkcjkx</span>()
+{
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">a</span>=document.form1.btnregister;
+        <span style="color: #346604;">if</span>(a==<span style="color: #204a87; font-weight: bold;">null</span>)
+        {
+                <span style="color: #346604;">return</span>;
+        }
+        <span style="color: #346604;">if</span>(document.form1.ckbxcjkx!=<span style="color: #204a87; font-weight: bold;">null</span>)
+        {
+                <span style="color: #346604;">if</span>(document.form1.ckbxcjkx.checked)
+                {
+                        a.disabled=<span style="color: #204a87; font-weight: bold;">false</span>;
+                        <span style="color: #346604;">return</span>;
+                }
+                <span style="color: #346604;">else</span>
+                {
+                        a.disabled=<span style="color: #204a87; font-weight: bold;">true</span>;
+                        <span style="color: #346604;">return</span>;
+                }
+        }
+        <span style="color: #346604;">else</span>
+        {
+                a.disabled=<span style="color: #204a87; font-weight: bold;">true</span>;
+                <span style="color: #346604;">return</span>;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/JavaScript" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/software/2014/10/15/using-SVN/" rel="next" title="Install SVN in Linux">
+                <i class="fa fa-chevron-left"></i> Install SVN in Linux
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/software/2014/07/28/revision-control/" rel="prev" title="Subversion、Git和GitHub">
+                Subversion、Git和GitHub <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Rengui" />
+          <p class="site-author-name" itemprop="name">Zhao Rengui</p>
+           
+              <p class="site-description motion-element" itemprop="description">Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaorengui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org90b60be"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb88b9e4"> <span class="nav-number">2</span> <span class="nav-text">JavaScript没有块级作用域</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4e82ea7"> <span class="nav-number">3</span> <span class="nav-text">字符串</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfa4975e"> <span class="nav-number">3.1</span> <span class="nav-text">字符串截取</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39aa3a4"> <span class="nav-number">3.1.1</span> <span class="nav-text">substring()</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d1cf02"> <span class="nav-number">3.1.2</span> <span class="nav-text">substr()</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org38799ea"> <span class="nav-number">3.1.3</span> <span class="nav-text">indexOf()</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org46bb962"> <span class="nav-number">3.1.4</span> <span class="nav-text">split() 与 Join()</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0ff36a"> <span class="nav-number">3.1.5</span> <span class="nav-text"></span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fff5f8"> <span class="nav-number">4</span> <span class="nav-text">根据网页实际大小来设置iframe显示区域大小</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9ce33d9"> <span class="nav-number">5</span> <span class="nav-text">动态显示收缩列表</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6258a73"> <span class="nav-number">6</span> <span class="nav-text">点击按钮添加文本框</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgee2b774"> <span class="nav-number">7</span> <span class="nav-text">几个常用字段校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e8a272"> <span class="nav-number">7.1</span> <span class="nav-text">检查用户名</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ec2476"> <span class="nav-number">7.2</span> <span class="nav-text">检查密码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9ffccbe"> <span class="nav-number">7.3</span> <span class="nav-text">检查电话号码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org34f6d3d"> <span class="nav-number">7.4</span> <span class="nav-text">检查E-mail</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd132541"> <span class="nav-number">7.5</span> <span class="nav-text">检查QQ号码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc6866af"> <span class="nav-number">7.6</span> <span class="nav-text">检查所有</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org70a00ab"> <span class="nav-number">7.7</span> <span class="nav-text">复选框的选中与否是按钮的状态</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Rengui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

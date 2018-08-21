@@ -1,0 +1,291 @@
+---
+layout: post
+title: PHP 导入导出
+author: zrg
+comments: false
+description: PHP 实现导入导出
+categories:
+- PHP
+tags:
+- web
+photos:
+---
+
+<div id="outline-container-org256c555" class="outline-2">
+<h2 id="org256c555">数据导入导出</h2>
+<div class="outline-text-2" id="text-org256c555">
+</div>
+<div id="outline-container-orgc88b38b" class="outline-3">
+<h3 id="orgc88b38b">导入</h3>
+<div class="outline-text-3" id="text-orgc88b38b">
+<pre class="example">
+待更新
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbcf013a" class="outline-3">
+<h3 id="orgbcf013a">一般导出</h3>
+<div class="outline-text-3" id="text-orgbcf013a">
+</div>
+<div id="outline-container-orgf1194c3" class="outline-4">
+<h4 id="orgf1194c3">核心代码</h4>
+<div class="outline-text-4" id="text-orgf1194c3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">header(<span style="color: #5c3566;">"Content-Type: application/vnd.ms-excel; charset=UTF-8"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Pragma: public"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Expires: 0"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Cache-Control: must-revalidate, post-check=0, pre-check=0"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Content-Type: application/force-download"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Content-Type: application/octet-stream"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Content-Type: application/download"</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Content-Disposition: attachment;filename="</span>.$title .<span style="color: #5c3566;">".xls "</span>)<span style="color: #5f615c; font-style: italic;">; </span>
+header(<span style="color: #5c3566;">"Content-Transfer-Encoding: binary "</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaecc4bc" class="outline-3">
+<h3 id="orgaecc4bc">使用 PHPExcel</h3>
+<div class="outline-text-3" id="text-orgaecc4bc">
+</div>
+<div id="outline-container-orgbbca9df" class="outline-4">
+<h4 id="orgbbca9df">下载</h4>
+<div class="outline-text-4" id="text-orgbbca9df">
+<pre class="example">
+https://github.com/PHPOffice/PHPExcel
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org264bb31" class="outline-4">
+<h4 id="org264bb31">开始</h4>
+<div class="outline-text-4" id="text-org264bb31">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">// &#23548;&#20837;PHPExcel.php&#25110;&#32773;&#20854;&#20182;&#25991;&#20214;
+require_once 'PHPExcel.php'<span style="color: #5f615c; font-style: italic;">;</span>
+// &#21019;&#24314;&#19968;&#20010;&#22788;&#29702;&#23545;&#35937;&#23454;&#20363; 
+$objExcel = new PHPExcel()<span style="color: #5f615c; font-style: italic;">;</span>
+// &#33719;&#21462;&#23646;&#24615;
+$objProps = $objExcel-&gt;getProperties ()<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#21019;&#24314;&#32773;
+$objProps-&gt;setCreator ( 'XuLulu')<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#26368;&#21518;&#20462;&#25913;&#32773;
+$objProps-&gt;setLastModifiedBy(<span style="color: #5c3566;">"XuLulu"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#25551;&#36848;
+$objProps-&gt;setDescription(<span style="color: #5c3566;">"&#25705;&#27604;&#29677;&#32423;"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#26631;&#39064;
+$objProps-&gt;setTitle ( '&#31649;&#29702;&#22120;' )<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#39064;&#30446;
+$objProps-&gt;setSubject(<span style="color: #5c3566;">"OfficeXLS Test Document, Demo"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#20851;&#38190;&#23383;
+$objProps-&gt;setKeywords ( '&#31649;&#29702;&#22120;' )<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#20998;&#31867;
+$objProps-&gt;setCategory ( <span style="color: #5c3566;">"Test"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#24037;&#20316;&#34920;&#35774;&#32622;
+$objExcel-&gt;setActiveSheetIndex( 0 )<span style="color: #5f615c; font-style: italic;">;</span>
+$objActSheet = $objExcel-&gt;getActiveSheet ()<span style="color: #5f615c; font-style: italic;">;</span>
+//&#21333;&#20803;&#26684;&#36171;&#20540;   &#20363;&#65306;
+$objActSheet-&gt;setCellValue ( 'A1', 'ID')<span style="color: #5f615c; font-style: italic;">;</span>
+$objActSheet-&gt;setCellValue ( 'B1', 'HashCode')<span style="color: #5f615c; font-style: italic;">;</span>
+$objActSheet-&gt;setCellValue ( 'C1', 'ModelName')<span style="color: #5f615c; font-style: italic;">;</span>
+$objActSheet-&gt;setCellValue ( 'D1', 'IndexName')<span style="color: #5f615c; font-style: italic;">;</span>
+$objActSheet-&gt;setCellValue('A1', '&#23383;&#31526;&#20018;&#20869;&#23481;')<span style="color: #5f615c; font-style: italic;">;  </span><span style="color: #5f615c; font-style: italic;">// &#23383;&#31526;&#20018;&#20869;&#23481;  </span>
+$objActSheet-&gt;setCellValue('A2', 26)<span style="color: #5f615c; font-style: italic;">;            </span><span style="color: #5f615c; font-style: italic;">// &#25968;&#20540;  </span>
+$objActSheet-&gt;setCellValue('A3', true)<span style="color: #5f615c; font-style: italic;">;          </span><span style="color: #5f615c; font-style: italic;">// &#24067;&#23572;&#20540;</span>
+$objActSheet-&gt;setCellValue('A4', '=SUM(A2:A2)')<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">// &#20844;&#24335;</span>
+//&#33258;&#21160;&#35774;&#32622;&#21333;&#20803;&#26684;&#23485;&#24230;   &#20363;&#65306;
+$objActSheet-&gt;getColumnDimension('A')-&gt;setAutoSize(true)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#25163;&#21160;&#35774;&#32622;&#21333;&#20803;&#26684;&#30340;&#23485;&#24230;   &#20363;&#65306;
+//$objActSheet-&gt;getColumnDimension('A')-&gt;setWidth(10)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#23548;&#20986;&#30340;&#25991;&#20214;&#21517;
+$outputFileName = iconv ( 'UTF-8', 'gb2312', 'XuLulu_'. time() . '.xlsx' )<span style="color: #5f615c; font-style: italic;">;</span>
+//&#30452;&#25509;&#23548;&#20986;&#25991;&#20214;
+$objWriter-&gt;save ( $outputFileName )<span style="color: #5f615c; font-style: italic;">;</span>
+//&#25991;&#20214;&#30452;&#25509;&#36755;&#20986;&#21040;&#27983;&#35272;&#22120;
+header ( 'Pragma:public')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Expires:0')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Cache-Control:must-revalidate,post-check=0,pre-check=0')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Content-Type:application/force-download')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Content-Type:application/vnd.ms-excel')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Content-Type:application/octet-stream')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Content-Type:application/download')<span style="color: #5f615c; font-style: italic;">;</span>
+header ( 'Content-Disposition:attachment<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">filename='. $outputFileName );</span>
+header ( 'Content-Transfer-Encoding:binary')<span style="color: #5f615c; font-style: italic;">;</span>
+$objWriter-&gt;save ( 'php://output')<span style="color: #5f615c; font-style: italic;">;</span>
+&#20854;&#20182;&#35774;&#32622;&#65306;
+//&#26174;&#24335;&#25351;&#23450;&#20869;&#23481;&#31867;&#22411;  
+$objActSheet-&gt;setCellValueExplicit('A5','847475847857487584',
+PHPExcel_Cell_DataType::TYPE_STRING)<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#21512;&#24182;&#21333;&#20803;&#26684;  
+$objActSheet-&gt;mergeCells('B1:C22')<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#20998;&#31163;&#21333;&#20803;&#26684;  
+$objActSheet-&gt;unmergeCells('B1:C22')<span style="color: #5f615c; font-style: italic;">;</span>
+//&#24471;&#21040;&#21333;&#20803;&#26684;&#30340;&#26679;&#24335;
+$objStyleA5 = $objActSheet-&gt;getStyle('A5')<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#23383;&#20307;  
+$objFontA5 = $objStyleA5-&gt;getFont()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFontA5-&gt;setName('Courier New')<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFontA5-&gt;setSize(10)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFontA5-&gt;setBold(true)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFontA5-&gt;setUnderline(PHPExcel_Style_Font::UNDERLINE_SINGLE)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFontA5-&gt;getColor()-&gt;setARGB('FF999999')<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#35774;&#32622;&#23545;&#40784;&#26041;&#24335;
+$objAlignA5 = $objStyleA5-&gt;getAlignment()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objAlignA5-&gt;setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_RIGHT)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objAlignA5-&gt;setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER)<span style="color: #5f615c; font-style: italic;">;</span>
+//&#35774;&#32622;&#36793;&#26694;  
+$objBorderA5 = $objStyleA5-&gt;getBorders()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objBorderA5-&gt;getTop()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objBorderA5-&gt;getTop()-&gt;getColor()-&gt;setARGB('FFFF0000')<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">// color  </span>
+$objBorderA5-&gt;getBottom()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objBorderA5-&gt;getLeft()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objBorderA5-&gt;getRight()-&gt;setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#35774;&#32622;&#22635;&#20805;&#39068;&#33394;  
+$objFillA5 = $objStyleA5-&gt;getFill()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFillA5-&gt;setFillType(PHPExcel_Style_Fill::FILL_SOLID)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objFillA5-&gt;getStartColor()-&gt;setARGB('FFEEEEEE')<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#20174;&#25351;&#23450;&#30340;&#21333;&#20803;&#26684;&#22797;&#21046;&#26679;&#24335;&#20449;&#24687;.  
+$objActSheet-&gt;duplicateStyle($objStyleA5,'B1:C22')<span style="color: #5f615c; font-style: italic;">;  </span>
+//*************************************  
+//&#28155;&#21152;&#22270;&#29255;  
+$objDrawing = new PHPExcel_Worksheet_Drawing()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setName('ZealImg')<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setDescription('Image inserted byZeal')<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setPath('./zeali.net.logo.gif')<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setHeight(36)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setCoordinates('C23')<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setOffsetX(10)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setRotation(15)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;getShadow()-&gt;setVisible(true)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;getShadow()-&gt;setDirection(36)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objDrawing-&gt;setWorksheet($objActSheet)<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#28155;&#21152;&#19968;&#20010;&#26032;&#30340;worksheet  
+$objExcel-&gt;createSheet()<span style="color: #5f615c; font-style: italic;">;  </span>
+$objExcel-&gt;getSheet(1)-&gt;setTitle('&#27979;&#35797;2')<span style="color: #5f615c; font-style: italic;">;  </span>
+//&#20445;&#25252;&#21333;&#20803;&#26684;  
+$objExcel-&gt;getSheet(1)-&gt;getProtection()-&gt;setSheet(true)<span style="color: #5f615c; font-style: italic;">;  </span>
+$objExcel-&gt;getSheet(1)-&gt;protectCells('A1:C22','PHPExcel')<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga368c30" class="outline-4">
+<h4 id="orga368c30">一个简单示例</h4>
+<div class="outline-text-4" id="text-orga368c30">
+</div>
+<ul class="org-ul">
+<li><a id="org99ae219"></a>conn.php文件<br />
+<div class="outline-text-5" id="text-org99ae219">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;?php
+$<span style="color: #b35000;">conn</span> = array(
+<span style="color: #5c3566;">'host'</span> =&gt;<span style="color: #5c3566;">'127.0.0.1'</span> ,
+<span style="color: #5c3566;">'user_name'</span> =&gt; <span style="color: #5c3566;">'root'</span>,
+<span style="color: #5c3566;">'password'</span> =&gt; <span style="color: #5c3566;">''</span>,
+<span style="color: #5c3566;">'db_name'</span> =&gt; <span style="color: #5c3566;">'test'</span>,
+<span style="color: #5c3566;">"charset"</span>=&gt;<span style="color: #5c3566;">"utf8"</span>
+);
+?&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org771e450"></a>data.php<br />
+<div class="outline-text-5" id="text-org771e450">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;?php
+require dirname(__FILE__)<span style="color: #75507b;">.</span><span style="color: #5c3566;">'\conn.php'</span>;
+class data{
+public $<span style="color: #b35000;">conn</span>=null;
+public <span style="color: #346604;">function</span> <span style="color: #a40000;">__construct</span>($<span style="color: #b35000;">config</span>){ //&#26500;&#36896;&#26041;&#27861;&#65292;&#23454;&#20363;&#21270;&#31867;&#33258;&#21160;&#35843;&#29992;
+$<span style="color: #b35000;">this</span>-&gt;<span style="color: #b35000;">conn</span>=mysqli_connect($<span style="color: #b35000;">config</span>[<span style="color: #5c3566;">'host'</span>],$<span style="color: #b35000;">config</span>[<span style="color: #5c3566;">'user_name'</span>],$<span style="color: #b35000;">config</span>[<span style="color: #5c3566;">'password'</span>],$<span style="color: #b35000;">config</span>[<span style="color: #5c3566;">'db_name'</span>]) or die(mysql_error());
+<span style="color: #a40000;">mysqli_query</span>($<span style="color: #b35000;">this</span>-&gt;conn,<span style="color: #5c3566;">"set names utf8"</span>);
+// mysqli_query($<span style="color: #b35000;">conn</span>,<span style="color: #5c3566;">'set names'</span>.$<span style="color: #b35000;">config</span>[<span style="color: #5c3566;">'charset'</span>]) or die(mysql_error());
+}
+/**
+ * &#26681;&#25454;&#20256;&#20837;&#30340;sql&#35821;&#21477; &#26597;&#35810;mysql&#32467;&#26524;&#38598;
+    * @param  [type] $<span style="color: #b35000;">sql</span> [description]
+       * @return [type]      [description]
+      */
+      public <span style="color: #346604;">function</span> <span style="color: #a40000;">getResult</span>($<span style="color: #b35000;">sql</span>){
+      $<span style="color: #b35000;">resource</span>=mysqli_query($<span style="color: #b35000;">this</span>-&gt;conn,$<span style="color: #b35000;">sql</span>) or die(mysql_error());
+      $<span style="color: #b35000;">res</span>=array();
+      <span style="color: #346604;">while</span> (($<span style="color: #b35000;">row</span>=mysqli_fetch_assoc($<span style="color: #b35000;">resource</span>))!=false) {
+      $<span style="color: #b35000;">res</span>[]=$<span style="color: #b35000;">row</span>;
+      }
+      <span style="color: #346604;">return</span> $<span style="color: #b35000;">res</span>;
+      }
+      public <span style="color: #346604;">function</span> <span style="color: #a40000;">getData</span>($<span style="color: #b35000;">value</span>)
+      {
+      $<span style="color: #b35000;">sql</span>=<span style="color: #5c3566;">"SELECT * FROM user"</span>;
+      $<span style="color: #b35000;">res</span>=self::getResult($<span style="color: #b35000;">sql</span>);
+      <span style="color: #346604;">return</span> $<span style="color: #b35000;">res</span>;
+      }
+}
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgfeb8c46"></a>export.php<br />
+<div class="outline-text-5" id="text-orgfeb8c46">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;?php
+$<span style="color: #b35000;">dir</span>=dirname(__FILE__);
+require $<span style="color: #b35000;">dir</span>.<span style="color: #5c3566;">'\data.php'</span>;
+require $<span style="color: #b35000;">dir</span>.<span style="color: #5c3566;">'\PHPExcel\PHPExcel.php'</span>;
+
+$<span style="color: #b35000;">db</span>=new data($<span style="color: #b35000;">conn</span>);
+$<span style="color: #b35000;">objPHPExcel</span>=new PHPExcel();
+<span style="color: #346604;">for</span> ($<span style="color: #b35000;">i</span>=1; $<span style="color: #b35000;">i</span> &lt; 3; $<span style="color: #b35000;">i</span>++) {
+<span style="color: #346604;">if</span> ($<span style="color: #b35000;">i</span>&gt;1) {
+$<span style="color: #b35000;">objPHPExcel</span>-&gt;createSheet();
+}
+$<span style="color: #b35000;">objPHPExcel</span>-&gt;setActiveSheetIndex($<span style="color: #b35000;">i</span>-1);
+$<span style="color: #b35000;">objSheet</span>=$<span style="color: #b35000;">objPHPExcel</span>-&gt;getActiveSheet();
+$<span style="color: #b35000;">data</span>=$<span style="color: #b35000;">db</span>-&gt;getData($<span style="color: #b35000;">i</span>);
+
+$<span style="color: #b35000;">objSheet</span>-&gt;setCellValue(<span style="color: #5c3566;">"A1"</span>,<span style="color: #5c3566;">"&#22995;&#21517;"</span>)-&gt;setCellValue(<span style="color: #5c3566;">'B1'</span>,<span style="color: #5c3566;">'&#24180;&#40836;'</span>);
+$<span style="color: #b35000;">j</span>=2;
+<span style="color: #a40000;">foreach</span> ($<span style="color: #b35000;">data</span> as $<span style="color: #b35000;">key</span> =&gt; $<span style="color: #b35000;">value</span>) {
+// $<span style="color: #b35000;">name</span> = iconv(<span style="color: #5c3566;">'utf-8'</span>, <span style="color: #5c3566;">'gb2312'</span>, $<span style="color: #b35000;">value</span>[<span style="color: #5c3566;">'name'</span>]);
+// $<span style="color: #b35000;">age</span> = iconv(<span style="color: #5c3566;">'utf-8'</span>, <span style="color: #5c3566;">'gb2312'</span>, $<span style="color: #b35000;">value</span>[<span style="color: #5c3566;">'age'</span>]);
+// echo $<span style="color: #b35000;">value</span>[<span style="color: #5c3566;">'name'</span>];
+$<span style="color: #b35000;">objSheet</span>-&gt;setCellValue(<span style="color: #5c3566;">'A'</span>.$<span style="color: #b35000;">j</span>,$<span style="color: #b35000;">name</span>)-&gt;setCellValue(<span style="color: #5c3566;">'B'</span>.$<span style="color: #b35000;">j</span>,$<span style="color: #b35000;">value</span>[<span style="color: #5c3566;">'age'</span>].<span style="color: #5c3566;">'&#23681;'</span>);
+$<span style="color: #b35000;">j</span>++;
+}
+}
+$<span style="color: #b35000;">objWriter</span>=PHPExcel_IOFactory::createWriter($<span style="color: #b35000;">objPHPExcel</span>,<span style="color: #5c3566;">'Excel2007'</span>);
+<span style="color: #a40000;">browser_export</span>(<span style="color: #5c3566;">'Excel7'</span>,<span style="color: #5c3566;">'example.xls'</span>);
+$<span style="color: #b35000;">objWriter</span>-&gt;save(<span style="color: #5c3566;">'php://output'</span>);
+
+<span style="color: #346604;">function</span> <span style="color: #a40000;">browser_export</span>($<span style="color: #b35000;">type</span>,$<span style="color: #b35000;">filename</span>){
+<span style="color: #346604;">if</span> ($<span style="color: #b35000;">type</span>=<span style="color: #5c3566;">'Excel5'</span>) {
+<span style="color: #a40000;">header</span>(<span style="color: #5c3566;">'Content-Type: application/vnd.ms-excel'</span>);  //excel5
+}<span style="color: #346604;">else</span>{
+<span style="color: #a40000;">header</span>(<span style="color: #5c3566;">'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'</span>); //excel7
+}
+<span style="color: #a40000;">header</span>(<span style="color: #5c3566;">'Content-Disposition: attachment;filename="'</span>.$<span style="color: #b35000;">filename</span>.<span style="color: #5c3566;">'"'</span>);
+<span style="color: #a40000;">header</span>(<span style="color: #5c3566;">'Cache-Control: max-age=0'</span>);
+}
+// $<span style="color: #b35000;">objWriter</span>-&gt;save($<span style="color: #b35000;">dir</span>.<span style="color: #5c3566;">'\export_1.xls'</span>);
+?&gt;
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5aed19f" class="outline-3">
+<h3 id="org5aed19f">References</h3>
+<div class="outline-text-3" id="text-org5aed19f">
+<pre class="example">
+https://www.the-art-of-web.com/php/dataexport/
+
+</pre>
+</div>
+</div>
+</div>

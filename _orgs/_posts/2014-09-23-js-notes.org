@@ -1,0 +1,311 @@
+#+TITLE:     JavaScript 使用笔记
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT html
+---
+layout: post
+title: JavaScript 笔记
+author: zrg
+comments: false
+description: JS 笔记
+categories:
+- JavaScript
+tags:
+- JavaScript
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 写在前面
+: 这是我的javascript开发笔记代码片段，也许能够帮助到你。
+* JavaScript没有块级作用域
+: 在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。
+#+BEGIN_SRC emacs lisp
+if(true){
+    var color="blue";
+}
+alert(color); //"blue"
+#+END_SRC
+: 内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+* 字符串
+** 字符串截取
+*** substring()
+: 语法：stringObject.substring(start,stop)
+
+*** substr()
+: 语法：stringObject.substr(start [, length ])
+
+*** indexOf()
+*** split() 与 Join()
+*** 
+* 根据网页实际大小来设置iframe显示区域大小
+#+BEGIN_SRC emacs-lisp
+ $('#iframe_i').load(function () {
+  // “ref_page”为引用页面DIV的ID，获取DIV的外部宽度、外部高度。
+  var width = $(this).contents().find('#ref_page').outerWidth();
+  var height = $(this).contents().find('#ref_page').outerHeight();
+  // 设置iframe的宽度、高度。
+  $(this).width(width);
+  $(this).height(height);
+ )};
+#+END_SRC
+* 动态显示收缩列表
+Method 1:
+#+BEGIN_SRC emacs-lisp
+ $(document).ready(function(){
+  //当点击某一列表项时，滑出下级菜单并收起其他列表项
+  $("#user_manage").click(function(){
+   // $("#user_about").fadeToggle();
+   $("#user_manage").addClass("active");
+   $("#node_manage").removeClass("active");
+   $("#role_manage").removeClass("active");
+   $("#setting").removeClass("active");
+  
+   $("#user_about").slideToggle();
+   $("#node_about").slideUp();
+   $("#role_about").slideUp();
+      /*$("#div2").fadeToggle("slow");
+          $("#div3").fadeToggle(3000);*/
+  });
+ });
+#+END_SRC
+
+Method 2:
+#+BEGIN_SRC emacs-lisp
+http://jqueryui.com/accordion/
+#+END_SRC
+* 点击按钮添加文本框
+#+BEGIN_SRC emacs-lisp
+<div id="org"></div>
+<input type="button" onclick="add();" value="添加" />
+
+<script type="text/javascript">
+function add(){
+var input1 = document.createElement('input');
+input1.setAttribute('type', 'text');
+input1.setAttribute('name', 'organizers[]');
+input1.setAttribute('class', 'git');
+
+var btn1 = document.getElementById("org");
+btn1.insertBefore(input1,null);
+}
+</script>
+#+END_SRC
+* 几个常用字段校验
+** 检查用户名
+#+BEGIN_SRC js
+function getFocus()  //设置用户名文本框获取焦点
+{
+        document.getElementById("username").focus();
+}
+function checkusername()  //检查用户名
+{
+        var username=document.getElementById("username").value;
+        var divname=document.getElementById("divname");
+        if(username=="")
+        {
+                divname.innerHTML="<font color='red'>用户名不能为空!</font>";
+                return false;
+        }
+        for(var i=0;i<username.length;i++)
+        {
+                var text=username.charAt(i);
+                if(!(text<=9&&text>=0)&&!(text>='a'&&text<='z')&&!(text>='A'&&text<='Z')&&text!="_")
+                {
+                        divname.innerHTML="<font color='red'>用户名只能是数字、字母、下划线组成！</font>";
+                        break;
+                }
+        }
+        if(i>=username.length)
+        {
+                divname.innerHTML="<font color='green'>√</font>";
+                return true;
+        }
+}
+#+END_SRC
+
+** 检查密码
+#+BEGIN_SRC js
+function checkpassword()  //检查密码 
+{
+        var password=document.getElementById("password").value;
+        var divpassword=document.getElementById("upassword");
+        if(password=="")
+        {
+                divpassword.innerHTML="<font color='red'>密码不能为空!</font>";
+                return false;
+        }
+        else if(password.length<6)
+        {
+                divpassword.innerHTML="<font color='red'>密码至少应为六位!</font>";
+                return false;
+        }
+        else
+        {
+                divpassword.innerHTML="<font color='green'>√</font>";
+                return true;
+        } 
+}
+
+function checkispwd()  //检查确认密码
+{
+        var ispassword=document.getElementById("ispassword").value;
+        var divispassword=document.getElementById("divispassword");
+        if(ispassword=="")
+        {
+                divispassword.innerHTML="<font color='red'>确认密码不能为空!</font>";
+                return false;
+        }
+        else if(document.getElementById("password").value!=document.getElementById("txtpwdagin").value)
+        {
+                divispassword.innerHTML="<font color='red'>确认密码与密码不一致!</font>";
+                return false;
+        } 
+        else
+        {
+                divispassword.innerHTML="<font color='green'>√</font>";
+                return true;
+        } 
+}
+#+END_SRC
+
+** 检查电话号码
+#+BEGIN_SRC js
+function checktelephone()  //检查电话号码
+{
+        var telphone=document.getElementById("telphone").value;
+        var divtelphone=document.getElementById("divtelphone");
+        if(telphone!="")
+        {
+                var reg = /^[0-9]{11}$/i;
+                if(!reg.test(telphone))
+                {
+                        divtelphone.innerHTML="<font color='red'>只能输入11位数字！例：13595144582或08514785214</font>";
+                        return false;
+                }
+                else
+                {
+                        divtelphone.innerHTML="<font color='red'>√</font>";
+                        return true;
+                }
+        }
+        else
+        {
+                divtelphone.innerHTML="<font color='green'>√</font>";
+                return true;
+        }
+}
+#+END_SRC
+
+** 检查E-mail
+#+BEGIN_SRC js
+function checkemail()  //检查E-mail
+{
+        var email=document.getElementById("email").value;
+        var divemail=document.getElementById("divemail");
+        if(email!="")
+        {
+                if(email.indexOf("@")==-1||email.indexOf(".")==-1||(email.indexOf("@")>email.indexOf(".")))
+                {
+                        divemail.innerHTML="<font color='red'>E-mail格式不正确！例：jiie@163.com</font>";
+                        return false;
+                } 
+                else
+                {
+                        divemail.innerHTML="<font color='red'>√</font>";
+                        return true;
+                }
+        }
+        else
+        {
+                divemail.innerHTML="<font color='red'>√</font>";
+                return true;
+        }
+}
+#END_SRC
+
+** 检查QQ号码
+#+BEGIN_SRC emacs-lisp
+function checkqq()  //检查QQ号码
+{
+        var qq=document.getElementById("qq").value;
+        var divqq=document.getElementById("qq");
+        if(qq!="")
+        {
+                if(qq.match(/\D/)!=null)
+                {
+                        divqq.innerHTML="<font color='red'>QQ号码只能输入数字！</font>";
+                        return false;
+                }
+                else
+                {
+                        divqq.innerHTML="<font color='red'>√</font>";
+                        return true;
+                }
+        }
+        else
+        {
+                divqq.innerHTML="<font color='green'>√</font>";
+                return true;
+        }
+}
+#END_SRC
+
+** 检查所有
+#+BEGIN_SRC emacs-lisp
+function checkall()  //检查所有
+{
+        if(checkusername()&&checkpassword()&&checkispwd()&&checktelphone()&&checkemail()&&checkqq())
+        {
+                return true;
+        }
+        return false;
+}
+#+END_SRC
+
+** 复选框的选中与否是按钮的状态
+#+BEGIN_SRC js
+//复选框的选中与否是按钮的状态
+function checkcjkx()
+{
+        var a=document.form1.btnregister;
+        if(a==null)
+        {
+                return;
+        }
+        if(document.form1.ckbxcjkx!=null)
+        {
+                if(document.form1.ckbxcjkx.checked)
+                {
+                        a.disabled=false;
+                        return;
+                }
+                else
+                {
+                        a.disabled=true;
+                        return;
+                }
+        }
+        else
+        {
+                a.disabled=true;
+                return;
+        }
+}
+#+END_SRC
+

@@ -1,0 +1,1932 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rengui's Article" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="JS 公共方法">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 公共文件">
+<meta property="og:url" content="http://localhost:4000/javascript/2015/10/15/js-public/">
+<meta property="og:site_name" content="Rengui's Article">
+<meta property="og:description" content="JS 公共方法">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 公共文件">
+<meta name="twitter:description" content="JS 公共方法">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>JavaScript 公共文件 | Rengui's Article</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-123739978-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rengui's Article</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Blog, Article</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/javascript/2015/10/15/js-public/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Rengui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rengui's Article">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            JavaScript 公共文件
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-15T00:00:00+08:00">
+                2015-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/JavaScript" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    JS 公共方法
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="outline-container-org1f0277a" class="outline-2">
+<h2 id="org1f0277a">写在前面</h2>
+<div class="outline-text-2" id="text-org1f0277a">
+<pre class="example">
+这是关于web开发可能会用到的javascript代码片段，也许能够帮助到你。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orga0c4c23" class="outline-2">
+<h2 id="orga0c4c23">日期/时间</h2>
+<div class="outline-text-2" id="text-orga0c4c23">
+</div>
+<div id="outline-container-orgcfc8c80" class="outline-4">
+<h4 id="orgcfc8c80">转换UTC时间</h4>
+<div class="outline-text-4" id="text-orgcfc8c80">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">ConvertUtcTime</span>(<span style="color: #b35000;">utctime</span>, <span style="color: #b35000;">style</span>) {
+    <span style="color: #346604;">if</span> (utctime == <span style="color: #204a87; font-weight: bold;">null</span> || utctime == <span style="color: #5c3566;">""</span>) {
+        <span style="color: #346604;">return</span> <span style="color: #5c3566;">""</span>;
+    }<span style="color: #346604;">else</span> {
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">d</span> = utctime.substring(6, utctime.length - 1);
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">newdate</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>(parseInt(d));
+        <span style="color: #346604;">if</span> (style == <span style="color: #204a87; font-weight: bold;">null</span> || style == <span style="color: #5c3566;">""</span>) style = <span style="color: #5c3566;">"yyyy-MM-dd hh:mm:ss"</span>;
+        <span style="color: #346604;">return</span> newdate.format(style);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2d3267b" class="outline-4">
+<h4 id="org2d3267b">将日期转换为yyyymmddhhssmm格式</h4>
+<div class="outline-text-4" id="text-org2d3267b">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">getDate</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">year</span> = date.getFullYear();
+
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">month</span> = date.getMonth() + 1;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">date1</span> = date.getDate();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">day</span> = date.getDay();
+
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">hours</span> = date.getHours();
+
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">minutes</span> = date.getMinutes();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">seconds</span> = date.getSeconds();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">ms</span> = date.getMilliseconds();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">curDateTime</span> = year;
+    <span style="color: #346604;">if</span> (month &gt; 9) {
+        curDateTime = curDateTime + month;
+    } <span style="color: #346604;">else</span> {
+        curDateTime = curDateTime + <span style="color: #5c3566;">"0"</span> + month;
+    }
+    <span style="color: #346604;">if</span> (day &gt; 9) {
+        curDateTime = curDateTime + day;
+    } <span style="color: #346604;">else</span> {
+        curDateTime = curDateTime + <span style="color: #5c3566;">"0"</span> + day;
+    }
+    <span style="color: #346604;">if</span> (hours &gt; 9) {
+        curDateTime = curDateTime + <span style="color: #5c3566;">""</span> + hours;
+    } <span style="color: #346604;">else</span> {
+        curDateTime = curDateTime + <span style="color: #5c3566;">"0"</span> + hours;
+    }
+    <span style="color: #346604;">if</span> (minutes &gt; 9) {
+        curDateTime = curDateTime + minutes;
+    } <span style="color: #346604;">else</span> {
+        curDateTime = curDateTime + <span style="color: #5c3566;">"0"</span> + minutes;
+    }
+    <span style="color: #346604;">if</span> (seconds &gt; 9) {
+        curDateTime = curDateTime + seconds;
+    } <span style="color: #346604;">else</span> {
+        curDateTime = curDateTime + <span style="color: #5c3566;">"0"</span> + seconds;
+    }
+    <span style="color: #346604;">return</span> curDateTime;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeff2e0b" class="outline-4">
+<h4 id="orgeff2e0b">格式化日期</h4>
+<div class="outline-text-4" id="text-orgeff2e0b">
+<div class="org-src-container">
+<pre class="src src-js">Date.<span style="color: #204a87; font-weight: bold;">prototype</span>.format = <span style="color: #346604;">function</span> (<span style="color: #b35000;">format</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">o</span> =
+    {
+        <span style="color: #5c3566;">"M+"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getMonth() + 1, <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">month</span>
+        <span style="color: #5c3566;">"d+"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getDate(),    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">day</span>
+        <span style="color: #5c3566;">"h+"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getHours(),   <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">hour</span>
+        <span style="color: #5c3566;">"m+"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getMinutes(), <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">minute</span>
+        <span style="color: #5c3566;">"s+"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getSeconds(), <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">second</span>
+        <span style="color: #5c3566;">"q+"</span>: Math.floor((<span style="color: #204a87; font-weight: bold;">this</span>.getMonth() + 3) / 3),  <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">quarter</span>
+        <span style="color: #5c3566;">"S"</span>: <span style="color: #204a87; font-weight: bold;">this</span>.getMilliseconds() <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">millisecond</span>
+    }
+    <span style="color: #346604;">if</span> (<span style="color: #5c3566;">/(y+)/</span>.test(format))
+        format = format.replace(RegExp.$1, (<span style="color: #204a87; font-weight: bold;">this</span>.getFullYear() + <span style="color: #5c3566;">""</span>).substr(4 - RegExp.$1.length));
+    <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">k</span> <span style="color: #346604;">in</span> o)
+        <span style="color: #346604;">if</span> (<span style="color: #346604;">new</span> <span style="color: #204a87;">RegExp</span>(<span style="color: #5c3566;">"("</span> + k + <span style="color: #5c3566;">")"</span>).test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : (<span style="color: #5c3566;">"00"</span> + o[k]).substr((<span style="color: #5c3566;">""</span> + o[k]).length));
+    <span style="color: #346604;">return</span> format;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc0e1b86" class="outline-4">
+<h4 id="orgc0e1b86">日期加减</h4>
+<div class="outline-text-4" id="text-orgc0e1b86">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">DateAdd</span>(<span style="color: #b35000;">dateObj</span>, <span style="color: #b35000;">days</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">tempDate</span> = dateObj.valueOf();
+    tempDate = tempDate + days * 24 * 60 * 60 * 1000
+    tempDate = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>(tempDate)
+    <span style="color: #346604;">return</span> tempDate;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5ea9114" class="outline-4">
+<h4 id="org5ea9114">获取指定日期</h4>
+<div class="outline-text-4" id="text-org5ea9114">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#24320;&#22987;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">getTodayStart</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">y</span> = date.getFullYear();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">m</span> = date.getMonth() + 1;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">d</span> = date.getDate();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time</span> = y + <span style="color: #5c3566;">'-'</span> + (m &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + m) : m) + <span style="color: #5c3566;">'-'</span> + (d &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + d) : d) + <span style="color: #5c3566;">" 00:00:00"</span>;
+    <span style="color: #346604;">return</span> time;
+}
+
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#32467;&#26463;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">getTodayEnd</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">y</span> = date.getFullYear();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">m</span> = date.getMonth() + 1;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">d</span> = date.getDate();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time</span> = y + <span style="color: #5c3566;">'-'</span> + (m &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + m) : m) + <span style="color: #5c3566;">'-'</span> + (d &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + d) : d) + <span style="color: #5c3566;">" 23:59:59"</span>;
+    <span style="color: #346604;">return</span> time;
+}
+
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;&#25351;&#23450;&#24403;&#26376;&#31532;&#19968;&#22825;&#26085;&#26399;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">getMonthStart</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">y</span> = date.getFullYear();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">m</span> = date.getMonth() + 1;
+    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">var d = date.getDate();</span>
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time</span> = y + <span style="color: #5c3566;">'-'</span> + (m &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + m) : m) + <span style="color: #5c3566;">'-'</span> + 1;
+    <span style="color: #346604;">return</span> time;
+}
+
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;&#25351;&#23450;&#24403;&#22825;&#26085;&#26399;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">getMonthEnd</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">y</span> = date.getFullYear();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">m</span> = date.getMonth() + 1;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">d</span> = date.getDate();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time</span> = y + <span style="color: #5c3566;">'-'</span> + (m &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + m) : m) + <span style="color: #5c3566;">'-'</span> + (d &lt; 10 ? (<span style="color: #5c3566;">'0'</span> + d) : d);
+    <span style="color: #346604;">return</span> time;
+}
+
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;&#26376;&#20221;&#26368;&#21518;&#19968;&#22825;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">getCurrentMonthLast</span>(<span style="color: #b35000;">date</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">currentMonth</span> = date.getMonth();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">nextMonth</span> = ++currentMonth;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">nextMonthFirstDay</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>(date.getFullYear(), nextMonth, 1);
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">oneDay</span> = 1000 * 60 * 60 * 24;
+    <span style="color: #346604;">return</span> <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>(nextMonthFirstDay - oneDay);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5f4368d" class="outline-4">
+<h4 id="org5f4368d">计算日期差</h4>
+<div class="outline-text-4" id="text-org5f4368d">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">getDateDiff</span>(<span style="color: #b35000;">date1</span>, <span style="color: #b35000;">date2</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">times</span> = date2 - date1;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">days</span> = Math.floor(times / (1000 * 60 * 60 * 24));
+    times = times - days * 1000 * 60 * 60 * 24;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">hours</span> = Math.floor(times / (1000 * 60 * 60));
+    times = times - hours * 1000 * 60 * 60;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">minus</span> = Math.floor(times / 60000);
+    times = times - minus * 60000;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">secs</span> = Math.floor(times / 6000);
+
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">ret</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">if</span> (days &gt; 0) {
+        ret = days + <span style="color: #5c3566;">"&#22825;"</span> + hours + <span style="color: #5c3566;">"&#26102;"</span> + minus + <span style="color: #5c3566;">"&#20998;"</span> + secs + <span style="color: #5c3566;">"&#31186;"</span>;
+    }
+    <span style="color: #346604;">else</span> {
+        <span style="color: #346604;">if</span> (hours &gt; 0) ret = hours + <span style="color: #5c3566;">"&#26102;"</span>;
+        ret = ret + minus + <span style="color: #5c3566;">"&#20998;"</span> + secs + <span style="color: #5c3566;">"&#31186;"</span>;
+    }
+    <span style="color: #346604;">return</span> ret;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6aa4edf" class="outline-4">
+<h4 id="org6aa4edf">倒计时</h4>
+<div class="outline-text-4" id="text-org6aa4edf">
+<div class="HTML">
+<p>
+&lt;strong&gt;剩余时间：&lt;/strong&gt;&lt;span id="timer"&gt;&lt;/span&gt;
+</p>
+
+</div>
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#20498;&#35745;&#26102; start</span>
+<span style="color: #346604;">var</span> <span style="color: #b35000;">time_end</span>,<span style="color: #b35000;">time_now_server</span>,<span style="color: #b35000;">time_now_client</span>,<span style="color: #b35000;">time_end</span>,<span style="color: #b35000;">time_server_client</span>,<span style="color: #b35000;">timerID</span>;
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#25130;&#27490;&#26102;&#38388;</span>
+time_end = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>(<span style="color: #5c3566;">'{$appraisal_points.stop_time|date="Y-m-d H:i:s",###}'</span>);
+time_end=time_end.getTime();
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#24403;&#21069;&#26102;&#38388;</span>
+time_now_server=<span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>();
+time_now_server=time_now_server.getTime();
+time_now_client=<span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>();
+time_now_client=time_now_client.getTime();
+time_server_client=time_now_server-time_now_client;
+setTimeout(<span style="color: #5c3566;">"show_time()"</span>,1000);
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#26174;&#31034;&#26102;&#38388;&#20989;&#25968;</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">show_time</span>()
+{
+    Var timer = document.getElementById(<span style="color: #5c3566;">"timer"</span>);
+    <span style="color: #346604;">if</span>(!timer){
+        <span style="color: #346604;">return</span> ;
+    }
+    timer.innerHTML =time_server_client;
+
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time_now</span>,<span style="color: #b35000;">time_distance</span>,<span style="color: #b35000;">str_time</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">int_day</span>,<span style="color: #b35000;">int_hour</span>,<span style="color: #b35000;">int_minute</span>,<span style="color: #b35000;">int_second</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">time_now</span>=<span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>();
+    time_now=time_now.getTime()+time_server_client;
+    time_distance=time_end-time_now;
+    <span style="color: #346604;">if</span>(time_distance&gt;0)
+    {
+        int_day=Math.floor(time_distance/86400000);
+        time_distance-=int_day*86400000;
+        int_hour=Math.floor(time_distance/3600000);
+        time_distance-=int_hour*3600000;
+        int_minute=Math.floor(time_distance/60000);
+        time_distance-=int_minute*60000;
+        int_second=Math.floor(time_distance/1000);
+
+        <span style="color: #346604;">if</span>(int_hour&lt;10){
+            int_hour=<span style="color: #5c3566;">"0"</span>+int_hour;
+        }
+        <span style="color: #346604;">if</span>(int_minute&lt;10){
+            int_minute=<span style="color: #5c3566;">"0"</span>+int_minute;
+        }
+        <span style="color: #346604;">if</span>(int_second&lt;10){
+            int_second=<span style="color: #5c3566;">"0"</span>+int_second;
+        }
+        <span style="color: #346604;">if</span> (int_day&gt;0) {
+            str_time=<span style="color: #5c3566;">"&lt;b style='color:#46be8a;'&gt;"</span>+int_day+<span style="color: #5c3566;">"&lt;/b style='color:#46be8a;'&gt;&#22825;&lt;b style='color:#46be8a;'&gt;"</span>+int_hour+<span style="color: #5c3566;">"&lt;/b style='color:#46be8a;'&gt;&#23567;&#26102;&lt;b style='color:#46be8a;'&gt;"</span>+int_minute+<span style="color: #5c3566;">"&lt;/b style='color:#46be8a;'&gt;&#20998;&#38047;&lt;b style='color:#46be8a;'&gt;"</span>+int_second+<span style="color: #5c3566;">"&lt;/b style='color:#46be8a;'&gt;&#31186;"</span>;
+        }<span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(int_day == 0 &amp;&amp; int_hour&gt;=12){
+            str_time=<span style="color: #5c3566;">"&lt;b style='color:#f5a751;'&gt;"</span>+int_day+<span style="color: #5c3566;">"&lt;/b style='color:#f5a751;'&gt;&#22825;&lt;b style='color:#f5a751;'&gt;"</span>+int_hour+<span style="color: #5c3566;">"&lt;/b style='color:#f5a751;'&gt;&#23567;&#26102;&lt;b style='color:#f5a751;'&gt;"</span>+int_minute+<span style="color: #5c3566;">"&lt;/b style='color:#f5a751;'&gt;&#20998;&#38047;&lt;b style='color:#f5a751;'&gt;"</span>+int_second+<span style="color: #5c3566;">"&lt;/b style='color:#f5a751;'&gt;&#31186;"</span>;
+        }<span style="color: #346604;">else</span> <span style="color: #346604;">if</span>(int_day == 0 &amp;&amp; int_hour&lt;=5){
+            str_time=<span style="color: #5c3566;">"&lt;b style='color:#fc6167;'&gt;"</span>+int_day+<span style="color: #5c3566;">"&lt;/b style='color:#fc6167;'&gt;&#22825;&lt;b style='color:#fc6167;'&gt;"</span>+int_hour+<span style="color: #5c3566;">"&lt;/b style='color:#fc6167;'&gt;&#23567;&#26102;&lt;b style='color:#fc6167;'&gt;"</span>+int_minute+<span style="color: #5c3566;">"&lt;/b style='color:#fc6167;'&gt;&#20998;&#38047;&lt;b style='color:#fc6167;'&gt;"</span>+int_second+<span style="color: #5c3566;">"&lt;/b style='color:#fc6167;'&gt;&#31186;"</span>;
+        }
+        timer.innerHTML=str_time;
+        setTimeout(<span style="color: #5c3566;">"show_time()"</span>,1000);
+    }
+    <span style="color: #346604;">else</span>
+    {
+        timer.innerHTML =timer.innerHTML;
+        clearTimeout(timerID);
+        <span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">window.location.href="http://www.baidu.com";</span>
+    }
+}
+<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#20498;&#35745;&#26102; end</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org41d4b74" class="outline-4">
+<h4 id="org41d4b74">指定睡眠时间</h4>
+<div class="outline-text-4" id="text-org41d4b74">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">/**</span>
+<span style="color: #5f615c; font-style: italic;"> * js&#25351;&#23450;&#30561;&#30496;&#26102;&#38271;</span>
+<span style="color: #5f615c; font-style: italic;"> * @param  {[type]} numberMillis [description]</span>
+<span style="color: #5f615c; font-style: italic;"> * @return {[type]}              [description]</span>
+<span style="color: #5f615c; font-style: italic;"> */</span>
+ <span style="color: #346604;">function</span> <span style="color: #a40000;">sleep</span>(<span style="color: #b35000;">numberMillis</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">now</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">exitTime</span> = now.getTime() + numberMillis;
+    <span style="color: #346604;">while</span> (<span style="color: #204a87; font-weight: bold;">true</span>) {
+        now = <span style="color: #346604;">new</span> <span style="color: #204a87;">Date</span>();
+        <span style="color: #346604;">if</span> (now.getTime() &gt; exitTime)
+            <span style="color: #346604;">return</span>;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge7080ab" class="outline-2">
+<h2 id="orge7080ab">字符串</h2>
+<div class="outline-text-2" id="text-orge7080ab">
+</div>
+<div id="outline-container-org13c2a3b" class="outline-3">
+<h3 id="org13c2a3b">生成随机验证码</h3>
+<div class="outline-text-3" id="text-org13c2a3b">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">CreateCode</span>() {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">code</span> = <span style="color: #5c3566;">''</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">codeLength</span> = 6;<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#39564;&#35777;&#30721;&#30340;&#38271;&#24230;</span>
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">selectChar</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Array</span>(<span style="color: #5c3566;">'1'</span>, <span style="color: #5c3566;">'2'</span>, <span style="color: #5c3566;">'3'</span>, <span style="color: #5c3566;">'4'</span>, <span style="color: #5c3566;">'5'</span>, <span style="color: #5c3566;">'6'</span>, <span style="color: #5c3566;">'7'</span>, <span style="color: #5c3566;">'8'</span>, <span style="color: #5c3566;">'9'</span>, <span style="color: #5c3566;">'A'</span>, <span style="color: #5c3566;">'B'</span>, <span style="color: #5c3566;">'C'</span>, <span style="color: #5c3566;">'D'</span>, <span style="color: #5c3566;">'E'</span>, <span style="color: #5c3566;">'F'</span>, <span style="color: #5c3566;">'G'</span>, <span style="color: #5c3566;">'H'</span>, <span style="color: #5c3566;">'J'</span>, <span style="color: #5c3566;">'K'</span>, <span style="color: #5c3566;">'L'</span>, <span style="color: #5c3566;">'M'</span>, <span style="color: #5c3566;">'N'</span>, <span style="color: #5c3566;">'P'</span>, <span style="color: #5c3566;">'Q'</span>, <span style="color: #5c3566;">'R'</span>, <span style="color: #5c3566;">'S'</span>, <span style="color: #5c3566;">'T'</span>, <span style="color: #5c3566;">'U'</span>, <span style="color: #5c3566;">'V'</span>, <span style="color: #5c3566;">'W'</span>, <span style="color: #5c3566;">'X'</span>, <span style="color: #5c3566;">'Y'</span>, <span style="color: #5c3566;">'Z'</span>);
+
+    <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0; i &lt; codeLength; i++) {
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">charIndex</span> = Math.floor(Math.random() * 32);
+        code += selectChar[charIndex];
+    }
+    <span style="color: #346604;">return</span> code;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org778592c" class="outline-3">
+<h3 id="org778592c">截取字符串 包含中文处理</h3>
+<div class="outline-text-3" id="text-org778592c">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">(&#20018;,&#38271;&#24230;,&#22686;&#21152;...) </span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">subString</span>(<span style="color: #b35000;">str</span>, <span style="color: #b35000;">len</span>, <span style="color: #b35000;">hasDot</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">newLength</span> = 0;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">newStr</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">chineseRegex</span> = <span style="color: #5c3566;">/[^\x00-\xff]/</span>g;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">singleChar</span> = <span style="color: #5c3566;">""</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">strLength</span> = str.replace(chineseRegex, <span style="color: #5c3566;">"**"</span>).length;
+    <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0; i &lt; strLength; i++) {
+        singleChar = str.charAt(i).toString();
+        <span style="color: #346604;">if</span> (singleChar.match(chineseRegex) != <span style="color: #204a87; font-weight: bold;">null</span>) {
+            newLength += 2;
+        }
+        <span style="color: #346604;">else</span> {
+            newLength++;
+        }
+        <span style="color: #346604;">if</span> (newLength &gt; len) {
+            <span style="color: #346604;">break</span>;
+        }
+        newStr += singleChar;
+    }
+
+    <span style="color: #346604;">if</span> (hasDot &amp;&amp; strLength &gt; len) {
+        newStr += <span style="color: #5c3566;">"..."</span>;
+    }
+    <span style="color: #346604;">return</span> newStr;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3e85ef1" class="outline-3">
+<h3 id="org3e85ef1">获取url参数</h3>
+<div class="outline-text-3" id="text-org3e85ef1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">GetRequest</span>() {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">url</span> = location.search; <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#33719;&#21462;url&#20013;"?"&#31526;&#21518;&#30340;&#23383;&#20018;</span>
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">theRequest</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Object</span>();
+    <span style="color: #346604;">if</span> (url.indexOf(<span style="color: #5c3566;">"?"</span>) != -1) {
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">str</span> = url.substr(1);
+        strs = str.split(<span style="color: #5c3566;">"&amp;"</span>);
+        <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">i</span> = 0; i &lt; strs.length; i++) {
+            theRequest[strs[i].split(<span style="color: #5c3566;">"="</span>)[0]] = unescape(strs[i].split(<span style="color: #5c3566;">"="</span>)[1]);
+        }
+    }
+    <span style="color: #346604;">return</span> theRequest;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge80fbee" class="outline-2">
+<h2 id="orge80fbee">校验</h2>
+<div class="outline-text-2" id="text-orge80fbee">
+</div>
+<div id="outline-container-orgf500056" class="outline-3">
+<h3 id="orgf500056">检查对象是否为空对象</h3>
+<div class="outline-text-3" id="text-orgf500056">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">/* </span>
+<span style="color: #5f615c; font-style: italic;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; //&#22914;&#20320;&#19978;&#38754;&#30340;&#37027;&#20010;&#23545;&#35937;&#23601;&#26159;&#19981;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;</span>
+<span style="color: #5f615c; font-style: italic;"> * &#26041;&#27861;&#21482;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#19981;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;&#12290; </span>
+<span style="color: #5f615c; font-style: italic;"> */</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">isOwnEmpty</span>(<span style="color: #b35000;">obj</span>) {
+    <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">name</span> <span style="color: #346604;">in</span> obj) {
+        <span style="color: #346604;">if</span> (obj.hasOwnProperty(name)) {
+            <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+        }
+    }
+    <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+}
+<span style="color: #5f615c; font-style: italic;">/* </span>
+<span style="color: #5f615c; font-style: italic;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; </span>
+<span style="color: #5f615c; font-style: italic;"> * &#26041;&#27861;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#20063;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;(&#22240;&#27492;&#27809;&#26377;&#20351;hasOwnProperty)&#12290; </span>
+<span style="color: #5f615c; font-style: italic;"> */</span>
+<span style="color: #346604;">function</span> <span style="color: #a40000;">isEmpty</span>(<span style="color: #b35000;">obj</span>) {
+    <span style="color: #346604;">for</span> (<span style="color: #346604;">var</span> <span style="color: #b35000;">name</span> <span style="color: #346604;">in</span> obj) {
+        <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">false</span>;
+    }
+    <span style="color: #346604;">return</span> <span style="color: #204a87; font-weight: bold;">true</span>;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3a32266" class="outline-3">
+<h3 id="org3a32266">身份证号校验</h3>
+<div class="outline-text-3" id="text-org3a32266">
+<p>
+//检验身份证号码
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">checkIdcard</span>(<span style="color: #b35000;">idcard</span>) {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">Msgs</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Array</span>(
+        <span style="color: #5c3566;">"&#39564;&#35777;&#36890;&#36807;"</span>,
+        <span style="color: #5c3566;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#20301;&#25968;&#19981;&#23545;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #5c3566;">"&#26657;&#39564;&#20986;&#29983;&#26085;&#26399;&#26080;&#25928;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #5c3566;">"&#26816;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #5c3566;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#30465;&#20221;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+<span style="color: #5c3566;">"&#36523;&#20221;&#35777;&#21495;&#30721;&#19981;&#20801;&#35768;&#20026;&#31354;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>
+    );
+
+    idcard = idcard.toUpperCase();
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">area</span> = { 11: <span style="color: #5c3566;">"&#21271;&#20140;"</span>, 12: <span style="color: #5c3566;">"&#22825;&#27941;"</span>, 13: <span style="color: #5c3566;">"&#27827;&#21271;"</span>, 14: <span style="color: #5c3566;">"&#23665;&#35199;"</span>, 15: <span style="color: #5c3566;">"&#20869;&#33945;&#21476;"</span>, 21: <span style="color: #5c3566;">"&#36797;&#23425;"</span>, 22: <span style="color: #5c3566;">"&#21513;&#26519;"</span>, 23: <span style="color: #5c3566;">"&#40657;&#40857;&#27743;"</span>, 31: <span style="color: #5c3566;">"&#19978;&#28023;"</span>, 32: <span style="color: #5c3566;">"&#27743;&#33487;"</span>, 33: <span style="color: #5c3566;">"&#27993;&#27743;"</span>, 34: <span style="color: #5c3566;">"&#23433;&#24509;"</span>, 35: <span style="color: #5c3566;">"&#31119;&#24314;"</span>, 36: <span style="color: #5c3566;">"&#27743;&#35199;"</span>, 37: <span style="color: #5c3566;">"&#23665;&#19996;"</span>, 41: <span style="color: #5c3566;">"&#27827;&#21335;"</span>, 42: <span style="color: #5c3566;">"&#28246;&#21271;"</span>, 43: <span style="color: #5c3566;">"&#28246;&#21335;"</span>, 44: <span style="color: #5c3566;">"&#24191;&#19996;"</span>, 45: <span style="color: #5c3566;">"&#24191;&#35199;"</span>, 46: <span style="color: #5c3566;">"&#28023;&#21335;"</span>, 50: <span style="color: #5c3566;">"&#37325;&#24198;"</span>, 51: <span style="color: #5c3566;">"&#22235;&#24029;"</span>, 52: <span style="color: #5c3566;">"&#36149;&#24030;"</span>, 53: <span style="color: #5c3566;">"&#20113;&#21335;"</span>, 54: <span style="color: #5c3566;">"&#35199;&#34255;"</span>, 61: <span style="color: #5c3566;">"&#38485;&#35199;"</span>, 62: <span style="color: #5c3566;">"&#29976;&#32899;"</span>, 63: <span style="color: #5c3566;">"&#38738;&#28023;"</span>, 64: <span style="color: #5c3566;">"&#23425;&#22799;"</span>, 65: <span style="color: #5c3566;">"&#26032;&#30086;"</span>, 71: <span style="color: #5c3566;">"&#21488;&#28286;"</span>, 81: <span style="color: #5c3566;">"&#39321;&#28207;"</span>, 82: <span style="color: #5c3566;">"&#28595;&#38376;"</span>, 91: <span style="color: #5c3566;">"&#22269;&#22806;"</span> }
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">idcard</span>, <span style="color: #b35000;">Y</span>, <span style="color: #b35000;">JYM</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">S</span>, <span style="color: #b35000;">M</span>;
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">idcard_array</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">Array</span>();
+    idcard_array = idcard.split(<span style="color: #5c3566;">""</span>);
+
+    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#39564;&#35777;&#26159;&#21542;&#20026;&#31354;</span>
+    <span style="color: #346604;">if</span> (idcard.length &lt;= 0) {
+        <span style="color: #346604;">return</span> Msgs[5];
+    }
+
+    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#39564;&#35777;&#21495;&#30721;&#20301;&#25968;</span>
+    <span style="color: #346604;">if</span> (idcard.length != 15 &amp;&amp; idcard.length != 18) {
+        <span style="color: #346604;">return</span> Msgs[1];
+    }
+
+    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#22320;&#21306;&#26816;&#39564;</span>
+    <span style="color: #346604;">if</span> (area[parseInt(idcard.substr(0, 2))] == <span style="color: #204a87; font-weight: bold;">null</span>) {
+        <span style="color: #346604;">return</span> Msgs[4];
+    }
+
+
+    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#36523;&#20221;&#21495;&#30721;&#20301;&#25968;&#21450;&#26684;&#24335;&#26816;&#39564;</span>
+    <span style="color: #346604;">switch</span> (idcard.length) {
+        <span style="color: #346604;">case</span> 15:
+            <span style="color: #346604;">if</span> ((parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0 || ((parseInt(idcard.substr(6, 2)) + 1900) % 100 == 0 &amp;&amp; (parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0)) {
+                ereg = <span style="color: #5c3566;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$/</span>;<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+            } <span style="color: #346604;">else</span> {
+                ereg = <span style="color: #5c3566;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}$/</span>;<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+            }
+            <span style="color: #346604;">if</span> (ereg.test(idcard))
+                <span style="color: #346604;">return</span> Msgs[0];
+            <span style="color: #346604;">else</span> {
+                <span style="color: #346604;">return</span> Msgs[3];
+            }
+            <span style="color: #346604;">break</span>;
+        <span style="color: #346604;">case</span> 18:
+            <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">18&#20301;&#36523;&#20221;&#21495;&#30721;&#26816;&#27979;</span>
+            <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#26816;&#26597; </span>
+            <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#38384;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))</span>
+            <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#24179;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))</span>
+            <span style="color: #346604;">if</span> (parseInt(idcard.substr(6, 4)) % 4 == 0 || (parseInt(idcard.substr(6, 4)) % 100 == 0 &amp;&amp; parseInt(idcard.substr(6, 4)) % 4 == 0)) {
+                ereg = <span style="color: #5c3566;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#38384;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
+            } <span style="color: #346604;">else</span> {
+                ereg = <span style="color: #5c3566;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#24179;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
+            }
+            <span style="color: #346604;">if</span> (ereg.test(idcard)) {<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+                <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#35745;&#31639;&#26657;&#39564;&#20301;</span>
+                S = (parseInt(idcard_array[0]) + parseInt(idcard_array[10])) * 7
++ (parseInt(idcard_array[1]) + parseInt(idcard_array[11])) * 9
++ (parseInt(idcard_array[2]) + parseInt(idcard_array[12])) * 10
++ (parseInt(idcard_array[3]) + parseInt(idcard_array[13])) * 5
++ (parseInt(idcard_array[4]) + parseInt(idcard_array[14])) * 8
++ (parseInt(idcard_array[5]) + parseInt(idcard_array[15])) * 4
++ (parseInt(idcard_array[6]) + parseInt(idcard_array[16])) * 2
++ parseInt(idcard_array[7]) * 1
++ parseInt(idcard_array[8]) * 6
++ parseInt(idcard_array[9]) * 3;
+                Y = S % 11;
+                M = <span style="color: #5c3566;">"F"</span>;
+                JYM = <span style="color: #5c3566;">"10X98765432"</span>;
+                M = JYM.substr(Y, 1);<span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#21028;&#26029;&#26657;&#39564;&#20301;</span>
+                <span style="color: #346604;">if</span> (M == idcard_array[17])
+                    <span style="color: #346604;">return</span> Msgs[0];
+                <span style="color: #346604;">else</span> {
+                    <span style="color: #346604;">return</span> Msgs[3];
+                }
+            }
+            <span style="color: #346604;">else</span> {
+                <span style="color: #346604;">return</span> Msgs[2];
+            }
+            <span style="color: #346604;">break</span>;
+        <span style="color: #346604;">default</span>:
+            <span style="color: #346604;">return</span> Msgs[1];
+            <span style="color: #346604;">break</span>;
+    }
+}
+</pre>
+</div>
+<p>
+//身份证号码验证算法
+</p>
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">--&#26681;&#25454;17&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#33719;&#21462;&#26368;&#21518;&#19968;&#20301;&#26657;&#39564;&#30721;&#31243;&#24207;</span>
+<span style="color: #346604;">public</span> <span style="color: #346604;">class</span> Id18 {
+    <span style="color: #204a87;">int</span>[] weight={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#26435;&#37325;</span>
+    <span style="color: #204a87;">char</span>[] validate={ <span style="color: #5c3566;">'1'</span>,<span style="color: #5c3566;">'0'</span>,<span style="color: #5c3566;">'X'</span>,<span style="color: #5c3566;">'9'</span>,<span style="color: #5c3566;">'8'</span>,<span style="color: #5c3566;">'7'</span>,<span style="color: #5c3566;">'6'</span>,<span style="color: #5c3566;">'5'</span>,<span style="color: #5c3566;">'4'</span>,<span style="color: #5c3566;">'3'</span>,<span style="color: #5c3566;">'2'</span>};    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">mod11,&#23545;&#24212;&#26657;&#39564;&#30721;&#23383;&#31526;&#20540;    </span>
+
+    <span style="color: #346604;">public</span> <span style="color: #204a87;">char</span> <span style="color: #b35000;">getValidateCode</span>(String id17){
+        <span style="color: #204a87;">int</span> <span style="color: #b35000;">sum</span> = 0;
+        <span style="color: #204a87;">int</span> <span style="color: #b35000;">mode</span> = 0;
+        <span style="color: #346604;">for</span>(<span style="color: #204a87;">int</span> <span style="color: #b35000;">i</span> = 0; i &lt; id17.length(); i++){
+            sum=sum+Integer.parseInt(String.valueOf(id17.charAt(i)))*weight[i];
+        }
+        mode = sum % 11;
+        <span style="color: #346604;">return</span> validate[mode];
+    }
+
+    <span style="color: #346604;">public</span> <span style="color: #346604;">static</span> <span style="color: #346604;">void</span> <span style="color: #b35000;">main</span>(String[] args){
+        Id18 tes t= <span style="color: #346604;">new</span> <span style="color: #204a87;">Id18</span>();
+        System.out.println(<span style="color: #5c3566;">"&#35813;&#36523;&#20221;&#35777;&#39564;&#35777;&#30721;&#65306;"</span>+test.getValidateCode(<span style="color: #5c3566;">"14230219700101101"</span>));    <span style="color: #5f615c; font-style: italic;">//</span><span style="color: #5f615c; font-style: italic;">&#35813;&#36523;&#20221;&#35777;&#26657;&#39564;&#30721;&#65306;3</span>
+    }
+}
+--&#20844;&#27665;&#36523;&#20221;&#21495;&#30721;&#26159;&#29305;&#24449;&#32452;&#21512;&#30721;&#65292;&#30001;&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#21644;&#19968;&#20301;&#26657;&#39564;&#30721;&#32452;&#25104;&#12290;
+&#25490;&#21015;&#39034;&#24207;&#20174;&#24038;&#33267;&#21491;&#20381;&#27425;&#20026;&#65306;&#20845;&#20301;&#25968;&#23383;&#22320;&#22336;&#30721;&#65292;&#20843;&#20301;&#25968;&#23383;&#20986;&#29983;&#26085;&#26399;&#30721;&#65292;&#19977;&#20301;&#25968;&#23383;&#39034;&#24207;&#30721;&#21644;&#19968;&#20301;&#26657;&#39564;&#30721;&#12290;
+1&#12289;&#22320;&#22336;&#30721;
+&#34920;&#31034;&#32534;&#30721;&#23545;&#35937;&#24120;&#20303;&#25143;&#21475;&#25152;&#22312;&#21439;(&#24066;&#12289;&#26071;&#12289;&#21306;)&#30340;&#34892;&#25919;&#21306;&#22495;&#21010;&#20998;&#20195;&#30721;&#65292;&#25353;GB/T2260&#30340;&#35268;&#23450;&#25191;&#34892;&#12290;
+
+2&#12289;&#20986;&#29983;&#26085;&#26399;&#30721;
+&#34920;&#31034;&#32534;&#30721;&#23545;&#35937;&#20986;&#29983;&#30340;&#24180;&#12289;&#26376;&#12289;&#26085;&#65292;&#25353;GB/T7408&#30340;&#35268;&#23450;&#25191;&#34892;&#65292;&#24180;&#12289;&#26376;&#12289;&#26085;&#20195;&#30721;&#20043;&#38388;&#19981;&#29992;&#20998;&#38548;&#31526;&#12290;
+
+3&#12289;&#39034;&#24207;&#30721;
+&#34920;&#31034;&#22312;&#21516;&#19968;&#22320;&#22336;&#30721;&#25152;&#26631;&#35782;&#30340;&#21306;&#22495;&#33539;&#22260;&#20869;&#65292;&#23545;&#21516;&#24180;&#12289;&#21516;&#26376;&#12289;&#21516;&#26085;&#20986;&#29983;&#30340;&#20154;&#32534;&#23450;&#30340;&#39034;&#24207;&#21495;&#65292;&#39034;&#24207;&#30721;&#30340;&#22855;&#25968;&#20998;&#37197;&#32473;&#30007;&#24615;&#65292;&#20598;&#25968;&#20998;&#37197;&#32473;&#22899;&#24615;&#12290;
+
+4&#12289;&#26657;&#39564;&#30721;&#35745;&#31639;&#27493;&#39588;
+(1)&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#21152;&#26435;&#27714;&#21644;&#20844;&#24335;
+S = Sum(Ai * Wi), i = 0, &#8230; , 16 &#65292;&#20808;&#23545;&#21069; 17 &#20301;&#25968;&#23383;&#30340;&#26435;&#27714;&#21644;
+Ai&#65306;&#34920;&#31034;&#31532;i&#20301;&#32622;&#19978;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#25968;&#23383;&#20540;(0~9)
+Wi&#65306;7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 &#65288;&#34920;&#31034;&#31532; i &#20301;&#32622;&#19978;&#30340;&#21152;&#26435;&#22240;&#23376;&#65289;
+(2)&#35745;&#31639;&#27169;
+Y = mod(S, 11)
+(3)&#26681;&#25454;&#27169;&#65292;&#26597;&#25214;&#24471;&#21040;&#23545;&#24212;&#30340;&#26657;&#39564;&#30721;
+Y: 0 1 2 3 4 5 6 7 8 9 10
+&#26657;&#39564;&#30721;: 1 0 X 9 8 7 6 5 4 3 2
+--&#35828;&#26126;&#65306;
+1.&#31243;&#24207;&#21487;&#20197;&#26681;&#25454;&#24050;&#26377;&#30340;17&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#65292;&#33719;&#21462;&#23545;&#24212;&#30340;&#39564;&#35777;&#30721;&#12290;
+2.&#35813;&#31243;&#24207;&#21487;&#20197;&#21076;&#38500;&#39564;&#35777;&#30721;&#19981;&#27491;&#30830;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;
+3.15&#20301;&#30340;&#36523;&#20221;&#35777;&#20986;&#29983;&#24180;&#20221;&#37319;&#29992;&#24180;&#20221;&#21518;2&#20301;&#65292;&#27809;&#26377;&#26368;&#21518;1&#20301;&#26657;&#39564;&#30721;&#12290;
+4.&#23436;&#25972;&#30340;&#36523;&#20221;&#35777;18&#20301;&#65292;&#26368;&#21518;&#19968;&#20301;&#26657;&#39564;&#20301;&#21487;&#33021;&#26159;&#38750;&#25968;&#23383;&#12290;&#25105;&#20204;&#30340;&#19968;&#20010;&#39033;&#30446;&#65292;&#25968;&#25454;&#24211;&#20445;&#23384;&#21069;17&#20301;&#25968;&#23383;&#65292;&#36825;&#26679;&#23545;&#24212;&#19968;&#20123;SQL&#35821;&#21477;&#65288;&#27604;&#22914;inner join&#65289;&#26377;&#21152;&#36895;&#20316;&#29992;&#30340;&#65281;&#65281;&#65281;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga72e440" class="outline-3">
+<h3 id="orga72e440">电话号码校验</h3>
+<div class="outline-text-3" id="text-orga72e440">
+<div class="org-src-container">
+<pre class="src src-js">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcb14832" class="outline-3">
+<h3 id="orgcb14832">Email校验</h3>
+<div class="outline-text-3" id="text-orgcb14832">
+<div class="org-src-container">
+<pre class="src src-js">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org20ef75c" class="outline-3">
+<h3 id="org20ef75c">IP地址校验</h3>
+<div class="outline-text-3" id="text-org20ef75c">
+<div class="org-src-container">
+<pre class="src src-js">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8147d9f" class="outline-3">
+<h3 id="org8147d9f">其他校验</h3>
+<div class="outline-text-3" id="text-org8147d9f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#23383;&#27573;&#21482;&#33021;&#21253;&#21547;&#22823;&#23567;&#20889;&#23383;&#27597;&#21644;&#25968;&#23383;
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org680c90a" class="outline-2">
+<h2 id="org680c90a">其他</h2>
+<div class="outline-text-2" id="text-org680c90a">
+</div>
+<div id="outline-container-org265db01" class="outline-4">
+<h4 id="org265db01">滚动到页面顶部</h4>
+<div class="outline-text-4" id="text-org265db01">
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #346604;">function</span> <span style="color: #a40000;">goTopEx</span>() {
+    <span style="color: #346604;">var</span> <span style="color: #b35000;">obj</span> = document.getElementById(<span style="color: #5c3566;">"goTopBtn"</span>);
+    <span style="color: #346604;">function</span> <span style="color: #a40000;">getScrollTop</span>() {
+        <span style="color: #346604;">return</span> document.documentElement.scrollTop;
+    }
+    <span style="color: #346604;">function</span> <span style="color: #a40000;">setScrollTop</span>(<span style="color: #b35000;">value</span>) {
+        document.documentElement.scrollTop = value;
+    }
+    window.onscroll = <span style="color: #346604;">function</span> () { getScrollTop() &gt; 0 ? obj.style.display = <span style="color: #5c3566;">""</span> : obj.style.display = <span style="color: #5c3566;">"none"</span>; }
+    obj.onclick = <span style="color: #346604;">function</span> () {
+        <span style="color: #346604;">var</span> <span style="color: #b35000;">goTop</span> = setInterval(scrollMove, 10);
+        <span style="color: #346604;">function</span> <span style="color: #a40000;">scrollMove</span>() {
+            setScrollTop(getScrollTop() / 1.1);
+            <span style="color: #346604;">if</span> (getScrollTop() &lt; 1) clearInterval(goTop);
+        }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org81c4f34" class="outline-4">
+<h4 id="org81c4f34">待添加</h4>
+<div class="outline-text-4" id="text-org81c4f34">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/JavaScript" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/software/2015/11/06/using-vim/" rel="next" title="Using Vim">
+                <i class="fa fa-chevron-left"></i> Using Vim
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/php/2015/08/20/php-import-export/" rel="prev" title="PHP 导入导出">
+                PHP 导入导出 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Rengui" />
+          <p class="site-author-name" itemprop="name">Zhao Rengui</p>
+           
+              <p class="site-description motion-element" itemprop="description">Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaorengui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1f0277a"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga0c4c23"> <span class="nav-number">2</span> <span class="nav-text">日期/时间</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcfc8c80"> <span class="nav-number">2.1</span> <span class="nav-text">转换UTC时间</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2d3267b"> <span class="nav-number">2.2</span> <span class="nav-text">将日期转换为yyyymmddhhssmm格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgeff2e0b"> <span class="nav-number">2.3</span> <span class="nav-text">格式化日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc0e1b86"> <span class="nav-number">2.4</span> <span class="nav-text">日期加减</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5ea9114"> <span class="nav-number">2.5</span> <span class="nav-text">获取指定日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5f4368d"> <span class="nav-number">2.6</span> <span class="nav-text">计算日期差</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6aa4edf"> <span class="nav-number">2.7</span> <span class="nav-text">倒计时</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org41d4b74"> <span class="nav-number">2.8</span> <span class="nav-text">指定睡眠时间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge7080ab"> <span class="nav-number">3</span> <span class="nav-text">字符串</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org13c2a3b"> <span class="nav-number">3.1</span> <span class="nav-text">生成随机验证码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org778592c"> <span class="nav-number">3.2</span> <span class="nav-text">截取字符串 包含中文处理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e85ef1"> <span class="nav-number">3.3</span> <span class="nav-text">获取url参数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge80fbee"> <span class="nav-number">4</span> <span class="nav-text">校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf500056"> <span class="nav-number">4.1</span> <span class="nav-text">检查对象是否为空对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3a32266"> <span class="nav-number">4.2</span> <span class="nav-text">身份证号校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga72e440"> <span class="nav-number">4.3</span> <span class="nav-text">电话号码校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcb14832"> <span class="nav-number">4.4</span> <span class="nav-text">Email校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org20ef75c"> <span class="nav-number">4.5</span> <span class="nav-text">IP地址校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8147d9f"> <span class="nav-number">4.6</span> <span class="nav-text">其他校验</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org680c90a"> <span class="nav-number">5</span> <span class="nav-text">其他</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org265db01"> <span class="nav-number">5.1</span> <span class="nav-text">滚动到页面顶部</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org81c4f34"> <span class="nav-number">5.2</span> <span class="nav-text">待添加</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Rengui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

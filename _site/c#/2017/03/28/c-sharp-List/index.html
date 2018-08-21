@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="" />
+  <meta name="keywords" content="C#," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Table of Contents 1. 标签 2. ModelHandler.cs 如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。 1 标签 C# 2 ModelHandler.cs using System; using System.Collections.Generic; using System.ComponentModel; using System.Data; using System.Linq; using System.Reflection; using System.Text; using System.Threading.Tasks; namespace ZCKJ.Common { public class ModelHandler { /// &amp;lt;summary&amp;gt; /// &amp;#20174; reader &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;&amp;#23454;&amp;#29616; IDataReader &amp;#25509;&amp;#21475;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(IDataReader reader) where T : class { List&amp;lt;T&amp;gt; list = new List&amp;lt;T&amp;gt;(); T obj = default(T); Type t = typeof(T); Assembly ass = t.Assembly; Dictionary&amp;lt;string, PropertyInfo&amp;gt; propertys = ModelHandler.GetFields&amp;lt;T&amp;gt;(reader); PropertyInfo p = null; if (reader != null) { while (reader.Read()) { obj = ass.CreateInstance(t.FullName) as T; foreach (string key in propertys.Keys) { p = propertys[key]; p.SetValue(obj, ModelHandler.ChangeType(reader[key], p.PropertyType), null); } list.Add(obj); } } return list; } /// &amp;lt;summary&amp;gt; /// &amp;#20174; DataTale &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;DataTale &amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(DataTable table) where T : class { return table == null ? new List&amp;lt;T&amp;gt;() : ModelHandler.ConvertToObject&amp;lt;T&amp;gt;(table.CreateDataReader() as IDataReader); } /// &amp;lt;summary&amp;gt; /// &amp;#23558;&amp;#25968;&amp;#25454;&amp;#36716;&amp;#21270;&amp;#20026; type &amp;#31867;&amp;#22411; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;value&quot;&amp;gt;&amp;#35201;&amp;#36716;&amp;#21270;&amp;#30340;&amp;#20540;&amp;lt;/param&amp;gt; /// &amp;lt;param name=&quot;type&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#36716;&amp;#21270;&amp;#20026;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#30340; Object &amp;#23545;&amp;#35937;&amp;lt;/returns&amp;gt; private static object ChangeType(object value, Type type) { if (type.FullName == typeof(string).FullName) { return Convert.ChangeType(Convert.IsDBNull(value) ? null : value, type); } else if (type.FullName == typeof(DateTime).FullName) { if (value != null &amp;amp;&amp;amp; value != DBNull.Value) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } else { return null; } } if (type.IsGenericType &amp;amp;&amp;amp; type.GetGenericTypeDefinition().Equals(typeof(Nullable&amp;lt;&amp;gt;))) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } return value; } /// &amp;lt;summary&amp;gt; /// &amp;#33719;&amp;#21462;reader&amp;#23384;&amp;#22312;&amp;#24182;&amp;#19988;&amp;#22312; T &amp;#31867;&amp;#20013;&amp;#21253;&amp;#21547;&amp;#21516;&amp;#21517;&amp;#21487;&amp;#20889;&amp;#23646;&amp;#24615;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt; /// &amp;#21487;&amp;#20889;&amp;#22495;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt; /// &amp;#20197;&amp;#23646;&amp;#24615;&amp;#21517;&amp;#20026;&amp;#38190;&amp;#65292;PropertyInfo &amp;#20026;&amp;#20540;&amp;#24471;&amp;#23383;&amp;#20856;&amp;#23545;&amp;#35937; /// &amp;lt;/returns&amp;gt; private static Dictionary&amp;lt;string, PropertyInfo&amp;gt; GetFields&amp;lt;T&amp;gt;(IDataReader reader) { Dictionary&amp;lt;string, PropertyInfo&amp;gt; result = new Dictionary&amp;lt;string, PropertyInfo&amp;gt;(); int columnCount = reader.FieldCount; Type t = typeof(T); PropertyInfo[] properties = t.GetProperties(); if (properties != null) { List&amp;lt;string&amp;gt; readerFields = new List&amp;lt;string&amp;gt;(); for (int i = 0; i &amp;lt; columnCount; i++) { readerFields.Add(reader.GetName(i)); } //IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = // (from PropertyInfo prop in properties // where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name.ToUpper()) // select prop); IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = (from PropertyInfo prop in properties where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name) select prop); foreach (PropertyInfo p in resList) { result.Add(p.Name, p); } } return result; } } }">
-<meta name="keywords" content="Jekyll, NexT">
+<meta name="description" content="C# 公共类">
+<meta name="keywords" content="C#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C Sharp List">
-<meta property="og:url" content="http://localhost:4000/2017/03/28/c-sharp-List/">
+<meta property="og:title" content="C#-public">
+<meta property="og:url" content="http://localhost:4000/c%23/2017/03/28/c-sharp-List/">
 <meta property="og:site_name" content="Rengui's Article">
-<meta property="og:description" content="Table of Contents 1. 标签 2. ModelHandler.cs 如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。 1 标签 C# 2 ModelHandler.cs using System; using System.Collections.Generic; using System.ComponentModel; using System.Data; using System.Linq; using System.Reflection; using System.Text; using System.Threading.Tasks; namespace ZCKJ.Common { public class ModelHandler { /// &amp;lt;summary&amp;gt; /// &amp;#20174; reader &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;&amp;#23454;&amp;#29616; IDataReader &amp;#25509;&amp;#21475;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(IDataReader reader) where T : class { List&amp;lt;T&amp;gt; list = new List&amp;lt;T&amp;gt;(); T obj = default(T); Type t = typeof(T); Assembly ass = t.Assembly; Dictionary&amp;lt;string, PropertyInfo&amp;gt; propertys = ModelHandler.GetFields&amp;lt;T&amp;gt;(reader); PropertyInfo p = null; if (reader != null) { while (reader.Read()) { obj = ass.CreateInstance(t.FullName) as T; foreach (string key in propertys.Keys) { p = propertys[key]; p.SetValue(obj, ModelHandler.ChangeType(reader[key], p.PropertyType), null); } list.Add(obj); } } return list; } /// &amp;lt;summary&amp;gt; /// &amp;#20174; DataTale &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;DataTale &amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(DataTable table) where T : class { return table == null ? new List&amp;lt;T&amp;gt;() : ModelHandler.ConvertToObject&amp;lt;T&amp;gt;(table.CreateDataReader() as IDataReader); } /// &amp;lt;summary&amp;gt; /// &amp;#23558;&amp;#25968;&amp;#25454;&amp;#36716;&amp;#21270;&amp;#20026; type &amp;#31867;&amp;#22411; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;value&quot;&amp;gt;&amp;#35201;&amp;#36716;&amp;#21270;&amp;#30340;&amp;#20540;&amp;lt;/param&amp;gt; /// &amp;lt;param name=&quot;type&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#36716;&amp;#21270;&amp;#20026;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#30340; Object &amp;#23545;&amp;#35937;&amp;lt;/returns&amp;gt; private static object ChangeType(object value, Type type) { if (type.FullName == typeof(string).FullName) { return Convert.ChangeType(Convert.IsDBNull(value) ? null : value, type); } else if (type.FullName == typeof(DateTime).FullName) { if (value != null &amp;amp;&amp;amp; value != DBNull.Value) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } else { return null; } } if (type.IsGenericType &amp;amp;&amp;amp; type.GetGenericTypeDefinition().Equals(typeof(Nullable&amp;lt;&amp;gt;))) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } return value; } /// &amp;lt;summary&amp;gt; /// &amp;#33719;&amp;#21462;reader&amp;#23384;&amp;#22312;&amp;#24182;&amp;#19988;&amp;#22312; T &amp;#31867;&amp;#20013;&amp;#21253;&amp;#21547;&amp;#21516;&amp;#21517;&amp;#21487;&amp;#20889;&amp;#23646;&amp;#24615;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt; /// &amp;#21487;&amp;#20889;&amp;#22495;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt; /// &amp;#20197;&amp;#23646;&amp;#24615;&amp;#21517;&amp;#20026;&amp;#38190;&amp;#65292;PropertyInfo &amp;#20026;&amp;#20540;&amp;#24471;&amp;#23383;&amp;#20856;&amp;#23545;&amp;#35937; /// &amp;lt;/returns&amp;gt; private static Dictionary&amp;lt;string, PropertyInfo&amp;gt; GetFields&amp;lt;T&amp;gt;(IDataReader reader) { Dictionary&amp;lt;string, PropertyInfo&amp;gt; result = new Dictionary&amp;lt;string, PropertyInfo&amp;gt;(); int columnCount = reader.FieldCount; Type t = typeof(T); PropertyInfo[] properties = t.GetProperties(); if (properties != null) { List&amp;lt;string&amp;gt; readerFields = new List&amp;lt;string&amp;gt;(); for (int i = 0; i &amp;lt; columnCount; i++) { readerFields.Add(reader.GetName(i)); } //IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = // (from PropertyInfo prop in properties // where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name.ToUpper()) // select prop); IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = (from PropertyInfo prop in properties where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name) select prop); foreach (PropertyInfo p in resList) { result.Add(p.Name, p); } } return result; } } }">
+<meta property="og:description" content="C# 公共类">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C Sharp List">
-<meta name="twitter:description" content="Table of Contents 1. 标签 2. ModelHandler.cs 如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。 1 标签 C# 2 ModelHandler.cs using System; using System.Collections.Generic; using System.ComponentModel; using System.Data; using System.Linq; using System.Reflection; using System.Text; using System.Threading.Tasks; namespace ZCKJ.Common { public class ModelHandler { /// &amp;lt;summary&amp;gt; /// &amp;#20174; reader &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;&amp;#23454;&amp;#29616; IDataReader &amp;#25509;&amp;#21475;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(IDataReader reader) where T : class { List&amp;lt;T&amp;gt; list = new List&amp;lt;T&amp;gt;(); T obj = default(T); Type t = typeof(T); Assembly ass = t.Assembly; Dictionary&amp;lt;string, PropertyInfo&amp;gt; propertys = ModelHandler.GetFields&amp;lt;T&amp;gt;(reader); PropertyInfo p = null; if (reader != null) { while (reader.Read()) { obj = ass.CreateInstance(t.FullName) as T; foreach (string key in propertys.Keys) { p = propertys[key]; p.SetValue(obj, ModelHandler.ChangeType(reader[key], p.PropertyType), null); } list.Add(obj); } } return list; } /// &amp;lt;summary&amp;gt; /// &amp;#20174; DataTale &amp;#23545;&amp;#35937;&amp;#20013;&amp;#36880;&amp;#34892;&amp;#35835;&amp;#21462;&amp;#35760;&amp;#24405;&amp;#24182;&amp;#23558;&amp;#35760;&amp;#24405;&amp;#36716;&amp;#21270;&amp;#20026; T &amp;#31867;&amp;#22411;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;typeparam name=&quot;T&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#21442;&amp;#25968;&amp;lt;/typeparam&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt;DataTale &amp;#23545;&amp;#35937;&amp;#12290;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#25351;&amp;#23450;&amp;#31867;&amp;#22411;&amp;#30340;&amp;#23545;&amp;#35937;&amp;#38598;&amp;#21512;&amp;#12290;&amp;lt;/returns&amp;gt; public static List&amp;lt;T&amp;gt; ConvertToObject&amp;lt;T&amp;gt;(DataTable table) where T : class { return table == null ? new List&amp;lt;T&amp;gt;() : ModelHandler.ConvertToObject&amp;lt;T&amp;gt;(table.CreateDataReader() as IDataReader); } /// &amp;lt;summary&amp;gt; /// &amp;#23558;&amp;#25968;&amp;#25454;&amp;#36716;&amp;#21270;&amp;#20026; type &amp;#31867;&amp;#22411; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;value&quot;&amp;gt;&amp;#35201;&amp;#36716;&amp;#21270;&amp;#30340;&amp;#20540;&amp;lt;/param&amp;gt; /// &amp;lt;param name=&quot;type&quot;&amp;gt;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt;&amp;#36716;&amp;#21270;&amp;#20026;&amp;#30446;&amp;#26631;&amp;#31867;&amp;#22411;&amp;#30340; Object &amp;#23545;&amp;#35937;&amp;lt;/returns&amp;gt; private static object ChangeType(object value, Type type) { if (type.FullName == typeof(string).FullName) { return Convert.ChangeType(Convert.IsDBNull(value) ? null : value, type); } else if (type.FullName == typeof(DateTime).FullName) { if (value != null &amp;amp;&amp;amp; value != DBNull.Value) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } else { return null; } } if (type.IsGenericType &amp;amp;&amp;amp; type.GetGenericTypeDefinition().Equals(typeof(Nullable&amp;lt;&amp;gt;))) { NullableConverter convertor = new NullableConverter(type); return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value); } return value; } /// &amp;lt;summary&amp;gt; /// &amp;#33719;&amp;#21462;reader&amp;#23384;&amp;#22312;&amp;#24182;&amp;#19988;&amp;#22312; T &amp;#31867;&amp;#20013;&amp;#21253;&amp;#21547;&amp;#21516;&amp;#21517;&amp;#21487;&amp;#20889;&amp;#23646;&amp;#24615;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/summary&amp;gt; /// &amp;lt;param name=&quot;reader&quot;&amp;gt; /// &amp;#21487;&amp;#20889;&amp;#22495;&amp;#30340;&amp;#38598;&amp;#21512; /// &amp;lt;/param&amp;gt; /// &amp;lt;returns&amp;gt; /// &amp;#20197;&amp;#23646;&amp;#24615;&amp;#21517;&amp;#20026;&amp;#38190;&amp;#65292;PropertyInfo &amp;#20026;&amp;#20540;&amp;#24471;&amp;#23383;&amp;#20856;&amp;#23545;&amp;#35937; /// &amp;lt;/returns&amp;gt; private static Dictionary&amp;lt;string, PropertyInfo&amp;gt; GetFields&amp;lt;T&amp;gt;(IDataReader reader) { Dictionary&amp;lt;string, PropertyInfo&amp;gt; result = new Dictionary&amp;lt;string, PropertyInfo&amp;gt;(); int columnCount = reader.FieldCount; Type t = typeof(T); PropertyInfo[] properties = t.GetProperties(); if (properties != null) { List&amp;lt;string&amp;gt; readerFields = new List&amp;lt;string&amp;gt;(); for (int i = 0; i &amp;lt; columnCount; i++) { readerFields.Add(reader.GetName(i)); } //IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = // (from PropertyInfo prop in properties // where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name.ToUpper()) // select prop); IEnumerable&amp;lt;PropertyInfo&amp;gt; resList = (from PropertyInfo prop in properties where prop.CanWrite &amp;amp;&amp;amp; readerFields.Contains(prop.Name) select prop); foreach (PropertyInfo p in resList) { result.Add(p.Name, p); } } return result; } } }">
+<meta name="twitter:title" content="C#-public">
+<meta name="twitter:description" content="C# 公共类">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>C Sharp List | Rengui's Article</title>
+  <title>C#-public | Rengui's Article</title>
   
 
 
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2017/03/28/c-sharp-List/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/c%23/2017/03/28/c-sharp-List/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            C Sharp List
+            C#-public
           
         </h1>
         
@@ -380,9 +380,30 @@
           </span>
 
           
-
-          
+            <span class="post-category" >
             
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/C%23" itemprop="url" rel="index">
+                    <span itemprop="name">C#</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
           
 
           
@@ -395,7 +416,7 @@
           
             
                 <div class="post-description">
-                    
+                    C# 公共类
                 </div>
             
           
@@ -425,33 +446,15 @@
 
 
 
-  <div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#orgde75b28">1. 标签</a></li>
-<li><a href="#org3d1f4bf">2. ModelHandler.cs</a></li>
-</ul>
-</div>
-</div>
-<p>
+  <p>
 如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。
 </p>
 
-<div id="outline-container-orgde75b28" class="outline-2">
-<h2 id="orgde75b28"><span class="section-number-2">1</span> 标签</h2>
-<div class="outline-text-2" id="text-1">
-<pre class="example">
-C#
-
-</pre>
-</div>
-</div>
-<div id="outline-container-org3d1f4bf" class="outline-2">
-<h2 id="org3d1f4bf"><span class="section-number-2">2</span> ModelHandler.cs</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgaaade57" class="outline-2">
+<h2 id="orgaaade57">Model 处理类</h2>
+<div class="outline-text-2" id="text-orgaaade57">
 <div class="org-src-container">
-<pre class="src src-org">using System;
+<pre class="src src-org" id="org3d1f4bf">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -616,6 +619,13 @@ namespace ZCKJ.Common
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/C%23" rel="tag"># C#</a>
+          
+        </div>
+      
 
       
       
@@ -662,10 +672,6 @@ namespace ZCKJ.Common
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -721,7 +727,7 @@ namespace ZCKJ.Common
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -732,7 +738,7 @@ namespace ZCKJ.Common
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -743,7 +749,7 @@ namespace ZCKJ.Common
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -821,7 +827,7 @@ namespace ZCKJ.Common
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#"> <span class="nav-number">1</span> <span class="nav-text">Table of Contents</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgde75b28"> <span class="nav-number">2</span> <span class="nav-text">1 标签</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3d1f4bf"> <span class="nav-number">3</span> <span class="nav-text">2 ModelHandler.cs</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgaaade57"> <span class="nav-number">1</span> <span class="nav-text">Model 处理类</span> </a> </li>
     </ol>
   </div>
             

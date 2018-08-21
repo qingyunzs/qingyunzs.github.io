@@ -1,0 +1,113 @@
+#+TITLE:     PHP Public Method
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: PHP 公共函数
+author: zrg
+comments: false
+description: PHP 公共函数
+categories:
+- PHP
+tags:
+- PHP
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+如果你有任何问题或疑问，请发送Email至zrg1390556487@gmail.com！
+# (setq org-export-html-style nil)
+
+* 写在前面
+: 关于PHP的一些公共方法
+* String/Array
+** 字符串(String)
+*** 常用字符串操作
+: //字符串长度
+: $strLength=strlen($str);
+
+: //小写转换为大写
+: strtoupper($str);
+: //大写转换为小写
+: strtolower($str);
+
+: //截取字符串，取出最有一个字符
+: substr($str,0,-1);
+** 数组(Array)
+*** 常用数组操作
+: // 字符串转化为数组，explode()
+: $array=explode(separator,$string);
+: $pizza = "piece1 piece2 piece3 piece4 piece5 piece6";
+: $pieces = explode(" ", $pizza);
+: echo $pieces[0]; // piece1
+: echo $pieces[1]; // piece2
+
+: // 数组转化为字符串，implode()
+: $string=implode(glue,$array);
+
+: //去除空元素
+: array_filter()
+
+: //去除重复元素
+: array_unique()
+*** 判断二维数组是否为空
+#+BEGIN_SRC emacs-lisp
+function array_is_null($arr = null){ 
+	if(is_array($arr)){ 
+		foreach($arr as $k=>$v){ 
+			if($v&&!is_array($v)){ 
+				return false; 
+			}
+			$t = self::array_is_null($v); 
+			if(!$t){ 
+				return false; 
+			} 
+		}
+		return true; 
+	}elseif(!$arr){ 
+		return true; 
+	}else{ 
+		return false; 
+	}
+}
+#+END_SRC
+* Date/Time
+** 获取当月天数及当月第一天及最后一天、上月第一天及最后一天
+*** 获取上个月第一天及最后一天
+: echo date('Y-m-01', strtotime('-1 month'));
+: echo date('Y-m-t', strtotime('-1 month'));
+
+: //上个月第一天:
+: echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
+: //上个月最后一天:
+: echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 day')); // 计算出本月第一天再减一天
+*** 获取当月第一天及最后一天
+: $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+: echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
+*** 获取当前年份、月份、日、天数
+: echo " 本月共有:".date("t")."天";
+: echo " 当前年份".date('Y');
+: echo " 当前月份".date('m');
+: echo " 当前几号".date('d');
+** 日期转时间戳，时间戳转日期
+: strtotime('2010-03-24 08:15:42');
+: date('Y-m-d H:i:s', 1156219870);
+
+
+
+
+
