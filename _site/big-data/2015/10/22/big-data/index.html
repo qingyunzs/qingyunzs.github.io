@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="" />
+  <meta name="keywords" content="Big-Data,大数据," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Getting Started What is Python? Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language. #!/usr/bin/python3 print(&quot;Hello, Python!&quot;) Installation Downloading and Installing Selenium &amp;gt;pip install selenium Note:&quot;Script&quot; dir. not&apos;s found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip): Step1,To https://pypi.python.org/pypi/setuptools Download ez_setup.py; Step2,&amp;gt;python ez_setup.py Step3,&amp;gt;easy_install pip .Or Directly dowload pip-9.0.1.tar.gz,&amp;gt;python setup.py install --Updating pip &amp;gt;python -m pip install --upgrade pip Installing pymssql &amp;gt;pip install pymssql Connecting SQL Server by pymssql sqlserver class sql_server.py ##### #SQL Server class. ##### import pymssql class sqlserver: #Connect. def __init__(self,host,user,password,database): #server url or ip. self.host = host #User name. self.user = user #Password. self.password = password #Database. self.database=database def __get_connect(self): #Connect SQL Server. if not self.database: raise(NameError,&quot;没有连接数据库信息&quot;) self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset=&quot;utf8&quot;) cursor = self.conn.cursor() if not cursor: raise(NameError,&quot;未能连接到数据库，请检查!&quot;) else: return cursor #Close connect. def conn_closed(self): self.conn.close() #Query data. def query(self,sql): cur=self.__get_connect() cur.execute(sql) dataList=cur.fetchall() self.conn_closed() #Closing connect. return dataList test.py from selenium import webdriver from selenium.webdriver.common.keys import Keys from splinter.browser import Browser from time import sleep from sql_server import sqlserver #Login def login(driver): driver.get(&quot;http://localhost:8080/chicago/&quot;) #Enter to user name. userName=driver.find_element_by_name(&quot;userName&quot;) userName.send_keys(&quot;admin&quot;) sleep(1) #Enter to pwd. password=driver.find_element_by_name(&quot;password&quot;) password.send_keys(&quot;123456&quot;) sleep(1) #Login to site. password.send_keys(Keys.RETURN) #Get out data of vehicle. def get_out_card_data(conn): cardInfo=conn.query(&quot;SELECT io.card_no from chicago_io io where card_no like &apos;dm16%&apos; and io.out_time is NULL order by io.card_no&quot;) return cardInfo #Begin out def begin_out(driver,outData): driver.find_element_by_xpath(&quot;//div[@id=&apos;ext-gen20&apos;]/div[@id=&apos;002&apos;]&quot;).click() driver.find_element_by_link_text(&quot;车辆进出管理&quot;).click() driver.find_element_by_link_text(&quot;车辆出场操作&quot;).click() sleep(5) card_no=driver.find_element_by_name(&quot;truckIo.cardNo&quot;) submit_button=driver.find_element_by_id(&quot;ext-gen26&quot;) for card in outData: card_no.send_keys(card) submit_button.click() sleep(3) #Begin in #def begin_in(inData): #main def main(): driver=webdriver.Chrome() #Login site. login(driver) #Connection. conn=sqlserver(&quot;localhost&quot;,&quot;sa&quot;,&quot;123456&quot;,&quot;chicago5&quot;) #Get data of vehicle out. outData=get_out_card_data(conn) # cardStr=&quot;&quot; # for row in outData: # cardStr+=&apos;&apos;.join(row)+&quot;,&quot; outList=[]#Out of vehicle list. inList=[]#In of vehicle list. number=1 if outData: for row in outData: card_no=int(row[0][5:7]) outList.append(card_no) while (number&amp;lt;50): if (number!=card_no): # print(number) inList.append(number) number+=1 else: while (number&amp;lt;50): inList.append(number) number+=1 begin_out(driver,outList) print(inList) if __name__ == &quot;__main__&quot;: main() Solving the problem SyntaxError: Non-ASCII character &apos;\xc2&apos; in file Solving: add to header of file #coding:utf-8 or #coding=utf-8 Refrences Selenium with Python http://selenium-python.readthedocs.io/ pymssql http://pymssql.org/ https://wiki.python.org/moin/SQL%20Server https://www.tutorialspoint.com/python https://www.tutorialspoint.com/python3">
-<meta name="keywords" content="Jekyll, NexT">
+<meta name="description" content="大数据">
+<meta name="keywords" content="Big-Data, 大数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Selenium With Python">
-<meta property="og:url" content="http://localhost:4000/2016/05/23/selenium-with-python/">
+<meta property="og:title" content="《致胜大数据时代的50种思维方法》">
+<meta property="og:url" content="http://localhost:4000/big-data/2015/10/22/big-data/">
 <meta property="og:site_name" content="Rengui's Article">
-<meta property="og:description" content="Getting Started What is Python? Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language. #!/usr/bin/python3 print(&quot;Hello, Python!&quot;) Installation Downloading and Installing Selenium &amp;gt;pip install selenium Note:&quot;Script&quot; dir. not&apos;s found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip): Step1,To https://pypi.python.org/pypi/setuptools Download ez_setup.py; Step2,&amp;gt;python ez_setup.py Step3,&amp;gt;easy_install pip .Or Directly dowload pip-9.0.1.tar.gz,&amp;gt;python setup.py install --Updating pip &amp;gt;python -m pip install --upgrade pip Installing pymssql &amp;gt;pip install pymssql Connecting SQL Server by pymssql sqlserver class sql_server.py ##### #SQL Server class. ##### import pymssql class sqlserver: #Connect. def __init__(self,host,user,password,database): #server url or ip. self.host = host #User name. self.user = user #Password. self.password = password #Database. self.database=database def __get_connect(self): #Connect SQL Server. if not self.database: raise(NameError,&quot;没有连接数据库信息&quot;) self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset=&quot;utf8&quot;) cursor = self.conn.cursor() if not cursor: raise(NameError,&quot;未能连接到数据库，请检查!&quot;) else: return cursor #Close connect. def conn_closed(self): self.conn.close() #Query data. def query(self,sql): cur=self.__get_connect() cur.execute(sql) dataList=cur.fetchall() self.conn_closed() #Closing connect. return dataList test.py from selenium import webdriver from selenium.webdriver.common.keys import Keys from splinter.browser import Browser from time import sleep from sql_server import sqlserver #Login def login(driver): driver.get(&quot;http://localhost:8080/chicago/&quot;) #Enter to user name. userName=driver.find_element_by_name(&quot;userName&quot;) userName.send_keys(&quot;admin&quot;) sleep(1) #Enter to pwd. password=driver.find_element_by_name(&quot;password&quot;) password.send_keys(&quot;123456&quot;) sleep(1) #Login to site. password.send_keys(Keys.RETURN) #Get out data of vehicle. def get_out_card_data(conn): cardInfo=conn.query(&quot;SELECT io.card_no from chicago_io io where card_no like &apos;dm16%&apos; and io.out_time is NULL order by io.card_no&quot;) return cardInfo #Begin out def begin_out(driver,outData): driver.find_element_by_xpath(&quot;//div[@id=&apos;ext-gen20&apos;]/div[@id=&apos;002&apos;]&quot;).click() driver.find_element_by_link_text(&quot;车辆进出管理&quot;).click() driver.find_element_by_link_text(&quot;车辆出场操作&quot;).click() sleep(5) card_no=driver.find_element_by_name(&quot;truckIo.cardNo&quot;) submit_button=driver.find_element_by_id(&quot;ext-gen26&quot;) for card in outData: card_no.send_keys(card) submit_button.click() sleep(3) #Begin in #def begin_in(inData): #main def main(): driver=webdriver.Chrome() #Login site. login(driver) #Connection. conn=sqlserver(&quot;localhost&quot;,&quot;sa&quot;,&quot;123456&quot;,&quot;chicago5&quot;) #Get data of vehicle out. outData=get_out_card_data(conn) # cardStr=&quot;&quot; # for row in outData: # cardStr+=&apos;&apos;.join(row)+&quot;,&quot; outList=[]#Out of vehicle list. inList=[]#In of vehicle list. number=1 if outData: for row in outData: card_no=int(row[0][5:7]) outList.append(card_no) while (number&amp;lt;50): if (number!=card_no): # print(number) inList.append(number) number+=1 else: while (number&amp;lt;50): inList.append(number) number+=1 begin_out(driver,outList) print(inList) if __name__ == &quot;__main__&quot;: main() Solving the problem SyntaxError: Non-ASCII character &apos;\xc2&apos; in file Solving: add to header of file #coding:utf-8 or #coding=utf-8 Refrences Selenium with Python http://selenium-python.readthedocs.io/ pymssql http://pymssql.org/ https://wiki.python.org/moin/SQL%20Server https://www.tutorialspoint.com/python https://www.tutorialspoint.com/python3">
+<meta property="og:description" content="大数据">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Selenium With Python">
-<meta name="twitter:description" content="Getting Started What is Python? Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language. #!/usr/bin/python3 print(&quot;Hello, Python!&quot;) Installation Downloading and Installing Selenium &amp;gt;pip install selenium Note:&quot;Script&quot; dir. not&apos;s found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip): Step1,To https://pypi.python.org/pypi/setuptools Download ez_setup.py; Step2,&amp;gt;python ez_setup.py Step3,&amp;gt;easy_install pip .Or Directly dowload pip-9.0.1.tar.gz,&amp;gt;python setup.py install --Updating pip &amp;gt;python -m pip install --upgrade pip Installing pymssql &amp;gt;pip install pymssql Connecting SQL Server by pymssql sqlserver class sql_server.py ##### #SQL Server class. ##### import pymssql class sqlserver: #Connect. def __init__(self,host,user,password,database): #server url or ip. self.host = host #User name. self.user = user #Password. self.password = password #Database. self.database=database def __get_connect(self): #Connect SQL Server. if not self.database: raise(NameError,&quot;没有连接数据库信息&quot;) self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset=&quot;utf8&quot;) cursor = self.conn.cursor() if not cursor: raise(NameError,&quot;未能连接到数据库，请检查!&quot;) else: return cursor #Close connect. def conn_closed(self): self.conn.close() #Query data. def query(self,sql): cur=self.__get_connect() cur.execute(sql) dataList=cur.fetchall() self.conn_closed() #Closing connect. return dataList test.py from selenium import webdriver from selenium.webdriver.common.keys import Keys from splinter.browser import Browser from time import sleep from sql_server import sqlserver #Login def login(driver): driver.get(&quot;http://localhost:8080/chicago/&quot;) #Enter to user name. userName=driver.find_element_by_name(&quot;userName&quot;) userName.send_keys(&quot;admin&quot;) sleep(1) #Enter to pwd. password=driver.find_element_by_name(&quot;password&quot;) password.send_keys(&quot;123456&quot;) sleep(1) #Login to site. password.send_keys(Keys.RETURN) #Get out data of vehicle. def get_out_card_data(conn): cardInfo=conn.query(&quot;SELECT io.card_no from chicago_io io where card_no like &apos;dm16%&apos; and io.out_time is NULL order by io.card_no&quot;) return cardInfo #Begin out def begin_out(driver,outData): driver.find_element_by_xpath(&quot;//div[@id=&apos;ext-gen20&apos;]/div[@id=&apos;002&apos;]&quot;).click() driver.find_element_by_link_text(&quot;车辆进出管理&quot;).click() driver.find_element_by_link_text(&quot;车辆出场操作&quot;).click() sleep(5) card_no=driver.find_element_by_name(&quot;truckIo.cardNo&quot;) submit_button=driver.find_element_by_id(&quot;ext-gen26&quot;) for card in outData: card_no.send_keys(card) submit_button.click() sleep(3) #Begin in #def begin_in(inData): #main def main(): driver=webdriver.Chrome() #Login site. login(driver) #Connection. conn=sqlserver(&quot;localhost&quot;,&quot;sa&quot;,&quot;123456&quot;,&quot;chicago5&quot;) #Get data of vehicle out. outData=get_out_card_data(conn) # cardStr=&quot;&quot; # for row in outData: # cardStr+=&apos;&apos;.join(row)+&quot;,&quot; outList=[]#Out of vehicle list. inList=[]#In of vehicle list. number=1 if outData: for row in outData: card_no=int(row[0][5:7]) outList.append(card_no) while (number&amp;lt;50): if (number!=card_no): # print(number) inList.append(number) number+=1 else: while (number&amp;lt;50): inList.append(number) number+=1 begin_out(driver,outList) print(inList) if __name__ == &quot;__main__&quot;: main() Solving the problem SyntaxError: Non-ASCII character &apos;\xc2&apos; in file Solving: add to header of file #coding:utf-8 or #coding=utf-8 Refrences Selenium with Python http://selenium-python.readthedocs.io/ pymssql http://pymssql.org/ https://wiki.python.org/moin/SQL%20Server https://www.tutorialspoint.com/python https://www.tutorialspoint.com/python3">
+<meta name="twitter:title" content="《致胜大数据时代的50种思维方法》">
+<meta name="twitter:description" content="大数据">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Selenium With Python | Rengui's Article</title>
+  <title>《致胜大数据时代的50种思维方法》 | Rengui's Article</title>
   
 
 
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2016/05/23/selenium-with-python/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/big-data/2015/10/22/big-data/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Selenium With Python
+            《致胜大数据时代的50种思维方法》
           
         </h1>
         
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-23T00:00:00+08:00">
-                2016-05-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-22T00:00:00+08:00">
+                2015-10-22
               </time>
             
 
@@ -380,9 +380,30 @@
           </span>
 
           
-
-          
+            <span class="post-category" >
             
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Big-Data" itemprop="url" rel="index">
+                    <span itemprop="name">Big-Data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
           
 
           
@@ -395,7 +416,7 @@
           
             
                 <div class="post-description">
-                    
+                    大数据
                 </div>
             
           
@@ -425,213 +446,100 @@
 
 
 
-  
-<div id="outline-container-org1bb4342" class="outline-2">
-<h2 id="org1bb4342">Getting Started</h2>
-<div class="outline-text-2" id="text-org1bb4342">
-</div>
-<div id="outline-container-org91216f0" class="outline-3">
-<h3 id="org91216f0">What is Python?</h3>
-<div class="outline-text-3" id="text-org91216f0">
-<pre class="example">
-Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language.
-
-</pre>
-<pre class="example">
-#!/usr/bin/python3
-print("Hello, Python!")
-</pre>
-</div>
-</div>
-<div id="outline-container-org0d040cb" class="outline-3">
-<h3 id="org0d040cb">Installation</h3>
-<div class="outline-text-3" id="text-org0d040cb">
-</div>
-<div id="outline-container-org8127296" class="outline-4">
-<h4 id="org8127296">Downloading and Installing Selenium</h4>
-<div class="outline-text-4" id="text-org8127296">
-<pre class="example">
-&gt;pip install selenium
-Note:"Script" dir. not's found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip):
-     Step1,To https://pypi.python.org/pypi/setuptools Download ez_setup.py;
-     Step2,&gt;python ez_setup.py
-     Step3,&gt;easy_install pip .Or Directly dowload pip-9.0.1.tar.gz,&gt;python setup.py install
-
---Updating pip
-&gt;python -m pip install --upgrade pip
-
-</pre>
-</div>
-</div>
-<div id="outline-container-org33b650d" class="outline-4">
-<h4 id="org33b650d">Installing pymssql</h4>
-<div class="outline-text-4" id="text-org33b650d">
-<pre class="example">
-&gt;pip install pymssql
-
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org83df337" class="outline-2">
-<h2 id="org83df337">Connecting SQL Server by pymssql</h2>
-<div class="outline-text-2" id="text-org83df337">
-</div>
-<div id="outline-container-org7c46f07" class="outline-3">
-<h3 id="org7c46f07">sqlserver class</h3>
-<div class="outline-text-3" id="text-org7c46f07">
-<p>
-sql_server.py
+  <p>
+致胜大数据时代的50种思维方法
 </p>
-<pre class="example">
-#####
-#SQL Server class.
-#####
-import pymssql
 
-class sqlserver:
-    #Connect.
-    def __init__(self,host,user,password,database):
-        #server url or ip.
-        self.host = host
-        #User name.
-        self.user = user
-        #Password.
-        self.password = password
-        #Database.
-        self.database=database
-    def __get_connect(self):
-        #Connect SQL Server.
-        if not self.database:
-            raise(NameError,"没有连接数据库信息")
-        self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset="utf8")
-        cursor = self.conn.cursor()
-        if not cursor:
-            raise(NameError,"未能连接到数据库，请检查!")
-        else:
-            return cursor
-    #Close connect.
-    def conn_closed(self):
-        self.conn.close()
-    #Query data.
-    def query(self,sql):
-        cur=self.__get_connect()
-        cur.execute(sql)
-        dataList=cur.fetchall()
-        self.conn_closed() #Closing connect.
-        return dataList
-</pre>
-</div>
-</div>
-<div id="outline-container-org647e9e6" class="outline-3">
-<h3 id="org647e9e6">test.py</h3>
-<div class="outline-text-3" id="text-org647e9e6">
-<pre class="example">
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from splinter.browser import Browser
-from time import sleep
-from sql_server import sqlserver
-
-#Login
-def login(driver):
-    driver.get("http://localhost:8080/chicago/")
-    #Enter to user name.
-    userName=driver.find_element_by_name("userName")
-    userName.send_keys("admin")
-    sleep(1)
-    #Enter to pwd.
-    password=driver.find_element_by_name("password")
-    password.send_keys("123456")
-    sleep(1)
-    #Login to site.
-    password.send_keys(Keys.RETURN)
-#Get out data of vehicle. 
-def get_out_card_data(conn):
-    cardInfo=conn.query("SELECT io.card_no from chicago_io io where card_no like 'dm16%' and io.out_time is NULL order by io.card_no")
-    return cardInfo
-#Begin out
-def begin_out(driver,outData):
-    driver.find_element_by_xpath("//div[@id='ext-gen20']/div[@id='002']").click()
-    driver.find_element_by_link_text("车辆进出管理").click()
-    driver.find_element_by_link_text("车辆出场操作").click()
-    sleep(5)
-    card_no=driver.find_element_by_name("truckIo.cardNo")
-    submit_button=driver.find_element_by_id("ext-gen26")
-    for card in outData:
-        card_no.send_keys(card)
-        submit_button.click()
-        sleep(3)
-#Begin in
-#def begin_in(inData):
-
-#main
-def main():
-    driver=webdriver.Chrome()
-    #Login site.
-    login(driver)
-    #Connection.
-    conn=sqlserver("localhost","sa","123456","chicago5")
-    #Get data of vehicle out.
-    outData=get_out_card_data(conn)
-    # cardStr=""
-    # for row in outData:
-    # 	cardStr+=''.join(row)+","
-    outList=[]#Out of vehicle list.
-    inList=[]#In of vehicle list.
-    number=1
-    if outData:
-        for row in outData:
-            card_no=int(row[0][5:7])
-            outList.append(card_no)
-            while (number&lt;50):			
-                if (number!=card_no):
-                    # print(number)
-                    inList.append(number)
-                number+=1
-    else:
-        while (number&lt;50):
-            inList.append(number)
-            number+=1
-    begin_out(driver,outList)
-    print(inList)
-
-if __name__ == "__main__":
-    main()
-</pre>
-</div>
-</div>
+<div class="org-center">
+<p>
+If you have questions, please send email to zrg1390556487@gmail.com.
+</p>
 </div>
 
-<div id="outline-container-orgd462bed" class="outline-2">
-<h2 id="orgd462bed">Solving the problem</h2>
-<div class="outline-text-2" id="text-orgd462bed">
+<div id="outline-container-org52c7971" class="outline-2">
+<h2 id="org52c7971">前言</h2>
+<div class="outline-text-2" id="text-org52c7971">
 </div>
-<div id="outline-container-orgec871a0" class="outline-3">
-<h3 id="orgec871a0">SyntaxError: Non-ASCII character '\xc2' in file</h3>
-<div class="outline-text-3" id="text-orgec871a0">
-<pre class="example">
-Solving: add to header of file
-        #coding:utf-8 or #coding=utf-8
-
-</pre>
+<div id="outline-container-org6b5a579" class="outline-3">
+<h3 id="org6b5a579">什么是大数据</h3>
+<div class="outline-text-3" id="text-org6b5a579">
+<ul class="org-ul">
+<li>最早提出“大数据”时代来临的是全球知名的咨询公司麦肯锡。“数据已经渗透到每一个行业和业务领域，成为重要的组成部分之一。人们对于海量数据的挖掘和运用，预示着新一波生产率增长和消费者盈余浪潮的到来。”</li>
+<li>2008年9月，《自然》杂志推出了封面专栏——“大数据”，内容讲述了数据在生物、物理、工程、数学及社会经济等多方面学科所占据的位置和角色的重要性。</li>
+<li>哈佛大学-社会学教授-加里·金说：“这是一场革命，庞大的数据资源使得各个领域开始了量化进程。无论学术界、商界还是政府，所有领域都将开始这种进程。”</li>
+<li>“大数据”，英文为"Big Dat，，"简单来说，“大数据”是一种巨量资料库，可以在合理时间内达到撷取、管理、处理并整理为帮助公司、企业经营和决策的资讯信息。</li>
+<li>业界将“大数据”概括成四个V，即大量化(Volume)、多样化(Variety)、快速化(Velocity)和价值化(Value)。</li>
+<li>大数据的信息量有多大？</li>
+<li>截止到2012年，数据量已经从TB级别跃升到PB、EB乃至ZB级别。（1024GB=1TB，1024TB=1PB，102**B=1EB，1024EB=1ZB）。</li>
+<li>2008年，全球产生的数据量为0.49ZB；2009年的数据量为0.8ZB；2010年的数据量为1.2ZB；2011年的数据量更是持续增长，竟高达1.82ZB。这个数据量，相当于全世界的每个人产生200GB以上的数据。</li>
+<li>IBM公司称，截止到2013年10月，全世界所获得的数据中，有90%都是过去两年内产生的。预计到2020年时，全世界所产生的数据规模将达到今天的44倍。</li>
+<li>“大数据”不仅是量大而已，它还具有多样化、快速化、价值化等优势。</li>
+<li>截止到2012年10月，大数据所形成的市场规模在51亿美元左右。到了2017年，此数据预计会上涨到530亿美元。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbbbb45c" class="outline-3">
+<h3 id="orgbbbb45c">改变思维模式，用数据说话</h3>
+<div class="outline-text-3" id="text-orgbbbb45c">
+<ul class="org-ul">
+<li>来举一个简单的例子：苹果公司创始人史蒂夫·乔布斯在罹患癌症后，不惜花费巨额抽取了全身的DNA信息。这样一来，医生就可以根据他全身的DNA信息来判断癌细胞的</li>
+</ul>
+<p>
+变化，从而对症下药。然而，对于普通的患者来说，是拿不出巨额钱款来做这种抽取检测的。换句话说，医生只能从普通患者身上提取很小的一部分DNA信息。两者的治疗效果有多大差异，可想而知。
+</p>
+<ul class="org-ul">
+<li>再来举个简单的例子：如果你上淘宝，登录支付宝账户，点开电子对账单，你是不是能够看到自己一年的消费曲线图？是不是能够看到每个月的支出和收入？是不是能够</li>
+</ul>
+<p>
+看到自己的钱花到哪里去了？是不是比拿笔记账清晰和准确得多？根据网络购物的数据中，你还会发现：哪个城市的男人比女人购买的东西还要多；哪个城市的人用支付宝
+缴纳水电费的频率最高；什么星座的男性或女性在某年的消费额最高；在一年里，在父母或亲友身上花费了多少；节假日时，什么东西最畅销……
+</p>
+<ul class="org-ul">
+<li>大数据专家维克托·迈尔-舍恩伯格在《大数据时代》中是这样解释的：云计算在获取海量数据的同时，也带来了数据的混杂性，这会给传统的数据分析带来一些困扰。</li>
+</ul>
+<p>
+在以往，我们习惯于由数据得出具体结果。而在大数据时代，我们应当关注的是数据之间的相关关系，而不是数据之间的因果关系。
+</p>
+<ul class="org-ul">
+<li>数据之间的相关关系可以帮助我们捕捉现在的线索和预测未来。如A和B的情况经常一起发生，那么只要注意到B情况发生，就能预测A的情况是怎么样的。</li>
+</ul>
+<p>
+这种“A和B”的关系在零售行业和IT行业中已被广泛运用。7-11便利店通过分析零售终端的数据，得出了这样的一个相关关系—温度低于15摄氏度，暖宝宝的销售量便增加5%。
+于是，只要温度低于这一度数，7-11便利店内的暖宝宝就会上架；豆瓣电台会推荐一些你可能会喜欢的音乐；当你在当当网买某本书后，系统就会提醒你—购买这本书的人中，有30%也购买了另外一本书……
+</p>
 </div>
 </div>
 </div>
-<div id="outline-container-org20e06c7" class="outline-2">
-<h2 id="org20e06c7">Refrences</h2>
-<div class="outline-text-2" id="text-org20e06c7">
-<pre class="example">
-Selenium with Python http://selenium-python.readthedocs.io/
-pymssql http://pymssql.org/
-https://wiki.python.org/moin/SQL%20Server
-https://www.tutorialspoint.com/python
-https://www.tutorialspoint.com/python3
-
-</pre>
+<div id="outline-container-org794096b" class="outline-2">
+<h2 id="org794096b">大数据是一场革命</h2>
+<div class="outline-text-2" id="text-org794096b">
 </div>
+<div id="outline-container-orgcd48d87" class="outline-3">
+<h3 id="orgcd48d87">定律思维</h3>
+<div class="outline-text-3" id="text-orgcd48d87">
+<ul class="org-ul">
+<li></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org19b6071" class="outline-2">
+<h2 id="org19b6071">应对传统模式的大数据思维</h2>
+</div>
+<div id="outline-container-orgafa3a54" class="outline-2">
+<h2 id="orgafa3a54">新数据时代的新思维</h2>
+</div>
+<div id="outline-container-orgd60cc3f" class="outline-2">
+<h2 id="orgd60cc3f">大数据能量的积累与爆发</h2>
+</div>
+<div id="outline-container-orgf7116a3" class="outline-2">
+<h2 id="orgf7116a3">大数据引导的商业变革</h2>
+</div>
+<div id="outline-container-org7482587" class="outline-2">
+<h2 id="org7482587">大数据的营销策略</h2>
+</div>
+<div id="outline-container-orgbe1d81b" class="outline-2">
+<h2 id="orgbe1d81b">教育、教学正在大数据化</h2>
 </div>
 
 
@@ -661,6 +569,16 @@ https://www.tutorialspoint.com/python3
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/Big-Data" rel="tag"># Big-Data</a>
+          
+            
+            <a href="/tag/#/%E5%A4%A7%E6%95%B0%E6%8D%AE" rel="tag"># 大数据</a>
+          
+        </div>
+      
 
       
       
@@ -673,8 +591,8 @@ https://www.tutorialspoint.com/python3
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/software/2016/06/06/using-emacs/" rel="next" title="GNU Emacs">
-                <i class="fa fa-chevron-left"></i> GNU Emacs
+              <a href="/software/2015/11/06/using-vim/" rel="next" title="Using Vim">
+                <i class="fa fa-chevron-left"></i> Using Vim
               </a>
             
           </div>
@@ -683,8 +601,8 @@ https://www.tutorialspoint.com/python3
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/linux/2016/03/25/Apache-Nginx-MySQL-PHP/" rel="prev" title="Apache/Nginx-MySQL+PHP">
-                Apache/Nginx-MySQL+PHP <i class="fa fa-chevron-right"></i>
+              <a href="/javascript/2015/10/15/js-public/" rel="prev" title="JavaScript 公共文件">
+                JavaScript 公共文件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -707,10 +625,6 @@ https://www.tutorialspoint.com/python3
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -866,7 +780,7 @@ https://www.tutorialspoint.com/python3
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1bb4342"> <span class="nav-number">1</span> <span class="nav-text">Getting Started</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org91216f0"> <span class="nav-number">1.1</span> <span class="nav-text">What is Python?</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0d040cb"> <span class="nav-number">1.2</span> <span class="nav-text">Installation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8127296"> <span class="nav-number">1.2.1</span> <span class="nav-text">Downloading and Installing Selenium</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org33b650d"> <span class="nav-number">1.2.2</span> <span class="nav-text">Installing pymssql</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org83df337"> <span class="nav-number">2</span> <span class="nav-text">Connecting SQL Server by pymssql</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7c46f07"> <span class="nav-number">2.1</span> <span class="nav-text">sqlserver class</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org647e9e6"> <span class="nav-number">2.2</span> <span class="nav-text">test.py</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd462bed"> <span class="nav-number">3</span> <span class="nav-text">Solving the problem</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgec871a0"> <span class="nav-number">3.1</span> <span class="nav-text">SyntaxError: Non-ASCII character '\xc2' in file</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org20e06c7"> <span class="nav-number">4</span> <span class="nav-text">Refrences</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org52c7971"> <span class="nav-number">1</span> <span class="nav-text">前言</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6b5a579"> <span class="nav-number">1.1</span> <span class="nav-text">什么是大数据</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbbbb45c"> <span class="nav-number">1.2</span> <span class="nav-text">改变思维模式，用数据说话</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org794096b"> <span class="nav-number">2</span> <span class="nav-text">大数据是一场革命</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcd48d87"> <span class="nav-number">2.1</span> <span class="nav-text">定律思维</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org19b6071"> <span class="nav-number">3</span> <span class="nav-text">应对传统模式的大数据思维</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgafa3a54"> <span class="nav-number">4</span> <span class="nav-text">新数据时代的新思维</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd60cc3f"> <span class="nav-number">5</span> <span class="nav-text">大数据能量的积累与爆发</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf7116a3"> <span class="nav-number">6</span> <span class="nav-text">大数据引导的商业变革</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7482587"> <span class="nav-number">7</span> <span class="nav-text">大数据的营销策略</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe1d81b"> <span class="nav-number">8</span> <span class="nav-text">教育、教学正在大数据化</span> </a> </li>
     </ol>
   </div>
             
