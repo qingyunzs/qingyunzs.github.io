@@ -145,18 +145,30 @@ deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free con
 #+END_SRC
 ** 配置系统支持中文（support chinese）
 *** 安装及配置
+: //设置环境变量
+: $ export LANG=en_US.UTF-8
+
 : //先安装locales
 : $ sudo aptitude install locales
+
 : //配置命令
 : $ sudo dpkg-reconfigure locales
+
 : //选择编码（encode），space选择
 : en_US.UTF-8
 : zh_CN.GB2312
 : zh_CN.GB18030
 : zh_CN.GBK
 : zh_CN.UTF-8
+
 : //文件配置
 : $ sudo vim /etc/default/locate
+#+BEGIN_SRC emacs-lisp 
+# LANG="zh_CN.UTF-8"
+# LANGUAGE="zh_CN:zh"
+LANG="en_US.UTF-8"
+LANGUAGE="en_US:en"
+#+END_SRC
 *** 参考资料
 : https://wiki.debian.org/Locale
 ** 中文输入法
@@ -425,7 +437,7 @@ fg - put a process in the forground
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :align center
 [[../../../../../assets/images/cs2.png]]
-* Linux 进阶篇
+* Linux 进阶篇（Advanced）
 ** crontab 定时执行任务
 *** 对于 Linux 用户
 : 你肯定希望：
@@ -1097,4 +1109,4 @@ esac
 : # 检查配置文件
 : #service php-fpm configtest
 *** References
-: http://www.ttlsa.com/php/php-fpm-service-scripts/
++ http://www.ttlsa.com/php/php-fpm-service-scripts/
