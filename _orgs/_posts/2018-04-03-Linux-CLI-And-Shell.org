@@ -1,0 +1,129 @@
+#+TITLE:     Linux 命令行与 Shell 编程大全
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Linux 命令行与 Shell 编程大全
+author: zrg
+comments: false
+description: 命令行界面（command line interface，CLI）
+categories:
+- Linux
+- Shell
+tags:
+- Shell
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 初探 bash shell 命令
+** 学习 shell 开始
+1. 启动 shell
+   - /bin/bash //重点讨论 GNU bash shell
+2. shell 提示符
+   - 默认的 bash shell 提示符是美元符号 $，看起来是这样的：zrg@debian:~$
+3. bash 手册
+   - man 命令用来访问存储在 Linux 系统上的手册页面。
+#+CAPTION: Linux 手册页惯用的节名
+$ man man
+| 节            | 描述                     |
+|---------------+--------------------------|
+| Name          | 显示命令和一段简短的描述 |
+| Synopsis      | 命令的语法               |
+| Configuration | 命令配置信息             |
+| Description   | 命令的一般性描述         |
+| Options       | 命令选项描述             |
+| Exit Status   | 命令的推出状态指示       |
+| Return Value  | 命令的返回值             |
+| Errors        | 命令的错误信息           |
+| Environment   | 描述所使用的环境变量     |
+| Files         | 命令用到的文件           |
+| Versions      | 命令的版本信息           |
+| Conforming To | 命令所遵从的标准         |
+| Notes         | 其他有帮助的资料         |
+| Bugs          | 提供提交Bug的途径        |
+| Example       | 展示命令的用法           |
+| Authors       | 命令开发人员的信息       |
+| Copyright     | 命令源代码的版权状况     |
+| See Also      | 与该命令类似的其他命令   |
+|---------------+--------------------------|
+: 如果不记得命令名怎么办？可以使用关键字搜索手册页。
+: $ man -k terminal
+#+CAPTION: Linux 手册页的内容区域
+| 区域号 | 所涵盖的内容             |
+|--------+--------------------------|
+|      1 | 可执行程序或shell命令    |
+|      2 | 系统调用                 |
+|      3 | 库调用                   |
+|      4 | 特殊文件                 |
+|      5 | 文件格式与约定           |
+|      6 | 游戏                     |
+|      7 | 概览、约定及杂项         |
+|      8 | 超级用户和系统管理员命令 |
+|      9 | 内核例程                 |
+|--------+--------------------------|
+** 文件、目录操作
+cd
+ls
+touch
+cp
+mv
+ln
+rm
+mkdir
+rmdir
+file
+cat
+more
+less
+tail
+head
+** 进程、磁盘统计和管理
+ps -ef
+top
+kill
+killall
+mount
+umount
+df -h
+du
+** 排序、归档数据
+sort
+grep
+gzip
+gzcat
+gunzip
+tar
+* 理解 shell
+** shell 类型
+/bin/bash
+/bin/tcsh
+/bin/dash
+/bin/csh
+/bin/sh
+* create directory
+#+BEGIN_SRC shell emacs-lisp
+#!/bin/sh
+for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
+do
+	echo $dir
+	`touch $dir/.gitignore`
+	echo "*">$dir/.gitignore
+done
+#+END_SRC

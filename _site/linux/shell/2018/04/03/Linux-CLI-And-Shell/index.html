@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C#," />
+  <meta name="keywords" content="Shell," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="C# 公共类">
-<meta name="keywords" content="C#">
+<meta name="description" content="命令行界面（command line interface，CLI）">
+<meta name="keywords" content="Shell">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C#-public">
-<meta property="og:url" content="http://localhost:4000/c%23/2017/03/28/c-sharp-List/">
+<meta property="og:title" content="Linux 命令行与 Shell 编程大全">
+<meta property="og:url" content="http://localhost:4000/linux/shell/2018/04/03/Linux-CLI-And-Shell/">
 <meta property="og:site_name" content="Rengui's Article">
-<meta property="og:description" content="C# 公共类">
+<meta property="og:description" content="命令行界面（command line interface，CLI）">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C#-public">
-<meta name="twitter:description" content="C# 公共类">
+<meta name="twitter:title" content="Linux 命令行与 Shell 编程大全">
+<meta name="twitter:description" content="命令行界面（command line interface，CLI）">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>C#-public | Rengui's Article</title>
+  <title>Linux 命令行与 Shell 编程大全 | Rengui's Article</title>
   
 
 
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/c%23/2017/03/28/c-sharp-List/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/linux/shell/2018/04/03/Linux-CLI-And-Shell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            C#-public
+            Linux 命令行与 Shell 编程大全
           
         </h1>
         
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-28T00:00:00+08:00">
-                2017-03-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T00:00:00+08:00">
+                2018-04-03
               </time>
             
 
@@ -393,8 +393,20 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/C%23" itemprop="url" rel="index">
-                    <span itemprop="name">C#</span>
+                  <a href="/category/#/Linux" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/Shell" itemprop="url" rel="index">
+                    <span itemprop="name">Shell</span>
                   </a>
                 </span>
 
@@ -416,7 +428,7 @@
           
             
                 <div class="post-description">
-                    C# 公共类
+                    命令行界面（command line interface，CLI）
                 </div>
             
           
@@ -446,147 +458,283 @@
 
 
 
-  <p>
-如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。
+  <div id="outline-container-org5fa5ac4" class="outline-2">
+<h2 id="org5fa5ac4">初探 bash shell 命令</h2>
+<div class="outline-text-2" id="text-org5fa5ac4">
+</div>
+<div id="outline-container-org27ef8ac" class="outline-3">
+<h3 id="org27ef8ac">学习 shell 开始</h3>
+<div class="outline-text-3" id="text-org27ef8ac">
+<ol class="org-ol">
+<li>启动 shell
+<ul class="org-ul">
+<li>/bin/bash //重点讨论 GNU bash shell</li>
+</ul></li>
+<li>shell 提示符
+<ul class="org-ul">
+<li>默认的 bash shell 提示符是美元符号 \(，看起来是这样的：zrg@debian:~\)</li>
+</ul></li>
+<li>bash 手册
+<ul class="org-ul">
+<li>man 命令用来访问存储在 Linux 系统上的手册页面。</li>
+</ul></li>
+</ol>
+<p>
+$ man man
 </p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
-<div id="outline-container-orgaaade57" class="outline-2">
-<h2 id="orgaaade57">Model 处理类</h2>
-<div class="outline-text-2" id="text-orgaaade57">
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">节</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Name</td>
+<td class="org-left">显示命令和一段简短的描述</td>
+</tr>
+
+<tr>
+<td class="org-left">Synopsis</td>
+<td class="org-left">命令的语法</td>
+</tr>
+
+<tr>
+<td class="org-left">Configuration</td>
+<td class="org-left">命令配置信息</td>
+</tr>
+
+<tr>
+<td class="org-left">Description</td>
+<td class="org-left">命令的一般性描述</td>
+</tr>
+
+<tr>
+<td class="org-left">Options</td>
+<td class="org-left">命令选项描述</td>
+</tr>
+
+<tr>
+<td class="org-left">Exit Status</td>
+<td class="org-left">命令的推出状态指示</td>
+</tr>
+
+<tr>
+<td class="org-left">Return Value</td>
+<td class="org-left">命令的返回值</td>
+</tr>
+
+<tr>
+<td class="org-left">Errors</td>
+<td class="org-left">命令的错误信息</td>
+</tr>
+
+<tr>
+<td class="org-left">Environment</td>
+<td class="org-left">描述所使用的环境变量</td>
+</tr>
+
+<tr>
+<td class="org-left">Files</td>
+<td class="org-left">命令用到的文件</td>
+</tr>
+
+<tr>
+<td class="org-left">Versions</td>
+<td class="org-left">命令的版本信息</td>
+</tr>
+
+<tr>
+<td class="org-left">Conforming To</td>
+<td class="org-left">命令所遵从的标准</td>
+</tr>
+
+<tr>
+<td class="org-left">Notes</td>
+<td class="org-left">其他有帮助的资料</td>
+</tr>
+
+<tr>
+<td class="org-left">Bugs</td>
+<td class="org-left">提供提交Bug的途径</td>
+</tr>
+
+<tr>
+<td class="org-left">Example</td>
+<td class="org-left">展示命令的用法</td>
+</tr>
+
+<tr>
+<td class="org-left">Authors</td>
+<td class="org-left">命令开发人员的信息</td>
+</tr>
+
+<tr>
+<td class="org-left">Copyright</td>
+<td class="org-left">命令源代码的版权状况</td>
+</tr>
+
+<tr>
+<td class="org-left">See Also</td>
+<td class="org-left">与该命令类似的其他命令</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+如果不记得命令名怎么办？可以使用关键字搜索手册页。
+$ man -k terminal
+
+</pre>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Linux 手册页的内容区域</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">区域号</th>
+<th scope="col" class="org-left">所涵盖的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">可执行程序或shell命令</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">系统调用</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">库调用</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">特殊文件</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">文件格式与约定</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">游戏</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-left">概览、约定及杂项</td>
+</tr>
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-left">超级用户和系统管理员命令</td>
+</tr>
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-left">内核例程</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org51adbc2" class="outline-3">
+<h3 id="org51adbc2">文件、目录操作</h3>
+<div class="outline-text-3" id="text-org51adbc2">
+<p>
+cd
+ls
+touch
+cp
+mv
+ln
+rm
+mkdir
+rmdir
+file
+cat
+more
+less
+tail
+head
+</p>
+</div>
+</div>
+<div id="outline-container-orgec05d02" class="outline-3">
+<h3 id="orgec05d02">进程、磁盘统计和管理</h3>
+<div class="outline-text-3" id="text-orgec05d02">
+<p>
+ps -ef
+top
+kill
+killall
+mount
+umount
+df -h
+du
+</p>
+</div>
+</div>
+<div id="outline-container-org5bd8131" class="outline-3">
+<h3 id="org5bd8131">排序、归档数据</h3>
+<div class="outline-text-3" id="text-org5bd8131">
+<p>
+sort
+grep
+gzip
+gzcat
+gunzip
+tar
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfbc1922" class="outline-2">
+<h2 id="orgfbc1922">理解 shell</h2>
+<div class="outline-text-2" id="text-orgfbc1922">
+</div>
+<div id="outline-container-org6ba5a5f" class="outline-3">
+<h3 id="org6ba5a5f">shell 类型</h3>
+<div class="outline-text-3" id="text-org6ba5a5f">
+<p>
+/bin/bash
+/bin/tcsh
+/bin/dash
+/bin/csh
+/bin/sh
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf2a5af8" class="outline-2">
+<h2 id="orgf2a5af8">create directory</h2>
+<div class="outline-text-2" id="text-orgf2a5af8">
 <div class="org-src-container">
-<pre class="src src-org" id="org3d1f4bf">using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ZCKJ.Common
-{
-    public class ModelHandler
-    {
-        <span style="font-style: italic;">///</span> &lt;summary&gt;
-        <span style="font-style: italic;">///</span>     &#20174; reader &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
-        <span style="font-style: italic;">///</span> &lt;/summary&gt;
-        <span style="font-style: italic;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
-        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;&#23454;&#29616; IDataReader &#25509;&#21475;&#30340;&#23545;&#35937;&#12290;&lt;/param&gt;
-        <span style="font-style: italic;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
-        public static List&lt;T&gt; ConvertToObject&lt;T&gt;(IDataReader reader)
-            where T : class
-        {
-            List&lt;T&gt; list = new List&lt;T&gt;();
-            T obj = default(T);
-            Type t = typeof(T);
-            Assembly ass = t.Assembly;
-
-            Dictionary&lt;string, PropertyInfo&gt; propertys = ModelHandler.GetFields&lt;T&gt;(reader);
-            PropertyInfo p = null;
-            if (reader != null)
-            {
-                while (reader.Read())
-                {
-                    obj = ass.CreateInstance(t.FullName) as T;
-                    foreach (string key in propertys.Keys)
-                    {
-                        p = propertys[key];
-                        p.SetValue(obj, ModelHandler.ChangeType(reader[key], p.PropertyType), null);
-                    }
-                    list.Add(obj);
-                }
-            }
-
-            return list;
-        }
-
-        <span style="font-style: italic;">///</span> &lt;summary&gt;
-        <span style="font-style: italic;">///</span>     &#20174; DataTale &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
-        <span style="font-style: italic;">///</span> &lt;/summary&gt;
-        <span style="font-style: italic;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
-        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;DataTale &#23545;&#35937;&#12290;&lt;/param&gt;
-        <span style="font-style: italic;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
-        public static List&lt;T&gt; ConvertToObject&lt;T&gt;(DataTable table)
-            where T : class
-        {
-            return table == null
-                ? new List&lt;T&gt;()
-                <span style="color: #7f7f7f;">: ModelHandler.ConvertToObject&lt;T&gt;(table.CreateDataReader() as IDataReader);</span>
-        }
-
-        <span style="font-style: italic;">///</span> &lt;summary&gt;
-        <span style="font-style: italic;">///</span>     &#23558;&#25968;&#25454;&#36716;&#21270;&#20026; type &#31867;&#22411;
-        <span style="font-style: italic;">///</span> &lt;/summary&gt;
-        <span style="font-style: italic;">///</span> &lt;param name="value"&gt;&#35201;&#36716;&#21270;&#30340;&#20540;&lt;/param&gt;
-        <span style="font-style: italic;">///</span> &lt;param name="type"&gt;&#30446;&#26631;&#31867;&#22411;&lt;/param&gt;
-        <span style="font-style: italic;">///</span> &lt;returns&gt;&#36716;&#21270;&#20026;&#30446;&#26631;&#31867;&#22411;&#30340; Object &#23545;&#35937;&lt;/returns&gt;
-        private static object ChangeType(object value, Type type)
-        {
-            if (type.FullName == typeof(string).FullName)
-            {
-                return Convert.ChangeType(Convert.IsDBNull(value) ? null : value, type);
-            }
-            else if (type.FullName == typeof(DateTime).FullName)
-            {
-                if (value != null &amp;&amp; value != DBNull.Value)
-                {
-                    NullableConverter convertor = new NullableConverter(type);
-                    return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value);
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-            if (type.IsGenericType &amp;&amp; type.GetGenericTypeDefinition().Equals(typeof(Nullable&lt;&gt;)))
-            {
-                NullableConverter convertor = new NullableConverter(type);
-                return Convert.IsDBNull(value) ? null : convertor.ConvertFrom(value);
-            }
-            return value;
-        }
-
-        <span style="font-style: italic;">///</span> &lt;summary&gt;
-        <span style="font-style: italic;">///</span>     &#33719;&#21462;reader&#23384;&#22312;&#24182;&#19988;&#22312; T &#31867;&#20013;&#21253;&#21547;&#21516;&#21517;&#21487;&#20889;&#23646;&#24615;&#30340;&#38598;&#21512;
-        <span style="font-style: italic;">///</span> &lt;/summary&gt;
-        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;
-        <span style="font-style: italic;">///</span>     &#21487;&#20889;&#22495;&#30340;&#38598;&#21512;
-        <span style="font-style: italic;">///</span> &lt;/param&gt;
-        <span style="font-style: italic;">///</span> &lt;returns&gt;
-        <span style="font-style: italic;">///</span>     &#20197;&#23646;&#24615;&#21517;&#20026;&#38190;&#65292;PropertyInfo &#20026;&#20540;&#24471;&#23383;&#20856;&#23545;&#35937;
-        <span style="font-style: italic;">///</span> &lt;/returns&gt;
-        private static Dictionary&lt;string, PropertyInfo&gt; GetFields&lt;T&gt;(IDataReader reader)
-        {
-            Dictionary&lt;string, PropertyInfo&gt; result = new Dictionary&lt;string, PropertyInfo&gt;();
-            int columnCount = reader.FieldCount;
-            Type t = typeof(T);
-
-            PropertyInfo[] properties = t.GetProperties();
-            if (properties != null)
-            {
-                List&lt;string&gt; readerFields = new List&lt;string&gt;();
-                for (int i = 0; i &lt; columnCount; i++)
-                {
-                    readerFields.Add(reader.GetName(i));
-                }
-                <span style="font-style: italic;">//IEnumerable&lt;PropertyInfo&gt; resList =</span>
-<span style="font-style: italic;">                </span><span style="font-style: italic;">//</span><span style="font-style: italic;">    (from PropertyInfo prop in properties</span>
-<span style="font-style: italic;">                </span><span style="font-style: italic;">//</span><span style="font-style: italic;">     where prop.CanWrite &amp;&amp; readerFields.Contains(prop.Name.ToUpper())</span>
-<span style="font-style: italic;">                //</span>     select prop);
-                IEnumerable&lt;PropertyInfo&gt; resList =
-                    (from PropertyInfo prop in properties
-                     where prop.CanWrite &amp;&amp; readerFields.Contains(prop.Name)
-                     select prop);
-                foreach (PropertyInfo p in resList)
-                {
-                    result.Add(p.Name, p);
-                }
-            }
-            return result;
-        }
-    }
-}
+<pre class="src src-shell"><span style="color: #5f615c; font-style: italic;">#</span><span style="color: #5f615c; font-style: italic;">!/bin/</span><span style="color: #346604;">sh</span>
+<span style="color: #346604;">for</span> dir<span style="color: #346604;"> in</span> <span style="color: #ff00ff;">`find ./ -mindepth 2 -maxdepth 4 -type d`</span>
+<span style="color: #346604;">do</span>
+    <span style="color: #75507b;">echo</span> $<span style="color: #b35000;">dir</span>
+    <span style="color: #ff00ff;">`touch $dir/.gitignore`</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"*"</span>&gt;$<span style="color: #b35000;">dir</span>/.gitignore
+<span style="color: #346604;">done</span>
 </pre>
 </div>
 </div>
@@ -622,7 +770,7 @@ namespace ZCKJ.Common
         <div class="post-tags">
           
             
-            <a href="/tag/#/C%23" rel="tag"># C#</a>
+            <a href="/tag/#/Shell" rel="tag"># Shell</a>
           
         </div>
       
@@ -638,8 +786,8 @@ namespace ZCKJ.Common
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/11/sql-server/" rel="next" title="Sql Server">
-                <i class="fa fa-chevron-left"></i> Sql Server
+              <a href="/shell/2018/04/03/shell-notes/" rel="next" title="Shell 脚本笔记">
+                <i class="fa fa-chevron-left"></i> Shell 脚本笔记
               </a>
             
           </div>
@@ -648,8 +796,8 @@ namespace ZCKJ.Common
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/software/2017/03/25/web-server/" rel="prev" title="站点调试环境集成软件">
-                站点调试环境集成软件 <i class="fa fa-chevron-right"></i>
+              <a href="/network/2018/01/27/http-error/" rel="prev" title="HTTP 错误代码释义表">
+                HTTP 错误代码释义表 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -827,7 +975,7 @@ namespace ZCKJ.Common
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgaaade57"> <span class="nav-number">1</span> <span class="nav-text">Model 处理类</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5fa5ac4"> <span class="nav-number">1</span> <span class="nav-text">初探 bash shell 命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org27ef8ac"> <span class="nav-number">1.1</span> <span class="nav-text">学习 shell 开始</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org51adbc2"> <span class="nav-number">1.2</span> <span class="nav-text">文件、目录操作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgec05d02"> <span class="nav-number">1.3</span> <span class="nav-text">进程、磁盘统计和管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5bd8131"> <span class="nav-number">1.4</span> <span class="nav-text">排序、归档数据</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfbc1922"> <span class="nav-number">2</span> <span class="nav-text">理解 shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6ba5a5f"> <span class="nav-number">2.1</span> <span class="nav-text">shell 类型</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf2a5af8"> <span class="nav-number">3</span> <span class="nav-text">create directory</span> </a> </li>
     </ol>
   </div>
             
