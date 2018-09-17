@@ -1,0 +1,636 @@
+---
+layout: post
+title: jQuery 权威指南
+author: zrg
+comments: false
+description: jQuery 权威指南
+categories:
+- JavaScript
+tags:
+- jQuery
+photos:
+---
+
+<div id="outline-container-org1c57113" class="outline-2">
+<h2 id="org1c57113">jQuery 选择器</h2>
+<div class="outline-text-2" id="text-org1c57113">
+</div>
+<div id="outline-container-orgd5801c1" class="outline-3">
+<h3 id="orgd5801c1">实例：隔行变色</h3>
+<div class="outline-text-3" id="text-orgd5801c1">
+</div>
+<div id="outline-container-org87fc3bb" class="outline-4">
+<h4 id="org87fc3bb">通过 JavaScript 实现：</h4>
+<div class="outline-text-4" id="text-org87fc3bb">
+<p>
+style:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;style type=<span style="color: #5c3566;">"text/css"</span>&gt;
+body{
+font-size: 12px<span style="color: #5f615c; font-style: italic;">;</span>
+text-align: center<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#tbStu{
+width: 260px<span style="color: #5f615c; font-style: italic;">;</span>
+border: solid 1px #666<span style="color: #5f615c; font-style: italic;">;</span>
+background-color: #eee<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#tbStu tr{
+line-height: 23px<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#tbStu tr th{
+background-color: #ccc<span style="color: #5f615c; font-style: italic;">;</span>
+color: #fff<span style="color: #5f615c; font-style: italic;">;</span>
+}
+#tbStu .trOdd{
+background-color: #fff<span style="color: #5f615c; font-style: italic;">;</span>
+}
+&lt;/style&gt;
+</pre>
+</div>
+<p>
+html:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #5c3566;">"tbStu"</span> cellpadding=<span style="color: #5c3566;">"0"</span> cellspacing=<span style="color: #5c3566;">"0"</span>&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;th&gt;StudNo&lt;/th&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;Sex&lt;/th&gt;
+&lt;th&gt;Score&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2016001&lt;/td&gt;
+&lt;td&gt;Wang San&lt;/td&gt;
+&lt;td&gt;Man&lt;/td&gt;
+&lt;td&gt;480&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2016002&lt;/td&gt;
+&lt;td&gt;Zhang Si&lt;/td&gt;
+&lt;td&gt;Woman&lt;/td&gt;
+&lt;td&gt;510&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2016003&lt;/td&gt;
+&lt;td&gt;Zhang Wu&lt;/td&gt;
+&lt;td&gt;Woman&lt;/td&gt;
+&lt;td&gt;398&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</pre>
+</div>
+<p>
+js:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #5c3566;">"text/javascript"</span>&gt;
+window.onload=function(){
+var oTb=document.getElementById('tbStu')<span style="color: #5f615c; font-style: italic;">;</span>
+for (var i = 0<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">i&lt;oTb.rows.length; i++) {</span>
+if (i%2) {
+oTb.rows[i].className=<span style="color: #5c3566;">"trOdd"</span><span style="color: #5f615c; font-style: italic;">;</span>
+}
+}
+}
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org188dbd1" class="outline-4">
+<h4 id="org188dbd1">通过 jQuery 实现（样式、html省略）</h4>
+<div class="outline-text-4" id="text-org188dbd1">
+<p>
+jQuery：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #5c3566;">"text/javascript"</span>&gt;
+$(<span style="color: #346604;">function</span>(){
+$(<span style="color: #5c3566;">"#tbStu tr:nth-child(even)"</span>).addClass(<span style="color: #5c3566;">"trOdd"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1e1e8dd" class="outline-3">
+<h3 id="org1e1e8dd">基本选择器</h3>
+<div class="outline-text-3" id="text-org1e1e8dd">
+<pre class="example">
+#id,element,.class,*,selectorN
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org134503b" class="outline-3">
+<h3 id="org134503b">层次选择器</h3>
+<div class="outline-text-3" id="text-org134503b">
+<pre class="example">
+ancestor descendent，匹配后代元素
+parent&gt;child，匹配所有子元素
+prev+next(可以使用.next()代替)，匹配后面紧接的元素
+prev~sibling(可以使用nextAll()代替)，匹配后面所有元素
+
+.siblings()方法与prev~siblings()区别在于，前者获取全部的相邻元素，不分前后。而后者仅获取标记后面全部相邻元素，不能获取前面部分。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgeea686f" class="outline-3">
+<h3 id="orgeea686f">简单过滤选择器</h3>
+<div class="outline-text-3" id="text-orgeea686f">
+<pre class="example">
+first() or :first
+last() or :last
+:not(selector)
+:even，获取所有索引值为偶数的元素。
+:odd，奇数
+:eq(index)
+:gt(index)
+:lt(index)
+:header，获取所有标题类型的元素。
+:animated，获取正在执行动画效果的元素
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc1fa246" class="outline-3">
+<h3 id="orgc1fa246">内容过滤选择器</h3>
+<div class="outline-text-3" id="text-orgc1fa246">
+<pre class="example">
+:contains(text)，获取包含给定文本的元素，如果是查找字母，则有大小写的区别。
+:empty，获取所有不包含子元素或文本为空的元素。
+:has(selector)，获取含有选择器所匹配的元素。
+:parent，获取含有子元素或文本的元素。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd6969b0" class="outline-3">
+<h3 id="orgd6969b0">可见性过滤选择器</h3>
+<div class="outline-text-3" id="text-orgd6969b0">
+<pre class="example">
+:hidden
+:visible，可见元素
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf144a84" class="outline-3">
+<h3 id="orgf144a84">属性过滤选择器</h3>
+<div class="outline-text-3" id="text-orgf144a84">
+<pre class="example">
+[attribute]，获取包含给定属性的元素
+[attribute=value]，获取等于给定的属性是某个特定值的元素
+[attribute!=value]，获取不等于给定的属性是某个特定值的元素
+[attribute^=value]，获取给定的属性是以某些值开始的元素
+[attribute$=value]，获取给定的属性是以某些值结尾的元素
+[attribute*=value]，获取给定的属性是以包含某些值的元素
+[selector1][selector2][selectorN]，获取满足多个条件的复合属性的元素
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org3801c18" class="outline-3">
+<h3 id="org3801c18">子元素过滤选择器</h3>
+<div class="outline-text-3" id="text-org3801c18">
+<pre class="example">
+:nth-child(eq|even|odd|index)，获取每个父元素下的特定位置元素，索引号从1开始
+:first-child，获取每个父元素下的第一个子元素
+:last-child，获取每个父元素下的最后一个子元素
+:only-child，获取每个父元素下的仅有的一个子元素
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org36d1034" class="outline-3">
+<h3 id="org36d1034">表单对象属性过滤选择器</h3>
+<div class="outline-text-3" id="text-org36d1034">
+<pre class="example">
+:enabled，可用的元素
+:disabled，不可用的元素
+:checked，被选中的元素
+:selected，被选中option的元素
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org235ed03" class="outline-3">
+<h3 id="org235ed03">表单选择器</h3>
+<div class="outline-text-3" id="text-org235ed03">
+<pre class="example">
+:input，input/texteara/select
+:text
+:password
+:radio
+:checkbox
+:submit
+:image
+:reset
+:button
+:file
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org088158f" class="outline-2">
+<h2 id="org088158f">jQuery操作DOM</h2>
+<div class="outline-text-2" id="text-org088158f">
+</div>
+<div id="outline-container-orgd95e26e" class="outline-3">
+<h3 id="orgd95e26e">访问元素</h3>
+<div class="outline-text-3" id="text-orgd95e26e">
+</div>
+<div id="outline-container-orgcae21a3" class="outline-4">
+<h4 id="orgcae21a3">attr()，对元素属性执行获取和设置操作</h4>
+<div class="outline-text-4" id="text-orgcae21a3">
+<pre class="example">
+获取元素属性格式：
+            attr(name)
+元素设置格式：
+            attr(key,value)
+            attr(key,function(index))
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgcb8c3b0" class="outline-4">
+<h4 id="orgcb8c3b0">removeAttr()，删除某一指定的属性</h4>
+<div class="outline-text-4" id="text-orgcb8c3b0">
+<pre class="example">
+删除元素属性格式：
+            removeAttr(name)
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfb04cfc" class="outline-4">
+<h4 id="orgfb04cfc">元素内容操作</h4>
+<div class="outline-text-4" id="text-orgfb04cfc">
+<pre class="example">
+html(),html(val),text(),text(val)
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orge4edf16" class="outline-4">
+<h4 id="orge4edf16">获取或设置元素值</h4>
+<div class="outline-text-4" id="text-orge4edf16">
+<pre class="example">
+val(val)，如果不带参数，则是获取某元素的值；反之，则是将参数val的值赋给某元素，即设置元素的值。
+可以获取多个选项值：
+    va().join(",")
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org6253787" class="outline-4">
+<h4 id="org6253787">元素样式操作</h4>
+<div class="outline-text-4" id="text-org6253787">
+<pre class="example">
+css(name,value)
+addClass(class) or addClass(class1 class1...)
+toggleClass(class)，类别切换
+removeClass(class)
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7d0ebe2" class="outline-3">
+<h3 id="org7d0ebe2">节点元素操作</h3>
+<div class="outline-text-3" id="text-org7d0ebe2">
+</div>
+<div id="outline-container-org36c1323" class="outline-4">
+<h4 id="org36c1323">创建节点元素</h4>
+<div class="outline-text-4" id="text-org36c1323">
+<pre class="example">
+$(html)
+
+</pre>
+<p>
+eg:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">var $div=$(<span style="color: #5c3566;">"&lt;div title="</span>xxx<span style="color: #5c3566;">"&gt;Write Less Do More&lt;/div&gt;"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+$(<span style="color: #5c3566;">"body"</span>).append($div)<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org72d5f6e" class="outline-4">
+<h4 id="org72d5f6e">插入节点</h4>
+<div class="outline-text-4" id="text-org72d5f6e">
+<pre class="example">
+内部插入:
+append(content)
+append(function(index,html))
+appendTo(content)
+prepend(content)
+prepend(function(index,html))
+prependTo(content)
+
+外部插入：
+after(content)
+after(function)
+before(content)
+before(function)
+insertAfter(content)
+insertBefore(content)
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org613c06b" class="outline-4">
+<h4 id="org613c06b">复制节点</h4>
+<div class="outline-text-4" id="text-org613c06b">
+<pre class="example">
+clone(true)
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orga0dab46" class="outline-4">
+<h4 id="orga0dab46">替换节点</h4>
+<div class="outline-text-4" id="text-orga0dab46">
+<pre class="example">
+replaceWith(content)
+replaceAll(selector)
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc42093a" class="outline-4">
+<h4 id="orgc42093a">包裹节点</h4>
+<div class="outline-text-4" id="text-orgc42093a">
+<pre class="example">
+wrap(html)
+...
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbe59302" class="outline-3">
+<h3 id="orgbe59302">遍历与删除</h3>
+<div class="outline-text-3" id="text-orgbe59302">
+</div>
+<div id="outline-container-org8e3e9b5" class="outline-4">
+<h4 id="org8e3e9b5">遍历元素</h4>
+<div class="outline-text-4" id="text-org8e3e9b5">
+<pre class="example">
+each(callback)
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org87baf37" class="outline-4">
+<h4 id="org87baf37">删除元素</h4>
+<div class="outline-text-4" id="text-org87baf37">
+<pre class="example">
+remove([expr]
+empty()
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org82028a0" class="outline-2">
+<h2 id="org82028a0">jQuery事件</h2>
+<div class="outline-text-2" id="text-org82028a0">
+</div>
+<div id="outline-container-org83b7c34" class="outline-3">
+<h3 id="org83b7c34">事件机制</h3>
+<div class="outline-text-3" id="text-org83b7c34">
+<pre class="example">
+冒泡现象:
+实际需要中，我们并不希望事件的冒泡现象发生，即单击了按钮就执行单一的单击事件，而不触发其他外围事件。
+
+jQuery中通过stopPropagation()方法来实现。
+event.stopPropagation()
+也可以通过 return false; 实现停止事件的冒泡过程。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org0637546" class="outline-3">
+<h3 id="org0637546">各种事件</h3>
+<div class="outline-text-3" id="text-org0637546">
+</div>
+<div id="outline-container-orga70747e" class="outline-4">
+<h4 id="orga70747e">页面载入事件</h4>
+<div class="outline-text-4" id="text-orga70747e">
+<pre class="example">
+ready()，类似于js中的OnLoad()方法。OnLoad()方法的执行必须是页面元素的全部加载完成才触发。
+
+
+</pre>
+<p>
+ready()写法：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #346604;">function</span>(){
+//code
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(<span style="color: #346604;">function</span>(){
+//code
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">jQuery(document).ready(<span style="color: #346604;">function</span>(){
+//code
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">jQuery(<span style="color: #346604;">function</span>(){
+//code
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org06534f5" class="outline-4">
+<h4 id="org06534f5">绑定事件</h4>
+<div class="outline-text-4" id="text-org06534f5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(<span style="color: #346604;">function</span>(){
+ $(<span style="color: #5c3566;">"#btnShow"</span>).click(<span style="color: #346604;">function</span>(){
+  //code
+ })<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+
+or
+
+bind(type,[data],fn)
+eg:
+$(<span style="color: #346604;">function</span>(){
+ $(<span style="color: #5c3566;">"#btnBind"</span>).bind(<span style="color: #5c3566;">"click"</span>,function(){ //&#32465;&#23450;&#22810;&#20010;&#20107;&#20214;&#65292;&#21487;&#20351;&#29992;&#31354;&#26684;&#32780;&#38548;&#24320;
+  $(this).attr(<span style="color: #5c3566;">"disabled"</span>,<span style="color: #5c3566;">"disabled"</span>)<span style="color: #5f615c; font-style: italic;">;</span>
+ })<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+
+eg&#65306;&#26144;&#23556;&#26041;&#24335;&#32465;&#23450;
+$(<span style="color: #346604;">function</span>(){
+ $(<span style="color: #5c3566;">".txt"</span>).bind({focus:function(){
+   $(<span style="color: #5c3566;">"#divTip"</span>).show()<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">$("#divTip").html("xxx");},</span>
+   change:function(){$(<span style="color: #5c3566;">"#divTip"</span>).show()<span style="color: #5f615c; font-style: italic;">;</span><span style="color: #5f615c; font-style: italic;">$("#divTip").html("xxx");}</span>
+ })<span style="color: #5f615c; font-style: italic;">;</span>
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcecc894" class="outline-4">
+<h4 id="orgcecc894">切换事件</h4>
+<div class="outline-text-4" id="text-orgcecc894">
+<pre class="example">
+hover()
+toggle(fun1,fun2,[fun3,fun4,...])
+
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(<span style="color: #5c3566;">"a"</span>).hover(<span style="color: #346604;">function</span>(){
+ //code1
+ },function(){
+ //code2
+})<span style="color: #5f615c; font-style: italic;">;</span>
+
+or
+
+$(<span style="color: #5c3566;">"a"</span>).mouseenter(<span style="color: #346604;">function</span>(){
+ //code1
+})<span style="color: #5f615c; font-style: italic;">;</span>
+$(<span style="color: #5c3566;">"a"</span>).mouseleave(<span style="color: #346604;">function</span>(){
+ //code2
+})<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeb5676f" class="outline-4">
+<h4 id="orgeb5676f">移除事件</h4>
+<div class="outline-text-4" id="text-orgeb5676f">
+<pre class="example">
+unbind([type],[fun])
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc5a3c97" class="outline-4">
+<h4 id="orgc5a3c97">其他事件</h4>
+<div class="outline-text-4" id="text-orgc5a3c97">
+<pre class="example">
+one(type,[data],fun)，为所选元素绑定一次触发一次的处理函数
+trigger(type,[data])，在所选的元素上触发指定类型的事件。
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org356e1b1" class="outline-3">
+<h3 id="org356e1b1">表单应用</h3>
+</div>
+<div id="outline-container-orga6b5f80" class="outline-3">
+<h3 id="orga6b5f80">列表应用</h3>
+</div>
+<div id="outline-container-org0ab5d65" class="outline-3">
+<h3 id="org0ab5d65">网页选项卡应用</h3>
+</div>
+</div>
+<div id="outline-container-org4bff1c6" class="outline-2">
+<h2 id="org4bff1c6">jQuery动画与特效</h2>
+<div class="outline-text-2" id="text-org4bff1c6">
+</div>
+<div id="outline-container-org26353a7" class="outline-3">
+<h3 id="org26353a7">显示与隐藏</h3>
+<div class="outline-text-3" id="text-org26353a7">
+<p>
+JavaScript：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+<p>
+JQuery：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab1ea0e" class="outline-2">
+<h2 id="orgab1ea0e">Ajax与jQuery</h2>
+<div class="outline-text-2" id="text-orgab1ea0e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf4e4e8c" class="outline-2">
+<h2 id="orgf4e4e8c">jQuery插件</h2>
+<div class="outline-text-2" id="text-orgf4e4e8c">
+</div>
+<div id="outline-container-org617b621" class="outline-3">
+<h3 id="org617b621">常用插件</h3>
+</div>
+<div id="outline-container-org13ca9ec" class="outline-3">
+<h3 id="org13ca9ec">UI插件</h3>
+</div>
+</div>
+<div id="outline-container-org9a6499a" class="outline-2">
+<h2 id="org9a6499a">jQuery实用工具函数</h2>
+</div>
+<div id="outline-container-org1c98604" class="outline-2">
+<h2 id="org1c98604">jQuery性能优化与最佳实践</h2>
+</div>
+<div id="outline-container-org03fd3f6" class="outline-2">
+<h2 id="org03fd3f6">实例小贴士</h2>
+<div class="outline-text-2" id="text-org03fd3f6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+</pre>
+</div>
+</div>
+</div>

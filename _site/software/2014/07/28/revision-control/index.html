@@ -437,8 +437,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/software" itemprop="url" rel="index">
-                    <span itemprop="name">software</span>
+                  <a href="/category/#/Software" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
                   </a>
                 </span>
 
@@ -494,13 +494,13 @@
 如果你有任何问题，可以发邮件到zrg1390556487@gmail.com。
 </p>
 
-<div id="outline-container-orgfa9fcd3" class="outline-2">
-<h2 id="orgfa9fcd3">Subversion</h2>
-<div class="outline-text-2" id="text-orgfa9fcd3">
+<div id="outline-container-org9ca55ed" class="outline-2">
+<h2 id="org9ca55ed">Subversion</h2>
+<div class="outline-text-2" id="text-org9ca55ed">
 </div>
-<div id="outline-container-orgf57f991" class="outline-3">
-<h3 id="orgf57f991">下载</h3>
-<div class="outline-text-3" id="text-orgf57f991">
+<div id="outline-container-orgcefa833" class="outline-3">
+<h3 id="orgcefa833">下载</h3>
+<div class="outline-text-3" id="text-orgcefa833">
 <pre class="example">
 //官网地址
 http://subversion.apache.org/
@@ -509,9 +509,9 @@ https://tortoisesvn.net/
 </pre>
 </div>
 </div>
-<div id="outline-container-org5102fb5" class="outline-3">
-<h3 id="org5102fb5">TortoiseSVN进行增量发布</h3>
-<div class="outline-text-3" id="text-org5102fb5">
+<div id="outline-container-org8407f3a" class="outline-3">
+<h3 id="org8407f3a">TortoiseSVN进行增量发布</h3>
+<div class="outline-text-3" id="text-org8407f3a">
 <pre class="example">
 1.右键》选择TortoiseSVN-&gt;Show Log（显示日志）
 2.选中更新版本段》右键选择Compare revisions（版本比较）
@@ -521,13 +521,13 @@ https://tortoisesvn.net/
 </div>
 </div>
 </div>
-<div id="outline-container-orgf61f8c7" class="outline-2">
-<h2 id="orgf61f8c7">Git</h2>
-<div class="outline-text-2" id="text-orgf61f8c7">
+<div id="outline-container-orge79013c" class="outline-2">
+<h2 id="orge79013c">Git</h2>
+<div class="outline-text-2" id="text-orge79013c">
 </div>
-<div id="outline-container-org97189dd" class="outline-3">
-<h3 id="org97189dd">安装&amp;配置</h3>
-<div class="outline-text-3" id="text-org97189dd">
+<div id="outline-container-org7713f4b" class="outline-3">
+<h3 id="org7713f4b">安装&amp;配置</h3>
+<div class="outline-text-3" id="text-org7713f4b">
 <pre class="example">
 1.Ubuntu 10.10(maverick)或更新版本，Debian(squeeze)或更新版本：
 $ sudo aptitude install git
@@ -581,9 +581,9 @@ $ git config --unset --global user.email
 </pre>
 </div>
 </div>
-<div id="outline-container-org7a87b02" class="outline-3">
-<h3 id="org7a87b02">.gitignore 文件</h3>
-<div class="outline-text-3" id="text-org7a87b02">
+<div id="outline-container-orgcedc32c" class="outline-3">
+<h3 id="orgcedc32c">.gitignore 文件</h3>
+<div class="outline-text-3" id="text-orgcedc32c">
 <pre class="example">
 以斜杠“/”开头表示目录；
 以星号“*”通配多个字符；
@@ -594,35 +594,52 @@ $ git config --unset --global user.email
 </pre>
 </div>
 </div>
-<div id="outline-container-org0def59a" class="outline-3">
-<h3 id="org0def59a">仓库操作</h3>
-<div class="outline-text-3" id="text-org0def59a">
+<div id="outline-container-orgc727962" class="outline-3">
+<h3 id="orgc727962">仓库操作</h3>
+<div class="outline-text-3" id="text-orgc727962">
+<ol class="org-ol">
+<li>首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：</li>
+</ol>
 <pre class="example">
-//仓库初始化：新建目录，进入，执行如下命令：
 $ git init
-//查看仓库状态
-$git status
 
 </pre>
-
+<ol class="org-ol">
+<li>检出仓库</li>
+</ol>
 <pre class="example">
-//检出仓库（本地）
+// 仓库在本地
 $ git clone /path/to/repository
-//检出仓库（远端）
+// 仓库在远端
 $ git clone username@host:/path/to/repository
 $ git clone git@github.com:xxx/hello_world.git //GitHub
-//拉取仓库（分支）内容(update)
+
+</pre>
+<ol class="org-ol">
+<li>每次需要改动时，首先，拉取仓库（分支）最新内容(update)</li>
+</ol>
+<pre class="example">
 $ git pull
-$ git pull orgion feature-A
+$ git pull orgion master
+
+</pre>
+
+<ol class="org-ol">
+<li>如果欲将本地初始化的仓库连接到某个远程服务器：</li>
+</ol>
+<pre class="example">
+$ git remote add origin &lt;server&gt;
+$ git remote add origin https://github.com/zhaorengui/test.git //GitHub
 
 </pre>
 
 <pre class="example">
-//如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：
-$ git remote add origin &lt;server&gt;
+$ git push -u origin master
 
 </pre>
-
+<ol class="org-ol">
+<li>删除文件</li>
+</ol>
 <pre class="example">
 //删除本地仓库文件
 $ rm test.php
@@ -632,13 +649,13 @@ $ git rm test.php
 </pre>
 </div>
 </div>
-<div id="outline-container-org365879b" class="outline-3">
-<h3 id="org365879b">提交过程</h3>
-<div class="outline-text-3" id="text-org365879b">
+<div id="outline-container-orgc31d25b" class="outline-3">
+<h3 id="orgc31d25b">提交过程</h3>
+<div class="outline-text-3" id="text-orgc31d25b">
 </div>
-<div id="outline-container-orgb6f8942" class="outline-4">
-<h4 id="orgb6f8942">工作流</h4>
-<div class="outline-text-4" id="text-orgb6f8942">
+<div id="outline-container-org24ba07a" class="outline-4">
+<h4 id="org24ba07a">工作流</h4>
+<div class="outline-text-4" id="text-org24ba07a">
 <pre class="example">
 本地仓库由 git 维护的三棵“树”组成。
 第一个是你的工作目录，它持有实际文；
@@ -647,22 +664,22 @@ $ git rm test.php
 
 </pre>
 
-<div id="org853321b" class="figure">
+<div id="orgbda866a" class="figure">
 <p><img src="../../../../../assets/images/commit1.png" alt="commit1.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>提交流程1</p>
 </div>
 
-<div id="org50a8990" class="figure">
+<div id="org65e4ae3" class="figure">
 <p><img src="../../../../../assets/images/trees.png" alt="trees.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>提交流程2</p>
 </div>
 </div>
 </div>
-<div id="outline-container-org2792117" class="outline-4">
-<h4 id="org2792117">一次完整的提交</h4>
-<div class="outline-text-4" id="text-org2792117">
+<div id="outline-container-orgf120913" class="outline-4">
+<h4 id="orgf120913">一次完整的提交</h4>
+<div class="outline-text-4" id="text-orgf120913">
 <ol class="org-ol">
 <li>假如我新增了某个功能，现在把它提交到暂存区。</li>
 </ol>
@@ -760,13 +777,13 @@ $ git reset --hard origin/master
 </div>
 </div>
 </div>
-<div id="outline-container-orga222a8f" class="outline-3">
-<h3 id="orga222a8f">分支</h3>
-<div class="outline-text-3" id="text-orga222a8f">
+<div id="outline-container-org856a4bc" class="outline-3">
+<h3 id="org856a4bc">分支</h3>
+<div class="outline-text-3" id="text-org856a4bc">
 </div>
-<div id="outline-container-orgcd7d335" class="outline-4">
-<h4 id="orgcd7d335">理解分支</h4>
-<div class="outline-text-4" id="text-orgcd7d335">
+<div id="outline-container-orgb4b76dd" class="outline-4">
+<h4 id="orgb4b76dd">理解分支</h4>
+<div class="outline-text-4" id="text-orgb4b76dd">
 
 <div class="figure">
 <p><img src="../../../../../assets/images/branches.png" alt="branches.png" />
@@ -795,7 +812,7 @@ $ git commit -m 'initial commit of my project'
 
 </pre>
 
-<div id="orgd5f7ed1" class="figure">
+<div id="org7f691a9" class="figure">
 <p><img src="../../../../../assets/images/git-branch01.png" alt="git-branch01.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>单个提交对象在仓库中的数据结构</p>
@@ -806,7 +823,7 @@ $ git commit -m 'initial commit of my project'
 
 </pre>
 
-<div id="org996efe5" class="figure">
+<div id="org32e6da2" class="figure">
 <p><img src="../../../../../assets/images/git-branch02.png" alt="git-branch02.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>多个提交对象之间的链接关系</p>
@@ -817,7 +834,7 @@ $ git commit -m 'initial commit of my project'
 
 </pre>
 
-<div id="org4ef03b3" class="figure">
+<div id="org1ded23a" class="figure">
 <p><img src="../../../../../assets/images/git-branch03.png" alt="git-branch03.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>分支其实就是从某个提交对象往回看的历史</p>
@@ -830,7 +847,7 @@ $ git branch test
 
 </pre>
 
-<div id="orgfe5f853" class="figure">
+<div id="org8e03215" class="figure">
 <p><img src="../../../../../assets/images/git-branch04.png" alt="git-branch04.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>多个分支指向提交数据的历史</p>
@@ -843,7 +860,7 @@ $ git branch test
 
 </pre>
 
-<div id="org0f55340" class="figure">
+<div id="org6e56a3d" class="figure">
 <p><img src="../../../../../assets/images/git-branch05.png" alt="git-branch05.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>HEAD 指向当前所在的分支</p>
@@ -856,7 +873,7 @@ $ git checkout testing
 
 </pre>
 
-<div id="orgd6555d7" class="figure">
+<div id="org209b93a" class="figure">
 <p><img src="../../../../../assets/images/git-branch06.png" alt="git-branch06.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>HEAD 在你转换分支时指向新的分支</p>
@@ -869,7 +886,7 @@ $ git commit -a -m 'made a change'
 
 </pre>
 
-<div id="orgf4b8dc0" class="figure">
+<div id="org644b293" class="figure">
 <p><img src="../../../../../assets/images/git-branch07.png" alt="git-branch07.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>每次提交后 HEAD 随着分支一起向前移动</p>
@@ -881,7 +898,7 @@ $ git checkout master
 
 </pre>
 
-<div id="org3c78170" class="figure">
+<div id="org0c4f794" class="figure">
 <p><img src="../../../../../assets/images/git-branch08.png" alt="git-branch08.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>HEAD 在一次 checkout 之后移动到了另一个分支</p>
@@ -899,7 +916,7 @@ $ git commit -a -m 'made other changes'
 
 </pre>
 
-<div id="org89741e1" class="figure">
+<div id="org13f47f7" class="figure">
 <p><img src="../../../../../assets/images/git-branch09.png" alt="git-branch09.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>不同流向的分支历史</p>
@@ -919,9 +936,9 @@ $ git commit -a -m 'made other changes'
 </pre>
 </div>
 </div>
-<div id="outline-container-org7fbd687" class="outline-4">
-<h4 id="org7fbd687">分支的创建与切换</h4>
-<div class="outline-text-4" id="text-org7fbd687">
+<div id="outline-container-org549b043" class="outline-4">
+<h4 id="org549b043">分支的创建与切换</h4>
+<div class="outline-text-4" id="text-org549b043">
 <pre class="example">
 实际工作中大体也会用到这样的工作流程：正在开发某个网站；为实现某个新的需求，创建了一个分支；正在这个分支上开展工作。
 突然，接到一个电话说有个很严重的问题需要紧急修补，那么可以按照下面的方式处理：
@@ -937,7 +954,7 @@ A.首先，我们假设你正在项目中愉快地工作，并且已经提交了
 
 </pre>
 
-<div id="orge3d6e64" class="figure">
+<div id="org76b9fde" class="figure">
 <p><img src="../../../../../assets/images/git-branch10.png" alt="git-branch10.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>一个简短的提交历史</p>
@@ -953,7 +970,7 @@ $ git checkout iss53
 
 </pre>
 
-<div id="orgafe82f3" class="figure">
+<div id="org09a3ff9" class="figure">
 <p><img src="../../../../../assets/images/git-branch11.png" alt="git-branch11.png" />
 </p>
 <p><span class="figure-number">Figure 14: </span>创建了一个新分支（专门解决53问题）的指针</p>
@@ -964,7 +981,7 @@ $ git checkout iss53
 
 </pre>
 
-<div id="orgf30818e" class="figure">
+<div id="orgf3f14db" class="figure">
 <p><img src="../../../../../assets/images/git-branch12.png" alt="git-branch12.png" />
 </p>
 <p><span class="figure-number">Figure 15: </span>iss53 分支随工作进展向前推进</p>
@@ -989,7 +1006,7 @@ $ git checkout -b 'hotfix'
 
 </pre>
 
-<div id="org2469cf3" class="figure">
+<div id="orgfe7005f" class="figure">
 <p><img src="../../../../../assets/images/git-branch13.png" alt="git-branch13.png" />
 </p>
 <p><span class="figure-number">Figure 16: </span>hotfix 分支是从 master 分支所在点分化出来的</p>
@@ -1013,7 +1030,7 @@ Fast forward
 
 </pre>
 
-<div id="orgd893004" class="figure">
+<div id="orgd870c4e" class="figure">
 <p><img src="../../../../../assets/images/git-branch14.png" alt="git-branch14.png" />
 </p>
 <p><span class="figure-number">Figure 17: </span>合并之后，master 分支和 hotfix 分支指向同一位置</p>
@@ -1032,7 +1049,7 @@ $ git checkout iss53
 
 </pre>
 
-<div id="org2a8b9a6" class="figure">
+<div id="org79707d9" class="figure">
 <p><img src="../../../../../assets/images/git-branch15.png" alt="git-branch15.png" />
 </p>
 <p><span class="figure-number">Figure 18: </span>iss53 分支可以不受影响继续推进</p>
@@ -1040,9 +1057,9 @@ $ git checkout iss53
 </div>
 </div>
 
-<div id="outline-container-org16991d4" class="outline-4">
-<h4 id="org16991d4">分支的合并</h4>
-<div class="outline-text-4" id="text-org16991d4">
+<div id="outline-container-orgc1abfe0" class="outline-4">
+<h4 id="orgc1abfe0">分支的合并</h4>
+<div class="outline-text-4" id="text-orgc1abfe0">
 <pre class="example">
 A.在问题 #53 相关的工作完成之后，可以合并回 master 分支。
 $ git checkout master
@@ -1057,7 +1074,7 @@ $ git merge iss53
 
 </pre>
 
-<div id="orge314489" class="figure">
+<div id="org38c3eae" class="figure">
 <p><img src="../../../../../assets/images/git-branch16.png" alt="git-branch16.png" />
 </p>
 <p><span class="figure-number">Figure 19: </span>Git 为分支合并自动识别出最佳的同源合并点</p>
@@ -1068,7 +1085,7 @@ Git 没有简单地把分支指针右移，而是对三方合并后的结果重�
 
 </pre>
 
-<div id="orga776906" class="figure">
+<div id="orgc116471" class="figure">
 <p><img src="../../../../../assets/images/git-branch17.png" alt="git-branch17.png" />
 </p>
 <p><span class="figure-number">Figure 20: </span>Git 自动创建了一个包含了合并结果的提交对象</p>
@@ -1081,8 +1098,8 @@ $ git branch -d iss53
 </pre>
 </div>
 <ul class="org-ul">
-<li><a id="orgf19599f"></a>遇到冲突时的分支合并<br />
-<div class="outline-text-5" id="text-orgf19599f">
+<li><a id="orgd5b2b32"></a>遇到冲突时的分支合并<br />
+<div class="outline-text-5" id="text-orgd5b2b32">
 <pre class="example">
 有时候合并操作并不会如此顺利。如果在不同的分支中都修改了同一个文件的同一部分，Git 就无法干净地把两者合到一起（译注：逻辑上说，这种问题只能由人来裁决）。
 
@@ -1180,9 +1197,9 @@ Conflicts:
 </ul>
 </div>
 
-<div id="outline-container-orgc76a036" class="outline-4">
-<h4 id="orgc76a036">分支的管理</h4>
-<div class="outline-text-4" id="text-orgc76a036">
+<div id="outline-container-org72ab3b4" class="outline-4">
+<h4 id="org72ab3b4">分支的管理</h4>
+<div class="outline-text-4" id="text-org72ab3b4">
 <pre class="example">
 //git branch 命令不仅仅能创建和删除分支，如果不加任何参数，它会给出当前所有分支的清单：
 $ git branch
@@ -1222,13 +1239,13 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 </pre>
 </div>
 </div>
-<div id="outline-container-orgda5e03a" class="outline-4">
-<h4 id="orgda5e03a">实际开发工作流程</h4>
-<div class="outline-text-4" id="text-orgda5e03a">
+<div id="outline-container-org63f21be" class="outline-4">
+<h4 id="org63f21be">实际开发工作流程</h4>
+<div class="outline-text-4" id="text-org63f21be">
 </div>
 <ul class="org-ul">
-<li><a id="orgb909e5c"></a>长期分支<br />
-<div class="outline-text-5" id="text-orgb909e5c">
+<li><a id="orgc394857"></a>长期分支<br />
+<div class="outline-text-5" id="text-orgc394857">
 <pre class="example">
 由于 Git 使用简单的三方合并，所以就算在较长一段时间内，反复多次把某个分支合并到另一分支，也不是什么难事。
 也就是说，你可以同时拥有多个开放的分支，每个分支用于完成特定的任务，随着开发的推进，你可以随时把某个特性分支的成果并到其他分支中。
@@ -1248,21 +1265,21 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="org1493f17" class="figure">
+<div id="org404d3ba" class="figure">
 <p><img src="../../../../../assets/images/git-branch18.png" alt="git-branch18.png" />
 </p>
 <p><span class="figure-number">Figure 21: </span>稳定分支总是比较老旧</p>
 </div>
 
-<div id="org27f06b9" class="figure">
+<div id="org8880851" class="figure">
 <p><img src="../../../../../assets/images/git-branch19.png" alt="git-branch19.png" />
 </p>
 <p><span class="figure-number">Figure 22: </span>想象成流水线可能会容易点</p>
 </div>
 </div>
 </li>
-<li><a id="org7783767"></a>特性分支<br />
-<div class="outline-text-5" id="text-org7783767">
+<li><a id="org5f67ecf"></a>特性分支<br />
+<div class="outline-text-5" id="text-org5f67ecf">
 <pre class="example">
 特性分支是指一个短期的，用来实现单一特性或与其相关工作的分支。
 
@@ -1273,7 +1290,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="orgbc7334e" class="figure">
+<div id="org36640ce" class="figure">
 <p><img src="../../../../../assets/images/git-branch20.png" alt="git-branch20.png" />
 </p>
 <p><span class="figure-number">Figure 23: </span>拥有多个特性分支的提交历史</p>
@@ -1293,7 +1310,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="org0fdd165" class="figure">
+<div id="org8311e86" class="figure">
 <p><img src="../../../../../assets/images/git-branch21.png" alt="git-branch21.png" />
 </p>
 <p><span class="figure-number">Figure 24: </span>合并了 dumbidea 和 iss91v2 后的分支历史</p>
@@ -1306,15 +1323,15 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 </li>
 </ul>
 </div>
-<div id="outline-container-org2e3d3a9" class="outline-4">
-<h4 id="org2e3d3a9">远程分支</h4>
-<div class="outline-text-4" id="text-org2e3d3a9">
+<div id="outline-container-orgcf7adc5" class="outline-4">
+<h4 id="orgcf7adc5">远程分支</h4>
+<div class="outline-text-4" id="text-orgcf7adc5">
 <pre class="example">
 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
 
 </pre>
 
-<div id="org84c307c" class="figure">
+<div id="org63f771f" class="figure">
 <p><img src="../../../../../assets/images/git-branch22.png" alt="git-branch22.png" />
 </p>
 <p><span class="figure-number">Figure 25: </span>Git克隆</p>
@@ -1325,7 +1342,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="org98c3399" class="figure">
+<div id="orgb61d3c8" class="figure">
 <p><img src="../../../../../assets/images/git-branch23.png" alt="git-branch23.png" />
 </p>
 <p><span class="figure-number">Figure 26: </span>在本地工作的同时有人向远程仓库推送内容会让提交历史开始分流</p>
@@ -1335,7 +1352,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="orgd7d7453" class="figure">
+<div id="org0ecc91b" class="figure">
 <p><img src="../../../../../assets/images/git-branch24.png" alt="git-branch24.png" />
 </p>
 <p><span class="figure-number">Figure 27: </span>git fetch 命令会更新 remote 索引</p>
@@ -1345,7 +1362,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="org04f01a9" class="figure">
+<div id="orgc4285da" class="figure">
 <p><img src="../../../../../assets/images/git-branch25.png" alt="git-branch25.png" />
 </p>
 <p><span class="figure-number">Figure 28: </span>把另一个服务器加为远程仓库</p>
@@ -1355,7 +1372,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 </pre>
 
-<div id="org0ab2a38" class="figure">
+<div id="orgb2df740" class="figure">
 <p><img src="../../../../../assets/images/git-branch26.png" alt="git-branch26.png" />
 </p>
 <p><span class="figure-number">Figure 29: </span>在本地有了一个指向 teamone 服务器上 master 分支的索引</p>
@@ -1388,23 +1405,23 @@ $ git pull
 </pre>
 </div>
 </div>
-<div id="outline-container-org566350c" class="outline-4">
-<h4 id="org566350c">分支的衍合</h4>
-<div class="outline-text-4" id="text-org566350c">
+<div id="outline-container-org143fa37" class="outline-4">
+<h4 id="org143fa37">分支的衍合</h4>
+<div class="outline-text-4" id="text-org143fa37">
 <pre class="example">
 把一个分支整合到另一个分支的办法有两种：merge 和 rebase（译注：rebase 的翻译暂定为“衍合”）
 
 </pre>
 </div>
 <ul class="org-ul">
-<li><a id="org44caced"></a>基本的衍合操作<br />
-<div class="outline-text-5" id="text-org44caced">
+<li><a id="org14c1edc"></a>基本的衍合操作<br />
+<div class="outline-text-5" id="text-org14c1edc">
 <pre class="example">
 回顾之前有关合并的章节，开发进程分叉到两个不同分支，又各自提交了更新。
 
 </pre>
 
-<div id="org92fa7a1" class="figure">
+<div id="org13fee58" class="figure">
 <p><img src="../../../../../assets/images/git-branch27.png" alt="git-branch27.png" />
 </p>
 <p><span class="figure-number">Figure 30: </span>最初分叉的提交历史</p>
@@ -1414,7 +1431,7 @@ $ git pull
 
 </pre>
 
-<div id="org1dfcacd" class="figure">
+<div id="org7d860d9" class="figure">
 <p><img src="../../../../../assets/images/git-branch28.png" alt="git-branch28.png" />
 </p>
 <p><span class="figure-number">Figure 31: </span>通过合并一个分支来整合分叉了的历史</p>
@@ -1429,7 +1446,7 @@ $ git rebase master
 
 </pre>
 
-<div id="org36bb187" class="figure">
+<div id="orgfb446a1" class="figure">
 <p><img src="../../../../../assets/images/git-branch29.png" alt="git-branch29.png" />
 </p>
 <p><span class="figure-number">Figure 32: </span>把 C3 里产生的改变到 C4 上重演一遍</p>
@@ -1439,7 +1456,7 @@ $ git rebase master
 
 </pre>
 
-<div id="org86814ba" class="figure">
+<div id="orgbf4a1a2" class="figure">
 <p><img src="../../../../../assets/images/git-branch30.png" alt="git-branch30.png" />
 </p>
 <p><span class="figure-number">Figure 33: </span>master 分支的快进</p>
@@ -1459,8 +1476,8 @@ $ git rebase master
 </pre>
 </div>
 </li>
-<li><a id="orge4113c9"></a>衍合举例<br />
-<div class="outline-text-5" id="text-orge4113c9">
+<li><a id="org8a43411"></a>衍合举例<br />
+<div class="outline-text-5" id="text-org8a43411">
 <pre class="example">
 衍合也可以放到其他分支进行，并不一定非得根据分化之前的分支。以下图为例，给服务器端代码添加一些功能而创建了特性分支 server，
 然后提交 C3 和 C4。然后又从 C3 的地方再增加一个client 分支来对客户端代码进行一些相应修改，所以提交了 C8 和 C9。最后，又
@@ -1468,7 +1485,7 @@ $ git rebase master
 
 </pre>
 
-<div id="org27e8bc4" class="figure">
+<div id="org87050f3" class="figure">
 <p><img src="../../../../../assets/images/git-branch31.png" alt="git-branch31.png" />
 </p>
 <p><span class="figure-number">Figure 34: </span>从一个特性分支里再分出一个特性分支的历史</p>
@@ -1482,7 +1499,7 @@ $ git rebase --onto master server client
 
 </pre>
 
-<div id="org10b2f03" class="figure">
+<div id="org6d8cca8" class="figure">
 <p><img src="../../../../../assets/images/git-branch32.png" alt="git-branch32.png" />
 </p>
 <p><span class="figure-number">Figure 35: </span>将特性分支上的另一个特性分支衍合到其他分支</p>
@@ -1494,7 +1511,7 @@ $ git merge client
 
 </pre>
 
-<div id="org59de925" class="figure">
+<div id="org8ae319a" class="figure">
 <p><img src="../../../../../assets/images/git-branch33.png" alt="git-branch33.png" />
 </p>
 <p><span class="figure-number">Figure 36: </span>快进 master 分支，使之包含 client 分支的变化</p>
@@ -1506,7 +1523,7 @@ $ git rebase master server
 
 </pre>
 
-<div id="org7185906" class="figure">
+<div id="org75beeab" class="figure">
 <p><img src="../../../../../assets/images/git-branch34.png" alt="git-branch34.png" />
 </p>
 <p><span class="figure-number">Figure 37: </span>在 master 分支上衍合 server 分支</p>
@@ -1525,22 +1542,22 @@ $ git branch -d server
 
 </pre>
 
-<div id="orgc2cb72f" class="figure">
+<div id="org5e0719b" class="figure">
 <p><img src="../../../../../assets/images/git-branch35.png" alt="git-branch35.png" />
 </p>
 <p><span class="figure-number">Figure 38: </span>最终的提交历史</p>
 </div>
 </div>
 </li>
-<li><a id="org4c2fa89"></a>衍合的风险<br />
-<div class="outline-text-5" id="text-org4c2fa89">
+<li><a id="org6703aa6"></a>衍合的风险<br />
+<div class="outline-text-5" id="text-org6703aa6">
 <pre class="example">
 奇妙的衍合也并非完美无缺，要用它得遵守一条准则：一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。
 用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似下图所示：
 
 </pre>
 
-<div id="org302bf96" class="figure">
+<div id="org7838a31" class="figure">
 <p><img src="../../../../../assets/images/git-branch36.png" alt="git-branch36.png" />
 </p>
 <p><span class="figure-number">Figure 39: </span>克隆一个仓库，在其基础上工作一番</p>
@@ -1551,7 +1568,7 @@ $ git branch -d server
 
 </pre>
 
-<div id="orgca74221" class="figure">
+<div id="org184560e" class="figure">
 <p><img src="../../../../../assets/images/git-branch37.png" alt="git-branch37.png" />
 </p>
 <p><span class="figure-number">Figure 40: </span>抓取他人提交，并入自己主干</p>
@@ -1562,7 +1579,7 @@ $ git branch -d server
 
 </pre>
 
-<div id="orgfb3d5fb" class="figure">
+<div id="orgb0779e1" class="figure">
 <p><img src="../../../../../assets/images/git-branch38.png" alt="git-branch38.png" />
 </p>
 <p><span class="figure-number">Figure 41: </span>有人推送了衍合后得到的 C4’，丢弃了你作为开发基础的 C4 和 C6</p>
@@ -1573,7 +1590,7 @@ $ git branch -d server
 
 </pre>
 
-<div id="orgec72cff" class="figure">
+<div id="orgf1fd0e2" class="figure">
 <p><img src="../../../../../assets/images/git-branch39.png" alt="git-branch39.png" />
 </p>
 <p><span class="figure-number">Figure 42: </span>你把相同的内容又合并了一遍，生成一个新的提交 C8</p>
@@ -1590,9 +1607,9 @@ C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，
 </ul>
 </div>
 </div>
-<div id="outline-container-orgee24ab0" class="outline-3">
-<h3 id="orgee24ab0">标签</h3>
-<div class="outline-text-3" id="text-orgee24ab0">
+<div id="outline-container-org83deab6" class="outline-3">
+<h3 id="org83deab6">标签</h3>
+<div class="outline-text-3" id="text-org83deab6">
 <pre class="example">
 //显示所有标签
 $ git tag
@@ -1619,9 +1636,9 @@ $ git log
 </pre>
 </div>
 </div>
-<div id="outline-container-org531bf4c" class="outline-3">
-<h3 id="org531bf4c">日志、差别对比</h3>
-<div class="outline-text-3" id="text-org531bf4c">
+<div id="outline-container-org286918a" class="outline-3">
+<h3 id="org286918a">日志、差别对比</h3>
+<div class="outline-text-3" id="text-org286918a">
 <pre class="example">
 //查看提交日志
 $ git log
@@ -1671,9 +1688,9 @@ $git diff HEAD
 </pre>
 </div>
 </div>
-<div id="outline-container-org25d4fa3" class="outline-3">
-<h3 id="org25d4fa3">实用小贴士</h3>
-<div class="outline-text-3" id="text-org25d4fa3">
+<div id="outline-container-org72efb35" class="outline-3">
+<h3 id="org72efb35">实用小贴士</h3>
+<div class="outline-text-3" id="text-org72efb35">
 <pre class="example">
 //内建的图形化 git：
 $ gitk
@@ -1691,13 +1708,13 @@ $ git add -i
 </div>
 </div>
 </div>
-<div id="outline-container-orgd317888" class="outline-2">
-<h2 id="orgd317888">GitHub</h2>
-<div class="outline-text-2" id="text-orgd317888">
+<div id="outline-container-orgb6d340b" class="outline-2">
+<h2 id="orgb6d340b">GitHub</h2>
+<div class="outline-text-2" id="text-orgb6d340b">
 </div>
-<div id="outline-container-org5c219fd" class="outline-3">
-<h3 id="org5c219fd">简单介绍</h3>
-<div class="outline-text-3" id="text-org5c219fd">
+<div id="outline-container-orga864203" class="outline-3">
+<h3 id="orga864203">简单介绍</h3>
+<div class="outline-text-3" id="text-orga864203">
 <pre class="example">
 官网地址：https://github.com/
 
@@ -1714,9 +1731,9 @@ GitHub同时提供付费账户和免费账户。
 </pre>
 </div>
 </div>
-<div id="outline-container-orge1e2b47" class="outline-3">
-<h3 id="orge1e2b47">Git vs SVN</h3>
-<div class="outline-text-3" id="text-orge1e2b47">
+<div id="outline-container-orgea0e47e" class="outline-3">
+<h3 id="orgea0e47e">Git vs SVN</h3>
+<div class="outline-text-3" id="text-orgea0e47e">
 <pre class="example">
 1.Git是分布式的，SVN不是；
 2.Git把内容按元数据方式存储，而SVN是按文件；
@@ -1727,9 +1744,9 @@ GitHub同时提供付费账户和免费账户。
 </pre>
 </div>
 </div>
-<div id="outline-container-orga565e0f" class="outline-3">
-<h3 id="orga565e0f">一些基本概念</h3>
-<div class="outline-text-3" id="text-orga565e0f">
+<div id="outline-container-orgfdd2a65" class="outline-3">
+<h3 id="orgfdd2a65">一些基本概念</h3>
+<div class="outline-text-3" id="text-orgfdd2a65">
 <pre class="example">
 1.Repository(仓库)：用于存放项目源代码。
 
@@ -1761,13 +1778,13 @@ GitHub同时提供付费账户和免费账户。
 </pre>
 </div>
 </div>
-<div id="outline-container-org9b3c222" class="outline-3">
-<h3 id="org9b3c222">上传代码方式</h3>
-<div class="outline-text-3" id="text-org9b3c222">
+<div id="outline-container-orgd743410" class="outline-3">
+<h3 id="orgd743410">上传代码方式</h3>
+<div class="outline-text-3" id="text-orgd743410">
 </div>
-<div id="outline-container-org5cffc39" class="outline-4">
-<h4 id="org5cffc39">SSH方式传输</h4>
-<div class="outline-text-4" id="text-org5cffc39">
+<div id="outline-container-orgd0b45c5" class="outline-4">
+<h4 id="orgd0b45c5">SSH方式传输</h4>
+<div class="outline-text-4" id="text-orgd0b45c5">
 <pre class="example">
 //使用SSH方式，在提交时，不需要输入用户名和密码。
 
@@ -1797,18 +1814,18 @@ $ ssh -T git@github.com
 </pre>
 </div>
 </div>
-<div id="outline-container-org900a149" class="outline-4">
-<h4 id="org900a149">HTTPS方式传输</h4>
-<div class="outline-text-4" id="text-org900a149">
+<div id="outline-container-org2c7c651" class="outline-4">
+<h4 id="org2c7c651">HTTPS方式传输</h4>
+<div class="outline-text-4" id="text-org2c7c651">
 <pre class="example">
 使用条件：1）本地配置了global；2）需要输入用户名和密码推送代码
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org2deb100" class="outline-4">
-<h4 id="org2deb100">配置免登录提交代码</h4>
-<div class="outline-text-4" id="text-org2deb100">
+<div id="outline-container-org41c3841" class="outline-4">
+<h4 id="org41c3841">配置免登录提交代码</h4>
+<div class="outline-text-4" id="text-org41c3841">
 <pre class="example">
 $ vim .git/config
 
@@ -1824,9 +1841,9 @@ $ vim .git/config
 </div>
 </div>
 </div>
-<div id="outline-container-orgc04fea6" class="outline-3">
-<h3 id="orgc04fea6">开源项目贡献流程</h3>
-<div class="outline-text-3" id="text-orgc04fea6">
+<div id="outline-container-org1378863" class="outline-3">
+<h3 id="org1378863">开源项目贡献流程</h3>
+<div class="outline-text-3" id="text-org1378863">
 <pre class="example">
 1.新建Issue：提交问题或建议或想法。
 2.Pull Request：Fork项目，修改代码，发起修改请求。
@@ -1834,13 +1851,13 @@ $ vim .git/config
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbd79447" class="outline-3">
-<h3 id="orgbd79447">使用Github Pages搭建网站</h3>
-<div class="outline-text-3" id="text-orgbd79447">
+<div id="outline-container-org2081e33" class="outline-3">
+<h3 id="org2081e33">使用Github Pages搭建网站</h3>
+<div class="outline-text-3" id="text-org2081e33">
 </div>
-<div id="outline-container-org3161c35" class="outline-4">
-<h4 id="org3161c35">新建仓库搭建</h4>
-<div class="outline-text-4" id="text-org3161c35">
+<div id="outline-container-orge7186b8" class="outline-4">
+<h4 id="orge7186b8">新建仓库搭建</h4>
+<div class="outline-text-4" id="text-orge7186b8">
 <pre class="example">
 1.创建个人站点，新建仓库。（注：仓库名必须为【用户名.github.io】）
 2.在新建的仓库下，新建index.html文件即可。
@@ -1849,9 +1866,9 @@ $ vim .git/config
 </pre>
 </div>
 </div>
-<div id="outline-container-org584443b" class="outline-4">
-<h4 id="org584443b">项目仓库下搭建</h4>
-<div class="outline-text-4" id="text-org584443b">
+<div id="outline-container-org39ad560" class="outline-4">
+<h4 id="org39ad560">项目仓库下搭建</h4>
+<div class="outline-text-4" id="text-org39ad560">
 <pre class="example">
 1.进入项目仓库主页，点击settings。
 2.找到【Github Pages】，点击【Change theme】，选择主题来自动生成主题页面。
@@ -1862,9 +1879,9 @@ $ vim .git/config
 </div>
 </div>
 </div>
-<div id="outline-container-org0b10449" class="outline-2">
-<h2 id="org0b10449">References</h2>
-<div class="outline-text-2" id="text-org0b10449">
+<div id="outline-container-org497306e" class="outline-2">
+<h2 id="org497306e">References</h2>
+<div class="outline-text-2" id="text-org497306e">
 <ul class="org-ul">
 <li><a href="http://www.open-open.com/lib/view/open1328069889514.html">Git分支</a></li>
 <li><a href="https://git-scm.com/book/en/v2">git v2</a></li>
@@ -2029,7 +2046,7 @@ $ vim .git/config
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2118,7 +2135,7 @@ $ vim .git/config
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfa9fcd3"> <span class="nav-number">1</span> <span class="nav-text">Subversion</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf57f991"> <span class="nav-number">1.1</span> <span class="nav-text">下载</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5102fb5"> <span class="nav-number">1.2</span> <span class="nav-text">TortoiseSVN进行增量发布</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf61f8c7"> <span class="nav-number">2</span> <span class="nav-text">Git</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97189dd"> <span class="nav-number">2.1</span> <span class="nav-text">安装&amp;配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7a87b02"> <span class="nav-number">2.2</span> <span class="nav-text">.gitignore 文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0def59a"> <span class="nav-number">2.3</span> <span class="nav-text">仓库操作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org365879b"> <span class="nav-number">2.4</span> <span class="nav-text">提交过程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb6f8942"> <span class="nav-number">2.4.1</span> <span class="nav-text">工作流</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2792117"> <span class="nav-number">2.4.2</span> <span class="nav-text">一次完整的提交</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga222a8f"> <span class="nav-number">2.5</span> <span class="nav-text">分支</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcd7d335"> <span class="nav-number">2.5.1</span> <span class="nav-text">理解分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7fbd687"> <span class="nav-number">2.5.2</span> <span class="nav-text">分支的创建与切换</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org16991d4"> <span class="nav-number">2.5.3</span> <span class="nav-text">分支的合并</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc76a036"> <span class="nav-number">2.5.4</span> <span class="nav-text">分支的管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda5e03a"> <span class="nav-number">2.5.5</span> <span class="nav-text">实际开发工作流程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2e3d3a9"> <span class="nav-number">2.5.6</span> <span class="nav-text">远程分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org566350c"> <span class="nav-number">2.5.7</span> <span class="nav-text">分支的衍合</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgee24ab0"> <span class="nav-number">2.6</span> <span class="nav-text">标签</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org531bf4c"> <span class="nav-number">2.7</span> <span class="nav-text">日志、差别对比</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org25d4fa3"> <span class="nav-number">2.8</span> <span class="nav-text">实用小贴士</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd317888"> <span class="nav-number">3</span> <span class="nav-text">GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c219fd"> <span class="nav-number">3.1</span> <span class="nav-text">简单介绍</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge1e2b47"> <span class="nav-number">3.2</span> <span class="nav-text">Git vs SVN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga565e0f"> <span class="nav-number">3.3</span> <span class="nav-text">一些基本概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9b3c222"> <span class="nav-number">3.4</span> <span class="nav-text">上传代码方式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5cffc39"> <span class="nav-number">3.4.1</span> <span class="nav-text">SSH方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org900a149"> <span class="nav-number">3.4.2</span> <span class="nav-text">HTTPS方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2deb100"> <span class="nav-number">3.4.3</span> <span class="nav-text">配置免登录提交代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc04fea6"> <span class="nav-number">3.5</span> <span class="nav-text">开源项目贡献流程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbd79447"> <span class="nav-number">3.6</span> <span class="nav-text">使用Github Pages搭建网站</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3161c35"> <span class="nav-number">3.6.1</span> <span class="nav-text">新建仓库搭建</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org584443b"> <span class="nav-number">3.6.2</span> <span class="nav-text">项目仓库下搭建</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0b10449"> <span class="nav-number">4</span> <span class="nav-text">References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9ca55ed"> <span class="nav-number">1</span> <span class="nav-text">Subversion</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcefa833"> <span class="nav-number">1.1</span> <span class="nav-text">下载</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8407f3a"> <span class="nav-number">1.2</span> <span class="nav-text">TortoiseSVN进行增量发布</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge79013c"> <span class="nav-number">2</span> <span class="nav-text">Git</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7713f4b"> <span class="nav-number">2.1</span> <span class="nav-text">安装&amp;配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcedc32c"> <span class="nav-number">2.2</span> <span class="nav-text">.gitignore 文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc727962"> <span class="nav-number">2.3</span> <span class="nav-text">仓库操作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc31d25b"> <span class="nav-number">2.4</span> <span class="nav-text">提交过程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org24ba07a"> <span class="nav-number">2.4.1</span> <span class="nav-text">工作流</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf120913"> <span class="nav-number">2.4.2</span> <span class="nav-text">一次完整的提交</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org856a4bc"> <span class="nav-number">2.5</span> <span class="nav-text">分支</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb4b76dd"> <span class="nav-number">2.5.1</span> <span class="nav-text">理解分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org549b043"> <span class="nav-number">2.5.2</span> <span class="nav-text">分支的创建与切换</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc1abfe0"> <span class="nav-number">2.5.3</span> <span class="nav-text">分支的合并</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org72ab3b4"> <span class="nav-number">2.5.4</span> <span class="nav-text">分支的管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org63f21be"> <span class="nav-number">2.5.5</span> <span class="nav-text">实际开发工作流程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf7adc5"> <span class="nav-number">2.5.6</span> <span class="nav-text">远程分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org143fa37"> <span class="nav-number">2.5.7</span> <span class="nav-text">分支的衍合</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org83deab6"> <span class="nav-number">2.6</span> <span class="nav-text">标签</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org286918a"> <span class="nav-number">2.7</span> <span class="nav-text">日志、差别对比</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org72efb35"> <span class="nav-number">2.8</span> <span class="nav-text">实用小贴士</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb6d340b"> <span class="nav-number">3</span> <span class="nav-text">GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga864203"> <span class="nav-number">3.1</span> <span class="nav-text">简单介绍</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgea0e47e"> <span class="nav-number">3.2</span> <span class="nav-text">Git vs SVN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfdd2a65"> <span class="nav-number">3.3</span> <span class="nav-text">一些基本概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd743410"> <span class="nav-number">3.4</span> <span class="nav-text">上传代码方式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd0b45c5"> <span class="nav-number">3.4.1</span> <span class="nav-text">SSH方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2c7c651"> <span class="nav-number">3.4.2</span> <span class="nav-text">HTTPS方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org41c3841"> <span class="nav-number">3.4.3</span> <span class="nav-text">配置免登录提交代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1378863"> <span class="nav-number">3.5</span> <span class="nav-text">开源项目贡献流程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2081e33"> <span class="nav-number">3.6</span> <span class="nav-text">使用Github Pages搭建网站</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge7186b8"> <span class="nav-number">3.6.1</span> <span class="nav-text">新建仓库搭建</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39ad560"> <span class="nav-number">3.6.2</span> <span class="nav-text">项目仓库下搭建</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org497306e"> <span class="nav-number">4</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             

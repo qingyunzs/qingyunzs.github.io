@@ -1,0 +1,280 @@
+---
+layout: post
+title: SQL Script
+author: zrg
+comments: false
+description: SQL Script 记录
+categories:
+- Database
+tags:
+- SQL
+photos:
+---
+
+<p>
+Welcome you to mail to zrg1390556487@gmail.com, Thank you!!!
+</p>
+
+<div id="outline-container-orgad971d3" class="outline-2">
+<h2 id="orgad971d3">常用SQL语句</h2>
+<div class="outline-text-2" id="text-orgad971d3">
+</div>
+<div id="outline-container-org57237e2" class="outline-3">
+<h3 id="org57237e2">Table</h3>
+<div class="outline-text-3" id="text-org57237e2">
+</div>
+<div id="outline-container-orgd5c05aa" class="outline-4">
+<h4 id="orgd5c05aa">Create Table</h4>
+<div class="outline-text-4" id="text-orgd5c05aa">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">create</span> <span style="color: #346604;">table</span> <span style="color: #a40000;">TableName</span>(
+id <span style="color: #204a87;">int</span>(10) <span style="color: #346604;">not</span> <span style="color: #346604;">null</span> <span style="color: #346604;">primary</span> <span style="color: #346604;">key</span> auto_increment,
+<span style="color: #346604;">name</span> <span style="color: #204a87;">varchar</span>(20) <span style="color: #346604;">not</span> <span style="color: #346604;">null</span>,
+password <span style="color: #204a87;">varchar</span>(45) <span style="color: #346604;">not</span> <span style="color: #346604;">null</span>,
+sex <span style="color: #204a87;">int</span>(4) <span style="color: #346604;">not</span> <span style="color: #346604;">null</span> <span style="color: #346604;">default</span> <span style="color: #5c3566;">'0'</span>,
+);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5b58f55" class="outline-4">
+<h4 id="org5b58f55">Alter Table</h4>
+<div class="outline-text-4" id="text-org5b58f55">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">alter</span> <span style="color: #346604;">table</span> <span style="color: #a40000;">TableName</span> 
+characiter <span style="color: #346604;">set</span>=utf8mb4,
+<span style="color: #346604;">collate</span>=utf8mb4_general_ci
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orga4a0860" class="outline-3">
+<h3 id="orga4a0860">增删改查/清空</h3>
+<div class="outline-text-3" id="text-orga4a0860">
+</div>
+<div id="outline-container-org4e3ceb0" class="outline-4">
+<h4 id="org4e3ceb0">新增</h4>
+<div class="outline-text-4" id="text-org4e3ceb0">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">insert</span> <span style="color: #346604;">into</span> TableName(id,<span style="color: #346604;">name</span>,password) <span style="color: #346604;">values</span>(<span style="color: #5c3566;">'1'</span>,<span style="color: #5c3566;">'&#23385;&#24735;&#31354;'</span>,<span style="color: #5c3566;">'sduwe9uifsdddssdf23qfuieqwerq'</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb1bd24b" class="outline-4">
+<h4 id="orgb1bd24b">删除</h4>
+<div class="outline-text-4" id="text-orgb1bd24b">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">delete</span> <span style="color: #346604;">from</span> TableName <span style="color: #346604;">where</span> id=<span style="color: #5c3566;">'1'</span>;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga24dfcc" class="outline-4">
+<h4 id="orga24dfcc">修改</h4>
+<div class="outline-text-4" id="text-orga24dfcc">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">update</span> TableName <span style="color: #346604;">set</span> <span style="color: #346604;">name</span>=<span style="color: #5c3566;">'&#23385;&#24735;&#31354;'</span> <span style="color: #346604;">where</span> id=<span style="color: #5c3566;">'1'</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org99d80eb" class="outline-4">
+<h4 id="org99d80eb">查询</h4>
+<div class="outline-text-4" id="text-org99d80eb">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">select</span> * <span style="color: #346604;">from</span> TableName;
+<span style="color: #346604;">select</span> id,<span style="color: #346604;">name</span>,password <span style="color: #346604;">from</span> TableName;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e5aa6a" class="outline-4">
+<h4 id="org6e5aa6a">清空</h4>
+<div class="outline-text-4" id="text-org6e5aa6a">
+<div class="org-src-container">
+<pre class="src src-sql">truncate <span style="color: #346604;">table</span> TableName;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org011b7a5" class="outline-3">
+<h3 id="org011b7a5">索引/视图/事务处理/存储过程</h3>
+<div class="outline-text-3" id="text-org011b7a5">
+</div>
+<div id="outline-container-orga6c5ab3" class="outline-4">
+<h4 id="orga6c5ab3">索引</h4>
+</div>
+<div id="outline-container-org6eb1520" class="outline-4">
+<h4 id="org6eb1520">视图</h4>
+<div class="outline-text-4" id="text-org6eb1520">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">create</span> <span style="color: #346604;">view</span> <span style="color: #a40000;">ViewName</span> <span style="color: #346604;">AS</span>
+    <span style="color: #346604;">select</span> ...
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd87dc90" class="outline-3">
+<h3 id="orgd87dc90">触发器/游标</h3>
+</div>
+</div>
+<div id="outline-container-org377f7e6" class="outline-2">
+<h2 id="org377f7e6">高级查询</h2>
+<div class="outline-text-2" id="text-org377f7e6">
+</div>
+<div id="outline-container-orgb38cea6" class="outline-3">
+<h3 id="orgb38cea6">以某个字段进行分组查询，每组前n条记录</h3>
+<div class="outline-text-3" id="text-orgb38cea6">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">select</span> res.* <span style="color: #346604;">from</span>(
+ <span style="color: #346604;">select</span> * <span style="color: #346604;">from</span> View_ArticleChannel a
+ <span style="color: #346604;">where</span> a.ID <span style="color: #346604;">in</span>(
+    <span style="color: #346604;">select</span> top 3 ID <span style="color: #346604;">from</span> View_ArticleChannel <span style="color: #346604;">where</span> a.ChannelName=ChannelName <span style="color: #346604;">order</span> <span style="color: #346604;">by</span> a.ChannelName <span style="color: #346604;">DESC</span>
+ )
+) <span style="color: #346604;">as</span> res
+<span style="color: #346604;">where</span> res.ChannelName <span style="color: #346604;">in</span>(<span style="color: #5c3566;">'&#29289;&#27969;&#20844;&#21496;'</span>,<span style="color: #5c3566;">'&#20113;&#20179;&#20844;&#21578;'</span>)
+<span style="color: #5f615c; font-style: italic;">-- group by res.ID,res.ChannelName,res.Title</span>
+<span style="color: #346604;">order</span> <span style="color: #346604;">by</span> res.ChannelName
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2e50eb4" class="outline-3">
+<h3 id="org2e50eb4">根据当天日期判断使用哪个字段排序（case&#x2026;when&#x2026;else&#x2026;end）</h3>
+<div class="outline-text-3" id="text-org2e50eb4">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">select</span> card_no 
+<span style="color: #346604;">from</span> Customer_V_InTruckInfo 
+<span style="color: #346604;">where</span> card_no <span style="color: #346604;">like</span> <span style="color: #5c3566;">'%dm16%'</span> 
+<span style="color: #346604;">order</span> <span style="color: #346604;">by</span> (
+  <span style="color: #346604;">case</span> 
+     <span style="color: #346604;">when</span> 19%2=0 <span style="color: #346604;">then</span> <span style="color: #346604;">name</span> 
+     <span style="color: #346604;">else</span> truck_no <span style="color: #346604;">end</span>
+)
+<span style="color: #5f615c; font-style: italic;">-- &#22914;&#26524;&#20351;&#29992;C#&#20195;&#30721;&#65292;19&#21487;&#26367;&#25442;&#20026;:"+DateTime.Now.Day+"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8c6a2d8" class="outline-3">
+<h3 id="org8c6a2d8">分组获取记录的第一条数据</h3>
+<div class="outline-text-3" id="text-org8c6a2d8">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">select</span> * <span style="color: #346604;">from</span>(
+<span style="color: #346604;">SELECT</span>   ROW_NUMBER()over(partition <span style="color: #346604;">by</span> VehicleId <span style="color: #346604;">order</span> <span style="color: #346604;">by</span> CreateTime <span style="color: #346604;">DESC</span>) <span style="color: #346604;">as</span> RowNumber,ID, VehicleId, VehicleNo, Driver, DriverPhone, ContactType, 
+                (<span style="color: #346604;">CASE</span> ContactType <span style="color: #346604;">WHEN</span> <span style="color: #5c3566;">'1'</span> <span style="color: #346604;">THEN</span> <span style="color: #5c3566;">'&#30701;&#20449;'</span> <span style="color: #346604;">WHEN</span> <span style="color: #5c3566;">'2'</span> <span style="color: #346604;">THEN</span> <span style="color: #5c3566;">'&#30005;&#35805;'</span> <span style="color: #346604;">END</span>) <span style="color: #346604;">AS</span> ContactType_ex, ContactContent, CreateUser, 
+                CreateTime, ModifyUser, ModifyTime, ContactResult, 
+                (<span style="color: #346604;">CASE</span> ContactResult <span style="color: #346604;">WHEN</span> <span style="color: #5c3566;">'1'</span> <span style="color: #346604;">THEN</span> <span style="color: #5c3566;">'&#26377;&#24847;&#21521;'</span> <span style="color: #346604;">WHEN</span> <span style="color: #5c3566;">'2'</span> <span style="color: #346604;">THEN</span> <span style="color: #5c3566;">'&#26080;&#24847;&#21521;'</span> <span style="color: #346604;">WHEN</span> <span style="color: #5c3566;">'3'</span> <span style="color: #346604;">THEN</span> <span style="color: #5c3566;">'&#20572;&#21345;'</span> <span style="color: #346604;">END</span>) 
+                <span style="color: #346604;">AS</span> ContactResult_ex, NextContactTime, ContactPersonIdea, IsDelete, ExtendField1, ExtendField2, ExtendField3, 
+                ExtendField4, ExtendField5
+<span style="color: #346604;">FROM</span>      dbo.VehicleTrackInfo) <span style="color: #346604;">AS</span> track
+<span style="color: #346604;">where</span> track.RowNumber=1
+<span style="color: #346604;">and</span> track.VehicleId=<span style="color: #5c3566;">'95654e2ffb134f6581f94aa5ed178529'</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge382e17" class="outline-2">
+<h2 id="orge382e17">其他操作</h2>
+<div class="outline-text-2" id="text-orge382e17">
+</div>
+<div id="outline-container-org0075560" class="outline-3">
+<h3 id="org0075560">使用SQL语句清空数据库中所有表的数据</h3>
+<div class="outline-text-3" id="text-org0075560">
+<pre class="example">
+表非常多,一张一张的清空,实在麻烦,想利用SQL语句一次清空所有数据.找到了三种方法进行清空.使用的数据库为MS SQL SERVER.
+
+</pre>
+</div>
+<div id="outline-container-orgd3fd836" class="outline-4">
+<h4 id="orgd3fd836">Method 1:搜索出所有表名,构造为一条SQL语句</h4>
+<div class="outline-text-4" id="text-orgd3fd836">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">declare</span> @trun_name <span style="color: #204a87;">varchar</span>(8000)
+<span style="color: #346604;">set</span> @trun_name=<span style="color: #5c3566;">''</span>
+<span style="color: #346604;">select</span> @trun_name=@trun_name + <span style="color: #5c3566;">'truncate table '</span> + [<span style="color: #346604;">name</span>] + <span style="color: #5c3566;">' '</span> <span style="color: #346604;">from</span> sysobjects <span style="color: #346604;">where</span> xtype=<span style="color: #5c3566;">'U'</span> <span style="color: #346604;">and</span> status &gt; 0
+<span style="color: #346604;">exec</span> (@trun_name)
+</pre>
+</div>
+<pre class="example">
+该方法适合表不是非常多的情况,否则表数量过多,超过字符串的长度,不能进行完全清理.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org32fc848" class="outline-4">
+<h4 id="org32fc848">Method 2:利用游标清理所有表</h4>
+<div class="outline-text-4" id="text-org32fc848">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">declare</span> @trun_name <span style="color: #204a87;">varchar</span>(50)
+<span style="color: #346604;">declare</span> name_cursor <span style="color: #346604;">cursor</span> <span style="color: #346604;">for</span>
+<span style="color: #346604;">select</span> <span style="color: #5c3566;">'truncate table'</span> + <span style="color: #346604;">name</span> <span style="color: #346604;">from</span> sysobjects <span style="color: #346604;">where</span> xtype=<span style="color: #5c3566;">'U'</span> <span style="color: #346604;">and</span> status &gt; 0
+<span style="color: #346604;">open</span> name_cursor
+<span style="color: #346604;">fetch</span> <span style="color: #346604;">next</span> <span style="color: #346604;">from</span> name_cursor <span style="color: #346604;">into</span> @trun_name
+while @@FETCH_STATUS = 0
+<span style="color: #346604;">begin</span>
+  <span style="color: #346604;">exec</span> (@trun_name)
+  print <span style="color: #5c3566;">'truncated table'</span> + @trun_name
+  <span style="color: #346604;">fetch</span> <span style="color: #346604;">next</span> <span style="color: #346604;">from</span> name_cursor <span style="color: #346604;">into</span> @trun_name
+<span style="color: #346604;">end</span>
+<span style="color: #346604;">close</span> name_cursor
+<span style="color: #346604;">deallocate</span> name_cursor
+</pre>
+</div>
+<pre class="example">
+可以做为存储过程调用, 能够一次清空所有表的数据,并且还可以进行有选择的清空表.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc052c6f" class="outline-4">
+<h4 id="orgc052c6f">Method 3:利用微软未公开的存储过程</h4>
+<div class="outline-text-4" id="text-orgc052c6f">
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #346604;">exec</span> sp_msforeachtable "truncate <span style="color: #346604;">table</span> ?"
+</pre>
+</div>
+<pre class="example">
+该方法可以一次清空所有表,但不能加过滤条件.
+附-删除表：exec sp_msforeachtable 'DROP table ?'
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1cac13d" class="outline-3">
+<h3 id="org1cac13d">SQL Server修改表名前的用户</h3>
+<div class="outline-text-3" id="text-org1cac13d">
+<p>
+1.只修改表前用户
+</p>
+<pre class="example">
+EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
+</pre>
+<p>
+2.用户表/存储过程/视图/触发器/自定义函数一起改
+</p>
+<pre class="example">
+declare tb cursor local for
+select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
+from sysobjects 
+where xtype in('U','V','P','TR','FN','IF','TF') and status&gt;=0
+open tb
+declare @s nvarchar(4000)
+fetch tb into @s
+while @@fetch_status=0
+begin
+exec(@s)
+fetch tb into @s
+end
+close tb
+deallocate tb
+</pre>
+</div>
+</div>
+</div>

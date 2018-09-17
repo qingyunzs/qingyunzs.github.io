@@ -446,22 +446,22 @@
 
 
 
-  <div id="outline-container-org15bfb7d" class="outline-2">
-<h2 id="org15bfb7d">写在前面</h2>
-<div class="outline-text-2" id="text-org15bfb7d">
+  <div id="outline-container-orgdb188c1" class="outline-2">
+<h2 id="orgdb188c1">写在前面</h2>
+<div class="outline-text-2" id="text-orgdb188c1">
 <pre class="example">
 MySQL配置与优化
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org659fc52" class="outline-2">
-<h2 id="org659fc52">命令</h2>
-<div class="outline-text-2" id="text-org659fc52">
+<div id="outline-container-org2e3b7ee" class="outline-2">
+<h2 id="org2e3b7ee">命令</h2>
+<div class="outline-text-2" id="text-org2e3b7ee">
 </div>
-<div id="outline-container-org7ee5717" class="outline-3">
-<h3 id="org7ee5717">show</h3>
-<div class="outline-text-3" id="text-org7ee5717">
+<div id="outline-container-org156c4cd" class="outline-3">
+<h3 id="org156c4cd">show</h3>
+<div class="outline-text-3" id="text-org156c4cd">
 <div class="org-src-container">
 <pre class="src src-sh">--&#26174;&#31034;&#25968;&#25454;&#24211;&#21015;&#34920;
 &gt;show databases;
@@ -486,17 +486,17 @@ MySQL配置与优化
 </div>
 </div>
 </div>
-<div id="outline-container-org2355f38" class="outline-2">
-<h2 id="org2355f38">配置参数</h2>
-<div class="outline-text-2" id="text-org2355f38">
+<div id="outline-container-orgf3e8078" class="outline-2">
+<h2 id="orgf3e8078">配置参数</h2>
+<div class="outline-text-2" id="text-orgf3e8078">
 </div>
-<div id="outline-container-org2fbd019" class="outline-3">
-<h3 id="org2fbd019">连接请求的变量</h3>
-<div class="outline-text-3" id="text-org2fbd019">
+<div id="outline-container-orgdda20d6" class="outline-3">
+<h3 id="orgdda20d6">连接请求的变量</h3>
+<div class="outline-text-3" id="text-orgdda20d6">
 </div>
-<div id="outline-container-org3014474" class="outline-4">
-<h4 id="org3014474">max_connections</h4>
-<div class="outline-text-4" id="text-org3014474">
+<div id="outline-container-org21533d6" class="outline-4">
+<h4 id="org21533d6">max_connections</h4>
+<div class="outline-text-4" id="text-org21533d6">
 <pre class="example">
 MySQL的最大连接数。
 数值过小会经常出现ERROR 1040: Too many connections错误，可以过’conn%’通配符查看当前状态的连接数量，以定夺该值的大小。
@@ -507,9 +507,9 @@ max_used_connections / max_connections * 100% （理想值≈ 85%），如果max
 </pre>
 </div>
 </div>
-<div id="outline-container-orge50ac57" class="outline-4">
-<h4 id="orge50ac57">back_log</h4>
-<div class="outline-text-4" id="text-orge50ac57">
+<div id="outline-container-org57dc317" class="outline-4">
+<h4 id="org57dc317">back_log</h4>
+<div class="outline-text-4" id="text-org57dc317">
 <pre class="example">
  MySQL能暂存的连接数量。用以当主要的MySQL线程在一个很短时间内得到非常多的连接请求时。
 如果MySQL的连接数据达到max_connections时，新来的请求将会被存在堆栈中，以等待某一连接释放资源，该堆栈的数量即back_log，如果等待连接的数量超过back_log，将不被授予连接资源。
@@ -519,9 +519,9 @@ max_used_connections / max_connections * 100% （理想值≈ 85%），如果max
 </pre>
 </div>
 </div>
-<div id="outline-container-org3e7d9a1" class="outline-4">
-<h4 id="org3e7d9a1">interactive_timeout</h4>
-<div class="outline-text-4" id="text-org3e7d9a1">
+<div id="outline-container-org6cc1578" class="outline-4">
+<h4 id="org6cc1578">interactive_timeout</h4>
+<div class="outline-text-4" id="text-org6cc1578">
 <pre class="example">
 一个交互连接在被服务器在关闭前等待行动的秒数。
 默认数值是28800，可调优为7200。
@@ -530,13 +530,13 @@ max_used_connections / max_connections * 100% （理想值≈ 85%），如果max
 </div>
 </div>
 </div>
-<div id="outline-container-orgafb4bbb" class="outline-3">
-<h3 id="orgafb4bbb">缓冲区变量</h3>
-<div class="outline-text-3" id="text-orgafb4bbb">
+<div id="outline-container-org315a093" class="outline-3">
+<h3 id="org315a093">缓冲区变量</h3>
+<div class="outline-text-3" id="text-org315a093">
 </div>
-<div id="outline-container-org4718e19" class="outline-4">
-<h4 id="org4718e19">key_buffer_size</h4>
-<div class="outline-text-4" id="text-org4718e19">
+<div id="outline-container-orge2d3370" class="outline-4">
+<h4 id="orge2d3370">key_buffer_size</h4>
+<div class="outline-text-4" id="text-orge2d3370">
 <pre class="example">
 索引缓冲区的大小，它决定索引处理的速度，尤其是索引读的速度。
 通过检查状态值Key_read_requests和Key_reads，可以知道key_buffer_size设置是否合理。比例key_reads / key_read_requests应该尽可能的低，至少是1:100，1:1000更好（上述状态值可以使用SHOW STATUS LIKE ‘key_read%’获得）。
@@ -545,9 +545,9 @@ key_buffer_size只对MyISAM表起作用。即使你不使用MyISAM表，但是�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgdb56767" class="outline-4">
-<h4 id="orgdb56767">query_cache_size</h4>
-<div class="outline-text-4" id="text-orgdb56767">
+<div id="outline-container-orgde09d30" class="outline-4">
+<h4 id="orgde09d30">query_cache_size</h4>
+<div class="outline-text-4" id="text-orgde09d30">
 <pre class="example">
 查询缓冲大小，MySQL将查询结果存放在缓冲区中，今后对于同样的SELECT语句（区分大小写），将直接从缓冲区中读取结果。
 通过检查状态值Qcache_*，可以知道query_cache_size设置是否合理（上述状态值可以使用SHOW STATUS LIKE ‘Qcache%’获得）。如果Qcache_lowmem_prunes的值非常大，则表明经常出现缓冲不够的情况，如果Qcache_hits的值也非常大，则表明查询缓冲使用非常频繁，此时需要增加缓冲大小；如果Qcache_hits的值不大，则表明你的查询重复率很低，这种情况下使用查询缓冲反而会影响效率，那么可以考虑不用查询缓冲。此外，在SELECT语句中加入SQL_NO_CACHE可以明确表示不使用查询缓冲。
@@ -596,9 +596,9 @@ Set the query cache type. Possible options are as follows:
 </pre>
 </div>
 </div>
-<div id="outline-container-org94d71cf" class="outline-4">
-<h4 id="org94d71cf">record_buffer_size</h4>
-<div class="outline-text-4" id="text-org94d71cf">
+<div id="outline-container-orgcb7fee2" class="outline-4">
+<h4 id="orgcb7fee2">record_buffer_size</h4>
+<div class="outline-text-4" id="text-orgcb7fee2">
 <pre class="example">
 每个进行一个顺序扫描的线程为其扫描的每张表分配这个大小的一个缓冲区。如果你做很多顺序扫描，你可能想要增加该值。
 默认数值是131072(128K)，可改为16773120 (16M)
@@ -606,9 +606,9 @@ Set the query cache type. Possible options are as follows:
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb5422e1" class="outline-4">
-<h4 id="orgb5422e1">read_rnd_buffer_size</h4>
-<div class="outline-text-4" id="text-orgb5422e1">
+<div id="outline-container-orgcf714c4" class="outline-4">
+<h4 id="orgcf714c4">read_rnd_buffer_size</h4>
+<div class="outline-text-4" id="text-orgcf714c4">
 <pre class="example">
 随机读缓冲区大小。当按任意顺序读取行时(例如，按照排序顺序)，将分配一个随机读缓存区。进行排序查询时，MySQL会首先扫描一遍该缓冲，以避免磁盘搜索，提高查询速度，如果需要排序大量数据，可适当调高该值。但MySQL会为每个客户连接发放该缓冲空间，所以应尽量适当设置该值，以避免内存开销过大。
 一般可设置为16M 
@@ -616,9 +616,9 @@ Set the query cache type. Possible options are as follows:
 </pre>
 </div>
 </div>
-<div id="outline-container-org18a67fb" class="outline-4">
-<h4 id="org18a67fb">sort_buffer_size</h4>
-<div class="outline-text-4" id="text-org18a67fb">
+<div id="outline-container-org81697eb" class="outline-4">
+<h4 id="org81697eb">sort_buffer_size</h4>
+<div class="outline-text-4" id="text-org81697eb">
 <pre class="example">
 联合查询操作所能使用的缓冲区大小
 record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size为每个线程独占，也就是说，如果有100个线程连接，则占用为16M*100
@@ -626,9 +626,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-org2cbc501" class="outline-4">
-<h4 id="org2cbc501">join_buffer_size</h4>
-<div class="outline-text-4" id="text-org2cbc501">
+<div id="outline-container-orgbbfce55" class="outline-4">
+<h4 id="orgbbfce55">join_buffer_size</h4>
+<div class="outline-text-4" id="text-orgbbfce55">
 <pre class="example">
 联合查询操作所能使用的缓冲区大小。
 record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size为每个线程独占，也就是说，如果有100个线程连接，则占用为16M*100
@@ -636,9 +636,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc1af062" class="outline-4">
-<h4 id="orgc1af062">table_cache</h4>
-<div class="outline-text-4" id="text-orgc1af062">
+<div id="outline-container-orgf51071f" class="outline-4">
+<h4 id="orgf51071f">table_cache</h4>
+<div class="outline-text-4" id="text-orgf51071f">
 <pre class="example">
 表高速缓存的大小。
 通过检查峰值时间的状态值Open_tables和Opened_tables，可以决定是否需要增加table_cache的值。如果你发现open_tables等于table_cache，并且opened_tables在不断增长，那么你就需要增加table_cache的值了（上述状态值可以使用SHOW STATUS LIKE ‘Open%tables’获得）。注意，不能盲目地把table_cache设置成很大的值。如果设置得太高，可能会造成文件描述符不足，从而造成性能不稳定或者连接失败。
@@ -647,9 +647,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-org6bba0a8" class="outline-4">
-<h4 id="org6bba0a8">max_heap_table_size</h4>
-<div class="outline-text-4" id="text-org6bba0a8">
+<div id="outline-container-org2f76597" class="outline-4">
+<h4 id="org2f76597">max_heap_table_size</h4>
+<div class="outline-text-4" id="text-org2f76597">
 <pre class="example">
 用户可以创建的内存表(memory table)的大小。这个值用来计算内存表的最大行数值。这个变量支持动态改变，即set @max_heap_table_size=#
 这个变量和tmp_table_size一起限制了内部内存表的大小。如果某个内部heap（堆积）表大小超过tmp_table_size，MySQL可以根据需要自动将内存中的heap表改为基于硬盘的MyISAM表。
@@ -657,9 +657,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc373821" class="outline-4">
-<h4 id="orgc373821">tmp_table_size</h4>
-<div class="outline-text-4" id="text-orgc373821">
+<div id="outline-container-org95158ea" class="outline-4">
+<h4 id="org95158ea">tmp_table_size</h4>
+<div class="outline-text-4" id="text-org95158ea">
 <pre class="example">
 通过设置tmp_table_size选项来增加一张临时表的大小，例如做高级GROUP BY操作生成的临时表。如果调高该值，MySQL同时将增加heap表的大小，可达到提高联接查询速度的效果，建议尽量优化查询，要确保查询过程中生成的临时表在内存中，避免临时表过大导致生成基于硬盘的MyISAM表。
 默认为16M，可调到64-256最佳，线程独占，太大可能内存不够I/O堵塞。
@@ -667,9 +667,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgaac64a8" class="outline-4">
-<h4 id="orgaac64a8">thread_cache_size</h4>
-<div class="outline-text-4" id="text-orgaac64a8">
+<div id="outline-container-org41b0fe6" class="outline-4">
+<h4 id="org41b0fe6">thread_cache_size</h4>
+<div class="outline-text-4" id="text-org41b0fe6">
 <pre class="example">
 可以复用的保存在中的线程的数量。如果有，新的线程从缓存中取得，当断开连接的时候如果有空间，客户的线置在缓存中。如果有很多新的线程，为了提高性能可以这个变量值。
 通过比较 Connections和Threads_created状态的变量，可以看到这个变量的作用。
@@ -678,18 +678,18 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd904d90" class="outline-4">
-<h4 id="orgd904d90">thread_concurrency</h4>
-<div class="outline-text-4" id="text-orgd904d90">
+<div id="outline-container-org93fd8c7" class="outline-4">
+<h4 id="org93fd8c7">thread_concurrency</h4>
+<div class="outline-text-4" id="text-org93fd8c7">
 <pre class="example">
 推荐设置为服务器 CPU核数的2倍，例如双核的CPU, 那么thread_concurrency的应该为4；2个双核的cpu, thread_concurrency的值应为8。默认为8
 
 </pre>
 </div>
 </div>
-<div id="outline-container-orge6146aa" class="outline-4">
-<h4 id="orge6146aa">wait_timeout</h4>
-<div class="outline-text-4" id="text-orge6146aa">
+<div id="outline-container-org255dd9b" class="outline-4">
+<h4 id="org255dd9b">wait_timeout</h4>
+<div class="outline-text-4" id="text-org255dd9b">
 <pre class="example">
 指定一个请求的最大连接时间，对于4GB左右内存的服务器可以设置为5-10。
 
@@ -697,13 +697,13 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </div>
 </div>
 </div>
-<div id="outline-container-org2e89c34" class="outline-3">
-<h3 id="org2e89c34">配置InnoDB的几个变量</h3>
-<div class="outline-text-3" id="text-org2e89c34">
+<div id="outline-container-org7888c8c" class="outline-3">
+<h3 id="org7888c8c">配置InnoDB的几个变量</h3>
+<div class="outline-text-3" id="text-org7888c8c">
 </div>
-<div id="outline-container-orgf1f71dd" class="outline-4">
-<h4 id="orgf1f71dd">innodb_buffer_pool_size</h4>
-<div class="outline-text-4" id="text-orgf1f71dd">
+<div id="outline-container-orge5024a7" class="outline-4">
+<h4 id="orge5024a7">innodb_buffer_pool_size</h4>
+<div class="outline-text-4" id="text-orge5024a7">
 <pre class="example">
 对于InnoDB表来说，innodb_buffer_pool_size的作用就相当于key_buffer_size对于MyISAM表的作用一样。InnoDB使用该参数指定大小的内存来缓冲数据和索引。对于单独的MySQL数据库服务器，最大可以把该值设置成物理内存的80%。
 根据MySQL手册，对于2G内存的机器，推荐值是1G（50%）。
@@ -711,9 +711,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-org6f66075" class="outline-4">
-<h4 id="org6f66075">innodb_flush_log_at_trx_commit</h4>
-<div class="outline-text-4" id="text-org6f66075">
+<div id="outline-container-org769eb07" class="outline-4">
+<h4 id="org769eb07">innodb_flush_log_at_trx_commit</h4>
+<div class="outline-text-4" id="text-org769eb07">
 <pre class="example">
 主要控制了innodb将log buffer中的数据写入日志文件并flush磁盘的时间点，取值分别为0、1、2三个。0，表示当事务提交时，不做日志写入操作，而是每秒钟将log buffer中的数据写入日志文件并flush磁盘一次；1，则在每秒钟或是每次事物的提交都会引起日志文件写入、flush磁盘的操作，确保了事务的ACID；设置为2，每次事务提交引起写入日志文件的动作，但每秒钟完成一次flush磁盘操作。
 实际测试发现，该值对插入数据的速度影响非常大，设置为2时插入10000条记录只需要2秒，设置为0时只需要1秒，而设置为1时则需要229秒。因此，MySQL手册也建议尽量将插入操作合并成一个事务，这样可以大幅提高速度。
@@ -722,9 +722,9 @@ record_buffer_size，read_rnd_buffer_size，sort_buffer_size，join_buffer_size�
 </pre>
 </div>
 </div>
-<div id="outline-container-org028e142" class="outline-4">
-<h4 id="org028e142">innodb_log_buffer_size</h4>
-<div class="outline-text-4" id="text-org028e142">
+<div id="outline-container-orgeea6c2b" class="outline-4">
+<h4 id="orgeea6c2b">innodb_log_buffer_size</h4>
+<div class="outline-text-4" id="text-orgeea6c2b">
 <pre class="example">
 log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以增大缓存大小。
 可设置为4M或8M。
@@ -732,9 +732,9 @@ log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以�
 </pre>
 </div>
 </div>
-<div id="outline-container-org252a29b" class="outline-4">
-<h4 id="org252a29b">innodb_additional_mem_pool_size</h4>
-<div class="outline-text-4" id="text-org252a29b">
+<div id="outline-container-orgab8b2b2" class="outline-4">
+<h4 id="orgab8b2b2">innodb_additional_mem_pool_size</h4>
+<div class="outline-text-4" id="text-orgab8b2b2">
 <pre class="example">
 该参数指定InnoDB用来存储数据字典和其他内部数据结构的内存池大小。缺省值是1M。通常不用太大，只要够用就行，应该与表结构的复杂度有关系。如果不够用，MySQL会在错误日志中写入一条警告信息。
 根据MySQL手册，对于2G内存的机器，推荐值是20M，可适当增加。
@@ -742,9 +742,9 @@ log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以�
 </pre>
 </div>
 </div>
-<div id="outline-container-org255ea1f" class="outline-4">
-<h4 id="org255ea1f">innodb_thread_concurrency=8</h4>
-<div class="outline-text-4" id="text-org255ea1f">
+<div id="outline-container-org4197d0e" class="outline-4">
+<h4 id="org4197d0e">innodb_thread_concurrency=8</h4>
+<div class="outline-text-4" id="text-org4197d0e">
 <pre class="example">
 推荐设置为 2*(NumCPUs+NumDisks)，默认一般为8
 
@@ -753,9 +753,9 @@ log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以�
 </div>
 </div>
 </div>
-<div id="outline-container-orgd32c4fa" class="outline-2">
-<h2 id="orgd32c4fa">参考资料</h2>
-<div class="outline-text-2" id="text-orgd32c4fa">
+<div id="outline-container-org9186488" class="outline-2">
+<h2 id="org9186488">参考资料</h2>
+<div class="outline-text-2" id="text-org9186488">
 <pre class="example">
 http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
 
@@ -819,7 +819,7 @@ http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/javascript/2016/09/03/jQuery-EasyUI/" rel="prev" title="jQuery-EasyUI 开发笔记">
+              <a href="/javascript/2016/09/03/jquery-easyui/" rel="prev" title="jQuery-EasyUI 开发笔记">
                 jQuery-EasyUI 开发笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -909,7 +909,7 @@ http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -998,7 +998,7 @@ http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org15bfb7d"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org659fc52"> <span class="nav-number">2</span> <span class="nav-text">命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ee5717"> <span class="nav-number">2.1</span> <span class="nav-text">show</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2355f38"> <span class="nav-number">3</span> <span class="nav-text">配置参数</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2fbd019"> <span class="nav-number">3.1</span> <span class="nav-text">连接请求的变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3014474"> <span class="nav-number">3.1.1</span> <span class="nav-text">max_connections</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge50ac57"> <span class="nav-number">3.1.2</span> <span class="nav-text">back_log</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3e7d9a1"> <span class="nav-number">3.1.3</span> <span class="nav-text">interactive_timeout</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgafb4bbb"> <span class="nav-number">3.2</span> <span class="nav-text">缓冲区变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4718e19"> <span class="nav-number">3.2.1</span> <span class="nav-text">key_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdb56767"> <span class="nav-number">3.2.2</span> <span class="nav-text">query_cache_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org94d71cf"> <span class="nav-number">3.2.3</span> <span class="nav-text">record_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb5422e1"> <span class="nav-number">3.2.4</span> <span class="nav-text">read_rnd_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org18a67fb"> <span class="nav-number">3.2.5</span> <span class="nav-text">sort_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2cbc501"> <span class="nav-number">3.2.6</span> <span class="nav-text">join_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc1af062"> <span class="nav-number">3.2.7</span> <span class="nav-text">table_cache</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6bba0a8"> <span class="nav-number">3.2.8</span> <span class="nav-text">max_heap_table_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc373821"> <span class="nav-number">3.2.9</span> <span class="nav-text">tmp_table_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaac64a8"> <span class="nav-number">3.2.10</span> <span class="nav-text">thread_cache_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd904d90"> <span class="nav-number">3.2.11</span> <span class="nav-text">thread_concurrency</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge6146aa"> <span class="nav-number">3.2.12</span> <span class="nav-text">wait_timeout</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2e89c34"> <span class="nav-number">3.3</span> <span class="nav-text">配置InnoDB的几个变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf1f71dd"> <span class="nav-number">3.3.1</span> <span class="nav-text">innodb_buffer_pool_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6f66075"> <span class="nav-number">3.3.2</span> <span class="nav-text">innodb_flush_log_at_trx_commit</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org028e142"> <span class="nav-number">3.3.3</span> <span class="nav-text">innodb_log_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org252a29b"> <span class="nav-number">3.3.4</span> <span class="nav-text">innodb_additional_mem_pool_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org255ea1f"> <span class="nav-number">3.3.5</span> <span class="nav-text">innodb_thread_concurrency=8</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd32c4fa"> <span class="nav-number">4</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdb188c1"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2e3b7ee"> <span class="nav-number">2</span> <span class="nav-text">命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org156c4cd"> <span class="nav-number">2.1</span> <span class="nav-text">show</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf3e8078"> <span class="nav-number">3</span> <span class="nav-text">配置参数</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdda20d6"> <span class="nav-number">3.1</span> <span class="nav-text">连接请求的变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org21533d6"> <span class="nav-number">3.1.1</span> <span class="nav-text">max_connections</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org57dc317"> <span class="nav-number">3.1.2</span> <span class="nav-text">back_log</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6cc1578"> <span class="nav-number">3.1.3</span> <span class="nav-text">interactive_timeout</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org315a093"> <span class="nav-number">3.2</span> <span class="nav-text">缓冲区变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge2d3370"> <span class="nav-number">3.2.1</span> <span class="nav-text">key_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgde09d30"> <span class="nav-number">3.2.2</span> <span class="nav-text">query_cache_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcb7fee2"> <span class="nav-number">3.2.3</span> <span class="nav-text">record_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf714c4"> <span class="nav-number">3.2.4</span> <span class="nav-text">read_rnd_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org81697eb"> <span class="nav-number">3.2.5</span> <span class="nav-text">sort_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbbfce55"> <span class="nav-number">3.2.6</span> <span class="nav-text">join_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf51071f"> <span class="nav-number">3.2.7</span> <span class="nav-text">table_cache</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2f76597"> <span class="nav-number">3.2.8</span> <span class="nav-text">max_heap_table_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org95158ea"> <span class="nav-number">3.2.9</span> <span class="nav-text">tmp_table_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org41b0fe6"> <span class="nav-number">3.2.10</span> <span class="nav-text">thread_cache_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org93fd8c7"> <span class="nav-number">3.2.11</span> <span class="nav-text">thread_concurrency</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org255dd9b"> <span class="nav-number">3.2.12</span> <span class="nav-text">wait_timeout</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7888c8c"> <span class="nav-number">3.3</span> <span class="nav-text">配置InnoDB的几个变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge5024a7"> <span class="nav-number">3.3.1</span> <span class="nav-text">innodb_buffer_pool_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org769eb07"> <span class="nav-number">3.3.2</span> <span class="nav-text">innodb_flush_log_at_trx_commit</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgeea6c2b"> <span class="nav-number">3.3.3</span> <span class="nav-text">innodb_log_buffer_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgab8b2b2"> <span class="nav-number">3.3.4</span> <span class="nav-text">innodb_additional_mem_pool_size</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4197d0e"> <span class="nav-number">3.3.5</span> <span class="nav-text">innodb_thread_concurrency=8</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9186488"> <span class="nav-number">4</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             

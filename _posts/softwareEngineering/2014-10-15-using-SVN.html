@@ -1,0 +1,323 @@
+---
+layout: post
+title: Install SVN in Linux
+author: zrg
+comments: false
+description: I have always been fascinated website development.So,management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today.
+categories:
+- Software
+tags:
+- SVN
+photos:
+---
+
+<div class="org-center">
+<p>
+If you have questions, please send email to zrg1390556487@gmail.com.
+</p>
+</div>
+
+<div id="outline-container-org9107f35" class="outline-2">
+<h2 id="org9107f35">Installation environment</h2>
+<div class="outline-text-2" id="text-org9107f35">
+<pre class="example">
+Linux kernel version: 3.10.0 
+OS: CentOS 7
+software: subversion
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org129da98" class="outline-2">
+<h2 id="org129da98">Install</h2>
+<div class="outline-text-2" id="text-org129da98">
+</div>
+<div id="outline-container-org91bd49e" class="outline-3">
+<h3 id="org91bd49e">First Method:source package install</h3>
+<div class="outline-text-3" id="text-org91bd49e">
+</div>
+<div id="outline-container-org18512e2" class="outline-4">
+<h4 id="org18512e2">Download and decompression</h4>
+<div class="outline-text-4" id="text-org18512e2">
+<pre class="example">
+Official Site: https://www.visualsvn.com
+Dowload:
+        1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz
+        2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz
+Decompression command:
+        tar zxvf subversion-1.6.1.tar.gz
+        tar zxvf subversion-deps-1.6.1.tar.gz
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9b93e3f" class="outline-4">
+<h4 id="org9b93e3f">Compile and install</h4>
+<div class="outline-text-4" id="text-org9b93e3f">
+<pre class="example">
+Command:
+        ./configure --prefix=/usr/local/svn/
+        make &amp;&amp; make install
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9253273" class="outline-4">
+<h4 id="org9253273">Add command of svn to path</h4>
+<div class="outline-text-4" id="text-org9253273">
+<pre class="example">
+Comand:
+       echo "export PATH=$PATH:/usr/local/svn/bin/" &gt;&gt; /etc/profile
+       source /etc/profile
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4d40751" class="outline-3">
+<h3 id="org4d40751">Second Method:yum install</h3>
+<div class="outline-text-3" id="text-org4d40751">
+<pre class="example">
+yum install subversion mod_dav_svn
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5d8c95b" class="outline-2">
+<h2 id="org5d8c95b">Build warehouse of test</h2>
+<div class="outline-text-2" id="text-org5d8c95b">
+</div>
+<div id="outline-container-org31a1988" class="outline-3">
+<h3 id="org31a1988">Build root directory of svn</h3>
+<div class="outline-text-3" id="text-org31a1988">
+<pre class="example">
+mkdir -p /opt/svn
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgee77ebd" class="outline-3">
+<h3 id="orgee77ebd">Build warehoust of test</h3>
+<div class="outline-text-3" id="text-orgee77ebd">
+<pre class="example">
+mkdir -p /opt/svn/svntest/
+svnadmin create /opt/svn/svntest/
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org07afc0b" class="outline-3">
+<h3 id="org07afc0b">Configure</h3>
+<div class="outline-text-3" id="text-org07afc0b">
+<pre class="example">
+1.To directory of configure,There are three file here.
+   cd /opt/svn/svntest/conf/
+authz: Configure file about setting permissions of users.
+passwd:  Configure file about setting username and password.
+svnserve.conf: Configure file about svn.
+2.svnserve.conf
+vim svnserve.conf
+edit:
+     [general]
+     anon-access = none
+     auth-access = write
+     password-db = passwd
+     authz-db = authz
+3.authz
+add:
+    [svntest:/]
+    92csz.com = rw # add a user(92csz.com),read and write.
+4.passwd
+edit:
+    92csz.com = 123456 # password is 123456
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3af2dd5" class="outline-2">
+<h2 id="org3af2dd5">Client</h2>
+<div class="outline-text-2" id="text-org3af2dd5">
+<pre class="example">
+This is windows client.
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfeb8e9d" class="outline-2">
+<h2 id="orgfeb8e9d">Start</h2>
+<div class="outline-text-2" id="text-orgfeb8e9d">
+</div>
+<div id="outline-container-org4d36c85" class="outline-3">
+<h3 id="org4d36c85">Start service of SVN</h3>
+<div class="outline-text-3" id="text-org4d36c85">
+<pre class="example">
+svnserve -d -r /opt/svn/
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org136384f" class="outline-3">
+<h3 id="org136384f">Check service</h3>
+<div class="outline-text-3" id="text-org136384f">
+<pre class="example">
+netstat -aux |grep svn
+restult:
+        tcp 000.0.0.0:3690.0.0.0:*  LISTEN  8646/svnserve
+
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd554ad6" class="outline-2">
+<h2 id="orgd554ad6">Change permission of user</h2>
+<div class="outline-text-2" id="text-orgd554ad6">
+<pre class="example">
+Command:
+        chmod -R 775 /opt/svn/
+ or     chmod -R o+rw /opt/svn
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orge0bf63d" class="outline-2">
+<h2 id="orge0bf63d">Test by client</h2>
+<div class="outline-text-2" id="text-orge0bf63d">
+<pre class="example">
+Open svn client(right),Enter IP address of svn server and warehouse name
+exmple:
+       svn://192.168.120.166/svntest
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org741388d" class="outline-2">
+<h2 id="org741388d">Apache and Subversion</h2>
+<div class="outline-text-2" id="text-org741388d">
+</div>
+<div id="outline-container-org3ffd4de" class="outline-3">
+<h3 id="org3ffd4de">Add this config file to apache</h3>
+<div class="outline-text-3" id="text-org3ffd4de">
+<div class="org-src-container">
+<pre class="src src-emacs_lisp">LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule authz_svn_module   modules/mod_authz_svn.so
+
+&lt;Location /svn&gt;
+   DAV svn
+   SVNParentPath /var/www/unixmensvn
+   AuthType Basic
+   AuthName "Subversion repositories"
+   AuthUserFile /etc/svn-auth-users
+   Require valid-user
+&lt;/Location&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc51da2c" class="outline-3">
+<h3 id="orgc51da2c">Create SVN users</h3>
+<div class="outline-text-3" id="text-orgc51da2c">
+<pre class="example">
+htpasswd -cm /etc/svn-auth-users testuser1
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5a33a63" class="outline-3">
+<h3 id="org5a33a63">Create and configure SVN repository</h3>
+<div class="outline-text-3" id="text-org5a33a63">
+<pre class="example">
+mkdir /var/www/unixmensvn
+cd  /var/www/unixmensvn
+svnadmin create repo
+chown -R apache.apache repo
+
+# If you still have issues with SELinux Security please apply this: 
+chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo
+chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org12b8c32" class="outline-3">
+<h3 id="org12b8c32">You can open the http and https on the file with thi way</h3>
+<div class="outline-text-3" id="text-org12b8c32">
+<pre class="example">
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --permanent --zone=public --add-service=https
+firewall-cmd --reload
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8400089" class="outline-3">
+<h3 id="org8400089">Make trunk, branches and tags structure under repo</h3>
+<div class="outline-text-3" id="text-org8400089">
+<pre class="example">
+mkdir -p /tmp/svn-structure-template/{trunk,branches,tags}
+
+svn import -m "Initial repository" /tmp/svn-structure-template   file:///var/www/unixmensvn/repo/
+Adding         /tmp/svn-structure-template/branches
+Adding         /tmp/svn-structure-template/tags
+Adding         /tmp/svn-structure-template/trunk
+
+</pre>
+<p>
+Committed revision 1.
+</p>
+
+<p>
+Done!
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org065c108" class="outline-2">
+<h2 id="org065c108">Question</h2>
+<div class="outline-text-2" id="text-org065c108">
+</div>
+<div id="outline-container-org75fea66" class="outline-3">
+<h3 id="org75fea66">问题1</h3>
+<div class="outline-text-3" id="text-org75fea66">
+<pre class="example">
+1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied
+Solve:
+      Severth(Vew 7th section).
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org0bf2188" class="outline-3">
+<h3 id="org0bf2188">问题2</h3>
+<div class="outline-text-3" id="text-org0bf2188">
+<pre class="example">
+2.Happen "authorization failed" error client
+Solve:
+      Check configure.
+### Evey establishment of a lirary need to be configured.This is very important.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org5e84bac" class="outline-3">
+<h3 id="org5e84bac">问题3</h3>
+<div class="outline-text-3" id="text-org5e84bac">
+<pre class="example">
+3.When committing,error:
+         post commit FS processing had error:
+         "sqlite:attempt to write a readonly database"
+Solve:
+      into /opt/svn/wp-job/db , there is a file "rep-cache.db"
+chown -R zrg.zrggroup rep-cache.db
+
+</pre>
+</div>
+</div>
+</div>
