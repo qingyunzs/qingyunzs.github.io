@@ -72,6 +72,7 @@ var ajax = {
 };
 #+END_SRC
 * jQuery Ajax
+** Ajax 参数详解
 #+CAPTION: jQuery Ajax 代码格式示例
 #+BEGIN_SRC javascript
 $.ajax({
@@ -111,5 +112,60 @@ $.ajax({
   }
 });
 #+END_SRC
+** 提交 Form 表单(包括文件上传)
+*** 常规方法
+#+CAPTION: 一般是这样的
+#+BEGIN_SRC js
+$.ajax({
+	url:"${pageContext.request.contextPath}/public/testupload",
+    type:"post",
+    data:{username:username},
+    success:function(data){
+    	window.clearInterval(timer);
+        //
+    },
+    error:function(e){
+    	//
+    }
+});
+
+// 或者单一获取
+var username = $("#username").val();
+var password = $("#password").val();
+...
+#+END_SRC
+// 以上方式，如果数量少的话，那还没有什么，但是如果数据十分大的话，那就十分的麻烦。
+*** 使用 FormData 对象
+// 下面就介绍提高开发效率的方法
+#+CAPTION: 使用 FormData 对象（XMLHttpRequest）
+#+BEGIN_SRC js
+// FormData对象是html5的一个对象，目前的一些主流的浏览器都已经兼容。
+var form = new FormData();
+form.append("username","zxj");
+form.append("password",123456);
+var req = new XMLHttpRequest();
+req.open("post", "${pageContext.request.contextPath}/public/testupload", false);
+req.send(form);
+#+END_SRC
+#+CAPTION: 使用 FormData 对象（jQuery Ajax）
+#+BEGIN_SRC js
+var form = new FormData();
+form.append("username","zxj");
+form.append("password",123456);
+$.ajax({
+	url:"${pageContext.request.contextPath}/public/testupload",
+    type:"post",
+    data:form,
+    processData:false,
+    contentType:false,
+    success:function(data){
+    	window.clearInterval(timer);
+	    //
+    }
+});
+#+END_SRC
+*** 使用 jQuery.form.js
+: 具体参考https://github.com/jquery-form/form
 * References
 + [[https://blog.csdn.net/qq_27093465/article/details/49799341][$.ajax({});的各个参数的理解]]
++ [[https://www.cnblogs.com/zhuxiaojie/p/4783939.html][使用ajax提交form表单，包括ajax文件上传]]

@@ -73,6 +73,10 @@ tags:
 <div id="outline-container-orge154cfa" class="outline-2">
 <h2 id="orge154cfa"><span class="section-number-2">3</span> jQuery Ajax</h2>
 <div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org8cf2dcc" class="outline-3">
+<h3 id="org8cf2dcc"><span class="section-number-3">3.1</span> Ajax 参数详解</h3>
+<div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>jQuery Ajax 代码格式示例</label><pre class="src src-javascript">$.ajax({
     url: URL, <span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">&#21457;&#36865;&#35831;&#27714;&#30340;&#22320;&#22336;&#65288;&#40664;&#35748;&#20026;&#24403;&#21069;&#39029;&#22320;&#22336;)</span>
@@ -114,11 +118,90 @@ tags:
 </div>
 </div>
 </div>
+<div id="outline-container-orgceb83ad" class="outline-3">
+<h3 id="orgceb83ad"><span class="section-number-3">3.2</span> 提交 Form 表单(包括文件上传)</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org1415204" class="outline-4">
+<h4 id="org1415204"><span class="section-number-4">3.2.1</span> 常规方法</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>一般是这样的</label><pre class="src src-js">$.ajax({
+    url:<span style="color: #5c3566;">"${pageContext.request.contextPath}/public/testupload"</span>,
+    type:<span style="color: #5c3566;">"post"</span>,
+    data:{username:username},
+    <span style="color: #a40000;">success</span>:<span style="color: #346604;">function</span>(<span style="color: #b35000;">data</span>){
+        window.clearInterval(timer);
+        <span style="color: #5f615c; font-style: italic;">//</span>
+    },
+    <span style="color: #a40000;">error</span>:<span style="color: #346604;">function</span>(<span style="color: #b35000;">e</span>){
+        <span style="color: #5f615c; font-style: italic;">//</span>
+    }
+});
+
+<span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">&#25110;&#32773;&#21333;&#19968;&#33719;&#21462;</span>
+<span style="color: #346604;">var</span> <span style="color: #b35000;">username</span> = $(<span style="color: #5c3566;">"#username"</span>).val();
+<span style="color: #346604;">var</span> <span style="color: #b35000;">password</span> = $(<span style="color: #5c3566;">"#password"</span>).val();
+...
+</pre>
+</div>
+<p>
+// 以上方式，如果数量少的话，那还没有什么，但是如果数据十分大的话，那就十分的麻烦。
+</p>
+</div>
+</div>
+<div id="outline-container-org060cd0a" class="outline-4">
+<h4 id="org060cd0a"><span class="section-number-4">3.2.2</span> 使用 FormData 对象</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<p>
+// 下面就介绍提高开发效率的方法
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>使用 FormData 对象（XMLHttpRequest）</label><pre class="src src-js"><span style="color: #5f615c; font-style: italic;">// </span><span style="color: #5f615c; font-style: italic;">FormData&#23545;&#35937;&#26159;html5&#30340;&#19968;&#20010;&#23545;&#35937;&#65292;&#30446;&#21069;&#30340;&#19968;&#20123;&#20027;&#27969;&#30340;&#27983;&#35272;&#22120;&#37117;&#24050;&#32463;&#20860;&#23481;&#12290;</span>
+<span style="color: #346604;">var</span> <span style="color: #b35000;">form</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">FormData</span>();
+form.append(<span style="color: #5c3566;">"username"</span>,<span style="color: #5c3566;">"zxj"</span>);
+form.append(<span style="color: #5c3566;">"password"</span>,123456);
+<span style="color: #346604;">var</span> <span style="color: #b35000;">req</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">XMLHttpRequest</span>();
+req.open(<span style="color: #5c3566;">"post"</span>, <span style="color: #5c3566;">"${pageContext.request.contextPath}/public/testupload"</span>, <span style="color: #204a87; font-weight: bold;">false</span>);
+req.send(form);
+</pre>
+</div>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>使用 FormData 对象（jQuery Ajax）</label><pre class="src src-js"><span style="color: #346604;">var</span> <span style="color: #b35000;">form</span> = <span style="color: #346604;">new</span> <span style="color: #204a87;">FormData</span>();
+form.append(<span style="color: #5c3566;">"username"</span>,<span style="color: #5c3566;">"zxj"</span>);
+form.append(<span style="color: #5c3566;">"password"</span>,123456);
+$.ajax({
+    url:<span style="color: #5c3566;">"${pageContext.request.contextPath}/public/testupload"</span>,
+    type:<span style="color: #5c3566;">"post"</span>,
+    data:form,
+    processData:<span style="color: #204a87; font-weight: bold;">false</span>,
+    contentType:<span style="color: #204a87; font-weight: bold;">false</span>,
+    <span style="color: #a40000;">success</span>:<span style="color: #346604;">function</span>(<span style="color: #b35000;">data</span>){
+        window.clearInterval(timer);
+        <span style="color: #5f615c; font-style: italic;">//</span>
+    }
+});
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2b0e9ff" class="outline-4">
+<h4 id="org2b0e9ff"><span class="section-number-4">3.2.3</span> 使用 jQuery.form.js</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<pre class="example">
+具体参考https://github.com/jquery-form/form
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 <div id="outline-container-org04c8161" class="outline-2">
 <h2 id="org04c8161"><span class="section-number-2">4</span> References</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="https://blog.csdn.net/qq_27093465/article/details/49799341">$.ajax({});的各个参数的理解</a></li>
+<li><a href="https://www.cnblogs.com/zhuxiaojie/p/4783939.html">使用ajax提交form表单，包括ajax文件上传</a></li>
 </ul>
 </div>
 </div>
