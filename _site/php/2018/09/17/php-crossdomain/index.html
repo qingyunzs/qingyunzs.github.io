@@ -451,8 +451,8 @@
 </p>
 
 <div id="outline-container-org46f0ad6" class="outline-2">
-<h2 id="org46f0ad6"><span class="section-number-2">1</span> 问题概述</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="org46f0ad6">问题概述</h2>
+<div class="outline-text-2" id="text-org46f0ad6">
 <pre class="example">
 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。
 
@@ -460,12 +460,12 @@
 </div>
 </div>
 <div id="outline-container-org45c9cf3" class="outline-2">
-<h2 id="org45c9cf3"><span class="section-number-2">2</span> Ajax 请求跨域问题解决</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="org45c9cf3">Ajax 请求跨域问题解决</h2>
+<div class="outline-text-2" id="text-org45c9cf3">
 </div>
 <div id="outline-container-org9336d27" class="outline-3">
-<h3 id="org9336d27"><span class="section-number-3">2.1</span> 客户端代码</h3>
-<div class="outline-text-3" id="text-2-1">
+<h3 id="org9336d27">客户端代码</h3>
+<div class="outline-text-3" id="text-org9336d27">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span>客户端请求代码</label><pre class="src src-emacs-lisp">// &#19978;&#20256;&#25991;&#20214;
 function upload_idcard_file(_this,type){
@@ -496,12 +496,12 @@ function upload_idcard_file(_this,type){
 </div>
 </div>
 <div id="outline-container-org7d7168f" class="outline-3">
-<h3 id="org7d7168f"><span class="section-number-3">2.2</span> 服务端代码</h3>
-<div class="outline-text-3" id="text-2-2">
+<h3 id="org7d7168f">服务端代码</h3>
+<div class="outline-text-3" id="text-org7d7168f">
 </div>
 <div id="outline-container-org437cf16" class="outline-4">
-<h4 id="org437cf16"><span class="section-number-4">2.2.1</span> 解决方式一</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<h4 id="org437cf16">解决方式一</h4>
+<div class="outline-text-4" id="text-org437cf16">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>粗糙解决方式</label><pre class="src src-emacs-lisp">// &#20801;&#35768;&#25152;&#26377;&#36328;&#22495;&#35831;&#27714;
 header('Access-Control-Allow-Origin: *')<span style="color: #5f615c; font-style: italic;">;</span>
@@ -516,8 +516,8 @@ header('Access-Control-Allow-Headers:access_token')<span style="color: #5f615c; 
 </div>
 </div>
 <div id="outline-container-org383920c" class="outline-4">
-<h4 id="org383920c"><span class="section-number-4">2.2.2</span> 解决方式二</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<h4 id="org383920c">解决方式二</h4>
+<div class="outline-text-4" id="text-org383920c">
 <pre class="example">
 方式一中单纯使用*或者具体域名，在开发接口时显得不太科学，这时候我们需要进行动态的判断处理。
 
@@ -548,8 +548,8 @@ if(isset($_SERVER['HTTP_ORIGIN']))
 </div>
 </div>
 <div id="outline-container-org9d9be26" class="outline-2">
-<h2 id="org9d9be26"><span class="section-number-2">3</span> Session 跨域问题解决</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="org9d9be26">Session 跨域问题解决</h2>
+<div class="outline-text-2" id="text-org9d9be26">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #5f615c; font-style: italic;">;</span>
 header('Access-Control-Allow-Credentials: true')<span style="color: #5f615c; font-style: italic;">;</span>
@@ -793,7 +793,7 @@ header('Access-Control-Allow-Credentials: true')<span style="color: #5f615c; fon
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org46f0ad6"> <span class="nav-number">1</span> <span class="nav-text">1 问题概述</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org45c9cf3"> <span class="nav-number">2</span> <span class="nav-text">2 Ajax 请求跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9336d27"> <span class="nav-number">2.1</span> <span class="nav-text">2.1 客户端代码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7d7168f"> <span class="nav-number">2.2</span> <span class="nav-text">2.2 服务端代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org437cf16"> <span class="nav-number">2.2.1</span> <span class="nav-text">2.2.1 解决方式一</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org383920c"> <span class="nav-number">2.2.2</span> <span class="nav-text">2.2.2 解决方式二</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9d9be26"> <span class="nav-number">3</span> <span class="nav-text">3 Session 跨域问题解决</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org46f0ad6"> <span class="nav-number">1</span> <span class="nav-text">问题概述</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org45c9cf3"> <span class="nav-number">2</span> <span class="nav-text">Ajax 请求跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9336d27"> <span class="nav-number">2.1</span> <span class="nav-text">客户端代码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7d7168f"> <span class="nav-number">2.2</span> <span class="nav-text">服务端代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org437cf16"> <span class="nav-number">2.2.1</span> <span class="nav-text">解决方式一</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org383920c"> <span class="nav-number">2.2.2</span> <span class="nav-text">解决方式二</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9d9be26"> <span class="nav-number">3</span> <span class="nav-text">Session 跨域问题解决</span> </a> </li>
     </ol>
   </div>
             
