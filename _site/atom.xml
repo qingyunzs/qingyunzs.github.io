@@ -1,4 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-18T22:50:37+08:00</updated><id>http://localhost:4000/</id><title type="html">Rengui’s Article</title><subtitle>Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</subtitle><author><name>Zhao Rengui</name></author><entry><title type="html">PHP 跨域问题解决</title><link href="http://localhost:4000/php/2018/09/17/php-crossdomain/" rel="alternate" type="text/html" title="PHP 跨域问题解决" /><published>2018-09-17T00:00:00+08:00</published><updated>2018-09-17T00:00:00+08:00</updated><id>http://localhost:4000/php/2018/09/17/php-crossdomain</id><content type="html" xml:base="http://localhost:4000/php/2018/09/17/php-crossdomain/">&lt;p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-19T08:17:17+08:00</updated><id>http://localhost:4000/</id><title type="html">Rengui’s Article</title><subtitle>Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</subtitle><author><name>Zhao Rengui</name></author><entry><title type="html">PHP 调用新浪API生成短链接</title><link href="http://localhost:4000/php/2018/09/19/php-sina-short-url/" rel="alternate" type="text/html" title="PHP 调用新浪API生成短链接" /><published>2018-09-19T00:00:00+08:00</published><updated>2018-09-19T00:00:00+08:00</updated><id>http://localhost:4000/php/2018/09/19/php-sina-short-url</id><content type="html" xml:base="http://localhost:4000/php/2018/09/19/php-sina-short-url/">&lt;p&gt;
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-orgb019e01&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;orgb019e01&quot;&gt;&lt;span class=&quot;section-number-2&quot;&gt;1&lt;/span&gt; API&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-1&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;http://api.t.sina.com.cn/short_url/shorten.json&quot;&gt;http://api.t.sina.com.cn/short_url/shorten.json&lt;/a&gt; (返回结果是JSON格式)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://api.t.sina.com.cn/short_url/shorten.xml&quot;&gt;http://api.t.sina.com.cn/short_url/shorten.xml&lt;/a&gt; （返回结果是XML格式）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org2dccd5a&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org2dccd5a&quot;&gt;&lt;span class=&quot;section-number-3&quot;&gt;1.1&lt;/span&gt; 请求参数&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-1&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;source 申请应用时分配的AppKey，调用接口时代表应用的唯一身份。&lt;/li&gt;
+&lt;li&gt;url_long 需要转换的长链接，需要URLencoded，最多不超过20个。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org8689b3c&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org8689b3c&quot;&gt;&lt;span class=&quot;section-number-3&quot;&gt;1.2&lt;/span&gt; 创建source方法&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-2&quot;&gt;
+&lt;ol class=&quot;org-ol&quot;&gt;
+&lt;li&gt;进入&lt;a href=&quot;http://open.weibo.com/&quot;&gt;http://open.weibo.com/&lt;/a&gt; ，选择菜单 微连接-&amp;gt;网站接入。&lt;/li&gt;
+&lt;li&gt;点击立即接入，创建新应用，随便填写应用名称，点击创建。&lt;/li&gt;
+&lt;li&gt;创建成功后，AppKey就是source参数的值，可以用于请求创建短链接。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org3558a84&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;org3558a84&quot;&gt;&lt;span class=&quot;section-number-3&quot;&gt;1.3&lt;/span&gt; 测试代码&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-3&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+&lt;label class=&quot;org-src-name&quot;&gt;&lt;span class=&quot;listing-number&quot;&gt;Listing 1: &lt;/span&gt;测试代码&lt;/label&gt;&lt;pre class=&quot;src src-emacs-lisp&quot;&gt;&amp;lt;?php
+$api = 'http://api.t.sina.com.cn/short_url/shorten.json'&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;; &lt;/span&gt;&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;// json&lt;/span&gt;
+// $api = 'http://api.t.sina.com.cn/short_url/shorten.xml'&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;; &lt;/span&gt;&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;// xml&lt;/span&gt;
+
+$source = '&amp;#24744;&amp;#30003;&amp;#35831;&amp;#30340;AppKey'&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;;&lt;/span&gt;
+$url_long = 'http://blog.csdn.net/fdipzone'&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;;&lt;/span&gt;
+
+$request_url = sprintf($api.'?source=%s&amp;amp;url_long=%s', $source, $url_long)&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;;&lt;/span&gt;
+
+$data = file_get_contents($request_url)&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;;&lt;/span&gt;
+echo $data&lt;span style=&quot;color: #5f615c; font-style: italic;&quot;&gt;;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-org844de36&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;org844de36&quot;&gt;&lt;span class=&quot;section-number-2&quot;&gt;2&lt;/span&gt; References&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-2&quot;&gt;
+&lt;ul class=&quot;org-ul&quot;&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.csdn.net/fdipzone/article/details/70832761&quot;&gt;php 调用新浪API生成短链接&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content><author><name>zrg</name></author><category term="short-url" /><summary type="html">感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！</summary></entry><entry><title type="html">PHP 跨域问题解决</title><link href="http://localhost:4000/php/2018/09/17/php-crossdomain/" rel="alternate" type="text/html" title="PHP 跨域问题解决" /><published>2018-09-17T00:00:00+08:00</published><updated>2018-09-17T00:00:00+08:00</updated><id>http://localhost:4000/php/2018/09/17/php-crossdomain</id><content type="html" xml:base="http://localhost:4000/php/2018/09/17/php-crossdomain/">&lt;p&gt;
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 &lt;/p&gt;
 
@@ -5570,406 +5628,4 @@ tar
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name>zrg</name></author><category term="Shell" /><summary type="html">初探 bash shell 命令 学习 shell 开始 启动 shell /bin/bash //重点讨论 GNU bash shell shell 提示符 默认的 bash shell 提示符是美元符号 \(，看起来是这样的：zrg@debian:~\) bash 手册 man 命令用来访问存储在 Linux 系统上的手册页面。 $ man man 节 描述 Name 显示命令和一段简短的描述 Synopsis 命令的语法 Configuration 命令配置信息 Description 命令的一般性描述 Options 命令选项描述 Exit Status 命令的推出状态指示 Return Value 命令的返回值 Errors 命令的错误信息 Environment 描述所使用的环境变量 Files 命令用到的文件 Versions 命令的版本信息 Conforming To 命令所遵从的标准 Notes 其他有帮助的资料 Bugs 提供提交Bug的途径 Example 展示命令的用法 Authors 命令开发人员的信息 Copyright 命令源代码的版权状况 See Also 与该命令类似的其他命令 如果不记得命令名怎么办？可以使用关键字搜索手册页。 $ man -k terminal Table 1: Linux 手册页的内容区域 区域号 所涵盖的内容 1 可执行程序或shell命令 2 系统调用 3 库调用 4 特殊文件 5 文件格式与约定 6 游戏 7 概览、约定及杂项 8 超级用户和系统管理员命令 9 内核例程 文件、目录操作 cd ls touch cp mv ln rm mkdir rmdir file cat more less tail head 进程、磁盘统计和管理 ps -ef top kill killall mount umount df -h du 排序、归档数据 sort grep gzip gzcat gunzip tar 理解 shell shell 类型 /bin/bash /bin/tcsh /bin/dash /bin/csh /bin/sh create directory #!/bin/sh for dir in `find ./ -mindepth 2 -maxdepth 4 -type d` do echo $dir `touch $dir/.gitignore` echo &quot;*&quot;&amp;gt;$dir/.gitignore done</summary></entry><entry><title type="html">HTTP 错误代码释义表</title><link href="http://localhost:4000/network/2018/01/27/http-error/" rel="alternate" type="text/html" title="HTTP 错误代码释义表" /><published>2018-01-27T00:00:00+08:00</published><updated>2018-01-27T00:00:00+08:00</updated><id>http://localhost:4000/network/2018/01/27/http-error</id><content type="html" xml:base="http://localhost:4000/network/2018/01/27/http-error/">&lt;div id=&quot;outline-container-orgd37f1c7&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd37f1c7&quot;&gt;2xx：成功&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd37f1c7&quot;&gt;
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col  class=&quot;org-right&quot; /&gt;
-
-&lt;col  class=&quot;org-left&quot; /&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-right&quot;&gt;Code&lt;/th&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;200&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：请求已完成。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;201&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：请求成功并且服务器创建了新的资源。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;202&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：服务器已接受请求，但尚未处理。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;203&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：服务器已成功处理了请求，但返回的信息可能来自另一来源。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;204&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：服务器成功处理了请求，但没有返回任何内容。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;205&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：服务器成功处理了请求，但没有返回任何内容。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;206&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;正常：服务器成功处理了部分 GET 请求。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&quot;outline-container-org35ea1ef&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org35ea1ef&quot;&gt;3xx：重定向&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org35ea1ef&quot;&gt;
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col  class=&quot;org-right&quot; /&gt;
-
-&lt;col  class=&quot;org-left&quot; /&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-right&quot;&gt;Code&lt;/th&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;301&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;已移动 — 请求的数据具有新的位置且更改是永久的。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;302&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;已找到 — 请求的数据临时具有不同 URI。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;303&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请参阅其它 — 可在另一 URI 下找到对请求的响应，且应使用 GET 方法检索此响应。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;304&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未修改 — 未按预期修改文档。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;305&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;使用代理 — 必须通过位置字段中提供的代理来访问请求的资源。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;306&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未使用 — 不再使用；保留此代码以便将来使用。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&quot;outline-container-orgd1db40e&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;orgd1db40e&quot;&gt;4xx：客户端出现的错误&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-orgd1db40e&quot;&gt;
-&lt;p&gt;
-表1：
-&lt;/p&gt;
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col  class=&quot;org-right&quot; /&gt;
-
-&lt;col  class=&quot;org-left&quot; /&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-right&quot;&gt;Code&lt;/th&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Descriptiono&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;400&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;错误请求 — 请求中有语法问题，或不能满足请求。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;402&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;需要付款 — 表示计费系统已有效。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止 — 服务器拒绝请求。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;404&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未找到 — 服务器找不到请求的网页。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;405&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁用 — 禁用请求中指定的方法。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;406&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;不接受 — 无法使用请求的内容特性响应请求的网页。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;407&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;需要代理授权 — 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;408&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请求超时 — 服务器等候请求时发生超时。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;409&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;冲突 — 服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;410&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;已删除 — 如果请求的资源已永久删除，服务器就会返回此响应。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;411&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;需要有效长度 — 服务器不接受不含有效内容长度标头字段的请求。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;412&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未满足前提条件 — 服务器未满足请求者在请求中设置的其中一个前提条件。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;413&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请求实体过大 — 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;414&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请求的 URI 过长 — 请求的 URI（通常为网址）过长，服务器无法处理。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;415&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;不支持的媒体类型 — 请求的格式不受请求页面的支持。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;416&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;请求范围不符合要求 — 如果页面无法提供请求的范围，则服务器会返回此状态代码。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;417&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未满足期望值 — &amp;gt;服务器未满足”期望”请求标头字段的要求。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;
-表2：
-&lt;/p&gt;
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col  class=&quot;org-right&quot; /&gt;
-
-&lt;col  class=&quot;org-left&quot; /&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-right&quot;&gt;Code&lt;/th&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401.1&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未授权：登录失败&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401.2&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未授权：服务器配置问题导致登录失败&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401.3&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;ACL 禁止访问资源&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401.4&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未授权：授权被筛选器拒绝&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;401.5&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;未授权：ISAPI 或 CGI 授权失败&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.1&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：禁止可执行访问&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.2&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：禁止读访问&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.3&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：禁止写访问&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.4&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：要求 SSL&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.5&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：要求 SSL 128&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.6&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：IP 地址被拒绝&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.7&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：要求客户证书&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.8&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：禁止站点访问&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.9&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：连接的用户过多&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.10&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：配置无效&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.11&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：密码更改&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.12&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：映射器拒绝访问&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.13&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：客户证书已被吊销&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.15&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：客户访问许可过多&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.16&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：客户证书不可信或者无效&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;403.17&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;禁止访问：客户证书已经到期或者尚未生效&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;404.1&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;无法找到 Web 站点&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&quot;outline-container-org22f8eb4&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;org22f8eb4&quot;&gt;5xx：服务端出现的错误&lt;/h2&gt;
-&lt;div class=&quot;outline-text-2&quot; id=&quot;text-org22f8eb4&quot;&gt;
-&lt;table border=&quot;2&quot; cellspacing=&quot;0&quot; cellpadding=&quot;6&quot; rules=&quot;groups&quot; frame=&quot;hsides&quot;&gt;
-
-
-&lt;colgroup&gt;
-&lt;col  class=&quot;org-right&quot; /&gt;
-
-&lt;col  class=&quot;org-left&quot; /&gt;
-&lt;/colgroup&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-right&quot;&gt;Code&lt;/th&gt;
-&lt;th scope=&quot;col&quot; class=&quot;org-left&quot;&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;500&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;服务器内部错误 — 服务器遇到错误，无法完成请求。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;501&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;尚未实施 — 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;502&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;错误网关 — 服务器作为网关或代理，从上游服务器收到无效响应。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;503&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;服务不可用 — 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;504&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;网关超时 — 服务器作为网关或代理，但是没有及时从上游服务器收到请求。&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td class=&quot;org-right&quot;&gt;505&lt;/td&gt;
-&lt;td class=&quot;org-left&quot;&gt;HTTP 版本不受支持 — 服务器不支持请求中所用的 HTTP 协议版本。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name>zrg</name></author><category term="HTTP" /><summary type="html">2xx：成功 Code Description 200 正常：请求已完成。 201 正常：请求成功并且服务器创建了新的资源。 202 正常：服务器已接受请求，但尚未处理。 203 正常：服务器已成功处理了请求，但返回的信息可能来自另一来源。 204 正常：服务器成功处理了请求，但没有返回任何内容。 205 正常：服务器成功处理了请求，但没有返回任何内容。 206 正常：服务器成功处理了部分 GET 请求。 3xx：重定向 Code Description 301 已移动 — 请求的数据具有新的位置且更改是永久的。 302 已找到 — 请求的数据临时具有不同 URI。 303 请参阅其它 — 可在另一 URI 下找到对请求的响应，且应使用 GET 方法检索此响应。 304 未修改 — 未按预期修改文档。 305 使用代理 — 必须通过位置字段中提供的代理来访问请求的资源。 306 未使用 — 不再使用；保留此代码以便将来使用。 4xx：客户端出现的错误 表1： Code Descriptiono 400 错误请求 — 请求中有语法问题，或不能满足请求。 401 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。 402 需要付款 — 表示计费系统已有效。 403 禁止 — 服务器拒绝请求。 404 未找到 — 服务器找不到请求的网页。 405 禁用 — 禁用请求中指定的方法。 406 不接受 — 无法使用请求的内容特性响应请求的网页。 407 需要代理授权 — 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。 408 请求超时 — 服务器等候请求时发生超时。 409 冲突 — 服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。 410 已删除 — 如果请求的资源已永久删除，服务器就会返回此响应。 411 需要有效长度 — 服务器不接受不含有效内容长度标头字段的请求。 412 未满足前提条件 — 服务器未满足请求者在请求中设置的其中一个前提条件。 413 请求实体过大 — 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。 414 请求的 URI 过长 — 请求的 URI（通常为网址）过长，服务器无法处理。 415 不支持的媒体类型 — 请求的格式不受请求页面的支持。 416 请求范围不符合要求 — 如果页面无法提供请求的范围，则服务器会返回此状态代码。 417 未满足期望值 — &amp;gt;服务器未满足”期望”请求标头字段的要求。 表2： Code Description 401.1 未授权：登录失败 401.2 未授权：服务器配置问题导致登录失败 401.3 ACL 禁止访问资源 401.4 未授权：授权被筛选器拒绝 401.5 未授权：ISAPI 或 CGI 授权失败 403.1 禁止访问：禁止可执行访问 403.2 禁止访问：禁止读访问 403.3 禁止访问：禁止写访问 403.4 禁止访问：要求 SSL 403.5 禁止访问：要求 SSL 128 403.6 禁止访问：IP 地址被拒绝 403.7 禁止访问：要求客户证书 403.8 禁止访问：禁止站点访问 403.9 禁止访问：连接的用户过多 403.10 禁止访问：配置无效 403.11 禁止访问：密码更改 403.12 禁止访问：映射器拒绝访问 403.13 禁止访问：客户证书已被吊销 403.15 禁止访问：客户访问许可过多 403.16 禁止访问：客户证书不可信或者无效 403.17 禁止访问：客户证书已经到期或者尚未生效 404.1 无法找到 Web 站点 5xx：服务端出现的错误 Code Description 500 服务器内部错误 — 服务器遇到错误，无法完成请求。 501 尚未实施 — 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。 502 错误网关 — 服务器作为网关或代理，从上游服务器收到无效响应。 503 服务不可用 — 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。 504 网关超时 — 服务器作为网关或代理，但是没有及时从上游服务器收到请求。 505 HTTP 版本不受支持 — 服务器不支持请求中所用的 HTTP 协议版本。</summary></entry></feed>
+&lt;/div&gt;</content><author><name>zrg</name></author><category term="Shell" /><summary type="html">初探 bash shell 命令 学习 shell 开始 启动 shell /bin/bash //重点讨论 GNU bash shell shell 提示符 默认的 bash shell 提示符是美元符号 \(，看起来是这样的：zrg@debian:~\) bash 手册 man 命令用来访问存储在 Linux 系统上的手册页面。 $ man man 节 描述 Name 显示命令和一段简短的描述 Synopsis 命令的语法 Configuration 命令配置信息 Description 命令的一般性描述 Options 命令选项描述 Exit Status 命令的推出状态指示 Return Value 命令的返回值 Errors 命令的错误信息 Environment 描述所使用的环境变量 Files 命令用到的文件 Versions 命令的版本信息 Conforming To 命令所遵从的标准 Notes 其他有帮助的资料 Bugs 提供提交Bug的途径 Example 展示命令的用法 Authors 命令开发人员的信息 Copyright 命令源代码的版权状况 See Also 与该命令类似的其他命令 如果不记得命令名怎么办？可以使用关键字搜索手册页。 $ man -k terminal Table 1: Linux 手册页的内容区域 区域号 所涵盖的内容 1 可执行程序或shell命令 2 系统调用 3 库调用 4 特殊文件 5 文件格式与约定 6 游戏 7 概览、约定及杂项 8 超级用户和系统管理员命令 9 内核例程 文件、目录操作 cd ls touch cp mv ln rm mkdir rmdir file cat more less tail head 进程、磁盘统计和管理 ps -ef top kill killall mount umount df -h du 排序、归档数据 sort grep gzip gzcat gunzip tar 理解 shell shell 类型 /bin/bash /bin/tcsh /bin/dash /bin/csh /bin/sh create directory #!/bin/sh for dir in `find ./ -mindepth 2 -maxdepth 4 -type d` do echo $dir `touch $dir/.gitignore` echo &quot;*&quot;&amp;gt;$dir/.gitignore done</summary></entry></feed>

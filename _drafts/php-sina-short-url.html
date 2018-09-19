@@ -1,0 +1,72 @@
+---
+layout: post
+title: PHP 调用新浪API生成短链接 
+author: zrg
+description: 短链接生成
+excerpt: 
+comments: false
+categories: 
+- PHP
+tags:
+- short-url
+---
+
+<p>
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+</p>
+
+<div id="outline-container-org18998ab" class="outline-2">
+<h2 id="org18998ab"><span class="section-number-2">1</span> API</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li><a href="http://api.t.sina.com.cn/short_url/shorten.json">http://api.t.sina.com.cn/short_url/shorten.json</a> (返回结果是JSON格式)</li>
+<li><a href="http://api.t.sina.com.cn/short_url/shorten.xml">http://api.t.sina.com.cn/short_url/shorten.xml</a> （返回结果是XML格式）</li>
+</ul>
+</div>
+<div id="outline-container-orga5a4568" class="outline-3">
+<h3 id="orga5a4568"><span class="section-number-3">1.1</span> 请求参数</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>source 申请应用时分配的AppKey，调用接口时代表应用的唯一身份。</li>
+<li>url_long 需要转换的长链接，需要URLencoded，最多不超过20个。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgedc853b" class="outline-3">
+<h3 id="orgedc853b"><span class="section-number-3">1.2</span> 创建source方法</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>进入<a href="http://open.weibo.com/">http://open.weibo.com/</a> ，选择菜单 微连接-&gt;网站接入。</li>
+<li>点击立即接入，创建新应用，随便填写应用名称，点击创建。</li>
+<li>创建成功后，AppKey就是source参数的值，可以用于请求创建短链接。</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org006c99c" class="outline-2">
+<h2 id="org006c99c"><span class="section-number-2">2</span> 测试代码</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>测试代码</label><pre class="src src-emacs-lisp">&lt;?php
+$api = 'http://api.t.sina.com.cn/short_url/shorten.json'<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">// json</span>
+// $api = 'http://api.t.sina.com.cn/short_url/shorten.xml'<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">// xml</span>
+
+$source = '&#24744;&#30003;&#35831;&#30340;AppKey'<span style="color: #5f615c; font-style: italic;">;</span>
+$url_long = 'http://blog.csdn.net/fdipzone'<span style="color: #5f615c; font-style: italic;">;</span>
+
+$request_url = sprintf($api.'?source=%s&amp;url_long=%s', $source, $url_long)<span style="color: #5f615c; font-style: italic;">;</span>
+
+$data = file_get_contents($request_url)<span style="color: #5f615c; font-style: italic;">;</span>
+echo $data<span style="color: #5f615c; font-style: italic;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd126eb7" class="outline-2">
+<h2 id="orgd126eb7"><span class="section-number-2">3</span> References</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li><a href="https://blog.csdn.net/fdipzone/article/details/70832761">php 调用新浪API生成短链接</a></li>
+</ul>
+</div>
+</div>

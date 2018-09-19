@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Emacs," />
+  <meta name="keywords" content="short-url," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Emacs, 快捷键, 主题, ...">
-<meta name="keywords" content="Emacs">
+<meta name="description" content="短链接生成">
+<meta name="keywords" content="short-url">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GNU Emacs">
-<meta property="og:url" content="http://localhost:4000/software/2016/06/06/using-emacs/">
+<meta property="og:title" content="PHP 调用新浪API生成短链接">
+<meta property="og:url" content="http://localhost:4000/php/2018/09/19/php-sina-short-url/">
 <meta property="og:site_name" content="Rengui's Article">
-<meta property="og:description" content="Emacs, 快捷键, 主题, ...">
+<meta property="og:description" content="短链接生成">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GNU Emacs">
-<meta name="twitter:description" content="Emacs, 快捷键, 主题, ...">
+<meta name="twitter:title" content="PHP 调用新浪API生成短链接">
+<meta name="twitter:description" content="短链接生成">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>GNU Emacs | Rengui's Article</title>
+  <title>PHP 调用新浪API生成短链接 | Rengui's Article</title>
   
 
 
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/software/2016/06/06/using-emacs/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/2018/09/19/php-sina-short-url/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            GNU Emacs
+            PHP 调用新浪API生成短链接
           
         </h1>
         
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-06T00:00:00+08:00">
-                2016-06-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-19T00:00:00+08:00">
+                2018-09-19
               </time>
             
 
@@ -393,8 +393,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/Software" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
+                  <a href="/category/#/PHP" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
                   </a>
                 </span>
 
@@ -416,7 +416,7 @@
           
             
                 <div class="post-description">
-                    Emacs, 快捷键, 主题, ...
+                    短链接生成
                 </div>
             
           
@@ -446,803 +446,63 @@
 
 
 
-  <div id="outline-container-org68b1bb0" class="outline-2">
-<h2 id="org68b1bb0">快捷键一览</h2>
-<div class="outline-text-2" id="text-org68b1bb0">
+  <p>
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+</p>
+
+<div id="outline-container-orgb019e01" class="outline-2">
+<h2 id="orgb019e01"><span class="section-number-2">1</span> API</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li><a href="http://api.t.sina.com.cn/short_url/shorten.json">http://api.t.sina.com.cn/short_url/shorten.json</a> (返回结果是JSON格式)</li>
+<li><a href="http://api.t.sina.com.cn/short_url/shorten.xml">http://api.t.sina.com.cn/short_url/shorten.xml</a> （返回结果是XML格式）</li>
+</ul>
 </div>
-<div id="outline-container-org6278b37" class="outline-3">
-<h3 id="org6278b37">在命令行中打开Emacs</h3>
-<div class="outline-text-3" id="text-org6278b37">
-<pre class="example">
-$ emacs -nw filename
-
-</pre>
-</div>
-</div>
-<div id="outline-container-orgadd329b" class="outline-3">
-<h3 id="orgadd329b">Don't know how to use emacs?</h3>
-<div class="outline-text-3" id="text-orgadd329b">
-<pre class="example">
-C表示Ctrl，M表示Alt
-
-</pre>
-</div>
-<div id="outline-container-orgbcf8403" class="outline-4">
-<h4 id="orgbcf8403">缺省Emacs按键前缀</h4>
-<div class="outline-text-4" id="text-orgbcf8403">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">按键前缀</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-c</td>
-<td class="org-left">当前编辑模式特有的命令</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x</td>
-<td class="org-left">文件和缓冲区命令</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h</td>
-<td class="org-left">帮助命令</td>
-</tr>
-
-<tr>
-<td class="org-left">M-x</td>
-<td class="org-left">函数名称</td>
-</tr>
-</tbody>
-</table>
+<div id="outline-container-org2dccd5a" class="outline-3">
+<h3 id="org2dccd5a"><span class="section-number-3">1.1</span> 请求参数</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>source 申请应用时分配的AppKey，调用接口时代表应用的唯一身份。</li>
+<li>url_long 需要转换的长链接，需要URLencoded，最多不超过20个。</li>
+</ul>
 </div>
 </div>
-<div id="outline-container-org03e52d6" class="outline-4">
-<h4 id="org03e52d6">常用的快捷键</h4>
-<div class="outline-text-4" id="text-org03e52d6">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-x  C-c</td>
-<td class="org-left">退出</td>
-<td class="org-left">C-g</td>
-<td class="org-left">退出一个正在运行的命令</td>
-</tr>
-
-<tr>
-<td class="org-left">C-v</td>
-<td class="org-left">查看下一屏</td>
-<td class="org-left">M-v</td>
-<td class="org-left">查看上一屏</td>
-</tr>
-
-<tr>
-<td class="org-left">C-l</td>
-<td class="org-left">重绘屏幕，并将光标所在行置于屏幕的中央</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">C-f</td>
-<td class="org-left">向右移（forward,前进）</td>
-<td class="org-left">C-b</td>
-<td class="org-left">向左移（backward，回退）</td>
-</tr>
-
-<tr>
-<td class="org-left">C-p</td>
-<td class="org-left">上一行（previous）</td>
-<td class="org-left">C-n</td>
-<td class="org-left">下一行（next）</td>
-</tr>
-
-<tr>
-<td class="org-left">M-f</td>
-<td class="org-left">向右移（以单词为一个单位）</td>
-<td class="org-left">M-b</td>
-<td class="org-left">向左移（以单词为一个单位）</td>
-</tr>
-
-<tr>
-<td class="org-left">M-&lt;</td>
-<td class="org-left">移动到所有文字最开头</td>
-<td class="org-left">M-&gt;</td>
-<td class="org-left">移动到所有文字的最末尾</td>
-</tr>
-
-<tr>
-<td class="org-left">C-a</td>
-<td class="org-left">移动到行首</td>
-<td class="org-left">C-e</td>
-<td class="org-left">移动到行尾</td>
-</tr>
-
-<tr>
-<td class="org-left">M-a</td>
-<td class="org-left">移动到句首</td>
-<td class="org-left">M-e</td>
-<td class="org-left">移动到句尾</td>
-</tr>
-
-<tr>
-<td class="org-left">C-k</td>
-<td class="org-left">删除光标后的内容</td>
-<td class="org-left">C-y</td>
-<td class="org-left">粘贴</td>
-</tr>
-
-<tr>
-<td class="org-left">C-/</td>
-<td class="org-left">撤销</td>
-<td class="org-left">C-x C-u</td>
-<td class="org-left">撤销</td>
-</tr>
-
-<tr>
-<td class="org-left">C-d</td>
-<td class="org-left">删除光标后的字符</td>
-<td class="org-left">M-w</td>
-<td class="org-left">复制</td>
-</tr>
-
-<tr>
-<td class="org-left">C-SPACE</td>
-<td class="org-left">选择内容模式</td>
-<td class="org-left">C-w</td>
-<td class="org-left">剪切</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-f</td>
-<td class="org-left">新建/打开文件</td>
-<td class="org-left">C-x C-s</td>
-<td class="org-left">保存</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x 2</td>
-<td class="org-left">分屏</td>
-<td class="org-left">C-x 0</td>
-<td class="org-left">切换到窗口1</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x o</td>
-<td class="org-left">切换窗口</td>
-<td class="org-left">C-h t</td>
-<td class="org-left">查看帮助</td>
-</tr>
-</tbody>
-</table>
+<div id="outline-container-org8689b3c" class="outline-3">
+<h3 id="org8689b3c"><span class="section-number-3">1.2</span> 创建source方法</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>进入<a href="http://open.weibo.com/">http://open.weibo.com/</a> ，选择菜单 微连接-&gt;网站接入。</li>
+<li>点击立即接入，创建新应用，随便填写应用名称，点击创建。</li>
+<li>创建成功后，AppKey就是source参数的值，可以用于请求创建短链接。</li>
+</ol>
 </div>
 </div>
-<div id="outline-container-org9d547f5" class="outline-4">
-<h4 id="org9d547f5">基本文件操作</h4>
-<div class="outline-text-4" id="text-org9d547f5">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-x C-f</td>
-<td class="org-left">打开/新建文件</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-s</td>
-<td class="org-left">保存</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-w</td>
-<td class="org-left">另存为</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-v</td>
-<td class="org-left">关闭当前缓冲区文件，打开新文件</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x i</td>
-<td class="org-left">在当前光标位置插入文件</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x b</td>
-<td class="org-left">新建/切换缓存区</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-b</td>
-<td class="org-left">显示缓存区列表</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x k</td>
-<td class="org-left">关闭当前缓存区</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-c</td>
-<td class="org-left">退出emacs.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-orgcaef983" class="outline-4">
-<h4 id="orgcaef983">光标移动</h4>
-<div class="outline-text-4" id="text-orgcaef983">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-f</td>
-<td class="org-left">光标向后移动</td>
-</tr>
-
-<tr>
-<td class="org-left">C-b</td>
-<td class="org-left">光标向前移动</td>
-</tr>
-
-<tr>
-<td class="org-left">C-p</td>
-<td class="org-left">上一行</td>
-</tr>
-
-<tr>
-<td class="org-left">C-n</td>
-<td class="org-left">下一行</td>
-</tr>
-
-<tr>
-<td class="org-left">M-f</td>
-<td class="org-left">光标移动到单词尾部</td>
-</tr>
-
-<tr>
-<td class="org-left">M-b</td>
-<td class="org-left">光标移动到单词头部</td>
-</tr>
-
-<tr>
-<td class="org-left">C-a</td>
-<td class="org-left">行首</td>
-</tr>
-
-<tr>
-<td class="org-left">C-e</td>
-<td class="org-left">行尾</td>
-</tr>
-
-<tr>
-<td class="org-left">C-v</td>
-<td class="org-left">向下翻页</td>
-</tr>
-
-<tr>
-<td class="org-left">M-v</td>
-<td class="org-left">向上翻页</td>
-</tr>
-
-<tr>
-<td class="org-left">M-&lt;</td>
-<td class="org-left">到文件开头</td>
-</tr>
-
-<tr>
-<td class="org-left">M-&gt;</td>
-<td class="org-left">到文件结尾</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-org6e0c36f" class="outline-4">
-<h4 id="org6e0c36f">文本编辑</h4>
-<div class="outline-text-4" id="text-org6e0c36f">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">M-n/C-u n</td>
-<td class="org-left">重复执行后一个命令n次</td>
-</tr>
-
-<tr>
-<td class="org-left">C-d</td>
-<td class="org-left">删除后一个字符</td>
-</tr>
-
-<tr>
-<td class="org-left">M-d</td>
-<td class="org-left">删除前一个字符</td>
-</tr>
-
-<tr>
-<td class="org-left">Del</td>
-<td class="org-left">删除前一个字符</td>
-</tr>
-
-<tr>
-<td class="org-left">M-Del</td>
-<td class="org-left">删除前一个单词</td>
-</tr>
-
-<tr>
-<td class="org-left">C-k</td>
-<td class="org-left">移除一行</td>
-</tr>
-
-<tr>
-<td class="org-left">C-@</td>
-<td class="org-left">设定标志位(主要是为了粘贴剪切以及删除使用)</td>
-</tr>
-
-<tr>
-<td class="org-left">C-w</td>
-<td class="org-left">移除标记区域的内容（剪切）</td>
-</tr>
-
-<tr>
-<td class="org-left">M-w</td>
-<td class="org-left">复制标记区域的内容（复制）</td>
-</tr>
-
-<tr>
-<td class="org-left">C-y</td>
-<td class="org-left">粘贴</td>
-</tr>
-
-<tr>
-<td class="org-left">M-y</td>
-<td class="org-left">召回更早的内容 (在kill缓冲区内循环)</td>
-</tr>
-
-<tr>
-<td class="org-left">C-t</td>
-<td class="org-left">交换两个字符的位置</td>
-</tr>
-
-<tr>
-<td class="org-left">M-t</td>
-<td class="org-left">交换两个单词的位置</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x C-t</td>
-<td class="org-left">交换两行的位置</td>
-</tr>
-
-<tr>
-<td class="org-left">M-u</td>
-<td class="org-left">使从光标位置到单词结尾处的字母变成大写</td>
-</tr>
-
-<tr>
-<td class="org-left">M-l</td>
-<td class="org-left">与M-u相反</td>
-</tr>
-
-<tr>
-<td class="org-left">M-c</td>
-<td class="org-left">使从光标位置开始的单词的首字母变为大写</td>
-</tr>
-
-<tr>
-<td class="org-left">M-x mark-whole-buffer or C-x h, M-x indent-region or C-M-\</td>
-<td class="org-left">选中整个文件，然后格式化</td>
-</tr>
-
-<tr>
-<td class="org-left">M-x mark-defun or C-M-h, M-x indent-region or C-M-\</td>
-<td class="org-left">选中函数，格式化</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-org7717b70" class="outline-4">
-<h4 id="org7717b70">搜索</h4>
-<div class="outline-text-4" id="text-org7717b70">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-s</td>
-<td class="org-left">向前搜索</td>
-</tr>
-
-<tr>
-<td class="org-left">C-r</td>
-<td class="org-left">向前搜索</td>
-</tr>
-
-<tr>
-<td class="org-left">M-%</td>
-<td class="org-left">查找及替换:首先按下快捷键，输入要替换的词，RET，然后输入要替换的词，RET</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-orgb7b1326" class="outline-4">
-<h4 id="orgb7b1326">窗口命令</h4>
-<div class="outline-text-4" id="text-orgb7b1326">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">C-x 2</td>
-<td class="org-left">水平分割窗格</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x 3</td>
-<td class="org-left">垂直分割窗格</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x o</td>
-<td class="org-left">切换至其他窗格</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x 0</td>
-<td class="org-left">关闭窗格</td>
-</tr>
-
-<tr>
-<td class="org-left">C-x 1</td>
-<td class="org-left">关闭除了光标所在窗格外所有窗格</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-orgfee3ad2" class="outline-4">
-<h4 id="orgfee3ad2">帮助</h4>
-<div class="outline-text-4" id="text-orgfee3ad2">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">C-h m</td>
-<td class="org-left">查看当前模式</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h c</td>
-<td class="org-left">显示快捷键绑定的命令</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h k</td>
-<td class="org-left">显示快捷键绑定的命令和它的作用</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h f</td>
-<td class="org-left">显示函数的功能</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h b</td>
-<td class="org-left">显示当前缓冲区所有可用的快捷键</td>
-</tr>
-
-<tr>
-<td class="org-left">C-h t</td>
-<td class="org-left">打开emacs教程</td>
-</tr>
-
-<tr>
-<td class="org-left">M-x quit</td>
-<td class="org-left">退出help</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="outline-container-org5864d97" class="outline-3">
-<h3 id="org5864d97">org-mode 入门</h3>
-<div class="outline-text-3" id="text-org5864d97">
-</div>
-<div id="outline-container-org8d1136f" class="outline-4">
-<h4 id="org8d1136f">常用org-mode快捷键</h4>
-<div class="outline-text-4" id="text-org8d1136f">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">快捷键</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">TAB  (org-cycle)</td>
-<td class="org-left">Cycle visibility. 循环切换光标所在大纲的状态</td>
-</tr>
-
-<tr>
-<td class="org-left">RET</td>
-<td class="org-left">enter,Select this location.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-n (org-next-visible-heading)</td>
-<td class="org-left">Next heading.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-p (org-previous-visible-heading)</td>
-<td class="org-left">Previous heading.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-f (org-forward-same-level)</td>
-<td class="org-left">Next heading same level.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-b (org-backward-same-level)</td>
-<td class="org-left">Previous heading same level.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-u (outline-up-heading)</td>
-<td class="org-left">Backward to higher level heading.</td>
-</tr>
-
-<tr>
-<td class="org-left">C-c C-j</td>
-<td class="org-left">切换到大纲浏览状态</td>
-</tr>
-
-<tr>
-<td class="org-left">M-RET (org-meta-return)</td>
-<td class="org-left">Insert a new heading, item or row.  插入一个同级标题</td>
-</tr>
-
-<tr>
-<td class="org-left">C-RET (org-insert-heading-respect-content)</td>
-<td class="org-left">Insert a new heading at the end of the current subtree.</td>
-</tr>
-
-<tr>
-<td class="org-left">M-LEFT/RIGHT</td>
-<td class="org-left">将当前标题升/降级</td>
-</tr>
-
-<tr>
-<td class="org-left">M-S-LEFT/RIGHT</td>
-<td class="org-left">将子树升/降级</td>
-</tr>
-
-<tr>
-<td class="org-left">M-S-UP/DOWN</td>
-<td class="org-left">将子树上/下移</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-org661625b" class="outline-4">
-<h4 id="org661625b">References</h4>
-<div class="outline-text-4" id="text-org661625b">
-<pre class="example">
-org-mode: 最好的文档编辑利器：http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org4c91187" class="outline-2">
-<h2 id="org4c91187">自定义Emacs</h2>
-<div class="outline-text-2" id="text-org4c91187">
-</div>
-<div id="outline-container-org9e02c43" class="outline-3">
-<h3 id="org9e02c43">Emacs基础定制</h3>
-<div class="outline-text-3" id="text-org9e02c43">
-<pre class="example">
-打开.emacs文件
-
-</pre>
+<div id="outline-container-org3558a84" class="outline-3">
+<h3 id="org3558a84"><span class="section-number-3">1.3</span> 测试代码</h3>
+<div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#26174;&#31034;&#34892;&#21015;&#21495;</span>
-(<span style="color: #346604;">setq</span> column-number-mode t)
-(<span style="color: #346604;">setq</span> line-number-mode t)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#35774;&#32622;&#26631;&#39064;&#26639;</span>
-(<span style="color: #346604;">setq</span> frame-title-format <span style="color: #5c3566;">"Welcome to Emacs world! "</span>)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#31105;&#29992;&#33756;&#21333;&#26639;&#65307;F10&#24320;&#21551;&#33756;&#21333;&#26639;</span>
-(menu-bar-mode nil)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#21462;&#28040;&#24037;&#20855;&#26639;</span>
-(tool-bar-mode nil)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#21462;&#28040;&#28378;&#21160;&#26639;</span>
-(set-scroll-bar-mode nil)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#30452;&#25509;&#25171;&#24320;&#21644;&#26174;&#31034;&#22270;&#29255;</span>
-(<span style="color: #346604;">setq</span> auto-image-file-mode t)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#26174;&#31034;&#26102;&#38388;</span>
-(display-time-mode t)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">24&#23567;&#26102;&#21046;</span>
-(<span style="color: #346604;">setq</span> display-time-24hr-format t)
-<span style="color: #5f615c; font-style: italic;">;; </span><span style="color: #5f615c; font-style: italic;">&#35774;&#32622;F11&#26368;&#22823;&#21270;</span>
-(global-set-key [f11] 'maximized)
-(<span style="color: #346604;">defun</span> <span style="color: #a40000;">maximized</span> ()
-(<span style="color: #346604;">interactive</span>)
-(x-send-client-message nil 0 nil <span style="color: #5c3566;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #5c3566;">"_NET_WM_STATE_MAXIMIZED_HORZ"</span> 0)) (x-send-client-message nil 0 nil <span style="color: #5c3566;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #5c3566;">"_NET_WM_STATE_MAXIMIZED_VERT"</span> 0))
- )
-</pre>
-</div>
-<pre class="example">
-快速使用设置命令: M-x eval-buffer
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>测试代码</label><pre class="src src-emacs-lisp">&lt;?php
+$api = 'http://api.t.sina.com.cn/short_url/shorten.json'<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">// json</span>
+// $api = 'http://api.t.sina.com.cn/short_url/shorten.xml'<span style="color: #5f615c; font-style: italic;">; </span><span style="color: #5f615c; font-style: italic;">// xml</span>
 
-</pre>
-</div>
-</div>
-<div id="outline-container-org96a7f71" class="outline-3">
-<h3 id="org96a7f71">自定义高级配置</h3>
-<div class="outline-text-3" id="text-org96a7f71">
-<pre class="example">
-thems, log manage, ...
+$source = '&#24744;&#30003;&#35831;&#30340;AppKey'<span style="color: #5f615c; font-style: italic;">;</span>
+$url_long = 'http://blog.csdn.net/fdipzone'<span style="color: #5f615c; font-style: italic;">;</span>
 
-</pre>
-</div>
-<div id="outline-container-orgc11a332" class="outline-4">
-<h4 id="orgc11a332">Emacs 主题</h4>
-<div class="outline-text-4" id="text-orgc11a332">
-<pre class="example">
-.el
-~/.emacs.d/
+$request_url = sprintf($api.'?source=%s&amp;url_long=%s', $source, $url_long)<span style="color: #5f615c; font-style: italic;">;</span>
 
-</pre>
-
-<pre class="example">
-//添加到.emacs文件
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'pluginname)
+$data = file_get_contents($request_url)<span style="color: #5f615c; font-style: italic;">;</span>
+echo $data<span style="color: #5f615c; font-style: italic;">;</span>
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orge9fd81f" class="outline-2">
-<h2 id="orge9fd81f">问题解决</h2>
-<div class="outline-text-2" id="text-orge9fd81f">
-</div>
-<div id="outline-container-org527263f" class="outline-3">
-<h3 id="org527263f">emacs不能输入中文</h3>
-<div class="outline-text-3" id="text-org527263f">
-<pre class="example">
-//编辑~/.bashrc文件，加入如下内容：
-$ vim ~/.bashrc
-LC_CTYPE="zh_CN.utf8"
-
-</pre>
-
-<pre class="example">
-//编辑/etc/environment文件，加入如下内容：
-$ sudo vim /etc/environment
-LC_CTYPE="zh_CN.utf8"
-
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgf66a9d9" class="outline-2">
-<h2 id="orgf66a9d9">参考资料</h2>
-<div class="outline-text-2" id="text-orgf66a9d9">
-<pre class="example">
-Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
-
-</pre>
+<div id="outline-container-org844de36" class="outline-2">
+<h2 id="org844de36"><span class="section-number-2">2</span> References</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li><a href="https://blog.csdn.net/fdipzone/article/details/70832761">php 调用新浪API生成短链接</a></li>
+</ul>
 </div>
 </div>
 
@@ -1276,7 +536,7 @@ Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
         <div class="post-tags">
           
             
-            <a href="/tag/#/Emacs" rel="tag"># Emacs</a>
+            <a href="/tag/#/short-url" rel="tag"># short-url</a>
           
         </div>
       
@@ -1292,18 +552,14 @@ Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/javascript/2016/09/03/jquery-easyui/" rel="next" title="jQuery-EasyUI 开发笔记">
-                <i class="fa fa-chevron-left"></i> jQuery-EasyUI 开发笔记
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/05/23/selenium-with-python/" rel="prev" title="Selenium With Python">
-                Selenium With Python <i class="fa fa-chevron-right"></i>
+              <a href="/php/2018/09/17/php-crossdomain/" rel="prev" title="PHP 跨域问题解决">
+                PHP 跨域问题解决 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1481,7 +737,7 @@ Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org68b1bb0"> <span class="nav-number">1</span> <span class="nav-text">快捷键一览</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6278b37"> <span class="nav-number">1.1</span> <span class="nav-text">在命令行中打开Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgadd329b"> <span class="nav-number">1.2</span> <span class="nav-text">Don't know how to use emacs?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbcf8403"> <span class="nav-number">1.2.1</span> <span class="nav-text">缺省Emacs按键前缀</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org03e52d6"> <span class="nav-number">1.2.2</span> <span class="nav-text">常用的快捷键</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9d547f5"> <span class="nav-number">1.2.3</span> <span class="nav-text">基本文件操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcaef983"> <span class="nav-number">1.2.4</span> <span class="nav-text">光标移动</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6e0c36f"> <span class="nav-number">1.2.5</span> <span class="nav-text">文本编辑</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7717b70"> <span class="nav-number">1.2.6</span> <span class="nav-text">搜索</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb7b1326"> <span class="nav-number">1.2.7</span> <span class="nav-text">窗口命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfee3ad2"> <span class="nav-number">1.2.8</span> <span class="nav-text">帮助</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5864d97"> <span class="nav-number">1.3</span> <span class="nav-text">org-mode 入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d1136f"> <span class="nav-number">1.3.1</span> <span class="nav-text">常用org-mode快捷键</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org661625b"> <span class="nav-number">1.3.2</span> <span class="nav-text">References</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4c91187"> <span class="nav-number">2</span> <span class="nav-text">自定义Emacs</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9e02c43"> <span class="nav-number">2.1</span> <span class="nav-text">Emacs基础定制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org96a7f71"> <span class="nav-number">2.2</span> <span class="nav-text">自定义高级配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc11a332"> <span class="nav-number">2.2.1</span> <span class="nav-text">Emacs 主题</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge9fd81f"> <span class="nav-number">3</span> <span class="nav-text">问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org527263f"> <span class="nav-number">3.1</span> <span class="nav-text">emacs不能输入中文</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf66a9d9"> <span class="nav-number">4</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb019e01"> <span class="nav-number">1</span> <span class="nav-text">1 API</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2dccd5a"> <span class="nav-number">1.1</span> <span class="nav-text">1.1 请求参数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8689b3c"> <span class="nav-number">1.2</span> <span class="nav-text">1.2 创建source方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3558a84"> <span class="nav-number">1.3</span> <span class="nav-text">1.3 测试代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org844de36"> <span class="nav-number">2</span> <span class="nav-text">2 References</span> </a> </li>
     </ol>
   </div>
             
