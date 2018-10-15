@@ -32,98 +32,394 @@ photos:
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
-* 初探 bash shell 命令
-** 学习 shell 开始
-1. 启动 shell
-   - /bin/bash //重点讨论 GNU bash shell
-2. shell 提示符
-   - 默认的 bash shell 提示符是美元符号 $，看起来是这样的：zrg@debian:~$
-3. bash 手册
-   - man 命令用来访问存储在 Linux 系统上的手册页面。
-#+CAPTION: Linux 手册页惯用的节名
-$ man man
-| 节            | 描述                     |
-|---------------+--------------------------|
-| Name          | 显示命令和一段简短的描述 |
-| Synopsis      | 命令的语法               |
-| Configuration | 命令配置信息             |
-| Description   | 命令的一般性描述         |
-| Options       | 命令选项描述             |
-| Exit Status   | 命令的推出状态指示       |
-| Return Value  | 命令的返回值             |
-| Errors        | 命令的错误信息           |
-| Environment   | 描述所使用的环境变量     |
-| Files         | 命令用到的文件           |
-| Versions      | 命令的版本信息           |
-| Conforming To | 命令所遵从的标准         |
-| Notes         | 其他有帮助的资料         |
-| Bugs          | 提供提交Bug的途径        |
-| Example       | 展示命令的用法           |
-| Authors       | 命令开发人员的信息       |
-| Copyright     | 命令源代码的版权状况     |
-| See Also      | 与该命令类似的其他命令   |
-|---------------+--------------------------|
-: 如果不记得命令名怎么办？可以使用关键字搜索手册页。
-: $ man -k terminal
-#+CAPTION: Linux 手册页的内容区域
-| 区域号 | 所涵盖的内容             |
-|--------+--------------------------|
-|      1 | 可执行程序或shell命令    |
-|      2 | 系统调用                 |
-|      3 | 库调用                   |
-|      4 | 特殊文件                 |
-|      5 | 文件格式与约定           |
-|      6 | 游戏                     |
-|      7 | 概览、约定及杂项         |
-|      8 | 超级用户和系统管理员命令 |
-|      9 | 内核例程                 |
-|--------+--------------------------|
-** 文件、目录操作
-cd
-ls
-touch
-cp
-mv
-ln
-rm
-mkdir
-rmdir
-file
-cat
-more
-less
-tail
-head
-** 进程、磁盘统计和管理
-ps -ef
-top
-kill
-killall
-mount
-umount
-df -h
-du
-** 排序、归档数据
-sort
-grep
-gzip
-gzcat
-gunzip
-tar
-* 理解 shell
-** shell 类型
-/bin/bash
-/bin/tcsh
-/bin/dash
-/bin/csh
-/bin/sh
-* create directory
-#+BEGIN_SRC shell emacs-lisp
-#!/bin/sh
-for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
-do
-	echo $dir
-	`touch $dir/.gitignore`
-	echo "*">$dir/.gitignore
-done
-#+END_SRC
+* Linux 命令行
+** 初探 bash shell 命令
+*** 学习 shell 开始
+ 1. 启动 shell
+    - /bin/bash //重点讨论 GNU bash shell
+ 2. shell 提示符
+    - 默认的 bash shell 提示符是美元符号 $，看起来是这样的：zrg@debian:~$
+ 3. bash 手册
+    - man 命令用来访问存储在 Linux 系统上的手册页面。
+ #+CAPTION: Linux 手册页惯用的节名
+ $ man man
+ | 节            | 描述                     |
+ |---------------+--------------------------|
+ | Name          | 显示命令和一段简短的描述 |
+ | Synopsis      | 命令的语法               |
+ | Configuration | 命令配置信息             |
+ | Description   | 命令的一般性描述         |
+ | Options       | 命令选项描述             |
+ | Exit Status   | 命令的推出状态指示       |
+ | Return Value  | 命令的返回值             |
+ | Errors        | 命令的错误信息           |
+ | Environment   | 描述所使用的环境变量     |
+ | Files         | 命令用到的文件           |
+ | Versions      | 命令的版本信息           |
+ | Conforming To | 命令所遵从的标准         |
+ | Notes         | 其他有帮助的资料         |
+ | Bugs          | 提供提交Bug的途径        |
+ | Example       | 展示命令的用法           |
+ | Authors       | 命令开发人员的信息       |
+ | Copyright     | 命令源代码的版权状况     |
+ | See Also      | 与该命令类似的其他命令   |
+ |---------------+--------------------------|
+ : 如果不记得命令名怎么办？可以使用关键字搜索手册页。
+ : $ man -k terminal
+ #+CAPTION: Linux 手册页的内容区域
+ | 区域号 | 所涵盖的内容             |
+ |--------+--------------------------|
+ |      1 | 可执行程序或shell命令    |
+ |      2 | 系统调用                 |
+ |      3 | 库调用                   |
+ |      4 | 特殊文件                 |
+ |      5 | 文件格式与约定           |
+ |      6 | 游戏                     |
+ |      7 | 概览、约定及杂项         |
+ |      8 | 超级用户和系统管理员命令 |
+ |      9 | 内核例程                 |
+ |--------+--------------------------|
+*** 文件、目录操作
+ cd
+ ls
+ touch
+ cp
+ mv
+ ln
+ rm
+ mkdir
+ rmdir
+ file
+ cat
+ more
+ less
+ tail
+ head
+*** 进程、磁盘统计和管理
+ ps -ef
+ top
+ kill
+ killall
+ mount
+ umount
+ df -h
+ du
+*** 排序、归档数据
+ sort
+ grep
+ gzip
+ gzcat
+ gunzip
+ tar
+** 理解 shell
+*** shell 类型
+ /bin/bash
+ /bin/tcsh
+ /bin/dash
+ /bin/csh
+ /bin/sh
+*** Shell 的父子关系
+ : $ ps -f
+ UID        PID  PPID  C STIME TTY          TIME CMD
+ zrg      25305  4834  8 23:51 pts/4    00:00:00 -bash
+ zrg      25317 25305  0 23:51 pts/4    00:00:00 ps -f
+ : $ bash
+ : $ ps -f
+ UID        PID  PPID  C STIME TTY          TIME CMD
+ zrg      25305  4834  0 23:51 pts/4    00:00:00 -bash
+ zrg      25347 25305  0 23:53 pts/4    00:00:00 bash
+ zrg      25352 25347  0 23:54 pts/4    00:00:00 ps -f
+ : 输入命令之后，一个子 shell 就出现了。第二个 ps -f 是在子 shell 中执行的。可以从显示结果中看到两个 bash shell 程序在运行。
+
+ : $ bash
+ : $ bash
+ : $ bash
+ : $ ps --forest
+   PID TTY          TIME CMD
+ 25305 pts/4    00:00:00 bash
+ 25347 pts/4    00:00:00  \_ bash
+ 25372 pts/4    00:00:00      \_ bash
+ 25377 pts/4    00:00:00          \_ bash
+ 25382 pts/4    00:00:00              \_ ps
+ : 在上面例子中，bash 命令被输入了三次。实际上创建了三个子 shell。ps --forest 命令展示了这些子 shell 间的嵌套结构。
+
+ : 可以使用 exit 命令退出子 shell
+ : $ exit
+**** 进程列表
+: $ pwd;ls;cd /etc;pwd
+/home/zrg/zhaorengui.github.io
+404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
+about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
+/etc
+: 在命令之间加入“;，指定要依次执行的一系列命令
+
+: $ (pwd;ls;cd /etc;pwd)
+/home/zrg/zhaorengui.github.io
+404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
+about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
+/etc
+: 使用括号包含命令，成为进程列表
+
+: 查看是否生成了子 shell，使用：
+: $ echo $BASH_SUBSHELL
+**** 子 shell 用法
+1. 后台运行
+: // 在后台睡眠10s
+: $ sleep 10&
+: // 查看后台进程
+: $ ps -f
+: or
+: $ jobs -l
+2. 将进程列表置入后台
+: $ (sleep 2;echo $BASH_SUBSHELL;sleep 2)&
+: // 创建备份
+: $ (tar -cf Rich.rar /home/rich;tar -cf My.tar /home/christine)&
+3. 协程：在后台生成一个子shell，同时在这个子shell中执行命令。
+: // 进行协程处理，使用 coproc 命令
+: $ coproc sleep 10
+: $ coproc My_Job{sleep 10;}
+*** 理解 shell 的内建命令
+1. 外部命令：也被称为文件系统命令，是存在于bash shell之外的程序。
+: ps 就是一个外部命令，可以使用 which 和 type 命令找到
+: $ which ps
+: $ type -a ps
+
+: 当外部命令执行时，会创建一个子进程，这种操作叫做衍生（forking）。
+2. 内建命令
+: 内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和 shell 编译成一体，作为 shell 工具的组成部分存在。
+: 可以利用 type 命令来了解某个命令是否是内建的。
+: $ type cd
+cd is a shell builtin
+: 要注意，有些命令有多种实现。既有内建命令也有外部命令。
+: $ type -a echo
+echo is a shell builtin
+echo is /bin/echo
+: $ type -a pwd
+pwd is a shell builtin
+pwd is /bin/pwd
+** 使用 Linux 环境变量
+1. 环境变量
+: 环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
+2. 全局环境变量和局部环境变量
+: // 查看全局变量
+: $ env
+: or
+: $ printenv
+: // 查看某个全局环境变量
+: $ env HOME
+: or
+: $ echo $HOME
+: // set 命令会显示为某个特定进程设置的所有环境变量，包括全局变量、局部变量以及用户自定义变量。
+: $ set
+3. 设置用户自定义变量
+: $ my_variable=Hello
+: 注意：所有环境变量名均使用大写字母，这是 bash shell 的标准惯例。自己创建的局部变量或是 shell 脚本，请使用小写字母。变量名区分大小写。
+: $ my_variable="Hello World"
+: // 设置全局变量
+: $ export my_variable="I am Global now"
+: // 删除环境变量
+: $ unset my_variable
+: 注意：如果要用到变量，使用$；如果要操作变量，不使用$。
+4. 默认的 shell 环境变量
+5. 设置 PATH 环境变量
+: $ PATH=$PATH:/opt/test/scripts
+6. 定位系统环境变量
+   - 登录时作为默认登录 shell
+: 登录 shell 会从5个不同的启动文件里读取命令：
+: /etc/profile，默认的 bash shell 主启动文件。
+: $HOME/.bash_profile
+: $HOME/.bashrc
+: $HOME/.bash_login
+: $HOME/.profile
+   - 作为非登录 shell 的交互式 shell
+: 作为非登录 shell 的交互式启动的，它不会访问 /etc/profile 文件，只会检查 HOME 目录中的 .bashrc 文件。
+: .bashrc 文件有两个作用：一是查看/etc目录下通用的 bashrc 文件；二是为用户提供一个定制自己的命名别名和私有脚本函数的地方。
+   - 作为运行脚本的非交互式shell
+: 系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
+
+: // 环境变量持久化
+: 在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。
+7. 数组变量
+: //环境变量作为数组使用
+: $ mytest=(one two three four five)
+: $ echo ${mytest[2]}
+three
+: $ echo ${mytest[*]}
+one two three four five
+: //改变某个索引的值
+: $ mytest[2] = seven
+: //删除某个索引的值和删除整个数组
+: $ unset mytest[2]
+: $ unset mytest
+** 理解 Linux 文件权限
+*** Linux 的安全性
+1. /etc/passwd 文件
+: $ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+...
+zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+: /etc/passwd 文件的字段包含如下信息：
+- 登录用户名
+- 用户密码
+- UID
+- Group ID
+- 描述
+- HOME目录位置
+- 默认shell
+: /etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+: 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+2. /etc/shadow 文件
+: /etc/shadow文件的每条记录都有9个字段：
+- 与/etc/passwd文件对应的登录名
+- 加密后的密码
+- 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+- 多少天后才能更改密码
+- 多少天后必须更改密码
+- 密码过期前提前多少天提醒用户更改密码
+- 密码过期后多少天禁用用户帐目
+- 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+- 预留字段给将来使用
+3. 新增、删除和修改用户
+: 新增用户
+: $ /usr/sbin/useradd -D
+GROUP=100 //新用户被添加到GID为100的公共组
+HOME=/home //HOME目录位置
+INACTIVE=-1 //密码过期后不会被禁用
+EXPIRE= //未被设置过期日期
+SHELL=/bin/sh //将sh作为默认shell
+SKEL=/etc/skel //会将/etc/skel目录下的内容复制到用户的HOME目录下
+CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+: //用默认系统参数创建一个新用户账户
+: $ useradd test
+: //要想在创建用户时改变默认值或默认行为，可以使用命令参数。
+: $ man useradd
+
+: //删除用户
+: 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+: $ userdel -r test
+: 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+
+: //修改用户
+#+CAPTION: 用户账户修改工具
+| 命令     | 描述                                               |
+|----------+----------------------------------------------------|
+| usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+| passwd   | 修改已有用户的密码                                 |
+| chpasswd | 从文件中读取登录名密码对，并更新密码               |
+| chage    | 修改密码的过期时间                                 |
+| chfn     | 修改用户账户的备注信息                             |
+| chsh     | 修改用户账户的默认登录shell                        |
+*** 使用 Linux 组
+1. /etc/group 文件
+: /etc/group文件有4个字段：
+- 组名
+- 组密码
+- GID
+- 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
+2. 创建、修改组
+: $ /usr/sbin/groupadd shared
+: $ /usr/sbin/groupmod -n sharing shared
+*** 理解文件权限
+1. 使用文件权限符
+- -文件
+- d目录
+- l链接
+- c字符型设备
+- b块设备
+- n网络设备
+- r可读
+- w可写
+- x可执行
+- 对象所属用户
+- 对象所属组
+- 系统其他用户
+2. 默认文件权限
+: umask命令用来设置所创建文件和目录的默认权限。
+*** 改变安全性设置
+1. 改变权限
+: chmod命令用来改变文件和目录的安全性设置。
+2. 改变所属关系
+: chown命令用来改变文件的所属组。
+*** 共享文件
+: Linux为每个文件和目录存储了3个额外的信息位。
+- 设置用户ID（SUID）
+- 设置组ID（GID）
+- 粘着位：进程结束后文件还驻留（粘着）在内存中。
+#+CAPTION: chmod SUID、SGID和粘着位的八进制值
+| 二进制值 | 八进制值 | 描述                 |
+|----------+----------+----------------------|
+|      000 |        0 | 所有位都清零         |
+|      001 |        1 | 粘着位置位           |
+|      010 |        2 | SGID位置位           |
+|      011 |        3 | SGID位和粘着位都置位 |
+|      100 |        4 | SUID位置位           |
+|      101 |        5 | SUID位和粘着位都置位 |
+|      110 |        6 | SUID位和SGID都置位   |
+|      111 |        7 | 所有位都置位         |
+
+: //创建一个共享目录
+: $ mkdir testdir
+: $ chgrp shared testdir
+: $ chmod g+s testdir
+: $ umask 002
+: $ cd testdir
+: $ touch testfile
+** 管理文件系统
+** 安装软件程序
+1. Linux中广泛使用的两种主要的PMS（package management system）基础工具：dpkg和rpm
+2. 基于Debian
+- apt-get
+- apt-cache
+- aptitude
+2. 基于Red Hat
+- yum，在Red Hat和CentOS中使用。
+- urpm，在Mandriva中使用
+- zypper，在openSUSE中使用
+** 使用编辑器
+1. Vim
+2. nano
+3. Emacs
+4. gedit
+* shell 脚本编程基础
+** 构建基本脚本
+** 结构化命令
+** 处理用户输入
+** 呈现数据
+** 控制脚本
+* 高级 shell 脚本编程
+** 创建函数
+** 图形化桌面环境中的脚本编程
+** 初识 sed 和 gawk
+** 正则表达式
+** sed 和 gawk 进阶
+** 使用其他 shell
+* 创建实用的脚本
+** 编写简单的脚本实用工具
+*** 归档
+*** 管理用户账户
+*** 检测磁盘空间
+** 创建与数据库、Web及E-Mail相关的脚本
+** 一些小意思的脚本
+*** 发送消息
+*** 获取格言
+*** 编造借口
+*** 在当前目录及指定子目录深度下创建.gitignore文件
+  #+BEGIN_SRC shell
+  #!/bin/sh
+  for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
+  do
+	  echo $dir
+	  `touch $dir/.gitignore`
+	  echo "*">$dir/.gitignore
+  done
+  #+END_SRC
+*** 解决 dpkg: warning: files list file for package 'x' missing
+ #+CAPTION: 
+ #+BEGIN_SRC shell
+ for package in $(sudo apt install catdoc 2&1 |grep "warning: files list file for package'" |grep -Po "[^'\n ]+'" |grep -Po "[^']+");
+ do
+	 sudo apt install --reinstall "$package"
+ done
+ #+END_SRC

@@ -278,9 +278,13 @@ tar
 </div>
 </div>
 </div>
-<div id="outline-container-org1000c8e" class="outline-2">
-<h2 id="org1000c8e">create directory</h2>
-<div class="outline-text-2" id="text-org1000c8e">
+<div id="outline-container-orgaaa06aa" class="outline-2">
+<h2 id="orgaaa06aa">Shell 实践</h2>
+<div class="outline-text-2" id="text-orgaaa06aa">
+</div>
+<div id="outline-container-org180178a" class="outline-3">
+<h3 id="org180178a">在当前目录及指定子目录深度下创建.gitignore文件</h3>
+<div class="outline-text-3" id="text-org180178a">
 <div class="org-src-container">
 <pre class="src src-shell"><span style="color: #5f615c; font-style: italic;">#</span><span style="color: #5f615c; font-style: italic;">!/bin/</span><span style="color: #346604;">sh</span>
 <span style="color: #346604;">for</span> dir<span style="color: #346604;"> in</span> <span style="color: #ff00ff;">`find ./ -mindepth 2 -maxdepth 4 -type d`</span>
@@ -290,6 +294,19 @@ tar
     <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"*"</span>&gt;$<span style="color: #b35000;">dir</span>/.gitignore
 <span style="color: #346604;">done</span>
 </pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0e4757e" class="outline-3">
+<h3 id="org0e4757e">解决 dpkg: warning: files list file for package 'x' missing</h3>
+<div class="outline-text-3" id="text-org0e4757e">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span></label><pre class="src src-shell"><span style="color: #346604;">for</span> package<span style="color: #346604;"> in</span> $(<span style="color: #ff00ff;">sudo</span> apt install catdoc 2&amp;1 |grep <span style="color: #5c3566;">"warning: files list file for package'"</span> |grep -Po <span style="color: #5c3566;">"[^'\n ]+'"</span> |grep -Po <span style="color: #5c3566;">"[^']+"</span>);
+<span style="color: #346604;">do</span>
+    sudo apt install --reinstall <span style="color: #5c3566;">"$package"</span>
+<span style="color: #346604;">done</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
