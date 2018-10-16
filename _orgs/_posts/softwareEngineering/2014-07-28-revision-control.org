@@ -44,15 +44,15 @@ photos:
 : 2.选中更新版本段》右键选择Compare revisions（版本比较）
 : 3.全选》右键选择Export selection to…（导出所选文件到…）
 * Git
-** 安装&配置
-: 1.Ubuntu 10.10(maverick)或更新版本，Debian(squeeze)或更新版本：
+** 安装
+: 1.Ubuntu 10.10(maverick)及以上版本，Debian(squeeze)及以上版本：
 : $ sudo aptitude install git
 : $ sudo aptitude install git-doc git-svn git-email gitk
-: 
-: 2.Ubuntu 10.04(lucid)或更老版本，Debian(lenny)或更老版本：
+
+: 2.Ubuntu 10.04(lucid)及之前版本，Debian(lenny)及之前版本：
 : $ sudo aptitude install git-core
 : $ sudo aptitude install git-doc git-svn git-email gitk
-: 
+
 : 3.RHEL、Fedora、CentOS:
 : $ yum install git
 : $ yum install git-svn git-email gitk
@@ -60,7 +60,8 @@ photos:
 : //查看版本
 : $ git --version
 
-: 4.配置git
+** 配置
+: 1.配置git
 : //设置username和email，因为github每次commit都会记录他们。
 : $ git config --global user.name "your name" //配置用户名
 : $ git config --global user.email "your_email@youremail.com" //配置邮箱
@@ -72,10 +73,10 @@ photos:
 : //录入提交说明的字符集：
 : $ git config --global i18n.commitEncoding gbk
 
-: //查看配置信息
+: 2.查看配置信息
 : $ git config -l
 
-: //删除配置
+: 3.删除配置
 : $ git config --unset --global user.name
 : $ git config --unset --global user.email
 ** .gitignore 文件
@@ -85,28 +86,30 @@ photos:
 : 以方括号“[]”包含单个字符的匹配列表；
 : 以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
 ** 仓库操作
-1. 首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：
-$ git init
-2. 检出仓库
-// 仓库在本地
-$ git clone /path/to/repository
-// 仓库在远端
-$ git clone username@host:/path/to/repository
-$ git clone git@github.com:xxx/hello_world.git //GitHub
-3. 每次需要改动时，首先，拉取仓库（分支）最新内容(update)
-$ git pull
-$ git pull orgion master
+: 1. 首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：
+: $ git init
 
-4. 如果欲将本地初始化的仓库连接到某个远程服务器：
-$ git remote add origin <server>
-$ git remote add origin https://github.com/zhaorengui/test.git //GitHub
+: 2. 检出仓库
+: // 仓库在本地
+: $ git clone /path/to/repository
+: // 仓库在远端
+: $ git clone username@host:/path/to/repository
+: $ git clone git@github.com:xxx/hello_world.git //GitHub
 
-$ git push -u origin master
-5. 删除文件
-//删除本地仓库文件
-$ rm test.php
-//从Git仓库中删除文件
-$ git rm test.php
+: 3. 每次需要改动时，首先，拉取仓库（分支）最新内容(update)
+: $ git pull
+: $ git pull orgion master
+
+: 4. 如果欲将本地初始化的仓库连接到某个远程服务器：
+: $ git remote add origin <server>
+: $ git remote add origin https://github.com/zhaorengui/test.git //GitHub
+: $ git push -u origin master
+
+: 5. 删除文件
+: //删除本地仓库文件
+: $ rm test.php
+: //从Git仓库中删除文件
+: $ git rm test.php
 ** 提交过程
 *** 工作流
 : 本地仓库由 git 维护的三棵“树”组成。
@@ -120,25 +123,28 @@ $ git rm test.php
 #+NAME:
 [[../../../../../assets/images/trees.png]]
 *** 一次完整的提交
-1. 假如我新增了某个功能，现在把它提交到暂存区。
+: 1. 假如我新增了某个功能，现在把它提交到暂存区。
 : //单独提交某个文件
 : $ git add <filename>
 : //提交所有
 : $ git add -A
 : or
 : $ git add .
-2. 额……突然想起还有某个地方要改动一下，撤销提交到暂存区的代码。
+
+: 2. 额……突然想起还有某个地方要改动一下，撤销提交到暂存区的代码。
 : // 撤销提交到暂存区的所有文件
 : $ git reset
 : or
 : $ git reset HEAD .
 : // 撤销提交到暂存区的某个文件
 : $ git reset HEAD --filename
-3. 修改完遗漏功能后，再次提交了代码到暂存区，再提交到本地仓库分支。
+
+: 3. 修改完遗漏功能后，再次提交了代码到暂存区，再提交到本地仓库分支。
 : $ git commit -m "Description"
 : //直接跳过暂存区提交
 : $ git commit -a -m "Description"
-4. 经过上一步操作后，又想起刚才提交到本地仓库分支的代码需要进一步优化，所以只能撤消 commit。
+
+: 4. 经过上一步操作后，又想起刚才提交到本地仓库分支的代码需要进一步优化，所以只能撤消 commit。
 : //查看提交日志
 : $ git log
 : $ git log --graph //查看提交日志中的相应内容
@@ -148,22 +154,23 @@ $ git rm test.php
 : $ git reset --soft HEAD^
 : or
 : $ git reset --soft HEAD~1
-
 : //参数解释：
 : --mixed: 不删除工作空间改动代码，撤销commit，并且撤销git add . 操作
 : --soft: 不删除工作空间改动代码，撤销commit，不撤销git add . 
 : --hard: 删除工作空间改动代码，撤销commit，撤销git add . 
-
 : 注意：如果 commit 注释写错了，只是想改一下注释，只需要执行以下命令，注释写完后保存就 OK 了。
 : $ git commit --amend
-5. 推送到远端仓库
+
+: 5. 推送到远端仓库
 : $ git push
 : or
 : $ git push origin master //master为分支名称
-6. 压缩提交历史
+
+: 6. 压缩提交历史
 : $ git rebase -i
 : $ git rebase -i HEAD~2 //在历史记录中合并为一次完美的提交
-7. 替换本地改动
+
+: 7. 替换本地改动
 : // 有的时候，本地文件不小心被删除或者内容被修改，此时，可通过如下命令从远程仓库获取替换，已添加到暂存区的改动以及新文件都不会受到影响。
 : $ git checkout -- <filename> 
 
@@ -172,6 +179,8 @@ $ git rm test.php
 : $ git reset --hard origin/master
 ** 分支
 *** 理解分支
+#+CAPTION: 理解分支
+#+NAME:
 [[../../../../../assets/images/branches.png]]
 
 : 1.在 Git 中提交时，会保存一个提交（commit）对象，该对象包含一个指向暂存内容快照的指针，包含本次提交的作者等相关附属信息，
@@ -252,10 +261,10 @@ $ git rm test.php
 *** 分支的创建与切换
 : 实际工作中大体也会用到这样的工作流程：正在开发某个网站；为实现某个新的需求，创建了一个分支；正在这个分支上开展工作。
 : 突然，接到一个电话说有个很严重的问题需要紧急修补，那么可以按照下面的方式处理：
-: 1.返回到原先已经发布到生产服务器上的分支。
-: 2.为这次紧急修补建立一个新分支，并在其中修复问题。
-: 3.通过测试后，回到生产服务器所在的分支，将修补分支合并进来，然后再推送到生产服务器上。
-: 4.切换到之前实现新需求的分支，继续工作。
+1.返回到原先已经发布到生产服务器上的分支。
+2.为这次紧急修补建立一个新分支，并在其中修复问题。
+3.通过测试后，回到生产服务器所在的分支，将修补分支合并进来，然后再推送到生产服务器上。
+4.切换到之前实现新需求的分支，继续工作。
 
 : A.首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新：
 #+CAPTION: 一个简短的提交历史
@@ -634,23 +643,18 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 : GitHub同时提供付费账户和免费账户。
 ** Git vs SVN
-: 1.Git是分布式的，SVN不是；
-: 2.Git把内容按元数据方式存储，而SVN是按文件；
-: 3.Git分支与SVN的分支不同；
-: 4.Git没有一个全局的版本号，而SVN有；
-: 5.Git的内容完整性要优于SVN：Git内容存储使用的是SHA-1算法。。
+1.Git是分布式的，SVN不是；
+2.Git把内容按元数据方式存储，而SVN是按文件；
+3.Git分支与SVN的分支不同；
+4.Git没有一个全局的版本号，而SVN有；
+5.Git的内容完整性要优于SVN：Git内容存储使用的是SHA-1算法。。
 ** 一些基本概念
-: 1.Repository(仓库)：用于存放项目源代码。
-
-: 2.Star(收藏)：收藏项目
-
-: 3.Fork(复制克隆项目)
-
-: 4.Pull Request(发送请求)：基于Fork，修改或删除代码提交请求。
-
-: 5.Watch(关注)：假设项目有任何更新，第一时间收到通知消息。
-
-: 6.Issue(事务卡片)：发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。
+1.Repository(仓库)：用于存放项目源代码。
+2.Star(收藏)：收藏项目
+3.Fork(复制克隆项目)
+4.Pull Request(发送请求)：基于Fork，修改或删除代码提交请求。
+5.Watch(关注)：假设项目有任何更新，第一时间收到通知消息。
+6.Issue(事务卡片)：发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。
 ** 上传代码方式
 *** SSH方式传输
 : //使用SSH方式，在提交时，不需要输入用户名和密码。
