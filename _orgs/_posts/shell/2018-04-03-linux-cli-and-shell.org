@@ -486,8 +486,87 @@ EOF
 echo "The final answer for this mess is $var5"
 #+END_SRC
 *** 退出脚本
-
+: 1. 退出状态码（exit status）
+: $ echo $?
+0
+#+NAME: 退出状态码
+| 状态码 | 描述                       |
+|--------+----------------------------|
+|      0 | 命令成功结束               |
+|      1 | 一般性未知错误             |
+|      2 | 不适合的shell命令          |
+|    126 | 命令不可执行               |
+|    127 | 没找到命令                 |
+|    128 | 无效的退出参数             |
+|  128+x | 与Linux信号x相关的严重错误 |
+|    130 | 通过Ctrl+C终止的命令       |
+|    255 | 正常范围之外的退出状态码   |
+: 2. exit命令
+: exit命令允许在脚本结束时指定一个退出状态码
+#+NAME: test文件
+#+BEGIN_SRC shell
+echo 'Hello, World'
+exit 5 
+#+END_SRC
+: $ ./test 
+Hello, World
+: $ echo $?
+5
 ** 结构化命令
+#+NAME: if-then-elif-then-else-fi
+#+BEGIN_SRC shell
+格式：
+if command1
+then
+	commands
+elif command2
+then
+	commands
+fi
+
+示例：
+#!/bin/bash
+testuser = NoSuchUser
+#
+if grep $testuser /etc/passwd
+then
+	echo "The bash files for user $testuser are:"
+    ls -a /home/$testuser/.b*
+    echo
+elif ls -d /home/$testuser
+then
+	echo "The user $testuser has a directory"
+else
+	echo "The user $testuser does not exist on this system."
+    echo
+fi
+
+test命令提供了在if-then语句中测试不同条件的途径。
+test命令可以判断三类条件：数值比较；字符串比较；文件比较
+#!/bin/bash
+$var = 10
+if [$var -eq 5]
+then 
+	echo "The value $var are equal."
+else
+	echo "The value $var are different."
+fi
+$var1 = baduser
+if [$USER != $var1]
+then
+	echo "This is not $var1"
+else
+	echo "Welcome $var"
+fi
+$var2 = baseall
+$var3 = hockey
+if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
+then
+	echo "$var2 is greater than $var3"
+else
+	echo "$var2 is less than $var3"
+fi
+#+END_SRC
 ** 处理用户输入
 ** 呈现数据
 ** 控制脚本

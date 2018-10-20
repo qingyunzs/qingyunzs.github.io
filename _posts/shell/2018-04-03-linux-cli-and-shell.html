@@ -1013,11 +1013,161 @@ var5 = $(<span style="color: #ff00ff;">bc</span> &lt;&lt; EOF
 </div>
 <div id="outline-container-org8bc77d1" class="outline-4">
 <h4 id="org8bc77d1">退出脚本</h4>
-</div>
-</div>
+<div class="outline-text-4" id="text-org8bc77d1">
+<pre class="example">
+1. 退出状态码（exit status）
+$ echo $?
 
+</pre>
+<p>
+0
+</p>
+<table id="org45c555d" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">状态码</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">命令成功结束</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">一般性未知错误</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">不适合的shell命令</td>
+</tr>
+
+<tr>
+<td class="org-right">126</td>
+<td class="org-left">命令不可执行</td>
+</tr>
+
+<tr>
+<td class="org-right">127</td>
+<td class="org-left">没找到命令</td>
+</tr>
+
+<tr>
+<td class="org-right">128</td>
+<td class="org-left">无效的退出参数</td>
+</tr>
+
+<tr>
+<td class="org-right">128+x</td>
+<td class="org-left">与Linux信号x相关的严重错误</td>
+</tr>
+
+<tr>
+<td class="org-right">130</td>
+<td class="org-left">通过Ctrl+C终止的命令</td>
+</tr>
+
+<tr>
+<td class="org-right">255</td>
+<td class="org-left">正常范围之外的退出状态码</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+2. exit命令
+exit命令允许在脚本结束时指定一个退出状态码
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgcf376e3"><span style="color: #75507b;">echo</span> <span style="color: #5c3566;">'Hello, World'</span>
+<span style="color: #346604;">exit</span> 5 
+</pre>
+</div>
+<pre class="example">
+$ ./test 
+
+</pre>
+<p>
+Hello, World
+</p>
+<pre class="example">
+$ echo $?
+
+</pre>
+<p>
+5
+</p>
+</div>
+</div>
+</div>
 <div id="outline-container-org45daad0" class="outline-3">
 <h3 id="org45daad0">结构化命令</h3>
+<div class="outline-text-3" id="text-org45daad0">
+<div class="org-src-container">
+<pre class="src src-shell" id="org8227076">&#26684;&#24335;&#65306;
+<span style="color: #346604;">if</span> command1
+<span style="color: #346604;">then</span>
+    commands
+<span style="color: #346604;">elif</span> command2
+<span style="color: #346604;">then</span>
+    commands
+<span style="color: #346604;">fi</span>
+
+&#31034;&#20363;&#65306;
+<span style="color: #5f615c; font-style: italic;">#</span><span style="color: #5f615c; font-style: italic;">!/bin/bash</span>
+testuser = NoSuchUser
+<span style="color: #5f615c; font-style: italic;">#</span>
+<span style="color: #346604;">if</span> grep $<span style="color: #b35000;">testuser</span> /etc/passwd
+<span style="color: #346604;">then</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"The bash files for user $testuser are:"</span>
+    ls -a /home/$<span style="color: #b35000;">testuser</span>/.b*
+    <span style="color: #75507b;">echo</span>
+<span style="color: #346604;">elif</span> ls -d /home/$<span style="color: #b35000;">testuser</span>
+<span style="color: #346604;">then</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"The user $testuser has a directory"</span>
+<span style="color: #346604;">else</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"The user $testuser does not exist on this system."</span>
+    <span style="color: #75507b;">echo</span>
+<span style="color: #346604;">fi</span>
+
+<span style="color: #75507b;">test</span>&#21629;&#20196;&#25552;&#20379;&#20102;&#22312;if-then&#35821;&#21477;&#20013;&#27979;&#35797;&#19981;&#21516;&#26465;&#20214;&#30340;&#36884;&#24452;&#12290;
+<span style="color: #75507b;">test</span>&#21629;&#20196;&#21487;&#20197;&#21028;&#26029;&#19977;&#31867;&#26465;&#20214;&#65306;&#25968;&#20540;&#27604;&#36739;&#65307;&#23383;&#31526;&#20018;&#27604;&#36739;&#65307;&#25991;&#20214;&#27604;&#36739;
+<span style="color: #5f615c; font-style: italic;">#</span><span style="color: #5f615c; font-style: italic;">!/bin/bash</span>
+$<span style="color: #b35000;">var</span> = 10
+<span style="color: #346604;">if</span> [$<span style="color: #b35000;">var</span> -eq 5]
+<span style="color: #346604;">then</span> 
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"The value $var are equal."</span>
+<span style="color: #346604;">else</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"The value $var are different."</span>
+<span style="color: #346604;">fi</span>
+$<span style="color: #b35000;">var1</span> = baduser
+<span style="color: #346604;">if</span> [$<span style="color: #b35000;">USER</span> != $<span style="color: #b35000;">var1</span>]
+<span style="color: #346604;">then</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"This is not $var1"</span>
+<span style="color: #346604;">else</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"Welcome $var"</span>
+<span style="color: #346604;">fi</span>
+$<span style="color: #b35000;">var2</span> = baseall
+$<span style="color: #b35000;">var3</span> = hockey
+<span style="color: #346604;">if</span> [$<span style="color: #b35000;">var2</span> <span style="color: #5c3566;">\&gt;</span> $<span style="color: #b35000;">var3</span>] <span style="color: #5f615c; font-style: italic;">#</span><span style="color: #5f615c; font-style: italic;">&gt;&#31526;&#21495;&#38656;&#35201;&#36716;&#20041;&#65292;&#38450;&#27490;&#35299;&#37322;&#25104;&#36755;&#20986;&#37325;&#23450;&#21521;</span>
+<span style="color: #346604;">then</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"$var2 is greater than $var3"</span>
+<span style="color: #346604;">else</span>
+    <span style="color: #75507b;">echo</span> <span style="color: #5c3566;">"$var2 is less than $var3"</span>
+<span style="color: #346604;">fi</span>
+</pre>
+</div>
+</div>
 </div>
 <div id="outline-container-org44edcbe" class="outline-3">
 <h3 id="org44edcbe">处理用户输入</h3>
