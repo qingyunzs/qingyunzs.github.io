@@ -609,6 +609,17 @@ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功�
 : 4. 上传目录到服务器
 : scp  -r local_dir username@servername:remote_dir
 : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+** 在服务器上启用HTTPS
+- 创建一个 2048 位 RSA 公钥/私钥对。
+- 生成一个嵌入您的公钥的证书签名请求 (CSR)
+- 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
+- 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
+: 1. 生成密钥和证书签名请求
+: 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
+: 
+
+: 参考资料：
+[[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
 ** 解压命令大全
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :title :align center
