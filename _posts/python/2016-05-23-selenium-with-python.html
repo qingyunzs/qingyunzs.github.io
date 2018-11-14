@@ -1,11 +1,11 @@
 
-<div id="outline-container-orgca3186c" class="outline-2">
-<h2 id="orgca3186c">Getting Started</h2>
-<div class="outline-text-2" id="text-orgca3186c">
+<div id="outline-container-orgf7cf859" class="outline-2">
+<h2 id="orgf7cf859">Getting Started</h2>
+<div class="outline-text-2" id="text-orgf7cf859">
 </div>
-<div id="outline-container-org9c1cec3" class="outline-3">
-<h3 id="org9c1cec3">What is Python?</h3>
-<div class="outline-text-3" id="text-org9c1cec3">
+<div id="outline-container-org82f1a4d" class="outline-3">
+<h3 id="org82f1a4d">What is Python?</h3>
+<div class="outline-text-3" id="text-org82f1a4d">
 <pre class="example">
 Python is a general-purpose interpreted, interactive, object-oriented, and high-level programming language.
 
@@ -16,13 +16,13 @@ print("Hello, Python!")
 </pre>
 </div>
 </div>
-<div id="outline-container-org588b699" class="outline-3">
-<h3 id="org588b699">Installation</h3>
-<div class="outline-text-3" id="text-org588b699">
+<div id="outline-container-org4bd867d" class="outline-3">
+<h3 id="org4bd867d">Installation</h3>
+<div class="outline-text-3" id="text-org4bd867d">
 </div>
-<div id="outline-container-org06468e9" class="outline-4">
-<h4 id="org06468e9">Downloading and Installing Selenium</h4>
-<div class="outline-text-4" id="text-org06468e9">
+<div id="outline-container-org158c6f3" class="outline-4">
+<h4 id="org158c6f3">Downloading and Installing Selenium</h4>
+<div class="outline-text-4" id="text-org158c6f3">
 <pre class="example">
 &gt;pip install selenium
 Note:"Script" dir. not's found in Python 3.3 version after installation.Following is solution(Installing easy_install and pip):
@@ -36,9 +36,9 @@ Note:"Script" dir. not's found in Python 3.3 version after installation.Followin
 </pre>
 </div>
 </div>
-<div id="outline-container-orgeee8b2a" class="outline-4">
-<h4 id="orgeee8b2a">Installing pymssql</h4>
-<div class="outline-text-4" id="text-orgeee8b2a">
+<div id="outline-container-orgded370b" class="outline-4">
+<h4 id="orgded370b">Installing pymssql</h4>
+<div class="outline-text-4" id="text-orgded370b">
 <pre class="example">
 &gt;pip install pymssql
 
@@ -48,13 +48,13 @@ Note:"Script" dir. not's found in Python 3.3 version after installation.Followin
 </div>
 </div>
 </div>
-<div id="outline-container-org2ffd4f5" class="outline-2">
-<h2 id="org2ffd4f5">Connecting SQL Server by pymssql</h2>
-<div class="outline-text-2" id="text-org2ffd4f5">
+<div id="outline-container-org11dbbf3" class="outline-2">
+<h2 id="org11dbbf3">Connecting SQL Server by pymssql</h2>
+<div class="outline-text-2" id="text-org11dbbf3">
 </div>
-<div id="outline-container-orgef978ec" class="outline-3">
-<h3 id="orgef978ec">sqlserver class</h3>
-<div class="outline-text-3" id="text-orgef978ec">
+<div id="outline-container-orgbcff6be" class="outline-3">
+<h3 id="orgbcff6be">sqlserver class</h3>
+<div class="outline-text-3" id="text-orgbcff6be">
 <p>
 sql_server.py
 </p>
@@ -65,42 +65,42 @@ sql_server.py
 import pymssql
 
 class sqlserver:
-    #Connect.
-    def __init__(self,host,user,password,database):
-        #server url or ip.
-        self.host = host
-        #User name.
-        self.user = user
-        #Password.
-        self.password = password
-        #Database.
-        self.database=database
-    def __get_connect(self):
-        #Connect SQL Server.
-        if not self.database:
-            raise(NameError,"没有连接数据库信息")
-        self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset="utf8")
-        cursor = self.conn.cursor()
-        if not cursor:
-            raise(NameError,"未能连接到数据库，请检查!")
-        else:
-            return cursor
-    #Close connect.
-    def conn_closed(self):
-        self.conn.close()
-    #Query data.
-    def query(self,sql):
-        cur=self.__get_connect()
-        cur.execute(sql)
-        dataList=cur.fetchall()
-        self.conn_closed() #Closing connect.
-        return dataList
+	#Connect.
+	def __init__(self,host,user,password,database):
+		#server url or ip.
+		self.host = host
+		#User name.
+		self.user = user
+		#Password.
+		self.password = password
+		#Database.
+		self.database=database
+	def __get_connect(self):
+		#Connect SQL Server.
+		if not self.database:
+			raise(NameError,"没有连接数据库信息")
+		self.conn = pymssql.connect(self.host, self.user, self.password, self.database,charset="utf8")
+		cursor = self.conn.cursor()
+		if not cursor:
+			raise(NameError,"未能连接到数据库，请检查!")
+		else:
+			return cursor
+	#Close connect.
+	def conn_closed(self):
+		self.conn.close()
+	#Query data.
+	def query(self,sql):
+		cur=self.__get_connect()
+		cur.execute(sql)
+		dataList=cur.fetchall()
+		self.conn_closed() #Closing connect.
+		return dataList
 </pre>
 </div>
 </div>
-<div id="outline-container-orga0965b3" class="outline-3">
-<h3 id="orga0965b3">test.py</h3>
-<div class="outline-text-3" id="text-orga0965b3">
+<div id="outline-container-org42f54c5" class="outline-3">
+<h3 id="org42f54c5">test.py</h3>
+<div class="outline-text-3" id="text-org42f54c5">
 <pre class="example">
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -110,81 +110,81 @@ from sql_server import sqlserver
 
 #Login
 def login(driver):
-    driver.get("http://localhost:8080/chicago/")
-    #Enter to user name.
-    userName=driver.find_element_by_name("userName")
-    userName.send_keys("admin")
-    sleep(1)
-    #Enter to pwd.
-    password=driver.find_element_by_name("password")
-    password.send_keys("123456")
-    sleep(1)
-    #Login to site.
-    password.send_keys(Keys.RETURN)
+	driver.get("http://localhost:8080/chicago/")
+	#Enter to user name.
+	userName=driver.find_element_by_name("userName")
+	userName.send_keys("admin")
+	sleep(1)
+	#Enter to pwd.
+	password=driver.find_element_by_name("password")
+	password.send_keys("123456")
+	sleep(1)
+	#Login to site.
+	password.send_keys(Keys.RETURN)
 #Get out data of vehicle. 
 def get_out_card_data(conn):
-    cardInfo=conn.query("SELECT io.card_no from chicago_io io where card_no like 'dm16%' and io.out_time is NULL order by io.card_no")
-    return cardInfo
+	cardInfo=conn.query("SELECT io.card_no from chicago_io io where card_no like 'dm16%' and io.out_time is NULL order by io.card_no")
+	return cardInfo
 #Begin out
 def begin_out(driver,outData):
-    driver.find_element_by_xpath("//div[@id='ext-gen20']/div[@id='002']").click()
-    driver.find_element_by_link_text("车辆进出管理").click()
-    driver.find_element_by_link_text("车辆出场操作").click()
-    sleep(5)
-    card_no=driver.find_element_by_name("truckIo.cardNo")
-    submit_button=driver.find_element_by_id("ext-gen26")
-    for card in outData:
-        card_no.send_keys(card)
-        submit_button.click()
-        sleep(3)
+	driver.find_element_by_xpath("//div[@id='ext-gen20']/div[@id='002']").click()
+	driver.find_element_by_link_text("车辆进出管理").click()
+	driver.find_element_by_link_text("车辆出场操作").click()
+	sleep(5)
+	card_no=driver.find_element_by_name("truckIo.cardNo")
+	submit_button=driver.find_element_by_id("ext-gen26")
+	for card in outData:
+		card_no.send_keys(card)
+		submit_button.click()
+		sleep(3)
 #Begin in
 #def begin_in(inData):
 
 #main
 def main():
-    driver=webdriver.Chrome()
-    #Login site.
-    login(driver)
-    #Connection.
-    conn=sqlserver("localhost","sa","123456","chicago5")
-    #Get data of vehicle out.
-    outData=get_out_card_data(conn)
-    # cardStr=""
-    # for row in outData:
-    # 	cardStr+=''.join(row)+","
-    outList=[]#Out of vehicle list.
-    inList=[]#In of vehicle list.
-    number=1
-    if outData:
-        for row in outData:
-            card_no=int(row[0][5:7])
-            outList.append(card_no)
-            while (number&lt;50):			
-                if (number!=card_no):
-                    # print(number)
-                    inList.append(number)
-                number+=1
-    else:
-        while (number&lt;50):
-            inList.append(number)
-            number+=1
-    begin_out(driver,outList)
-    print(inList)
+	driver=webdriver.Chrome()
+	#Login site.
+	login(driver)
+	#Connection.
+	conn=sqlserver("localhost","sa","123456","chicago5")
+	#Get data of vehicle out.
+	outData=get_out_card_data(conn)
+	# cardStr=""
+	# for row in outData:
+	# 	cardStr+=''.join(row)+","
+	outList=[]#Out of vehicle list.
+	inList=[]#In of vehicle list.
+	number=1
+	if outData:
+		for row in outData:
+			card_no=int(row[0][5:7])
+			outList.append(card_no)
+			while (number&lt;50):			
+				if (number!=card_no):
+					# print(number)
+					inList.append(number)
+				number+=1
+	else:
+		while (number&lt;50):
+			inList.append(number)
+			number+=1
+	begin_out(driver,outList)
+	print(inList)
 
 if __name__ == "__main__":
-    main()
+	main()
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgad5fda5" class="outline-2">
-<h2 id="orgad5fda5">Solving the problem</h2>
-<div class="outline-text-2" id="text-orgad5fda5">
+<div id="outline-container-org6f2e691" class="outline-2">
+<h2 id="org6f2e691">Solving the problem</h2>
+<div class="outline-text-2" id="text-org6f2e691">
 </div>
-<div id="outline-container-orge447fc7" class="outline-3">
-<h3 id="orge447fc7">SyntaxError: Non-ASCII character '\xc2' in file</h3>
-<div class="outline-text-3" id="text-orge447fc7">
+<div id="outline-container-org2364c80" class="outline-3">
+<h3 id="org2364c80">SyntaxError: Non-ASCII character '\xc2' in file</h3>
+<div class="outline-text-3" id="text-org2364c80">
 <pre class="example">
 Solving: add to header of file
         #coding:utf-8 or #coding=utf-8
@@ -193,9 +193,9 @@ Solving: add to header of file
 </div>
 </div>
 </div>
-<div id="outline-container-org312490e" class="outline-2">
-<h2 id="org312490e">Refrences</h2>
-<div class="outline-text-2" id="text-org312490e">
+<div id="outline-container-org5934338" class="outline-2">
+<h2 id="org5934338">Refrences</h2>
+<div class="outline-text-2" id="text-org5934338">
 <pre class="example">
 Selenium with Python http://selenium-python.readthedocs.io/
 pymssql http://pymssql.org/

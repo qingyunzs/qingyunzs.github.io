@@ -15,74 +15,74 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-org46f0ad6" class="outline-2">
-<h2 id="org46f0ad6">问题概述</h2>
-<div class="outline-text-2" id="text-org46f0ad6">
+<div id="outline-container-orga4c0fa8" class="outline-2">
+<h2 id="orga4c0fa8">问题概述</h2>
+<div class="outline-text-2" id="text-orga4c0fa8">
 <pre class="example">
 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org45c9cf3" class="outline-2">
-<h2 id="org45c9cf3">Ajax 请求跨域问题解决</h2>
-<div class="outline-text-2" id="text-org45c9cf3">
+<div id="outline-container-org6d937ef" class="outline-2">
+<h2 id="org6d937ef">Ajax 请求跨域问题解决</h2>
+<div class="outline-text-2" id="text-org6d937ef">
 </div>
-<div id="outline-container-org9336d27" class="outline-3">
-<h3 id="org9336d27">客户端代码</h3>
-<div class="outline-text-3" id="text-org9336d27">
+<div id="outline-container-orgd145c60" class="outline-3">
+<h3 id="orgd145c60">客户端代码</h3>
+<div class="outline-text-3" id="text-orgd145c60">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span>客户端请求代码</label><pre class="src src-emacs-lisp">// &#19978;&#20256;&#25991;&#20214;
 function upload_idcard_file(_this,type){
-    var formData = new FormData()<span style="color: #5f615c; font-style: italic;">;</span>
-    formData.append('type',type)<span style="color: #5f615c; font-style: italic;">;</span>
-    formData.append('file',_this.files[0])<span style="color: #5f615c; font-style: italic;">;</span>
-    $.ajax({
-        url: '{$upload_file_url}',
-        type: 'POST',
-        dataType: 'json',
-        data: formData,
-        cache: false,
-        contentType : false,
-        processData : false,
-        headers : {<span style="color: #5c3566;">"access_token"</span> : <span style="color: #5c3566;">"{$access_token}"</span>},
-        success:function(d){
-            var img_url = d.data<span style="color: #5f615c; font-style: italic;">;</span>
-            img_url = 'http:'+img_url<span style="color: #5f615c; font-style: italic;">;</span>
-            load_img(_this.id,img_url)<span style="color: #5f615c; font-style: italic;">;</span>
-        },
-        error:function(err){
-            //
-        }
-    })<span style="color: #5f615c; font-style: italic;">;</span>
+        var formData = new FormData()<span style="color: #b22222;">;</span>
+        formData.append('type',type)<span style="color: #b22222;">;</span>
+        formData.append('file',_this.files[0])<span style="color: #b22222;">;</span>
+        $.ajax({
+                url: '{$upload_file_url}',
+            type: 'POST',
+                dataType: 'json',
+                data: formData,
+                cache: false,
+                contentType : false,
+                processData : false,
+                headers : {<span style="color: #8b2252;">"access_token"</span> : <span style="color: #8b2252;">"{$access_token}"</span>},
+                success:function(d){
+                        var img_url = d.data<span style="color: #b22222;">;</span>
+                        img_url = 'http:'+img_url<span style="color: #b22222;">;</span>
+                        load_img(_this.id,img_url)<span style="color: #b22222;">;</span>
+            },
+                error:function(err){
+                        //
+            }
+        })<span style="color: #b22222;">;</span>
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7d7168f" class="outline-3">
-<h3 id="org7d7168f">服务端代码</h3>
-<div class="outline-text-3" id="text-org7d7168f">
+<div id="outline-container-orgbaa5d19" class="outline-3">
+<h3 id="orgbaa5d19">服务端代码</h3>
+<div class="outline-text-3" id="text-orgbaa5d19">
 </div>
-<div id="outline-container-org437cf16" class="outline-4">
-<h4 id="org437cf16">解决方式一</h4>
-<div class="outline-text-4" id="text-org437cf16">
+<div id="outline-container-orgc550877" class="outline-4">
+<h4 id="orgc550877">解决方式一</h4>
+<div class="outline-text-4" id="text-orgc550877">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>粗糙解决方式</label><pre class="src src-emacs-lisp">// &#20801;&#35768;&#25152;&#26377;&#36328;&#22495;&#35831;&#27714;
-header('Access-Control-Allow-Origin: *')<span style="color: #5f615c; font-style: italic;">;</span>
+header('Access-Control-Allow-Origin: *')<span style="color: #b22222;">;</span>
 // &#21482;&#20801;&#35768;http://www.baidu.com&#19979;&#21457;&#26469;&#30340;&#36328;&#22495;&#35831;&#27714;
-// header('Access-Control-Allow-Origin: http://www.baidu.com')<span style="color: #5f615c; font-style: italic;">;</span>
+// header('Access-Control-Allow-Origin: http://www.baidu.com')<span style="color: #b22222;">;</span>
 // &#35774;&#32622;&#25903;&#25345;&#30340;http&#35831;&#27714;&#26041;&#24335;
-header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #5f615c; font-style: italic;">;</span>
+header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #b22222;">;</span>
 // &#21709;&#24212;&#22836; &#35831;&#25353;&#29031;&#33258;&#24049;&#38656;&#27714;&#28155;&#21152;
-header('Access-Control-Allow-Headers:access_token')<span style="color: #5f615c; font-style: italic;">; </span>
+header('Access-Control-Allow-Headers:access_token')<span style="color: #b22222;">; </span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org383920c" class="outline-4">
-<h4 id="org383920c">解决方式二</h4>
-<div class="outline-text-4" id="text-org383920c">
+<div id="outline-container-orga9e6f82" class="outline-4">
+<h4 id="orga9e6f82">解决方式二</h4>
+<div class="outline-text-4" id="text-orga9e6f82">
 <pre class="example">
 方式一中单纯使用*或者具体域名，在开发接口时显得不太科学，这时候我们需要进行动态的判断处理。
 
@@ -92,7 +92,7 @@ header('Access-Control-Allow-Headers:access_token')<span style="color: #5f615c; 
 $GLOBALS['API_ALLOW_ORIGINS'] = array(
     'baidu.com',
     'bing.com'
-)<span style="color: #5f615c; font-style: italic;">;</span>
+)<span style="color: #b22222;">;</span>
 // &#21028;&#26029;&#26159;&#21542;&#26377;origin&#35831;&#27714;&#22836;
 if(isset($_SERVER['HTTP_ORIGIN']))
 {
@@ -101,8 +101,8 @@ if(isset($_SERVER['HTTP_ORIGIN']))
     {
         if($_SERVER['HTTP_ORIGIN'] === $domain || substr($_SERVER['HTTP_ORIGIN'], -strlen($domain) - 1) === '.' . $domain)
         {
-            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'])<span style="color: #5f615c; font-style: italic;">;</span>
-            break<span style="color: #5f615c; font-style: italic;">;</span>
+            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'])<span style="color: #b22222;">;</span>
+            break<span style="color: #b22222;">;</span>
         }
     }
 }
@@ -112,12 +112,12 @@ if(isset($_SERVER['HTTP_ORIGIN']))
 </div>
 </div>
 </div>
-<div id="outline-container-org9d9be26" class="outline-2">
-<h2 id="org9d9be26">Session 跨域问题解决</h2>
-<div class="outline-text-2" id="text-org9d9be26">
+<div id="outline-container-org67174c6" class="outline-2">
+<h2 id="org67174c6">Session 跨域问题解决</h2>
+<div class="outline-text-2" id="text-org67174c6">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #5f615c; font-style: italic;">;</span>
-header('Access-Control-Allow-Credentials: true')<span style="color: #5f615c; font-style: italic;">;</span>
+<pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #b22222;">;</span>
+header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;</span>
 </pre>
 </div>
 </div>

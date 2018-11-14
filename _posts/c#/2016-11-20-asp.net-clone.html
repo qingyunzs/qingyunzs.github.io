@@ -1,50 +1,50 @@
 
-<div id="outline-container-orgc2ad4e3" class="outline-2">
-<h2 id="orgc2ad4e3">写在前面</h2>
-<div class="outline-text-2" id="text-orgc2ad4e3">
+<div id="outline-container-orgbfeb30a" class="outline-2">
+<h2 id="orgbfeb30a">写在前面</h2>
+<div class="outline-text-2" id="text-orgbfeb30a">
 <pre class="example">
 最近两天，对"树（tree）"进行搜索，将搜索到的结果进行简单处理，并相应的改变样式。因为tree从session中取值，故而每次搜索后处理的结果都会都会改变原有session值。此时，不得不使用“深度复制”的方式去解原数据被修改的问题。
 
 </pre>
 </div>
 </div>
-<div id="outline-container-orge5cc6f8" class="outline-2">
-<h2 id="orge5cc6f8">关于浅拷贝与深拷贝</h2>
-<div class="outline-text-2" id="text-orge5cc6f8">
+<div id="outline-container-org3c2ed54" class="outline-2">
+<h2 id="org3c2ed54">关于浅拷贝与深拷贝</h2>
+<div class="outline-text-2" id="text-org3c2ed54">
 </div>
-<div id="outline-container-orgab78863" class="outline-3">
-<h3 id="orgab78863">定义</h3>
-<div class="outline-text-3" id="text-orgab78863">
+<div id="outline-container-org6efb841" class="outline-3">
+<h3 id="org6efb841">定义</h3>
+<div class="outline-text-3" id="text-org6efb841">
 </div>
-<div id="outline-container-org9cc935c" class="outline-4">
-<h4 id="org9cc935c">浅拷贝(Shallow Copy)</h4>
-<div class="outline-text-4" id="text-org9cc935c">
+<div id="outline-container-org7c0aa24" class="outline-4">
+<h4 id="org7c0aa24">浅拷贝(Shallow Copy)</h4>
+<div class="outline-text-4" id="text-org7c0aa24">
 <pre class="example">
 只复制对象的基本类型、对象类型，仍属于原来的引用。
 </pre>
 </div>
 </div>
-<div id="outline-container-org46c14d7" class="outline-4">
-<h4 id="org46c14d7">深拷贝(Deep Copy)</h4>
-<div class="outline-text-4" id="text-org46c14d7">
+<div id="outline-container-orgd56b275" class="outline-4">
+<h4 id="orgd56b275">深拷贝(Deep Copy)</h4>
+<div class="outline-text-4" id="text-orgd56b275">
 <pre class="example">
 不仅复制对象的基本类型，同时也复制对象的数据，完全产生新对象，是克隆的过程。
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0f25a2d" class="outline-3">
-<h3 id="org0f25a2d">区别</h3>
-<div class="outline-text-3" id="text-org0f25a2d">
+<div id="outline-container-org1a3fc98" class="outline-3">
+<h3 id="org1a3fc98">区别</h3>
+<div class="outline-text-3" id="text-org1a3fc98">
 <pre class="example">
 浅表复制只复制值类型的值，而对于实例所包含的对象依然指向原有实例。
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga7aff38" class="outline-2">
-<h2 id="orga7aff38">浅拷贝</h2>
-<div class="outline-text-2" id="text-orga7aff38">
+<div id="outline-container-orgefd105a" class="outline-2">
+<h2 id="orgefd105a">浅拷贝</h2>
+<div class="outline-text-2" id="text-orgefd105a">
 <p>
 1.浅拷贝code
 </p>
@@ -67,9 +67,9 @@ Person person2=person.ShallowCopy();
 </pre>
 </div>
 </div>
-<div id="outline-container-org329770c" class="outline-2">
-<h2 id="org329770c">深拷贝</h2>
-<div class="outline-text-2" id="text-org329770c">
+<div id="outline-container-org8f810f5" class="outline-2">
+<h2 id="org8f810f5">深拷贝</h2>
+<div class="outline-text-2" id="text-org8f810f5">
 <p>
 1.深拷贝code：
 </p>
@@ -79,9 +79,9 @@ public static IList&lt;T&gt; Clone&lt;T&gt;(IList&lt;VehicleTreeModel&gt; list)
     BinaryFormatter formatter = new BinaryFormatter();
     using (MemoryStream memorystream = new MemoryStream())
     {
-        formatter.Serialize(memorystream, list);
-        memorystream.Position = 0;
-        return formatter.Deserialize(memorystream) as List&lt;T&gt;;
+	formatter.Serialize(memorystream, list);
+	memorystream.Position = 0;
+	return formatter.Deserialize(memorystream) as List&lt;T&gt;;
     }
 }
 2.序列化标识
@@ -106,9 +106,9 @@ IList&lt;VehicleTreeModel&gt; deepCopyList = Clone&lt;VehicleTreeModel&gt;(list)
 </pre>
 </div>
 </div>
-<div id="outline-container-org70efe04" class="outline-2">
-<h2 id="org70efe04">参考资料</h2>
-<div class="outline-text-2" id="text-org70efe04">
+<div id="outline-container-orgbb459cc" class="outline-2">
+<h2 id="orgbb459cc">参考资料</h2>
+<div class="outline-text-2" id="text-orgbb459cc">
 <pre class="example">
 http://blog.csdn.net/flyingdream123/article/details/9294973
 
@@ -119,9 +119,9 @@ https://en.wikipedia.org/wiki/Object_copy
 </pre>
 </div>
 </div>
-<div id="outline-container-org0088ea5" class="outline-2">
-<h2 id="org0088ea5">结语</h2>
-<div class="outline-text-2" id="text-org0088ea5">
+<div id="outline-container-orgf26ebd0" class="outline-2">
+<h2 id="orgf26ebd0">结语</h2>
+<div class="outline-text-2" id="text-orgf26ebd0">
 <pre class="example">
 此次完全理解了浅度复制和深度复制，并应用于实际当中。
 
