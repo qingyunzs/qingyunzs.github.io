@@ -566,14 +566,35 @@ Linux 学习步骤
 <h3 id="org426733d">Wifi连接配置（configure）</h3>
 <div class="outline-text-3" id="text-org426733d">
 <pre class="example">
+完成安装第一步，当然是先解决网络。
+
+</pre>
+
+<pre class="example">
 1.查看无线（wireless）网卡（LAN）驱动（driver）
 # lsmod | grep iw
+
+</pre>
+
+<pre class="example">
 2.安装（Installing）无线网卡驱动
 # apt-get install firmware-iwlwifi wireless-tools
+
+</pre>
+
+<pre class="example">
 3.向内核（kernel）中加载/移除模块（modules）
 # modprobe iwl4965
+
+</pre>
+
+<pre class="example">
 4.重启系统
 # reboot
+
+</pre>
+
+<pre class="example">
 5.配置无线网络
 //查看无线网口（nerwork port）
 # iwconfig
@@ -592,6 +613,10 @@ Linux 学习步骤
 # iwconfig wlan0
 //执行命令获取到IP地址，成功连上WiFi
 # dhclient wlan0
+
+</pre>
+
+<pre class="example">
 6.开机自动连接WiFi配置
 # vim /etc/network/interfaces.d/wlan0
 
@@ -608,14 +633,19 @@ iface wlan0 inet dhcp
 <div id="outline-container-org3daae26" class="outline-3">
 <h3 id="org3daae26">配置安装源(source)</h3>
 <div class="outline-text-3" id="text-org3daae26">
+</div>
+<div id="outline-container-org407a36d" class="outline-4">
+<h4 id="org407a36d">以配置163源举例说明</h4>
+<div class="outline-text-4" id="text-org407a36d">
 <pre class="example">
-//配置163源：访问http://mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助，根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择
-$ vim /etc/apt/source.list
-//以Jessie为例, 编辑/etc/apt/sources.list文件, 在文件最前面添加以下条目(操作前请做好相应备份)
+1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
+2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
+3. 复制安装源文本到 /etc/apt/source.list 中。
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">deb http://mirrors.163.com/debian/ jessie main non-free contrib
+<pre class="src src-emacs-lisp" id="org49b30f2"># mirrors.163.com
+deb http://mirrors.163.com/debian/ jessie main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
 deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
@@ -627,43 +657,54 @@ deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free con
 </div>
 </div>
 </div>
+<div id="outline-container-org1bf1a19" class="outline-4">
+<h4 id="org1bf1a19">其他安装源</h4>
+<div class="outline-text-4" id="text-org1bf1a19">
+<ul class="org-ul">
+<li><a href="https://mirrors.ustc.edu.cn/">中国科学技术大学开源软件镜像站</a></li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/">清华大学开源软件镜像站</a></li>
+<li><a href="http://mirror.hust.edu.cn/">华中科技大学开源镜像站</a></li>
+<li><a href="https://mirrors.aliyun.com">阿里云开源镜像站</a></li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-org5821631" class="outline-3">
 <h3 id="org5821631">配置系统支持中文（support chinese）</h3>
 <div class="outline-text-3" id="text-org5821631">
 </div>
-<div id="outline-container-org9f724d9" class="outline-4">
-<h4 id="org9f724d9">安装及配置</h4>
-<div class="outline-text-4" id="text-org9f724d9">
+<div id="outline-container-org65db133" class="outline-4">
+<h4 id="org65db133">安装及配置</h4>
+<div class="outline-text-4" id="text-org65db133">
 <pre class="example">
-//设置环境变量
+1. 查看并设置环境变量
+$ echo $LANG
 $ export LANG=en_US.UTF-8
 
 </pre>
 
 <pre class="example">
-//先安装locales
+2. 没有安装 locales,先安装 locales
 $ sudo aptitude install locales
 
 </pre>
 
 <pre class="example">
-//配置命令
+3. 配置中文编码
 $ sudo dpkg-reconfigure locales
-
-</pre>
-
-<pre class="example">
 //选择编码（encode），space选择
-en_US.UTF-8
-zh_CN.GB2312
-zh_CN.GB18030
-zh_CN.GBK
-zh_CN.UTF-8
 
 </pre>
+<ul class="org-ul">
+<li>en_US.UTF-8</li>
+<li>zh_CN.GB2312</li>
+<li>zh_CN.GB18030</li>
+<li>zh_CN.GBK</li>
+<li>zh_CN.UTF-8</li>
+</ul>
 
 <pre class="example">
-//文件配置
+4. 文件配置
 $ sudo vim /etc/default/locate
 
 </pre>
@@ -676,9 +717,9 @@ LANGUAGE=<span style="color: #8b2252;">"en_US:en"</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org0c25529" class="outline-4">
-<h4 id="org0c25529">参考资料</h4>
-<div class="outline-text-4" id="text-org0c25529">
+<div id="outline-container-orgfe4321b" class="outline-4">
+<h4 id="orgfe4321b">参考资料</h4>
+<div class="outline-text-4" id="text-orgfe4321b">
 <pre class="example">
 https://wiki.debian.org/Locale
 
@@ -686,67 +727,41 @@ https://wiki.debian.org/Locale
 </div>
 </div>
 </div>
-<div id="outline-container-org1dc9534" class="outline-3">
-<h3 id="org1dc9534">中文输入法</h3>
-<div class="outline-text-3" id="text-org1dc9534">
+<div id="outline-container-org5e43181" class="outline-3">
+<h3 id="org5e43181">安装中文输入法</h3>
+<div class="outline-text-3" id="text-org5e43181">
 </div>
-<div id="outline-container-orgbf57c5a" class="outline-4">
-<h4 id="orgbf57c5a">安装ibus</h4>
-<div class="outline-text-4" id="text-orgbf57c5a">
-<div class="org-src-container">
-<pre class="src src-emacs">1.Run(as root)
-# aptitude install ibus-table-array30 ibus-qt4 ibus-gtk
-
-2.Run(as a user)
-$ ibus-setup
-
-3.Add
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-
-4.auto-start the ibus daemon on every login
-$ echo "ibus-daemon -d -x -r -n kde" &gt; $HOME/.kde/Autostart/ibus-daemon-autostart.sh &amp;&amp; chmod +x $HOME/.kde/Autostart/ibus-daemon-autostart.sh
-
-5.relogin
-
-6.default:Ctrl+Space
-
-link：https://wiki.debian.org/I18n/ibus
-link2: https://wiki.debian.org/gnome-chinese-input
-</pre>
+<div id="outline-container-org6800a8d" class="outline-4">
+<h4 id="org6800a8d">ibus &amp; UIM &amp; SCIM &amp; Fcitx</h4>
+<div class="outline-text-4" id="text-org6800a8d">
+<ul class="org-ul">
+<li><a href="https://wiki.debian.org/gnome-chinese-input">gnome-chinese-input</a></li>
+<li><a href="https://wiki.debian.org/I18n/ibus">i18n ibus</a></li>
+</ul>
 </div>
 </div>
-</div>
-<div id="outline-container-org4d2f1c9" class="outline-4">
-<h4 id="org4d2f1c9">安装UIM</h4>
-</div>
-<div id="outline-container-org12b2344" class="outline-4">
-<h4 id="org12b2344">安装SCIM</h4>
-</div>
-<div id="outline-container-org56a0f21" class="outline-4">
-<h4 id="org56a0f21">安装fcitx</h4>
-<div class="outline-text-4" id="text-org56a0f21">
-<ol class="org-ol">
-<li>安装fcitx及其他组件（module）</li>
-</ol>
+<div id="outline-container-org6982b54" class="outline-4">
+<h4 id="org6982b54">Fcitx 输入法补充</h4>
+<div class="outline-text-4" id="text-org6982b54">
+<ul class="org-ul">
+<li><a href="https://blog.csdn.net/qq_21397217/article/details/52447263">Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法</a></li>
+</ul>
 <pre class="example">
-$ sudo apt-get install fcitx fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+1. 安装 fcitx 组件（module）
+$ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
 
 </pre>
-<ol class="org-ol">
-<li>安装输入法</li>
-</ol>
+
 <pre class="example">
+2. 安装 fcitx 输入法
 $ sudo apt install fcitx-pinyin
 $ sudo apt install fcitx-googlepinyin
 $ sudo apt install fcitx-table //五笔
 
 </pre>
-<ol class="org-ol">
-<li>设置并运行</li>
-</ol>
+
 <pre class="example">
+3. 设置并运行
 $ export LANG=zh_CN.utf8
 $ export LC_CTYPE=zh_CN.utf8
 $ export LC_ALL=zh_CN.utf8
@@ -754,26 +769,17 @@ $ export XMODIFIERS=@im=fcitx
 $ fcitx &amp;
 
 </pre>
-<ol class="org-ol">
-<li>需要有 ui 动态库的支持:</li>
-</ol>
+
 <pre class="example">
+4. ui 动态库的支持:
 $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 
 </pre>
-<ol class="org-ol">
-<li>重启可用</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org891175d" class="outline-4">
-<h4 id="org891175d">参考资料</h4>
-<div class="outline-text-4" id="text-org891175d">
-<ul class="org-ul">
-<li><a href="https://wiki.debian.org/gnome-chinese-input">How to input Chinese characters in gnome</a></li>
-<li><a href="http://www.2cto.com/os/201311/255343.html">debian安装配置fcitx</a></li>
-<li><a href="https://blog.csdn.net/qq_21397217/article/details/52447263">Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法</a></li>
-</ul>
+
+<pre class="example">
+5. 重启可用
+
+</pre>
 </div>
 </div>
 </div>
@@ -2063,9 +2069,9 @@ netcat所做的就是在两台电脑之间建立链接并返回两个数据流�
 </pre>
 </div>
 </div>
-<div id="outline-container-org2353f59" class="outline-4">
-<h4 id="org2353f59">安装</h4>
-<div class="outline-text-4" id="text-org2353f59">
+<div id="outline-container-org63d09f5" class="outline-4">
+<h4 id="org63d09f5">安装</h4>
+<div class="outline-text-4" id="text-org63d09f5">
 <pre class="example">
 // Redhat/CentOS/Fedora
 $ yum install nc
@@ -2176,9 +2182,9 @@ dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定
 </li>
 </ul>
 </div>
-<div id="outline-container-org580b230" class="outline-4">
-<h4 id="org580b230">参考资料</h4>
-<div class="outline-text-4" id="text-org580b230">
+<div id="outline-container-org1849ad8" class="outline-4">
+<h4 id="org1849ad8">参考资料</h4>
+<div class="outline-text-4" id="text-org1849ad8">
 <pre class="example">
 https://blog.csdn.net/zhangxiao93/article/details/52705642
 
@@ -2321,8 +2327,8 @@ http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 <div class="outline-text-4" id="text-org027bce2">
 </div>
 <ul class="org-ul">
-<li><a id="org264cfec"></a>下载及安装<br />
-<div class="outline-text-5" id="text-org264cfec">
+<li><a id="orgc5d84dc"></a>下载及安装<br />
+<div class="outline-text-5" id="text-orgc5d84dc">
 <pre class="example">
 $ git clone https://github.com/hishamhm/htop 
 $ tar zxvf htop-2.0.2.tar.gz
@@ -2528,8 +2534,8 @@ $ mv 05Music/ /mnt/sda/sda2/
 </pre>
 </div>
 </li>
-<li><a id="org890fcef"></a>参考资料<br />
-<div class="outline-text-5" id="text-org890fcef">
+<li><a id="orgdedbf29"></a>参考资料<br />
+<div class="outline-text-5" id="text-orgdedbf29">
 <pre class="example">
 https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
 http://www.tuicool.com/articles/ZbENfie
@@ -2603,25 +2609,33 @@ $ sudo make &amp;&amp; make install
 <div id="outline-container-orgafa78af" class="outline-3">
 <h3 id="orgafa78af">chrome &amp; chromium</h3>
 <div class="outline-text-3" id="text-orgafa78af">
-</div>
-<div id="outline-container-orgf032262" class="outline-4">
-<h4 id="orgf032262">google-chrome</h4>
-<div class="outline-text-4" id="text-orgf032262">
 <pre class="example">
-//添加安装源
+1. 添加安装源
 $ sudo vim /etc/apt/sources.list
 deb http://dl.google.com/linux/chrome/deb/ stable main
-//OR
+
+</pre>
+
+<pre class="example">
+2. 添加公钥验证下载
 $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
 $ apt-key add linux_signing_key.pub
 
 </pre>
-</div>
-</div>
-<div id="outline-container-org405c62d" class="outline-4">
-<h4 id="org405c62d">chromium</h4>
-<div class="outline-text-4" id="text-org405c62d">
+
 <pre class="example">
+3. 执行安装
+$ sudo apt update
+// stable ersion
+$ sudo apt install google-chrome-stable
+// beta or unstable ersion
+$ sudo apt install google-chrome-beta
+$ sudo apt install google-chrome-unstable
+
+</pre>
+
+<pre class="example">
+4. 安装 chromium
 $ sudo apt-get update
 $ sudo apt-get install chromium chromium-l10n
 （chromium-l10n 是用于本地化界面的，是可选的软件包）
@@ -2630,14 +2644,13 @@ $ sudo apt-get install chromium chromium-l10n
 </pre>
 </div>
 </div>
-</div>
 <div id="outline-container-org905ca51" class="outline-3">
 <h3 id="org905ca51">Scrot（截图工具）</h3>
 <div class="outline-text-3" id="text-org905ca51">
 </div>
-<div id="outline-container-org667e3bb" class="outline-4">
-<h4 id="org667e3bb">安装</h4>
-<div class="outline-text-4" id="text-org667e3bb">
+<div id="outline-container-orge454478" class="outline-4">
+<h4 id="orge454478">安装</h4>
+<div class="outline-text-4" id="text-orge454478">
 <pre class="example">
 $ sudo apt-get install scrot
 
@@ -2729,12 +2742,12 @@ $ rarcrack --threads 10 --type rar test.rar
 <h3 id="org81892c2">Cisco AnyConnect VPN Client</h3>
 <div class="outline-text-3" id="text-org81892c2">
 </div>
-<div id="outline-container-orgc5d84dc" class="outline-4">
-<h4 id="orgc5d84dc">下载及安装</h4>
+<div id="outline-container-org41c2bde" class="outline-4">
+<h4 id="org41c2bde">下载及安装</h4>
 </div>
-<div id="outline-container-org15a7b4d" class="outline-4">
-<h4 id="org15a7b4d">问题解决</h4>
-<div class="outline-text-4" id="text-org15a7b4d">
+<div id="outline-container-org0df0682" class="outline-4">
+<h4 id="org0df0682">问题解决</h4>
+<div class="outline-text-4" id="text-org0df0682">
 <pre class="example">
 $ sudo systemctl enable vpnagentd_init
 vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
@@ -2773,13 +2786,13 @@ update-rc.d: error: insserv rejected the script header
 <h3 id="org8bebc37">Bind：DNS工具</h3>
 <div class="outline-text-3" id="text-org8bebc37">
 </div>
-<div id="outline-container-org65db133" class="outline-4">
-<h4 id="org65db133">安装及配置</h4>
-<div class="outline-text-4" id="text-org65db133">
+<div id="outline-container-org10ff990" class="outline-4">
+<h4 id="org10ff990">安装及配置</h4>
+<div class="outline-text-4" id="text-org10ff990">
 </div>
 <ul class="org-ul">
-<li><a id="orgc77854f"></a>安装<br />
-<div class="outline-text-5" id="text-orgc77854f">
+<li><a id="org1e979e6"></a>安装<br />
+<div class="outline-text-5" id="text-org1e979e6">
 <pre class="example">
 # yum install -y bind
 
@@ -2870,8 +2883,8 @@ Nameserver 192.168.120.166
 <div class="outline-text-4" id="text-org2126499">
 </div>
 <ul class="org-ul">
-<li><a id="org3c37a7b"></a>Change default dir<br />
-<div class="outline-text-5" id="text-org3c37a7b">
+<li><a id="org7bf59ce"></a>Change default dir<br />
+<div class="outline-text-5" id="text-org7bf59ce">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#local user
 local_root=/usr/share/nginx/html
@@ -2884,8 +2897,8 @@ anon_root=/var/ftp/pub
 </div>
 </li>
 
-<li><a id="org97e5ab3"></a>Configuring directory of access<br />
-<div class="outline-text-5" id="text-org97e5ab3">
+<li><a id="org44efdfc"></a>Configuring directory of access<br />
+<div class="outline-text-5" id="text-org44efdfc">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">chroot_local_user=YES
 chroot_list_enable=NO
@@ -2896,21 +2909,21 @@ allow_writeable_chroot=YES
 
 notice:
  &#37197;&#32622;&#20855;&#20307;&#24773;&#20917;&#26377;&#20197;&#19979;&#20960;&#31181;&#65306;
-1&#65289;&#24403; chroot_list_enable=yes&#65292;chroot_local_user=yes&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214; &#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#12290;
-2&#65289;&#24403; chroot_list_enable=yes&#65292;chroot_local_user=no&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214;&#20013; &#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
-3&#65289;&#24403; chroot_list_enable=no&#65292;chroot_local_user=yes&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#19981;&#33021;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
-4&#65289;&#24403; chroot_list_enable=no&#65292;chroot_local_user=no&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
+1&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=yes&#65292;chroot_local_user=yes&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214; &#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+2&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=yes&#65292;chroot_local_user=no&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214;&#20013; &#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+3&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=no&#65292;chroot_local_user=yes&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#19981;&#33021;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+4&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=no&#65292;chroot_local_user=no&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
 
-5&#65289;&#24403;&#29992;&#25143;&#19981;&#20801;&#35768;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#26102;&#65292;&#30331;&#24405;&#21518;ftp&#31449;&#28857;&#30340;&#26681;&#30446;&#24405;&#8220;/&#8221;&#26159;&#35813;ftp&#36134;&#25143;&#30340;&#20027;&#30446;&#24405;&#65292;&#21363;&#25991;&#20214;&#30340;&#31995;&#32479;&#30340;/var/ftp&#30446;&#24405;&#12290;
+5&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403;&#29992;&#25143;&#19981;&#20801;&#35768;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#26102;&#65292;&#30331;&#24405;&#21518;ftp&#31449;&#28857;&#30340;&#26681;&#30446;&#24405;&#8220;/&#8221;&#26159;&#35813;ftp&#36134;&#25143;&#30340;&#20027;&#30446;&#24405;&#65292;&#21363;&#25991;&#20214;&#30340;&#31995;&#32479;&#30340;/var/ftp&#30446;&#24405;&#12290;</span>
 </pre>
 </div>
 </div>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgfda276b" class="outline-4">
-<h4 id="orgfda276b">References</h4>
-<div class="outline-text-4" id="text-orgfda276b">
+<div id="outline-container-org90048da" class="outline-4">
+<h4 id="org90048da">References</h4>
+<div class="outline-text-4" id="text-org90048da">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -2924,9 +2937,9 @@ http://baike.baidu.com/item/vsftpd
 <h3 id="org5162ead">Composer</h3>
 <div class="outline-text-3" id="text-org5162ead">
 </div>
-<div id="outline-container-org63d09f5" class="outline-4">
-<h4 id="org63d09f5">安装</h4>
-<div class="outline-text-4" id="text-org63d09f5">
+<div id="outline-container-orgea0079b" class="outline-4">
+<h4 id="orgea0079b">安装</h4>
+<div class="outline-text-4" id="text-orgea0079b">
 <pre class="example">
 1.Download composer.phar file.
 2.Excute:
@@ -2939,9 +2952,9 @@ http://baike.baidu.com/item/vsftpd
 </pre>
 </div>
 </div>
-<div id="outline-container-org0df0682" class="outline-4">
-<h4 id="org0df0682">问题解决</h4>
-<div class="outline-text-4" id="text-org0df0682">
+<div id="outline-container-org3657061" class="outline-4">
+<h4 id="org3657061">问题解决</h4>
+<div class="outline-text-4" id="text-org3657061">
 <pre class="example">
 error: /usr/bin/env: php: No such file or directory
  solve:Configuring php to become global variables
@@ -2986,8 +2999,8 @@ yum install -y vsftpd
 <div class="outline-text-4" id="text-org44e71c1">
 </div>
 <ul class="org-ul">
-<li><a id="org7bf59ce"></a>Change default dir<br />
-<div class="outline-text-5" id="text-org7bf59ce">
+<li><a id="org373a710"></a>Change default dir<br />
+<div class="outline-text-5" id="text-org373a710">
 <div class="org-src-container">
 <pre class="src src-emacs">#local user
 local_root=/usr/share/nginx/html
@@ -3000,8 +3013,8 @@ anon_root=/var/ftp/pub
 </div>
 </li>
 
-<li><a id="org44efdfc"></a>Configuring directory of access<br />
-<div class="outline-text-5" id="text-org44efdfc">
+<li><a id="org9a6555f"></a>Configuring directory of access<br />
+<div class="outline-text-5" id="text-org9a6555f">
 <div class="org-src-container">
 <pre class="src src-emacs">chroot_local_user=YES
 chroot_list_enable=NO
@@ -3166,9 +3179,9 @@ tcp_wrappers=YES
 </li>
 </ul>
 </div>
-<div id="outline-container-org8c43056" class="outline-4">
-<h4 id="org8c43056">References</h4>
-<div class="outline-text-4" id="text-org8c43056">
+<div id="outline-container-orgc297100" class="outline-4">
+<h4 id="orgc297100">References</h4>
+<div class="outline-text-4" id="text-orgc297100">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -3231,9 +3244,9 @@ Hat, NetApp and many other volunteers.
 </li>
 </ul>
 </div>
-<div id="outline-container-orga7bbf1c" class="outline-4">
-<h4 id="orga7bbf1c">参考资料</h4>
-<div class="outline-text-4" id="text-orga7bbf1c">
+<div id="outline-container-org0d7cad9" class="outline-4">
+<h4 id="org0d7cad9">参考资料</h4>
+<div class="outline-text-4" id="text-org0d7cad9">
 <pre class="example">
 1.Cygwin-Official Site:http://cygwin.com/
 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
@@ -3311,9 +3324,9 @@ $ sudo alsactl init
 </pre>
 </div>
 </div>
-<div id="outline-container-org3fc2a36" class="outline-4">
-<h4 id="org3fc2a36">参考资料</h4>
-<div class="outline-text-4" id="text-org3fc2a36">
+<div id="outline-container-org340e41b" class="outline-4">
+<h4 id="org340e41b">参考资料</h4>
+<div class="outline-text-4" id="text-org340e41b">
 <pre class="example">
 https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/
 http://blog.163.com/lixiangqiu_9202/blog/static/535750372012541358800/ 
@@ -3358,9 +3371,9 @@ LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 </pre>
 </div>
 </div>
-<div id="outline-container-orgfe4321b" class="outline-4">
-<h4 id="orgfe4321b">参考资料</h4>
-<div class="outline-text-4" id="text-orgfe4321b">
+<div id="outline-container-orge4aa68b" class="outline-4">
+<h4 id="orge4aa68b">参考资料</h4>
+<div class="outline-text-4" id="text-orge4aa68b">
 <pre class="example">
 http://www.jianshu.com/p/bf05fb3a4709
 
@@ -3572,9 +3585,9 @@ service php-fpm start/stop/restart/reload
 </pre>
 </div>
 </div>
-<div id="outline-container-org90048da" class="outline-4">
-<h4 id="org90048da">References</h4>
-<div class="outline-text-4" id="text-org90048da">
+<div id="outline-container-org8a03a31" class="outline-4">
+<h4 id="org8a03a31">References</h4>
+<div class="outline-text-4" id="text-org8a03a31">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>
 </ul>
@@ -3909,7 +3922,7 @@ $ iptables -L
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga42cfce"> <span class="nav-number">1</span> <span class="nav-text">前言（Preface）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0832335"> <span class="nav-number">1.1</span> <span class="nav-text">我的 Linux 学习之路（My road of learning Linux）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb2f7cde"> <span class="nav-number">1.2</span> <span class="nav-text">那些年用过的 Linux 操作系统</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1e63c3"> <span class="nav-number">1.3</span> <span class="nav-text">英文太差，能学好 Linux 吗？</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org83aa6d7"> <span class="nav-number">2</span> <span class="nav-text">开始（Get Started）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org426733d"> <span class="nav-number">2.1</span> <span class="nav-text">Wifi连接配置（configure）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3daae26"> <span class="nav-number">2.2</span> <span class="nav-text">配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5821631"> <span class="nav-number">2.3</span> <span class="nav-text">配置系统支持中文（support chinese）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9f724d9"> <span class="nav-number">2.3.1</span> <span class="nav-text">安装及配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0c25529"> <span class="nav-number">2.3.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1dc9534"> <span class="nav-number">2.4</span> <span class="nav-text">中文输入法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbf57c5a"> <span class="nav-number">2.4.1</span> <span class="nav-text">安装ibus</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4d2f1c9"> <span class="nav-number">2.4.2</span> <span class="nav-text">安装UIM</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org12b2344"> <span class="nav-number">2.4.3</span> <span class="nav-text">安装SCIM</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org56a0f21"> <span class="nav-number">2.4.4</span> <span class="nav-text">安装fcitx</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org891175d"> <span class="nav-number">2.4.5</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8ad65c9"> <span class="nav-number">3</span> <span class="nav-text">介绍（Instroduction）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaaa3055"> <span class="nav-number">3.1</span> <span class="nav-text">Linux 系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org640c96f"> <span class="nav-number">3.1.1</span> <span class="nav-text">Linux 可划分为以下四部分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgec1b12a"> <span class="nav-number">3.1.2</span> <span class="nav-text">深入探究 Linux 内核</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga959c8f"> <span class="nav-number">3.1.3</span> <span class="nav-text">GNU工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8aee01d"> <span class="nav-number">3.1.4</span> <span class="nav-text">Linux 桌面环境</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7e1546f"> <span class="nav-number">3.1.5</span> <span class="nav-text">Linux 发行版</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org481710d"> <span class="nav-number">3.2</span> <span class="nav-text">入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0eed58e"> <span class="nav-number">3.3</span> <span class="nav-text">获取帮助 &amp; 问题解决</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5f46b2c"> <span class="nav-number">3.4</span> <span class="nav-text">Linux 常用命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb65b989"> <span class="nav-number">3.5</span> <span class="nav-text">Linux 网络配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0a1b5aa"> <span class="nav-number">3.5.1</span> <span class="nav-text">基本的网络参数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2227675"> <span class="nav-number">3.5.2</span> <span class="nav-text">安装网络工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90c5df8"> <span class="nav-number">3.5.3</span> <span class="nav-text">配置网络</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdcc49aa"> <span class="nav-number">3.5.4</span> <span class="nav-text">相关配置文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd6d2007"> <span class="nav-number">3.5.5</span> <span class="nav-text">网络测试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5ef942d"> <span class="nav-number">3.6</span> <span class="nav-text">日期时间设置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org84eedd8"> <span class="nav-number">3.7</span> <span class="nav-text">Linux 目录结构</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb6d23f1"> <span class="nav-number">4</span> <span class="nav-text">Linux 进阶篇（Advanced）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org83bd085"> <span class="nav-number">4.1</span> <span class="nav-text">crontab 定时执行任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8acd4d1"> <span class="nav-number">4.1.1</span> <span class="nav-text">对于 Linux 用户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfbcbea6"> <span class="nav-number">4.1.2</span> <span class="nav-text">crontab 简单介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ac809c"> <span class="nav-number">4.1.3</span> <span class="nav-text">crontab 基本格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4c1dcb5"> <span class="nav-number">4.1.4</span> <span class="nav-text">实例1：实现两个周备份一次 /var/ftp 目录下的内容</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org97ea4df"> <span class="nav-number">4.1.5</span> <span class="nav-text">实例2：实现定时插入数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge37e6d4"> <span class="nav-number">4.1.6</span> <span class="nav-text">示例3：备份 mysql 数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org373e9f2"> <span class="nav-number">4.1.7</span> <span class="nav-text">一些简单示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org46ab278"> <span class="nav-number">4.2</span> <span class="nav-text">ssh</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb41d5cc"> <span class="nav-number">4.2.1</span> <span class="nav-text">SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga89e0bc"> <span class="nav-number">4.2.2</span> <span class="nav-text">使用OpenSSL生成密钥对</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org697e407"> <span class="nav-number">4.2.3</span> <span class="nav-text">修改ssh默认端口号</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2c4f06e"> <span class="nav-number">4.2.4</span> <span class="nav-text">通过密钥登录服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org232dd40"> <span class="nav-number">4.2.5</span> <span class="nav-text">使用scp上传或下载文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8cc3c2e"> <span class="nav-number">4.3</span> <span class="nav-text">在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaac145b"> <span class="nav-number">4.4</span> <span class="nav-text">解压命令大全</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e26673"> <span class="nav-number">4.5</span> <span class="nav-text">alias 命令的使用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf290b89"> <span class="nav-number">4.6</span> <span class="nav-text">实用的 find 命令示例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3031d1a"> <span class="nav-number">4.6.1</span> <span class="nav-text">用文件名查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org09e53f8"> <span class="nav-number">4.6.2</span> <span class="nav-text">在 find 命令查找到的文件上执行命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgddc3589"> <span class="nav-number">4.6.3</span> <span class="nav-text">相反匹配</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0b1fd87"> <span class="nav-number">4.6.4</span> <span class="nav-text">使用 inode 编号查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org690116d"> <span class="nav-number">4.6.5</span> <span class="nav-text">根据文件权限查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge63e7fa"> <span class="nav-number">4.6.6</span> <span class="nav-text">找到 home 目录及子目录下所有的空文件(0字节文件)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc3fec64"> <span class="nav-number">4.6.7</span> <span class="nav-text">查找 5个最大或最小的文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org54e0635"> <span class="nav-number">4.6.8</span> <span class="nav-text">使用 -type 查找指定文件类型的文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc243a8c"> <span class="nav-number">4.6.9</span> <span class="nav-text">通过和其他文件比较修改时间查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bc1ce2"> <span class="nav-number">4.6.10</span> <span class="nav-text">通过文件大小查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org04a7b0d"> <span class="nav-number">4.6.11</span> <span class="nav-text">用 find 命令删除大型打包文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb7423ac"> <span class="nav-number">4.7</span> <span class="nav-text">nc 命令的使用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96b22de"> <span class="nav-number">4.7.1</span> <span class="nav-text">介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2353f59"> <span class="nav-number">4.7.2</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org152dc65"> <span class="nav-number">4.7.3</span> <span class="nav-text">常见使用</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org580b230"> <span class="nav-number">4.7.4</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org506014d"> <span class="nav-number">4.8</span> <span class="nav-text">GCC 的使用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgea07d15"> <span class="nav-number">4.8.1</span> <span class="nav-text">简单编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf0c4dee"> <span class="nav-number">4.8.2</span> <span class="nav-text">多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbc37bf0"> <span class="nav-number">4.8.3</span> <span class="nav-text">检错</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org79e40c0"> <span class="nav-number">4.8.4</span> <span class="nav-text">库文件连接</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5065409"> <span class="nav-number">4.8.5</span> <span class="nav-text">其他</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org31929d4"> <span class="nav-number">4.8.6</span> <span class="nav-text">Reference</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97bf435"> <span class="nav-number">4.9</span> <span class="nav-text">top&amp;htop（系统状态监视命令）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org21c7491"> <span class="nav-number">4.9.1</span> <span class="nav-text">top</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org027bce2"> <span class="nav-number">4.9.2</span> <span class="nav-text">htop</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc054fc"> <span class="nav-number">4.10</span> <span class="nav-text">iftop（网络监视命令）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2143429"> <span class="nav-number">4.11</span> <span class="nav-text">axel（下载命令）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd97d335"> <span class="nav-number">4.12</span> <span class="nav-text">删除大文件的前n行</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf0dd495"> <span class="nav-number">5</span> <span class="nav-text">分区（Partition）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6179f5c"> <span class="nav-number">5.1</span> <span class="nav-text">Linux上挂载NTFS格式文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2980d12"> <span class="nav-number">5.1.1</span> <span class="nav-text">方案A（Scheme A）：使用linux-ntfs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org198506e"> <span class="nav-number">5.1.2</span> <span class="nav-text">方案B（Scheme B）：使用fuse和ntfs-3g</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org614099d"> <span class="nav-number">5.1.3</span> <span class="nav-text">自动挂载 NTFS 格式硬盘</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfbe6dbf"> <span class="nav-number">5.2</span> <span class="nav-text">格式化分区命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org938eb51"> <span class="nav-number">5.3</span> <span class="nav-text">Boot加载选项修改</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc353b4a"> <span class="nav-number">6</span> <span class="nav-text">常用软件（Software）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org06ea717"> <span class="nav-number">6.1</span> <span class="nav-text">VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c54e6b"> <span class="nav-number">6.2</span> <span class="nav-text">MPlayer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgabc22ad"> <span class="nav-number">6.2.1</span> <span class="nav-text">Install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgafa78af"> <span class="nav-number">6.3</span> <span class="nav-text">chrome &amp; chromium</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf032262"> <span class="nav-number">6.3.1</span> <span class="nav-text">google-chrome</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org405c62d"> <span class="nav-number">6.3.2</span> <span class="nav-text">chromium</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org905ca51"> <span class="nav-number">6.4</span> <span class="nav-text">Scrot（截图工具）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org667e3bb"> <span class="nav-number">6.4.1</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1857fb"> <span class="nav-number">6.4.2</span> <span class="nav-text">使用方法</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2b4896b"> <span class="nav-number">6.4.3</span> <span class="nav-text">参考资料(References)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0df90e9"> <span class="nav-number">6.5</span> <span class="nav-text">rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1b07f45"> <span class="nav-number">6.6</span> <span class="nav-text">宝塔面板</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org81892c2"> <span class="nav-number">6.7</span> <span class="nav-text">Cisco AnyConnect VPN Client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc5d84dc"> <span class="nav-number">6.7.1</span> <span class="nav-text">下载及安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org15a7b4d"> <span class="nav-number">6.7.2</span> <span class="nav-text">问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8bebc37"> <span class="nav-number">6.8</span> <span class="nav-text">Bind：DNS工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org65db133"> <span class="nav-number">6.8.1</span> <span class="nav-text">安装及配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2126499"> <span class="nav-number">6.8.2</span> <span class="nav-text">configuration</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfda276b"> <span class="nav-number">6.8.3</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5162ead"> <span class="nav-number">6.9</span> <span class="nav-text">Composer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org63d09f5"> <span class="nav-number">6.9.1</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0df0682"> <span class="nav-number">6.9.2</span> <span class="nav-text">问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5f47386"> <span class="nav-number">6.10</span> <span class="nav-text">vsftpd</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0a94b3"> <span class="nav-number">6.10.1</span> <span class="nav-text">Installation</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5f7b3ec"> <span class="nav-number">6.10.2</span> <span class="nav-text">environment</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org130bda4"> <span class="nav-number">6.10.3</span> <span class="nav-text">Download and Install</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org44e71c1"> <span class="nav-number">6.10.4</span> <span class="nav-text">Configuration</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8c43056"> <span class="nav-number">6.10.5</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org30a267f"> <span class="nav-number">6.11</span> <span class="nav-text">windows环境下安装Cygwin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9cf67fb"> <span class="nav-number">6.11.1</span> <span class="nav-text">Cygwin简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org493dd7d"> <span class="nav-number">6.11.2</span> <span class="nav-text">安装Cygwin</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga7bbf1c"> <span class="nav-number">6.11.3</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9a0d066"> <span class="nav-number">7</span> <span class="nav-text">问题解决（Problem）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org41646f0"> <span class="nav-number">7.1</span> <span class="nav-text">改变 Home 目录下的目录中文名称为英文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcd2264b"> <span class="nav-number">7.1.1</span> <span class="nav-text">方法1</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgeb6b77d"> <span class="nav-number">7.1.2</span> <span class="nav-text">方法2</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfded5fe"> <span class="nav-number">7.2</span> <span class="nav-text">电脑没有声音</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfb1e37a"> <span class="nav-number">7.2.1</span> <span class="nav-text">解决</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3fc2a36"> <span class="nav-number">7.2.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9ed9d27"> <span class="nav-number">7.3</span> <span class="nav-text">不能在 Sublime 编辑器（Editor）中输入中文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4627d11"> <span class="nav-number">7.3.1</span> <span class="nav-text">1.下载（Download）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6b718d4"> <span class="nav-number">7.3.2</span> <span class="nav-text">2.配置（Configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org22e4306"> <span class="nav-number">7.3.3</span> <span class="nav-text">3.新建Shell脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfe4321b"> <span class="nav-number">7.3.4</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org876e295"> <span class="nav-number">7.4</span> <span class="nav-text">解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd7239a6"> <span class="nav-number">7.5</span> <span class="nav-text">软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga485b5b"> <span class="nav-number">7.6</span> <span class="nav-text">.deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bc7b98"> <span class="nav-number">7.6.1</span> <span class="nav-text">下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5585655"> <span class="nav-number">7.6.2</span> <span class="nav-text">转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6738ffe"> <span class="nav-number">7.7</span> <span class="nav-text">软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4c59a4"> <span class="nav-number">7.7.1</span> <span class="nav-text">实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90048da"> <span class="nav-number">7.7.2</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org881758a"> <span class="nav-number">7.8</span> <span class="nav-text">解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge6879b3"> <span class="nav-number">7.9</span> <span class="nav-text">dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0a963e5"> <span class="nav-number">7.10</span> <span class="nav-text">CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga42cfce"> <span class="nav-number">1</span> <span class="nav-text">前言（Preface）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0832335"> <span class="nav-number">1.1</span> <span class="nav-text">我的 Linux 学习之路（My road of learning Linux）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb2f7cde"> <span class="nav-number">1.2</span> <span class="nav-text">那些年用过的 Linux 操作系统</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1e63c3"> <span class="nav-number">1.3</span> <span class="nav-text">英文太差，能学好 Linux 吗？</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org83aa6d7"> <span class="nav-number">2</span> <span class="nav-text">开始（Get Started）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org426733d"> <span class="nav-number">2.1</span> <span class="nav-text">Wifi连接配置（configure）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3daae26"> <span class="nav-number">2.2</span> <span class="nav-text">配置安装源(source)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org407a36d"> <span class="nav-number">2.2.1</span> <span class="nav-text">以配置163源举例说明</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1bf1a19"> <span class="nav-number">2.2.2</span> <span class="nav-text">其他安装源</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5821631"> <span class="nav-number">2.3</span> <span class="nav-text">配置系统支持中文（support chinese）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org65db133"> <span class="nav-number">2.3.1</span> <span class="nav-text">安装及配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfe4321b"> <span class="nav-number">2.3.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5e43181"> <span class="nav-number">2.4</span> <span class="nav-text">安装中文输入法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6800a8d"> <span class="nav-number">2.4.1</span> <span class="nav-text">ibus &amp; UIM &amp; SCIM &amp; Fcitx</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6982b54"> <span class="nav-number">2.4.2</span> <span class="nav-text">Fcitx 输入法补充</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8ad65c9"> <span class="nav-number">3</span> <span class="nav-text">介绍（Instroduction）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaaa3055"> <span class="nav-number">3.1</span> <span class="nav-text">Linux 系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org640c96f"> <span class="nav-number">3.1.1</span> <span class="nav-text">Linux 可划分为以下四部分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgec1b12a"> <span class="nav-number">3.1.2</span> <span class="nav-text">深入探究 Linux 内核</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga959c8f"> <span class="nav-number">3.1.3</span> <span class="nav-text">GNU工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8aee01d"> <span class="nav-number">3.1.4</span> <span class="nav-text">Linux 桌面环境</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7e1546f"> <span class="nav-number">3.1.5</span> <span class="nav-text">Linux 发行版</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org481710d"> <span class="nav-number">3.2</span> <span class="nav-text">入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0eed58e"> <span class="nav-number">3.3</span> <span class="nav-text">获取帮助 &amp; 问题解决</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5f46b2c"> <span class="nav-number">3.4</span> <span class="nav-text">Linux 常用命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb65b989"> <span class="nav-number">3.5</span> <span class="nav-text">Linux 网络配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0a1b5aa"> <span class="nav-number">3.5.1</span> <span class="nav-text">基本的网络参数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2227675"> <span class="nav-number">3.5.2</span> <span class="nav-text">安装网络工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90c5df8"> <span class="nav-number">3.5.3</span> <span class="nav-text">配置网络</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdcc49aa"> <span class="nav-number">3.5.4</span> <span class="nav-text">相关配置文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd6d2007"> <span class="nav-number">3.5.5</span> <span class="nav-text">网络测试</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5ef942d"> <span class="nav-number">3.6</span> <span class="nav-text">日期时间设置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org84eedd8"> <span class="nav-number">3.7</span> <span class="nav-text">Linux 目录结构</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb6d23f1"> <span class="nav-number">4</span> <span class="nav-text">Linux 进阶篇（Advanced）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org83bd085"> <span class="nav-number">4.1</span> <span class="nav-text">crontab 定时执行任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8acd4d1"> <span class="nav-number">4.1.1</span> <span class="nav-text">对于 Linux 用户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfbcbea6"> <span class="nav-number">4.1.2</span> <span class="nav-text">crontab 简单介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ac809c"> <span class="nav-number">4.1.3</span> <span class="nav-text">crontab 基本格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4c1dcb5"> <span class="nav-number">4.1.4</span> <span class="nav-text">实例1：实现两个周备份一次 /var/ftp 目录下的内容</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org97ea4df"> <span class="nav-number">4.1.5</span> <span class="nav-text">实例2：实现定时插入数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge37e6d4"> <span class="nav-number">4.1.6</span> <span class="nav-text">示例3：备份 mysql 数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org373e9f2"> <span class="nav-number">4.1.7</span> <span class="nav-text">一些简单示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org46ab278"> <span class="nav-number">4.2</span> <span class="nav-text">ssh</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb41d5cc"> <span class="nav-number">4.2.1</span> <span class="nav-text">SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga89e0bc"> <span class="nav-number">4.2.2</span> <span class="nav-text">使用OpenSSL生成密钥对</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org697e407"> <span class="nav-number">4.2.3</span> <span class="nav-text">修改ssh默认端口号</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2c4f06e"> <span class="nav-number">4.2.4</span> <span class="nav-text">通过密钥登录服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org232dd40"> <span class="nav-number">4.2.5</span> <span class="nav-text">使用scp上传或下载文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8cc3c2e"> <span class="nav-number">4.3</span> <span class="nav-text">在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaac145b"> <span class="nav-number">4.4</span> <span class="nav-text">解压命令大全</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e26673"> <span class="nav-number">4.5</span> <span class="nav-text">alias 命令的使用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf290b89"> <span class="nav-number">4.6</span> <span class="nav-text">实用的 find 命令示例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3031d1a"> <span class="nav-number">4.6.1</span> <span class="nav-text">用文件名查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org09e53f8"> <span class="nav-number">4.6.2</span> <span class="nav-text">在 find 命令查找到的文件上执行命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgddc3589"> <span class="nav-number">4.6.3</span> <span class="nav-text">相反匹配</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0b1fd87"> <span class="nav-number">4.6.4</span> <span class="nav-text">使用 inode 编号查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org690116d"> <span class="nav-number">4.6.5</span> <span class="nav-text">根据文件权限查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge63e7fa"> <span class="nav-number">4.6.6</span> <span class="nav-text">找到 home 目录及子目录下所有的空文件(0字节文件)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc3fec64"> <span class="nav-number">4.6.7</span> <span class="nav-text">查找 5个最大或最小的文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org54e0635"> <span class="nav-number">4.6.8</span> <span class="nav-text">使用 -type 查找指定文件类型的文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc243a8c"> <span class="nav-number">4.6.9</span> <span class="nav-text">通过和其他文件比较修改时间查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bc1ce2"> <span class="nav-number">4.6.10</span> <span class="nav-text">通过文件大小查找文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org04a7b0d"> <span class="nav-number">4.6.11</span> <span class="nav-text">用 find 命令删除大型打包文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb7423ac"> <span class="nav-number">4.7</span> <span class="nav-text">nc 命令的使用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96b22de"> <span class="nav-number">4.7.1</span> <span class="nav-text">介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org63d09f5"> <span class="nav-number">4.7.2</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org152dc65"> <span class="nav-number">4.7.3</span> <span class="nav-text">常见使用</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1849ad8"> <span class="nav-number">4.7.4</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org506014d"> <span class="nav-number">4.8</span> <span class="nav-text">GCC 的使用</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgea07d15"> <span class="nav-number">4.8.1</span> <span class="nav-text">简单编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf0c4dee"> <span class="nav-number">4.8.2</span> <span class="nav-text">多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbc37bf0"> <span class="nav-number">4.8.3</span> <span class="nav-text">检错</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org79e40c0"> <span class="nav-number">4.8.4</span> <span class="nav-text">库文件连接</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5065409"> <span class="nav-number">4.8.5</span> <span class="nav-text">其他</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org31929d4"> <span class="nav-number">4.8.6</span> <span class="nav-text">Reference</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97bf435"> <span class="nav-number">4.9</span> <span class="nav-text">top&amp;htop（系统状态监视命令）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org21c7491"> <span class="nav-number">4.9.1</span> <span class="nav-text">top</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org027bce2"> <span class="nav-number">4.9.2</span> <span class="nav-text">htop</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc054fc"> <span class="nav-number">4.10</span> <span class="nav-text">iftop（网络监视命令）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2143429"> <span class="nav-number">4.11</span> <span class="nav-text">axel（下载命令）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd97d335"> <span class="nav-number">4.12</span> <span class="nav-text">删除大文件的前n行</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf0dd495"> <span class="nav-number">5</span> <span class="nav-text">分区（Partition）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6179f5c"> <span class="nav-number">5.1</span> <span class="nav-text">Linux上挂载NTFS格式文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2980d12"> <span class="nav-number">5.1.1</span> <span class="nav-text">方案A（Scheme A）：使用linux-ntfs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org198506e"> <span class="nav-number">5.1.2</span> <span class="nav-text">方案B（Scheme B）：使用fuse和ntfs-3g</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org614099d"> <span class="nav-number">5.1.3</span> <span class="nav-text">自动挂载 NTFS 格式硬盘</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfbe6dbf"> <span class="nav-number">5.2</span> <span class="nav-text">格式化分区命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org938eb51"> <span class="nav-number">5.3</span> <span class="nav-text">Boot加载选项修改</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc353b4a"> <span class="nav-number">6</span> <span class="nav-text">常用软件（Software）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org06ea717"> <span class="nav-number">6.1</span> <span class="nav-text">VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c54e6b"> <span class="nav-number">6.2</span> <span class="nav-text">MPlayer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgabc22ad"> <span class="nav-number">6.2.1</span> <span class="nav-text">Install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgafa78af"> <span class="nav-number">6.3</span> <span class="nav-text">chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org905ca51"> <span class="nav-number">6.4</span> <span class="nav-text">Scrot（截图工具）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge454478"> <span class="nav-number">6.4.1</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1857fb"> <span class="nav-number">6.4.2</span> <span class="nav-text">使用方法</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2b4896b"> <span class="nav-number">6.4.3</span> <span class="nav-text">参考资料(References)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0df90e9"> <span class="nav-number">6.5</span> <span class="nav-text">rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1b07f45"> <span class="nav-number">6.6</span> <span class="nav-text">宝塔面板</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org81892c2"> <span class="nav-number">6.7</span> <span class="nav-text">Cisco AnyConnect VPN Client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org41c2bde"> <span class="nav-number">6.7.1</span> <span class="nav-text">下载及安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0df0682"> <span class="nav-number">6.7.2</span> <span class="nav-text">问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8bebc37"> <span class="nav-number">6.8</span> <span class="nav-text">Bind：DNS工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org10ff990"> <span class="nav-number">6.8.1</span> <span class="nav-text">安装及配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2126499"> <span class="nav-number">6.8.2</span> <span class="nav-text">configuration</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90048da"> <span class="nav-number">6.8.3</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5162ead"> <span class="nav-number">6.9</span> <span class="nav-text">Composer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgea0079b"> <span class="nav-number">6.9.1</span> <span class="nav-text">安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3657061"> <span class="nav-number">6.9.2</span> <span class="nav-text">问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5f47386"> <span class="nav-number">6.10</span> <span class="nav-text">vsftpd</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0a94b3"> <span class="nav-number">6.10.1</span> <span class="nav-text">Installation</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5f7b3ec"> <span class="nav-number">6.10.2</span> <span class="nav-text">environment</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org130bda4"> <span class="nav-number">6.10.3</span> <span class="nav-text">Download and Install</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org44e71c1"> <span class="nav-number">6.10.4</span> <span class="nav-text">Configuration</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc297100"> <span class="nav-number">6.10.5</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org30a267f"> <span class="nav-number">6.11</span> <span class="nav-text">windows环境下安装Cygwin</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9cf67fb"> <span class="nav-number">6.11.1</span> <span class="nav-text">Cygwin简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org493dd7d"> <span class="nav-number">6.11.2</span> <span class="nav-text">安装Cygwin</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d7cad9"> <span class="nav-number">6.11.3</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9a0d066"> <span class="nav-number">7</span> <span class="nav-text">问题解决（Problem）</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org41646f0"> <span class="nav-number">7.1</span> <span class="nav-text">改变 Home 目录下的目录中文名称为英文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcd2264b"> <span class="nav-number">7.1.1</span> <span class="nav-text">方法1</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgeb6b77d"> <span class="nav-number">7.1.2</span> <span class="nav-text">方法2</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfded5fe"> <span class="nav-number">7.2</span> <span class="nav-text">电脑没有声音</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfb1e37a"> <span class="nav-number">7.2.1</span> <span class="nav-text">解决</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org340e41b"> <span class="nav-number">7.2.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9ed9d27"> <span class="nav-number">7.3</span> <span class="nav-text">不能在 Sublime 编辑器（Editor）中输入中文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4627d11"> <span class="nav-number">7.3.1</span> <span class="nav-text">1.下载（Download）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6b718d4"> <span class="nav-number">7.3.2</span> <span class="nav-text">2.配置（Configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org22e4306"> <span class="nav-number">7.3.3</span> <span class="nav-text">3.新建Shell脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge4aa68b"> <span class="nav-number">7.3.4</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org876e295"> <span class="nav-number">7.4</span> <span class="nav-text">解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd7239a6"> <span class="nav-number">7.5</span> <span class="nav-text">软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga485b5b"> <span class="nav-number">7.6</span> <span class="nav-text">.deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bc7b98"> <span class="nav-number">7.6.1</span> <span class="nav-text">下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5585655"> <span class="nav-number">7.6.2</span> <span class="nav-text">转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6738ffe"> <span class="nav-number">7.7</span> <span class="nav-text">软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4c59a4"> <span class="nav-number">7.7.1</span> <span class="nav-text">实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8a03a31"> <span class="nav-number">7.7.2</span> <span class="nav-text">References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org881758a"> <span class="nav-number">7.8</span> <span class="nav-text">解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge6879b3"> <span class="nav-number">7.9</span> <span class="nav-text">dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0a963e5"> <span class="nav-number">7.10</span> <span class="nav-text">CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

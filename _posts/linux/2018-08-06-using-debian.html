@@ -112,14 +112,35 @@ Linux 学习步骤
 <h3 id="org426733d">Wifi连接配置（configure）</h3>
 <div class="outline-text-3" id="text-org426733d">
 <pre class="example">
+完成安装第一步，当然是先解决网络。
+
+</pre>
+
+<pre class="example">
 1.查看无线（wireless）网卡（LAN）驱动（driver）
 # lsmod | grep iw
+
+</pre>
+
+<pre class="example">
 2.安装（Installing）无线网卡驱动
 # apt-get install firmware-iwlwifi wireless-tools
+
+</pre>
+
+<pre class="example">
 3.向内核（kernel）中加载/移除模块（modules）
 # modprobe iwl4965
+
+</pre>
+
+<pre class="example">
 4.重启系统
 # reboot
+
+</pre>
+
+<pre class="example">
 5.配置无线网络
 //查看无线网口（nerwork port）
 # iwconfig
@@ -138,6 +159,10 @@ Linux 学习步骤
 # iwconfig wlan0
 //执行命令获取到IP地址，成功连上WiFi
 # dhclient wlan0
+
+</pre>
+
+<pre class="example">
 6.开机自动连接WiFi配置
 # vim /etc/network/interfaces.d/wlan0
 
@@ -154,14 +179,19 @@ iface wlan0 inet dhcp
 <div id="outline-container-org3daae26" class="outline-3">
 <h3 id="org3daae26">配置安装源(source)</h3>
 <div class="outline-text-3" id="text-org3daae26">
+</div>
+<div id="outline-container-org407a36d" class="outline-4">
+<h4 id="org407a36d">以配置163源举例说明</h4>
+<div class="outline-text-4" id="text-org407a36d">
 <pre class="example">
-//配置163源：访问http://mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助，根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择
-$ vim /etc/apt/source.list
-//以Jessie为例, 编辑/etc/apt/sources.list文件, 在文件最前面添加以下条目(操作前请做好相应备份)
+1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
+2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
+3. 复制安装源文本到 /etc/apt/source.list 中。
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">deb http://mirrors.163.com/debian/ jessie main non-free contrib
+<pre class="src src-emacs-lisp" id="org49b30f2"># mirrors.163.com
+deb http://mirrors.163.com/debian/ jessie main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
 deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
@@ -173,43 +203,54 @@ deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free con
 </div>
 </div>
 </div>
+<div id="outline-container-org1bf1a19" class="outline-4">
+<h4 id="org1bf1a19">其他安装源</h4>
+<div class="outline-text-4" id="text-org1bf1a19">
+<ul class="org-ul">
+<li><a href="https://mirrors.ustc.edu.cn/">中国科学技术大学开源软件镜像站</a></li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/">清华大学开源软件镜像站</a></li>
+<li><a href="http://mirror.hust.edu.cn/">华中科技大学开源镜像站</a></li>
+<li><a href="https://mirrors.aliyun.com">阿里云开源镜像站</a></li>
+</ul>
+</div>
+</div>
+</div>
 <div id="outline-container-org5821631" class="outline-3">
 <h3 id="org5821631">配置系统支持中文（support chinese）</h3>
 <div class="outline-text-3" id="text-org5821631">
 </div>
-<div id="outline-container-org9f724d9" class="outline-4">
-<h4 id="org9f724d9">安装及配置</h4>
-<div class="outline-text-4" id="text-org9f724d9">
+<div id="outline-container-org65db133" class="outline-4">
+<h4 id="org65db133">安装及配置</h4>
+<div class="outline-text-4" id="text-org65db133">
 <pre class="example">
-//设置环境变量
+1. 查看并设置环境变量
+$ echo $LANG
 $ export LANG=en_US.UTF-8
 
 </pre>
 
 <pre class="example">
-//先安装locales
+2. 没有安装 locales,先安装 locales
 $ sudo aptitude install locales
 
 </pre>
 
 <pre class="example">
-//配置命令
+3. 配置中文编码
 $ sudo dpkg-reconfigure locales
-
-</pre>
-
-<pre class="example">
 //选择编码（encode），space选择
-en_US.UTF-8
-zh_CN.GB2312
-zh_CN.GB18030
-zh_CN.GBK
-zh_CN.UTF-8
 
 </pre>
+<ul class="org-ul">
+<li>en_US.UTF-8</li>
+<li>zh_CN.GB2312</li>
+<li>zh_CN.GB18030</li>
+<li>zh_CN.GBK</li>
+<li>zh_CN.UTF-8</li>
+</ul>
 
 <pre class="example">
-//文件配置
+4. 文件配置
 $ sudo vim /etc/default/locate
 
 </pre>
@@ -222,9 +263,9 @@ LANGUAGE=<span style="color: #8b2252;">"en_US:en"</span>
 </div>
 </div>
 </div>
-<div id="outline-container-org0c25529" class="outline-4">
-<h4 id="org0c25529">参考资料</h4>
-<div class="outline-text-4" id="text-org0c25529">
+<div id="outline-container-orgfe4321b" class="outline-4">
+<h4 id="orgfe4321b">参考资料</h4>
+<div class="outline-text-4" id="text-orgfe4321b">
 <pre class="example">
 https://wiki.debian.org/Locale
 
@@ -232,67 +273,41 @@ https://wiki.debian.org/Locale
 </div>
 </div>
 </div>
-<div id="outline-container-org1dc9534" class="outline-3">
-<h3 id="org1dc9534">中文输入法</h3>
-<div class="outline-text-3" id="text-org1dc9534">
+<div id="outline-container-org5e43181" class="outline-3">
+<h3 id="org5e43181">安装中文输入法</h3>
+<div class="outline-text-3" id="text-org5e43181">
 </div>
-<div id="outline-container-orgbf57c5a" class="outline-4">
-<h4 id="orgbf57c5a">安装ibus</h4>
-<div class="outline-text-4" id="text-orgbf57c5a">
-<div class="org-src-container">
-<pre class="src src-emacs">1.Run(as root)
-# aptitude install ibus-table-array30 ibus-qt4 ibus-gtk
-
-2.Run(as a user)
-$ ibus-setup
-
-3.Add
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-
-4.auto-start the ibus daemon on every login
-$ echo "ibus-daemon -d -x -r -n kde" &gt; $HOME/.kde/Autostart/ibus-daemon-autostart.sh &amp;&amp; chmod +x $HOME/.kde/Autostart/ibus-daemon-autostart.sh
-
-5.relogin
-
-6.default:Ctrl+Space
-
-link：https://wiki.debian.org/I18n/ibus
-link2: https://wiki.debian.org/gnome-chinese-input
-</pre>
+<div id="outline-container-org6800a8d" class="outline-4">
+<h4 id="org6800a8d">ibus &amp; UIM &amp; SCIM &amp; Fcitx</h4>
+<div class="outline-text-4" id="text-org6800a8d">
+<ul class="org-ul">
+<li><a href="https://wiki.debian.org/gnome-chinese-input">gnome-chinese-input</a></li>
+<li><a href="https://wiki.debian.org/I18n/ibus">i18n ibus</a></li>
+</ul>
 </div>
 </div>
-</div>
-<div id="outline-container-org4d2f1c9" class="outline-4">
-<h4 id="org4d2f1c9">安装UIM</h4>
-</div>
-<div id="outline-container-org12b2344" class="outline-4">
-<h4 id="org12b2344">安装SCIM</h4>
-</div>
-<div id="outline-container-org56a0f21" class="outline-4">
-<h4 id="org56a0f21">安装fcitx</h4>
-<div class="outline-text-4" id="text-org56a0f21">
-<ol class="org-ol">
-<li>安装fcitx及其他组件（module）</li>
-</ol>
+<div id="outline-container-org6982b54" class="outline-4">
+<h4 id="org6982b54">Fcitx 输入法补充</h4>
+<div class="outline-text-4" id="text-org6982b54">
+<ul class="org-ul">
+<li><a href="https://blog.csdn.net/qq_21397217/article/details/52447263">Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法</a></li>
+</ul>
 <pre class="example">
-$ sudo apt-get install fcitx fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+1. 安装 fcitx 组件（module）
+$ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
 
 </pre>
-<ol class="org-ol">
-<li>安装输入法</li>
-</ol>
+
 <pre class="example">
+2. 安装 fcitx 输入法
 $ sudo apt install fcitx-pinyin
 $ sudo apt install fcitx-googlepinyin
 $ sudo apt install fcitx-table //五笔
 
 </pre>
-<ol class="org-ol">
-<li>设置并运行</li>
-</ol>
+
 <pre class="example">
+3. 设置并运行
 $ export LANG=zh_CN.utf8
 $ export LC_CTYPE=zh_CN.utf8
 $ export LC_ALL=zh_CN.utf8
@@ -300,26 +315,17 @@ $ export XMODIFIERS=@im=fcitx
 $ fcitx &amp;
 
 </pre>
-<ol class="org-ol">
-<li>需要有 ui 动态库的支持:</li>
-</ol>
+
 <pre class="example">
+4. ui 动态库的支持:
 $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 
 </pre>
-<ol class="org-ol">
-<li>重启可用</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org891175d" class="outline-4">
-<h4 id="org891175d">参考资料</h4>
-<div class="outline-text-4" id="text-org891175d">
-<ul class="org-ul">
-<li><a href="https://wiki.debian.org/gnome-chinese-input">How to input Chinese characters in gnome</a></li>
-<li><a href="http://www.2cto.com/os/201311/255343.html">debian安装配置fcitx</a></li>
-<li><a href="https://blog.csdn.net/qq_21397217/article/details/52447263">Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法</a></li>
-</ul>
+
+<pre class="example">
+5. 重启可用
+
+</pre>
 </div>
 </div>
 </div>
@@ -1609,9 +1615,9 @@ netcat所做的就是在两台电脑之间建立链接并返回两个数据流�
 </pre>
 </div>
 </div>
-<div id="outline-container-org2353f59" class="outline-4">
-<h4 id="org2353f59">安装</h4>
-<div class="outline-text-4" id="text-org2353f59">
+<div id="outline-container-org63d09f5" class="outline-4">
+<h4 id="org63d09f5">安装</h4>
+<div class="outline-text-4" id="text-org63d09f5">
 <pre class="example">
 // Redhat/CentOS/Fedora
 $ yum install nc
@@ -1722,9 +1728,9 @@ dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定
 </li>
 </ul>
 </div>
-<div id="outline-container-org580b230" class="outline-4">
-<h4 id="org580b230">参考资料</h4>
-<div class="outline-text-4" id="text-org580b230">
+<div id="outline-container-org1849ad8" class="outline-4">
+<h4 id="org1849ad8">参考资料</h4>
+<div class="outline-text-4" id="text-org1849ad8">
 <pre class="example">
 https://blog.csdn.net/zhangxiao93/article/details/52705642
 
@@ -1867,8 +1873,8 @@ http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 <div class="outline-text-4" id="text-org027bce2">
 </div>
 <ul class="org-ul">
-<li><a id="org264cfec"></a>下载及安装<br />
-<div class="outline-text-5" id="text-org264cfec">
+<li><a id="orgc5d84dc"></a>下载及安装<br />
+<div class="outline-text-5" id="text-orgc5d84dc">
 <pre class="example">
 $ git clone https://github.com/hishamhm/htop 
 $ tar zxvf htop-2.0.2.tar.gz
@@ -2074,8 +2080,8 @@ $ mv 05Music/ /mnt/sda/sda2/
 </pre>
 </div>
 </li>
-<li><a id="org890fcef"></a>参考资料<br />
-<div class="outline-text-5" id="text-org890fcef">
+<li><a id="orgdedbf29"></a>参考资料<br />
+<div class="outline-text-5" id="text-orgdedbf29">
 <pre class="example">
 https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
 http://www.tuicool.com/articles/ZbENfie
@@ -2149,25 +2155,33 @@ $ sudo make &amp;&amp; make install
 <div id="outline-container-orgafa78af" class="outline-3">
 <h3 id="orgafa78af">chrome &amp; chromium</h3>
 <div class="outline-text-3" id="text-orgafa78af">
-</div>
-<div id="outline-container-orgf032262" class="outline-4">
-<h4 id="orgf032262">google-chrome</h4>
-<div class="outline-text-4" id="text-orgf032262">
 <pre class="example">
-//添加安装源
+1. 添加安装源
 $ sudo vim /etc/apt/sources.list
 deb http://dl.google.com/linux/chrome/deb/ stable main
-//OR
+
+</pre>
+
+<pre class="example">
+2. 添加公钥验证下载
 $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
 $ apt-key add linux_signing_key.pub
 
 </pre>
-</div>
-</div>
-<div id="outline-container-org405c62d" class="outline-4">
-<h4 id="org405c62d">chromium</h4>
-<div class="outline-text-4" id="text-org405c62d">
+
 <pre class="example">
+3. 执行安装
+$ sudo apt update
+// stable ersion
+$ sudo apt install google-chrome-stable
+// beta or unstable ersion
+$ sudo apt install google-chrome-beta
+$ sudo apt install google-chrome-unstable
+
+</pre>
+
+<pre class="example">
+4. 安装 chromium
 $ sudo apt-get update
 $ sudo apt-get install chromium chromium-l10n
 （chromium-l10n 是用于本地化界面的，是可选的软件包）
@@ -2176,14 +2190,13 @@ $ sudo apt-get install chromium chromium-l10n
 </pre>
 </div>
 </div>
-</div>
 <div id="outline-container-org905ca51" class="outline-3">
 <h3 id="org905ca51">Scrot（截图工具）</h3>
 <div class="outline-text-3" id="text-org905ca51">
 </div>
-<div id="outline-container-org667e3bb" class="outline-4">
-<h4 id="org667e3bb">安装</h4>
-<div class="outline-text-4" id="text-org667e3bb">
+<div id="outline-container-orge454478" class="outline-4">
+<h4 id="orge454478">安装</h4>
+<div class="outline-text-4" id="text-orge454478">
 <pre class="example">
 $ sudo apt-get install scrot
 
@@ -2275,12 +2288,12 @@ $ rarcrack --threads 10 --type rar test.rar
 <h3 id="org81892c2">Cisco AnyConnect VPN Client</h3>
 <div class="outline-text-3" id="text-org81892c2">
 </div>
-<div id="outline-container-orgc5d84dc" class="outline-4">
-<h4 id="orgc5d84dc">下载及安装</h4>
+<div id="outline-container-org41c2bde" class="outline-4">
+<h4 id="org41c2bde">下载及安装</h4>
 </div>
-<div id="outline-container-org15a7b4d" class="outline-4">
-<h4 id="org15a7b4d">问题解决</h4>
-<div class="outline-text-4" id="text-org15a7b4d">
+<div id="outline-container-org0df0682" class="outline-4">
+<h4 id="org0df0682">问题解决</h4>
+<div class="outline-text-4" id="text-org0df0682">
 <pre class="example">
 $ sudo systemctl enable vpnagentd_init
 vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
@@ -2319,13 +2332,13 @@ update-rc.d: error: insserv rejected the script header
 <h3 id="org8bebc37">Bind：DNS工具</h3>
 <div class="outline-text-3" id="text-org8bebc37">
 </div>
-<div id="outline-container-org65db133" class="outline-4">
-<h4 id="org65db133">安装及配置</h4>
-<div class="outline-text-4" id="text-org65db133">
+<div id="outline-container-org10ff990" class="outline-4">
+<h4 id="org10ff990">安装及配置</h4>
+<div class="outline-text-4" id="text-org10ff990">
 </div>
 <ul class="org-ul">
-<li><a id="orgc77854f"></a>安装<br />
-<div class="outline-text-5" id="text-orgc77854f">
+<li><a id="org1e979e6"></a>安装<br />
+<div class="outline-text-5" id="text-org1e979e6">
 <pre class="example">
 # yum install -y bind
 
@@ -2416,8 +2429,8 @@ Nameserver 192.168.120.166
 <div class="outline-text-4" id="text-org2126499">
 </div>
 <ul class="org-ul">
-<li><a id="org3c37a7b"></a>Change default dir<br />
-<div class="outline-text-5" id="text-org3c37a7b">
+<li><a id="org7bf59ce"></a>Change default dir<br />
+<div class="outline-text-5" id="text-org7bf59ce">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#local user
 local_root=/usr/share/nginx/html
@@ -2430,8 +2443,8 @@ anon_root=/var/ftp/pub
 </div>
 </li>
 
-<li><a id="org97e5ab3"></a>Configuring directory of access<br />
-<div class="outline-text-5" id="text-org97e5ab3">
+<li><a id="org44efdfc"></a>Configuring directory of access<br />
+<div class="outline-text-5" id="text-org44efdfc">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">chroot_local_user=YES
 chroot_list_enable=NO
@@ -2442,21 +2455,21 @@ allow_writeable_chroot=YES
 
 notice:
  &#37197;&#32622;&#20855;&#20307;&#24773;&#20917;&#26377;&#20197;&#19979;&#20960;&#31181;&#65306;
-1&#65289;&#24403; chroot_list_enable=yes&#65292;chroot_local_user=yes&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214; &#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#12290;
-2&#65289;&#24403; chroot_list_enable=yes&#65292;chroot_local_user=no&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214;&#20013; &#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
-3&#65289;&#24403; chroot_list_enable=no&#65292;chroot_local_user=yes&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#19981;&#33021;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
-4&#65289;&#24403; chroot_list_enable=no&#65292;chroot_local_user=no&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;
+1&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=yes&#65292;chroot_local_user=yes&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214; &#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+2&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=yes&#65292;chroot_local_user=no&#26102;&#65292;&#22312;/etc/vsftpd/chroot_list&#25991;&#20214;&#20013; &#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#19981;&#33021;&#20999;&#25442;&#21040;&#31449;&#28857;&#26681;&#30446;&#24405;&#30340;&#19978;&#32423;&#30446;&#24405;&#65307;&#26410;&#22312;&#25991;&#20214;&#20013;&#21015;&#20986;&#30340;&#29992;&#25143;&#65292;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+3&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=no&#65292;chroot_local_user=yes&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#19981;&#33021;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
+4&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403; chroot_list_enable=no&#65292;chroot_local_user=no&#26102;&#65292;&#25152;&#26377;&#29992;&#25143;&#22343;&#21487;&#20197;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#12290;</span>
 
-5&#65289;&#24403;&#29992;&#25143;&#19981;&#20801;&#35768;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#26102;&#65292;&#30331;&#24405;&#21518;ftp&#31449;&#28857;&#30340;&#26681;&#30446;&#24405;&#8220;/&#8221;&#26159;&#35813;ftp&#36134;&#25143;&#30340;&#20027;&#30446;&#24405;&#65292;&#21363;&#25991;&#20214;&#30340;&#31995;&#32479;&#30340;/var/ftp&#30446;&#24405;&#12290;
+5&#65289;<span style="color: #ff0000; font-weight: bold;">&#24403;&#29992;&#25143;&#19981;&#20801;&#35768;&#20999;&#25442;&#21040;&#19978;&#32423;&#30446;&#24405;&#26102;&#65292;&#30331;&#24405;&#21518;ftp&#31449;&#28857;&#30340;&#26681;&#30446;&#24405;&#8220;/&#8221;&#26159;&#35813;ftp&#36134;&#25143;&#30340;&#20027;&#30446;&#24405;&#65292;&#21363;&#25991;&#20214;&#30340;&#31995;&#32479;&#30340;/var/ftp&#30446;&#24405;&#12290;</span>
 </pre>
 </div>
 </div>
 </li>
 </ul>
 </div>
-<div id="outline-container-orgfda276b" class="outline-4">
-<h4 id="orgfda276b">References</h4>
-<div class="outline-text-4" id="text-orgfda276b">
+<div id="outline-container-org90048da" class="outline-4">
+<h4 id="org90048da">References</h4>
+<div class="outline-text-4" id="text-org90048da">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -2470,9 +2483,9 @@ http://baike.baidu.com/item/vsftpd
 <h3 id="org5162ead">Composer</h3>
 <div class="outline-text-3" id="text-org5162ead">
 </div>
-<div id="outline-container-org63d09f5" class="outline-4">
-<h4 id="org63d09f5">安装</h4>
-<div class="outline-text-4" id="text-org63d09f5">
+<div id="outline-container-orgea0079b" class="outline-4">
+<h4 id="orgea0079b">安装</h4>
+<div class="outline-text-4" id="text-orgea0079b">
 <pre class="example">
 1.Download composer.phar file.
 2.Excute:
@@ -2485,9 +2498,9 @@ http://baike.baidu.com/item/vsftpd
 </pre>
 </div>
 </div>
-<div id="outline-container-org0df0682" class="outline-4">
-<h4 id="org0df0682">问题解决</h4>
-<div class="outline-text-4" id="text-org0df0682">
+<div id="outline-container-org3657061" class="outline-4">
+<h4 id="org3657061">问题解决</h4>
+<div class="outline-text-4" id="text-org3657061">
 <pre class="example">
 error: /usr/bin/env: php: No such file or directory
  solve:Configuring php to become global variables
@@ -2532,8 +2545,8 @@ yum install -y vsftpd
 <div class="outline-text-4" id="text-org44e71c1">
 </div>
 <ul class="org-ul">
-<li><a id="org7bf59ce"></a>Change default dir<br />
-<div class="outline-text-5" id="text-org7bf59ce">
+<li><a id="org373a710"></a>Change default dir<br />
+<div class="outline-text-5" id="text-org373a710">
 <div class="org-src-container">
 <pre class="src src-emacs">#local user
 local_root=/usr/share/nginx/html
@@ -2546,8 +2559,8 @@ anon_root=/var/ftp/pub
 </div>
 </li>
 
-<li><a id="org44efdfc"></a>Configuring directory of access<br />
-<div class="outline-text-5" id="text-org44efdfc">
+<li><a id="org9a6555f"></a>Configuring directory of access<br />
+<div class="outline-text-5" id="text-org9a6555f">
 <div class="org-src-container">
 <pre class="src src-emacs">chroot_local_user=YES
 chroot_list_enable=NO
@@ -2712,9 +2725,9 @@ tcp_wrappers=YES
 </li>
 </ul>
 </div>
-<div id="outline-container-org8c43056" class="outline-4">
-<h4 id="org8c43056">References</h4>
-<div class="outline-text-4" id="text-org8c43056">
+<div id="outline-container-orgc297100" class="outline-4">
+<h4 id="orgc297100">References</h4>
+<div class="outline-text-4" id="text-orgc297100">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -2777,9 +2790,9 @@ Hat, NetApp and many other volunteers.
 </li>
 </ul>
 </div>
-<div id="outline-container-orga7bbf1c" class="outline-4">
-<h4 id="orga7bbf1c">参考资料</h4>
-<div class="outline-text-4" id="text-orga7bbf1c">
+<div id="outline-container-org0d7cad9" class="outline-4">
+<h4 id="org0d7cad9">参考资料</h4>
+<div class="outline-text-4" id="text-org0d7cad9">
 <pre class="example">
 1.Cygwin-Official Site:http://cygwin.com/
 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
@@ -2857,9 +2870,9 @@ $ sudo alsactl init
 </pre>
 </div>
 </div>
-<div id="outline-container-org3fc2a36" class="outline-4">
-<h4 id="org3fc2a36">参考资料</h4>
-<div class="outline-text-4" id="text-org3fc2a36">
+<div id="outline-container-org340e41b" class="outline-4">
+<h4 id="org340e41b">参考资料</h4>
+<div class="outline-text-4" id="text-org340e41b">
 <pre class="example">
 https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/
 http://blog.163.com/lixiangqiu_9202/blog/static/535750372012541358800/ 
@@ -2904,9 +2917,9 @@ LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 </pre>
 </div>
 </div>
-<div id="outline-container-orgfe4321b" class="outline-4">
-<h4 id="orgfe4321b">参考资料</h4>
-<div class="outline-text-4" id="text-orgfe4321b">
+<div id="outline-container-orge4aa68b" class="outline-4">
+<h4 id="orge4aa68b">参考资料</h4>
+<div class="outline-text-4" id="text-orge4aa68b">
 <pre class="example">
 http://www.jianshu.com/p/bf05fb3a4709
 
@@ -3118,9 +3131,9 @@ service php-fpm start/stop/restart/reload
 </pre>
 </div>
 </div>
-<div id="outline-container-org90048da" class="outline-4">
-<h4 id="org90048da">References</h4>
-<div class="outline-text-4" id="text-org90048da">
+<div id="outline-container-org8a03a31" class="outline-4">
+<h4 id="org8a03a31">References</h4>
+<div class="outline-text-4" id="text-org8a03a31">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>
 </ul>
