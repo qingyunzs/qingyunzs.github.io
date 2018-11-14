@@ -95,14 +95,20 @@ photos:
 : 娱乐
 * 开始（Get Started）
 ** Wifi连接配置（configure）
+: 完成安装第一步，当然是先解决网络。
+
 : 1.查看无线（wireless）网卡（LAN）驱动（driver）
 : # lsmod | grep iw
+
 : 2.安装（Installing）无线网卡驱动
 : # apt-get install firmware-iwlwifi wireless-tools
+
 : 3.向内核（kernel）中加载/移除模块（modules）
 : # modprobe iwl4965
+
 : 4.重启系统
 : # reboot
+
 : 5.配置无线网络
 : //查看无线网口（nerwork port）
 : # iwconfig
@@ -121,6 +127,7 @@ photos:
 : # iwconfig wlan0
 : //执行命令获取到IP地址，成功连上WiFi
 : # dhclient wlan0
+
 : 6.开机自动连接WiFi配置
 : # vim /etc/network/interfaces.d/wlan0
 #+BEGIN_SRC emacs-lisp
@@ -130,10 +137,13 @@ photos:
  	wpa-conf /etc/wpa_supplicant.conf 
 #+END_SRC
 ** 配置安装源(source)
-: //配置163源：访问http://mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助，根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择
-: $ vim /etc/apt/source.list
-: //以Jessie为例, 编辑/etc/apt/sources.list文件, 在文件最前面添加以下条目(操作前请做好相应备份)
+*** 以配置163源举例说明
+: 1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
+: 2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
+: 3. 复制安装源文本到 /etc/apt/source.list 中。
+#+NAME: 163源配置
 #+BEGIN_SRC emacs-lisp
+# mirrors.163.com
 deb http://mirrors.163.com/debian/ jessie main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
 deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
@@ -143,25 +153,30 @@ deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
 deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
 deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
 #+END_SRC
+*** 其他安装源
+- [[https://mirrors.ustc.edu.cn/][中国科学技术大学开源软件镜像站]]
+- [[https://mirrors.tuna.tsinghua.edu.cn/][清华大学开源软件镜像站]]
+- [[http://mirror.hust.edu.cn/][华中科技大学开源镜像站]]
+- [[https://mirrors.aliyun.com][阿里云开源镜像站]]
 ** 配置系统支持中文（support chinese）
 *** 安装及配置
-: //设置环境变量
+: 1. 查看并设置环境变量
+: $ echo $LANG
 : $ export LANG=en_US.UTF-8
 
-: //先安装locales
+: 2. 没有安装 locales,先安装 locales
 : $ sudo aptitude install locales
 
-: //配置命令
+: 3. 配置中文编码
 : $ sudo dpkg-reconfigure locales
-
 : //选择编码（encode），space选择
-: en_US.UTF-8
-: zh_CN.GB2312
-: zh_CN.GB18030
-: zh_CN.GBK
-: zh_CN.UTF-8
+- en_US.UTF-8
+- zh_CN.GB2312
+- zh_CN.GB18030
+- zh_CN.GBK
+- zh_CN.UTF-8
 
-: //文件配置
+: 4. 文件配置
 : $ sudo vim /etc/default/locate
 #+BEGIN_SRC emacs-lisp 
 # LANG="zh_CN.UTF-8"
@@ -171,52 +186,31 @@ LANGUAGE="en_US:en"
 #+END_SRC
 *** 参考资料
 : https://wiki.debian.org/Locale
-** 中文输入法
-*** 安装ibus
-#+BEGIN_SRC emacs lisp
-1.Run(as root)
-# aptitude install ibus-table-array30 ibus-qt4 ibus-gtk
+** 安装中文输入法
+*** ibus & UIM & SCIM & Fcitx
+- [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
+- [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
+*** Fcitx 输入法补充
++ [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
+: 1. 安装 fcitx 组件（module）
+: $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
 
-2.Run(as a user)
-$ ibus-setup
-
-3.Add
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-
-4.auto-start the ibus daemon on every login
-$ echo "ibus-daemon -d -x -r -n kde" > $HOME/.kde/Autostart/ibus-daemon-autostart.sh && chmod +x $HOME/.kde/Autostart/ibus-daemon-autostart.sh
-
-5.relogin
-
-6.default:Ctrl+Space
-
-link：https://wiki.debian.org/I18n/ibus
-link2: https://wiki.debian.org/gnome-chinese-input
-#+END_SRC
-*** 安装UIM
-*** 安装SCIM
-*** 安装fcitx
-1. 安装fcitx及其他组件（module）
-: $ sudo apt-get install fcitx fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
-2. 安装输入法
+: 2. 安装 fcitx 输入法
 : $ sudo apt install fcitx-pinyin
 : $ sudo apt install fcitx-googlepinyin
 : $ sudo apt install fcitx-table //五笔
-3. 设置并运行
+
+: 3. 设置并运行
 : $ export LANG=zh_CN.utf8
 : $ export LC_CTYPE=zh_CN.utf8
 : $ export LC_ALL=zh_CN.utf8
 : $ export XMODIFIERS=@im=fcitx
 : $ fcitx &
-4. 需要有 ui 动态库的支持:
+
+: 4. ui 动态库的支持:
 : $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
-5. 重启可用
-*** 参考资料
-+ [[https://wiki.debian.org/gnome-chinese-input][How to input Chinese characters in gnome]]
-+ [[http://www.2cto.com/os/201311/255343.html][debian安装配置fcitx]]
-+ [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
+
+: 5. 重启可用
 * 介绍（Instroduction）
 : 首先，明确一点：GNU Not's Unix.
 ** Linux 系统
@@ -999,14 +993,23 @@ UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 
  : $ sudo ./configure
  : $ sudo make && make install
 ** chrome & chromium
-*** google-chrome
- : //添加安装源
+ : 1. 添加安装源
  : $ sudo vim /etc/apt/sources.list
  : deb http://dl.google.com/linux/chrome/deb/ stable main
- : //OR
+
+ : 2. 添加公钥验证下载
  : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
  : $ apt-key add linux_signing_key.pub
-*** chromium
+
+ : 3. 执行安装
+ : $ sudo apt update
+: // stable ersion
+: $ sudo apt install google-chrome-stable
+: // beta or unstable ersion
+: $ sudo apt install google-chrome-beta
+: $ sudo apt install google-chrome-unstable
+
+: 4. 安装 chromium
  : $ sudo apt-get update
  : $ sudo apt-get install chromium chromium-l10n
  : （chromium-l10n 是用于本地化界面的，是可选的软件包）
