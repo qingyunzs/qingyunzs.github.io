@@ -51,15 +51,14 @@
 
 ## 工作流
 1. 搭建jekyll环境
-参考：https://zhaorengui.github.io/jekyll/2018/08/05/next-tutorial/
-或者参考：http://theme-next.simpleyyt.com/
+> 参考：https://zhaorengui.github.io/jekyll/2018/08/05/next-tutorial/
+> 或者参考：http://theme-next.simpleyyt.com/
 2. 构建emacs+org+jekyll写作环境
-1)下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
-2)修改init-org-jekyll.el其中的参数为你自己的
-3)放到~/.emacs.d/lisp/目录下
-4)配置emacs加载init-org-jekyll
-5)打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
+	- 下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
+	- 修改init-org-jekyll.el其中的参数为你自己的
+	- 放到~/.emacs.d/lisp/目录下
+	- 配置emacs加载init-org-jekyll
+	- 打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
 3. 文章写作流
-1)打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
-2)当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中
-3)M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中 
+	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
+	-当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中，M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
