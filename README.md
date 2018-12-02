@@ -61,4 +61,5 @@
 	- 打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
 3. 文章写作流
 	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
-	-当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中，M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
+	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
+	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
