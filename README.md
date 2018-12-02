@@ -1,24 +1,12 @@
-
 > 本站点所用的 NexT 是由 [Hexo NexT](https://github.com/iissnan/hexo-theme-next) 移植而来的 Jekyll 主题。<!--commit: f951075d9b739d26b42472431995fa68d08796aa-->
 
 <a href="http://simpleyyt.github.io/jekyll-theme-next/" target="_blank">在线预览 Preview</a> | <a href="http://simpleyyt.com" target="_blank">Yitao's Blog</a> | <a href="http://theme-next.simpleyyt.com" target="_blank">NexT 使用文档</a> |  [English Documentation](README.en.md)
-
-
-![NexT Schemes](http://iissnan.com/nexus/next/next-schemes.jpg)
-
-## 浏览器支持 Browser support
-
-![Browser support](http://iissnan.com/nexus/next/browser-support.png)
 
 ## 贡献 Contributing
 
 欢迎提交问题与需求，修复代码。
 
 ## 开发 Development
-
-NexT 主旨在于简洁优雅且易于使用，所以首先要尽量确保 NexT 的简洁易用性。
-
-NexT is built for easily use with elegant appearance. First things first, always keep things simple.
 
 ## 目录介绍
 ~~~
@@ -60,3 +48,18 @@ NexT is built for easily use with elegant appearance. First things first, always
 |_site|一旦 Jekyll 完成转换，就会将生成的页面放在这里（默认）。最好将这个目录放进你的 .gitignore 文件中。|
 |index.html and other HTML, Markdown, Textile files|如果这些文件中包含 YAML 头信息 部分，Jekyll 就会自动将它们进行转换。当然，其他的如 .html, .markdown, .md, 或者 .textile 等在你的站点根目录下或者不是以上提到的目录中的文件也会被转换。|
 |Other Files/Folders|其他一些未被提及的目录和文件如  css 还有 images 文件夹， favicon.ico 等文件都将被完全拷贝到生成的 site 中。|
+
+## 工作流
+1. 搭建jekyll环境
+参考：https://zhaorengui.github.io/jekyll/2018/08/05/next-tutorial/
+或者参考：http://theme-next.simpleyyt.com/
+2. 构建emacs+org+jekyll写作环境
+1)下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
+2)修改init-org-jekyll.el其中的参数为你自己的
+3)放到~/.emacs.d/lisp/目录下
+4)配置emacs加载init-org-jekyll
+5)打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
+3. 文章写作流
+1)打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
+2)当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中
+3)M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中 
