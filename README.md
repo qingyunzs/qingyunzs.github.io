@@ -49,6 +49,21 @@
 |index.html and other HTML, Markdown, Textile files|如果这些文件中包含 YAML 头信息 部分，Jekyll 就会自动将它们进行转换。当然，其他的如 .html, .markdown, .md, 或者 .textile 等在你的站点根目录下或者不是以上提到的目录中的文件也会被转换。|
 |Other Files/Folders|其他一些未被提及的目录和文件如  css 还有 images 文件夹， favicon.ico 等文件都将被完全拷贝到生成的 site 中。|
 
+## 安装NexT
+1. 确保已安装`Ruby 2.1.0` 或更高版本：
+ $ ruby --version
+2. 安装 Bundler 和 jekyll：
+ $ sudo gem install bundler
+ 安装jeyll之前，先安装ruby-dev
+ $ sudo apt install ruby-dev
+ $ sudo gem install jekyll
+3. $ git clone https://github.com/zhaorengui/zhaorengui.github.io.git
+ $ cd zhaorengui.github.io
+4. 安装依赖项：
+ $ bundle install
+5. $ bundle exec jekyll server
+6. 使用浏览器访问 http://localhost:4000，检查站点是否正确运行。具体可参考 http://theme-next.simpleyyt.com/ 
+
 ## 工作流
 1. 搭建jekyll环境
 > 参考：https://zhaorengui.github.io/jekyll/2018/08/05/next-tutorial/
