@@ -144,15 +144,30 @@ sudo sslocal -c /etc/shadowsocks.json -d start
 : Check if It Works
 : #sudo systemctl status rc-local.service
 *** Problem
-: ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
-Solving:
-: vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
-
-: VIM Command：
-: :%s/cleanup/reset/
-: :x
+**** ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
 Reason:
 : openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
+Solving:
+: $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
+#+NAME: openssl.py
+#+BEGIN_SRC python
+VIM Command：
+:%s/cleanup/reset/
+:x
+#+END_SRC
+**** not support "chacha20"
+Solving:
+: $ apt install m2crypto gcc -y
+: $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
+: $ tar zxvf libsodium-1.0.8.tar.gz
+: $ cd libsodium-1.0.8
+: $ sudo ./configure
+: $ sudo make && make install
+: $ sudo echo "include ld.so.conf.d/*.conf" > /etc/ld.so.conf
+: $ sudo echo "/lib" >> /etc/ld.so.conf
+: $ sudo echo "/usr/lib64" >> /etc/ld.so.conf
+: $ sudo echo "/usr/local/lib" >> /etc/ld.so.conf
+: $ sudo ldconfig
 ** Windows
 *** Dowload win-client
 [[https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks][Dowload1]]
