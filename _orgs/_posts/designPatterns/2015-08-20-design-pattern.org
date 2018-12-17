@@ -1,0 +1,198 @@
+#+TITLE:     设计模式（Design Pattern）
+#+AUTHOR:    赵仁贵
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD:    <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML                                                                                                                                   
+---                                                                                                                                                   
+layout: post
+title: 设计模式
+author: zrg
+comments: false                                                                                                                                       
+description: 设计模式
+categories:                                                                                                                                           
+- 软件工程
+tags:                                                                                                                                                 
+- Design Pattern
+photos:                                                                                                                                               
+---                                                                                                                                                   
+#+END_EXPORT 
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 简介
+** 设计模式的定义
+: 设计模式(Design Pattern)是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结，使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。
+** 设计模式的基本要素
+1. 模式名称(Pattern name)
+2. 问题(Problem)
+3. 解决方案(Solution)
+4. 效果(Consequences)
+** GoF设计模式简介
+#+CAPTION:GoF 23种模式一览表
+| 范围\目的 | 创建型模式   | 结构性模式         | 行为型模式   |
+|-----------+--------------+--------------------+--------------|
+| 类模式    | 工厂方法模式 | （类）适配器模式   | 解释器模式   |
+|           |              |                    | 模板方法模式 |
+|-----------+--------------+--------------------+--------------|
+| 对象模式  | 抽象工厂模式 | （对象）适配器模式 | 职责链模式   |
+|           | 建造者       | 桥接模式           | 命令模式     |
+|           | 原型模式     | 组合模式           | 迭代器模式   |
+|           | 单例模式     | 装饰模式           | 中介者模式   |
+|           |              | 外观模式           | 备忘录模式   |
+|           |              | 享元模式           | 观察者模式   |
+|           |              | 代理模式           | 状态模式     |
+|           |              |                    | 策略模式     |
+|           |              |                    | 访问者模式   |
+: 参考: 《设计模式:可复用面向对象软件的基础》
+* 统一建模语言基础知识
+** UML简介
+: 统一建模语言(Unified Modeling Language，UML)是一种可视化的标准建模语言，它是一种分析和设计语言，通过UML可以构造软件系统的蓝图。
+*** UML 的诞生
++ 在一个现代化的工程中，人们要相互沟通和合作，就必须使用标准的工业化设计语言，用这些语言来对待开发的产品进行建模。
++ 建模过程把复杂的问题分解成为易于理解的小问题，以达到问题的求解。
++ 建模是开发优秀软件的所有活动中核心部分之一，其目的是把所要设计的结构和系统的行为联系起来，并对系统的结构进行可视化控制。
+*** UML 的结构
+: 1. 视图(View)
++ 用户视图：以用户的观点表示系统的目标，它是所有视图的核心，该视图描述系统的需求。
++ 结构视图：表示系统的静态行为，描述系统的静态元素，如包、类与对象，以及它们之间的关系。
++ 行为视图：表示系统的动态行为，描述系统的组成元素如对象在系统运行时的交互关系。
++ 实现视图：表示系统中逻辑元素的分布，描述系统中物理文件以及它们之间的关系。
++ 环境视图：表示系统中物理元素的分布，描述系统中硬件设备以及它们之间的关系。
+
+: 2. 图(Diagram)
++ 用例图(Use Case Diagram):又称为用况图，对应于用户视图。在用例图中，使用用例来表示系统的功能需求，用例图用于表示多个外部执行者与系统用例之间以及用例与用例之间的关系。用例图与用例说明文档(Use Case Specification)是常用的需求建模工具，也称之为用例建模。
++ 类图(Class Diagram)：对应于结构视图。类图使用类来描述系统的静态结构，类图包含类和它们之间的关系，它描述系统内所声明的类，但它没有描述系统运行时类的行为。
++ 对象图(Object Diagram)：对应于结构视图。对象图是类图在某一时刻的一个实例，用于表示类的对象实例之间的关系。
++ 包图(Package Diagram)：UML2.0新增图，对应于结构视图。包图用于描述包与包之间的关系，包是一种把元素组织到一起的通用机制，如可以将多个类组织成一个包。
++ 组合结构图(Composite Structure Diagram)：UML2.0新增图，对应于结构视图。组合结构图将每一个类放在一个整体中，从类的内部结构来审视一个类。组合结构图可用于表示一个类的内部结构，用于描述一些包含复杂成员或内部类的类结构。
++ 状态图(State Diagram)：对应于行为视图。状态图用来描述一个特定对象的所有可能状态及其引起状态转移的事件。一个状态图包括一系列对象的状态及状态之间的转换。 
++ 活动图(Activity Diagram)：对应于行为视图。活动图用来表示系统中各种活动的次序，它的应用非常广泛，既可用来描述用例的工作流程，也可以用来描述类中某个方法的操作行为。 
++ 顺序图(Sequence Diagram)：又称为时序图或序列图，对应于行为视图。顺序图用于表示对象之间的交互，重点表示对象之间发送消息的时间顺序。 
++ 通信图(Communication Diagram)：在UML1.x中称为协作图，对应于行为视图。通信图展示了一组对象、这些对象间的连接以及它们之间收发的消息。它与顺序图是同构图，也就是它们包含了相同的信息，只是表达方式不同而已，通信图与顺序图可以相互转换。 
++ 定时图(Timing Diagram)：UML2.0新增图，对应于行为视图。定时图采用一种带数字刻度的时间轴来精确地描述消息的顺序，而不是像顺序图那样只是指定消息的相对顺序，而且它还允许可视化地表示每条生命线的状态变化，当需要对实时事件进行定义时，定时图可以很好地满足要求。 
++ 交互概览图(Interaction Overview Diagram)：UML2.0新增图，对应于行为视图。交互概览图是交互图与活动图的混合物，可以把交互概览图理解为细化的活动图，在其中的活动都通过一些小型的顺序图来表示；也可以将其理解为利用标明控制流的活动图分解过的顺序图。
++ 组件图(Component Diagram)：又称为构件图，对应于实现视图。组件图用于描述每个功能所在的组件位置以及它们之间的关系。
++ 部署图(Deployment Diagram)：又称为实施图，对应于环境视图。部署图用于描述软件中各个组件驻留的硬件位置以及这些硬件之间的交互关系。
+
+: 3.模型
+: 在 UML 中，顺序图、通信图、定时图和交互概览图又统称交互图(Interactive Diagram)，交互图是表示各对象如何依据某种行为进行协作的模型，通常可以使用一个交互图来表示和说明一个用例的行为。
+
+** 类图
+** 顺序图
+** 状态图
+* 创建型模式
+** 介绍
+: 创建型模式(Creational Pattern)对类的实例化过程进行了抽象，能够将软件模块中对象的创建和对象的使用分离。为了使软件的结构更加清晰，
+: 外界对于这些对象只需要知道它们共同的接口，而不清楚其具体的实现细节，使整个系统的设计更加符合单一职责原则。
+
+: 创建型模式在创建什么(What)，由谁创建(Who)，何时创建(When)等方面都为软件设计者提供了尽可能大的灵活性。创建型模式隐藏了类的实例
+: 的创建细节，通过隐藏对象如何被创建和组合在一起达到使整个系统独立的目的。
+** 创建型模式有哪些？
+#+BEGIN_SRC emacs-lisp
+
+简单工厂模式（Simple Factory）
+重要程度：4 （5为满分）
+
+工厂方法模式（Factory Method）
+重要程度：5
+
+抽象工厂模式（Abstract Factory）
+重要程度：5
+
+建造者模式（Builder）
+重要程度：2
+
+原型模式（Prototype）
+重要程度：3
+
+单例模式（Singleton）
+重要程度：4
+#+END_SRC
+** 简单工厂模式
+*** 模式定义
+#+BEGIN_SRC emacs-lisp
+简单工厂模式(Simple Factory Pattern)：又称为静态工厂方法(Static Factory Method)模式，它属于类创建型模式。在简单工厂模式中，可以根据参数的不同返回
+不同类的实例。简单工厂模式专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类。
+#+END_SRC
+*** 举例说明
+#+NAME: 简单工厂举例说明
+#+BEGIN_SRC java
+/**
+ * 简单工厂模式（Simple Factory Pattern）应用举例：多种支付方式。
+ */
+// 1.抽象支付方法类
+public abstract class AbstractPay{
+	public abstract void pay();
+}
+// 2.支付方式类
+// 现金支付类
+public class CashPay extends AbstractPay{
+	public void pay(){
+		// 现金支付处理代码
+	}
+}
+// 信用卡支付类
+public class CreditcardPay extends AbstractPay{
+	public void pay(){
+		// 信用卡支付处理代码
+	}
+}
+// 3.支付方式工厂类
+public class PayMethodFactory{
+	public static AbstractPay getPayMethod(String type){
+		if (type.equalsIgnoreCase("cash")) {
+			return new CashPay(); // 根据参数创建具体产品
+		}else if (type.equalsIgnoreCase("creditcard")) {
+			return new CreditcardPay(); // 根据参数创建具体产品
+		}else{
+			// ...
+		}
+	}
+}
+#+END_SRC
+*** 模式分析
+#+BEGIN_SRC emacs-lisp
+1.意义：
+1)将对象的创建和对象本身业务处理分离可以降低系统的耦合度，使得两者修改起来都相对容易。
+2)使用简单工厂模式后，系统中类的个数增加，每一种支付处理方式都封装到单独的模式中，而且工厂类中只有简单的判断逻辑代码，不需要关心具体的业务处理过程，满足“单一职责原则”。#
+3)在调用工厂类的工厂方法时，由于工厂方法是静态方法，使用起来很方便，可通过类名直接调用，而且只需要传入一个简单的参数即可，在实际开发中，还可以在调用时将所传入的参数保存在XML等格式的配置文件中，修改参数时无须修改任何源代码。
+
+简单工厂模式最大的问题在于工厂类的职责相对过重，增加新的产品需要修改工厂类的判断逻辑，这一点与开闭原则是相违背的。
+
+简单工厂模式的要点在于：当你需要什么，只需要传入一个正确的参数，就可以获取你所需要的对象，而无须知道其创建细节。
+#+END_SRC
+*** 模式应用
+#+BEGIN_SRC emacs-lisp
+1. JDK类库中广泛使用了简单工厂模式，如工具类java.text.DateFormat，它用于格式化一个本地日期或者时间。
+public final static DateFormat getDateInstance();
+public final static DateFormat getDateInstance(int style);
+public final static DateFormat getDateInstance(int style,Locale
+locale);
+
+2. Java加密技术
+获取不同加密算法的密钥生成器:
+KeyGenerator keyGen=KeyGenerator.getInstance("DESede");
+
+创建密码器:
+Cipher cp=Cipher.getInstance("DESede");
+#+END_SRC
+
+** 工厂方法模式
+** 抽象工厂模式
+** 建造者模式
+** 原型模式
+** 单例模式
+* 结构型模式
+* 行为型模式
