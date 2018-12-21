@@ -33,7 +33,7 @@ photos:
 本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linux”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
 # (setq org-export-html-style nil)
 
-* 前言（Preface）
+* 前言(Preface)
 ** 我的 Linux 学习之路（My road of learning Linux）
 1. 第一次接触 Linux 是由于大二上学期的 Linux 基础课，但是，我并没有喜欢上这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。
 2. 后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。
@@ -65,7 +65,7 @@ photos:
 ** 英文太差，能学好 Linux 吗？
 - [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
 - [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]]
-* 开始（Get Started）
+* 开始(Get Started)
 ** Wifi连接配置（configure）
 : 完成安装第一步，当然是先解决网络。
 
@@ -183,7 +183,7 @@ LANGUAGE="en_US:en"
 : $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 
 : 5. 重启可用
-* 介绍（Instroduction）
+* 介绍(Instroduction)
 : 首先，明确一点：GNU Not's Unix.
 ** Linux 系统
 *** Linux 可划分为以下四部分
@@ -391,7 +391,7 @@ fg - put a process in the forground
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :align center
 [[../../../../../assets/images/cs2.png]]
-* Linux 进阶篇（Advanced）
+* Linux 进阶篇(Advanced)
 ** crontab 定时执行任务
 *** 对于 Linux 用户
 : 你肯定希望：
@@ -492,6 +492,28 @@ HOME=/            #使用者运行的路径,这里是根目录
 - SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
 - OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
 - HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+*** ssh 配置
+**** 配置持久连接
+: 1. 服务端
+: $ sudo vim /etc/ssh/sshd_config
+#+NAME: sshd_config
+#+BEGIN_SRC shell
+#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+ClientAliveInterval 60  
+#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+ClientAliveCountMax 3
+#+END_SRC
+
+: // 2. 客户端
+: $ sudo vim /etc/ssh/ssh_config
+#+NAME: ssh_config
+#+BEGIN_SRC shell
+#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+ServerAliveInterval 60  
+#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+ServerAliveCountMax 3
+#+END_SRC
+
 *** 使用OpenSSL生成密钥对
 : 生成私钥
 : $ openssl genrsa -out rsa_private_key.pem 1024
@@ -586,7 +608,13 @@ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功�
 
 : 参考资料：
 [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
-** 解压命令大全
+** 删除大文件的前n行
+#+CAPTION: 示例：删除前10行
+#+BEGIN_SRC shell
+tail -n +10 old_file>new_file
+mv new_file old_file
+#+END_SRC
+** 解压缩命令大全
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :title :align center
 [[../../../../../assets/images/tar.png]]
@@ -602,113 +630,127 @@ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功�
 : $ tar zxvf name.tar.gz -C ./dir
 : $ unzip name.zip -d ./dir
 
-** alias 命令的使用
-: //利用别名代替长命令
-: $ vim ~/.bashrc                                                                                                                                     
-: //存在这样的三行代码，意思就是检查是否存在 .bash_aliases 文件，存在就加载                 
-#+BEGIN_SRC shell
-if [ -f ~/.bash_aliases ]; then                                                                                                                       
-    . ~/.bash_aliases                                                                                                                                 
-fi                                                                                                                                                    
-#+END_SRC
-: //于是,新建并编辑                                                                                                                                   
-: $ vim .bash_aliases                                                                                                                                 
-#+BEGIN_SRC emacs-lisp
- # shadowsocks                                                                                                                                         
- alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"                                                                                    
-#+END_SRC 
-** 实用的 find 命令示例
-*** 用文件名查找文件
+** 文件搜索命令
+*** find 命令
+**** 根据文件名查找
+: 格式：find [搜索范围][匹配条件]
+
+: // 默认在当前目录下搜索
 : $ find -name "MyCProgram.c"
 
-: //忽略大小写
+: // 忽略大小写
 : $ find -iname "MyCProgram.c"
- 
+
+: // 查找以my开头，后面包含三个字符的文件
+: $ find -name my??? 
+
+: // 深度查找：
 : // 在 root 目录及其子目录下查找 passwd 文件。
-: $ find -maxdepth 2 -name passwd
-: // 在 root 目录下及其最大两层深度的子目录中查找 passwd 文件. (例如 root — level 1, and two sub-directories — level 2 and 3 )
-: $ find / -maxdepth 3 -name passwd
+: $ sudo find / -maxdepth 2 -name passwd
 : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
-: $ find -mindepth 3 -maxdepth 5 -name passwd
-*** 在 find 命令查找到的文件上执行命令    
-: //下面的例子展示了 find 命令来计算所有不区分大小写的文件名为“MyCProgram.c”的文件的 MD5 验证和。{} 将会被当前文件名取代。
-: $ find -iname "MyCProgram.c" -exec md5sum {} \;
-*** 相反匹配
-: //显示所有的名字不是 MyCProgram.c 的文件或者目录。由于 maxdepth 是 1，所以只会显示当前目录下的文件和目录。
+: $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
+: // 找到 home 目录及子目录下所有的空文件(0字节文件) 
+: // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
+: $ find ~/ -empty
+: //列出你 home 目录里的空文件。
+: $ find ~/ -maxdepth 1 -empty
+: //列出 home目录下的非隐藏空文件。
+: $ find ~/ -maxdepth 1 -empty -not -name ".*"
+
+: // 相反匹配
+: // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
 : $ find -maxdepth 1 -not -iname "MyCProgram.c"
-*** 使用 inode 编号查找文件
-: //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。创建两个名字相似的文件，例如一个有空格结尾，一个没有。
-: $ touch "test-file-name "
-: [Note: There is a space at the end]
-: $ ls -1 test*
-: test-file-name
-: test-file-name
-: //从 ls 的输出不能区分哪个文件有空格结尾。使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
-: $ ls -i1 test*
-: 16187429 test-file-name
-: 16187430 test-file-name
- 
-: //若你想执行“rm file?.txt”，下面所示的所有三个文件都会被删除。所以，采用下面的步骤来删除"file?.txt"文件。
-: //找到每一个文件的 inode 编号。
-: $ ls -i1
-: 804178 file1.txt
-: 804179 file2.txt
-: 804180 file?.txt
-: //如下所示： 使用 inode 编号来删除那些具有特殊符号的文件名。
-: $ find -inum 804180 -exec rm {} \;
-: $ ls
-: file1.txt  file2.txt
-: [Note: The file with name "file?.txt" is now removed]
-*** 根据文件权限查找文件
-: //找到具有组读权限的文件。使用下面的命令来找到当前目录下对同组用户具有读权限的文件，忽略该文件的其他权限。
-: $ find . -perm -g=r -type f -exec ls -l {} \;
-: //找到对组用户具有只读权限的文件。
-: $find . -perm g=r -type f -exec ls -l {} \;  
-: //找到对组用户具有只读权限的文件(使用八进制权限形式)。
-: $ find . -perm 040 -type f -exec ls -l {} \;
-*** 找到 home 目录及子目录下所有的空文件(0字节文件) 
-: //下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
-: $ find ~ -empty
-: //只列出你 home 目录里的空文件。
-: $ find . -maxdepth 1 -empty
-: //只列出当年目录下的非隐藏空文件。
-: $ find . -maxdepth 1 -empty -not -name ".*"
-*** 查找 5个最大或最小的文件 
-: //下面的命令列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
+
+: // 在查找到的文件上执行命令
+: // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
+: $ find -iname "MyCProgram.c" -exec md5sum {} \;
+: // 在 /etc 目录下查找 inittab 文件并显示其详细属性
+: $ sudo find /etc -name initab -exec ls -l {} \;
+: 注意：{} 将会被当前文件名取代。
+: -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
+**** 文件大小查找
+: // 格式：+n 大于；-n 小于；n 等于
+: // 在 root 目录下查找大于100MB的文件
+: $ sudo find / -size +204800
+: 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
+
+: // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
+: $ sudo find /etc -size +163840 -a size -204800
+: -a 表示两个条件同时满足
+: -o 表示两个条件满足一个即可
+
+: //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
 : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
 : //查找 5个最小的文件
 : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
-: //上面的命令中，很可能你看到的只是空文件(0字节文件)。如此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
+: //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
 : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
-*** 使用 -type 查找指定文件类型的文件
-: //只查找 socket 文件
-: $ find . -type s
-: //查找所有的目录
-: $ find . -type d
-: //查找所有的一般文件
-: $ find . -type f
-: //查找所有的隐藏文件和目录
-: $ find . -type f -name ".*"
-: $ find -type d -name ".*"
-*** 通过和其他文件比较修改时间查找文件
-: //显示在指定文件之后做出修改的文件。下面的 find 命令将显示所有的在 ordinary_file 之后创建修改的文件。
+
+: //查找并删除大于 100M 的 *.zip 文件。
+: $ find / -type f -name *.zip -size +100M -exec rm -i {} \;"
+**** 根据文件变动情况查找
+: // 在/etc目录下查找5分钟内被修改过属性的文件和目录
+: $ sudo /etc -cmin -5
+
+: -amin 访问时间 access
+: -cmin 文件属性 change
+: -mmin 文件内容 modify
+
+: // 显示所有的在 ordinary_file 之后创建修改的文件。
 : $ ls -lrt
 : $ find -newer ordinary_file
+**** 根据文件类型查找
+: f 文件，d 目录，l 软链接，s socket文件
+: //查找所有的一般文件
+: $ find ./ -type f
+: //查找所有的隐藏文件和目录
+: $ find ./ -type f -name ".*"
+: $ find ./ -type d -name ".*"
+**** 根据文件权限、所属关系查找
+: $ find /home -user zrg
+: $ find /home -group zrg
 
-*** 通过文件大小查找文件
-: //使用 -size 选项可以通过文件大小查找文件。
-: //查找比指定文件大的文件
-: $ find ~ -size +100M 
- 
-: //给常用 find 操作取别名 
-: //删除 c 程序产生的 core 文件。
-: alias rmc="find . -iname core -exec rm {} \;"
-: $ rmc
- 
-*** 用 find 命令删除大型打包文件
-: //下面的命令删除大于 100M 的 *.zip 文件。
-: $ find / -type f -name *.zip -size +100M -exec rm -i {} \;"
-** nc 命令的使用
+: // 查到当前目录下对同组用户具有读权限的文件
+: $ find ./ -perm -g=r -type f -exec ls -l {} \;
+: // 找到对组用户具有只读权限的文件。
+: $find ./ -perm g=r -type f -exec ls -l {} \;  
+: // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
+: $ find ./ -perm 040 -type f -exec ls -l {} \;
+**** 使用 inode 编号查找
+: //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+: //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
+: $ ls -i1 test*
+: 16187429 test-file-name
+: 16187430 test-file-name
+: //使用 inode 编号来删除那些具有特殊符号的文件名。
+: $ find -inum 16187430 -exec rm {} \;
+*** locate 命令
+: 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
+
+: // 安装：
+: $ sudo apt install mlocate
+
+: // 使用
+: $ locate init
+: 注意：locate 命令不会查找/tmp目录下内容。
+
+: // 更新文件资料库：
+: $ updatedb
+*** which 和 where 命令
+: 用于查找某个命令。
+: $ which ls
+: $ where useradd
+*** grep 命令
+: 语法格式：grep -iv [指定字符串][文件]
+: -i 不区分大小写
+: -v 排除指定字符串
+
+: // 查找指定字符串的行并显示
+: $ grep 123 test.txt
+
+: // 去掉# 注释行
+: $ grep -v ^# config.txt
+** 神奇的 nc 命令
 *** 介绍
 : netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
 : netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
@@ -772,6 +814,21 @@ fi
 : 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
 *** 参考资料
 : https://blog.csdn.net/zhangxiao93/article/details/52705642
+** 设置命令别名：alias
+: //利用别名代替长命令
+: $ vim ~/.bashrc                                                                                                                                     
+: //存在这样的三行代码，意思就是检查是否存在 .bash_aliases 文件，存在就加载                 
+#+BEGIN_SRC shell
+if [ -f ~/.bash_aliases ]; then                                                                                                                       
+    . ~/.bash_aliases                                                                                                                                 
+fi                                                                                                                                                    
+#+END_SRC
+: //于是,新建并编辑                                                                                                                                   
+: $ vim .bash_aliases                                                                                                                                 
+#+BEGIN_SRC emacs-lisp
+ # shadowsocks                                                                                                                                         
+ alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"                                                                                    
+#+END_SRC 
 ** GCC 的使用
 *** 简单编译
 : $ gcc test.c -o test
@@ -827,7 +884,7 @@ fi
 : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 *** Reference
 : http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
-** top&htop（系统状态监视命令）
+** 系统状态监视命令：top&htop
 *** top
 #+CAPTION:
 #+ALTR_HTML: :align center
@@ -843,206 +900,102 @@ fi
  : configure: error: missing libraries: libncurses
  : Solving:
  : $ sudo apt-get install nucurses-dev
-** iftop（网络监视命令）
+** 网络监视命令：iftop
 : $ sudo apt-get install iftop
 : 
-** axel（下载命令）
+** wget vs axel
 : 官方地址: http://axel.alioth.debian.org/
 : 描述: 替换wget命令
+** 常用软件（Software）
+*** VIM&Emacs
+  : 两个神器软件单独介绍，这里不重复叙写。
+*** MPlayer
+  : // official：http://www.mplayerhq.hu/design7/news.html
+  : $ tar -Jxf MPlayer-1.1.1.tar.xz
+  : $ cd MPlayer-1.1.1
+  : $ sudo ./configure
+  : // 发现，需要安装一个依赖包:yasm
+  : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+  : // 安装完成后，重新配置、编译和安装
+  : $ sudo ./configure
+  : $ sudo make && make install
+*** google-chrome & chromium
+  : 1. 添加安装源
+  : $ sudo vim /etc/apt/sources.list
+  : deb http://dl.google.com/linux/chrome/deb/ stable main
 
-** 删除大文件的前n行
-#+CAPTION: 示例：删除前10行
-#+BEGIN_SRC shell
-tail -n +10 old_file>new_file
-mv new_file old_file
-#+END_SRC
-* 分区（Partition）
-** Linux上挂载NTFS格式文件系统
-*** 方案A（Scheme A）：使用linux-ntfs
-: 1.
-: $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-: 2.
-: # rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-: 3.
-: 检查 ntfs 模块是否被加载进系统
-: $ /sbin/modprobe ntfs
-:  [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
-: $ cat /proc/filesystems
-:  [ntfs应该出现在列表中]
-: 4.查看NTFS系统的编号
-: /sbin/fdisk -l |grep NTFS 
-: 5.
-: #mkdir -p /mnt/win_ntfs
-: #mount -t ntfs /dev/sda1 /mnt/win_ntfs
-*** 方案B（Scheme B）：使用fuse和ntfs-3g
-: 1.
-: # wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
-: # wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
-: 2.
-: # tar -zxf fuse-2.7.4.tar.gz
-: # ./configure --prefix=/usr/local/fuse-2.7.4
-: # make 
-: # make install
+  : 2. 添加公钥验证下载
+  : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
+  : $ apt-key add linux_signing_key.pub
 
-: # tar -zxf ntfs-3g-2009.4.4.tgz
-: # ./configure --prefix=/usr/local/ntfs-3
-: # make 
-: # make install 
-: 3.
-: 检查fuse模块是否被加载进系统
-: $ /sbin/modprobe fuse
-:  [没有输出则代表存在；否则将会有错误信息报出]
-: $ cat /proc/filesystems
-:  [fuse应该出现在列表中]
-: 4.
-: 查看NTFS系统的编号 
-: $ /sbin/fdisk -l |grep NTFS 
-: 5.
-: #mount ntfs-3g /dev/sda1 /mnt/win_ntfs
+  : 3. 执行安装
+  : $ sudo apt update
+ : // stable ersion
+ : $ sudo apt install google-chrome-stable
+ : // beta or unstable ersion
+ : $ sudo apt install google-chrome-beta
+ : $ sudo apt install google-chrome-unstable
 
-参考：http://blog.163.com/flybood@126/blog/static/41230911201062165035335/
-*** 自动挂载 NTFS 格式硬盘
-**** 安装 ntfs-3g
-: $ sudo apt-get install ntfs-3g
-**** 步骤1：编辑/etc/fstab
-: $ sudo vim /etc/fstab
-: /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-: Notice:
-:    If /dev/sdb1 path will change due to system configuration, I recommend that you use
-: the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
-: 翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符），下面是查看 UUID 的命令。
-: $ sudo /sbin/blkid /dev/sda1
-: //Note down the UUID value and update /etc/fstab as follows:
-: 翻译：记录下 UUID，更新 /etc/fstab 文件。
-#+BEGIN_SRC emacs-lisp
-# syntax
-# UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-# Owning entire file system
-UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
-#+END_SRC
-: //保存关闭文件
-**** 步骤2：创建目录
-: $ sudo mkdir -p /mnt/ntfs
-**** 步骤3：测试（Test）可用性
-: $ sudo mount -a
-: $ df -h
-: $ cd /mnt/ntfs
-: $ ls -l
-**** 步骤4：卸载NTFS分区
-: $ sudo umount /mnt/ntfs
-: // or
-: $ sudo umount /dev/sda1
-**** 注意错误信息：“Read-only file system”提示
-: $ mv 05Music/ /mnt/sda/sda2/
-: /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
-: //解决（Solving）：配置 /etc/fstab
-**** 参考资料
-: https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
-: http://www.tuicool.com/articles/ZbENfie
-: https://wiki.archlinux.org/index.php/NTFS-3G
-: https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-: https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-** 格式化分区命令
-: 将 /dev/sda7 硬盘格式化为 ext3 格式。
-: mkfs -t ext3 -c /dev/sda7
-** Boot加载选项修改
-: #chmod +w /boot/grub/grub.cfg
-: #vim /boot/grub/grub.cfg
-: 注释不需要的加载项！
-* 常用软件（Software）
-** VIM&Emacs
- : 两个神器软件单独介绍，这里不重复叙写。
-** MPlayer
-*** Install
- : // official：http://www.mplayerhq.hu/design7/news.html
- : $ tar -Jxf MPlayer-1.1.1.tar.xz
- : $ cd MPlayer-1.1.1
- : $ sudo ./configure
- : // 发现，需要安装一个依赖包:yasm
- : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
- : // 安装完成后，重新配置、编译和安装
- : $ sudo ./configure
- : $ sudo make && make install
-** chrome & chromium
- : 1. 添加安装源
- : $ sudo vim /etc/apt/sources.list
- : deb http://dl.google.com/linux/chrome/deb/ stable main
+ : 4. 安装 chromium
+  : $ sudo apt-get update
+  : $ sudo apt-get install chromium chromium-l10n
+  : （chromium-l10n 是用于本地化界面的，是可选的软件包）
+  : 注意：chromium不支持PDF查看
+*** Scrot：截图工具
+**** 安装
+: $ sudo apt-get install scrot
+**** 使用方法
+  1.整个桌面截图(Full desktop)
+  : $ scrot
+  : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+  2.特定区域截图（选择截取）(Specific area)
+  : $ scrot -s
+  3.延迟截图(temporize screenshot)
+  : $ scrot -s -d 5
+  4.截图调整质量(Adjust the quality of screenshots)
+  : $ scrot -q 50
+  5.截图调整大小(Adjust the screen size)
+  : $ scrot -t 10
+  6.将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+  : $ scrot -e 'mv $f ~/screenshots'
+**** 参考资料(References)
+  : https://linux.cn/article-3197-1.html
+*** rarcrack（压缩包密码破解工具）
+  : 支持格式：rar,7z,zip
+  : // install
+  : $ sudo apt-get install libxml2-dev build-essential
+  : $ sudo apt-get install rarcrack
+  : // use
+  : $ rarcrack --threads 10 --type rar test.rar
+*** 宝塔面板
+  : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+*** Cisco AnyConnect VPN Client
+**** 问题解决
+ : $ sudo systemctl enable vpnagentd_init
+ : vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
+ : Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
+ : insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
+ : insserv: There is a loop between service bt and vpnagentd_init if stopped
+ : insserv:  loop involving service vpnagentd_init at depth 2
+ : insserv:  loop involving service bt at depth 1
+ : insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
+ : insserv: exiting now without changing boot order!
+ : update-rc.d: error: insserv rejected the script header
 
- : 2. 添加公钥验证下载
- : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
- : $ apt-key add linux_signing_key.pub
-
- : 3. 执行安装
- : $ sudo apt update
-: // stable ersion
-: $ sudo apt install google-chrome-stable
-: // beta or unstable ersion
-: $ sudo apt install google-chrome-beta
-: $ sudo apt install google-chrome-unstable
-
-: 4. 安装 chromium
- : $ sudo apt-get update
- : $ sudo apt-get install chromium chromium-l10n
- : （chromium-l10n 是用于本地化界面的，是可选的软件包）
- : 注意：chromium不支持PDF查看
-** Scrot（截图工具）
-*** 安装
- : $ sudo apt-get install scrot
-*** 使用方法
- 1.整个桌面截图(Full desktop)
- : $ scrot
- : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
- 2.特定区域截图（选择截取）(Specific area)
- : $ scrot -s
- 3.延迟截图(temporize screenshot)
- : $ scrot -s -d 5
- 4.截图调整质量(Adjust the quality of screenshots)
- : $ scrot -q 50
- 5.截图调整大小(Adjust the screen size)
- : $ scrot -t 10
- 6.将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
- : $ scrot -e 'mv $f ~/screenshots'
-*** 参考资料(References)
- : https://linux.cn/article-3197-1.html
-** rarcrack（压缩包密码破解工具）
- : 支持格式：rar,7z,zip
- : // install
- : $ sudo apt-get install libxml2-dev build-essential
- : $ sudo apt-get install rarcrack
- : // use
- : $ rarcrack --threads 10 --type rar test.rar
-** 宝塔面板
- : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
-** Cisco AnyConnect VPN Client
-*** 下载及安装
-*** 问题解决
-: $ sudo systemctl enable vpnagentd_init
-: vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
-: Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
-: insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
-: insserv: There is a loop between service bt and vpnagentd_init if stopped
-: insserv:  loop involving service vpnagentd_init at depth 2
-: insserv:  loop involving service bt at depth 1
-: insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
-: insserv: exiting now without changing boot order!
-: update-rc.d: error: insserv rejected the script header
-
-: [solve]：$ sudo vim /etc/init.d/vpnagentd_init
-#+BEGIN_SRC shell
-#!/bin/sh
-### BEGIN INIT INFO
-# Provides: vpnagentd_init
-# Required-Start: $remote_fs $syslog
-# Required-Stop: $remote_fs $syslog
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
-# Short-Description: Start Cisco vpn agent daemon at boot time
-# Description: Cisco vpn agent daemon
-### END INIT INFO
-#+END_SRC
-** Bind：DNS工具
-*** 安装及配置
+ : [solve]：$ sudo vim /etc/init.d/vpnagentd_init
+ #+BEGIN_SRC shell
+ #!/bin/sh
+ ### BEGIN INIT INFO
+ # Provides: vpnagentd_init
+ # Required-Start: $remote_fs $syslog
+ # Required-Stop: $remote_fs $syslog
+ # Default-Start: 2 3 4 5
+ # Default-Stop: 0 1 6
+ # Short-Description: Start Cisco vpn agent daemon at boot time
+ # Description: Cisco vpn agent daemon
+ ### END INIT INFO
+ #+END_SRC
+*** Bind：DNS工具
 **** 安装
  : # yum install -y bind
 **** 配置
@@ -1095,64 +1048,26 @@ UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 
  : 8)# /etc/init.d/named restart
  : # ping zrg.com.cn
  : # reboot
-*** configuration
+*** Composer
+**** 安装
+  : 1.Download composer.phar file.
+  : 2.Excute:
+  : # php composer.phar
+  : 3.Global:
+  : # mv composer.phar /usr/local/bin/composer
+  : 4.Permission:
+  : # chmod 744 composer
+**** 问题解决
+  : error: /usr/bin/env: php: No such file or directory
+  :  solve:Configuring php to become global variables
+*** vsftpd
+**** Download and Install
+  : https://security.appspot.com/vsftpd.html#download
+  : //yum
+  : yum install -y vsftpd
+
 **** Change default dir
- #+BEGIN_SRC emacs-lisp
- #local user
- local_root=/usr/share/nginx/html
- #is_enable local view,default_setting is NO
- chroot_local_user=NO
- #anonymous user
- anon_root=/var/ftp/pub
- #+END_SRC
-
-**** Configuring directory of access
- #+BEGIN_SRC emacs-lisp
- chroot_local_user=YES
- chroot_list_enable=NO
- allow_writeable_chroot=YES
-
- 报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
-    500 OOPS: vsftpd: refusing to run with writable root inside chroot()
-
- notice:
-  配置具体情况有以下几种：
- 1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
- 2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
- 3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
- 4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
-
- 5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
- #+END_SRC
-*** References
- : https://security.appspot.com/vsftpd.html
- : https://en.wikipedia.org/wiki/Vsftpd
- : http://baike.baidu.com/item/vsftpd
-** Composer
-*** 安装
- : 1.Download composer.phar file.
- : 2.Excute:
- : # php composer.phar
- : 3.Global:
- : # mv composer.phar /usr/local/bin/composer
- : 4.Permission:
- : # chmod 744 composer
-*** 问题解决
- : error: /usr/bin/env: php: No such file or directory
- :  solve:Configuring php to become global variables
-** vsftpd
-*** Installation
-*** environment
- : Linux
-*** Download and Install
- : https://security.appspot.com/vsftpd.html#download
-
- : //yum
- : yum install -y vsftpd
-*** Configuration
-**** Change default dir
-
-  #+BEGIN_SRC emacs lisp
+  #+BEGIN_SRC emacs-lisp
   #local user
   local_root=/usr/share/nginx/html
   #is_enable local view,default_setting is NO
@@ -1162,8 +1077,7 @@ UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 
   #+END_SRC
 
 **** Configuring directory of access
-
-  #+BEGIN_SRC emacs lisp
+  #+BEGIN_SRC emacs-lisp
   chroot_local_user=YES
   chroot_list_enable=NO
   allow_writeable_chroot=YES
@@ -1181,22 +1095,12 @@ UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 
   5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
   #+END_SRC
 
-**** vsftpd.conf
+**** my vsftpd.conf
   //CentOS 7, /etc/vsftpd/vsftpd.conf.
-  #+BEGIN_SRC emacs lisp
+  #+BEGIN_SRC emacs-lisp
   # Example config file /etc/vsftpd/vsftpd.conf
-  #
-  # The default compiled in settings are fairly paranoid. This sample file
-  # loosens things up a bit, to make the ftp daemon more usable.
-  # Please see vsftpd.conf.5 for all compiled in defaults.
-  #
-  # READ THIS: This example file is NOT an exhaustive list of vsftpd options.
-  # Please read the vsftpd.conf.5 manual page to get a full idea of vsftpd's
-  # capabilities.
-  #
   # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
   anonymous_enable=NO
-  #
   #
   local_root=/srv/www/
   #
@@ -1316,64 +1220,144 @@ UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 
   userlist_enable=YES
   tcp_wrappers=YES
   #+END_SRC
-*** References
-  : https://security.appspot.com/vsftpd.html
-  : https://en.wikipedia.org/wiki/Vsftpd
-  : http://baike.baidu.com/item/vsftpd
-** windows环境下安装Cygwin
-*** Cygwin简介
-  #+BEGIN_SRC
-  Cygwin (/ˈsɪɡwɪn/ sig-win[2]) is a Unix-like environment and command-line interface for Microsoft Windows. Cygwin provides 
-  native integration of Windows-based applications, data, and other system resources with applications, software tools, and 
-  data of the Unix-like environment. Thus it is possible to launch Windows applications from the Cygwin environment, as well as 
-  to use Cygwin tools and applications within the Windows operating context.
+**** References
+   : https://security.appspot.com/vsftpd.html
+   : https://en.wikipedia.org/wiki/Vsftpd
+   : http://baike.baidu.com/item/vsftpd
+*** Cygwin：windows 下 Linux 模拟软件
+**** 安装Cygwin
+   : 略
+   : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
 
-  Cygwin consists of two parts: a dynamic-link library (DLL) as an API compatibility layer providing a substantial part of the 
-  POSIX API functionality, and an extensive collection of software tools and applications that provide a Unix-like look and feel.
+ : // 举例说明：安装及配置ssh
+   : 1.运行安装文件
+   : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
+   : 3.安装完成后，打开Cygwin，输入ssh-host-config
+   : 当询问if privilege separation should be used 时输入 no . 
+   : 当询问if sshd should be installed as a service 时输入yes . 
+   : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
+   : 其余询问均输入 no
+   : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
+   : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
+   : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
+   : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
+   : 8.输入 ssh localhost 启动SSH
+**** 参考资料
+   : 1.Cygwin-Official Site:http://cygwin.com/
+   : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
+   : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
+   : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+*** Wps for Linux
+ : 1. 从官网下载安装包，网址：http://www.wps.cn/
 
-  Cygwin was originally developed by Cygnus Solutions, which was later acquired by Red Hat. It is free and open source 
-  software, released under the GNU Lesser General Public License version 3.[3] Today it is maintained by employees of Red 
-  Hat, NetApp and many other volunteers.
-  #+END_SRC
-*** 安装Cygwin
-  : 略
-  : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
-**** 安装及配置ssh
-  : 1.运行安装文件
-  : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
-  : 3.安装完成后，打开Cygwin，输入ssh-host-config
-  : 当询问if privilege separation should be used 时输入 no . 
-  : 当询问if sshd should be installed as a service 时输入yes . 
-  : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
-  : 其余询问均输入 no
-  : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
-  : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
-  : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
-  : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
-  : 8.输入 ssh localhost 启动SSH
-*** 参考资料
-  : 1.Cygwin-Official Site:http://cygwin.com/
-  : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
-  : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
-  : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+ : 2. 安装
+ : $ sudo dpkg -i wps_office_10.xxx.deb
 
-** Wps for Linux
-: 1. 从官网下载安装包，网址：http://www.wps.cn/
+ : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
+ : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
+ : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+ : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
+ : 或者直接 在win 中（C/WINDOWS/FONTS）
+ : 2) 执行以下命令,生成字体的索引信息：
+ : $ sudo mkfontscale
+ : $ sudo mkfontdir
+ : 3) 运行fc-cache命令更新字体缓存
+ : $ sudo fc-cache
+* 分区(Partition)
+** Linux上挂载NTFS格式文件系统
+*** 方案A（Scheme A）：使用linux-ntfs
+: 1.
+: $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+: 2.
+: # rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+: 3.
+: 检查 ntfs 模块是否被加载进系统
+: $ /sbin/modprobe ntfs
+:  [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
+: $ cat /proc/filesystems
+:  [ntfs应该出现在列表中]
+: 4.查看NTFS系统的编号
+: /sbin/fdisk -l |grep NTFS 
+: 5.
+: #mkdir -p /mnt/win_ntfs
+: #mount -t ntfs /dev/sda1 /mnt/win_ntfs
+*** 方案B（Scheme B）：使用fuse和ntfs-3g
+: 1.
+: # wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
+: # wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
+: 2.
+: # tar -zxf fuse-2.7.4.tar.gz
+: # ./configure --prefix=/usr/local/fuse-2.7.4
+: # make 
+: # make install
 
-: 2. 安装
-: $ sudo dpkg -i wps_office_10.xxx.deb
+: # tar -zxf ntfs-3g-2009.4.4.tgz
+: # ./configure --prefix=/usr/local/ntfs-3
+: # make 
+: # make install 
+: 3.
+: 检查fuse模块是否被加载进系统
+: $ /sbin/modprobe fuse
+:  [没有输出则代表存在；否则将会有错误信息报出]
+: $ cat /proc/filesystems
+:  [fuse应该出现在列表中]
+: 4.
+: 查看NTFS系统的编号 
+: $ /sbin/fdisk -l |grep NTFS 
+: 5.
+: #mount ntfs-3g /dev/sda1 /mnt/win_ntfs
 
-: 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
-: 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
-: 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
-: 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
-: 或者直接 在win 中（C/WINDOWS/FONTS）
-: 2) 执行以下命令,生成字体的索引信息：
-: $ sudo mkfontscale
-: $ sudo mkfontdir
-: 3) 运行fc-cache命令更新字体缓存
-: $ sudo fc-cache
-* 问题解决（Problem）
+参考：http://blog.163.com/flybood@126/blog/static/41230911201062165035335/
+*** 自动挂载 NTFS 格式硬盘
+**** 安装 ntfs-3g
+: $ sudo apt-get install ntfs-3g
+**** 步骤1：编辑/etc/fstab
+: $ sudo vim /etc/fstab
+: /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+: Notice:
+:    If /dev/sdb1 path will change due to system configuration, I recommend that you use
+: the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
+: 翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符），下面是查看 UUID 的命令。
+: $ sudo /sbin/blkid /dev/sda1
+: //Note down the UUID value and update /etc/fstab as follows:
+: 翻译：记录下 UUID，更新 /etc/fstab 文件。
+#+BEGIN_SRC emacs-lisp
+# syntax
+# UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+# Owning entire file system
+UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
+#+END_SRC
+: //保存关闭文件
+**** 步骤2：创建目录
+: $ sudo mkdir -p /mnt/ntfs
+**** 步骤3：测试（Test）可用性
+: $ sudo mount -a
+: $ df -h
+: $ cd /mnt/ntfs
+: $ ls -l
+**** 步骤4：卸载NTFS分区
+: $ sudo umount /mnt/ntfs
+: // or
+: $ sudo umount /dev/sda1
+**** 注意错误信息：“Read-only file system”提示
+: $ mv 05Music/ /mnt/sda/sda2/
+: /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
+: //解决（Solving）：配置 /etc/fstab
+**** 参考资料
+: https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
+: http://www.tuicool.com/articles/ZbENfie
+: https://wiki.archlinux.org/index.php/NTFS-3G
+: https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+: https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+** 格式化分区命令
+: 将 /dev/sda7 硬盘格式化为 ext3 格式。
+: mkfs -t ext3 -c /dev/sda7
+** Boot加载选项修改
+: #chmod +w /boot/grub/grub.cfg
+: #vim /boot/grub/grub.cfg
+: 注释不需要的加载项！
+* 问题解决(Problem)
 ** 改变 Home 目录下的目录中文名称为英文
 *** 方法1
 : $ vim ~/.config/user-dirs.dirs
