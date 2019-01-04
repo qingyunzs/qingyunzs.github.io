@@ -143,6 +143,31 @@ sudo sslocal -c /etc/shadowsocks.json -d start
 
 : Check if It Works
 : #sudo systemctl status rc-local.service
+*** Global Proxy
+: 1. $ sudo apt install polipo
+
+: 2. $ sudo vim /etc/polipo/config
+#+NAME: config
+#+BEGIN_SRC shell
+logSyslog = true
+logFile = /var/log/polipo/polipo.log
+proxyAddress = "0.0.0.0"
+socksParentProxy = "127.0.0.1:1080"
+socksProxyType = socks5
+chunkHighMark = 50331648
+objectHighMark = 16384
+serverMaxSlots = 64
+serverSlots = 16
+serverSlots1 = 32
+#+END_SRC
+
+: 3. $ sudo systemctl restart polipo
+
+: 4. $ export http_proxy="http://127.0.0.1:8123/"
+: $ export https_proxy="https://127.0.0.1:8123/"
+
+: 5. testing
+: $ curl www.google.com
 *** Problem
 **** ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
 Reason:
@@ -213,3 +238,5 @@ Solving:
 + [[https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList][SwitchyOmega]]
 + [[https://doub.io/ss-jc25/][IOS系统推荐几款支持Shadowsocks的代理软件]]
 + [[http://www.jeyzhang.com/how-to-install-and-setup-shadowsocks-client-in-different-os.html][各种系统下Shadowsocks客户端的安装与配置]]
++ [[https://www.jianshu.com/p/41378f4e14bc][linux 配置shadowsocks代理全局代理]]
++ [[https://blog.csdn.net/guizaijianchic/article/details/78422811][linux ubuntu下使用ss设置全局代理,命令行也走代理]]

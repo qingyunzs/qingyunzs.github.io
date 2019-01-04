@@ -11,13 +11,13 @@ tags:
 photos:
 ---
 
-<div id="outline-container-org0c95c19" class="outline-2">
-<h2 id="org0c95c19">线程入门</h2>
-<div class="outline-text-2" id="text-org0c95c19">
+<div id="outline-container-org0bcdeb6" class="outline-2">
+<h2 id="org0bcdeb6">线程入门</h2>
+<div class="outline-text-2" id="text-org0bcdeb6">
 </div>
-<div id="outline-container-orge83bbfc" class="outline-3">
-<h3 id="orge83bbfc">创建线程</h3>
-<div class="outline-text-3" id="text-orge83bbfc">
+<div id="outline-container-orgb1b937d" class="outline-3">
+<h3 id="orgb1b937d">创建线程</h3>
+<div class="outline-text-3" id="text-orgb1b937d">
 <pre class="example">
 using system;
 using system.Threading;
@@ -35,9 +35,9 @@ static void CalcSum()
 </pre>
 </div>
 </div>
-<div id="outline-container-org7a62aaf" class="outline-3">
-<h3 id="org7a62aaf">Thread类几个重要方法</h3>
-<div class="outline-text-3" id="text-org7a62aaf">
+<div id="outline-container-org273602a" class="outline-3">
+<h3 id="org273602a">Thread类几个重要方法</h3>
+<div class="outline-text-3" id="text-org273602a">
 <pre class="example">
 Thread类用于创建线程，ThreadPool类用于管理线程池。
 
@@ -55,9 +55,9 @@ Thread类中几个重要的方法：
 </div>
 </div>
 
-<div id="outline-container-org336b9da" class="outline-3">
-<h3 id="org336b9da">Thread.ThreadState属性</h3>
-<div class="outline-text-3" id="text-org336b9da">
+<div id="outline-container-orgb18eaab" class="outline-3">
+<h3 id="orgb18eaab">Thread.ThreadState属性</h3>
+<div class="outline-text-3" id="text-orgb18eaab">
 <pre class="example">
 Thread.ThreadState 在各种情况下的取值如下：
 1. Aborted：线程已停止
@@ -74,9 +74,9 @@ Thread.ThreadState 在各种情况下的取值如下：
 </pre>
 </div>
 </div>
-<div id="outline-container-org4d326e2" class="outline-3">
-<h3 id="org4d326e2">设定线程优先级</h3>
-<div class="outline-text-3" id="text-org4d326e2">
+<div id="outline-container-org5f6f094" class="outline-3">
+<h3 id="org5f6f094">设定线程优先级</h3>
+<div class="outline-text-3" id="text-org5f6f094">
 <pre class="example">
 优先级由高到低分别是Highest，AboveNormal，Normal，BelowNormal，Lowest。默认为ThreadPriority.Normal。
 
@@ -90,17 +90,17 @@ myThread.Priority=ThreadPriority.Lowest;
 </div>
 </div>
 </div>
-<div id="outline-container-orga4441ce" class="outline-2">
-<h2 id="orga4441ce">线程的同步和通讯——生产者和消费者</h2>
-<div class="outline-text-2" id="text-orga4441ce">
+<div id="outline-container-org153a6dc" class="outline-2">
+<h2 id="org153a6dc">线程的同步和通讯——生产者和消费者</h2>
+<div class="outline-text-2" id="text-org153a6dc">
 <pre class="example">
 假设这样一种情况，两个线程同时维护一个队列，如果一个线程对队列中添加元素，而另外一个线程从队列中取用元素，那么我们称添加元素的线程为生产者，称取用元素的线程为消费者。
 
 </pre>
 </div>
-<div id="outline-container-org6f91557" class="outline-3">
-<h3 id="org6f91557">lock关键字</h3>
-<div class="outline-text-3" id="text-org6f91557">
+<div id="outline-container-orgd7e8cab" class="outline-3">
+<h3 id="orgd7e8cab">lock关键字</h3>
+<div class="outline-text-3" id="text-orgd7e8cab">
 <pre class="example">
 lock 关键字解决多个线程同时执行一个函数，导致数据的混乱，产生不可预料的结果的问题。
 lock 关键字将一段代码定义为互斥段（critical section）。互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。
@@ -115,9 +115,9 @@ lock(expression) statement_block
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbb82114" class="outline-3">
-<h3 id="orgbb82114">Monitor类(System.Threading)</h3>
-<div class="outline-text-3" id="text-orgbb82114">
+<div id="outline-container-org034aade" class="outline-3">
+<h3 id="org034aade">Monitor类(System.Threading)</h3>
+<div class="outline-text-3" id="text-org034aade">
 <pre class="example">
 Monitor提供了使线程共享资源的方案。
 Monitor类可以锁定一个对象，一个线程只有得到这把锁才可以对该对象进行操作。
@@ -135,9 +135,9 @@ Monitor.Exit(oQueue);//释放锁
 //当拥有对象锁的线程准备释放锁时，它使用Monitor.Pulse()方法通知等待队列中的第一个线程。
 </pre>
 </div>
-<div id="outline-container-org48e4b99" class="outline-4">
-<h4 id="org48e4b99">Monitor.Wait()和Monitor.Pulse()</h4>
-<div class="outline-text-4" id="text-org48e4b99">
+<div id="outline-container-org9e69393" class="outline-4">
+<h4 id="org9e69393">Monitor.Wait()和Monitor.Pulse()</h4>
+<div class="outline-text-4" id="text-org9e69393">
 <pre class="example">
 1. Wait()就是交出锁的使用权，使线程处于阻塞状态，直到再次获得锁的使用权。
 2. 当前线程调用Pulse()向队列中的下一个线程发出锁的信号。接收到脉冲后，等待线程就被移动到就绪队列中。
@@ -149,13 +149,13 @@ Monitor.Exit(oQueue);//释放锁
 </div>
 </div>
 
-<div id="outline-container-orgd27c6ae" class="outline-2">
-<h2 id="orgd27c6ae">实例：开辟一线程实现异步导出Excel</h2>
-<div class="outline-text-2" id="text-orgd27c6ae">
+<div id="outline-container-org302dfde" class="outline-2">
+<h2 id="org302dfde">实例：开辟一线程实现异步导出Excel</h2>
+<div class="outline-text-2" id="text-org302dfde">
 </div>
-<div id="outline-container-org23de94b" class="outline-3">
-<h3 id="org23de94b">环境介绍及实例简述</h3>
-<div class="outline-text-3" id="text-org23de94b">
+<div id="outline-container-org253c703" class="outline-3">
+<h3 id="org253c703">环境介绍及实例简述</h3>
+<div class="outline-text-3" id="text-org253c703">
 <pre class="example">
 环境介绍：
 开发语言》C#;
@@ -174,9 +174,9 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-orgf69511a" class="outline-3">
-<h3 id="orgf69511a">实现思路及准备工作</h3>
-<div class="outline-text-3" id="text-orgf69511a">
+<div id="outline-container-orgbe7943d" class="outline-3">
+<h3 id="orgbe7943d">实现思路及准备工作</h3>
+<div class="outline-text-3" id="text-orgbe7943d">
 <pre class="example">
 思路：
 通过线程实现异步导出操作；
@@ -192,13 +192,13 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-org0bdbaba" class="outline-3">
-<h3 id="org0bdbaba">实例代码</h3>
-<div class="outline-text-3" id="text-org0bdbaba">
+<div id="outline-container-org8e7eb7c" class="outline-3">
+<h3 id="org8e7eb7c">实例代码</h3>
+<div class="outline-text-3" id="text-org8e7eb7c">
 </div>
-<div id="outline-container-orgba1672b" class="outline-4">
-<h4 id="orgba1672b">UserController.cs</h4>
-<div class="outline-text-4" id="text-orgba1672b">
+<div id="outline-container-orgb9b76c1" class="outline-4">
+<h4 id="orgb9b76c1">UserController.cs</h4>
+<div class="outline-text-4" id="text-orgb9b76c1">
 <div class="org-src-container">
 <pre class="src src-emacs">using Project.BLL;
 using Project.Class;
@@ -362,9 +362,9 @@ namespace Project.UI
 </div>
 </div>
 </div>
-<div id="outline-container-orgb3a918f" class="outline-4">
-<h4 id="orgb3a918f">Global.asax.cs</h4>
-<div class="outline-text-4" id="text-orgb3a918f">
+<div id="outline-container-org417aa86" class="outline-4">
+<h4 id="org417aa86">Global.asax.cs</h4>
+<div class="outline-text-4" id="text-org417aa86">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -429,9 +429,9 @@ namespace GpsProject.UI
 </div>
 </div>
 </div>
-<div id="outline-container-org3fce97f" class="outline-4">
-<h4 id="org3fce97f">DataExportPara.cs</h4>
-<div class="outline-text-4" id="text-org3fce97f">
+<div id="outline-container-org1a7856c" class="outline-4">
+<h4 id="org1a7856c">DataExportPara.cs</h4>
+<div class="outline-text-4" id="text-org1a7856c">
 <div class="org-src-container">
 <pre class="src src-emacs">using System.Collections;
 using System.Collections.Generic;
@@ -465,9 +465,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org29b9e7f" class="outline-4">
-<h4 id="org29b9e7f">DataExport.cs</h4>
-<div class="outline-text-4" id="text-org29b9e7f">
+<div id="outline-container-orgfba0d11" class="outline-4">
+<h4 id="orgfba0d11">DataExport.cs</h4>
+<div class="outline-text-4" id="text-orgfba0d11">
 <div class="org-src-container">
 <pre class="src src-emacs">using GpsProject.Class;
 using System.Collections;
@@ -504,9 +504,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org20c33ff" class="outline-4">
-<h4 id="org20c33ff">NPOIExcelHelper.cs</h4>
-<div class="outline-text-4" id="text-org20c33ff">
+<div id="outline-container-orgc3c08db" class="outline-4">
+<h4 id="orgc3c08db">NPOIExcelHelper.cs</h4>
+<div class="outline-text-4" id="text-orgc3c08db">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -659,9 +659,9 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-orgee9a4bc" class="outline-3">
-<h3 id="orgee9a4bc">小结</h3>
-<div class="outline-text-3" id="text-orgee9a4bc">
+<div id="outline-container-orga0eb006" class="outline-3">
+<h3 id="orga0eb006">小结</h3>
+<div class="outline-text-3" id="text-orga0eb006">
 <pre class="example">
 在阅读别人的文章时，认真。
 
@@ -669,16 +669,16 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-orgc8eaddf" class="outline-2">
-<h2 id="orgc8eaddf">实例：利用线程监听模拟车辆进出智能化停车场</h2>
-<div class="outline-text-2" id="text-orgc8eaddf">
+<div id="outline-container-org3ea12ea" class="outline-2">
+<h2 id="org3ea12ea">实例：利用线程监听模拟车辆进出智能化停车场</h2>
+<div class="outline-text-2" id="text-org3ea12ea">
 </div>
-<div id="outline-container-org55498af" class="outline-3">
-<h3 id="org55498af">实例简述</h3>
+<div id="outline-container-orgff06851" class="outline-3">
+<h3 id="orgff06851">实例简述</h3>
 </div>
-<div id="outline-container-org84d4717" class="outline-3">
-<h3 id="org84d4717">实现效果</h3>
-<div class="outline-text-3" id="text-org84d4717">
+<div id="outline-container-org1758afa" class="outline-3">
+<h3 id="org1758afa">实现效果</h3>
+<div class="outline-text-3" id="text-org1758afa">
 
 <div class="figure">
 <p><img src="./images/thread_20170616.png" alt="thread_20170616.png" />
@@ -686,13 +686,13 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-org52f1286" class="outline-3">
-<h3 id="org52f1286">主要代码</h3>
-<div class="outline-text-3" id="text-org52f1286">
+<div id="outline-container-org1ad5d93" class="outline-3">
+<h3 id="org1ad5d93">主要代码</h3>
+<div class="outline-text-3" id="text-org1ad5d93">
 </div>
-<div id="outline-container-org3c45d32" class="outline-4">
-<h4 id="org3c45d32">Main.cs</h4>
-<div class="outline-text-4" id="text-org3c45d32">
+<div id="outline-container-orge4ec272" class="outline-4">
+<h4 id="orge4ec272">Main.cs</h4>
+<div class="outline-text-4" id="text-orge4ec272">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private void Main_Load(object sender, EventArgs e)
 {
@@ -730,9 +730,9 @@ private void ApplyChanged_Click(object sender, EventArgs e)
 </div>
 </div>
 </div>
-<div id="outline-container-org52cb309" class="outline-4">
-<h4 id="org52cb309">VehicleIO.cs</h4>
-<div class="outline-text-4" id="text-org52cb309">
+<div id="outline-container-orgb5a4d30" class="outline-4">
+<h4 id="orgb5a4d30">VehicleIO.cs</h4>
+<div class="outline-text-4" id="text-orgb5a4d30">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private string InStartRunTime=<span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
 private string InEndRunTime = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
@@ -853,9 +853,9 @@ private void working()
 </div>
 </div>
 </div>
-<div id="outline-container-org8e37f3d" class="outline-4">
-<h4 id="org8e37f3d">其他</h4>
-<div class="outline-text-4" id="text-org8e37f3d">
+<div id="outline-container-org4c35801" class="outline-4">
+<h4 id="org4c35801">其他</h4>
+<div class="outline-text-4" id="text-org4c35801">
 <p>
 //显示实时时间
 </p>
@@ -914,9 +914,9 @@ private string getRandom(int min_value, int max_value, int number)
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8a45fb" class="outline-2">
-<h2 id="orgd8a45fb">参考资料</h2>
-<div class="outline-text-2" id="text-orgd8a45fb">
+<div id="outline-container-org1993b52" class="outline-2">
+<h2 id="org1993b52">参考资料</h2>
+<div class="outline-text-2" id="text-org1993b52">
 <pre class="example">
 http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
   

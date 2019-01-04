@@ -1,0 +1,230 @@
+---
+layout: post
+title: PHP 简单的登录与注册
+author: zrg
+comments: false
+description: PHP 登录与注册实现
+categories:
+- PHP
+tags:
+- PHP
+photos:
+---
+<div id="outline-container-org36852ba" class="outline-2">
+<h2 id="org36852ba">PHP 简介</h2>
+<div class="outline-text-2" id="text-org36852ba">
+<pre class="example">
+1.PHP(PHP Hypertext Preprocessor)，
+2.PHP发展历程：
+
+</pre>
+<p>
+<a href="https://en.wikipedia.org/wiki/PHP">维基百科</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgfbe9aee" class="outline-2">
+<h2 id="orgfbe9aee">PHP 基础</h2>
+<div class="outline-text-2" id="text-orgfbe9aee">
+<pre class="example">
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org54ac965" class="outline-2">
+<h2 id="org54ac965">PHP 代码片段</h2>
+<div class="outline-text-2" id="text-org54ac965">
+</div>
+<div id="outline-container-org5486b01" class="outline-3">
+<h3 id="org5486b01">PHP 生成UUID我唯一序列</h3>
+<div class="outline-text-3" id="text-org5486b01">
+<div class="org-src-container">
+<pre class="src src-shell" id="orge060ead"><span style="color: #a020f0;">function</span>&#160;uuid($<span style="color: #a0522d;">prefix</span> =<span style="color: #8b2252;">''</span>)
+{
+        $<span style="color: #a0522d;">chars</span> = md5(uniqid(mt_rand(), true));
+        $<span style="color: #a0522d;">uuid</span> = substr($<span style="color: #a0522d;">chars</span>,0,8) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;
+        $<span style="color: #a0522d;">uuid</span> .=&#160;substr($<span style="color: #a0522d;">chars</span>,8,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;
+        $<span style="color: #a0522d;">uuid</span> .=&#160;substr($<span style="color: #a0522d;">chars</span>,12,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;
+        $<span style="color: #a0522d;">uuid</span> .= substr($<span style="color: #a0522d;">chars</span>,16,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;
+        $<span style="color: #a0522d;">uuid</span> .=&#160;substr($<span style="color: #a0522d;">chars</span>,20,12);
+        <span style="color: #a020f0;">return</span> $<span style="color: #a0522d;">prefix</span> . $<span style="color: #a0522d;">uuid</span>;
+}
+</pre>
+</div>
+<pre class="example">
+也可以使用SQL语句生成：insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7dc4603" class="outline-3">
+<h3 id="org7dc4603">判断二维数组是否为空</h3>
+<div class="outline-text-3" id="text-org7dc4603">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgcc3d12c"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">array_is_null</span>($<span style="color: #a0522d;">arr</span> = null){
+        <span style="color: #a020f0;">if</span>(is_array($<span style="color: #a0522d;">arr</span>)){
+                foreach($<span style="color: #a0522d;">arr</span> as $<span style="color: #a0522d;">k</span>=&gt;$<span style="color: #a0522d;">v</span>){
+                        <span style="color: #a020f0;">if</span>($<span style="color: #a0522d;">v</span>&amp;&amp;!is_array($<span style="color: #a0522d;">v</span>)){
+                                <span style="color: #a020f0;">return</span> false;
+                        }
+                        $<span style="color: #a0522d;">temp</span> = $<span style="color: #a0522d;">this</span>-&gt;array_is_null($<span style="color: #a0522d;">v</span>);
+                        <span style="color: #a020f0;">if</span>(!$<span style="color: #a0522d;">temp</span>){
+                                <span style="color: #a020f0;">return</span> false;
+                        }
+                }
+                <span style="color: #a020f0;">return</span> true;
+        }elseif(!$<span style="color: #a0522d;">arr</span>){
+                <span style="color: #a020f0;">return</span> true;
+        }<span style="color: #a020f0;">else</span>{
+                <span style="color: #a020f0;">return</span> false;
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge3fe4a7" class="outline-2">
+<h2 id="orge3fe4a7">简单的登录示例</h2>
+<div class="outline-text-2" id="text-orge3fe4a7">
+</div>
+<ul class="org-ul">
+<li><a id="org0bbe17a"></a>login.html<br />
+<div class="outline-text-5" id="text-org0bbe17a">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;form <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"loginform"</span> <span style="color: #a0522d;">method</span>=<span style="color: #8b2252;">"post"</span> <span style="color: #a0522d;">action</span>=<span style="color: #8b2252;">"login-fun.php"</span> <span style="color: #a0522d;">onsubmit</span>=<span style="color: #8b2252;">"return InputCheck(this)"</span>&gt;
+  &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"span12"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"text"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"username"</span> <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"username"</span> <span style="color: #a0522d;">placeholder</span>=<span style="color: #8b2252;">"Username"</span> /&gt;
+   &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"span12"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"password"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"password"</span> <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"password"</span> <span style="color: #a0522d;">placeholder</span>=<span style="color: #8b2252;">"Password"</span> /&gt;
+   &lt;a <span style="color: #a0522d;">href</span>=<span style="color: #8b2252;">"mailto:1390556487@qq.com?subject=Hello, administrator, I forgot my password."</span> <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"forgot"</span>&gt;
+   &#24536;&#35760;&#23494;&#30721;,&#32852;&#31995;&#31649;&#29702;&#21592;&lt;/a&gt;
+     &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"remember"</span>&gt;
+     &lt;input <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"remember-me"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"checkbox"</span> /&gt;
+     &lt;label <span style="color: #a0522d;">for</span>=<span style="color: #8b2252;">"remember-me"</span>&gt;&#35760;&#20303;&#23494;&#30721;&lt;/label&gt;
+   &lt;/div&gt;
+   &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"btn-glow primary login"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"submit"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"submit"</span> <span style="color: #a0522d;">value</span>=<span style="color: #8b2252;">"&#30331;&#24405;"</span> <span style="color: #a0522d;">onclick</span>=<span style="color: #8b2252;">"check()"</span> /&gt;
+ &lt;/form&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org93e0a73"></a>login-fun.php<br />
+<div class="outline-text-5" id="text-org93e0a73">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;?php
+/**
+ * &#30331;&#24405;
+ */
+<span style="color: #a020f0;">if</span>(!isset($<span style="color: #a0522d;">_POST</span>[<span style="color: #8b2252;">'submit'</span>])){  
+    <span style="color: #a020f0;">exit</span>(<span style="color: #8b2252;">'&#38750;&#27861;&#35775;&#38382;!'</span>);  
+} 
+<span style="color: #0000ff;">include</span>(<span style="color: #8b2252;">"conn/conn.php"</span>);   //&#24341;&#20837;&#25968;&#25454;&#24211;&#36830;&#25509;&#25991;&#20214;
+$<span style="color: #a0522d;">username</span> = htmlspecialchars($<span style="color: #a0522d;">_POST</span>[<span style="color: #8b2252;">'username'</span>]);
+$<span style="color: #a0522d;">password</span> = MD5($<span style="color: #a0522d;">_POST</span>[<span style="color: #8b2252;">'password'</span>]); 
+$<span style="color: #a0522d;">select</span>=mysqli_query($<span style="color: #a0522d;">conn</span>,<span style="color: #8b2252;">"SELECT Id from es_admin where AdminName='$username' and Password='$password'"</span>);
+<span style="color: #a020f0;">if</span>($<span style="color: #a0522d;">result</span> = mysqli_fetch_array($<span style="color: #a0522d;">select</span>)){
+    //&#30331;&#24405;&#25104;&#21151;  
+    session_start();  
+    $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'username'</span>] = $<span style="color: #a0522d;">username</span>;  
+    $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'password'</span>] = $<span style="color: #a0522d;">password</span>;
+    $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'Id'</span>]=$<span style="color: #a0522d;">result</span>[<span style="color: #8b2252;">'Id'</span>];  
+    <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"&lt;script&gt;window.location.href='index.php';&lt;/script&gt;"</span>;
+} <span style="color: #a020f0;">else</span> {  
+// &#30331;&#24405;&#22833;&#36133;
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"&lt;script&gt;alert('&#30331;&#24405;&#22833;&#36133;!');window.location.href=\"signin.php\";&lt;/script&gt;"</span>;
+}  
+?&gt;
+</pre>
+</div>
+</div>
+</li>
+</ul>
+<div id="outline-container-org758aa33" class="outline-4">
+<h4 id="org758aa33">应用在ThinkPHP 3.2.3中</h4>
+<div class="outline-text-4" id="text-org758aa33">
+</div>
+<ul class="org-ul">
+<li><a id="org65b48a5"></a>login.html<br />
+<div class="outline-text-5" id="text-org65b48a5">
+<div class="org-src-container">
+<pre class="src src-sh">&lt;form <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"login-form"</span> <span style="color: #a0522d;">action</span>=<span style="color: #8b2252;">"{:U('Home/Login/login','','')}"</span> <span style="color: #a0522d;">method</span>=<span style="color: #8b2252;">"post"</span>&gt;
+   &lt;span&gt;
+   &#35831;&#36755;&#20837;&#29992;&#25143;&#21517;&#21644;&#23494;&#30721;. &lt;/span&gt;
+   &lt;/div&gt;
+   &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-group"</span>&gt;
+   &lt;!--ie8, ie9 does not support html5 placeholder, so we just show field title for that--&gt;
+   &lt;label <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"control-label visible-ie8 visible-ie9"</span>&gt;&#29992;&#25143;&#21517;&lt;/label&gt;
+   &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"input-icon"</span>&gt;
+    &lt;i <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"fa fa-user"</span>&gt;&lt;/i&gt;
+    &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-control placeholder-no-fix"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"text"</span> <span style="color: #a0522d;">autocomplete</span>=<span style="color: #8b2252;">"off"</span> <span style="color: #a0522d;">placeholder</span>=<span style="color: #8b2252;">"&#29992;&#25143;&#21517;"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"username"</span>/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-group"</span>&gt;
+    &lt;label <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"control-label visible-ie8 visible-ie9"</span>&gt;&#23494;&#30721;&lt;/label&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"input-icon"</span>&gt;
+    &lt;i <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"fa fa-lock"</span>&gt;&lt;/i&gt;
+    &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-control placeholder-no-fix"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"password"</span> <span style="color: #a0522d;">autocomplete</span>=<span style="color: #8b2252;">"off"</span> <span style="color: #a0522d;">placeholder</span>=<span style="color: #8b2252;">"&#23494;&#30721;"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"password"</span>/&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-group"</span>&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"input-icon"</span> <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"code"</span>&gt;
+    &lt;input <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-control placeholder-no-fix"</span> <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"code"</span> <span style="color: #a0522d;">utocomplete</span>=<span style="color: #8b2252;">"off"</span> <span style="color: #a0522d;">placeholder</span>=<span style="color: #8b2252;">"&#39564;&#35777;&#30721;"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"verify"</span> /&gt;&lt;img <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"code"</span> <span style="color: #a0522d;">src</span>=<span style="color: #8b2252;">"{:U('Home/Login/verify','','')}"</span> /&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"form-actions"</span>&gt;
+    &lt;label <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"checkbox"</span>&gt;
+    &lt;input <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"checkbox"</span> <span style="color: #a0522d;">name</span>=<span style="color: #8b2252;">"remember"</span> <span style="color: #a0522d;">value</span>=<span style="color: #8b2252;">"1"</span>/&gt; &#35760;&#20303;&#23494;&#30721; &lt;/label&gt;
+    &lt;button <span style="color: #a0522d;">type</span>=<span style="color: #8b2252;">"submit"</span> <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"btn green-haze pull-right"</span>&gt;
+    &#30331;&#24405; &lt;i <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"m-icon-swapright m-icon-white"</span>&gt;&lt;/i&gt;
+    &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div <span style="color: #a0522d;">class</span>=<span style="color: #8b2252;">"forget-password"</span>&gt;
+    &lt;h4&gt;&#24536;&#35760;&#23494;&#30721; ?&lt;/h4&gt;
+    &lt;p&gt;
+    &#21035;&#25285;&#24515;&#65292;&#28857;&#20987; &lt;a <span style="color: #a0522d;">href</span>=<span style="color: #8b2252;">"javascript:;"</span> <span style="color: #a0522d;">id</span>=<span style="color: #8b2252;">"forget-password"</span>&gt;
+    &#36825;&#20799; &lt;/a&gt;
+    &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;/form&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgbed475f"></a>LoginController.class.php<br />
+<div class="outline-text-5" id="text-orgbed475f">
+<div class="org-src-container">
+<pre class="src src-sh">//&#30331;&#38470;&#39564;&#35777;
+  public <span style="color: #a020f0;">function</span> <span style="color: #0000ff;">login</span>(){
+   $<span style="color: #a0522d;">username</span> = I(<span style="color: #8b2252;">'username'</span>);
+   $<span style="color: #a0522d;">password</span> = I(<span style="color: #8b2252;">'password'</span>,<span style="color: #8b2252;">''</span>,<span style="color: #8b2252;">'md5'</span>);
+   //login check
+   $<span style="color: #a0522d;">user</span>=M(<span style="color: #8b2252;">'user'</span>)-&gt;where(array(<span style="color: #8b2252;">'username'</span> =&gt; $<span style="color: #a0522d;">username</span>))-&gt;find();
+   <span style="color: #a020f0;">if</span> (!$<span style="color: #a0522d;">user</span> || $<span style="color: #a0522d;">user</span>[<span style="color: #8b2252;">'password'</span>] != $<span style="color: #a0522d;">password</span>) {
+      $<span style="color: #a0522d;">this</span>-&gt;error(<span style="color: #8b2252;">'&#36134;&#21495;&#25110;&#23494;&#30721;&#38169;&#35823;'</span>);
+   }
+
+  //login information insert
+  $<span style="color: #a0522d;">data</span> = array(
+  <span style="color: #8b2252;">'id'</span> =&gt; $<span style="color: #a0522d;">user</span>[<span style="color: #8b2252;">'id'</span>],
+  <span style="color: #8b2252;">'login_time'</span> =&gt; date(<span style="color: #8b2252;">'Y-m-d H:i:s'</span>),
+  <span style="color: #8b2252;">'login_ip'</span> =&gt; get_client_ip(),
+  );
+  M(<span style="color: #8b2252;">'user'</span>)-&gt;save($<span style="color: #a0522d;">data</span>);
+
+  //session
+  session_start();
+  $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'username'</span>]=$<span style="color: #a0522d;">username</span>;
+  $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'password'</span>]=$<span style="color: #a0522d;">password</span>;
+  $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'id'</span>]=$<span style="color: #a0522d;">user</span>[<span style="color: #8b2252;">'id'</span>];
+  $<span style="color: #a0522d;">_SESSION</span>[<span style="color: #8b2252;">'login_time'</span>]=time();
+
+  $<span style="color: #a0522d;">this</span>-&gt;redirect(<span style="color: #8b2252;">'Home/Index/index'</span>);
+  }
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>

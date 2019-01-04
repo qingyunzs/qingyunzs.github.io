@@ -513,17 +513,9 @@ Hello, World
 : $ echo $?
 5
 ** 结构化命令
-#+NAME: if-then-elif-then-else-fi
+*** if-then
+#+NAME: if-then
 #+BEGIN_SRC shell
-格式：
-if command1
-then
-	commands
-elif command2
-then
-	commands
-fi
-
 示例：
 #!/bin/bash
 testuser = NoSuchUser
@@ -543,6 +535,16 @@ fi
 
 test命令提供了在if-then语句中测试不同条件的途径。
 test命令可以判断三类条件：数值比较；字符串比较；文件比较
+#+END_SRC
+*** test 命令
+: 格式：
+if test condition
+then
+	commands
+fi
+: 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+#+NAME: if-then 字符串比较
+#+BEGIN_SRC shell
 #!/bin/bash
 $var = 10
 if [$var -eq 5]
@@ -567,6 +569,200 @@ else
 	echo "$var2 is less than $var3"
 fi
 #+END_SRC
+: 特别说明：
+: 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+: 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+
+#+NAME: if-then 字符串大小
+#+BEGIN_SRC shell
+#!/bin/bash
+var1 = testing
+var2 =''
+if [-n $var1]
+then
+	echo "The string '$var1' is not empty."
+else
+	echo "The string '$var1' is empty."
+fi
+if [-z $var2]
+then
+	echo "The string '$var2' is empty."
+else
+	echo "The string '$var2' is not empty."
+fi
+#+END_SRC
+
+#+NAME: if-then 文件比较
+#+BEGIN_SRC shell
+#!/bin/bash
+jump_directory=/home/arthur
+if [-d $jump_directory]
+then
+	echo "The $jump_directory directory exists."
+else
+	echo "The $jump_directory directory does not exists."
+fi
+#+END_SRC
+| 比较            | 描述                                     |
+|-----------------+------------------------------------------|
+| -d file         | 检查file是否存在并是一个目录             |
+| -e file         | 检查file是否存在                         |
+| -f file         | 检查file是否存在并是一个文件             |
+| -r file         | 检查file是否存在并可读                   |
+| -s file         | 检查file是否存在并非空                   |
+| -w file         | 检查file是否存在并可写                   |
+| -x file         | 检查file是否存在并可执行                 |
+| -O file         | 检查file是否存在并属当前用户所有         |
+| -G file         | 检查file是否存在并且默认组与当前用户相同 |
+| file1 -nt file2 | 检查file是否比file2                      |
+| file1 -ot file2 | 检查file是否比file2旧                    |
+*** 复合条件
+: 格式：
+[condition1] && [condition2]
+[condition1] || [condition2]
+#+NAME: if-then 复合条件测试
+#+BEGIN_SRC shell
+  #!/bin/bash
+  # testing compound comparisons
+  #
+  if [-d $HOME] && [-w $HOME/testing]
+  then
+	  echo "The file exists and you can write to it."
+  else
+	  echo "I cannot write to the file."
+  fi
+#+END_SRC
+*** if-then 的高级特性
+#+NAME: if-then 双括号
+#+BEGIN_SRC shell
+  #!/bin/bash
+  # (( expression )) expression 可以是任意的数学赋值或比较表达式。
+  var1=10
+  if(( $var1 ** 2 > 90))
+  then
+	  (( $var2 = $var1 ** 2))
+	  echo "The square of $var1 is $var2."
+  fi
+#+END_SRC
+
+#+NAME: if-then 双方括号
+#+BEGIN_SRC shell
+  #!/bin/bash
+  # [[ expression ]]
+  if[[ $USER == r* ]]
+  then
+	  echo "Hello $USER"
+else
+	echo "Sorry, I do not know you."
+  fi
+#+END_SRC
+*** case 命令
+: 格式：
+case $变量名 in
+模式1)
+	命令序列1;;
+模式2)
+	命令序列2;;
+*)
+	默认执行的命令序列;;
+esac 
+#+NAME: case
+#+BEGIN_SRC shell
+  #!/bin/bash
+  case $action in
+	start | begin)
+		echo "start something"
+		echo "begin something";;
+	stop | end)
+		echo "stop something"
+		echo "end something";;
+	*)
+	echo "Ignorant.";;
+esac
+#+END_SRC
+*** for 命令
+: 格式：
+for var in list
+do
+	commands
+done
+#+NAME: 遍历
+#+BEGIN_SRC shell
+#!/bin/bash
+#
+# basic for command
+for country in China America India Japen
+do
+	echo "The next state is $country"
+done
+
+# another example of how not to use the for command
+# 1.使用转义字符（反斜线）
+# 2.使用双引号
+for test in I don\'t know if "this'll" work
+do
+	echo "word:$test"
+done
+
+# using a variable to hold the list
+list="China America India Japen"
+list=$list" Connecticut"
+for country in $list
+do
+	echo "Welcome to $country"
+done
+
+# reading values from a file
+file="states"
+# 修改IFS环境变量的值，使其只能识别换行符
+IFS=$'\n'
+for state in $(cat $file)
+do
+	echo "Visit beautiful $state"
+done
+
+# iterate through all the files in a directory
+for file in $HOME/* /etc/nginx/*
+do
+	if [-d "$file"]
+	then
+		echo "$file is a directory."
+	elif [-f "$file"]
+	then
+		echo "$file is a file."
+	fi
+done
+
+# C-style for loop
+#
+for (( i=1; i <= 10; i++))
+do
+	echo "The next number is $i"
+done
+# multiple variable
+for (( a=1; b=10;a <= 10; a++, b++))
+do
+	echo "$a - $b"
+done
+#+END_SRC
+*** while 命令
+: 格式：
+while test command
+do
+	other commands
+done
+#+NAME: while
+#+BEGIN_SRC shell
+# while command test
+var1=10
+while [$var1 -gt 0]
+do
+	echo $var1
+	var1=$[$var1 - 1]
+done
+#+END_SRC
+*** until 命令
+*** 
 ** 处理用户输入
 ** 呈现数据
 ** 控制脚本
