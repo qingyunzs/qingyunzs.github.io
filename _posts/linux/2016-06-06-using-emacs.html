@@ -608,13 +608,83 @@ C表示Ctrl，M表示Alt
 </div>
 </div>
 </div>
-<div id="outline-container-org0bb3c43" class="outline-3">
-<h3 id="org0bb3c43">org-mode 入门</h3>
-<div class="outline-text-3" id="text-org0bb3c43">
 </div>
-<div id="outline-container-org4f295a9" class="outline-4">
-<h4 id="org4f295a9">常用org-mode快捷键</h4>
-<div class="outline-text-4" id="text-org4f295a9">
+<div id="outline-container-orgac0339f" class="outline-2">
+<h2 id="orgac0339f">自定义Emacs</h2>
+<div class="outline-text-2" id="text-orgac0339f">
+</div>
+<div id="outline-container-org659c123" class="outline-3">
+<h3 id="org659c123">Emacs基础定制</h3>
+<div class="outline-text-3" id="text-org659c123">
+<pre class="example">
+打开.emacs文件
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#34892;&#21015;&#21495;</span>
+(<span style="color: #a020f0;">setq</span> column-number-mode t)
+(<span style="color: #a020f0;">setq</span> line-number-mode t)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#35774;&#32622;&#26631;&#39064;&#26639;</span>
+(<span style="color: #a020f0;">setq</span> frame-title-format <span style="color: #8b2252;">"Welcome to Emacs world! "</span>)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#31105;&#29992;&#33756;&#21333;&#26639;&#65307;F10&#24320;&#21551;&#33756;&#21333;&#26639;</span>
+(menu-bar-mode nil)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#21462;&#28040;&#24037;&#20855;&#26639;</span>
+(tool-bar-mode nil)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#21462;&#28040;&#28378;&#21160;&#26639;</span>
+(set-scroll-bar-mode nil)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#30452;&#25509;&#25171;&#24320;&#21644;&#26174;&#31034;&#22270;&#29255;</span>
+(<span style="color: #a020f0;">setq</span> auto-image-file-mode t)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#26102;&#38388;</span>
+(display-time-mode t)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">24&#23567;&#26102;&#21046;</span>
+(<span style="color: #a020f0;">setq</span> display-time-24hr-format t)
+<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#35774;&#32622;F11&#26368;&#22823;&#21270;</span>
+(global-set-key [f11] 'maximized)
+(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">maximized</span> ()
+(<span style="color: #a020f0;">interactive</span>)
+(x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_HORZ"</span> 0)) (x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_VERT"</span> 0))
+ )
+</pre>
+</div>
+<pre class="example">
+快速使用设置命令: M-x eval-buffer
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8b9499f" class="outline-3">
+<h3 id="org8b9499f">自定义高级配置</h3>
+<div class="outline-text-3" id="text-org8b9499f">
+<pre class="example">
+thems, log manage, ...
+
+</pre>
+</div>
+<div id="outline-container-org5a6f9c3" class="outline-4">
+<h4 id="org5a6f9c3">Emacs 主题</h4>
+<div class="outline-text-4" id="text-org5a6f9c3">
+<pre class="example">
+.el
+~/.emacs.d/
+
+</pre>
+
+<pre class="example">
+//添加到.emacs文件
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'pluginname)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5cc13bf" class="outline-2">
+<h2 id="org5cc13bf">org-mode</h2>
+<div class="outline-text-2" id="text-org5cc13bf">
+</div>
+<div id="outline-container-org224b2b3" class="outline-3">
+<h3 id="org224b2b3">Keyboard</h3>
+<div class="outline-text-3" id="text-org224b2b3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -698,81 +768,250 @@ C表示Ctrl，M表示Alt
 </table>
 </div>
 </div>
-<div id="outline-container-orgc67bc7b" class="outline-4">
-<h4 id="orgc67bc7b">References</h4>
-<div class="outline-text-4" id="text-orgc67bc7b">
+<div id="outline-container-orgfd7c030" class="outline-3">
+<h3 id="orgfd7c030">Working with Source Code</h3>
+<div class="outline-text-3" id="text-orgfd7c030">
+</div>
+<div id="outline-container-org55ac748" class="outline-4">
+<h4 id="org55ac748">Structure of Code Blocks</h4>
+<div class="outline-text-4" id="text-org55ac748">
 <pre class="example">
-org-mode: 最好的文档编辑利器：http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-orgac0339f" class="outline-2">
-<h2 id="orgac0339f">自定义Emacs</h2>
-<div class="outline-text-2" id="text-orgac0339f">
-</div>
-<div id="outline-container-org659c123" class="outline-3">
-<h3 id="org659c123">Emacs基础定制</h3>
-<div class="outline-text-3" id="text-org659c123">
-<pre class="example">
-打开.emacs文件
+Code block syntax described.
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#34892;&#21015;&#21495;</span>
-(<span style="color: #a020f0;">setq</span> column-number-mode t)
-(<span style="color: #a020f0;">setq</span> line-number-mode t)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#35774;&#32622;&#26631;&#39064;&#26639;</span>
-(<span style="color: #a020f0;">setq</span> frame-title-format <span style="color: #8b2252;">"Welcome to Emacs world! "</span>)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#31105;&#29992;&#33756;&#21333;&#26639;&#65307;F10&#24320;&#21551;&#33756;&#21333;&#26639;</span>
-(menu-bar-mode nil)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#21462;&#28040;&#24037;&#20855;&#26639;</span>
-(tool-bar-mode nil)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#21462;&#28040;&#28378;&#21160;&#26639;</span>
-(set-scroll-bar-mode nil)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#30452;&#25509;&#25171;&#24320;&#21644;&#26174;&#31034;&#22270;&#29255;</span>
-(<span style="color: #a020f0;">setq</span> auto-image-file-mode t)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#26102;&#38388;</span>
-(display-time-mode t)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">24&#23567;&#26102;&#21046;</span>
-(<span style="color: #a020f0;">setq</span> display-time-24hr-format t)
-<span style="color: #b22222;">;; </span><span style="color: #b22222;">&#35774;&#32622;F11&#26368;&#22823;&#21270;</span>
-(global-set-key [f11] 'maximized)
-(<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">maximized</span> ()
-(<span style="color: #a020f0;">interactive</span>)
-(x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_HORZ"</span> 0)) (x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_VERT"</span> 0))
- )
+<pre class="src src-emacs-lisp" id="org427a9d9">: #+NAME: &lt;name&gt;
+: #+BEGIN_SRC &lt;language&gt; &lt;switches&gt; &lt;header arguments&gt;
+:   &lt;body&gt;
+: #+END_SRC
 </pre>
 </div>
 <pre class="example">
-快速使用设置命令: M-x eval-buffer
+more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org8b9499f" class="outline-3">
-<h3 id="org8b9499f">自定义高级配置</h3>
-<div class="outline-text-3" id="text-org8b9499f">
+<div id="outline-container-org67fdeb0" class="outline-4">
+<h4 id="org67fdeb0">Using Header Arguments</h4>
+<div class="outline-text-4" id="text-org67fdeb0">
 <pre class="example">
-thems, log manage, ...
+Different ways to set header arguments.
+
+</pre>
+
+<pre class="example">
+1. System-wide header arguments
+2. Header arguments in Org mode properties
+3. Code block specific header arguments
+4. Header arguments in function calls
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Using-Header-Arguments
 
 </pre>
 </div>
-<div id="outline-container-org5a6f9c3" class="outline-4">
-<h4 id="org5a6f9c3">Emacs 主题</h4>
-<div class="outline-text-4" id="text-org5a6f9c3">
+</div>
+<div id="outline-container-org51a51b2" class="outline-4">
+<h4 id="org51a51b2">Environment of a Code Block</h4>
+<div class="outline-text-4" id="text-org51a51b2">
 <pre class="example">
-.el
-~/.emacs.d/
+Arguments, sessions, working directory...
 
 </pre>
 
 <pre class="example">
-//添加到.emacs文件
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'pluginname)
+1. Passing arguments
+2. Using sessions
+3. Choosing a working directory
+4. Inserting headers and footers
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Environment-of-a-Code-Block
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8464353" class="outline-4">
+<h4 id="org8464353">Evaluating Code Blocks</h4>
+<div class="outline-text-4" id="text-org8464353">
+<pre class="example">
+Place results of evaluation in the Org buffer.
+
+</pre>
+
+<pre class="example">
+1. How to evaluate source code
+2. Limit code block evaluation
+3. Cache results of evaluation
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Evaluating-Code-Blocks
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9bde2bc" class="outline-4">
+<h4 id="org9bde2bc">Results of Evaluation</h4>
+<div class="outline-text-4" id="text-org9bde2bc">
+<pre class="example">
+Choosing a results type, post-processing...
+
+</pre>
+
+<pre class="example">
+1. collection
+r how the results should be collected from the code block;
+2. type
+For which type of result the code block will return; affects how Org processes and inserts results in the Org buffer;
+3. format
+For the result; affects how Org processes and inserts results in the Org buffer;
+4. handling
+For processing results after evaluation of the code block;
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Results-of-Evaluation
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgcfdd1ff" class="outline-4">
+<h4 id="orgcfdd1ff">Exporting Code Blocks</h4>
+<div class="outline-text-4" id="text-orgcfdd1ff">
+<pre class="example">
+Export contents and/or results.
+
+</pre>
+
+<pre class="example">
+1. ‘code’
+The default. The body of code is included into the exported file. Example: ‘:exports code’.
+2. ‘results’
+The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
+3. ‘both’
+Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
+4. ‘none
+Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Exporting-Code-Blocks
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2dc3d49" class="outline-4">
+<h4 id="org2dc3d49">Extracting Source Code</h4>
+<div class="outline-text-4" id="text-org2dc3d49">
+<pre class="example">
+Create pure source code files.
+
+</pre>
+
+<pre class="example">
+1. Header arguments
+2. Functions
+3. Hooks
+4. Jumping between code and Org
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Extracting-Source-Code
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgba0204a" class="outline-4">
+<h4 id="orgba0204a">Languages</h4>
+<div class="outline-text-4" id="text-orgba0204a">
+<pre class="example">
+List of supported code block languages.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Languages
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org7dec9ec" class="outline-4">
+<h4 id="org7dec9ec">Editing Source Code</h4>
+<div class="outline-text-4" id="text-org7dec9ec">
+<pre class="example">
+Language major-mode editing.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Editing-Source-Code
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orge16e2a4" class="outline-4">
+<h4 id="orge16e2a4">Noweb Reference Syntax</h4>
+<div class="outline-text-4" id="text-orge16e2a4">
+<pre class="example">
+Literate programming in Org mode.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org40141a8" class="outline-4">
+<h4 id="org40141a8">Library of Babel</h4>
+<div class="outline-text-4" id="text-org40141a8">
+<pre class="example">
+Use and contribute to a library of useful code blocks.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Library-of-Babel
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgda8173b" class="outline-4">
+<h4 id="orgda8173b">Key bindings and Useful Functions</h4>
+<div class="outline-text-4" id="text-orgda8173b">
+<pre class="example">
+Work quickly with code blocks.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Key-bindings-and-Useful-Functions
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org6e2e3a9" class="outline-4">
+<h4 id="org6e2e3a9">Batch Execution</h4>
+<div class="outline-text-4" id="text-org6e2e3a9">
+<pre class="example">
+Call functions from the command line.
+
+</pre>
+
+<pre class="example">
+more info.：https://orgmode.org/org.html#Batch-Execution
+
 </pre>
 </div>
 </div>
@@ -804,9 +1043,8 @@ LC_CTYPE="zh_CN.utf8"
 <div id="outline-container-orgd20bf65" class="outline-2">
 <h2 id="orgd20bf65">参考资料</h2>
 <div class="outline-text-2" id="text-orgd20bf65">
-<pre class="example">
-Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
-
-</pre>
+<ul class="org-ul">
+<li><a href="http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html">org-mode: 最好的文档编辑利器</a></li>
+</ul>
 </div>
 </div>
