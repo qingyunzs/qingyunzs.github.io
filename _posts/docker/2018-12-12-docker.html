@@ -1,0 +1,191 @@
+---
+layout: post
+title: Docker notes
+author: zrg
+description:   
+excerpt: 
+comments: false
+categories: 
+- 云计算
+tags:
+- docker
+---
+
+<p>
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+</p>
+
+<div id="outline-container-org20ab02e" class="outline-2">
+<h2 id="org20ab02e"><span class="section-number-2">1</span> Docker 简介</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgb661c18" class="outline-3">
+<h3 id="orgb661c18"><span class="section-number-3">1.1</span> Docker 是什么</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+Docker 是个划时代的开源项目，它彻底释放了计算虚拟化的威力，极大提高了应用的维护效率，降低了云计算应用开发的成本！使用 Docker，可以让应用的部署、测试和分发都变得前所未有的高效和轻松！
+
+</pre>
+
+<pre class="example">
+无论是应用开发者、运维人员、还是其他信息技术从业人员，都有必要认识和掌握 Docker，节约有限的生命。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8f8c6dc" class="outline-3">
+<h3 id="org8f8c6dc"><span class="section-number-3">1.2</span> 为什么要用 Docker</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>更高效的利用系统资源</li>
+<li>更快速的启动时间</li>
+<li>一致的运行环境</li>
+<li>持续交付和部署</li>
+<li>更轻松的迁移</li>
+<li>更轻松的维护和扩展</li>
+<li>对比传统虚拟机总结</li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">特性</th>
+<th scope="col" class="org-left">容器</th>
+<th scope="col" class="org-left">虚拟机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">启动</td>
+<td class="org-left">秒级</td>
+<td class="org-left">分钟级</td>
+</tr>
+
+<tr>
+<td class="org-left">硬盘使用</td>
+<td class="org-left">一般为 MB</td>
+<td class="org-left">一般为 GB</td>
+</tr>
+
+<tr>
+<td class="org-left">性能</td>
+<td class="org-left">接近原生</td>
+<td class="org-left">弱于</td>
+</tr>
+
+<tr>
+<td class="org-left">系统支持量</td>
+<td class="org-left">单机支持上千个容器</td>
+<td class="org-left">一般几十个</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org26dea4c" class="outline-2">
+<h2 id="org26dea4c"><span class="section-number-2">2</span> 基本概念</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org85027a6" class="outline-3">
+<h3 id="org85027a6"><span class="section-number-3">2.1</span> 镜像</h3>
+<div class="outline-text-3" id="text-2-1">
+<pre class="example">
+1. Docker 镜像
+
+</pre>
+<p>
+Docker 镜像（Image），就相当于是一个 root 文件系统。比如官方镜像 ubuntu:18.04 就包含了完整的一套 Ubuntu 18.04 最小系统的 root 文件系统。
+Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
+</p>
+
+<pre class="example">
+2. 分层存储
+
+</pre>
+<p>
+Docker 利用了 <a href="https://en.wikipedia.org/wiki/Union_mount">Union FS</a> 的技术，将其设计为分层存储的架构。所以严格来说，镜像并非是像一个 ISO 那样的打包文件，镜像只是一个虚拟的概念，其实际体现并非由一个文件组成，而是由一组文件系统组成，或者说，由多层文件系统联合组成。
+镜像构建时，会一层层构建，前一层是后一层的基础。在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。
+</p>
+</div>
+</div>
+<div id="outline-container-orgd0883f4" class="outline-3">
+<h3 id="orgd0883f4"><span class="section-number-3">2.2</span> 容器</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
+容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。
+每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，我们可以称这个为容器运行时读写而准备的存储层为容器存储层。
+</p>
+</div>
+</div>
+<div id="outline-container-org9f8cac4" class="outline-3">
+<h3 id="org9f8cac4"><span class="section-number-3">2.3</span> 仓库</h3>
+<div class="outline-text-3" id="text-2-3">
+<pre class="example">
+1. Docker Registry
+
+</pre>
+<p>
+<a href="https://yeasy.gitbooks.io/docker_practice/content/repository/registry.html">Docker Registry</a> 中可以包含多个仓库（Repository）；每个仓库可以包含多个标签（Tag）；每个标签对应一个镜像。
+</p>
+
+<pre class="example">
+2. Docker Registry 公开服务
+
+</pre>
+<p>
+开放给用户使用、允许用户管理镜像的 Registry 服务。一般这类公开服务允许用户免费上传、下载公开的镜像，并可能提供收费服务供用户管理私有镜像。
+最常使用的 Registry 公开服务
+</p>
+<ul class="org-ul">
+<li>官方的 <a href="https://hub.docker.com/">Docker Hub</a></li>
+<li><a href="https://coreos.com/">CoreOS</a></li>
+<li><a href="https://quay.io/repository/">Quay.io</a></li>
+<li>时速云镜像仓库</li>
+<li>网易云镜像服务</li>
+<li>DaoCloud 镜像市场</li>
+<li>阿里云镜像库</li>
+</ul>
+<pre class="example">
+由于某些原因，在国内访问这些服务可能会比较慢。国内的一些云服务商提供了针对 Docker Hub 的镜像服务（Registry Mirror），这些镜像服务被称为加速器。常见的有：
+
+</pre>
+<ul class="org-ul">
+<li><a href="https://cr.console.aliyun.com/#/accelerator">阿里云加速器</a></li>
+<li><a href="https://www.daocloud.io/mirror#accelerator-doc">DaoCloud 加速器</a></li>
+</ul>
+</div>
+<div id="outline-container-org6267165" class="outline-4">
+<h4 id="org6267165"><span class="section-number-4">2.3.1</span> </h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org56e34e6" class="outline-2">
+<h2 id="org56e34e6"><span class="section-number-2">3</span> 安装 Docker</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Ubuntu：<a href="https://yeasy.gitbooks.io/docker_practice/content/install/ubuntu.html">https://yeasy.gitbooks.io/docker_practice/content/install/ubuntu.html</a></li>
+<li>Debian：<a href="https://yeasy.gitbooks.io/docker_practice/content/install/debian.html">https://yeasy.gitbooks.io/docker_practice/content/install/debian.html</a></li>
+<li>CentOS：<a href="https://yeasy.gitbooks.io/docker_practice/content/install/centos.html">https://yeasy.gitbooks.io/docker_practice/content/install/centos.html</a></li>
+<li>Raspberry Pi：<a href="https://yeasy.gitbooks.io/docker_practice/content/install/raspberry-pi.html">https://yeasy.gitbooks.io/docker_practice/content/install/raspberry-pi.html</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org25a509e" class="outline-2">
+<h2 id="org25a509e"><span class="section-number-2">4</span> References</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="https://yeasy.gitbooks.io/docker_practice/content/">Docker — 从入门到实践</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Union_mount">Union FS</a></li>
+</ul>
+</div>
+</div>

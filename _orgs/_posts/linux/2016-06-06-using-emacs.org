@@ -133,25 +133,6 @@ photos:
 | C-h b    | 显示当前缓冲区所有可用的快捷键 |
 | C-h t    | 打开emacs教程                  |
 | M-x quit | 退出help                       |
-** org-mode 入门
-*** 常用org-mode快捷键
-| 快捷键                                     | 描述                                                    |
-|--------------------------------------------+---------------------------------------------------------|
-| TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
-| RET                                        | enter,Select this location.                             |
-| C-c C-n (org-next-visible-heading)         | Next heading.                                           |
-| C-c C-p (org-previous-visible-heading)     | Previous heading.                                       |
-| C-c C-f (org-forward-same-level)           | Next heading same level.                                |
-| C-c C-b (org-backward-same-level)          | Previous heading same level.                            |
-| C-c C-u (outline-up-heading)               | Backward to higher level heading.                       |
-| C-c C-j                                    | 切换到大纲浏览状态                                      |
-| M-RET (org-meta-return)                    | Insert a new heading, item or row.  插入一个同级标题    |
-| C-RET (org-insert-heading-respect-content) | Insert a new heading at the end of the current subtree. |
-| M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
-| M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
-| M-S-UP/DOWN                                | 将子树上/下移                                           |
-*** References
-: org-mode: 最好的文档编辑利器：http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html
 * 自定义Emacs
 ** Emacs基础定制
 : 打开.emacs文件
@@ -192,6 +173,119 @@ photos:
 (add-to-list 'load-path "~/.emacs.d/")
 (require 'pluginname)
 #+END_SRC
+* org-mode
+** Keyboard
+| 快捷键                                     | 描述                                                    |
+|--------------------------------------------+---------------------------------------------------------|
+| TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
+| RET                                        | enter,Select this location.                             |
+| C-c C-n (org-next-visible-heading)         | Next heading.                                           |
+| C-c C-p (org-previous-visible-heading)     | Previous heading.                                       |
+| C-c C-f (org-forward-same-level)           | Next heading same level.                                |
+| C-c C-b (org-backward-same-level)          | Previous heading same level.                            |
+| C-c C-u (outline-up-heading)               | Backward to higher level heading.                       |
+| C-c C-j                                    | 切换到大纲浏览状态                                      |
+| M-RET (org-meta-return)                    | Insert a new heading, item or row.  插入一个同级标题    |
+| C-RET (org-insert-heading-respect-content) | Insert a new heading at the end of the current subtree. |
+| M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
+| M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
+| M-S-UP/DOWN                                | 将子树上/下移                                           |
+** Working with Source Code
+*** Structure of Code Blocks
+ : Code block syntax described.
+ #+NAME: Structure of Code Blocks
+ #+BEGIN_SRC emacs-lisp
+ : #+NAME: <name>
+ : #+BEGIN_SRC <language> <switches> <header arguments>
+ :   <body>
+ : #+END_SRC
+ #+END_SRC
+ : more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
+*** Using Header Arguments
+ : Different ways to set header arguments.
+
+ : 1. System-wide header arguments
+ : 2. Header arguments in Org mode properties
+ : 3. Code block specific header arguments
+ : 4. Header arguments in function calls
+
+ : more info.：https://orgmode.org/org.html#Using-Header-Arguments
+*** Environment of a Code Block
+ : Arguments, sessions, working directory...
+
+ : 1. Passing arguments
+ : 2. Using sessions
+ : 3. Choosing a working directory
+ : 4. Inserting headers and footers
+
+ : more info.：https://orgmode.org/org.html#Environment-of-a-Code-Block
+*** Evaluating Code Blocks
+ : Place results of evaluation in the Org buffer.
+
+ : 1. How to evaluate source code
+ : 2. Limit code block evaluation
+ : 3. Cache results of evaluation
+
+ : more info.：https://orgmode.org/org.html#Evaluating-Code-Blocks
+*** Results of Evaluation
+ : Choosing a results type, post-processing...
+
+ : 1. collection
+ : r how the results should be collected from the code block;
+ : 2. type
+ : For which type of result the code block will return; affects how Org processes and inserts results in the Org buffer;
+ : 3. format
+ : For the result; affects how Org processes and inserts results in the Org buffer;
+ : 4. handling
+ : For processing results after evaluation of the code block;
+
+ : more info.：https://orgmode.org/org.html#Results-of-Evaluation
+*** Exporting Code Blocks
+ : Export contents and/or results.
+
+ : 1. ‘code’
+ : The default. The body of code is included into the exported file. Example: ‘:exports code’.
+ : 2. ‘results’
+ : The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
+ : 3. ‘both’
+ : Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
+ : 4. ‘none
+ : Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
+
+ : more info.：https://orgmode.org/org.html#Exporting-Code-Blocks
+*** Extracting Source Code
+ : Create pure source code files.
+
+ : 1. Header arguments
+ : 2. Functions
+ : 3. Hooks
+ : 4. Jumping between code and Org
+
+ : more info.：https://orgmode.org/org.html#Extracting-Source-Code
+*** Languages
+ : List of supported code block languages.
+
+ : more info.：https://orgmode.org/org.html#Languages
+*** Editing Source Code
+ : Language major-mode editing.
+
+: more info.：https://orgmode.org/org.html#Editing-Source-Code
+*** Noweb Reference Syntax
+ : Literate programming in Org mode.
+
+ : more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
+*** Library of Babel
+ : Use and contribute to a library of useful code blocks.
+
+ : more info.：https://orgmode.org/org.html#Library-of-Babel
+*** Key bindings and Useful Functions
+ : Work quickly with code blocks.
+
+ : more info.：https://orgmode.org/org.html#Key-bindings-and-Useful-Functions
+*** Batch Execution 
+ : Call functions from the command line.
+
+ : more info.：https://orgmode.org/org.html#Batch-Execution
 * 问题解决
 ** emacs不能输入中文
 : //编辑~/.bashrc文件，加入如下内容：
@@ -202,4 +296,5 @@ photos:
 : $ sudo vim /etc/environment
 : LC_CTYPE="zh_CN.utf8"
 * 参考资料
-: Emacs 从入门到精通: http://blog.chinaunix.net/uid-26185912-id-3334793.html
++ [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
+
