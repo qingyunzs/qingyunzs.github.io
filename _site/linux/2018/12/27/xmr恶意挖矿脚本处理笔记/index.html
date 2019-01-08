@@ -565,7 +565,18 @@ find / -type f -name <span style="color: #8b2252;">'*.js'</span> |xargs fgrep -s
 </div>
 
 <pre class="example">
-2. 限制内网访问，或者只限制本机访问
+2. 恢复服务器中的js文件(其中grep的参数为小写的L)
+方法一：删除站点所有感染 js 文件，从代码仓库pull，重新上传部署。
+方法二：# find / -name '*.js' | xargs grep -l f4ce9 | xargs sed -i '/f4ce9/d'
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org48c3882" class="outline-3">
+<h3 id="org48c3882"><span class="section-number-3">2.3</span> 预防措施</h3>
+<div class="outline-text-3" id="text-2-3">
+<pre class="example">
+1. 限制内网访问，或者只限制本机访问
 只监听内网的IP，然后在iptables里面限制访问的主机：在/etc/redis/redis.conf中配置如下：
 bind 192.168.1.100
 如果服务只需要本机访问就直接监听127.0.0.1的回环地址就可以了。
@@ -573,14 +584,14 @@ bind 192.168.1.100
 </pre>
 
 <pre class="example">
-3. 设置防火墙
+2. 设置防火墙
 如果需要其他机器访问，或者设置了slave模式，那就记得加上相应的防火墙设置，命令如下：
 iptables -A INPUT -s 192.168.1.100/32 -p tcp --dport 6379 -j ACCEPT
 
 </pre>
 
 <pre class="example">
-4. 禁止root用户启动redis
+3. 禁止root用户启动redis
 使用root权限去运行网络服务是比较有风险的（nginx和apache都是有独立的work用户，而redis没有）。
 edis crackit 漏洞就是利用root用户的权限来替换或者增加authorized_keys，来获取root登录权限的。
 使用root切换到redis用户启动服务:
@@ -589,27 +600,27 @@ useradd -s /sbin/nolog -M redissetsid sudo -u redis /usr/bin/redis-server /etc/r
 </pre>
 
 <pre class="example">
-5. 限制redis文件目录访问权限
+4. 限制redis文件目录访问权限
 设置redis的主目录权限为700,如果redis配置文件独立于redis主目录,权限修过为600,因为redis密码明文存储在配置文件中。
 
 </pre>
 
 <pre class="example">
-6. 避免使用熟知的端口,降低被初级扫描的风险
+5. 避免使用熟知的端口,降低被初级扫描的风险
 在/etc/redis/redis.conf中配置如下：
 找到port 6379这行，把6379改为9999，记得iptables对应的端口要修改
 
 </pre>
 
 <pre class="example">
-7. 开启redis密码认证,并设置高复杂度密码
+6. 开启redis密码认证,并设置高复杂度密码
 redis在redis.conf配置文件中，设置配置项requirepass， 开户密码认证。
 redis因查询效率高，auth这种命令每秒能处理10w次以上，简单的redis的密码极容易为攻击者暴破。 
 
 </pre>
 
 <pre class="example">
-8. 禁用或者重命名危险命令
+7. 禁用或者重命名危险命令
 edis crackit漏洞就利用config/save两个命令完成攻击 。 因redis无用户权限限制，建议危险的命令，
 使用rename配置项进行禁用或重命名，这样外部不了解重命名规则攻击者，就不能执行这类命令。涉及到的命令：
 FLUSHDB, FLUSHALL, KEYS, PEXPIRE, DEL, CONFIG, SHUTDOWN, BGREWRITEAOF, BGSAVE, SAVE, SPOP, SREM, RENAME, DEBUG, EVAL`
@@ -621,13 +632,6 @@ rename-command FLUSHDB ""
 rename-command FLUSHALL ""
 上述配置将config，flushdb，flushall设置为了空，即禁用该命令，我们也可以命名为一些攻击者难以猜测，
 我们自己却容易记住的的名字。保存之后，执行/etc/init.d/redis-server restart 重启生效。
-
-</pre>
-
-<pre class="example">
-9. 恢复服务器中的js文件(其中grep的参数为小写的L)
-方法一：删除站点所有感染 js 文件，从代码仓库pull，重新上传部署。
-方法二：# find / -name '*.js' | xargs grep -l f4ce9 | xargs sed -i '/f4ce9/d'
 
 </pre>
 </div>
@@ -692,6 +696,10 @@ rename-command FLUSHALL ""
       
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/javascript/2018/12/29/vue%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E4%B9%8Bel_template_render/" rel="next" title="vue实例属性之el-template-render">
+                <i class="fa fa-chevron-left"></i> vue实例属性之el-template-render
+              </a>
             
           </div>
 
@@ -778,7 +786,7 @@ rename-command FLUSHALL ""
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -800,7 +808,7 @@ rename-command FLUSHALL ""
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -878,7 +886,7 @@ rename-command FLUSHALL ""
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fe9dc7"> <span class="nav-number">1</span> <span class="nav-text">1 事件描述</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c42f75"> <span class="nav-number">1.1</span> <span class="nav-text">1.1 概况</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb89a4f3"> <span class="nav-number">1.2</span> <span class="nav-text">1.2 表象</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org16eb1ed"> <span class="nav-number">2</span> <span class="nav-text">2 问题排查及解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc28c64c"> <span class="nav-number">2.1</span> <span class="nav-text">2.1 排查</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb1e8625"> <span class="nav-number">2.2</span> <span class="nav-text">2.2 解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org58c0bed"> <span class="nav-number">3</span> <span class="nav-text">3 参考</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fe9dc7"> <span class="nav-number">1</span> <span class="nav-text">1 事件描述</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c42f75"> <span class="nav-number">1.1</span> <span class="nav-text">1.1 概况</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb89a4f3"> <span class="nav-number">1.2</span> <span class="nav-text">1.2 表象</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org16eb1ed"> <span class="nav-number">2</span> <span class="nav-text">2 问题排查及解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc28c64c"> <span class="nav-number">2.1</span> <span class="nav-text">2.1 排查</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb1e8625"> <span class="nav-number">2.2</span> <span class="nav-text">2.2 解决</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org48c3882"> <span class="nav-number">2.3</span> <span class="nav-text">2.3 预防措施</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org58c0bed"> <span class="nav-number">3</span> <span class="nav-text">3 参考</span> </a> </li>
     </ol>
   </div>
             
