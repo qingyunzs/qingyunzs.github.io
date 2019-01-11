@@ -36,20 +36,18 @@ photos:
 : 关于PHP的一些公共方法
 * String/Array
 ** 字符串(String)
-*** 常用字符串操作
-: //字符串长度
+*** 字符串长度
 : $strLength=strlen($str);
-
+*** 大小写转换
 : //小写转换为大写
 : strtoupper($str);
 : //大写转换为小写
 : strtolower($str);
-
+*** 字符串截取
 : //截取字符串，取出最有一个字符
 : substr($str,0,-1);
 ** 数组(Array)
-*** 常用数组操作
-: // 字符串转化为数组，explode()
+*** string⇌array
 : $array=explode(separator,$string);
 : $pizza = "piece1 piece2 piece3 piece4 piece5 piece6";
 : $pieces = explode(" ", $pizza);
@@ -58,10 +56,10 @@ photos:
 
 : // 数组转化为字符串，implode()
 : $string=implode(glue,$array);
-
+*** array 去除空元素
 : //去除空元素
 : array_filter()
-
+*** array 去除重复元素
 : //去除重复元素
 : array_unique()
 *** 判断二维数组是否为空
@@ -111,3 +109,44 @@ function array_is_null($arr = null){
 
 
 
+** 计算日期/时间差
+*** 计算已成为会员多少天或距离某活动还剩余多少天?
+#+NAME: 计算函数
+#+BEGIN_SRC emacs-lisp
+function get_days_calc($calcTime, $currentTime, $differOrSurplus){
+	switch ($differOrSurplus) {
+	case 1:
+		return round(($currentTime-$calcTime)/3600/24);
+		break;
+	case 2:
+		return round(($calcTime-$currentTime)/3600/24);
+		break;
+	default:
+		return round(($currentTime-$calcTime)/3600/24);
+		break;
+	}
+}
+#+END_SRC
+* URL常用函数
+** 获取当前URL
+   #+NAME: 获取当前URL
+   #+BEGIN_SRC emacs-lisp
+function getCurrentPageURL()
+{
+	$pageURL = 'http';
+	if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
+	{
+		$pageURL .= "s";
+	}
+	$pageURL .= "://";
+	if ($_SERVER["SERVER_PORT"] != "80")
+	{
+		$pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+	}
+	else
+	{
+		$pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+	}
+	return $pageURL;
+}
+   #+END_SRC
