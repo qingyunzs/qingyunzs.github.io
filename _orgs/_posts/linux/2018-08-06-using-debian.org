@@ -65,6 +65,10 @@ photos:
 ** 英文太差，能学好 Linux 吗？
 - [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
 - [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]]
+** 阅读提示
++ 阅读本文时，每个知识章节都会有「参考资料」（中文）或「References」（英文）的章节，部分实际操作章节除外。
++ 本文内容以笔记的形式记录，阅读时知识点不能完全列出，敬请见谅。
++ 本文内容以实际应用为主。
 * 开始(Get Started)
 ** Wifi连接配置（configure）
 : 完成安装第一步，当然是先解决网络。
@@ -156,49 +160,49 @@ deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free con
 LANG="en_US.UTF-8"
 LANGUAGE="en_US:en"
 #+END_SRC
+*** 安装中文输入法
+**** ibus & UIM & SCIM & Fcitx
+ - [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
+ - [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
+**** Fcitx 输入法补充
+ + [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
+ : 1. 安装 fcitx 组件（module）
+ : $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+
+ : 2. 安装 fcitx 输入法
+ : $ sudo apt install fcitx-pinyin
+ : $ sudo apt install fcitx-googlepinyin
+ : $ sudo apt install fcitx-table //五笔
+
+ : 3. 设置并运行
+ : $ export LANG=zh_CN.utf8
+ : $ export LC_CTYPE=zh_CN.utf8
+ : $ export LC_ALL=zh_CN.utf8
+ : $ export XMODIFIERS=@im=fcitx
+ : $ fcitx &
+
+ : 4. ui 动态库的支持:
+ : $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
+
+ : 5. 重启可用
 *** 参考资料
-: https://wiki.debian.org/Locale
-** 安装中文输入法
-*** ibus & UIM & SCIM & Fcitx
-- [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
-- [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
-*** Fcitx 输入法补充
-+ [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
-: 1. 安装 fcitx 组件（module）
-: $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
-
-: 2. 安装 fcitx 输入法
-: $ sudo apt install fcitx-pinyin
-: $ sudo apt install fcitx-googlepinyin
-: $ sudo apt install fcitx-table //五笔
-
-: 3. 设置并运行
-: $ export LANG=zh_CN.utf8
-: $ export LC_CTYPE=zh_CN.utf8
-: $ export LC_ALL=zh_CN.utf8
-: $ export XMODIFIERS=@im=fcitx
-: $ fcitx &
-
-: 4. ui 动态库的支持:
-: $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
-
-: 5. 重启可用
++ [[https://wiki.debian.org/Locale][Locale debian wiki]]
 * 介绍(Instroduction)
 : 首先，明确一点：GNU Not's Unix.
 ** Linux 系统
 *** Linux 可划分为以下四部分
-: 	1.Linux 内核
-: 	2.GNU 工具
-: 	3.图形化桌面环境
-: 	4.应用软件
+1. Linux 内核
+2. GNU 工具
+3. 图形化桌面环境
+4. 应用软件
 *** 深入探究 Linux 内核
 : Linus Torvalds：Linux 内核开发者。
 
 : Linux 内核主要负责一下四种功能：
-: 	1.系统内存管理
-: 	2.软件程序管理
-: 	3.硬件设备管理
-: 	4.文件系统管理
+1.系统内存管理
+2.软件程序管理
+3.硬件设备管理
+4.文件系统管理
 **** 系统内存管理
 : 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
 
@@ -271,11 +275,12 @@ LANGUAGE="en_US:en"
 | zsh   | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。                                                                                                    |
 |-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 *** Linux 桌面环境
-: 1.X Window
-: 2.KDE 桌面（K Desktop Environment，K 桌面系统）
-: 3.GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
-: 4.Unity 桌面
-: 5.其他桌面
+1.X Window
+2.KDE 桌面（K Desktop Environment，K 桌面系统）
+3.GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
+4.Unity 桌面
+5.其他桌面
+#+CAPTION: 其他桌面
 | 桌面    | 描述 |
 |---------+------|
 | Fluxbox |      |
@@ -286,40 +291,41 @@ LANGUAGE="en_US:en"
 |---------+------|
 *** Linux 发行版
 : 不同的 Linux 发行版通常归类为3种：
-: 1.完整的核心 Linux 发行版
+#+CAPTION: 1.完整的核心 Linux 发行版
 | Slackware | 最早的 Linux 发行版之一                            |
 | Red Hat   | 商业发行版                                         |
 | Fedora    | Red Hat 分离出的家用发行版                         |
 | Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
 | openSuse  | 商用和家用的发行版                                 |
 | Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
-: 2.特定用途的发行版
+
+#+CAPTION: 2.特定用途的发行版
 | CentOS     | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
 | Ubuntu     | 一款用于学校和家庭的免费发行版                       |
 | PCLinuxOS  | 一款用于学校和办公的免费发行版                       |
 | Mint       | 一款用于家庭娱乐的免费发行版                         |
 | dyne:bolic | 一款用于音频和MIDI应用的免费发型版                   |
 | Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
-: 3.LiveCD 测试发行版。
+#+CAPTION: 3.LiveCD 测试发行版。
 | Knoppix     | 最早的 LiveCD Linux               |
 | PCLinuxOS   | 一款成熟的 LiveCD                 |
 | Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
 | Slax        | 基于 Slackware Linux              |
 | Pubby Linux | 为老旧 PC 设计的一款全功能 Linux             |
 ** 入门第一步，理解 Linux
-: 1.首先，以 Linux 的思维方式系统性思考问题。
-: 2.Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
-: 3.Linux 是一个以命令行为主要的管理方式的 OS。
-: 4.Linux 的日志非常完善，也至关重要。
-: 5.Linux 是一个以配置文件为管理基础的 OS。
-: 6.Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
+1. 首先，以 Linux 的思维方式系统性思考问题。
+2. Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
+3. Linux 是一个以命令行为主要的管理方式的 OS。
+4. Linux 的日志非常完善，也至关重要。
+5. Linux 是一个以配置文件为管理基础的 OS。
+6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
 ** 获取帮助 & 问题解决 
-: 1.出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
-: 2.当怀疑有黑客入侵或病毒的情况，马上做日志备份。
-: 3.检查相关日志。
-: 4.对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
-: 5.使用网络
-: 6.使用搜索命令：find，locate，whereis。。。
+1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
+2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
+3. 检查相关日志。
+4. 对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
+5. 使用网络
+6. 使用搜索命令：find，locate，whereis。。。
 ** Linux 常用命令
 #+BEGIN_SRC shell 
 ls (list files and directories)
@@ -390,7 +396,7 @@ fg - put a process in the forground
 ** Linux 目录结构
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :align center
-[[../../../../../assets/images/cs2.png]]
+[[file:{{site.url}}/assets/images/cs2.png]]
 * Linux 进阶篇(Advanced)
 ** crontab 定时执行任务
 *** 对于 Linux 用户
@@ -485,7 +491,7 @@ HOME=/            #使用者运行的路径,这里是根目录
 : 0,10,20,30,40,50 * * * *　每隔10分 执行
 : 
 : 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
-** ssh
+** ssh 
 *** SSH & OpenSSH & SSL & OpenSSL
 - SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
 - OpenSSL，对SSL的实现。
@@ -608,6 +614,65 @@ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功�
 
 : 参考资料：
 [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
+** 防火墙：iptables
+*** 理解
+: IPTABLES 是与 Linux 内核集成的 IP 信息包过滤系统。
+: 防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+
+: 而netfilter/iptables IP 数据包过滤系统是一款功能强大的工具，可用于添加、编辑和移除规则。
+: netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
+: iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
+*** iptables 命令
+: 1. 查看规则
+: iptables -nvL –line-number
+: -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+: -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+: -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+: –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+
+: 2. 添加规则
+: 添加规则有两个参数：-A和-I。其中-A是添加到规则的末尾；-I可以插入到指定位置，没有指定位置的话默认插入到规则的首部。
+: // 查看当前规则
+: $ sudo iptables -L
+: $ sudo iptables -nL --line-number
+: // 添加一条规则到尾部
+: $ sudo iptables -A INPUT -s 192.168.122.5 -j DROP
+
+: 3. 修改规则
+: // 修改 DROP 为 ACCEPT
+: $ sudo iptables -R INPUT 3 -j ACCEPT
+
+: 4. 删除规则
+: $ sudo iptables -D INPUT -s 192.168.122.5 -j DROP
+: // 通过行号删除
+: $ sudo iptables -nL --line-number
+: $ sudo iptables -D INPUT 2
+
+*** 规则功能说明
+: 1. 
+#+CAPTION: 表
+| filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
+| input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
+| forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
+| output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
+: 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
+#+CAPTION: NAT
+| snat | 地址转换   |
+| dnat | 标地址转换 |
+| pnat | 标端口转换 |
+: 3. mangle 表
+: 将报文拆开来并修改报文标志位，最后封装起来
+
+: 4. 5个检查点（内置链）
+- PREROUTING
+- INPUT
+- FORWORD
+- OUTPUT
+- POSTROUTING    
+*** 参考资料
++ [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
++ [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
++ [[https://wiki.debian.org/iptables][iptables debian wiki]]
 ** 删除大文件的前n行
 #+CAPTION: 示例：删除前10行
 #+BEGIN_SRC shell
@@ -617,7 +682,7 @@ mv new_file old_file
 ** 解压缩命令大全
 #+CAPTION:
 #+ALTR_HTML: :alt cat/spider image :title :align center
-[[../../../../../assets/images/tar.png]]
+[[file:{{site.url}}/assets/images/tar.png]]
 
 : 另外还有不常见的，但时有遇到的：
 : .tar.xz
@@ -884,11 +949,11 @@ fi
 : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 *** Reference
 : http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
-** 系统状态监视命令：top&htop
+** 系统状态监视命令：top & htop
 *** top
 #+CAPTION:
 #+ALTR_HTML: :align center
-[[../../../../../assets/images/top.jpg]]
+[[file:{{site.url}}/assets/images/top.jpg]]
 *** htop
 **** 下载及安装
  : $ git clone https://github.com/hishamhm/htop 

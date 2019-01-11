@@ -24,9 +24,9 @@ description: PHP 跨域问题
 excerpt: 
 comments: false
 categories: 
-- PHP
+- php
 tags:
-- PHP
+- 跨域
 ---
 #+END_EXPORT
 
@@ -37,7 +37,7 @@ tags:
 * 问题概述
 : 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。
 * Ajax 请求跨域问题解决
-** 客户端代码
+** Client
 #+CAPTION: 客户端请求代码
 #+BEGIN_SRC emacs-lisp
 // 上传文件
@@ -65,7 +65,7 @@ function upload_idcard_file(_this,type){
 	});
 }
 #+END_SRC
-** 服务端代码
+** Server
 *** 解决方式一
 #+CAPTION: 粗糙解决方式
 #+BEGIN_SRC emacs-lisp
@@ -82,21 +82,19 @@ header('Access-Control-Allow-Headers:access_token');
 : 方式一中单纯使用*或者具体域名，在开发接口时显得不太科学，这时候我们需要进行动态的判断处理。
 #+CAPTION: 动态判断处理跨域问题
 #+BEGIN_SRC emacs-lisp
-// 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
-$GLOBALS['API_ALLOW_ORIGINS'] = array(
-    'baidu.com',
-    'bing.com'
-);
-// 判断是否有origin请求头
-if(isset($_SERVER['HTTP_ORIGIN']))
-{
-    // 遍历域名列表判断
-    foreach($GLOBALS['API_ALLOW_ORIGINS'] as $domain)
-    {
-        if($_SERVER['HTTP_ORIGIN'] === $domain || substr($_SERVER['HTTP_ORIGIN'], -strlen($domain) - 1) === '.' . $domain)
+if(isset($_SERVER['HTTP_ORIGIN'])){
+	// 请求方法
+        $request_method = $_SERVER['REQUEST_METHOD'];
+        // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
+        $allow_origin = array(
+        	'baidu.com',
+                'bing.com'
+        );
+	// 判断是否有origin请求头
+        if(in_array($request_method, $allow_origin)
         {
-            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-            break;
+		header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+          break;
         }
     }
 }

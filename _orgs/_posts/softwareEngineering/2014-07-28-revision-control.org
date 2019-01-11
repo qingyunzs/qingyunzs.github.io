@@ -1,4 +1,4 @@
-#+TITLE:    Subversion、Git和GitHub使用教程
+#+TITLE:    Subversion、Git和GitHub
 #+AUTHOR:    赵仁贵
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -19,11 +19,11 @@ layout: post
 title: Subversion、Git和GitHub
 author: zrg
 comments: false
-description: 常用版本控制软件使用笔记
+description: 常用版本控制软件使用笔记.
 categories: 
-- Software
+- software
 tags:
-- Subversion
+- SVN(Subversion)
 - Git
 - GitHub
 photos:
@@ -118,10 +118,10 @@ photos:
 : 最后是 HEAD，指向你最近一次提交后的结果。
 #+CAPTION: 提交流程1
 #+NAME:
-[[../../../../../assets/images/commit1.png]]
+[[file:{{site.url}}/assets/images/commit1.png]]
 #+CAPTION: 提交流程2
 #+NAME:
-[[../../../../../assets/images/trees.png]]
+[[file:{{site.url}}/assets/images/trees.png]]
 *** 一次完整的提交
 : 1. 假如我新增了某个功能，现在把它提交到暂存区。
 : //单独提交某个文件
@@ -147,9 +147,6 @@ photos:
 : 4. 经过上一步操作后，又想起刚才提交到本地仓库分支的代码需要进一步优化，所以只能撤消 commit。
 : //查看提交日志
 : $ git log
-: $ git log --graph //查看提交日志中的相应内容
-: //查看所有操作日志
-: $ git reflog
 : //执行撤销到上一个版本
 : $ git reset --soft HEAD^
 : or
@@ -182,7 +179,7 @@ photos:
 *** 理解分支
 #+CAPTION: 理解分支
 #+NAME:
-[[../../../../../assets/images/branches.png]]
+[[file:{{site.url}}/assets/images/branches.png]]
 
 : 1.在 Git 中提交时，会保存一个提交（commit）对象，该对象包含一个指向暂存内容快照的指针，包含本次提交的作者等相关附属信息，
 : 包含零个或多个指向该提交对象的父对象指针：首次提交是没有直接祖先的，普通提交有一个祖先，由两个或多个分支合并产生的提交则有多个祖先。
@@ -198,51 +195,51 @@ photos:
 : 一个包含指向 tree 对象（根目录）的索引和其他提交信息元数据的 commit 对象。
 #+CAPTION: 单个提交对象在仓库中的数据结构
 #+NAME: 
-[[../../../../../assets/images/git-branch01.png]]
+[[file:{{site.url}}/assets/images/git-branch01.png]]
 
 : 4.作些修改后再次提交，那么这次的提交对象会包含一个指向上次提交对象的指针（译注：即下图中的 parent 对象）。两次提交后，仓库历史会变成下图的样子：
 #+CAPTION: 多个提交对象之间的链接关系
 #+NAME:
-[[../../../../../assets/images/git-branch02.png]]
+[[file:{{site.url}}/assets/images/git-branch02.png]]
 
 : 5.Git 中的分支，其实本质上仅仅是个指向 commit 对象的可变指针。在若干次提交后，你其实已经有了一个指向最后一次提交对象的 master 分支，它在每次提交的时候都会自动向前移动。
 #+CAPTION: 分支其实就是从某个提交对象往回看的历史
 #+NAME:
-[[../../../../../assets/images/git-branch03.png]]
+[[file:{{site.url}}/assets/images/git-branch03.png]]
 
 : 6.那么，Git 又是如何创建一个新的分支的呢？比如新建一个 test 分支，可以使用 git branch 命令：
 : $ git branch test
 : 这会在当前 commit 对象上新建一个分支指针，如图：
 #+CAPTION: 多个分支指向提交数据的历史
 #+NAME:
-[[../../../../../assets/images/git-branch04.png]]
+[[file:{{site.url}}/assets/images/git-branch04.png]]
 
 : 7.那么，Git 是如何知道你当前在哪个分支上工作的呢？它保存着一个名为 HEAD 的特别指针。
 : 在 Git 中，它是一个指向你正在工作中的本地分支的指针（译注：将 HEAD 想象为当前分支的别名）。 
 : 运行git branch 命令，仅仅是建立了一个新的分支，但不会自动切换到这个分支中去，所以，我们依然还在 master 分支里，如图：
 #+CAPTION: HEAD 指向当前所在的分支
 #+NAME:
-[[../../../../../assets/images/git-branch05.png]]
+[[file:{{site.url}}/assets/images/git-branch05.png]]
 
 : 8.要切换到其他分支，可以执行 git checkout 命令。切换到新建的 testing 分支：
 : $ git checkout testing
 : 这样 HEAD 就指向了 testing 分支：
 #+CAPTION: HEAD 在你转换分支时指向新的分支
 #+NAME:
-[[../../../../../assets/images/git-branch06.png]]
+[[file:{{site.url}}/assets/images/git-branch06.png]]
 
 : 9.不妨再提交一次：
 : $ git commit -a -m 'made a change'
 : 提交后的结果：
 #+CAPTION: 每次提交后 HEAD 随着分支一起向前移动
 #+NAME:
-[[../../../../../assets/images/git-branch07.png]]
+[[file:{{site.url}}/assets/images/git-branch07.png]]
 
 : 10.回到 master 分支看看：
 : $ git checkout master
 #+CAPTION: HEAD 在一次 checkout 之后移动到了另一个分支
 #+NAME:
-[[../../../../../assets/images/git-branch08.png]]
+[[file:{{site.url}}/assets/images/git-branch08.png]]
 
 : 这条命令做了两件事。它把 HEAD 指针移回到 master 分支，并把工作目录中的文件换成了 master 分支所指向的快照内容。
 : 也就是说，现在开始所做的改动，将始于本项目中一个较老的版本。它的主要作用是将 testing 分支里作出的修改暂时取消，这样你就可以向另一个方向进行开发。
@@ -251,7 +248,7 @@ photos:
 : $ git commit -a -m 'made other changes'
 #+CAPTION: 不同流向的分支历史
 #+NAME:
-[[../../../../../assets/images/git-branch09.png]]
+[[file:{{site.url}}/assets/images/git-branch09.png]]
 
 : 12.由于 Git 中的分支实际上仅是一个包含所指对象校验和（40 个字符长度 SHA-1 字串）的文件，所以创建和销毁一个分支就变得非常廉价。
 
@@ -270,7 +267,7 @@ photos:
 : A.首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新：
 #+CAPTION: 一个简短的提交历史
 #+NAME:
-[[../../../../../assets/images/git-branch10.png]]
+[[file:{{site.url}}/assets/images/git-branch10.png]]
 
 : B.现在，你决定要修补问题追踪系统上的 #53 问题。（这里为了说明要解决的问题，才把新建的分支取名为 iss53。）
 : $ git checkout -b iss53
@@ -280,12 +277,12 @@ photos:
 : 该命令执行结果：
 #+CAPTION: 创建了一个新分支（专门解决53问题）的指针 
 #+NAME:
-[[../../../../../assets/images/git-branch11.png]]
+[[file:{{site.url}}/assets/images/git-branch11.png]]
 
 : 在提交了若干次更新后，iss53 分支的指针也会随着向前推进。
 #+CAPTION: iss53 分支随工作进展向前推进
 #+NAME:
-[[../../../../../assets/images/git-branch12.png]]
+[[file:{{site.url}}/assets/images/git-branch12.png]]
 
 : C.现在你就接到了那个网站问题的紧急电话，需要马上修补。
 : 此时，确定你已经提交了所有的修改，接下来切换到 master 分支：
@@ -298,7 +295,7 @@ photos:
 : $ git checkout -b 'hotfix'
 #+CAPTION: hotfix 分支是从 master 分支所在点分化出来的
 #+NAME:
-[[../../../../../assets/images/git-branch13.png]]
+[[file:{{site.url}}/assets/images/git-branch13.png]]
 
 : D.测试，确保修补是成功的。然后回到 master 分支并把它合并进来，然后发布到生产服务器。用 git merge 命令来进行合并：
 : $ git checkout master
@@ -311,7 +308,7 @@ Fast forward
 : 换句话说，如果顺着一个分支走下去可以到达另一个分支的话，那么 Git 在合并两者时，只会简单地把指针右移，因为这种单线的历史分支不存在任何需要解决的分歧，所以这种合并过程可以称为快进（Fast forward）。
 #+CAPTION: 合并之后，master 分支和 hotfix 分支指向同一位置
 #+NAME:
-[[../../../../../assets/images/git-branch14.png]]
+[[file:{{site.url}}/assets/images/git-branch14.png]]
 
 : E.在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。
 : 由于当前 hotfix 分支和 master 都指向相同的提交对象，所以hotfix 已经完成了历史使命，可以删掉了。使用 git branch 的 -d 选项执行删除操作：
@@ -321,7 +318,7 @@ Fast forward
 : $ git checkout iss53
 #+CAPTION: iss53 分支可以不受影响继续推进
 #+NAME:
-[[../../../../../assets/images/git-branch15.png]]
+[[file:{{site.url}}/assets/images/git-branch15.png]]
 
 *** 分支的合并
 : A.在问题 #53 相关的工作完成之后，可以合并回 master 分支。
@@ -333,12 +330,12 @@ Fast forward
 : 就此例而言，Git 会用两个分支的末端（C4 和 C5）以及它们的共同祖先（C2）进行一次简单的三方合并计算。
 #+CAPTION: Git 为分支合并自动识别出最佳的同源合并点
 #+NAME:
-[[../../../../../assets/images/git-branch16.png]]
+[[file:{{site.url}}/assets/images/git-branch16.png]]
 
 : Git 没有简单地把分支指针右移，而是对三方合并后的结果重新做一个新的快照，并自动创建一个指向它的提交对象（C6），见下图所示。
 #+CAPTION: Git 自动创建了一个包含了合并结果的提交对象
 #+NAME:
-[[../../../../../assets/images/git-branch17.png]]
+[[file:{{site.url}}/assets/images/git-branch17.png]]
 
 : B.既然之前的工作成果已经合并到 master 了，那么 iss53 也就没用了。你可以就此删除它，并在问题追踪系统里关闭该问题。
 : $ git branch -d iss53
@@ -435,17 +432,17 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 本质上我们刚才谈论的，是随着提交对象不断右移的指针。稳定分支的指针总是在提交历史中落后一大截，而前沿分支总是比较靠前。
 #+CAPTION: 稳定分支总是比较老旧
 #+NAME: 
-[[../../../../../assets/images/git-branch18.png]]
+[[file:{{site.url}}/assets/images/git-branch18.png]]
 #+CAPTION: 想象成流水线可能会容易点
 #+NAME: 
-[[../../../../../assets/images/git-branch19.png]]
+[[file:{{site.url}}/assets/images/git-branch19.png]]
 **** 特性分支
 : 特性分支是指一个短期的，用来实现单一特性或与其相关工作的分支。
 
 : 在 Git 中，一天之内建立、使用、合并再删除多个分支是常见的事。一个实际的例子：
 #+CAPTION: 拥有多个特性分支的提交历史
 #+NAME:
-[[../../../../../assets/images/git-branch20.png]]
+[[file:{{site.url}}/assets/images/git-branch20.png]]
 : 由下往上，起先我们在 master 工作到 C1，然后开始一个新分支 iss91 尝试修复 91 号缺陷，提交到 C6 的时候，
 : 又冒出一个解决该问题的新办法，于是从之前 C4 的地方又分出一个分支iss91v2，干到 C8 的时候，又回到主干 master 中
 : 提交了 C9 和 C10，再回到 iss91v2 继续工作，提交 C11，接着，又冒出个不太确定的想法，从 master 的
@@ -456,30 +453,30 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 直接在主干中并入另外两个分支。最终的提交历史将变成这样：
 #+CAPTION: 合并了 dumbidea 和 iss91v2 后的分支历史
 #+NAME:
-[[../../../../../assets/images/git-branch21.png]]
+[[file:{{site.url}}/assets/images/git-branch21.png]]
 : 注意：这些分支全部都是本地分支，这一点很重要。当你在使用分支及合并的时候，一切都是在你自己的 Git 仓库中进行的 — 完全不涉及与服务器的交互。
 *** 远程分支
 : 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
 #+CAPTION: Git克隆
 #+NAME:
-[[../../../../../assets/images/git-branch22.png]]
+[[file:{{site.url}}/assets/images/git-branch22.png]]
 : 如果你在本地 master 分支做了些改动，与此同时，其他人向 git.ourcompany.com 推送了他们的更新，
 : 那么服务器上的master 分支就会向前推进。不过只要你不和服务器通讯，你的 origin/master 指针仍然保持原位不会移动。
 #+CAPTION: 在本地工作的同时有人向远程仓库推送内容会让提交历史开始分流
 #+NAME:
-[[../../../../../assets/images/git-branch23.png]]
+[[file:{{site.url}}/assets/images/git-branch23.png]]
 : 可以运行 git fetch origin 来同步远程服务器上的数据到本地。
 #+CAPTION: git fetch 命令会更新 remote 索引
 #+NAME:
-[[../../../../../assets/images/git-branch24.png]]
+[[file:{{site.url}}/assets/images/git-branch24.png]]
 : 把另一个服务器加为远程仓库
 #+CAPTION: 把另一个服务器加为远程仓库
 #+NAME:
-[[../../../../../assets/images/git-branch25.png]]
+[[file:{{site.url}}/assets/images/git-branch25.png]]
 : 在本地有了一个指向 teamone 服务器上 master 分支的索引
 #+CAPTION: 在本地有了一个指向 teamone 服务器上 master 分支的索引
 #+NAME:
-[[../../../../../assets/images/git-branch26.png]]
+[[file:{{site.url}}/assets/images/git-branch26.png]]
 : // 推送本地分支
 : 如果你有个叫 serverfix 的分支需要和他人一起开发，可以运行：
 : $ git push origin serverfix
@@ -500,11 +497,11 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 回顾之前有关合并的章节，开发进程分叉到两个不同分支，又各自提交了更新。
 #+CAPTION: 最初分叉的提交历史
 #+NAME: 
-[[../../../../../assets/images/git-branch27.png]]
+[[file:{{site.url}}/assets/images/git-branch27.png]]
 : 通过合并一个分支来整合分叉了的历史
 #+CAPTION: 通过合并一个分支来整合分叉了的历史
 #+NAME: 
-[[../../../../../assets/images/git-branch28.png]]
+[[file:{{site.url}}/assets/images/git-branch28.png]]
 : 其实，还有另外一个选择：你可以把在 C3 里产生的变化补丁在 C4 的基础上重新打一遍。在 Git 里，这种操作叫做_衍合（rebase）。
 : $ git checkout experiment
 : $ git rebase master
@@ -513,11 +510,11 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 最后会生成一个新的合并提交对象（C3’），从而改写 experiment 的提交历史，使它成为 master 分支的直接下游，如图所示：
 #+CAPTION: 把 C3 里产生的改变到 C4 上重演一遍
 #+NAME:
-[[../../../../../assets/images/git-branch29.png]]
+[[file:{{site.url}}/assets/images/git-branch29.png]]
 : 现在回到 master 分支，进行一次快进合并
 #+CAPTION: master 分支的快进
 #+NAME: 
-[[../../../../../assets/images/git-branch30.png]]
+[[file:{{site.url}}/assets/images/git-branch30.png]]
 : 一般我们使用衍合的目的，是想要得到一个能在远程分支上干净应用的补丁 — 比如某些项目你不是维护者，但想帮点忙的话，最好用衍合：
 : 先在自己的一个分支里进行开发，当准备向主项目提交补丁的时候，根据最新的origin/master 进行一次衍合操作然后再提交，这样维护者
 : 就不需要做任何整合工作（译注：实际上是把解决分支补丁同最新主干代码之间冲突的责任，化转为由提交补丁的人来解决。），只需根据你
@@ -531,7 +528,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 回到 server 分支提交了 C10。
 #+CAPTION: 从一个特性分支里再分出一个特性分支的历史
 #+NAME:
-[[../../../../../assets/images/git-branch31.png]]
+[[file:{{site.url}}/assets/images/git-branch31.png]]
 : 假设在接下来的一次软件发布中，我们决定先把客户端的修改并到主线中，而暂缓并入服务端软件的修改（因为还需要进一步测试）。
 : 把基于 server 分支而非 master 分支的改变（即 C8 和 C9），跳过 server 直接放到master 分支中重演一遍，但这需要用 
 : git rebase 的 --onto 选项指定新的基底分支master：
@@ -539,19 +536,19 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 这好比在说：“取出 client 分支，找出 client 分支和 server 分支的共同祖先之后的变化，然后把它们在master 上重演一遍”。
 #+CAPTION: 将特性分支上的另一个特性分支衍合到其他分支
 #+NAME: 
-[[../../../../../assets/images/git-branch32.png]]
+[[file:{{site.url}}/assets/images/git-branch32.png]]
 : 现在可以快进 master 分支了
 : $ git checkout master
 : $ git merge client
 #+CAPTION: 快进 master 分支，使之包含 client 分支的变化
 #+NAME:
-[[../../../../../assets/images/git-branch33.png]]
+[[file:{{site.url}}/assets/images/git-branch33.png]]
 : 现在我们决定把 server 分支的变化也包含进来。
 : $ git rebase master server
 : 于是，server 的进度应用到 master 的基础上：
 #+CAPTION: 在 master 分支上衍合 server 分支
 #+NAME:
-[[../../../../../assets/images/git-branch34.png]]
+[[file:{{site.url}}/assets/images/git-branch34.png]]
 : 然后就可以快进主干分支 master 了：
 : $ git checkout master
 : $ git merge server
@@ -561,28 +558,28 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : $ git branch -d server
 #+CAPTION: 最终的提交历史
 #+NAME:  
-[[../../../../../assets/images/git-branch35.png]]
+[[file:{{site.url}}/assets/images/git-branch35.png]]
 **** 衍合的风险
 : 奇妙的衍合也并非完美无缺，要用它得遵守一条准则：一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。
 : 用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似下图所示：
 #+CAPTION: 克隆一个仓库，在其基础上工作一番
 #+NAME:
-[[../../../../../assets/images/git-branch36.png]]
+[[file:{{site.url}}/assets/images/git-branch36.png]]
 : 现在，某人在 C1 的基础上做了些改变，并合并他自己的分支得到结果 C6，推送到中央服务器。当你抓取并合并这些数据到你本地的开发分支
 : 中后，会得到合并结果 C7，历史提交会变成：
 #+CAPTION: 抓取他人提交，并入自己主干
 #+NAME:
-[[../../../../../assets/images/git-branch37.png]]
+[[file:{{site.url}}/assets/images/git-branch37.png]]
 : 接下来，那个推送 C6 上来的人决定用衍合取代之前的合并操作；继而又用 git push --force 覆盖了服务器上的历史，得到 C4’。而之
 : 后当你再从服务器上下载最新提交后，会得到：
 #+CAPTION: 有人推送了衍合后得到的 C4’，丢弃了你作为开发基础的 C4 和 C6
 #+NAME:
-[[../../../../../assets/images/git-branch38.png]]
+[[file:{{site.url}}/assets/images/git-branch38.png]]
 : 下载更新后需要合并，但此时衍合产生的提交对象 C4’ 的 SHA-1 校验值和之前 C4 完全不同，所以 Git 会把它们当作新的提交对象处理，
 : 而实际上此刻你的提交历史 C7 中早已经包含了 C4 的修改内容，于是合并操作会把 C7 和 C4’ 合并为 C8
 #+CAPTION: 你把相同的内容又合并了一遍，生成一个新的提交 C8
 #+NAME:
-[[../../../../../assets/images/git-branch39.png]]
+[[file:{{site.url}}/assets/images/git-branch39.png]]
 : C8 这一步的合并是迟早会发生的，因为只有这样你才能和其他协作者提交的内容保持同步。而在 C8 之后，你的提交历史里就会同时包含 C4 和
 : C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，会看到两个提交拥有相同的作者日期与说明，令人费解。而更糟的是，当你把
 : 这样的历史推送到服务器后，会再次把这些衍合后的提交引入到中央服务 器，进一步困扰其他人（译注：这个例子中，出问题的责任方是那个发布
@@ -600,33 +597,49 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 
 : //推送tag到远程仓库
 : $ git push origin --tags
-
-: //可以使用下列命令获取提交 ID：
-: $ git log
 ** 日志、差别对比
-: //查看提交日志
+*** 日志
+: //查看提交日志，不带参数，按提交时间列出所有的更新，最近的更新排在最上面
 : $ git log
 
 : //查看所有操作日志
 : $ git reflog
 
-: //显示文件的改动，不加具体文件可以查看全部文件的改动日志
-: $ git log -p README.md
-
-: //查看第一行简述日志信息
-: $ git log --pretty=short
-
 : //只显示指定文件的日志信息
 : $ git log README.md
+
+: //-p 选项展开显示每次提交的内容差异
+: //-2 则仅显示最近的两次更新：
+: $ git log -p -2 README.md
+
+: //--stat 选项仅显示简要的增改行数统计
+: $ git log --stat
+: //--shortstat 选项只显示 --stat 中最后的行数修改添加移除统计。
 
 : //以图表形式输出分支提交日志
 : $ git log --graph
 
+: //--word-diff 选项，进行单词层面上的对比。你需要在书籍、论文这种很大的文本文件上进行对比的时候，这个功能就显出用武之地了。
+: $ git log -U1 --word-diff
+: //-U1，表示希望上下文（ context ）行数从默认的 3 行，减为 1 行 
+
+: //--pretty 选项指定使用完全不同于默认格式的方式展示提交历史
+: // 将每个提交放在一行显示
+: $ git log --pretty=online
+: // 另外还有short，full，fuller 和 format 可以用。format可以定制要显示的记录格式，这样的输出便于后期编程提取分析
+
+: --name-only 选项仅在提交信息后显示已修改的文件清单。
+: --name-status 选项显示新增、修改、删除的文件清单。
+: --abbrev-commit 选项仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
+: --relative-date 选项使用较短的相对时间显示（比如，“2 weeks ago”）。
+*** 差别对比
 : //查看更改前后的差别
 : $git diff 
 
 : //查看工作树和最新提交的差别
 : $git diff HEAD
+*** 参考资料
++ [[https://git-scm.com/book/zh/v1/Git-%E5%9F%BA%E7%A1%80-%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2][.3 Git 基础 - 查看提交历史]]
 ** 实用小贴士
 : //内建的图形化 git：
 : $ gitk
@@ -671,7 +684,7 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : //成功的话会在~/目录下生成.ssh文件夹，进入.ssh目录，打开id_rsa.pub文件，复制里面的key。
 
 : 2.进入github官网上，点击个人中心的 Account Settings（账户配置），左边选择"SSH Keys" > "Add SSH Key",title自定义填写，然后将复制的key粘贴到GitHub的文本框中。下面是添加好的SSH Keys示例：
-[[../../../../../assets/images/sshkeys.png]]
+[[file:{{site.url}}/assets/images/sshkeys.png]]
  
 : 3.验证是否成功:
 : $ ssh -T git@github.com 
