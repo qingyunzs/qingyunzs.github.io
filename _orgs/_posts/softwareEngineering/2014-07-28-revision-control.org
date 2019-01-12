@@ -655,6 +655,22 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 ** 问题处理
 *** git: fatal: I don't handle protocol 'https'
 + [[https://stackoverflow.com/questions/42193572/fatal-i-dont-handle-protocol-https/42194024][fatal：I don't handle protocol 'https']]
+*** error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received
+: 解决：
+: $ sudo apt purge git
+: $ sudo apt install git
+*** git pull：fatal: refusing to merge unrelated histories
+: 合并pull两个不同的项目，问题解决：
+
+: 假若我在 Github 新建了一个仓库，在本地又初始化了一个新仓库，并且添加了很多与 Github 内容不同的文件和代码。此时，想把本地代码与远程 Github 仓库
+: 的代码合并，于是，通过 git pull origin master 命令拉取代码(origin 就是仓库，而 master 就是需要上传的分支)；
+: 然后，就输出 refusing to merge unrelated histories。
+
+: 因为是不同的两个仓库，要把两个不同的项目合并，需要添加 --allow-unrelated-histories 告诉 git 允许不相关历史合并，这句代码是在git 2.9.2版本发生的。
+: 假如我们的源是origin，分支是master，那么需要这样写：
+$ git pull origin master --allow-unrelated-histories
+: 如果有设置了默认上传分支就可以用下面代码：
+$ git pull --allow-unrelated-histories
 * GitHub
 ** 简单介绍
 : 官网地址：https://github.com/

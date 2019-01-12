@@ -20,11 +20,11 @@
 layout: post
 title: Redis
 author: zrg
-description: Redis notes.   
+description: Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。从2010年3月15日起，Redis的开发工作由VMware主持。从2013年5月开始，Redis的开发由Pivotal赞助。
 excerpt: 
 comments: false
 categories: 
-- Database
+- database
 tags:
 - Redis
 ---
@@ -34,9 +34,79 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 # (setq org-export-html-style nil)
 
-* Redis 配置
+* 配置
+* Redis 与 ThinkPHP
+** ThinkPHP 3.2.3 使用 Redis
+: 框架自带的 Redis 类
+#+NAME: config.php
+#+BEGIN_SRC emacs-lisp
+'DATA_CACHE_PREFIX' => 'Redis_',//缓存前缀
+'DATA_CACHE_TYPE'=>'Redis',//默认动态缓存为Redis
+'REDIS_RW_SEPARATE' => true, //Redis读写分离 true 开启
+'REDIS_HOST'=>'192.168.91.102', //redis服务器ip，多台用逗号隔开；读写分离开启时，第一台负责写，其它[随机]负责读；
+'REDIS_PORT'=>'6379',//端口号
+'REDIS_TIMEOUT'=>'300',//超时时间
+'REDIS_PERSISTENT'=>false,//是否长连接 false=短连接
+'REDIS_AUTH'=>'',//AUTH认证密码
+'DATA_CACHE_TIME' => 7200, //2小时后失效
+#+END_SRC
+*** 调用
+: 1. 直接调用框架自带的Redis类，
+: 路径：\ThinkPHP\Library\Think\Cache\Driver\Redis.class.php
+#+BEGIN_SRC emacs-lisp
+//创建一个redis对象
+$redis = new \Redis();
+//连接本地的 Redis 服务
+$redis->connect('127.0.0.1', 6379);
+//密码验证,如果没有可以不设置
+$redis->auth('123456');
+//查看服务是否运行
+echo "Server is running: " . $redis->ping();
+echo '<br/>';
+//设置缓存
+$redis->set('username','zhang san',3600);
+//获取缓存
+$user_name = $redis->get('username');
+var_dump($user_name);
+#+END_SRC
+
+: 2. 使用S方法
+: S('study','zhangsan');
+: $name = S('study);
+: echo $name
+*** NOAUTH Authentication required
+描述：调用 S 方法时，报错！
+原因：框架 Redis 类文件，没有设置密码。
+解决：在__construct方法里添加代码：
+#+BEGIN_SRC emacs-lisp
+...
+$options = array (
+	'host'          => C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
+        'port'          => C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
+        'timeout'       => C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+        'password' => C('REDIS_AUTH')?:'', // 添加此行代码
+      'persistent'    => false,
+);
+...
+#+END_SRC
+*** 配置 TP 3.2.3 Redis支持选择数据库功能
+问题描述：官方默认不支持选择数据库功能，业务太多了，很不方便。
+解决：修改__construct()方法
+#+BEGIN_SRC emacs-lisp
+...
+$options = array (
+	'host'          => C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
+        'port'          => C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
+        'timeout'       => C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+        'password' => C('REDIS_AUTH')?:'',
+      'persistent'    => false,
+      'dbindex' => C('REDIS_DBINDEX')?:C('REDIS_DBINDEX'):0, // 添加此行代码
+);
+...
+$this->handler->select($this->options['dbindex']); // 添加此行代码
+#+END_SRC
 * 问题记录
 ** 问题1
 描述：Could not connect to Redis at 127.0.0.1:6379: Connection refused
 原因：6379 没有断开，使用“exit”后
-解决：重新使用redis-cli就可以了
+解决：重新使用redis-cli就可以
