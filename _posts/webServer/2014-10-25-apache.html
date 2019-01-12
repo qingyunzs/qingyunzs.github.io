@@ -1,0 +1,158 @@
+---
+layout: post
+title: Apache
+author: zrg
+comments: false
+description: Apache, Apache HTTP Server. Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
+categories:
+- software
+- web-server
+tags:
+- Apache
+- WampServer
+- phpStudy
+- XAMPP
+- WAMP
+photos:
+---
+
+<div id="outline-container-org7f32807" class="outline-2">
+<h2 id="org7f32807">Preface</h2>
+<div class="outline-text-2" id="text-org7f32807">
+<pre class="example">
+
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org15a6205" class="outline-2">
+<h2 id="org15a6205">一些集成Web开发软件</h2>
+<div class="outline-text-2" id="text-org15a6205">
+</div>
+<div id="outline-container-org148e69e" class="outline-3">
+<h3 id="org148e69e">wamp</h3>
+</div>
+<div id="outline-container-orgd785204" class="outline-3">
+<h3 id="orgd785204">WampServer</h3>
+</div>
+<div id="outline-container-org335fe50" class="outline-3">
+<h3 id="org335fe50">xampp</h3>
+<div class="outline-text-3" id="text-org335fe50">
+</div>
+<div id="outline-container-org0adca07" class="outline-4">
+<h4 id="org0adca07">下载和安装</h4>
+<div class="outline-text-4" id="text-org0adca07">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  &#23448;&#32593;&#22320;&#22336;&#65306;https://www.apachefriends.org
+  &#19979;&#36733;&#26102;&#65292;&#26377;32&#20301;&#30340;&#12289;64&#20301;&#30340;&#65292;&#30475;&#20320;&#30340;&#31995;&#32479;&#25903;&#25345;&#37027;&#20010;&#23601;&#19979;&#21738;&#20010;&#12290;
+  &#23433;&#35013;&#65306;#./packgeName.run
+  &#31561;&#24453;&#23433;&#35013;&#32467;&#26463;&#65292;&#26399;&#38388;&#20250;&#25552;&#31034;&#20320;&#26159;&#21542;&#25191;&#34892;&#65292;&#36755;&#20837;y&#21363;&#21487;&#12290;
+  &#21368;&#36733;&#65306;&#21040;&#23433;&#35013;&#30446;&#24405;/opt/lampp/&#20013;&#25214;&#21040;uninstall&#65292;&#25191;&#34892;&#21363;&#21487;&#21368;&#36733;
+  &#27880;&#24847;&#65306;&#22312;&#25191;&#34892;.run&#25991;&#20214;&#26102;&#26080;&#25552;&#31034;&#65292;&#21407;&#22240;&#26159;&#20320;&#36719;&#20214;&#19982;&#31995;&#32479;&#20301;&#25968;&#19981;&#23545;&#24212;&#65292;&#25442;&#25104;64&#25110;32&#20301;&#30340;&#25191;&#34892;&#23601;ok&#20102;
+</pre>
+</div>
+</div>
+<ul class="org-ul">
+<li><a id="org334e68b"></a>配置访问<br />
+<ul class="org-ul">
+<li><a id="org87b6da1"></a>相关路径<br />
+<div class="outline-text-6" id="text-org87b6da1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">/opt/lampp/&#20027;&#30446;&#24405;
+/opt/lampp/htdocs/xampp/&#32593;&#31449;&#23384;&#25918;&#30446;&#24405;
+/opt/lampp/etc/&#37197;&#32622;&#25991;&#20214;&#23384;&#25918;&#30446;&#24405;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8e88898"></a>使外部网络能正常访问<br />
+<div class="outline-text-6" id="text-org8e88898">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#vim /opt/lampp/etc/extra/httpd-xampp.conf
+&#25214;&#21040;&#20462;&#25913;&#65306;
+&lt;LocationMatch <span style="color: #8b2252;">"^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))"</span>&gt;
+#        Require local   #&#27880;&#37322;&#25481;
+       Order deny,allow  #&#28155;&#21152;
+       Allow from all    #&#28155;&#21152;&#65292;&#34920;&#31034;&#20801;&#35768;&#25152;&#26377;&#37117;&#33021;&#35775;&#38382;
+       ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+&lt;/LocationMatch&gt;
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org63e4fb7"></a>启动服务<br />
+<div class="outline-text-6" id="text-org63e4fb7">
+<pre class="example">
+/opt/lampp/lampp start
+就这么简单，用浏览器访问一下吧！
+
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-orgb7eca10" class="outline-4">
+<h4 id="orgb7eca10">注意事项</h4>
+</div>
+<div id="outline-container-org0d23223" class="outline-4">
+<h4 id="org0d23223">当访问时，出现权限问题</h4>
+<div class="outline-text-4" id="text-org0d23223">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">Access forbidden!
+New XAMPP security concept:
+Access to the requested object is only available from the local network.
+This setting can be configured in the file <span style="color: #8b2252;">"httpd-xampp.conf"</span>.
+Error 403
+&#36825;&#20010;&#21407;&#22240;&#23601;&#26159;&#19978;&#38754;&#25552;&#21040;&#30340;&#20462;&#25913;httpd-xampp.conf&#25991;&#20214;&#65292;&#25913;&#20102;&#23601;&#33021;&#27491;&#24120;&#35775;&#38382;&#20102;&#12290;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgddbb915" class="outline-4">
+<h4 id="orgddbb915">重启后不能启动xampp服务</h4>
+<div class="outline-text-4" id="text-orgddbb915">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#30001;&#20110;&#26029;&#30005;&#25110;&#20854;&#20182;&#21407;&#22240;&#65292;&#37325;&#21551;&#21518;&#26381;&#21153;&#27809;&#33021;&#24320;&#21551;&#65292;&#32593;&#31449;&#19981;&#33021;&#35775;&#38382;&#20102;
+a.&#36827;&#20837; /etc/init.d &#30446;&#24405;&#19979;&#65292;&#24314;&#31435; lampp.sh&#25991;&#20214;
+#vim lampp.sh
+b.&#36755;&#20837;&#22914;&#19979;&#20869;&#23481;
+#!/bin/sh
+cd /opt/lampp
+./lampp start
+c.&#26356;&#25913;&#25991;&#20214;&#26435;&#38480;
+#chmod 755 lampp.sh
+d.&#32534;&#36753; /etc/rc.d/rc.local ,&#22312;&#26368;&#21518;&#19968;&#34892;&#21518;&#38754;&#21152;&#19978;:
+exec /etc/init.d/lampp.sh
+&#22914;&#27492;&#65292;&#24320;&#26426;&#23601;&#33021;&#21551;&#21160;xampp&#20102;&#12290;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9b18272" class="outline-4">
+<h4 id="org9b18272">有时会因为防火墙原因，导致不能访问网站</h4>
+<div class="outline-text-4" id="text-org9b18272">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#27492;&#26102;&#65292;&#25105;&#20204;&#21487;&#20197;&#20851;&#38381;&#38450;&#28779;&#22681;&#65292;&#24182;&#19988;&#37325;&#21551;&#21518;&#19981;&#24320;&#21551;
+chkconfig iptables off &#20851;&#38381;&#38450;&#28779;&#22681;
+systemctl stop firewalled.service --Centos&#20013;&#20351;&#29992;
+systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&#21551;&#38450;&#28779;&#22681;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc837cf9" class="outline-3">
+<h3 id="orgc837cf9">phpStudy</h3>
+</div>
+</div>
+<div id="outline-container-orgc2cf8da" class="outline-2">
+<h2 id="orgc2cf8da">References</h2>
+<div class="outline-text-2" id="text-orgc2cf8da">
+<ul class="org-ul">
+<li><a href="https://baike.baidu.com/item/apache/6265">apache 百度百科</a></li>
+</ul>
+</div>
+</div>

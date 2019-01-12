@@ -33,6 +33,15 @@ photos:
 
 * 写在前面
 : 这是关于web开发可能会用到的javascript代码片段，也许能够帮助到你。
+*** JavaScript没有块级作用域
+: 在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。                                           
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+if(true){                                                                                                                                             
+    var color="blue";                                                                                                                                 
+}                                                                                                                                                     
+alert(color); //"blue"                                                                                                                                
+#+END_SRC
+: 内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
 * 日期/时间
 *** 转换UTC时间
 #+BEGIN_SRC js
@@ -528,11 +537,33 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 
 #+END_SRC
 ** 其他校验
-#+BEGIN_SRC emacs-lisp
-//字段只能包含大小写字母和数字
-
-#+END_SRC
-
+*** 检查QQ号码                                                                                                                                         
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+function checkqq()  //检查QQ号码                                                                                                                      
+{                                                                                                                                                     
+        var qq=document.getElementById("qq").value;                                                                                                   
+        var divqq=document.getElementById("qq");                                                                                                      
+        if(qq!="")                                                                                                                                    
+        {                                                                                                                                             
+                if(qq.match(/\D/)!=null)                                                                                                              
+                {                                                                                                                                     
+                        divqq.innerHTML="<font color='red'>QQ号码只能输入数字！</font>";                                                              
+                        return false;                                                                                                                 
+                }                                                                                                                                     
+                else                                                                                                                                  
+                {                                                                                                                                    
+                        divqq.innerHTML="<font color='red'>√</font>";                                                                                
+                        return true;                                                                                                                  
+                }                                                                                                                                     
+        }                                                                                                                                             
+        else                                                                                                                                          
+        {                                                                                                                                            
+                divqq.innerHTML="<font color='green'>√</font>";                                                                                      
+                return true;                                                                                                                          
+        }                                                                                                                                             
+}                                                                                                                                                     
+#END_SRC
+*** 
 * 其他
 *** 滚动到页面顶部
 #+BEGIN_SRC js
@@ -554,63 +585,40 @@ function goTopEx() {
     }
 }
 #+END_SRC
-* 待添加
-#+BEGIN_SRC emacs-lisp
-
+* 页面操作
+** 根据网页实际大小来设置iframe显示区域大小
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+ $('#iframe_i').load(function () {                                                                                                                    
+  // “ref_page”为引用页面DIV的ID，获取DIV的外部宽度、外部高度。                                                                                     
+  var width = $(this).contents().find('#ref_page').outerWidth();                                                                                      
+  var height = $(this).contents().find('#ref_page').outerHeight();                                                                                    
+  // 设置iframe的宽度、高度。                                                                                                                         
+  $(this).width(width);                                                                                                                               
+  $(this).height(height);                                                                                                                             
+ )};                                                                                                                                                  
 #+END_SRC
+** 动态显示收缩列表
+Method 1:
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+ $(document).ready(function(){                                                                                                                        
+  //当点击某一列表项时，滑出下级菜单并收起其他列表项                                                                                                  
+  $("#user_manage").click(function(){                                                                                                                 
+   // $("#user_about").fadeToggle();                                                                                                                  
+   $("#user_manage").addClass("active");                                                                                                              
+   $("#node_manage").removeClass("active");                                                                                                           
+   $("#role_manage").removeClass("active");                                                                                                           
+   $("#setting").removeClass("active");                                                                                                               
+                                                                                                                                                      
+   $("#user_about").slideToggle();                                                                                                                    
+   $("#node_about").slideUp();                                                                                                                        
+   $("#role_about").slideUp();                                                                                                                        
+      /*$("#div2").fadeToggle("slow");                                                                                                                
+          $("#div3").fadeToggle(3000);*/                                                                                                              
+  });                                                                                                                                                 
+ });                                                                                                                                                  
+#+END_SRC                                                                                                                                             
 
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-
+Method 2:
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+http://jqueryui.com/accordion/                                                                                                                        
 #+END_SRC

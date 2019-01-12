@@ -1,0 +1,122 @@
+---
+layout: post
+title:  PHP 跨域问题解决
+author: zrg
+description: PHP 跨域问题
+excerpt: 
+comments: false
+categories: 
+- php
+tags:
+- PHP-跨域问题
+---
+
+<p>
+感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
+</p>
+
+<div id="outline-container-org253a050" class="outline-2">
+<h2 id="org253a050">问题概述</h2>
+<div class="outline-text-2" id="text-org253a050">
+<pre class="example">
+现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf6f542b" class="outline-2">
+<h2 id="orgf6f542b">Ajax 请求跨域问题解决</h2>
+<div class="outline-text-2" id="text-orgf6f542b">
+</div>
+<div id="outline-container-org3c133bd" class="outline-3">
+<h3 id="org3c133bd">Client</h3>
+<div class="outline-text-3" id="text-org3c133bd">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>客户端请求代码</label><pre class="src src-emacs-lisp">// &#19978;&#20256;&#25991;&#20214;
+function upload_idcard_file(_this,type){
+        var formData = new FormData()<span style="color: #b22222;">;</span>
+        formData.append('type',type)<span style="color: #b22222;">;</span>
+        formData.append('file',_this.files[0])<span style="color: #b22222;">;</span>
+        $.ajax({
+                url: '{$upload_file_url}',
+            type: 'POST',
+                dataType: 'json',
+                data: formData,
+                cache: false,
+                contentType : false,
+                processData : false,
+                headers : {<span style="color: #8b2252;">"access_token"</span> : <span style="color: #8b2252;">"{$access_token}"</span>},
+                success:function(d){
+                        var img_url = d.data<span style="color: #b22222;">;</span>
+                        img_url = 'http:'+img_url<span style="color: #b22222;">;</span>
+                        load_img(_this.id,img_url)<span style="color: #b22222;">;</span>
+            },
+                error:function(err){
+                        //
+            }
+        })<span style="color: #b22222;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3059b0c" class="outline-3">
+<h3 id="org3059b0c">Server</h3>
+<div class="outline-text-3" id="text-org3059b0c">
+</div>
+<div id="outline-container-org0d357de" class="outline-4">
+<h4 id="org0d357de">解决方式一</h4>
+<div class="outline-text-4" id="text-org0d357de">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>粗糙解决方式</label><pre class="src src-emacs-lisp">// &#20801;&#35768;&#25152;&#26377;&#36328;&#22495;&#35831;&#27714;
+header('Access-Control-Allow-Origin: *')<span style="color: #b22222;">;</span>
+// &#21482;&#20801;&#35768;http://www.baidu.com&#19979;&#21457;&#26469;&#30340;&#36328;&#22495;&#35831;&#27714;
+// header('Access-Control-Allow-Origin: http://www.baidu.com')<span style="color: #b22222;">;</span>
+// &#35774;&#32622;&#25903;&#25345;&#30340;http&#35831;&#27714;&#26041;&#24335;
+header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #b22222;">;</span>
+// &#21709;&#24212;&#22836; &#35831;&#25353;&#29031;&#33258;&#24049;&#38656;&#27714;&#28155;&#21152;
+header('Access-Control-Allow-Headers:access_token')<span style="color: #b22222;">; </span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9653a68" class="outline-4">
+<h4 id="org9653a68">解决方式二</h4>
+<div class="outline-text-4" id="text-org9653a68">
+<pre class="example">
+方式一中单纯使用*或者具体域名，在开发接口时显得不太科学，这时候我们需要进行动态的判断处理。
+
+</pre>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>动态判断处理跨域问题</label><pre class="src src-emacs-lisp">if(isset($_SERVER['HTTP_ORIGIN'])){
+        // &#35831;&#27714;&#26041;&#27861;
+        $request_method = $_SERVER['REQUEST_METHOD']<span style="color: #b22222;">;</span>
+        // &#23450;&#20041;&#19968;&#20010;&#20801;&#35768;&#36328;&#22495;&#35831;&#27714;&#25509;&#21475;&#30340;&#22495;&#21517;&#21015;&#34920;&#65292;&#36825;&#37324;&#20320;&#21487;&#20197;&#29992;&#37197;&#32622;&#20063;&#21487;&#20197;&#29992;&#20854;&#23427;&#24418;&#24335;&#65292;&#25105;&#36825;&#37324;&#21482;&#26159;&#29992;$GLOBALS&#31616;&#21333;&#28436;&#31034;&#19968;&#19979;
+        $allow_origin = array(
+                'baidu.com',
+                'bing.com'
+        )<span style="color: #b22222;">;</span>
+        // &#21028;&#26029;&#26159;&#21542;&#26377;origin&#35831;&#27714;&#22836;
+        if(in_array($request_method, $allow_origin)
+        {
+                header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'])<span style="color: #b22222;">;</span>
+          break<span style="color: #b22222;">;</span>
+        }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8eb5600" class="outline-2">
+<h2 id="org8eb5600">Session 跨域问题解决</h2>
+<div class="outline-text-2" id="text-org8eb5600">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #b22222;">;</span>
+header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;</span>
+</pre>
+</div>
+</div>
+</div>

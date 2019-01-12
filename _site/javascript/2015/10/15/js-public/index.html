@@ -393,8 +393,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/JavaScript" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/category/#/javascript" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
                   </a>
                 </span>
 
@@ -453,6 +453,26 @@
 这是关于web开发可能会用到的javascript代码片段，也许能够帮助到你。
 
 </pre>
+</div>
+<div id="outline-container-orge425d87" class="outline-4">
+<h4 id="orge425d87">JavaScript没有块级作用域</h4>
+<div class="outline-text-4" id="text-orge425d87">
+<pre class="example">
+在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。                                           
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">if(true){                                                                                                                                             
+    var color=<span style="color: #8b2252;">"blue"</span><span style="color: #b22222;">;                                                                                                                                 </span>
+}                                                                                                                                                     
+alert(color)<span style="color: #b22222;">; </span><span style="color: #b22222;">//"blue"                                                                                                                                </span>
+</pre>
+</div>
+<pre class="example">
+内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-org69766a9" class="outline-2">
@@ -1067,15 +1087,44 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 <div id="outline-container-orgc659a48" class="outline-3">
 <h3 id="orgc659a48">其他校验</h3>
 <div class="outline-text-3" id="text-orgc659a48">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">//&#23383;&#27573;&#21482;&#33021;&#21253;&#21547;&#22823;&#23567;&#20889;&#23383;&#27597;&#21644;&#25968;&#23383;
-
-</pre>
+</div>
+<div id="outline-container-org06af790" class="outline-4">
+<h4 id="org06af790">检查QQ号码</h4>
+<div class="outline-text-4" id="text-org06af790">
+<p>
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+function checkqq()  //检查QQ号码                                                                                                                      
+{                                                                                                                                                     
+        var qq=document.getElementById("qq").value;                                                                                                   
+        var divqq=document.getElementById("qq");                                                                                                      
+        if(qq!="")                                                                                                                                    
+        {                                                                                                                                             
+                if(qq.match(<i>\D</i>)!=null)                                                                                                              
+                {                                                                                                                                     
+                        divqq.innerHTML="&lt;font color='red'&gt;QQ号码只能输入数字！&lt;/font&gt;";                                                              
+                        return false;                                                                                                                 
+                }                                                                                                                                     
+                else                                                                                                                                  
+                {                                                                                                                                    
+                        divqq.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";                                                                                
+                        return true;                                                                                                                  
+                }                                                                                                                                     
+        }                                                                                                                                             
+        else                                                                                                                                          
+        {                                                                                                                                            
+                divqq.innerHTML="&lt;font color='green'&gt;√&lt;/font&gt;";                                                                                      
+                return true;                                                                                                                          
+        }                                                                                                                                             
+}                                                                                                                                                     
+#END_SRC
+</p>
+</div>
+</div>
+<div id="outline-container-org3d5d237" class="outline-4">
+<h4 id="org3d5d237"></h4>
 </div>
 </div>
 </div>
-</div>
-
 <div id="outline-container-orgd48c445" class="outline-2">
 <h2 id="orgd48c445">其他</h2>
 <div class="outline-text-2" id="text-orgd48c445">
@@ -1106,82 +1155,59 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 </div>
 </div>
 </div>
-<div id="outline-container-org866a0f3" class="outline-2">
-<h2 id="org866a0f3">待添加</h2>
-<div class="outline-text-2" id="text-org866a0f3">
+<div id="outline-container-org8ad16ab" class="outline-2">
+<h2 id="org8ad16ab">页面操作</h2>
+<div class="outline-text-2" id="text-org8ad16ab">
+</div>
+<div id="outline-container-org9d32265" class="outline-3">
+<h3 id="org9d32265">根据网页实际大小来设置iframe显示区域大小</h3>
+<div class="outline-text-3" id="text-org9d32265">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp">$('#iframe_i').load(<span style="color: #a020f0;">function</span> () {                                                                                                                    
+ // &#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;                                                                                     
+ var width = $(this).contents().find('#ref_page').outerWidth()<span style="color: #b22222;">;                                                                                      </span>
+ var height = $(this).contents().find('#ref_page').outerHeight()<span style="color: #b22222;">;                                                                                    </span>
+ // &#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;                                                                                                                         
+ $(this).width(width)<span style="color: #b22222;">;                                                                                                                               </span>
+ $(this).height(height)<span style="color: #b22222;">;                                                                                                                             </span>
+)}<span style="color: #b22222;">;                                                                                                                                                  </span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3f94c17" class="outline-3">
+<h3 id="org3f94c17">动态显示收缩列表</h3>
+<div class="outline-text-3" id="text-org3f94c17">
+<p>
+Method 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #a020f0;">function</span>(){                                                                                                                        
+ //&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;                                                                                                  
+ $(<span style="color: #8b2252;">"#user_manage"</span>).click(<span style="color: #a020f0;">function</span>(){                                                                                                                 
+  // $(<span style="color: #8b2252;">"#user_about"</span>).fadeToggle()<span style="color: #b22222;">;                                                                                                                  </span>
+  $(<span style="color: #8b2252;">"#user_manage"</span>).addClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                              </span>
+  $(<span style="color: #8b2252;">"#node_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
+  $(<span style="color: #8b2252;">"#role_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
+  $(<span style="color: #8b2252;">"#setting"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                               </span>
+
+  $(<span style="color: #8b2252;">"#user_about"</span>).slideToggle()<span style="color: #b22222;">;                                                                                                                    </span>
+  $(<span style="color: #8b2252;">"#node_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
+  $(<span style="color: #8b2252;">"#role_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
+     /*$(<span style="color: #8b2252;">"#div2"</span>).fadeToggle(<span style="color: #8b2252;">"slow"</span>)<span style="color: #b22222;">;                                                                                                                </span>
+         $(<span style="color: #8b2252;">"#div3"</span>).fadeToggle(3000)<span style="color: #b22222;">;</span><span style="color: #b22222;">*/                                                                                                              </span>
+ })<span style="color: #b22222;">;                                                                                                                                                 </span>
+})<span style="color: #b22222;">;                                                                                                                                                  </span>
 </pre>
 </div>
 
+<p>
+Method 2:
+</p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp">http://jqueryui.com/accordion/                                                                                                                        
 </pre>
 </div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
 </div>
 </div>
 </div>
@@ -1232,8 +1258,8 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/software/2015/11/06/using-vim/" rel="next" title="Using Vim">
-                <i class="fa fa-chevron-left"></i> Using Vim
+              <a href="/software/2015/11/06/using-vim/" rel="next" title="Vim 使用笔记">
+                <i class="fa fa-chevron-left"></i> Vim 使用笔记
               </a>
             
           </div>
@@ -1242,8 +1268,8 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/2015/08/20/design-pattern/" rel="prev" title="设计模式">
-                设计模式 <i class="fa fa-chevron-right"></i>
+              <a href="/software/web-server/2015/09/23/tomcat/" rel="prev" title="Tomcat">
+                Tomcat <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1321,7 +1347,7 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1332,7 +1358,7 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1343,7 +1369,7 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1421,7 +1447,7 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge8ab35d"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org69766a9"> <span class="nav-number">2</span> <span class="nav-text">日期/时间</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2922765"> <span class="nav-number">2.1</span> <span class="nav-text">转换UTC时间</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4571144"> <span class="nav-number">2.2</span> <span class="nav-text">将日期转换为yyyymmddhhssmm格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7b37794"> <span class="nav-number">2.3</span> <span class="nav-text">格式化日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3569e0a"> <span class="nav-number">2.4</span> <span class="nav-text">日期加减</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ad922e"> <span class="nav-number">2.5</span> <span class="nav-text">获取指定日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8cf0c85"> <span class="nav-number">2.6</span> <span class="nav-text">计算日期差</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9e87d67"> <span class="nav-number">2.7</span> <span class="nav-text">倒计时</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3e67108"> <span class="nav-number">2.8</span> <span class="nav-text">指定睡眠时间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfa3875f"> <span class="nav-number">3</span> <span class="nav-text">字符串</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org88bf74a"> <span class="nav-number">3.1</span> <span class="nav-text">生成随机验证码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org732cf32"> <span class="nav-number">3.2</span> <span class="nav-text">截取字符串包含中文处理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6ff0f30"> <span class="nav-number">3.3</span> <span class="nav-text">获取url参数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8558798"> <span class="nav-number">4</span> <span class="nav-text">数组</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdf0fdd7"> <span class="nav-number">5</span> <span class="nav-text">对象</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc16af8"> <span class="nav-number">5.1</span> <span class="nav-text">对象(Object) ⇋ 字符串(String)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9a36450"> <span class="nav-number">5.2</span> <span class="nav-text">判断对象/数组中key是否存在</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org250540e"> <span class="nav-number">6</span> <span class="nav-text">校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org87379bc"> <span class="nav-number">6.1</span> <span class="nav-text">检查对象是否为空对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org103aacf"> <span class="nav-number">6.2</span> <span class="nav-text">身份证号校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org262bba7"> <span class="nav-number">6.3</span> <span class="nav-text">电话号码校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org934aadd"> <span class="nav-number">6.4</span> <span class="nav-text">Email校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org000ed17"> <span class="nav-number">6.5</span> <span class="nav-text">IP地址校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc659a48"> <span class="nav-number">6.6</span> <span class="nav-text">其他校验</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd48c445"> <span class="nav-number">7</span> <span class="nav-text">其他</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org57044d5"> <span class="nav-number">7.1</span> <span class="nav-text">滚动到页面顶部</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org866a0f3"> <span class="nav-number">8</span> <span class="nav-text">待添加</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge8ab35d"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge425d87"> <span class="nav-number">1.1</span> <span class="nav-text">JavaScript没有块级作用域</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org69766a9"> <span class="nav-number">2</span> <span class="nav-text">日期/时间</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2922765"> <span class="nav-number">2.1</span> <span class="nav-text">转换UTC时间</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4571144"> <span class="nav-number">2.2</span> <span class="nav-text">将日期转换为yyyymmddhhssmm格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7b37794"> <span class="nav-number">2.3</span> <span class="nav-text">格式化日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3569e0a"> <span class="nav-number">2.4</span> <span class="nav-text">日期加减</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ad922e"> <span class="nav-number">2.5</span> <span class="nav-text">获取指定日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8cf0c85"> <span class="nav-number">2.6</span> <span class="nav-text">计算日期差</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9e87d67"> <span class="nav-number">2.7</span> <span class="nav-text">倒计时</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3e67108"> <span class="nav-number">2.8</span> <span class="nav-text">指定睡眠时间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfa3875f"> <span class="nav-number">3</span> <span class="nav-text">字符串</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org88bf74a"> <span class="nav-number">3.1</span> <span class="nav-text">生成随机验证码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org732cf32"> <span class="nav-number">3.2</span> <span class="nav-text">截取字符串包含中文处理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6ff0f30"> <span class="nav-number">3.3</span> <span class="nav-text">获取url参数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8558798"> <span class="nav-number">4</span> <span class="nav-text">数组</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdf0fdd7"> <span class="nav-number">5</span> <span class="nav-text">对象</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc16af8"> <span class="nav-number">5.1</span> <span class="nav-text">对象(Object) ⇋ 字符串(String)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9a36450"> <span class="nav-number">5.2</span> <span class="nav-text">判断对象/数组中key是否存在</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org250540e"> <span class="nav-number">6</span> <span class="nav-text">校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org87379bc"> <span class="nav-number">6.1</span> <span class="nav-text">检查对象是否为空对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org103aacf"> <span class="nav-number">6.2</span> <span class="nav-text">身份证号校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org262bba7"> <span class="nav-number">6.3</span> <span class="nav-text">电话号码校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org934aadd"> <span class="nav-number">6.4</span> <span class="nav-text">Email校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org000ed17"> <span class="nav-number">6.5</span> <span class="nav-text">IP地址校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc659a48"> <span class="nav-number">6.6</span> <span class="nav-text">其他校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org06af790"> <span class="nav-number">6.6.1</span> <span class="nav-text">检查QQ号码</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3d5d237"> <span class="nav-number">6.6.2</span> <span class="nav-text"></span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd48c445"> <span class="nav-number">7</span> <span class="nav-text">其他</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org57044d5"> <span class="nav-number">7.1</span> <span class="nav-text">滚动到页面顶部</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8ad16ab"> <span class="nav-number">8</span> <span class="nav-text">页面操作</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9d32265"> <span class="nav-number">8.1</span> <span class="nav-text">根据网页实际大小来设置iframe显示区域大小</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3f94c17"> <span class="nav-number">8.2</span> <span class="nav-text">动态显示收缩列表</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

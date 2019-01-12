@@ -393,8 +393,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/PHP" itemprop="url" rel="index">
-                    <span itemprop="name">PHP</span>
+                  <a href="/category/#/php" itemprop="url" rel="index">
+                    <span itemprop="name">php</span>
                   </a>
                 </span>
 
@@ -467,15 +467,18 @@
 <h3 id="orgd4f15e1">字符串(String)</h3>
 <div class="outline-text-3" id="text-orgd4f15e1">
 </div>
-<div id="outline-container-org993bca5" class="outline-4">
-<h4 id="org993bca5">常用字符串操作</h4>
-<div class="outline-text-4" id="text-org993bca5">
+<div id="outline-container-org8afeffe" class="outline-4">
+<h4 id="org8afeffe">字符串长度</h4>
+<div class="outline-text-4" id="text-org8afeffe">
 <pre class="example">
-//字符串长度
 $strLength=strlen($str);
 
 </pre>
-
+</div>
+</div>
+<div id="outline-container-org716a315" class="outline-4">
+<h4 id="org716a315">大小写转换</h4>
+<div class="outline-text-4" id="text-org716a315">
 <pre class="example">
 //小写转换为大写
 strtoupper($str);
@@ -483,7 +486,11 @@ strtoupper($str);
 strtolower($str);
 
 </pre>
-
+</div>
+</div>
+<div id="outline-container-org9eec003" class="outline-4">
+<h4 id="org9eec003">字符串截取</h4>
+<div class="outline-text-4" id="text-org9eec003">
 <pre class="example">
 //截取字符串，取出最有一个字符
 substr($str,0,-1);
@@ -496,11 +503,10 @@ substr($str,0,-1);
 <h3 id="org650a16f">数组(Array)</h3>
 <div class="outline-text-3" id="text-org650a16f">
 </div>
-<div id="outline-container-orge170ea6" class="outline-4">
-<h4 id="orge170ea6">常用数组操作</h4>
-<div class="outline-text-4" id="text-orge170ea6">
+<div id="outline-container-org60b915f" class="outline-4">
+<h4 id="org60b915f">string⇌array</h4>
+<div class="outline-text-4" id="text-org60b915f">
 <pre class="example">
-// 字符串转化为数组，explode()
 $array=explode(separator,$string);
 $pizza = "piece1 piece2 piece3 piece4 piece5 piece6";
 $pieces = explode(" ", $pizza);
@@ -514,13 +520,21 @@ echo $pieces[1]; // piece2
 $string=implode(glue,$array);
 
 </pre>
-
+</div>
+</div>
+<div id="outline-container-org9507733" class="outline-4">
+<h4 id="org9507733">array 去除空元素</h4>
+<div class="outline-text-4" id="text-org9507733">
 <pre class="example">
 //去除空元素
 array_filter()
 
 </pre>
-
+</div>
+</div>
+<div id="outline-container-org310d781" class="outline-4">
+<h4 id="org310d781">array 去除重复元素</h4>
+<div class="outline-text-4" id="text-org310d781">
 <pre class="example">
 //去除重复元素
 array_unique()
@@ -528,11 +542,11 @@ array_unique()
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd87c819" class="outline-4">
-<h4 id="orgd87c819">判断二维数组是否为空</h4>
-<div class="outline-text-4" id="text-orgd87c819">
+<div id="outline-container-orgf8f8254" class="outline-4">
+<h4 id="orgf8f8254">判断二维数组是否为空</h4>
+<div class="outline-text-4" id="text-orgf8f8254">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">function array_is_null($arr = null){ 
+<pre class="src src-emacs-lisp" id="orgd87c819">function array_is_null($arr = null){ 
         if(is_array($arr)){ 
                 foreach($arr as $k=&gt;$v){ 
                         if($v&amp;&amp;!is_array($v)){ 
@@ -615,6 +629,159 @@ date('Y-m-d H:i:s', 1156219870);
 </pre>
 </div>
 </div>
+
+
+
+
+
+<div id="outline-container-org2b89829" class="outline-3">
+<h3 id="org2b89829">计算日期/时间差</h3>
+<div class="outline-text-3" id="text-org2b89829">
+</div>
+<div id="outline-container-orge463a73" class="outline-4">
+<h4 id="orge463a73">计算已成为会员多少天或距离某活动还剩余多少天?</h4>
+<div class="outline-text-4" id="text-orge463a73">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgbb08672">function get_days_calc($calcTime, $currentTime, $differOrSurplus){
+        switch ($differOrSurplus) {
+        case 1:
+                return round(($currentTime-$calcTime)/3600/24)<span style="color: #b22222;">;</span>
+                break<span style="color: #b22222;">;</span>
+        case 2:
+                return round(($calcTime-$currentTime)/3600/24)<span style="color: #b22222;">;</span>
+                break<span style="color: #b22222;">;</span>
+        default:
+                return round(($currentTime-$calcTime)/3600/24)<span style="color: #b22222;">;</span>
+                break<span style="color: #b22222;">;</span>
+        }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd9d86f" class="outline-2">
+<h2 id="orgfd9d86f">URL常用函数</h2>
+<div class="outline-text-2" id="text-orgfd9d86f">
+</div>
+<div id="outline-container-orgd3ca089" class="outline-3">
+<h3 id="orgd3ca089">获取当前URL</h3>
+<div class="outline-text-3" id="text-orgd3ca089">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf6ab28a">function getCurrentPageURL()
+{
+        $pageURL = 'http'<span style="color: #b22222;">;</span>
+        if (isset($_SERVER[<span style="color: #8b2252;">"HTTPS"</span>]) <span style="color: #228b22;">&amp;&amp;</span> $_SERVER[<span style="color: #8b2252;">"HTTPS"</span>] == <span style="color: #8b2252;">"on"</span>)
+        {
+                $pageURL .= <span style="color: #8b2252;">"s"</span><span style="color: #b22222;">;</span>
+        }
+        $pageURL .= <span style="color: #8b2252;">"://"</span><span style="color: #b22222;">;</span>
+        if ($_SERVER[<span style="color: #8b2252;">"SERVER_PORT"</span>] != <span style="color: #8b2252;">"80"</span>)
+        {
+                $pageURL .= $_SERVER[<span style="color: #8b2252;">"SERVER_NAME"</span>] . <span style="color: #8b2252;">":"</span> . $_SERVER[<span style="color: #8b2252;">"SERVER_PORT"</span>] . $_SERVER[<span style="color: #8b2252;">"REQUEST_URI"</span>]<span style="color: #b22222;">;</span>
+        }
+        else
+        {
+                $pageURL .= $_SERVER[<span style="color: #8b2252;">"SERVER_NAME"</span>] . $_SERVER[<span style="color: #8b2252;">"REQUEST_URI"</span>]<span style="color: #b22222;">;</span>
+        }
+        return $pageURL<span style="color: #b22222;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd9757e3" class="outline-3">
+<h3 id="orgd9757e3">请求处理</h3>
+<div class="outline-text-3" id="text-orgd9757e3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org0b04573">function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$response_header = false,$exec_time = 5,$connect_time = 5 )
+{
+        $method = strtoupper( $method )<span style="color: #b22222;">;</span>
+        $ch = curl_init()<span style="color: #b22222;">;</span>
+        // &#35774;&#32622;&#35831;&#27714;url
+        curl_setopt( $ch,CURLOPT_URL,$url )<span style="color: #b22222;">;</span>
+        // &#35774;&#32622;&#35831;&#27714;&#26041;&#27861;,&#40664;&#35748;&#25191;&#34892;GET&#35831;&#27714;&#65292;&#26080;&#38656;&#35774;&#32622;
+        if( 'POST' == $method ){
+                curl_setopt( $ch, CURLOPT_POST,1 )<span style="color: #b22222;">;</span>
+        }elseif( 'GET' != $method ){
+                curl_setopt( $ch, CURLOPT_CUSTOMREQUEST,$method )<span style="color: #b22222;">;</span>
+        }
+        // &#35774;&#32622;&#35831;&#27714;&#22836;
+        if( null != $header <span style="color: #228b22;">&amp;&amp;</span> is_array($header) ){
+                curl_setopt( $ch,CURLOPT_HTTPHEADER,array_map(<span style="color: #a020f0;">function</span>($field,$value){
+                        return $field . ':' . $value<span style="color: #b22222;">;</span>
+                }, array_keys($header), $header) )<span style="color: #b22222;">;</span>
+        }
+        // &#35774;&#32622;&#35831;&#35831;&#27714;&#25968;&#25454;
+        if( null != $req_data <span style="color: #228b22;">&amp;&amp;</span> 'GET' != $method ){
+                if ( is_array($req_data) <span style="color: #228b22;">&amp;&amp;</span> !isset($req_data['isfile']) ){
+                        $req_data = http_build_query($req_data)<span style="color: #b22222;">;</span>
+                }
+                curl_setopt( $ch,CURLOPT_POSTFIELDS,$req_data )<span style="color: #b22222;">;</span>
+        }
+        //&#35774;&#32622;&#36755;&#20986;&#25968;&#25454;&#20013;&#21253;&#21547;http header
+        curl_setopt( $ch, CURLOPT_HEADER,$response_header )<span style="color: #b22222;">;</span>
+        // &#23558;curl_exec()&#33719;&#21462;&#30340;&#20449;&#24687;&#20197;&#23383;&#31526;&#20018;&#36820;&#22238;&#65292;&#32780;&#19981;&#26159;&#30452;&#25509;&#36755;&#20986;
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true )<span style="color: #b22222;">;</span>
+        // &#20801;&#35768; cURL &#20989;&#25968;&#25191;&#34892;&#30340;&#26368;&#38271;&#31186;&#25968;&#12290;
+        curl_setopt( $ch,CURLOPT_TIMEOUT,$exec_time )<span style="color: #b22222;">;</span>
+        //&#22312;&#23581;&#35797;&#36830;&#25509;&#26102;&#31561;&#24453;&#30340;&#31186;&#25968;&#12290;&#35774;&#32622;&#20026;0&#65292;&#21017;&#26080;&#38480;&#31561;&#24453;
+        curl_setopt( $ch,CURLOPT_CONNECTTIMEOUT,$connect_time )<span style="color: #b22222;">;</span>
+        // &#25191;&#34892;curl&#35831;&#27714;
+        $response = curl_exec($ch)<span style="color: #b22222;">;</span>
+        //&#33719;&#21462;&#29366;&#24577;&#30721;
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE)<span style="color: #b22222;">;</span>
+        //&#20851;&#38381;curl&#22238;&#35805;&#24182;&#37322;&#25918;&#36164;&#28304;
+        curl_close($ch)<span style="color: #b22222;">;</span>
+        //&#20998;&#31163;header&#19982;body
+        if( $response_header ){
+                $tmp         = explode(<span style="color: #8b2252;">"\r\n\r\n"</span>, $response)<span style="color: #b22222;">;</span>
+                $resp_header = $tmp[0]<span style="color: #b22222;">;</span>
+                $data        = $tmp[1]<span style="color: #b22222;">;</span>
+        } else {
+                $resp_header = null<span style="color: #b22222;">;</span>
+                $data        = $response<span style="color: #b22222;">;</span>
+        }
+        $result['errcode'] = $status<span style="color: #b22222;">;</span>
+        $result['header']  = $resp_header<span style="color: #b22222;">;</span>
+        $result['data']    = $data<span style="color: #b22222;">;</span>
+        return $result<span style="color: #b22222;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbf37b71" class="outline-2">
+<h2 id="orgbf37b71">其他代码片段</h2>
+<div class="outline-text-2" id="text-orgbf37b71">
+</div>
+<div id="outline-container-orga11daad" class="outline-3">
+<h3 id="orga11daad">PHP 生成UUID我唯一序列</h3>
+<div class="outline-text-3" id="text-orga11daad">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgea4da7e"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">uuid</span>($<span style="color: #a0522d;">prefix</span> =<span style="color: #8b2252;">''</span>)                                                                                                                            
+{                                                                                                                                                     
+        $<span style="color: #a0522d;">chars</span> = md5(uniqid(mt_rand(), true));                                                                                                        
+        $<span style="color: #a0522d;">uuid</span> = substr($<span style="color: #a0522d;">chars</span>,0,8) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;                                                                                                             
+        $<span style="color: #a0522d;">uuid</span> .= substr($<span style="color: #a0522d;">chars</span>,8,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;                                                                                                            
+        $<span style="color: #a0522d;">uuid</span> .= substr($<span style="color: #a0522d;">chars</span>,12,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;                                                                                                           
+        $<span style="color: #a0522d;">uuid</span> .= substr($<span style="color: #a0522d;">chars</span>,16,4) <span style="color: #483d8b;">.</span> <span style="color: #8b2252;">'-'</span>;                                                                                                           
+        $<span style="color: #a0522d;">uuid</span> .= substr($<span style="color: #a0522d;">chars</span>,20,12);                                                                                                                
+        <span style="color: #a020f0;">return</span> $<span style="color: #a0522d;">prefix</span> . $<span style="color: #a0522d;">uuid</span>;                                                                                                                       
+}                                                                                                                                                     
+</pre>
+</div>
+<pre class="example">
+也可以使用SQL语句生成：insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org155c385" class="outline-3">
+<h3 id="org155c385"></h3>
+</div>
 </div>
 
 
@@ -663,8 +830,8 @@ date('Y-m-d H:i:s', 1156219870);
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/c%23/2015/05/20/c-thead/" rel="next" title="C# Thread">
-                <i class="fa fa-chevron-left"></i> C# Thread
+              <a href="/c%23/2015/05/20/c-thead/" rel="next" title="C# ASP.NET 线程">
+                <i class="fa fa-chevron-left"></i> C# ASP.NET 线程
               </a>
             
           </div>
@@ -752,7 +919,7 @@ date('Y-m-d H:i:s', 1156219870);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -763,7 +930,7 @@ date('Y-m-d H:i:s', 1156219870);
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -774,7 +941,7 @@ date('Y-m-d H:i:s', 1156219870);
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -852,7 +1019,7 @@ date('Y-m-d H:i:s', 1156219870);
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org89dce7e"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4e4aba7"> <span class="nav-number">2</span> <span class="nav-text">String/Array</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd4f15e1"> <span class="nav-number">2.1</span> <span class="nav-text">字符串(String)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org993bca5"> <span class="nav-number">2.1.1</span> <span class="nav-text">常用字符串操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org650a16f"> <span class="nav-number">2.2</span> <span class="nav-text">数组(Array)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge170ea6"> <span class="nav-number">2.2.1</span> <span class="nav-text">常用数组操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd87c819"> <span class="nav-number">2.2.2</span> <span class="nav-text">判断二维数组是否为空</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc668439"> <span class="nav-number">3</span> <span class="nav-text">Date/Time</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org91d2235"> <span class="nav-number">3.1</span> <span class="nav-text">获取当月天数及当月第一天及最后一天、上月第一天及最后一天</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org68f8262"> <span class="nav-number">3.1.1</span> <span class="nav-text">获取上个月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf258a9e"> <span class="nav-number">3.1.2</span> <span class="nav-text">获取当月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0584cb4"> <span class="nav-number">3.1.3</span> <span class="nav-text">获取当前年份、月份、日、天数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1d37b6"> <span class="nav-number">3.2</span> <span class="nav-text">日期转时间戳，时间戳转日期</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org89dce7e"> <span class="nav-number">1</span> <span class="nav-text">写在前面</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4e4aba7"> <span class="nav-number">2</span> <span class="nav-text">String/Array</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd4f15e1"> <span class="nav-number">2.1</span> <span class="nav-text">字符串(String)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8afeffe"> <span class="nav-number">2.1.1</span> <span class="nav-text">字符串长度</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org716a315"> <span class="nav-number">2.1.2</span> <span class="nav-text">大小写转换</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9eec003"> <span class="nav-number">2.1.3</span> <span class="nav-text">字符串截取</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org650a16f"> <span class="nav-number">2.2</span> <span class="nav-text">数组(Array)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org60b915f"> <span class="nav-number">2.2.1</span> <span class="nav-text">string⇌array</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9507733"> <span class="nav-number">2.2.2</span> <span class="nav-text">array 去除空元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org310d781"> <span class="nav-number">2.2.3</span> <span class="nav-text">array 去除重复元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf8f8254"> <span class="nav-number">2.2.4</span> <span class="nav-text">判断二维数组是否为空</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc668439"> <span class="nav-number">3</span> <span class="nav-text">Date/Time</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org91d2235"> <span class="nav-number">3.1</span> <span class="nav-text">获取当月天数及当月第一天及最后一天、上月第一天及最后一天</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org68f8262"> <span class="nav-number">3.1.1</span> <span class="nav-text">获取上个月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf258a9e"> <span class="nav-number">3.1.2</span> <span class="nav-text">获取当月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0584cb4"> <span class="nav-number">3.1.3</span> <span class="nav-text">获取当前年份、月份、日、天数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1d37b6"> <span class="nav-number">3.2</span> <span class="nav-text">日期转时间戳，时间戳转日期</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2b89829"> <span class="nav-number">3.3</span> <span class="nav-text">计算日期/时间差</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge463a73"> <span class="nav-number">3.3.1</span> <span class="nav-text">计算已成为会员多少天或距离某活动还剩余多少天?</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfd9d86f"> <span class="nav-number">4</span> <span class="nav-text">URL常用函数</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd3ca089"> <span class="nav-number">4.1</span> <span class="nav-text">获取当前URL</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9757e3"> <span class="nav-number">4.2</span> <span class="nav-text">请求处理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbf37b71"> <span class="nav-number">5</span> <span class="nav-text">其他代码片段</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga11daad"> <span class="nav-number">5.1</span> <span class="nav-text">PHP 生成UUID我唯一序列</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org155c385"> <span class="nav-number">5.2</span> <span class="nav-text"></span> </a> </li> </ol> </li>
     </ol>
   </div>
             

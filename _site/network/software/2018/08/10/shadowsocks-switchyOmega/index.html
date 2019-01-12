@@ -1,0 +1,1711 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Shadowsocks,SwitchyOmega," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rengui's Article" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="As we all know, the walls of the continent have been very high. As a developer, &quot;prison Break&quot;(or &quot;Over the wall&quot;) is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.">
+<meta name="keywords" content="Shadowsocks, SwitchyOmega">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shadowsocks+SwitchyOmega">
+<meta property="og:url" content="http://localhost:4000/network/software/2018/08/10/shadowsocks-switchyOmega/">
+<meta property="og:site_name" content="Rengui's Article">
+<meta property="og:description" content="As we all know, the walls of the continent have been very high. As a developer, &quot;prison Break&quot;(or &quot;Over the wall&quot;) is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://localhost:4000/assets/images/shadowsocks-20170123111438.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/shadowsocks-20170123111902.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/shadowsocks-20170123111953.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/shadowsocks-20170123112126.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/shadowsocks-20170123141118.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shadowsocks+SwitchyOmega">
+<meta name="twitter:description" content="As we all know, the walls of the continent have been very high. As a developer, &quot;prison Break&quot;(or &quot;Over the wall&quot;) is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.">
+<meta name="twitter:image" content="http://localhost:4000/assets/images/shadowsocks-20170123111438.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>Shadowsocks+SwitchyOmega | Rengui's Article</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-123739978-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rengui's Article</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Blog, Article</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/network/software/2018/08/10/shadowsocks-switchyOmega/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Rengui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rengui's Article">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            Shadowsocks+SwitchyOmega
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-10T00:00:00+08:00">
+                2018-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/network" itemprop="url" rel="index">
+                    <span itemprop="name">network</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/software" itemprop="url" rel="index">
+                    <span itemprop="name">software</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    As we all know, the walls of the continent have been very high. As a developer, "prison Break"(or "Over the wall") is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <pre class="example">
+This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
+本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
+
+</pre>
+
+<div class="org-center">
+<p>
+If you have questions, please send email to zrg1390556487@gmail.com.
+</p>
+</div>
+
+<div id="outline-container-orgfd89a9c" class="outline-2">
+<h2 id="orgfd89a9c">Server</h2>
+<div class="outline-text-2" id="text-orgfd89a9c">
+</div>
+<div id="outline-container-org8e04738" class="outline-3">
+<h3 id="org8e04738">To buy server or to register shadowsocks.</h3>
+<div class="outline-text-3" id="text-org8e04738">
+<pre class="example">
+"搬瓦工"
+https://shadowsocks.com
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8ec4055" class="outline-3">
+<h3 id="org8ec4055">Installing and Configuring</h3>
+<div class="outline-text-3" id="text-org8ec4055">
+</div>
+<div id="outline-container-org860a4cd" class="outline-4">
+<h4 id="org860a4cd">Installing pip</h4>
+<div class="outline-text-4" id="text-org860a4cd">
+<pre class="example">
+#yum install python-pip
+
+</pre>
+<p>
+or
+</p>
+<pre class="example">
+#curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+#python get-pip.py
+#pip install --upgrade pip
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8953c8d" class="outline-4">
+<h4 id="org8953c8d">Installing shadowsocks</h4>
+<div class="outline-text-4" id="text-org8953c8d">
+<pre class="example">
+#pip install shadowsocks
+#vim /etc/shadowsocks.json
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">{
+  <span style="color: #8b2252;">"server"</span>: <span style="color: #8b2252;">"server_ip"</span>,//server ip address
+  <span style="color: #8b2252;">"server_port"</span>: 8388,//server port
+  <span style="color: #8b2252;">"local_address"</span>:<span style="color: #8b2252;">"127.0.0.1"</span>,//local address
+  <span style="color: #8b2252;">"local_port"</span><span style="color: #483d8b;">:1080</span>,//local port
+  <span style="color: #8b2252;">"password"</span>: <span style="color: #8b2252;">"password"</span>,//password
+  <span style="color: #8b2252;">"method"</span>: <span style="color: #8b2252;">"aes-256-cfb"</span>,//encryption
+  <span style="color: #8b2252;">"timeout"</span><span style="color: #483d8b;">:600</span> //timeout
+}
+</pre>
+</div>
+<p>
+explanation: 
+</p>
+<pre class="example">
+server:server ip address
+server_port:server port
+password:use 
+
+</pre>
+<p>
+<a href="http://ucdok.com/project/generate_password.html">password tool</a>
+</p>
+<pre class="example">
+method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org1a73e5a" class="outline-4">
+<h4 id="org1a73e5a">Configuring auto-start</h4>
+<div class="outline-text-4" id="text-org1a73e5a">
+<pre class="example">
+#vim /etc/systemd/system/shadowsocks.service
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">[Unit]
+Description=Shadowsocks
+
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
+
+[Install]
+WantedBy=multi-user.target
+</pre>
+</div>
+<pre class="example">
+Start shadowsocks
+#systemctl enable shadowsocks
+#systemctl start shadowsocks
+#systemctl status shadowsocks -l
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8def2fc" class="outline-4">
+<h4 id="org8def2fc">Install Script</h4>
+<div class="outline-text-4" id="text-org8def2fc">
+<pre class="example">
+$vim install-shadowsocks.sh, content of file from 
+
+</pre>
+<p>
+<a href="https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh">install-shadowsocks.sh</a>
+</p>
+<pre class="example">
+#chmod +x install-shadowsocks.sh
+#./install-shadowsocks.sh
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgccfa26f" class="outline-2">
+<h2 id="orgccfa26f">Client</h2>
+<div class="outline-text-2" id="text-orgccfa26f">
+</div>
+<div id="outline-container-orgb2c2f35" class="outline-3">
+<h3 id="orgb2c2f35">Linux</h3>
+<div class="outline-text-3" id="text-orgb2c2f35">
+</div>
+<div id="outline-container-orgcc0fc59" class="outline-4">
+<h4 id="orgcc0fc59">Install And Use Shadowsocks Command Line Client on Linux</h4>
+<div class="outline-text-4" id="text-orgcc0fc59">
+<p>
+1.Linux series
+</p>
+<pre class="example">
+Debian/Ubuntu:
+$sudo apt-get install python-pip
+$sudo pip install shadowsocks
+
+</pre>
+
+<pre class="example">
+Fedora/Centos:
+$sudo yum install python-setuptools   or   sudo dnf install python-setuptools
+$sudo easy_install pip
+$sudo pip install shadowsocks
+
+</pre>
+
+<pre class="example">
+OpenSUSE:
+$sudo zypper install python-pip
+$sudo pip install shadowsocks
+
+</pre>
+
+<pre class="example">
+Archlinux:
+$sudo pacman -S python-pip
+sudo pip install shadowsocks
+
+</pre>
+
+<pre class="example">
+sslocal is the client software and ssserver is the server software. On some Linux distros 
+such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. 
+On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command
+to find the exact location.
+user@debian:~$ whereis sslocal
+sslocal: /usr/local/bin/sslocal
+
+</pre>
+<p>
+2.vim /etc/shadowsocks.json
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">{
+<span style="color: #8b2252;">"server"</span>:<span style="color: #8b2252;">"server-ip"</span>,
+<span style="color: #8b2252;">"server_port"</span><span style="color: #483d8b;">:8000</span>,
+<span style="color: #8b2252;">"local_address"</span>: <span style="color: #8b2252;">"127.0.0.1"</span>,
+<span style="color: #8b2252;">"local_port"</span><span style="color: #483d8b;">:1080</span>,
+<span style="color: #8b2252;">"password"</span>:<span style="color: #8b2252;">"your-password"</span>,
+<span style="color: #8b2252;">"timeout"</span><span style="color: #483d8b;">:600</span>,
+<span style="color: #8b2252;">"method"</span>:<span style="color: #8b2252;">"aes-256-cfb"</span>
+}
+</pre>
+</div>
+<pre class="example">
+$sudo sslocal -c /etc/shadowsocks.json
+
+</pre>
+
+<pre class="example">
+To run in the background
+$sudo sslocal -c /etc/shadowsocks.json -d start
+
+</pre>
+
+<pre class="example">
+Auto Start the Client on System Boot
+$sudo vi /etc/rc.local
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">sudo sslocal -c /etc/shadowsocks.json -d start
+</pre>
+</div>
+
+<pre class="example">
+Check if It Works
+#sudo systemctl status rc-local.service
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9ac3cc0" class="outline-4">
+<h4 id="org9ac3cc0">Global Proxy</h4>
+<div class="outline-text-4" id="text-org9ac3cc0">
+<pre class="example">
+1. $ sudo apt install polipo
+
+</pre>
+
+<pre class="example">
+2. $ sudo vim /etc/polipo/config
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgd9bc33c">logSyslog = true
+logFile = /var/log/polipo/polipo.log
+proxyAddress = <span style="color: #8b2252;">"0.0.0.0"</span>
+socksParentProxy = <span style="color: #8b2252;">"127.0.0.1:1080"</span>
+socksProxyType = socks5
+chunkHighMark = 50331648
+objectHighMark = 16384
+serverMaxSlots = 64
+serverSlots = 16
+serverSlots1 = 32
+</pre>
+</div>
+
+<pre class="example">
+3. $ sudo systemctl restart polipo
+
+</pre>
+
+<pre class="example">
+4. $ export http_proxy="http://127.0.0.1:8123/"
+$ export https_proxy="https://127.0.0.1:8123/"
+
+</pre>
+
+<pre class="example">
+5. testing
+$ curl www.google.com
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org3219592" class="outline-4">
+<h4 id="org3219592">Problem</h4>
+<div class="outline-text-4" id="text-org3219592">
+</div>
+<ul class="org-ul">
+<li><a id="orgf151d95"></a>ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup<br />
+<div class="outline-text-5" id="text-orgf151d95">
+<p>
+Reason:
+</p>
+<pre class="example">
+openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
+
+</pre>
+<p>
+Solving:
+</p>
+<pre class="example">
+$ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-python" id="org83a2f16">VIM Command&#65306;
+:%s/cleanup/reset/
+:x
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org1eb923e"></a>not support "chacha20"<br />
+<div class="outline-text-5" id="text-org1eb923e">
+<p>
+Solving:
+</p>
+<pre class="example">
+$ apt install m2crypto gcc -y
+$ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
+$ tar zxvf libsodium-1.0.8.tar.gz
+$ cd libsodium-1.0.8
+$ sudo ./configure
+$ sudo make &amp;&amp; make install
+$ sudo echo "include ld.so.conf.d/*.conf" &gt; /etc/ld.so.conf
+$ sudo echo "/lib" &gt;&gt; /etc/ld.so.conf
+$ sudo echo "/usr/lib64" &gt;&gt; /etc/ld.so.conf
+$ sudo echo "/usr/local/lib" &gt;&gt; /etc/ld.so.conf
+$ sudo ldconfig
+
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9c27c3e" class="outline-3">
+<h3 id="org9c27c3e">Windows</h3>
+<div class="outline-text-3" id="text-org9c27c3e">
+</div>
+<div id="outline-container-org83b6735" class="outline-4">
+<h4 id="org83b6735">Dowload win-client</h4>
+<div class="outline-text-4" id="text-org83b6735">
+<p>
+<a href="https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks">Dowload1</a>
+<a href="http://pan.baidu.com/s/1miLpEkS">Dowload2</a> 密码：jnfr
+</p>
+</div>
+</div>
+<div id="outline-container-org82d66c9" class="outline-4">
+<h4 id="org82d66c9">Configure</h4>
+<div class="outline-text-4" id="text-org82d66c9">
+<pre class="example">
+1.unzip
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/shadowsocks-20170123111438.png" alt="shadowsocks-20170123111438.png" />
+</p>
+</div>
+<pre class="example">
+2.running
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/shadowsocks-20170123111902.png" alt="shadowsocks-20170123111902.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/shadowsocks-20170123111953.png" alt="shadowsocks-20170123111953.png" />
+</p>
+</div>
+<pre class="example">
+3.proxy
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/shadowsocks-20170123112126.png" alt="shadowsocks-20170123112126.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc6313aa" class="outline-3">
+<h3 id="orgc6313aa">Android</h3>
+<div class="outline-text-3" id="text-orgc6313aa">
+<pre class="example">
+Download
+
+</pre>
+<p>
+<a href="http://pan.baidu.com/s/1nuXO9KX">apk</a> 5n8v
+</p>
+
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/shadowsocks-20170123141118.png" alt="shadowsocks-20170123141118.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1bca661" class="outline-3">
+<h3 id="org1bca661">IOS</h3>
+<div class="outline-text-3" id="text-org1bca661">
+<pre class="example">
+1.Open "App Store", To search "shadowrocket". Current price: ￥12
+2.Add server configure. Okay.
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org47d874d" class="outline-3">
+<h3 id="org47d874d">Mac OS X</h3>
+<div class="outline-text-3" id="text-org47d874d">
+<p>
+<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases">Download Address</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfabd390" class="outline-2">
+<h2 id="orgfabd390">Browser Plugin: SwitchyOmega</h2>
+<div class="outline-text-2" id="text-orgfabd390">
+</div>
+<div id="outline-container-orgfad338d" class="outline-3">
+<h3 id="orgfad338d">Add SwitchyOmega plugin</h3>
+<div class="outline-text-3" id="text-orgfad338d">
+<p>
+<a href="https://github.com/FelisCatus/SwitchyOmega/releases/">Dowload Address</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org5997d49" class="outline-3">
+<h3 id="org5997d49">Configure SwitchyOmega</h3>
+<div class="outline-text-3" id="text-org5997d49">
+<p>
+1.setting proxy
+2.auto switch
+</p>
+<pre class="example">
+Add rule.
+
+</pre>
+<p>
+3.rule list setting
+</p>
+<pre class="example">
+rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
+or
+https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org57fde0c" class="outline-2">
+<h2 id="org57fde0c">References</h2>
+<div class="outline-text-2" id="text-org57fde0c">
+<ul class="org-ul">
+<li><a href="https://zh.wikipedia.org/zh-hans/Shadowsocks">https://zh.wikipedia.org/zh-hans/Shadowsocks</a></li>
+<li><a href="https://shadowsocks.com">https://shadowsocks.com</a></li>
+<li><a href="http://shadowsocks.org/">http://shadowsocks.org/</a></li>
+<li><a href="http://morning.work/page/2015-12/install-shadowsocks-on-centos-7.html">在 CentOS 7 下安装配置 shadowsocks</a></li>
+<li><a href="https://www.linuxbabe.com/desktop-linux/how-to-install-and-use-shadowsocks-command-line-client">Install And Use Shadowsocks Command Line Client on Linux</a></li>
+<li><a href="https://doub.io/ss-jc10/">ShadowsocksR 客户端 小白使用教程</a></li>
+<li><a href="https://kionf.com/2016/12/15/errornote-ss/">ShadowSocks启动报错undefined symbol EVP_CIPHER_CTX_cleanup</a></li>
+<li><a href="https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList">SwitchyOmega</a></li>
+<li><a href="https://doub.io/ss-jc25/">IOS系统推荐几款支持Shadowsocks的代理软件</a></li>
+<li><a href="http://www.jeyzhang.com/how-to-install-and-setup-shadowsocks-client-in-different-os.html">各种系统下Shadowsocks客户端的安装与配置</a></li>
+<li><a href="https://www.jianshu.com/p/41378f4e14bc">linux 配置shadowsocks代理全局代理</a></li>
+<li><a href="https://blog.csdn.net/guizaijianchic/article/details/78422811">linux ubuntu下使用ss设置全局代理,命令行也走代理</a></li>
+</ul>
+</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/Shadowsocks" rel="tag"># Shadowsocks</a>
+          
+            
+            <a href="/tag/#/SwitchyOmega" rel="tag"># SwitchyOmega</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/2018/09/02/big-data/" rel="next" title="《致胜大数据时代的50种思维方法》">
+                <i class="fa fa-chevron-left"></i> 《致胜大数据时代的50种思维方法》
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linux/2018/08/06/using-debian/" rel="prev" title="Debian GNU/Linux">
+                Debian GNU/Linux <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Rengui" />
+          <p class="site-author-name" itemprop="name">Zhao Rengui</p>
+           
+              <p class="site-description motion-element" itemprop="description">Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaorengui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfd89a9c"> <span class="nav-number">1</span> <span class="nav-text">Server</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8e04738"> <span class="nav-number">1.1</span> <span class="nav-text">To buy server or to register shadowsocks.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8ec4055"> <span class="nav-number">1.2</span> <span class="nav-text">Installing and Configuring</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org860a4cd"> <span class="nav-number">1.2.1</span> <span class="nav-text">Installing pip</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8953c8d"> <span class="nav-number">1.2.2</span> <span class="nav-text">Installing shadowsocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1a73e5a"> <span class="nav-number">1.2.3</span> <span class="nav-text">Configuring auto-start</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8def2fc"> <span class="nav-number">1.2.4</span> <span class="nav-text">Install Script</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgccfa26f"> <span class="nav-number">2</span> <span class="nav-text">Client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb2c2f35"> <span class="nav-number">2.1</span> <span class="nav-text">Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcc0fc59"> <span class="nav-number">2.1.1</span> <span class="nav-text">Install And Use Shadowsocks Command Line Client on Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ac3cc0"> <span class="nav-number">2.1.2</span> <span class="nav-text">Global Proxy</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3219592"> <span class="nav-number">2.1.3</span> <span class="nav-text">Problem</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9c27c3e"> <span class="nav-number">2.2</span> <span class="nav-text">Windows</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org83b6735"> <span class="nav-number">2.2.1</span> <span class="nav-text">Dowload win-client</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org82d66c9"> <span class="nav-number">2.2.2</span> <span class="nav-text">Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc6313aa"> <span class="nav-number">2.3</span> <span class="nav-text">Android</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1bca661"> <span class="nav-number">2.4</span> <span class="nav-text">IOS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org47d874d"> <span class="nav-number">2.5</span> <span class="nav-text">Mac OS X</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfabd390"> <span class="nav-number">3</span> <span class="nav-text">Browser Plugin: SwitchyOmega</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfad338d"> <span class="nav-number">3.1</span> <span class="nav-text">Add SwitchyOmega plugin</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5997d49"> <span class="nav-number">3.2</span> <span class="nav-text">Configure SwitchyOmega</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org57fde0c"> <span class="nav-number">4</span> <span class="nav-text">References</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Rengui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
+

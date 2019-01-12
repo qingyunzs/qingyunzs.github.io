@@ -5,7 +5,7 @@ author: zrg
 comments: false
 description: JS 公共方法
 categories:
-- JavaScript
+- javascript
 tags:
 - JavaScript
 photos:
@@ -18,6 +18,26 @@ photos:
 这是关于web开发可能会用到的javascript代码片段，也许能够帮助到你。
 
 </pre>
+</div>
+<div id="outline-container-orge425d87" class="outline-4">
+<h4 id="orge425d87">JavaScript没有块级作用域</h4>
+<div class="outline-text-4" id="text-orge425d87">
+<pre class="example">
+在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。                                           
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">if(true){                                                                                                                                             
+    var color=<span style="color: #8b2252;">"blue"</span><span style="color: #b22222;">;                                                                                                                                 </span>
+}                                                                                                                                                     
+alert(color)<span style="color: #b22222;">; </span><span style="color: #b22222;">//"blue"                                                                                                                                </span>
+</pre>
+</div>
+<pre class="example">
+内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-org69766a9" class="outline-2">
@@ -632,15 +652,44 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 <div id="outline-container-orgc659a48" class="outline-3">
 <h3 id="orgc659a48">其他校验</h3>
 <div class="outline-text-3" id="text-orgc659a48">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">//&#23383;&#27573;&#21482;&#33021;&#21253;&#21547;&#22823;&#23567;&#20889;&#23383;&#27597;&#21644;&#25968;&#23383;
-
-</pre>
+</div>
+<div id="outline-container-org06af790" class="outline-4">
+<h4 id="org06af790">检查QQ号码</h4>
+<div class="outline-text-4" id="text-org06af790">
+<p>
+#+BEGIN_SRC emacs-lisp                                                                                                                                
+function checkqq()  //检查QQ号码                                                                                                                      
+{                                                                                                                                                     
+        var qq=document.getElementById("qq").value;                                                                                                   
+        var divqq=document.getElementById("qq");                                                                                                      
+        if(qq!="")                                                                                                                                    
+        {                                                                                                                                             
+                if(qq.match(<i>\D</i>)!=null)                                                                                                              
+                {                                                                                                                                     
+                        divqq.innerHTML="&lt;font color='red'&gt;QQ号码只能输入数字！&lt;/font&gt;";                                                              
+                        return false;                                                                                                                 
+                }                                                                                                                                     
+                else                                                                                                                                  
+                {                                                                                                                                    
+                        divqq.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";                                                                                
+                        return true;                                                                                                                  
+                }                                                                                                                                     
+        }                                                                                                                                             
+        else                                                                                                                                          
+        {                                                                                                                                            
+                divqq.innerHTML="&lt;font color='green'&gt;√&lt;/font&gt;";                                                                                      
+                return true;                                                                                                                          
+        }                                                                                                                                             
+}                                                                                                                                                     
+#END_SRC
+</p>
+</div>
+</div>
+<div id="outline-container-org3d5d237" class="outline-4">
+<h4 id="org3d5d237"></h4>
 </div>
 </div>
 </div>
-</div>
-
 <div id="outline-container-orgd48c445" class="outline-2">
 <h2 id="orgd48c445">其他</h2>
 <div class="outline-text-2" id="text-orgd48c445">
@@ -671,82 +720,59 @@ Y: 0 1 2 3 4 5 6 7 8 9 10
 </div>
 </div>
 </div>
-<div id="outline-container-org866a0f3" class="outline-2">
-<h2 id="org866a0f3">待添加</h2>
-<div class="outline-text-2" id="text-org866a0f3">
+<div id="outline-container-org8ad16ab" class="outline-2">
+<h2 id="org8ad16ab">页面操作</h2>
+<div class="outline-text-2" id="text-org8ad16ab">
+</div>
+<div id="outline-container-org9d32265" class="outline-3">
+<h3 id="org9d32265">根据网页实际大小来设置iframe显示区域大小</h3>
+<div class="outline-text-3" id="text-org9d32265">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp">$('#iframe_i').load(<span style="color: #a020f0;">function</span> () {                                                                                                                    
+ // &#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;                                                                                     
+ var width = $(this).contents().find('#ref_page').outerWidth()<span style="color: #b22222;">;                                                                                      </span>
+ var height = $(this).contents().find('#ref_page').outerHeight()<span style="color: #b22222;">;                                                                                    </span>
+ // &#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;                                                                                                                         
+ $(this).width(width)<span style="color: #b22222;">;                                                                                                                               </span>
+ $(this).height(height)<span style="color: #b22222;">;                                                                                                                             </span>
+)}<span style="color: #b22222;">;                                                                                                                                                  </span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3f94c17" class="outline-3">
+<h3 id="org3f94c17">动态显示收缩列表</h3>
+<div class="outline-text-3" id="text-org3f94c17">
+<p>
+Method 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #a020f0;">function</span>(){                                                                                                                        
+ //&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;                                                                                                  
+ $(<span style="color: #8b2252;">"#user_manage"</span>).click(<span style="color: #a020f0;">function</span>(){                                                                                                                 
+  // $(<span style="color: #8b2252;">"#user_about"</span>).fadeToggle()<span style="color: #b22222;">;                                                                                                                  </span>
+  $(<span style="color: #8b2252;">"#user_manage"</span>).addClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                              </span>
+  $(<span style="color: #8b2252;">"#node_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
+  $(<span style="color: #8b2252;">"#role_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
+  $(<span style="color: #8b2252;">"#setting"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                               </span>
+
+  $(<span style="color: #8b2252;">"#user_about"</span>).slideToggle()<span style="color: #b22222;">;                                                                                                                    </span>
+  $(<span style="color: #8b2252;">"#node_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
+  $(<span style="color: #8b2252;">"#role_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
+     /*$(<span style="color: #8b2252;">"#div2"</span>).fadeToggle(<span style="color: #8b2252;">"slow"</span>)<span style="color: #b22222;">;                                                                                                                </span>
+         $(<span style="color: #8b2252;">"#div3"</span>).fadeToggle(3000)<span style="color: #b22222;">;</span><span style="color: #b22222;">*/                                                                                                              </span>
+ })<span style="color: #b22222;">;                                                                                                                                                 </span>
+})<span style="color: #b22222;">;                                                                                                                                                  </span>
 </pre>
 </div>
 
+<p>
+Method 2:
+</p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-emacs-lisp">http://jqueryui.com/accordion/                                                                                                                        
 </pre>
 </div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">
-</pre>
 </div>
 </div>
 </div>

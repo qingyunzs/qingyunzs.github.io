@@ -8,7 +8,7 @@
 
 ## 开发 Development
 
-## 目录介绍
+## 目录结构
 ~~~
 ├─_data		数据目录
 │  ├─languages	语言目录
@@ -48,6 +48,17 @@
 |_site|一旦 Jekyll 完成转换，就会将生成的页面放在这里（默认）。最好将这个目录放进你的 .gitignore 文件中。|
 |index.html and other HTML, Markdown, Textile files|如果这些文件中包含 YAML 头信息 部分，Jekyll 就会自动将它们进行转换。当然，其他的如 .html, .markdown, .md, 或者 .textile 等在你的站点根目录下或者不是以上提到的目录中的文件也会被转换。|
 |Other Files/Folders|其他一些未被提及的目录和文件如  css 还有 images 文件夹， favicon.ico 等文件都将被完全拷贝到生成的 site 中。|
+
+## 命名
+1. 分类命名：英文名称全部小写，如algorithms，c#，javascript等。两个单词以上组成，采用-字符连接。分类名称不能重名。
+2. 标签命名：与实际常见命名一致，如MySQL，PHP，Jekyll等。另外一些两个单词以上组成的术语，建议采用-字符连接，如Design-Pattern。
+3. org 源文件命名：日期+文件描述名称，文件描述名称采用-字符连接，如2018-12-12-vue-iview.org。
+4. org 发布目录命名：采用驼峰法命名。
+
+## Org 编写
+参考如下： 
+> [The Org Manual](http://orgmode.org/manual/index.html)
+> [GNU Emacs](https://zhaorengui.github.io/software/2016/06/06/using-emacs/)
 
 ## 安装NexT
 1. 确保已安装`Ruby 2.1.0` 或更高版本：

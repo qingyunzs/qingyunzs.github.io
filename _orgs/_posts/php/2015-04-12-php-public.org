@@ -63,7 +63,8 @@ photos:
     : //去除重复元素
     : array_unique()
 *** 判断二维数组是否为空
-    #+BEGIN_SRC emacs-lisp
+#+NAME: 判断二维数组是否为空   
+ #+BEGIN_SRC emacs-lisp
 function array_is_null($arr = null){ 
 	if(is_array($arr)){ 
 		foreach($arr as $k=>$v){ 
@@ -207,3 +208,20 @@ function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$resp
 	return $result;
 }
    #+END_SRC
+* 其他代码片段
+** PHP 生成UUID我唯一序列
+#+NAME: PHP 生成UUID
+#+BEGIN_SRC shell                                                                                                                                     
+function uuid($prefix ='')                                                                                                                            
+{                                                                                                                                                     
+        $chars = md5(uniqid(mt_rand(), true));                                                                                                        
+        $uuid = substr($chars,0,8) . '-';                                                                                                             
+        $uuid .= substr($chars,8,4) . '-';                                                                                                            
+        $uuid .= substr($chars,12,4) . '-';                                                                                                           
+        $uuid .= substr($chars,16,4) . '-';                                                                                                           
+        $uuid .= substr($chars,20,12);                                                                                                                
+        return $prefix . $uuid;                                                                                                                       
+}                                                                                                                                                     
+#+END_SRC                                                                                                                                             
+: 也可以使用SQL语句生成：insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
+** 

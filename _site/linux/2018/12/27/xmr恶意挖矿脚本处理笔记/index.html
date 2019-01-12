@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="恶意挖矿,病毒," />
+  <meta name="keywords" content="比特币,恶意挖矿,病毒," />
 
 
 
@@ -112,7 +112,7 @@
 
 
 <meta name="description" content="感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！">
-<meta name="keywords" content="恶意挖矿, 病毒">
+<meta name="keywords" content="比特币, 恶意挖矿, 病毒">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XMR 恶意挖矿脚本处理笔记">
 <meta property="og:url" content="http://localhost:4000/linux/2018/12/27/xmr%E6%81%B6%E6%84%8F%E6%8C%96%E7%9F%BF%E8%84%9A%E6%9C%AC%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/">
@@ -393,8 +393,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/Linux" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/category/#/linux" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
                   </a>
                 </span>
 
@@ -451,12 +451,12 @@
 </p>
 
 <div id="outline-container-org2fe9dc7" class="outline-2">
-<h2 id="org2fe9dc7"><span class="section-number-2">1</span> 事件描述</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="org2fe9dc7">事件描述</h2>
+<div class="outline-text-2" id="text-org2fe9dc7">
 </div>
 <div id="outline-container-org1c42f75" class="outline-3">
-<h3 id="org1c42f75"><span class="section-number-3">1.1</span> 概况</h3>
-<div class="outline-text-3" id="text-1-1">
+<h3 id="org1c42f75">概况</h3>
+<div class="outline-text-3" id="text-org1c42f75">
 <pre class="example">
 服务器安装系统为 CentOS 7，服务器用户一直采用密钥登录，通过用户登入攻击的可能性几乎为零。
 服务器上所有站点使用宝塔面板面板管理，所以可能性是通过攻破了宝塔面板进入，然后注入恶意挖矿脚本的。
@@ -466,8 +466,8 @@
 </div>
 </div>
 <div id="outline-container-orgb89a4f3" class="outline-3">
-<h3 id="orgb89a4f3"><span class="section-number-3">1.2</span> 表象</h3>
-<div class="outline-text-3" id="text-1-2">
+<h3 id="orgb89a4f3">表象</h3>
+<div class="outline-text-3" id="text-orgb89a4f3">
 <pre class="example">
 下面陈述被攻击后的表象：
 
@@ -481,12 +481,12 @@
 </div>
 </div>
 <div id="outline-container-org16eb1ed" class="outline-2">
-<h2 id="org16eb1ed"><span class="section-number-2">2</span> 问题排查及解决</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="org16eb1ed">问题排查及解决</h2>
+<div class="outline-text-2" id="text-org16eb1ed">
 </div>
 <div id="outline-container-orgc28c64c" class="outline-3">
-<h3 id="orgc28c64c"><span class="section-number-3">2.1</span> 排查</h3>
-<div class="outline-text-3" id="text-2-1">
+<h3 id="orgc28c64c">排查</h3>
+<div class="outline-text-3" id="text-orgc28c64c">
 <pre class="example">
 1. 访问服务器上运行的站点（包括宝塔面板），F12，发现不停访问一个wss的地址（wss://xmr.omine.org:8181/），并且很慢。
 2. 搜索这个地址，得知此为 XMR 恶意挖矿脚本。
@@ -501,8 +501,8 @@
 </div>
 </div>
 <div id="outline-container-orgb1e8625" class="outline-3">
-<h3 id="orgb1e8625"><span class="section-number-3">2.2</span> 解决</h3>
-<div class="outline-text-3" id="text-2-2">
+<h3 id="orgb1e8625">解决</h3>
+<div class="outline-text-3" id="text-orgb1e8625">
 <pre class="example">
 1. 整理清理脚本
 
@@ -572,9 +572,9 @@ find / -type f -name <span style="color: #8b2252;">'*.js'</span> |xargs fgrep -s
 </pre>
 </div>
 </div>
-<div id="outline-container-org48c3882" class="outline-3">
-<h3 id="org48c3882"><span class="section-number-3">2.3</span> 预防措施</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-orga77f413" class="outline-3">
+<h3 id="orga77f413">预防</h3>
+<div class="outline-text-3" id="text-orga77f413">
 <pre class="example">
 1. 限制内网访问，或者只限制本机访问
 只监听内网的IP，然后在iptables里面限制访问的主机：在/etc/redis/redis.conf中配置如下：
@@ -638,8 +638,8 @@ rename-command FLUSHALL ""
 </div>
 </div>
 <div id="outline-container-org58c0bed" class="outline-2">
-<h2 id="org58c0bed"><span class="section-number-2">3</span> 参考</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="org58c0bed">参考</h2>
+<div class="outline-text-2" id="text-org58c0bed">
 <ul class="org-ul">
 <li><a href="https://www.cnblogs.com/Rebybyx/p/9913779.html">XMR恶意挖矿脚本处理笔记</a></li>
 <li><a href="https://www.freebuf.com/articles/system/186743.html">XMR恶意挖矿案例简析</a></li>
@@ -678,6 +678,9 @@ rename-command FLUSHALL ""
         <div class="post-tags">
           
             
+            <a href="/tag/#/%E6%AF%94%E7%89%B9%E5%B8%81" rel="tag"># 比特币</a>
+          
+            
             <a href="/tag/#/%E6%81%B6%E6%84%8F%E6%8C%96%E7%9F%BF" rel="tag"># 恶意挖矿</a>
           
             
@@ -707,7 +710,7 @@ rename-command FLUSHALL ""
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/%E4%BA%91%E8%AE%A1%E7%AE%97/2018/12/12/docker/" rel="prev" title="Docker notes">
+              <a href="/%E8%99%9A%E6%8B%9F%E5%8C%96/2018/12/12/docker/" rel="prev" title="Docker notes">
                 Docker notes <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -786,7 +789,7 @@ rename-command FLUSHALL ""
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">50</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -797,7 +800,7 @@ rename-command FLUSHALL ""
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -808,7 +811,7 @@ rename-command FLUSHALL ""
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -886,7 +889,7 @@ rename-command FLUSHALL ""
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fe9dc7"> <span class="nav-number">1</span> <span class="nav-text">1 事件描述</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c42f75"> <span class="nav-number">1.1</span> <span class="nav-text">1.1 概况</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb89a4f3"> <span class="nav-number">1.2</span> <span class="nav-text">1.2 表象</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org16eb1ed"> <span class="nav-number">2</span> <span class="nav-text">2 问题排查及解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc28c64c"> <span class="nav-number">2.1</span> <span class="nav-text">2.1 排查</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb1e8625"> <span class="nav-number">2.2</span> <span class="nav-text">2.2 解决</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org48c3882"> <span class="nav-number">2.3</span> <span class="nav-text">2.3 预防措施</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org58c0bed"> <span class="nav-number">3</span> <span class="nav-text">3 参考</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fe9dc7"> <span class="nav-number">1</span> <span class="nav-text">事件描述</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c42f75"> <span class="nav-number">1.1</span> <span class="nav-text">概况</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb89a4f3"> <span class="nav-number">1.2</span> <span class="nav-text">表象</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org16eb1ed"> <span class="nav-number">2</span> <span class="nav-text">问题排查及解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc28c64c"> <span class="nav-number">2.1</span> <span class="nav-text">排查</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb1e8625"> <span class="nav-number">2.2</span> <span class="nav-text">解决</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga77f413"> <span class="nav-number">2.3</span> <span class="nav-text">预防</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org58c0bed"> <span class="nav-number">3</span> <span class="nav-text">参考</span> </a> </li>
     </ol>
   </div>
             
