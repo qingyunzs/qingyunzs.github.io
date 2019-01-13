@@ -31,117 +31,125 @@ photos:
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
-* 简介
-: EMACS，即Editor MACroS（编辑器宏）的缩写，最初由Richard Stallman(理查德·马修·斯托曼)于1975年在MIT协同Guy Steele共同完成。
-: 这一创意的灵感来源于TECMAC和TMACS，它们是由Guy Steele、Dave Moon、Richard Greenblatt、Charles Frankston等人编写的宏文本编辑器。
+* 简介(Introduction)
+  CN
+  : EMACS，即Editor MACroS（编辑器宏）的缩写，最初由Richard Stallman(理查德·马修·斯托曼)于1975年在MIT协同Guy Steele共同完成。
+  : 这一创意的灵感来源于TECMAC和TMACS，它们是由Guy Steele、Dave Moon、Richard Greenblatt、Charles Frankston等人编写的宏文本编辑器。
 
-: Emacs使用Emacs Lisp，这种有着极强扩展性的编程语言，从而实现了包括编程、编译乃至网络浏览等等功能的扩展。
-* 快捷键
-** 在命令行中打开Emacs
-: $ emacs -nw filename
+  : Emacs使用Emacs Lisp，这种有着极强扩展性的编程语言，从而实现了包括编程、编译乃至网络浏览等等功能的扩展。
+  EN
+  : GNU Emacs is the most popular and most ported Emacs text editor. It was created by GNU Project founder Richard Stallman. 
+  : In common with other varieties of Emacs, GNU Emacs is extensible using a Turing complete programming language.
+* 快捷键(Keyboard)
+** Open Emacs by command line.
+   : // 在命令行中打开Emacs
+   : $ emacs -nw filename
 ** Don't know how to use emacs?
-: C表示Ctrl，M表示Alt
-*** 缺省Emacs按键前缀
-| 按键前缀 | 描述                   |
-|----------+------------------------|
-| C-c      | 当前编辑模式特有的命令 |
-| C-x      | 文件和缓冲区命令       |
-| C-h      | 帮助命令               |
-| M-x      | 函数名称               |
-*** 常用的快捷键
-| 快捷键   | 描述                                   | 快捷键  | 描述                       |
-|----------+----------------------------------------+---------+----------------------------|
-| C-x  C-c | 退出                                   | C-g     | 退出一个正在运行的命令     |
-| C-v      | 查看下一屏                             | M-v     | 查看上一屏                 |
-| C-l      | 重绘屏幕，并将光标所在行置于屏幕的中央 |         |                            |
-| C-f      | 向右移（forward,前进）                 | C-b     | 向左移（backward，回退）   |
-| C-p      | 上一行（previous）                     | C-n     | 下一行（next）             |
-| M-f      | 向右移（以单词为一个单位）             | M-b     | 向左移（以单词为一个单位） |
-| M-<      | 移动到所有文字最开头                   | M->     | 移动到所有文字的最末尾     |
-| C-a      | 移动到行首                             | C-e     | 移动到行尾                 |
-| M-a      | 移动到句首                             | M-e     | 移动到句尾                 |
-| C-k      | 删除光标后的内容                       | C-y     | 粘贴                       |
-| C-/      | 撤销                                   | C-x C-u | 撤销                       |
-| C-d      | 删除光标后的字符                       | M-w     | 复制                       |
-| C-SPACE  | 选择内容模式                           | C-w     | 剪切                       |
-| C-x C-f  | 新建/打开文件                          | C-x C-s | 保存                       |
-| C-x 2    | 分屏                                   | C-x 0   | 切换到窗口1                |
-| C-x o    | 切换窗口                               | C-h t   | 查看帮助                   |
-*** 基本文件操作
-| 快捷键  | 描述                           |
-|---------+--------------------------------|
-| C-x C-f | 打开/新建文件                  |
-| C-x C-s | 保存                           |
-| C-x C-w | 另存为                         |
-| C-x C-v | 关闭当前缓冲区文件，打开新文件 |
-| C-x i   | 在当前光标位置插入文件         |
-| C-x b   | 新建/切换缓存区                |
-| C-x C-b | 显示缓存区列表                 |
-| C-x k   | 关闭当前缓存区                 |
-| C-x C-c | 退出emacs.                     |
-*** 光标移动
-| 快捷键 | 描述               |
-|--------+--------------------|
-| C-f    | 光标向后移动       |
-| C-b    | 光标向前移动       |
-| C-p    | 上一行             |
-| C-n    | 下一行             |
-| M-f    | 光标移动到单词尾部 |
-| M-b    | 光标移动到单词头部 |
-| C-a    | 行首               |
-| C-e    | 行尾               |
-| C-v    | 向下翻页           |
-| M-v    | 向上翻页           |
-| M-<    | 到文件开头         |
-| M->    | 到文件结尾         |
-*** 文本编辑
-| 快捷键                                                     | 描述                                       |
-|------------------------------------------------------------+--------------------------------------------|
-| M-n/C-u n                                                  | 重复执行后一个命令n次                      |
-| C-d                                                        | 删除后一个字符                             |
-| M-d                                                        | 删除前一个字符                             |
-| Del                                                        | 删除前一个字符                             |
-| M-Del                                                      | 删除前一个单词                             |
-| C-k                                                        | 移除一行                                   |
-| C-@                                                        | 设定标志位(主要是为了粘贴剪切以及删除使用) |
-| C-w                                                        | 移除标记区域的内容（剪切）                 |
-| M-w                                                        | 复制标记区域的内容（复制）                 |
-| C-y                                                        | 粘贴                                       |
-| M-y                                                        | 召回更早的内容 (在kill缓冲区内循环)        |
-| C-t                                                        | 交换两个字符的位置                         |
-| M-t                                                        | 交换两个单词的位置                         |
-| C-x C-t                                                    | 交换两行的位置                             |
-| M-u                                                        | 使从光标位置到单词结尾处的字母变成大写     |
-| M-l                                                        | 与M-u相反                                  |
-| M-c                                                        | 使从光标位置开始的单词的首字母变为大写     |
-| M-x mark-whole-buffer or C-x h, M-x indent-region or C-M-\ | 选中整个文件，然后格式化                   |
-| M-x mark-defun or C-M-h, M-x indent-region or C-M-\        | 选中函数，格式化                           |
-*** 搜索
-| 快捷键 | 描述                                                                    |
-|--------+-------------------------------------------------------------------------|
-| C-s    | 向前搜索                                                                |
-| C-r    | 向前搜索                                                                |
-| M-%    | 查找及替换:首先按下快捷键，输入要替换的词，RET，然后输入要替换的词，RET |
-*** 窗口命令
-| 快捷键 | 描述                           |
-|--------+--------------------------------|
-| C-x 2  | 水平分割窗格                   |
-| C-x 3  | 垂直分割窗格                   |
-| C-x o  | 切换至其他窗格                 |
-| C-x 0  | 关闭窗格                       |
-| C-x 1  | 关闭除了光标所在窗格外所有窗格 |
-*** 帮助
-| C-h m    | 查看当前模式                   |
-| C-h c    | 显示快捷键绑定的命令           |
-| C-h k    | 显示快捷键绑定的命令和它的作用 |
-| C-h f    | 显示函数的功能                 |
-| C-h b    | 显示当前缓冲区所有可用的快捷键 |
-| C-h t    | 打开emacs教程                  |
-| M-x quit | 退出help                       |
-* 自定义Emacs
-** Emacs基础定制
-: 打开.emacs文件
-#+BEGIN_SRC emacs-lisp
+*** 缺省按键前缀(Default Prefix)
+    | 按键前缀 | 描述                   |
+    |----------+------------------------|
+    | C        | Ctrl                   |
+    | M        | Alt                    |
+    | C-c      | 当前编辑模式特有的命令 |
+    | C-x      | 文件和缓冲区命令       |
+    | C-h      | 帮助命令               |
+    | M-x      | 函数名称               |
+*** 常用的快捷键(General Keyboard)
+    | 快捷键   | 描述                                   | 快捷键  | 描述                       |
+    |----------+----------------------------------------+---------+----------------------------|
+    | C-x  C-c | 退出                                   | C-g     | 退出一个正在运行的命令     |
+    | C-v      | 查看下一屏                             | M-v     | 查看上一屏                 |
+    | C-l      | 重绘屏幕，并将光标所在行置于屏幕的中央 |         |                            |
+    | C-f      | 向右移（forward,前进）                 | C-b     | 向左移（backward，回退）   |
+    | C-p      | 上一行（previous）                     | C-n     | 下一行（next）             |
+    | M-f      | 向右移（以单词为一个单位）             | M-b     | 向左移（以单词为一个单位） |
+    | M-<      | 移动到所有文字最开头                   | M->     | 移动到所有文字的最末尾     |
+    | C-a      | 移动到行首                             | C-e     | 移动到行尾                 |
+    | M-a      | 移动到句首                             | M-e     | 移动到句尾                 |
+    | C-k      | 删除光标后的内容                       | C-y     | 粘贴                       |
+    | C-/      | 撤销                                   | C-x C-u | 撤销                       |
+    | C-d      | 删除光标后的字符                       | M-w     | 复制                       |
+    | C-SPACE  | 选择内容模式                           | C-w     | 剪切                       |
+    | C-x C-f  | 新建/打开文件                          | C-x C-s | 保存                       |
+    | C-x 2    | 分屏                                   | C-x 0   | 切换到窗口1                |
+    | C-x o    | 切换窗口                               | C-h t   | 查看帮助                   |
+*** 基本文件操作(File)
+    | 快捷键  | 描述                           |
+    |---------+--------------------------------|
+    | C-x C-f | 打开/新建文件                  |
+    | C-x C-s | 保存                           |
+    | C-x C-w | 另存为                         |
+    | C-x C-v | 关闭当前缓冲区文件，打开新文件 |
+    | C-x i   | 在当前光标位置插入文件         |
+    | C-x b   | 新建/切换缓存区                |
+    | C-x C-b | 显示缓存区列表                 |
+    | C-x k   | 关闭当前缓存区                 |
+    | C-x C-c | 退出emacs.                     |
+*** 光标移动(Move)
+    | 快捷键 | 描述               |
+    |--------+--------------------|
+    | C-f    | 光标向后移动       |
+    | C-b    | 光标向前移动       |
+    | C-p    | 上一行             |
+    | C-n    | 下一行             |
+    | M-f    | 光标移动到单词尾部 |
+    | M-b    | 光标移动到单词头部 |
+    | C-a    | 行首               |
+    | C-e    | 行尾               |
+    | C-v    | 向下翻页           |
+    | M-v    | 向上翻页           |
+    | M-<    | 到文件开头         |
+    | M->    | 到文件结尾         |
+*** 文本编辑(Text Edit)
+    | 快捷键                                                     | 描述                                       |
+    |------------------------------------------------------------+--------------------------------------------|
+    | M-n/C-u n                                                  | 重复执行后一个命令n次                      |
+    | C-d                                                        | 删除后一个字符                             |
+    | M-d                                                        | 删除前一个字符                             |
+    | Del                                                        | 删除前一个字符                             |
+    | M-Del                                                      | 删除前一个单词                             |
+    | C-k                                                        | 移除一行                                   |
+    | C-@                                                        | 设定标志位(主要是为了粘贴剪切以及删除使用) |
+    | C-w                                                        | 移除标记区域的内容（剪切）                 |
+    | M-w                                                        | 复制标记区域的内容（复制）                 |
+    | C-y                                                        | 粘贴                                       |
+    | M-y                                                        | 召回更早的内容 (在kill缓冲区内循环)        |
+    | C-t                                                        | 交换两个字符的位置                         |
+    | M-t                                                        | 交换两个单词的位置                         |
+    | C-x C-t                                                    | 交换两行的位置                             |
+    | M-u                                                        | 使从光标位置到单词结尾处的字母变成大写     |
+    | M-l                                                        | 与M-u相反                                  |
+    | M-c                                                        | 使从光标位置开始的单词的首字母变为大写     |
+    | M-x mark-whole-buffer or C-x h, M-x indent-region or C-M-\ | 选中整个文件，然后格式化                   |
+    | M-x mark-defun or C-M-h, M-x indent-region or C-M-\        | 选中函数，格式化                           |
+*** 搜索(search)
+    | 快捷键 | 描述                                                                    |
+    |--------+-------------------------------------------------------------------------|
+    | C-s    | 向前搜索                                                                |
+    | C-r    | 向前搜索                                                                |
+    | M-%    | 查找及替换:首先按下快捷键，输入要替换的词，RET，然后输入要替换的词，RET |
+*** 窗口命令(Window)
+    | 快捷键 | 描述                           |
+    |--------+--------------------------------|
+    | C-x 2  | 水平分割窗格                   |
+    | C-x 3  | 垂直分割窗格                   |
+    | C-x o  | 切换至其他窗格                 |
+    | C-x 0  | 关闭窗格                       |
+    | C-x 1  | 关闭除了光标所在窗格外所有窗格 |
+*** 帮助(Help)
+    | 快捷键   | 描述                           |
+    |----------+--------------------------------|
+    | C-h m    | 查看当前模式                   |
+    | C-h c    | 显示快捷键绑定的命令           |
+    | C-h k    | 显示快捷键绑定的命令和它的作用 |
+    | C-h f    | 显示函数的功能                 |
+    | C-h b    | 显示当前缓冲区所有可用的快捷键 |
+    | C-h t    | 打开emacs教程                  |
+    | M-x quit | 退出help                       |
+* 自定义(Custom)
+** Emacs 基础定制(Basic Custom)
+   #+NAME: .emacs
+   #+BEGIN_SRC emacs-lisp
 ;; 显示行列号
 (setq column-number-mode t)
 (setq line-number-mode t)
@@ -165,142 +173,144 @@ photos:
 (interactive)
 (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)) (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
  )
-#+END_SRC
-: 快速使用设置命令: M-x eval-buffer
-** 自定义高级配置
-: thems, log manage, ...
-*** Emacs 主题
-: .el
-: ~/.emacs.d/
-
-#+BEGIN_SRC
+   #+END_SRC
+   : 快速使用设置命令: M-x eval-buffer
+** 自定义高级配置(Advanced Custom)
+*** Emacs 主题(Themes)
+    : .el
+    : ~/.emacs.d/
+    #+NAME: 加载 ~/.emacs.d/lisp 目录
+    #+BEGIN_SRC emacs-lisp
 //添加到.emacs文件
-(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 (require 'pluginname)
-#+END_SRC
+    #+END_SRC
 * org-mode
-** Keyboard
-| 快捷键                                     | 描述                                                    |
-|--------------------------------------------+---------------------------------------------------------|
-| TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
-| RET                                        | enter,Select this location.                             |
-| C-c C-n (org-next-visible-heading)         | Next heading.                                           |
-| C-c C-p (org-previous-visible-heading)     | Previous heading.                                       |
-| C-c C-f (org-forward-same-level)           | Next heading same level.                                |
-| C-c C-b (org-backward-same-level)          | Previous heading same level.                            |
-| C-c C-u (outline-up-heading)               | Backward to higher level heading.                       |
-| C-c C-j                                    | 切换到大纲浏览状态                                      |
-| M-RET (org-meta-return)                    | Insert a new heading, item or row.  插入一个同级标题    |
-| C-RET (org-insert-heading-respect-content) | Insert a new heading at the end of the current subtree. |
-| M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
-| M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
-| M-S-UP/DOWN                                | 将子树上/下移                                           |
+** org-mode 快捷键(Keyboard)
+   | 快捷键                                     | 描述                                                    |
+   |--------------------------------------------+---------------------------------------------------------|
+   | TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
+   | RET                                        | enter,Select this location.                             |
+   | C-c C-n (org-next-visible-heading)         | Next heading.                                           |
+   | C-c C-p (org-previous-visible-heading)     | Previous heading.                                       |
+   | C-c C-f (org-forward-same-level)           | Next heading same level.                                |
+   | C-c C-b (org-backward-same-level)          | Previous heading same level.                            |
+   | C-c C-u (outline-up-heading)               | Backward to higher level heading.                       |
+   | C-c C-j                                    | 切换到大纲浏览状态                                      |
+   | M-RET (org-meta-return)                    | Insert a new heading, item or row.  插入一个同级标题    |
+   | C-RET (org-insert-heading-respect-content) | Insert a new heading at the end of the current subtree. |
+   | M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
+   | M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
+   | M-S-UP/DOWN                                | 将子树上/下移                                           |
+** Tables
 ** Working with Source Code
 *** Structure of Code Blocks
- : Code block syntax described.
- #+NAME: Structure of Code Blocks
- #+BEGIN_SRC emacs-lisp
- : #+NAME: <name>
- : #+BEGIN_SRC <language> <switches> <header arguments>
- :   <body>
- : #+END_SRC
- #+END_SRC
- : more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
-*** Using Header Arguments
- : Different ways to set header arguments.
-
- : 1. System-wide header arguments
- : 2. Header arguments in Org mode properties
- : 3. Code block specific header arguments
- : 4. Header arguments in function calls
-
- : more info.：https://orgmode.org/org.html#Using-Header-Arguments
+   : #+NAME:<name>
+   : #+BEGIN_SRC <language> <switches> <header arguments>
+   : <body>
+   '#+NAME:<name>': Optional. Names the source block so it can be called, like a function, from other source blocks or inline code to evaluate or to capture the results. 
+   '#+BEGIN_SRC'...'#+END_SRC': Mandatory. They mark the start and end of a block that Org requires.
+   '<language>': Mandatory. It is the identifier of the source code language in the block. See [[https://orgmode.org/org.html#Languages][Languages]]
+   '<switches>': Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in [[https://orgmode.org/org.html#Literal-Examples][Literal Examples]]).
+   '<header arguments>': Optional. Heading arguments control many aspects of evaluation, export and tangling of code blocks(see [[https://orgmode.org/org.html#Using-Header-Arguments][Using Header Arguments]]).
+   '<body>': Source code in the dialect of the specified language identifier.
+   : more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
+*** Literal Examples
+   : #+BEGIN_SRC emacs-lisp -n 1 -r -l "((%s))"
+   : (save-excursion                 (ref:sc)
+   : 	(goto-char (point-min))      (ref:jump)
+   : #+END_SRC
+   : In line [[(sc)]] we remember the current position. [[(jump)][Line (jump)]]
+   : jumps to point-min.
+   -n or +n, to get the lines of the example numbered.
+   -r, switch which removes the labels from the source code. With the ‘-n’ switch, links to these references are labeled by the line numbers from the code liing.
+   -i, to preserve the indentation of a specific code block(see [[https://orgmode.org/org.html#Editing-Source-Code][Editing Source Code]]).
+   -l, to change the format. See also the variable org-coderef-label-format.
+   
+   : #+ALTR_HTML::textarea t :width 40
+   : #+BEGIN_EXAMPLE
+   :  (defun org-xor (a b)
+   :  "Exclusive or."
+   :  (if a (not b) b))
+   : #+END_EXAMPLE
+   HTML export also allows examples to be published as text areas (see [[https://orgmode.org/org.html#Text-areas-in-HTML-export][Text areas in HTML export]]).
 *** Environment of a Code Block
- : Arguments, sessions, working directory...
+   : 1) Passing arguments
+   : #+NAME: with-rownames
+   : | one | 1 | 2 | 3 | 4 |  5 |
+   : | two | 6 | 7 | 8 | 9 | 10 |
+   : #+BEGIN_SRC python :var tab=with-rownames :rownames yes
+   :  return [[val + 10 for val in row] for row in tab]
+   : #+END_SRC
+   : 
+   : #+RESULTS:
+   : | one | 11 | 12 | 13 | 14 | 15 |
+   : | two | 16 | 17 | 18 | 19 | 20 |
+   : more info: https://orgmode.org/org.html#Environment-of-a-Code-Block
 
- : 1. Passing arguments
- : 2. Using sessions
- : 3. Choosing a working directory
- : 4. Inserting headers and footers
-
- : more info.：https://orgmode.org/org.html#Environment-of-a-Code-Block
+   : 2) Using sessions
+   : 3) Choosing a working directory
+   : #+BEGIN_SRC R :file myplot.png :dir ~/Work
+   :  matplot(matrix(rnorm(100), 10), type="l")
+   : #+END_SRC
+   : 
+   : #+BEGIN_SRC R :file plot.png :dir /scp:dand@yakuba.princeton.edu:
+   :   plot(1:10, main=system("hostname", intern=TRUE))
+   : #+END_SRC
+   : 
+   : [[file:{{site.url}}/assets/images/plot.png][plot.png]]
+   : 
+   : 4) Inserting headers and footers 
+   : The ‘prologue’ header argument is for appending to the top of the code block for execution, like a reset instruction.
+   : For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for every such block:
+   #+BEGIN_SRC emacs-lisp -n 1
+   (add-to-list 'org-babel-default-header-args:gnuplot
+   	'((:prologue . "reset")))
+   #+END_SRC
 *** Evaluating Code Blocks
- : Place results of evaluation in the Org buffer.
+: 1. How to evaluate source code
+: 
 
- : 1. How to evaluate source code
- : 2. Limit code block evaluation
- : 3. Cache results of evaluation
+: 2. Limit code block evaluation
 
- : more info.：https://orgmode.org/org.html#Evaluating-Code-Blocks
+: 3. Cache results of evaluation
+
 *** Results of Evaluation
- : Choosing a results type, post-processing...
-
- : 1. collection
- : r how the results should be collected from the code block;
- : 2. type
- : For which type of result the code block will return; affects how Org processes and inserts results in the Org buffer;
- : 3. format
- : For the result; affects how Org processes and inserts results in the Org buffer;
- : 4. handling
- : For processing results after evaluation of the code block;
-
- : more info.：https://orgmode.org/org.html#Results-of-Evaluation
 *** Exporting Code Blocks
- : Export contents and/or results.
+- ‘code’
+The default. The body of code is included into the exported file. Example: ‘:exports code’.
 
- : 1. ‘code’
- : The default. The body of code is included into the exported file. Example: ‘:exports code’.
- : 2. ‘results’
- : The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
- : 3. ‘both’
- : Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
- : 4. ‘none
- : Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
+- ‘results’
+The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
 
- : more info.：https://orgmode.org/org.html#Exporting-Code-Blocks
+- ‘both’
+Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
+
+- ‘none’
+Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
 *** Extracting Source Code
- : Create pure source code files.
+    : Create pure source code files.
 
- : 1. Header arguments
- : 2. Functions
- : 3. Hooks
- : 4. Jumping between code and Org
+    : 1. Header arguments
+    : 2. Functions
+    : 3. Hooks
+    : 4. Jumping between code and Org
 
- : more info.：https://orgmode.org/org.html#Extracting-Source-Code
-*** Languages
- : List of supported code block languages.
-
- : more info.：https://orgmode.org/org.html#Languages
-*** Editing Source Code
- : Language major-mode editing.
-
-: more info.：https://orgmode.org/org.html#Editing-Source-Code
+    : more info.：https://orgmode.org/org.html#Extracting-Source-Code
 *** Noweb Reference Syntax
- : Literate programming in Org mode.
+    : Literate programming in Org mode.
 
- : more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
-*** Library of Babel
- : Use and contribute to a library of useful code blocks.
-
- : more info.：https://orgmode.org/org.html#Library-of-Babel
-*** Key bindings and Useful Functions
- : Work quickly with code blocks.
-
- : more info.：https://orgmode.org/org.html#Key-bindings-and-Useful-Functions
-*** Batch Execution 
- : Call functions from the command line.
-
- : more info.：https://orgmode.org/org.html#Batch-Execution
+    : more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
 * 问题解决
 ** emacs不能输入中文
-: //编辑~/.bashrc文件，加入如下内容：
-: $ vim ~/.bashrc
-: LC_CTYPE="zh_CN.utf8"
+   : //编辑~/.bashrc文件，加入如下内容：
+   : $ vim ~/.bashrc
+   : LC_CTYPE="zh_CN.utf8"
 
-: //编辑/etc/environment文件，加入如下内容：
-: $ sudo vim /etc/environment
-: LC_CTYPE="zh_CN.utf8"
+   : //编辑/etc/environment文件，加入如下内容：
+   : $ sudo vim /etc/environment
+   : LC_CTYPE="zh_CN.utf8"
 * References
-+ [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
-+ [[https://baike.baidu.com/item/emacs][emacs 百度百科]]
-+ [[https://en.wikipedia.org/wiki/GNU_Emacs][emacs wiki]]
+  + [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
+  + [[https://baike.baidu.com/item/emacs][emacs 百度百科]]
+  + [[https://en.wikipedia.org/wiki/GNU_Emacs][emacs wiki]]

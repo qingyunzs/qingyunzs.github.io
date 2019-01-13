@@ -2,11 +2,11 @@
 layout: post
 title: Redis
 author: zrg
-description: Redis notes.   
+description: Redis是一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。从2010年3月15日起，Redis的开发工作由VMware主持。从2013年5月开始，Redis的开发由Pivotal赞助。
 excerpt: 
 comments: false
 categories: 
-- Database
+- database
 tags:
 - Redis
 ---
@@ -15,8 +15,114 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-org60915d2" class="outline-2">
-<h2 id="org60915d2">Redis 配置</h2>
+<div id="outline-container-org2efdb5c" class="outline-2">
+<h2 id="org2efdb5c">配置</h2>
+</div>
+<div id="outline-container-org91e8d51" class="outline-2">
+<h2 id="org91e8d51">Redis 与 ThinkPHP</h2>
+<div class="outline-text-2" id="text-org91e8d51">
+</div>
+<div id="outline-container-org8af731f" class="outline-3">
+<h3 id="org8af731f">ThinkPHP 3.2.3 使用 Redis</h3>
+<div class="outline-text-3" id="text-org8af731f">
+<pre class="example">
+框架自带的 Redis 类
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org0e6c9dc">'DATA_CACHE_PREFIX' =&gt; 'Redis_',//&#32531;&#23384;&#21069;&#32512;
+'DATA_CACHE_TYPE'=&gt;'Redis',//&#40664;&#35748;&#21160;&#24577;&#32531;&#23384;&#20026;Redis
+'REDIS_RW_SEPARATE' =&gt; true, //Redis&#35835;&#20889;&#20998;&#31163; true &#24320;&#21551;
+'REDIS_HOST'=&gt;'192.168.91.102', //redis&#26381;&#21153;&#22120;ip&#65292;&#22810;&#21488;&#29992;&#36887;&#21495;&#38548;&#24320;&#65307;&#35835;&#20889;&#20998;&#31163;&#24320;&#21551;&#26102;&#65292;&#31532;&#19968;&#21488;&#36127;&#36131;&#20889;&#65292;&#20854;&#23427;[&#38543;&#26426;]&#36127;&#36131;&#35835;&#65307;
+'REDIS_PORT'=&gt;'6379',//&#31471;&#21475;&#21495;
+'REDIS_TIMEOUT'=&gt;'300',//&#36229;&#26102;&#26102;&#38388;
+'REDIS_PERSISTENT'=&gt;false,//&#26159;&#21542;&#38271;&#36830;&#25509; false=&#30701;&#36830;&#25509;
+'REDIS_AUTH'=&gt;'',//AUTH&#35748;&#35777;&#23494;&#30721;
+'DATA_CACHE_TIME' =&gt; 7200, //2&#23567;&#26102;&#21518;&#22833;&#25928;
+</pre>
+</div>
+</div>
+<div id="outline-container-org6a68188" class="outline-4">
+<h4 id="org6a68188">调用</h4>
+<div class="outline-text-4" id="text-org6a68188">
+<pre class="example">
+1. 直接调用框架自带的Redis类，
+路径：\ThinkPHP\Library\Think\Cache\Driver\Redis.class.php
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#21019;&#24314;&#19968;&#20010;redis&#23545;&#35937;
+$redis = new \Redis()<span style="color: #b22222;">;</span>
+//&#36830;&#25509;&#26412;&#22320;&#30340; Redis &#26381;&#21153;
+$redis-&gt;connect('127.0.0.1', 6379)<span style="color: #b22222;">;</span>
+//&#23494;&#30721;&#39564;&#35777;,&#22914;&#26524;&#27809;&#26377;&#21487;&#20197;&#19981;&#35774;&#32622;
+$redis-&gt;auth('123456')<span style="color: #b22222;">;</span>
+//&#26597;&#30475;&#26381;&#21153;&#26159;&#21542;&#36816;&#34892;
+echo <span style="color: #8b2252;">"Server is running: "</span> . $redis-&gt;ping()<span style="color: #b22222;">;</span>
+echo '&lt;br/&gt;'<span style="color: #b22222;">;</span>
+//&#35774;&#32622;&#32531;&#23384;
+$redis-&gt;set('username','zhang san',3600)<span style="color: #b22222;">;</span>
+//&#33719;&#21462;&#32531;&#23384;
+$user_name = $redis-&gt;get('username')<span style="color: #b22222;">;</span>
+var_dump($user_name)<span style="color: #b22222;">;</span>
+</pre>
+</div>
+
+<pre class="example">
+2. 使用S方法
+S('study','zhangsan');
+$name = S('study);
+echo $name
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2b9cf7b" class="outline-4">
+<h4 id="org2b9cf7b">NOAUTH Authentication required</h4>
+<div class="outline-text-4" id="text-org2b9cf7b">
+<p>
+描述：调用 S 方法时，报错！
+原因：框架 Redis 类文件，没有设置密码。
+解决：在__construct方法里添加代码：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">...
+$options = array (
+        'host'          =&gt; C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
+        'port'          =&gt; C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
+        'timeout'       =&gt; C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+        'password' =&gt; C('REDIS_AUTH')?:'', // &#28155;&#21152;&#27492;&#34892;&#20195;&#30721;
+      'persistent'    =&gt; false,
+)<span style="color: #b22222;">;</span>
+...
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3bdd6d9" class="outline-4">
+<h4 id="org3bdd6d9">配置 TP 3.2.3 Redis支持选择数据库功能</h4>
+<div class="outline-text-4" id="text-org3bdd6d9">
+<p>
+问题描述：官方默认不支持选择数据库功能，业务太多了，很不方便。
+解决：修改__construct()方法
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">...
+$options = array (
+        'host'          =&gt; C('REDIS_HOST') ? C('REDIS_HOST') : '127.0.0.1',
+        'port'          =&gt; C('REDIS_PORT') ? C('REDIS_PORT') : 6379,
+        'timeout'       =&gt; C('DATA_CACHE_TIMEOUT') ? C('DATA_CACHE_TIMEOUT') : false,
+        'password' =&gt; C('REDIS_AUTH')?:'',
+      'persistent'    =&gt; false,
+      'dbindex' =&gt; C('REDIS_DBINDEX')?:C('REDIS_DBINDEX')<span style="color: #483d8b;">:0</span>, // &#28155;&#21152;&#27492;&#34892;&#20195;&#30721;
+)<span style="color: #b22222;">;</span>
+...
+$this-&gt;handler-&gt;select($this-&gt;options['dbindex'])<span style="color: #b22222;">; </span><span style="color: #b22222;">// &#28155;&#21152;&#27492;&#34892;&#20195;&#30721;</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="outline-container-orga610629" class="outline-2">
 <h2 id="orga610629">问题记录</h2>
@@ -28,7 +134,7 @@ tags:
 <p>
 描述：Could not connect to Redis at 127.0.0.1:6379: Connection refused
 原因：6379 没有断开，使用“exit”后
-解决：重新使用redis-cli就可以了
+解决：重新使用redis-cli就可以
 </p>
 </div>
 </div>

@@ -1,4 +1,4 @@
-#+TITLE:  php-cross-domain 
+#+TITLE:  PHP 跨域问题 
 #+AUTHOR:    zrg
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -35,8 +35,9 @@ tags:
 # (setq org-export-html-style nil)
 
 * 问题概述
-: 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。
-* Ajax 请求跨域问题解决
+: 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。这是浏览器的为安全性考虑实施的非常重要的安全策略。
+* 请求跨域问题解决
+: 下面通过一个 Ajax 请求示例来说明：
 ** Client
 #+CAPTION: 客户端请求代码
 #+BEGIN_SRC emacs-lisp
@@ -47,7 +48,7 @@ function upload_idcard_file(_this,type){
 	formData.append('file',_this.files[0]);
 	$.ajax({
 		url: '{$upload_file_url}',
-	    type: 'POST',
+	        type: 'POST',
 		dataType: 'json',
 		data: formData,
 		cache: false,
@@ -58,28 +59,29 @@ function upload_idcard_file(_this,type){
 			var img_url = d.data;
 			img_url = 'http:'+img_url;
 			load_img(_this.id,img_url);
-	    },
+	        },
 		error:function(err){
-			//
-	    }
+			console.log(err);
+	        }
 	});
 }
 #+END_SRC
 ** Server
-*** 解决方式一
 #+CAPTION: 粗糙解决方式
 #+BEGIN_SRC emacs-lisp
 // 允许所有跨域请求
 header('Access-Control-Allow-Origin: *');
-// 只允许http://www.baidu.com下发来的跨域请求
+
+// 只允许 http://www.baidu.com 发来的跨域请求
 // header('Access-Control-Allow-Origin: http://www.baidu.com');
-// 设置支持的http请求方式
+
+// 设置支持的 http 请求方式
 header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
-// 响应头 请按照自己需求添加
-header('Access-Control-Allow-Headers:access_token'); 
+
+// 允许的响应头字段，请按照自己需求添加
+header('Access-Control-Allow-Headers:access_token');
 #+END_SRC
-*** 解决方式二
-: 方式一中单纯使用*或者具体域名，在开发接口时显得不太科学，这时候我们需要进行动态的判断处理。
+
 #+CAPTION: 动态判断处理跨域问题
 #+BEGIN_SRC emacs-lisp
 if(isset($_SERVER['HTTP_ORIGIN'])){
@@ -87,14 +89,16 @@ if(isset($_SERVER['HTTP_ORIGIN'])){
         $request_method = $_SERVER['REQUEST_METHOD'];
         // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
         $allow_origin = array(
-        	'baidu.com',
-                'bing.com'
+        'baidu.com',
+        'bing.com'
         );
-	// 判断是否有origin请求头
+        // 判断是否有origin请求头
         if(in_array($request_method, $allow_origin)
         {
-		header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-          break;
+                header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+                header('Access-Control-Allow-Credentials: true'); // 客户端携带证书式访问。出于安全考虑，该项设置为true时，Access-Control-Allow-Origin 的值不允许为「*」
+                header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+                header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token');
         }
     }
 }
@@ -104,3 +108,5 @@ if(isset($_SERVER['HTTP_ORIGIN'])){
 ini_set('session.cookie_domain', '.a.com');
 header('Access-Control-Allow-Credentials: true');
 #+END_SRC
+** 参考资料
++ [[https://blog.csdn.net/z69183787/article/details/78954325][跨域Ajax请求时是否带Cookie的设置]]
