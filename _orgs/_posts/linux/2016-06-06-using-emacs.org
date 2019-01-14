@@ -176,6 +176,8 @@ photos:
    #+END_SRC
    : 快速使用设置命令: M-x eval-buffer
 ** 自定义高级配置(Advanced Custom)
+*** 安装 Emacs 插件
+: M+x package-install RET
 *** Emacs 主题(Themes)
     : .el
     : ~/.emacs.d/
@@ -301,6 +303,68 @@ Neither the code nor the results of evaluation is included in the exported file.
     : Literate programming in Org mode.
 
     : more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
+** PlantUML
+*** 什么是 PlantUML?
+: PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
+: 代码：
+#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
+    Alice -> Bob: synchronous call
+    Alice ->> Bob: asynchronous call
+#+END_SRC
+
+#+NAME: PlantUML 简单示例
+#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
+   Alice -> Bob: synchronous call
+   Alice ->> Bob: asynchronous call
+#+END_SRC
+[[http://www.plantuml.com/plantuml/][在线Demo服务]]
+*** 配置 Emacs 支持 PlantUML
+: 1. 下载 plantuml.jar 到你的硬盘上
+[[http://www.plantuml.com/download.html][官网下载页面]]
+
+: 2. 安装生成图片用的软件：Graphviz
+: $ sudo apt install graphviz
+
+: 3. 配置 Emacs 支持 PlantUML
+: 首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
+: 其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
+#+BEGIN_SRC emacs-lisp -n 1
+;; Load plantuml
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/plantuml/plantuml.jar"))
+#+END_SRC
+: 最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
+#+BEGIN_SRC emacs-lisp -n 1
+;; active Org-babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(;; other Babel languages
+   (plantuml . t))) ;; add this line
+#+END_SRC
+*** PlantUML 的使用
+**** 顺序图(Sequence Diagram)
+: 顺序图用 -> , -->, <-, <-- 来绘制参与者（Participants）之 间的消息（Message）。
+#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
+  Alice -> Bob: Authentication Request
+  Bob --> Alice: Authentication Response
+
+  Alice -> Bob: Another atuhentication Request
+  Alice <-- Bob: Another authentication Response
+#+END_SRC
+
+#+NAME:PlantUML Quick Start
+#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
+  Alice -> Bob: Authentication Request
+  Bob --> Alice: Authentication Response
+
+  Alice -> Bob: Another atuhentication Request
+  Alice <-- Bob: Another authentication Response
+#+END_SRC
+**** 用例图(Use Case Diagram)
+**** 类图(Class Diagram)
+**** 活动图(Activity Diagram)
 * 问题解决
 ** emacs不能输入中文
    : //编辑~/.bashrc文件，加入如下内容：
@@ -314,3 +378,6 @@ Neither the code nor the results of evaluation is included in the exported file.
   + [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
   + [[https://baike.baidu.com/item/emacs][emacs 百度百科]]
   + [[https://en.wikipedia.org/wiki/GNU_Emacs][emacs wiki]]
+  + [[http://plantuml.com/][PlantUML Official Site]]
+  + [[http://nasseralkmim.github.io/notes/2016/08/14/using-dot-to-make-diagrams-in-org-mode/][Using plantuml to make diagrams in org-mode]]
+  + [[http://blog.3zso.com/archives/plantuml-quickstart.html][使用Emacs敲出UML，PlantUML快速指南]]

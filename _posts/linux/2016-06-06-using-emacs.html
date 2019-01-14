@@ -691,6 +691,15 @@ $ emacs -nw filename
 <h3 id="orgbda0f95">自定义高级配置(Advanced Custom)</h3>
 <div class="outline-text-3" id="text-orgbda0f95">
 </div>
+<div id="outline-container-orgf6d061a" class="outline-4">
+<h4 id="orgf6d061a">安装 Emacs 插件</h4>
+<div class="outline-text-4" id="text-orgf6d061a">
+<pre class="example">
+M+x package-install RET
+
+</pre>
+</div>
+</div>
 <div id="outline-container-org3f7e0ff" class="outline-4">
 <h4 id="org3f7e0ff">Emacs 主题(Themes)</h4>
 <div class="outline-text-4" id="text-org3f7e0ff">
@@ -999,6 +1008,114 @@ more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
 </div>
 </div>
 </div>
+<div id="outline-container-orga48e49e" class="outline-3">
+<h3 id="orga48e49e">PlantUML</h3>
+<div class="outline-text-3" id="text-orga48e49e">
+</div>
+<div id="outline-container-orgcf5f259" class="outline-4">
+<h4 id="orgcf5f259">什么是 PlantUML?</h4>
+<div class="outline-text-4" id="text-orgcf5f259">
+<pre class="example">
+PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
+代码：
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
+    Alice -&gt; Bob: synchronous call
+    Alice -&gt;&gt; Bob: asynchronous call
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="{{site.url}}/assets/images/orgmode-babel-sequenceuml.png" alt="orgmode-babel-sequenceuml.png" />
+</p>
+</div>
+
+<p>
+<a href="http://www.plantuml.com/plantuml/">在线Demo服务</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org2fef480" class="outline-4">
+<h4 id="org2fef480">配置 Emacs 支持 PlantUML</h4>
+<div class="outline-text-4" id="text-org2fef480">
+<pre class="example">
+1. 下载 plantuml.jar 到你的硬盘上
+
+</pre>
+<p>
+<a href="http://www.plantuml.com/download.html">官网下载页面</a>
+</p>
+
+<pre class="example">
+2. 安装生成图片用的软件：Graphviz
+$ sudo apt install graphviz
+
+</pre>
+
+<pre class="example">
+3. 配置 Emacs 支持 PlantUML
+首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
+其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">Load plantuml</span>
+<span class="linenr">2: </span>(<span style="color: #a020f0;">setq</span> org-plantuml-jar-path
+<span class="linenr">3: </span>      (expand-file-name <span style="color: #8b2252;">"~/.emacs.d/plantuml/plantuml.jar"</span>))
+</pre>
+</div>
+<pre class="example">
+最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">active Org-babel languages</span>
+<span class="linenr">2: </span>(org-babel-do-load-languages
+<span class="linenr">3: </span> 'org-babel-load-languages
+<span class="linenr">4: </span> '(<span style="color: #b22222;">;; </span><span style="color: #b22222;">other Babel languages</span>
+<span class="linenr">5: </span>   (plantuml . t))) <span style="color: #b22222;">;; </span><span style="color: #b22222;">add this line</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org31e9992" class="outline-4">
+<h4 id="org31e9992">PlantUML 的使用</h4>
+<div class="outline-text-4" id="text-org31e9992">
+</div>
+<ul class="org-ul">
+<li><a id="org0087ab6"></a>顺序图(Sequence Diagram)<br />
+<div class="outline-text-5" id="text-org0087ab6">
+<pre class="example">
+顺序图用 -&gt; , --&gt;, &lt;-, &lt;-- 来绘制参与者（Participants）之 间的消息（Message）。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> {{site.url}}/assets/images/plantuml-quickstart-s1.png
+  Alice -&gt; Bob: Authentication Request
+  Bob --&gt; Alice: Authentication Response
+
+  Alice -&gt; Bob: Another atuhentication Request
+  Alice &lt;-- Bob: Another authentication Response
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s1.png" alt="plantuml-quickstart-s1.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org42ebb0c"></a>用例图(Use Case Diagram)<br /></li>
+<li><a id="org22b6b0c"></a>类图(Class Diagram)<br /></li>
+<li><a id="org12b4c66"></a>活动图(Activity Diagram)<br /></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="outline-container-orgbe1cb6f" class="outline-2">
 <h2 id="orgbe1cb6f">问题解决</h2>
@@ -1030,6 +1147,9 @@ LC_CTYPE="zh_CN.utf8"
 <li><a href="http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html">org-mode: 最好的文档编辑利器</a></li>
 <li><a href="https://baike.baidu.com/item/emacs">emacs 百度百科</a></li>
 <li><a href="https://en.wikipedia.org/wiki/GNU_Emacs">emacs wiki</a></li>
+<li><a href="http://plantuml.com/">PlantUML Official Site</a></li>
+<li><a href="http://nasseralkmim.github.io/notes/2016/08/14/using-dot-to-make-diagrams-in-org-mode/">Using plantuml to make diagrams in org-mode</a></li>
+<li><a href="http://blog.3zso.com/archives/plantuml-quickstart.html">使用Emacs敲出UML，PlantUML快速指南</a></li>
 </ul>
 </div>
 </div>

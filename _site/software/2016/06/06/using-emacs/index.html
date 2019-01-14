@@ -119,9 +119,12 @@
 <meta property="og:site_name" content="Rengui's Article">
 <meta property="og:description" content="Emacs，著名的集成开发环境和文本编辑器。Emacs被公认为是最受专业程序员喜爱的代码编辑器之一。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://localhost:4000/assets/images/orgmode-babel-sequenceuml.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s1.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GNU Emacs">
 <meta name="twitter:description" content="Emacs，著名的集成开发环境和文本编辑器。Emacs被公认为是最受专业程序员喜爱的代码编辑器之一。">
+<meta name="twitter:image" content="http://localhost:4000/assets/images/orgmode-babel-sequenceuml.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -1126,6 +1129,15 @@ $ emacs -nw filename
 <h3 id="orgbda0f95">自定义高级配置(Advanced Custom)</h3>
 <div class="outline-text-3" id="text-orgbda0f95">
 </div>
+<div id="outline-container-orgf6d061a" class="outline-4">
+<h4 id="orgf6d061a">安装 Emacs 插件</h4>
+<div class="outline-text-4" id="text-orgf6d061a">
+<pre class="example">
+M+x package-install RET
+
+</pre>
+</div>
+</div>
 <div id="outline-container-org3f7e0ff" class="outline-4">
 <h4 id="org3f7e0ff">Emacs 主题(Themes)</h4>
 <div class="outline-text-4" id="text-org3f7e0ff">
@@ -1434,6 +1446,114 @@ more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
 </div>
 </div>
 </div>
+<div id="outline-container-orga48e49e" class="outline-3">
+<h3 id="orga48e49e">PlantUML</h3>
+<div class="outline-text-3" id="text-orga48e49e">
+</div>
+<div id="outline-container-orgcf5f259" class="outline-4">
+<h4 id="orgcf5f259">什么是 PlantUML?</h4>
+<div class="outline-text-4" id="text-orgcf5f259">
+<pre class="example">
+PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
+代码：
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> http://localhost:4000/assets/images/orgmode-babel-sequenceuml.png
+    Alice -&gt; Bob: synchronous call
+    Alice -&gt;&gt; Bob: asynchronous call
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/orgmode-babel-sequenceuml.png" alt="orgmode-babel-sequenceuml.png" />
+</p>
+</div>
+
+<p>
+<a href="http://www.plantuml.com/plantuml/">在线Demo服务</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org2fef480" class="outline-4">
+<h4 id="org2fef480">配置 Emacs 支持 PlantUML</h4>
+<div class="outline-text-4" id="text-org2fef480">
+<pre class="example">
+1. 下载 plantuml.jar 到你的硬盘上
+
+</pre>
+<p>
+<a href="http://www.plantuml.com/download.html">官网下载页面</a>
+</p>
+
+<pre class="example">
+2. 安装生成图片用的软件：Graphviz
+$ sudo apt install graphviz
+
+</pre>
+
+<pre class="example">
+3. 配置 Emacs 支持 PlantUML
+首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
+其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">Load plantuml</span>
+<span class="linenr">2: </span>(<span style="color: #a020f0;">setq</span> org-plantuml-jar-path
+<span class="linenr">3: </span>      (expand-file-name <span style="color: #8b2252;">"~/.emacs.d/plantuml/plantuml.jar"</span>))
+</pre>
+</div>
+<pre class="example">
+最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">active Org-babel languages</span>
+<span class="linenr">2: </span>(org-babel-do-load-languages
+<span class="linenr">3: </span> 'org-babel-load-languages
+<span class="linenr">4: </span> '(<span style="color: #b22222;">;; </span><span style="color: #b22222;">other Babel languages</span>
+<span class="linenr">5: </span>   (plantuml . t))) <span style="color: #b22222;">;; </span><span style="color: #b22222;">add this line</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org31e9992" class="outline-4">
+<h4 id="org31e9992">PlantUML 的使用</h4>
+<div class="outline-text-4" id="text-org31e9992">
+</div>
+<ul class="org-ul">
+<li><a id="org0087ab6"></a>顺序图(Sequence Diagram)<br />
+<div class="outline-text-5" id="text-org0087ab6">
+<pre class="example">
+顺序图用 -&gt; , --&gt;, &lt;-, &lt;-- 来绘制参与者（Participants）之 间的消息（Message）。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> http://localhost:4000/assets/images/plantuml-quickstart-s1.png
+  Alice -&gt; Bob: Authentication Request
+  Bob --&gt; Alice: Authentication Response
+
+  Alice -&gt; Bob: Another atuhentication Request
+  Alice &lt;-- Bob: Another authentication Response
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s1.png" alt="plantuml-quickstart-s1.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="org42ebb0c"></a>用例图(Use Case Diagram)<br /></li>
+<li><a id="org22b6b0c"></a>类图(Class Diagram)<br /></li>
+<li><a id="org12b4c66"></a>活动图(Activity Diagram)<br /></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="outline-container-orgbe1cb6f" class="outline-2">
 <h2 id="orgbe1cb6f">问题解决</h2>
@@ -1465,6 +1585,9 @@ LC_CTYPE="zh_CN.utf8"
 <li><a href="http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html">org-mode: 最好的文档编辑利器</a></li>
 <li><a href="https://baike.baidu.com/item/emacs">emacs 百度百科</a></li>
 <li><a href="https://en.wikipedia.org/wiki/GNU_Emacs">emacs wiki</a></li>
+<li><a href="http://plantuml.com/">PlantUML Official Site</a></li>
+<li><a href="http://nasseralkmim.github.io/notes/2016/08/14/using-dot-to-make-diagrams-in-org-mode/">Using plantuml to make diagrams in org-mode</a></li>
+<li><a href="http://blog.3zso.com/archives/plantuml-quickstart.html">使用Emacs敲出UML，PlantUML快速指南</a></li>
 </ul>
 </div>
 </div>
@@ -1704,7 +1827,7 @@ LC_CTYPE="zh_CN.utf8"
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd3d95f"> <span class="nav-number">1</span> <span class="nav-text">简介(Introduction)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb243a96"> <span class="nav-number">2</span> <span class="nav-text">快捷键(Keyboard)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org10ef953"> <span class="nav-number">2.1</span> <span class="nav-text">Open Emacs by command line.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2c9631"> <span class="nav-number">2.2</span> <span class="nav-text">Don't know how to use emacs?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaa2c0"> <span class="nav-number">2.2.1</span> <span class="nav-text">缺省按键前缀(Default Prefix)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org66e9757"> <span class="nav-number">2.2.2</span> <span class="nav-text">常用的快捷键(General Keyboard)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d29cd2"> <span class="nav-number">2.2.3</span> <span class="nav-text">基本文件操作(File)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfaaf568"> <span class="nav-number">2.2.4</span> <span class="nav-text">光标移动(Move)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe6d70c"> <span class="nav-number">2.2.5</span> <span class="nav-text">文本编辑(Text Edit)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51bbfe"> <span class="nav-number">2.2.6</span> <span class="nav-text">搜索(search)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6283acd"> <span class="nav-number">2.2.7</span> <span class="nav-text">窗口命令(Window)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee8aa9"> <span class="nav-number">2.2.8</span> <span class="nav-text">帮助(Help)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5232a12"> <span class="nav-number">3</span> <span class="nav-text">自定义(Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8694044"> <span class="nav-number">3.1</span> <span class="nav-text">Emacs 基础定制(Basic Custom)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbda0f95"> <span class="nav-number">3.2</span> <span class="nav-text">自定义高级配置(Advanced Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3f7e0ff"> <span class="nav-number">3.2.1</span> <span class="nav-text">Emacs 主题(Themes)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5cc13bf"> <span class="nav-number">4</span> <span class="nav-text">org-mode</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11b8cac"> <span class="nav-number">4.1</span> <span class="nav-text">org-mode 快捷键(Keyboard)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97747ed"> <span class="nav-number">4.2</span> <span class="nav-text">Tables</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd7c030"> <span class="nav-number">4.3</span> <span class="nav-text">Working with Source Code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fbbedb"> <span class="nav-number">4.3.1</span> <span class="nav-text">Structure of Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge9f7a91"> <span class="nav-number">4.3.2</span> <span class="nav-text">Literal Examples</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org55fdc1f"> <span class="nav-number">4.3.3</span> <span class="nav-text">Environment of a Code Block</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8146c08"> <span class="nav-number">4.3.4</span> <span class="nav-text">Evaluating Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9c3d82c"> <span class="nav-number">4.3.5</span> <span class="nav-text">Results of Evaluation</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6813fca"> <span class="nav-number">4.3.6</span> <span class="nav-text">Exporting Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2dc3d49"> <span class="nav-number">4.3.7</span> <span class="nav-text">Extracting Source Code</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge16e2a4"> <span class="nav-number">4.3.8</span> <span class="nav-text">Noweb Reference Syntax</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe1cb6f"> <span class="nav-number">5</span> <span class="nav-text">问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf9fff1c"> <span class="nav-number">5.1</span> <span class="nav-text">emacs不能输入中文</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org641fc2f"> <span class="nav-number">6</span> <span class="nav-text">References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd3d95f"> <span class="nav-number">1</span> <span class="nav-text">简介(Introduction)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb243a96"> <span class="nav-number">2</span> <span class="nav-text">快捷键(Keyboard)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org10ef953"> <span class="nav-number">2.1</span> <span class="nav-text">Open Emacs by command line.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2c9631"> <span class="nav-number">2.2</span> <span class="nav-text">Don't know how to use emacs?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaa2c0"> <span class="nav-number">2.2.1</span> <span class="nav-text">缺省按键前缀(Default Prefix)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org66e9757"> <span class="nav-number">2.2.2</span> <span class="nav-text">常用的快捷键(General Keyboard)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d29cd2"> <span class="nav-number">2.2.3</span> <span class="nav-text">基本文件操作(File)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfaaf568"> <span class="nav-number">2.2.4</span> <span class="nav-text">光标移动(Move)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe6d70c"> <span class="nav-number">2.2.5</span> <span class="nav-text">文本编辑(Text Edit)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51bbfe"> <span class="nav-number">2.2.6</span> <span class="nav-text">搜索(search)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6283acd"> <span class="nav-number">2.2.7</span> <span class="nav-text">窗口命令(Window)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee8aa9"> <span class="nav-number">2.2.8</span> <span class="nav-text">帮助(Help)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5232a12"> <span class="nav-number">3</span> <span class="nav-text">自定义(Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8694044"> <span class="nav-number">3.1</span> <span class="nav-text">Emacs 基础定制(Basic Custom)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbda0f95"> <span class="nav-number">3.2</span> <span class="nav-text">自定义高级配置(Advanced Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf6d061a"> <span class="nav-number">3.2.1</span> <span class="nav-text">安装 Emacs 插件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3f7e0ff"> <span class="nav-number">3.2.2</span> <span class="nav-text">Emacs 主题(Themes)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5cc13bf"> <span class="nav-number">4</span> <span class="nav-text">org-mode</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11b8cac"> <span class="nav-number">4.1</span> <span class="nav-text">org-mode 快捷键(Keyboard)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97747ed"> <span class="nav-number">4.2</span> <span class="nav-text">Tables</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd7c030"> <span class="nav-number">4.3</span> <span class="nav-text">Working with Source Code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fbbedb"> <span class="nav-number">4.3.1</span> <span class="nav-text">Structure of Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge9f7a91"> <span class="nav-number">4.3.2</span> <span class="nav-text">Literal Examples</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org55fdc1f"> <span class="nav-number">4.3.3</span> <span class="nav-text">Environment of a Code Block</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8146c08"> <span class="nav-number">4.3.4</span> <span class="nav-text">Evaluating Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9c3d82c"> <span class="nav-number">4.3.5</span> <span class="nav-text">Results of Evaluation</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6813fca"> <span class="nav-number">4.3.6</span> <span class="nav-text">Exporting Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2dc3d49"> <span class="nav-number">4.3.7</span> <span class="nav-text">Extracting Source Code</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge16e2a4"> <span class="nav-number">4.3.8</span> <span class="nav-text">Noweb Reference Syntax</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga48e49e"> <span class="nav-number">4.4</span> <span class="nav-text">PlantUML</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf5f259"> <span class="nav-number">4.4.1</span> <span class="nav-text">什么是 PlantUML?</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2fef480"> <span class="nav-number">4.4.2</span> <span class="nav-text">配置 Emacs 支持 PlantUML</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org31e9992"> <span class="nav-number">4.4.3</span> <span class="nav-text">PlantUML 的使用</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe1cb6f"> <span class="nav-number">5</span> <span class="nav-text">问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf9fff1c"> <span class="nav-number">5.1</span> <span class="nav-text">emacs不能输入中文</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org641fc2f"> <span class="nav-number">6</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             

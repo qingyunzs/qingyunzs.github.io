@@ -32,6 +32,9 @@ photos:
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
+* 前言(Preface)
++ 如何启动命令行以及接下来做什么？
++ 如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？
 * Linux 命令行
 ** 初探 bash shell 命令
 *** 学习 shell 开始
@@ -536,126 +539,126 @@ fi
 test命令提供了在if-then语句中测试不同条件的途径。
 test命令可以判断三类条件：数值比较；字符串比较；文件比较
 #+END_SRC
-*** test 命令
-: 格式：
-if test condition
-then
-	commands
-fi
-: 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
-#+NAME: if-then 字符串比较
-#+BEGIN_SRC shell
-#!/bin/bash
-$var = 10
-if [$var -eq 5]
-then 
-	echo "The value $var are equal."
-else
-	echo "The value $var are different."
-fi
-$var1 = baduser
-if [$USER != $var1]
-then
-	echo "This is not $var1"
-else
-	echo "Welcome $var"
-fi
-$var2 = baseall
-$var3 = hockey
-if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
-then
-	echo "$var2 is greater than $var3"
-else
-	echo "$var2 is less than $var3"
-fi
-#+END_SRC
-: 特别说明：
-: 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
-: 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+**** test 命令
+ : 格式：
+ if test condition
+ then
+	 commands
+ fi
+ : 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+ #+NAME: if-then 字符串比较
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ $var = 10
+ if [$var -eq 5]
+ then 
+	 echo "The value $var are equal."
+ else
+	 echo "The value $var are different."
+ fi
+ $var1 = baduser
+ if [$USER != $var1]
+ then
+	 echo "This is not $var1"
+ else
+	 echo "Welcome $var"
+ fi
+ $var2 = baseall
+ $var3 = hockey
+ if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
+ then
+	 echo "$var2 is greater than $var3"
+ else
+	 echo "$var2 is less than $var3"
+ fi
+ #+END_SRC
+ : 特别说明：
+ : 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+ : 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
 
-#+NAME: if-then 字符串大小
-#+BEGIN_SRC shell
-#!/bin/bash
-var1 = testing
-var2 =''
-if [-n $var1]
-then
-	echo "The string '$var1' is not empty."
-else
-	echo "The string '$var1' is empty."
-fi
-if [-z $var2]
-then
-	echo "The string '$var2' is empty."
-else
-	echo "The string '$var2' is not empty."
-fi
-#+END_SRC
+ #+NAME: if-then 字符串大小
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ var1 = testing
+ var2 =''
+ if [-n $var1]
+ then
+	 echo "The string '$var1' is not empty."
+ else
+	 echo "The string '$var1' is empty."
+ fi
+ if [-z $var2]
+ then
+	 echo "The string '$var2' is empty."
+ else
+	 echo "The string '$var2' is not empty."
+ fi
+ #+END_SRC
 
-#+NAME: if-then 文件比较
-#+BEGIN_SRC shell
-#!/bin/bash
-jump_directory=/home/arthur
-if [-d $jump_directory]
-then
-	echo "The $jump_directory directory exists."
-else
-	echo "The $jump_directory directory does not exists."
-fi
-#+END_SRC
-| 比较            | 描述                                     |
-|-----------------+------------------------------------------|
-| -d file         | 检查file是否存在并是一个目录             |
-| -e file         | 检查file是否存在                         |
-| -f file         | 检查file是否存在并是一个文件             |
-| -r file         | 检查file是否存在并可读                   |
-| -s file         | 检查file是否存在并非空                   |
-| -w file         | 检查file是否存在并可写                   |
-| -x file         | 检查file是否存在并可执行                 |
-| -O file         | 检查file是否存在并属当前用户所有         |
-| -G file         | 检查file是否存在并且默认组与当前用户相同 |
-| file1 -nt file2 | 检查file是否比file2                      |
-| file1 -ot file2 | 检查file是否比file2旧                    |
-*** 复合条件
-: 格式：
-[condition1] && [condition2]
-[condition1] || [condition2]
-#+NAME: if-then 复合条件测试
-#+BEGIN_SRC shell
-  #!/bin/bash
-  # testing compound comparisons
-  #
-  if [-d $HOME] && [-w $HOME/testing]
-  then
-	  echo "The file exists and you can write to it."
-  else
-	  echo "I cannot write to the file."
-  fi
-#+END_SRC
-*** if-then 的高级特性
-#+NAME: if-then 双括号
-#+BEGIN_SRC shell
-  #!/bin/bash
-  # (( expression )) expression 可以是任意的数学赋值或比较表达式。
-  var1=10
-  if(( $var1 ** 2 > 90))
-  then
-	  (( $var2 = $var1 ** 2))
-	  echo "The square of $var1 is $var2."
-  fi
-#+END_SRC
+ #+NAME: if-then 文件比较
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ jump_directory=/home/arthur
+ if [-d $jump_directory]
+ then
+	 echo "The $jump_directory directory exists."
+ else
+	 echo "The $jump_directory directory does not exists."
+ fi
+ #+END_SRC
+ | 比较            | 描述                                     |
+ |-----------------+------------------------------------------|
+ | -d file         | 检查file是否存在并是一个目录             |
+ | -e file         | 检查file是否存在                         |
+ | -f file         | 检查file是否存在并是一个文件             |
+ | -r file         | 检查file是否存在并可读                   |
+ | -s file         | 检查file是否存在并非空                   |
+ | -w file         | 检查file是否存在并可写                   |
+ | -x file         | 检查file是否存在并可执行                 |
+ | -O file         | 检查file是否存在并属当前用户所有         |
+ | -G file         | 检查file是否存在并且默认组与当前用户相同 |
+ | file1 -nt file2 | 检查file是否比file2                      |
+ | file1 -ot file2 | 检查file是否比file2旧                    |
+**** 复合条件
+ : 格式：
+ [condition1] && [condition2]
+ [condition1] || [condition2]
+ #+NAME: if-then 复合条件测试
+ #+BEGIN_SRC shell
+   #!/bin/bash
+   # testing compound comparisons
+   #
+   if [-d $HOME] && [-w $HOME/testing]
+   then
+	   echo "The file exists and you can write to it."
+   else
+	   echo "I cannot write to the file."
+   fi
+ #+END_SRC
+**** if-then 的高级特性
+ #+NAME: if-then 双括号
+ #+BEGIN_SRC shell
+   #!/bin/bash
+   # (( expression )) expression 可以是任意的数学赋值或比较表达式。
+   var1=10
+   if(( $var1 ** 2 > 90))
+   then
+	   (( $var2 = $var1 ** 2))
+	   echo "The square of $var1 is $var2."
+   fi
+ #+END_SRC
 
-#+NAME: if-then 双方括号
-#+BEGIN_SRC shell
-  #!/bin/bash
-  # [[ expression ]]
-  if[[ $USER == r* ]]
-  then
-	  echo "Hello $USER"
-else
-	echo "Sorry, I do not know you."
-  fi
-#+END_SRC
+ #+NAME: if-then 双方括号
+ #+BEGIN_SRC shell
+   #!/bin/bash
+   # [[ expression ]]
+   if[[ $USER == r* ]]
+   then
+	   echo "Hello $USER"
+ else
+	 echo "Sorry, I do not know you."
+   fi
+ #+END_SRC
 *** case 命令
 : 格式：
 case $变量名 in
@@ -755,16 +758,60 @@ done
 #+BEGIN_SRC shell
 # while command test
 var1=10
-while [$var1 -gt 0]
+while [ $var1 -gt 0 ]
 do
 	echo $var1
-	var1=$[$var1 - 1]
+	var1=$[ $var1 - 1 ]
 done
 #+END_SRC
 *** until 命令
-*** 
-** 处理用户输入
-** 呈现数据
+: until 命令和 while 命令完全相反。
+: 格式：
+until test command
+do
+	other commands
+done
+#+NAME:until
+#+BEGIN_SRC shell -n 1
+#!/bin/bash
+# using the until command
+var1=100
+until [ $var1 -eq 0 ]
+do
+	echo $var1
+	var1=$[ $var1 -25 ]
+done
+#+END_SRC
+*** 应用
+#+NAME:循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
+#+BEGIN_SRC shell -n 1
+#!/bin/bash
+# changing the IFS value
+IFS.OLD=$IFS
+IFS=$'\n'
+for entry in $(cat /etc/passwd)
+do
+	echo "Values in $entry -"
+	IFS=:
+	for value in $entry
+	do
+		echo "$value"
+	done
+done
+# 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
+#+END_SRC
+
+#+NAME:控制循环
+#+BEGIN_SRC shell -n 1
+#!/bin/bash
+# 1.breaking out of an inner loop
+# 2.breaking out of an outer loop
+# 3.using the continue command
+# 4.continuing an outer loop
+
+#+END_SRC
+** 输入输出
+
 ** 控制脚本
 * 高级 shell 脚本编程
 ** 创建函数
