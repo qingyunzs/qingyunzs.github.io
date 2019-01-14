@@ -12,6 +12,15 @@ tags:
 photos:
 ---
 
+<div id="outline-container-orgbc58303" class="outline-2">
+<h2 id="orgbc58303">前言(Preface)</h2>
+<div class="outline-text-2" id="text-orgbc58303">
+<ul class="org-ul">
+<li>如何启动命令行以及接下来做什么？</li>
+<li>如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？</li>
+</ul>
+</div>
+</div>
 <div id="outline-container-org0f245fb" class="outline-2">
 <h2 id="org0f245fb">Linux 命令行</h2>
 <div class="outline-text-2" id="text-org0f245fb">
@@ -1114,11 +1123,11 @@ $ echo $?
 <h3 id="orgd02b752">结构化命令</h3>
 <div class="outline-text-3" id="text-orgd02b752">
 </div>
-<div id="outline-container-orgb51eb54" class="outline-4">
-<h4 id="orgb51eb54">if-then</h4>
-<div class="outline-text-4" id="text-orgb51eb54">
+<div id="outline-container-org9eb71f7" class="outline-4">
+<h4 id="org9eb71f7">if-then</h4>
+<div class="outline-text-4" id="text-org9eb71f7">
 <div class="org-src-container">
-<pre class="src src-shell" id="org4b88ea1">&#31034;&#20363;&#65306;
+<pre class="src src-shell" id="orgb51eb54">&#31034;&#20363;&#65306;
 <span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash</span>
 testuser = NoSuchUser
 <span style="color: #b22222;">#</span>
@@ -1140,10 +1149,9 @@ testuser = NoSuchUser
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org61b747e" class="outline-4">
-<h4 id="org61b747e">test 命令</h4>
-<div class="outline-text-4" id="text-org61b747e">
+<ul class="org-ul">
+<li><a id="org61b747e"></a>test 命令<br />
+<div class="outline-text-5" id="text-org61b747e">
 <pre class="example">
 格式：
 
@@ -1293,10 +1301,9 @@ var2 =<span style="color: #8b2252;">''</span>
 </tbody>
 </table>
 </div>
-</div>
-<div id="outline-container-orgf49c45c" class="outline-4">
-<h4 id="orgf49c45c">复合条件</h4>
-<div class="outline-text-4" id="text-orgf49c45c">
+</li>
+<li><a id="orgf49c45c"></a>复合条件<br />
+<div class="outline-text-5" id="text-orgf49c45c">
 <pre class="example">
 格式：
 
@@ -1318,10 +1325,9 @@ var2 =<span style="color: #8b2252;">''</span>
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgff82edc" class="outline-4">
-<h4 id="orgff82edc">if-then 的高级特性</h4>
-<div class="outline-text-4" id="text-orgff82edc">
+</li>
+<li><a id="orgff82edc"></a>if-then 的高级特性<br />
+<div class="outline-text-5" id="text-orgff82edc">
 <div class="org-src-container">
 <pre class="src src-shell" id="orgd3e71f1"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 <span style="color: #b22222;"># </span><span style="color: #b22222;">(( expression )) expression &#21487;&#20197;&#26159;&#20219;&#24847;&#30340;&#25968;&#23398;&#36171;&#20540;&#25110;&#27604;&#36739;&#34920;&#36798;&#24335;&#12290;</span>
@@ -1346,6 +1352,8 @@ var2 =<span style="color: #8b2252;">''</span>
 </pre>
 </div>
 </div>
+</li>
+</ul>
 </div>
 <div id="outline-container-org49b4361" class="outline-4">
 <h4 id="org49b4361">case 命令</h4>
@@ -1470,10 +1478,10 @@ done
 <div class="org-src-container">
 <pre class="src src-shell" id="orgb2d4c8b"><span style="color: #b22222;"># </span><span style="color: #b22222;">while command test</span>
 <span style="color: #a0522d;">var1</span>=10
-<span style="color: #a020f0;">while</span> [$<span style="color: #a0522d;">var1</span> -gt 0]
+<span style="color: #a020f0;">while</span> [ $<span style="color: #a0522d;">var1</span> -gt 0 ]
 <span style="color: #a020f0;">do</span>
         <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
-        <span style="color: #a0522d;">var1</span>=$[$<span style="color: #a0522d;">var1</span> - 1]
+        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> - 1 ]
 <span style="color: #a020f0;">done</span>
 </pre>
 </div>
@@ -1481,17 +1489,68 @@ done
 </div>
 <div id="outline-container-org3793a8a" class="outline-4">
 <h4 id="org3793a8a">until 命令</h4>
+<div class="outline-text-4" id="text-org3793a8a">
+<pre class="example">
+until 命令和 while 命令完全相反。
+格式：
+
+</pre>
+<p>
+until test command
+do
+	other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org6344b92"><span class="linenr">1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr">2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">using the until command</span>
+<span class="linenr">3: </span><span style="color: #a0522d;">var1</span>=100
+<span class="linenr">4: </span><span style="color: #a020f0;">until</span> [ $<span style="color: #a0522d;">var1</span> -eq 0 ]
+<span class="linenr">5: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">6: </span>        <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
+<span class="linenr">7: </span>        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> -25 ]
+<span class="linenr">8: </span><span style="color: #a020f0;">done</span>
+</pre>
 </div>
-<div id="outline-container-orgbc3cd1b" class="outline-4">
-<h4 id="orgbc3cd1b"></h4>
 </div>
 </div>
-<div id="outline-container-orgb1b03d7" class="outline-3">
-<h3 id="orgb1b03d7">处理用户输入</h3>
+<div id="outline-container-org8f75416" class="outline-4">
+<h4 id="org8f75416">应用</h4>
+<div class="outline-text-4" id="text-org8f75416">
+<div class="org-src-container">
+<pre class="src src-shell" id="org2a20681"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">changing the IFS value</span>
+<span class="linenr"> 3: </span>IFS.OLD=$<span style="color: #a0522d;">IFS</span>
+<span class="linenr"> 4: </span><span style="color: #a0522d;">IFS</span>=$<span style="color: #8b2252;">'\n'</span>
+<span class="linenr"> 5: </span><span style="color: #a020f0;">for</span> entry<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">cat</span> /etc/passwd)
+<span class="linenr"> 6: </span><span style="color: #a020f0;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Values in $entry -"</span>
+<span class="linenr"> 8: </span>        <span style="color: #a0522d;">IFS</span>=:
+<span class="linenr"> 9: </span>        <span style="color: #a020f0;">for</span> value<span style="color: #a020f0;"> in</span> $<span style="color: #a0522d;">entry</span>
+<span class="linenr">10: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">11: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$value"</span>
+<span class="linenr">12: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">13: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">14: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">&#35813;&#33050;&#26412;&#20351;&#29992;&#20102;&#20004;&#20010;&#19981;&#21516;&#30340; IFS &#30340;&#20540;&#26469;&#35299;&#26512;&#25968;&#25454;&#65292;&#31532;&#19968;&#20010; IFS &#20540;&#35299;&#26512;&#20986; /etc/passwd &#25991;&#20214;&#20013;&#30340;&#21333;&#29420;&#30340;&#34892;&#65292;&#20869;&#37096; for &#24490;&#29615;&#25509;&#30528;&#23558; IFS &#30340;&#20540;&#20462;&#25913;&#20026;&#20882;&#21495;&#65292;&#20801;&#35768;&#20320;&#20174; /etc/passwd &#30340;&#34892;&#20013;&#35299;&#26512;&#20986;&#21333;&#29420;&#30340;&#20540;&#12290;</span>
+</pre>
 </div>
-<div id="outline-container-org78bdc9c" class="outline-3">
-<h3 id="org78bdc9c">呈现数据</h3>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org58ab19a"><span class="linenr">1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr">2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.breaking out of an inner loop</span>
+<span class="linenr">3: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">2.breaking out of an outer loop</span>
+<span class="linenr">4: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">3.using the continue command</span>
+<span class="linenr">5: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">4.continuing an outer loop</span>
+<span class="linenr">6: </span>
+</pre>
 </div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff3a8a1" class="outline-3">
+<h3 id="orgff3a8a1">输入输出</h3>
+</div>
+
 <div id="outline-container-org6987be2" class="outline-3">
 <h3 id="org6987be2">控制脚本</h3>
 </div>

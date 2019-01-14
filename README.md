@@ -60,6 +60,25 @@
 > [The Org Manual](http://orgmode.org/manual/index.html)
 > [GNU Emacs](https://zhaorengui.github.io/software/2016/06/06/using-emacs/)
 
+注意：在通过 PlantUML 组件画图时，目前的解决办法只能是：先指定生成图片的地址，执行生成操作，然后改为站点访问地址，最后执行发布。具体操作如下：
+1. 先指定特定生成图片地址
+#+BEING_SRC plantuml :file ../../_assets/example.png 
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: Another authentication Response
+#+END_SRC
+2. 执行生成操作
+3. 改写为访问地址
+#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/example.png
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: Another authentication Response
+#+END_SRC
+4. 执行发布操作
 ## 安装NexT
 1. 确保已安装`Ruby 2.1.0` 或更高版本：
  $ ruby --version

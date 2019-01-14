@@ -442,7 +442,16 @@
 
 
 
-  <div id="outline-container-org0f245fb" class="outline-2">
+  <div id="outline-container-orgbc58303" class="outline-2">
+<h2 id="orgbc58303">前言(Preface)</h2>
+<div class="outline-text-2" id="text-orgbc58303">
+<ul class="org-ul">
+<li>如何启动命令行以及接下来做什么？</li>
+<li>如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0f245fb" class="outline-2">
 <h2 id="org0f245fb">Linux 命令行</h2>
 <div class="outline-text-2" id="text-org0f245fb">
 </div>
@@ -1553,11 +1562,11 @@ $ echo $?
 <h3 id="orgd02b752">结构化命令</h3>
 <div class="outline-text-3" id="text-orgd02b752">
 </div>
-<div id="outline-container-orgb51eb54" class="outline-4">
-<h4 id="orgb51eb54">if-then</h4>
-<div class="outline-text-4" id="text-orgb51eb54">
+<div id="outline-container-org9eb71f7" class="outline-4">
+<h4 id="org9eb71f7">if-then</h4>
+<div class="outline-text-4" id="text-org9eb71f7">
 <div class="org-src-container">
-<pre class="src src-shell" id="org4b88ea1">示例：
+<pre class="src src-shell" id="orgb51eb54">示例：
 <span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash</span>
 testuser = NoSuchUser
 <span style="color: #b22222;">#</span>
@@ -1579,10 +1588,10 @@ testuser = NoSuchUser
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org61b747e" class="outline-4">
-<h4 id="org61b747e">test 命令</h4>
-<div class="outline-text-4" id="text-org61b747e">
+<ul class="org-ul">
+<li>
+<a id="org61b747e"></a>test 命令<br>
+<div class="outline-text-5" id="text-org61b747e">
 <pre class="example">
 格式：
 
@@ -1732,10 +1741,10 @@ var2 =<span style="color: #8b2252;">''</span>
 </tbody>
 </table>
 </div>
-</div>
-<div id="outline-container-orgf49c45c" class="outline-4">
-<h4 id="orgf49c45c">复合条件</h4>
-<div class="outline-text-4" id="text-orgf49c45c">
+</li>
+<li>
+<a id="orgf49c45c"></a>复合条件<br>
+<div class="outline-text-5" id="text-orgf49c45c">
 <pre class="example">
 格式：
 
@@ -1757,10 +1766,10 @@ var2 =<span style="color: #8b2252;">''</span>
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-orgff82edc" class="outline-4">
-<h4 id="orgff82edc">if-then 的高级特性</h4>
-<div class="outline-text-4" id="text-orgff82edc">
+</li>
+<li>
+<a id="orgff82edc"></a>if-then 的高级特性<br>
+<div class="outline-text-5" id="text-orgff82edc">
 <div class="org-src-container">
 <pre class="src src-shell" id="orgd3e71f1"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 <span style="color: #b22222;"># </span><span style="color: #b22222;">(( expression )) expression 可以是任意的数学赋值或比较表达式。</span>
@@ -1785,6 +1794,8 @@ var2 =<span style="color: #8b2252;">''</span>
 </pre>
 </div>
 </div>
+</li>
+</ul>
 </div>
 <div id="outline-container-org49b4361" class="outline-4">
 <h4 id="org49b4361">case 命令</h4>
@@ -1909,10 +1920,10 @@ done
 <div class="org-src-container">
 <pre class="src src-shell" id="orgb2d4c8b"><span style="color: #b22222;"># </span><span style="color: #b22222;">while command test</span>
 <span style="color: #a0522d;">var1</span>=10
-<span style="color: #a020f0;">while</span> [$<span style="color: #a0522d;">var1</span> -gt 0]
+<span style="color: #a020f0;">while</span> [ $<span style="color: #a0522d;">var1</span> -gt 0 ]
 <span style="color: #a020f0;">do</span>
         <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
-        <span style="color: #a0522d;">var1</span>=$[$<span style="color: #a0522d;">var1</span> - 1]
+        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> - 1 ]
 <span style="color: #a020f0;">done</span>
 </pre>
 </div>
@@ -1920,17 +1931,68 @@ done
 </div>
 <div id="outline-container-org3793a8a" class="outline-4">
 <h4 id="org3793a8a">until 命令</h4>
+<div class="outline-text-4" id="text-org3793a8a">
+<pre class="example">
+until 命令和 while 命令完全相反。
+格式：
+
+</pre>
+<p>
+until test command
+do
+	other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org6344b92"><span class="linenr">1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr">2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">using the until command</span>
+<span class="linenr">3: </span><span style="color: #a0522d;">var1</span>=100
+<span class="linenr">4: </span><span style="color: #a020f0;">until</span> [ $<span style="color: #a0522d;">var1</span> -eq 0 ]
+<span class="linenr">5: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">6: </span>        <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
+<span class="linenr">7: </span>        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> -25 ]
+<span class="linenr">8: </span><span style="color: #a020f0;">done</span>
+</pre>
 </div>
-<div id="outline-container-orgbc3cd1b" class="outline-4">
-<h4 id="orgbc3cd1b"></h4>
 </div>
 </div>
-<div id="outline-container-orgb1b03d7" class="outline-3">
-<h3 id="orgb1b03d7">处理用户输入</h3>
+<div id="outline-container-org8f75416" class="outline-4">
+<h4 id="org8f75416">应用</h4>
+<div class="outline-text-4" id="text-org8f75416">
+<div class="org-src-container">
+<pre class="src src-shell" id="org2a20681"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">changing the IFS value</span>
+<span class="linenr"> 3: </span>IFS.OLD=$<span style="color: #a0522d;">IFS</span>
+<span class="linenr"> 4: </span><span style="color: #a0522d;">IFS</span>=$<span style="color: #8b2252;">'\n'</span>
+<span class="linenr"> 5: </span><span style="color: #a020f0;">for</span> entry<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">cat</span> /etc/passwd)
+<span class="linenr"> 6: </span><span style="color: #a020f0;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Values in $entry -"</span>
+<span class="linenr"> 8: </span>        <span style="color: #a0522d;">IFS</span>=:
+<span class="linenr"> 9: </span>        <span style="color: #a020f0;">for</span> value<span style="color: #a020f0;"> in</span> $<span style="color: #a0522d;">entry</span>
+<span class="linenr">10: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">11: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$value"</span>
+<span class="linenr">12: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">13: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">14: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。</span>
+</pre>
 </div>
-<div id="outline-container-org78bdc9c" class="outline-3">
-<h3 id="org78bdc9c">呈现数据</h3>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org58ab19a"><span class="linenr">1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr">2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.breaking out of an inner loop</span>
+<span class="linenr">3: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">2.breaking out of an outer loop</span>
+<span class="linenr">4: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">3.using the continue command</span>
+<span class="linenr">5: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">4.continuing an outer loop</span>
+<span class="linenr">6: </span>
+</pre>
 </div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgff3a8a1" class="outline-3">
+<h3 id="orgff3a8a1">输入输出</h3>
+</div>
+
 <div id="outline-container-org6987be2" class="outline-3">
 <h3 id="org6987be2">控制脚本</h3>
 </div>
@@ -2255,7 +2317,7 @@ done
             
               <div class="post-toc-content">
     <ol class="nav">
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0f245fb"> <span class="nav-number">1</span> <span class="nav-text">Linux 命令行</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc56f659"> <span class="nav-number">1.1</span> <span class="nav-text">初探 bash shell 命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org13a5f9f"> <span class="nav-number">1.1.1</span> <span class="nav-text">学习 shell 开始</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org07d4b8e"> <span class="nav-number">1.1.2</span> <span class="nav-text">文件、目录操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4d7f63"> <span class="nav-number">1.1.3</span> <span class="nav-text">进程、磁盘统计和管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe221be"> <span class="nav-number">1.1.4</span> <span class="nav-text">排序、归档数据</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org507bee7"> <span class="nav-number">1.2</span> <span class="nav-text">理解 shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbafaf45"> <span class="nav-number">1.2.1</span> <span class="nav-text">shell 类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org88c3140"> <span class="nav-number">1.2.2</span> <span class="nav-text">Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5232f64"> <span class="nav-number">1.2.3</span> <span class="nav-text">理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8fff90b"> <span class="nav-number">1.3</span> <span class="nav-text">使用 Linux 环境变量</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org79bda56"> <span class="nav-number">1.4</span> <span class="nav-text">理解 Linux 文件权限</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40751ba"> <span class="nav-number">1.4.1</span> <span class="nav-text">Linux 的安全性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org048aa57"> <span class="nav-number">1.4.2</span> <span class="nav-text">使用 Linux 组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee21a2"> <span class="nav-number">1.4.3</span> <span class="nav-text">理解文件权限</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org55995ee"> <span class="nav-number">1.4.4</span> <span class="nav-text">改变安全性设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf00e458"> <span class="nav-number">1.4.5</span> <span class="nav-text">共享文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgecb33f5"> <span class="nav-number">1.5</span> <span class="nav-text">管理文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8120d3"> <span class="nav-number">1.5.1</span> <span class="nav-text">探索 Linux 文件系统</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5f4ef4e"> <span class="nav-number">1.5.2</span> <span class="nav-text">操作文件系统</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8f9c496"> <span class="nav-number">1.5.3</span> <span class="nav-text">逻辑卷管理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4dab22e"> <span class="nav-number">1.6</span> <span class="nav-text">安装软件程序</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c4b9e6"> <span class="nav-number">1.7</span> <span class="nav-text">使用编辑器</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org77b5cb6"> <span class="nav-number">2</span> <span class="nav-text">shell 脚本编程基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9d1a923"> <span class="nav-number">2.1</span> <span class="nav-text">构建基本脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3137f66"> <span class="nav-number">2.1.1</span> <span class="nav-text">创建一个简单的脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc9e6b89"> <span class="nav-number">2.1.2</span> <span class="nav-text">重定向输入和输出</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b486fd"> <span class="nav-number">2.1.3</span> <span class="nav-text">管道</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3278e28"> <span class="nav-number">2.1.4</span> <span class="nav-text">执行数学运算</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgee6bdc7"> <span class="nav-number">2.1.5</span> <span class="nav-text">退出脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd02b752"> <span class="nav-number">2.2</span> <span class="nav-text">结构化命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb51eb54"> <span class="nav-number">2.2.1</span> <span class="nav-text">if-then</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org61b747e"> <span class="nav-number">2.2.2</span> <span class="nav-text">test 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf49c45c"> <span class="nav-number">2.2.3</span> <span class="nav-text">复合条件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgff82edc"> <span class="nav-number">2.2.4</span> <span class="nav-text">if-then 的高级特性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org49b4361"> <span class="nav-number">2.2.5</span> <span class="nav-text">case 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2844387"> <span class="nav-number">2.2.6</span> <span class="nav-text">for 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4ef423"> <span class="nav-number">2.2.7</span> <span class="nav-text">while 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3793a8a"> <span class="nav-number">2.2.8</span> <span class="nav-text">until 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbc3cd1b"> <span class="nav-number">2.2.9</span> <span class="nav-text"></span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb1b03d7"> <span class="nav-number">2.3</span> <span class="nav-text">处理用户输入</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org78bdc9c"> <span class="nav-number">2.4</span> <span class="nav-text">呈现数据</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6987be2"> <span class="nav-number">2.5</span> <span class="nav-text">控制脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4306b24"> <span class="nav-number">3</span> <span class="nav-text">高级 shell 脚本编程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4309728"> <span class="nav-number">3.1</span> <span class="nav-text">创建函数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org986d431"> <span class="nav-number">3.2</span> <span class="nav-text">图形化桌面环境中的脚本编程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4052373"> <span class="nav-number">3.3</span> <span class="nav-text">初识 sed 和 gawk</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3b2a687"> <span class="nav-number">3.4</span> <span class="nav-text">正则表达式</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org79f8a45"> <span class="nav-number">3.5</span> <span class="nav-text">sed 和 gawk 进阶</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcea3bd6"> <span class="nav-number">3.6</span> <span class="nav-text">使用其他 shell</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org19c66cd"> <span class="nav-number">4</span> <span class="nav-text">创建实用的脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgee78b66"> <span class="nav-number">4.1</span> <span class="nav-text">编写简单的脚本实用工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5dec417"> <span class="nav-number">4.1.1</span> <span class="nav-text">归档</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org29f2014"> <span class="nav-number">4.1.2</span> <span class="nav-text">管理用户账户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d78d2c"> <span class="nav-number">4.1.3</span> <span class="nav-text">检测磁盘空间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8917f6e"> <span class="nav-number">4.2</span> <span class="nav-text">创建与数据库、Web及E-Mail相关的脚本</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8433499"> <span class="nav-number">4.3</span> <span class="nav-text">一些小意思的脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org291d9f9"> <span class="nav-number">4.3.1</span> <span class="nav-text">发送消息</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org422d998"> <span class="nav-number">4.3.2</span> <span class="nav-text">获取格言</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3fa9ff5"> <span class="nav-number">4.3.3</span> <span class="nav-text">编造借口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdf5a64e"> <span class="nav-number">4.3.4</span> <span class="nav-text">在当前目录及指定子目录深度下创建.gitignore文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa7c8b6"> <span class="nav-number">4.3.5</span> <span class="nav-text">解决 dpkg: warning: files list file for package 'x' missing</span> </a> </li> </ol> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbc58303"> <span class="nav-number">1</span> <span class="nav-text">前言(Preface)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0f245fb"> <span class="nav-number">2</span> <span class="nav-text">Linux 命令行</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc56f659"> <span class="nav-number">2.1</span> <span class="nav-text">初探 bash shell 命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org13a5f9f"> <span class="nav-number">2.1.1</span> <span class="nav-text">学习 shell 开始</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org07d4b8e"> <span class="nav-number">2.1.2</span> <span class="nav-text">文件、目录操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4d7f63"> <span class="nav-number">2.1.3</span> <span class="nav-text">进程、磁盘统计和管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe221be"> <span class="nav-number">2.1.4</span> <span class="nav-text">排序、归档数据</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org507bee7"> <span class="nav-number">2.2</span> <span class="nav-text">理解 shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbafaf45"> <span class="nav-number">2.2.1</span> <span class="nav-text">shell 类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org88c3140"> <span class="nav-number">2.2.2</span> <span class="nav-text">Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5232f64"> <span class="nav-number">2.2.3</span> <span class="nav-text">理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8fff90b"> <span class="nav-number">2.3</span> <span class="nav-text">使用 Linux 环境变量</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org79bda56"> <span class="nav-number">2.4</span> <span class="nav-text">理解 Linux 文件权限</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40751ba"> <span class="nav-number">2.4.1</span> <span class="nav-text">Linux 的安全性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org048aa57"> <span class="nav-number">2.4.2</span> <span class="nav-text">使用 Linux 组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee21a2"> <span class="nav-number">2.4.3</span> <span class="nav-text">理解文件权限</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org55995ee"> <span class="nav-number">2.4.4</span> <span class="nav-text">改变安全性设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf00e458"> <span class="nav-number">2.4.5</span> <span class="nav-text">共享文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgecb33f5"> <span class="nav-number">2.5</span> <span class="nav-text">管理文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8120d3"> <span class="nav-number">2.5.1</span> <span class="nav-text">探索 Linux 文件系统</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5f4ef4e"> <span class="nav-number">2.5.2</span> <span class="nav-text">操作文件系统</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8f9c496"> <span class="nav-number">2.5.3</span> <span class="nav-text">逻辑卷管理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4dab22e"> <span class="nav-number">2.6</span> <span class="nav-text">安装软件程序</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c4b9e6"> <span class="nav-number">2.7</span> <span class="nav-text">使用编辑器</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org77b5cb6"> <span class="nav-number">3</span> <span class="nav-text">shell 脚本编程基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9d1a923"> <span class="nav-number">3.1</span> <span class="nav-text">构建基本脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3137f66"> <span class="nav-number">3.1.1</span> <span class="nav-text">创建一个简单的脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc9e6b89"> <span class="nav-number">3.1.2</span> <span class="nav-text">重定向输入和输出</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b486fd"> <span class="nav-number">3.1.3</span> <span class="nav-text">管道</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3278e28"> <span class="nav-number">3.1.4</span> <span class="nav-text">执行数学运算</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgee6bdc7"> <span class="nav-number">3.1.5</span> <span class="nav-text">退出脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd02b752"> <span class="nav-number">3.2</span> <span class="nav-text">结构化命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9eb71f7"> <span class="nav-number">3.2.1</span> <span class="nav-text">if-then</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org49b4361"> <span class="nav-number">3.2.2</span> <span class="nav-text">case 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2844387"> <span class="nav-number">3.2.3</span> <span class="nav-text">for 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc4ef423"> <span class="nav-number">3.2.4</span> <span class="nav-text">while 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3793a8a"> <span class="nav-number">3.2.5</span> <span class="nav-text">until 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8f75416"> <span class="nav-number">3.2.6</span> <span class="nav-text">应用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgff3a8a1"> <span class="nav-number">3.3</span> <span class="nav-text">输入输出</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6987be2"> <span class="nav-number">3.4</span> <span class="nav-text">控制脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4306b24"> <span class="nav-number">4</span> <span class="nav-text">高级 shell 脚本编程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4309728"> <span class="nav-number">4.1</span> <span class="nav-text">创建函数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org986d431"> <span class="nav-number">4.2</span> <span class="nav-text">图形化桌面环境中的脚本编程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4052373"> <span class="nav-number">4.3</span> <span class="nav-text">初识 sed 和 gawk</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3b2a687"> <span class="nav-number">4.4</span> <span class="nav-text">正则表达式</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org79f8a45"> <span class="nav-number">4.5</span> <span class="nav-text">sed 和 gawk 进阶</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcea3bd6"> <span class="nav-number">4.6</span> <span class="nav-text">使用其他 shell</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org19c66cd"> <span class="nav-number">5</span> <span class="nav-text">创建实用的脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgee78b66"> <span class="nav-number">5.1</span> <span class="nav-text">编写简单的脚本实用工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5dec417"> <span class="nav-number">5.1.1</span> <span class="nav-text">归档</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org29f2014"> <span class="nav-number">5.1.2</span> <span class="nav-text">管理用户账户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d78d2c"> <span class="nav-number">5.1.3</span> <span class="nav-text">检测磁盘空间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8917f6e"> <span class="nav-number">5.2</span> <span class="nav-text">创建与数据库、Web及E-Mail相关的脚本</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8433499"> <span class="nav-number">5.3</span> <span class="nav-text">一些小意思的脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org291d9f9"> <span class="nav-number">5.3.1</span> <span class="nav-text">发送消息</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org422d998"> <span class="nav-number">5.3.2</span> <span class="nav-text">获取格言</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3fa9ff5"> <span class="nav-number">5.3.3</span> <span class="nav-text">编造借口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdf5a64e"> <span class="nav-number">5.3.4</span> <span class="nav-text">在当前目录及指定子目录深度下创建.gitignore文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa7c8b6"> <span class="nav-number">5.3.5</span> <span class="nav-text">解决 dpkg: warning: files list file for package 'x' missing</span> </a> </li> </ol> </li> </ol> </li>
     </ol>
   </div>
             
