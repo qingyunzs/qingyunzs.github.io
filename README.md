@@ -70,6 +70,7 @@ Alice -> Bob: Another authentication Request
 Alice <-- Bob: Another authentication Response
 #+END_SRC
 2. 执行生成操作
+> https://github.com/skuro/plantuml-mode
 3. 改写为访问地址
 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/example.png
 Alice -> Bob: Authentication Request
