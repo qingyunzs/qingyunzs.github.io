@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="SQL-Server,SQL-Server-2018,SQL-Server-2018-R2," />
+  <meta name="keywords" content="SQL-Server,SQL-Server-2008,SQL-Server-2008-R2," />
 
 
 
@@ -112,10 +112,10 @@
 
 
 <meta name="description" content="SQL-Server 使用笔记">
-<meta name="keywords" content="SQL-Server, SQL-Server-2018, SQL-Server-2018-R2">
+<meta name="keywords" content="SQL-Server, SQL-Server-2008, SQL-Server-2008-R2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL-Server 使用笔记">
-<meta property="og:url" content="http://localhost:4000/datebase/2017/04/11/sql-server/">
+<meta property="og:url" content="http://localhost:4000/database/2017/04/11/sql-server/">
 <meta property="og:site_name" content="Rengui's Article">
 <meta property="og:description" content="SQL-Server 使用笔记">
 <meta property="og:locale" content="zh-Hans">
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/datebase/2017/04/11/sql-server/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/database/2017/04/11/sql-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -393,8 +393,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/datebase" itemprop="url" rel="index">
-                    <span itemprop="name">datebase</span>
+                  <a href="/category/#/database" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -462,17 +462,16 @@
 <div id="outline-container-org2337b1f" class="outline-3">
 <h3 id="org2337b1f"><span class="section-number-3">1.2</span> 第一种：小数据的情况</h3>
 <div class="outline-text-3" id="text-1-2">
-<pre class="example">
-1.先在低版本的服务器上建立同名的数据库.
-2.在高版本的服务器上右键点击目标数据库-&gt;任务-&gt;生成脚本. 
-3.在选择对象-&gt;选择特定数据库对象.
-4.选择表、视图、存储过程，然后下一步.
-5.关键在这，这一步里，请选择”高级“，选项里选择[编写DROP和Create脚本]项的”编写DROP和Create脚本“.
-6.选择服务器数据库版本.
-7.选择[编写脚本和数据类型]项的“架构和数据".
-8.保存脚本,在低版本的数据库下执行脚本即可.
-
-</pre>
+<ol class="org-ol">
+<li>先在低版本的服务器上建立同名的数据库.</li>
+<li>在高版本的服务器上右键点击目标数据库-&gt;任务-&gt;生成脚本.</li>
+<li>在选择对象-&gt;选择特定数据库对象.</li>
+<li>选择表、视图、存储过程，然后下一步.</li>
+<li>关键在这，这一步里，请选择”高级“，选项里选择[编写DROP和Create脚本]项的”编写DROP和Create脚本“.</li>
+<li>选择服务器数据库版本.</li>
+<li>选择[编写脚本和数据类型]项的“架构和数据".</li>
+<li>保存脚本,在低版本的数据库下执行脚本即可.</li>
+</ol>
 </div>
 </div>
 <div id="outline-container-orgc2a8b46" class="outline-3">
@@ -480,17 +479,16 @@
 <div class="outline-text-3" id="text-1-3">
 <pre class="example">
 按理应该也可以通过类似包含架构和数据的方式来做，但是由于包含大数据的时候脚本文件太大，无法在分析器里执行，所以我们得绕一下.
-1~4. 1～4步和a情况相同.
-5.这步我们选择”高级“，选项里选择[编写DROP和Create脚本]项的”编写DROP和Create脚本“，以及[为服务器版本编写脚本]项的
-sql server 2008(具体看数据库的版本)，最后选[编写脚本和数据类型]项的“架构".
-6.保存脚本.
-7.在低版本的数据下执行脚本，注意（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段)REFERENCES表名(字段))
-这个先不要执行.
-8.现在可以通过导入导出任务先将表的内容导入到低版本的数据库内.
-9.再执行脚本内（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段) REFERENCES 表名(字段))这样的语句，此
-处将表的外键附加上.
 
 </pre>
+<ol class="org-ol">
+<li>1～4步和小数据情况相同.</li>
+<li>这步我们选择”高级“，选项里选择[编写DROP和Create脚本]项的”编写DROP和Create脚本“，以及[为服务器版本编写脚本] sql server 2008(具体看数据库的版本)，最后选[编写脚本和数据类型]项的“架构".</li>
+<li>保存脚本.</li>
+<li>在低版本的数据下执行脚本，注意（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段)REFERENCES表名(字段))这个先不要执行.</li>
+<li>现在可以通过导入导出任务先将表的内容导入到低版本的数据库内.</li>
+<li>再执行脚本内（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段) REFERENCES 表名(字段))这样的语句，此处将表的外键附加上.</li>
+</ol>
 </div>
 </div>
 </div>
@@ -528,10 +526,10 @@ sql server 2008(具体看数据库的版本)，最后选[编写脚本和数据�
             <a href="/tag/#/SQL-Server" rel="tag"># SQL-Server</a>
           
             
-            <a href="/tag/#/SQL-Server-2018" rel="tag"># SQL-Server-2018</a>
+            <a href="/tag/#/SQL-Server-2008" rel="tag"># SQL-Server-2008</a>
           
             
-            <a href="/tag/#/SQL-Server-2018-R2" rel="tag"># SQL-Server-2018-R2</a>
+            <a href="/tag/#/SQL-Server-2008-R2" rel="tag"># SQL-Server-2008-R2</a>
           
         </div>
       
@@ -647,7 +645,7 @@ sql server 2008(具体看数据库的版本)，最后选[编写脚本和数据�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
