@@ -121,6 +121,12 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://localhost:4000/assets/images/orgmode-babel-sequenceuml.png">
 <meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s1.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s2.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s3.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s4.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s5.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s6.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/plantuml-quickstart-s7.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GNU Emacs">
 <meta name="twitter:description" content="Emacs，著名的集成开发环境和文本编辑器。Emacs被公认为是最受专业程序员喜爱的代码编辑器之一。">
@@ -475,9 +481,9 @@ In common with other varieties of Emacs, GNU Emacs is extensible using a Turing 
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb243a96" class="outline-2">
-<h2 id="orgb243a96">快捷键(Keyboard)</h2>
-<div class="outline-text-2" id="text-orgb243a96">
+<div id="outline-container-orgd1a9914" class="outline-2">
+<h2 id="orgd1a9914">快捷键(Keyboard)</h2>
+<div class="outline-text-2" id="text-orgd1a9914">
 </div>
 <div id="outline-container-org10ef953" class="outline-3">
 <h3 id="org10ef953">Open Emacs by command line.</h3>
@@ -519,6 +525,21 @@ $ emacs -nw filename
 <tr>
 <td class="org-left">M</td>
 <td class="org-left">Alt</td>
+</tr>
+
+<tr>
+<td class="org-left">S</td>
+<td class="org-left">Shift</td>
+</tr>
+
+<tr>
+<td class="org-left">RET</td>
+<td class="org-left">Enter 回车键</td>
+</tr>
+
+<tr>
+<td class="org-left">up/down/left/right</td>
+<td class="org-left">上/下/左/右 方向键</td>
 </tr>
 
 <tr>
@@ -1090,11 +1111,11 @@ $ emacs -nw filename
 <h2 id="org5232a12">自定义(Custom)</h2>
 <div class="outline-text-2" id="text-org5232a12">
 </div>
-<div id="outline-container-org8694044" class="outline-3">
-<h3 id="org8694044">Emacs 基础定制(Basic Custom)</h3>
-<div class="outline-text-3" id="text-org8694044">
+<div id="outline-container-org28e3154" class="outline-3">
+<h3 id="org28e3154">基础定制(Basic Custom)</h3>
+<div class="outline-text-3" id="text-org28e3154">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgd9b2057"><span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#34892;&#21015;&#21495;</span>
+<pre class="src src-emacs-lisp" id="org2dc013a"><span style="color: #b22222;">;; </span><span style="color: #b22222;">&#26174;&#31034;&#34892;&#21015;&#21495;</span>
 (<span style="color: #a020f0;">setq</span> column-number-mode t)
 (<span style="color: #a020f0;">setq</span> line-number-mode t)
 <span style="color: #b22222;">;; </span><span style="color: #b22222;">&#35774;&#32622;&#26631;&#39064;&#26639;</span>
@@ -1116,40 +1137,37 @@ $ emacs -nw filename
 (<span style="color: #a020f0;">defun</span> <span style="color: #0000ff;">maximized</span> ()
 (<span style="color: #a020f0;">interactive</span>)
 (x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_HORZ"</span> 0)) (x-send-client-message nil 0 nil <span style="color: #8b2252;">"_NET_WM_STATE"</span> 32 '(2 <span style="color: #8b2252;">"_NET_WM_STATE_MAXIMIZED_VERT"</span> 0))
- )
+)
 </pre>
 </div>
-<pre class="example">
-快速使用设置命令: M-x eval-buffer
 
-</pre>
+<p>
+快速设置生效命令: M-x eval-buffer
+</p>
 </div>
 </div>
 <div id="outline-container-orgbda0f95" class="outline-3">
 <h3 id="orgbda0f95">自定义高级配置(Advanced Custom)</h3>
 <div class="outline-text-3" id="text-orgbda0f95">
 </div>
-<div id="outline-container-orgf6d061a" class="outline-4">
-<h4 id="orgf6d061a">安装 Emacs 插件</h4>
-<div class="outline-text-4" id="text-orgf6d061a">
+<div id="outline-container-org02db4e3" class="outline-4">
+<h4 id="org02db4e3">安装插件(plugin)</h4>
+<div class="outline-text-4" id="text-org02db4e3">
 <pre class="example">
-M+x package-install RET
+// 示例安装 plantuml
+M+x package-install &lt;RET&gt;
+plantuml-mode &lt;RET&gt;
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org3f7e0ff" class="outline-4">
-<h4 id="org3f7e0ff">Emacs 主题(Themes)</h4>
-<div class="outline-text-4" id="text-org3f7e0ff">
-<pre class="example">
-.el
-~/.emacs.d/
-
-</pre>
+<div id="outline-container-org558ee2c" class="outline-4">
+<h4 id="org558ee2c">安装主题(Themes)</h4>
+<div class="outline-text-4" id="text-org558ee2c">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org4258ba5">//&#28155;&#21152;&#21040;.emacs&#25991;&#20214;
+<pre class="src src-emacs-lisp" id="org79d87a1">// &#23558;&#28155;&#21152;&#21040; ~/.emacs &#25110; ~/.emacs.d/init.el &#25991;&#20214;
 (add-to-list 'load-path <span style="color: #8b2252;">"~/.emacs.d/lisp/"</span>)
-(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">pluginname</span>)
+(<span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">plugin-name</span>)
 </pre>
 </div>
 </div>
@@ -1159,12 +1177,16 @@ M+x package-install RET
 <div id="outline-container-org5cc13bf" class="outline-2">
 <h2 id="org5cc13bf">org-mode</h2>
 <div class="outline-text-2" id="text-org5cc13bf">
-</div>
-<div id="outline-container-org11b8cac" class="outline-3">
-<h3 id="org11b8cac">org-mode 快捷键(Keyboard)</h3>
-<div class="outline-text-3" id="text-org11b8cac">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<pre class="example">
+Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
 
+</pre>
+</div>
+<div id="outline-container-orge5ebb99" class="outline-3">
+<h3 id="orge5ebb99">常用快捷键(Keyboard)</h3>
+<div class="outline-text-3" id="text-orge5ebb99">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> org-mode keyboard</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1246,39 +1268,647 @@ M+x package-install RET
 </table>
 </div>
 </div>
-<div id="outline-container-org97747ed" class="outline-3">
-<h3 id="org97747ed">Tables</h3>
+<div id="outline-container-orge24b7b7" class="outline-3">
+<h3 id="orge24b7b7">基本语法</h3>
+<div class="outline-text-3" id="text-orge24b7b7">
 </div>
-<div id="outline-container-orgfd7c030" class="outline-3">
-<h3 id="orgfd7c030">Working with Source Code</h3>
-<div class="outline-text-3" id="text-orgfd7c030">
+<div id="outline-container-org2778b2b" class="outline-4">
+<h4 id="org2778b2b">标题(Title)</h4>
+<div class="outline-text-4" id="text-org2778b2b">
+<pre class="example">
+#+TITLE: GNU Emacs
+
+</pre>
 </div>
-<div id="outline-container-org8fbbedb" class="outline-4">
-<h4 id="org8fbbedb">Structure of Code Blocks</h4>
-<div class="outline-text-4" id="text-org8fbbedb">
+</div>
+<div id="outline-container-org526e732" class="outline-4">
+<h4 id="org526e732">字体(Font)</h4>
+<div class="outline-text-4" id="text-org526e732">
+<p>
+<b>粗体</b>
+<i>斜体</i>
+<del>删除线</del>
+<span class="underline">下划线</span>
+下标：H_2 O(这里必须留一个空格要不然2和O都成为小标，目前还不知道怎么去掉空格)
+上标：E=mc^2
+等宽字： <code>git</code>
+</p>
+</div>
+</div>
+<div id="outline-container-org51eb1c7" class="outline-4">
+<h4 id="org51eb1c7">段落(paragraph)</h4>
+<div class="outline-text-4" id="text-org51eb1c7">
+<pre class="example">
+使用 \\ 换行
+空一行代表重新起段落
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org9a2ee90" class="outline-4">
+<h4 id="org9a2ee90">列表(List)</h4>
+<div class="outline-text-4" id="text-org9a2ee90">
+<ol class="org-ol">
+<li>有序列表
+<ul class="org-ul">
+<li>无序列表以'-'、'+'或者'*'开头</li>
+<li>有序列表以'1.'或者'1)'开头</li>
+<li>描述列表用'::'</li>
+</ul></li>
+<li>注意事项
+<ul class="org-ul">
+<li>列表符号后面都要有空格</li>
+<li>同级别的列表缩进要相同</li>
+<li>如果想要加入同级别的列表，可以 M-RET</li>
+<li>空两行之后列表结束，如果空一行执行M-RET，实际上还是输入同级项</li>
+</ul></li>
+<li><p>
+列表相关快捷键
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> 折叠</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">S-TAB</td>
+<td class="org-left">循环切换整个文档的大纲状态（折叠、打开下一级、打开全部）</td>
+</tr>
+
+<tr>
+<td class="org-left">TAB</td>
+<td class="org-left">循环切换光标所在的大纲状态</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 3:</span> 大纲或者列表之间移动</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-c C-n/p</td>
+<td class="org-left">移动到下上一个标题（不断标题是哪一级）</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-f/b</td>
+<td class="org-left">移动到同一级别的下/上标题</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-u</td>
+<td class="org-left">跳到上一级标题</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-j</td>
+<td class="org-left">切换到大纲预览状态</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 4:</span> 基于大纲/标题的编辑</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">M-RET</td>
+<td class="org-left">插入一个同级别的标题</td>
+</tr>
+
+<tr>
+<td class="org-left">M-S-RET</td>
+<td class="org-left">插入一个同级别的TODO标题</td>
+</tr>
+
+<tr>
+<td class="org-left">M-LEFT/RIGHT</td>
+<td class="org-left">将当前标题升/降级</td>
+</tr>
+
+<tr>
+<td class="org-left">M-S-LEFT/RIGHT</td>
+<td class="org-left">将子树升/降级</td>
+</tr>
+
+<tr>
+<td class="org-left">M-S-UP/DOWN</td>
+<td class="org-left">将子树上/下移动</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c *</td>
+<td class="org-left">将本行设为标题或者正文</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-w</td>
+<td class="org-left">将子树或者区域移动到另一个标题处（跨缓冲区）</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-x b</td>
+<td class="org-left">在新缓冲区显示当前分支</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c /</td>
+<td class="org-left">只列出包含搜索结果的大纲，并高亮，支持多种搜索方式</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc8f7c1d" class="outline-4">
+<h4 id="orgc8f7c1d">嵌入元数据</h4>
+<div class="outline-text-4" id="text-orgc8f7c1d">
+</div>
+<ul class="org-ul">
+<li><a id="orgff8968a"></a>内容元数据<br />
+<div class="outline-text-5" id="text-orgff8968a">
+<ol class="org-ol">
+<li><p>
+代码
+</p>
+<pre class="example">
+#+begin_src c -n -t -h 7 -w 40
+...
+#+end_src
+c 为所添加的语言
+-n 显示行号
+-t 清除格式
+-h 7 设置高度为7
+-w 40设置宽度为40
+
+</pre></li>
+<li><p>
+注释
+</p>
+<pre class="example">
+#+BEGIN_COMMENT
+块注释
+...
+#+END_COMMENT
+
+</pre></li>
+<li><p>
+表格与图片
+</p>
+<pre class="example">
+#+CAPTION: This is the caption for the next table (or link)
+则在需要的地方可以通过 \ref{table1} 来引用该表格。
+
+</pre></li>
+<li><p>
+嵌入HTML
+</p>
+<pre class="example">
+#+BEGIN_EXPORT html
+All lines between these markers are exported literally
+#+END_EXPORT
+
+</pre></li>
+<li><p>
+包含文件
+</p>
+<pre class="example">
+#+INCLUDE: "~/.emacs" src emacs-lisp
+
+</pre></li>
+</ol>
+</div>
+</li>
+<li><a id="orgacac013"></a>文档元数据<br />
+<div class="outline-text-5" id="text-orgacac013">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 5:</span> 文档元数据</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">H:</td>
+<td class="org-left">标题层数</td>
+</tr>
+
+<tr>
+<td class="org-left">num:</td>
+<td class="org-left">章节(标题)是否自动编号</td>
+</tr>
+
+<tr>
+<td class="org-left">toc:</td>
+<td class="org-left">是否生成索引</td>
+</tr>
+
+<tr>
+<td class="org-left">creator:</td>
+<td class="org-left">是否生成 "creat by emacs…"</td>
+</tr>
+
+<tr>
+<td class="org-left">LINKUP:</td>
+<td class="org-left">UP: 链接</td>
+</tr>
+
+<tr>
+<td class="org-left">LINKHOME:</td>
+<td class="org-left">HEME: 链接</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orgc1c82d7" class="outline-4">
+<h4 id="orgc1c82d7">表格(Table)</h4>
+<div class="outline-text-4" id="text-orgc1c82d7">
+<ol class="org-ol">
+<li><p>
+快捷键
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 6:</span> 整体区域</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">操作</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-c 竖线</td>
+<td class="org-left">创建或者转化成表格</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-c</td>
+<td class="org-left">调整表格，不移动光标</td>
+</tr>
+
+<tr>
+<td class="org-left">TAB</td>
+<td class="org-left">移动到下一区域，必要时新建一行</td>
+</tr>
+
+<tr>
+<td class="org-left">S-TAB</td>
+<td class="org-left">移动到上一区域</td>
+</tr>
+
+<tr>
+<td class="org-left">RET</td>
+<td class="org-left">移动到下一行，必要时新建一行</td>
+</tr>
+</tbody>
+</table>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 7:</span> 编辑行和列</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">M-LEFT/RIGHT</td>
+<td class="org-left">移动列</td>
+</tr>
+
+<tr>
+<td class="org-left">M-UP/DOWN</td>
+<td class="org-left">移动行</td>
+</tr>
+
+<tr>
+<td class="org-left">M-S-LEFT/RIGHT</td>
+<td class="org-left">删除/插入列</td>
+</tr>
+
+<tr>
+<td class="org-left">M-S-UP/DOWN</td>
+<td class="org-left">删除/插入行</td>
+</tr>
+
+<tr>
+<td class="org-left">C-m</td>
+<td class="org-left">移动到下一行，或新建一行</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c -</td>
+<td class="org-left">添加水平分割线</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c RET</td>
+<td class="org-left">添加水平分割线并跳到下一行</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c ^</td>
+<td class="org-left">根据当前列排序，可以选择排序方式</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c `</td>
+<td class="org-left">编辑当前单元格</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-x C-w</td>
+<td class="org-left">剪切某个区域的表格内容</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c C-x C-y</td>
+<td class="org-left">拷贝复制的内容到表格</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+表格计算
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 8:</span> 一张价格表，要求算出总额</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">数量</th>
+<th scope="col" class="org-right">单价</th>
+<th scope="col" class="org-right">总额</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">3.45</td>
+<td class="org-right">6.9</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">4.34</td>
+<td class="org-right">17.36</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">3.44</td>
+<td class="org-right">17.2</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">5.6</td>
+<td class="org-right">28.</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+’C-u C-c C-c’强制org mode为整个表格进行计。只希望在某一特定项上进行计算，输入：':=$1*$2′, 即在等号前再加一个冒号。
+
+</pre></li>
+<li></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org86c3ce1" class="outline-4">
+<h4 id="org86c3ce1">链接(Link)</h4>
+<div class="outline-text-4" id="text-org86c3ce1">
+<pre class="example">
+在一个链接上按C-c C-o即可访问。
+
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="orgea59547"></a>自动链接<br />
+<div class="outline-text-5" id="text-orgea59547">
+<pre class="example">
+对于符合链接规则的内容，org-mode会自动将其视为链接，包括括文件、网页、邮箱、新闻组、BBDB 数据库项、 IRC 会话和记录等。
+
+</pre>
+</div>
+</li>
+<li><a id="org207cad0"></a>手动链接<br />
+<div class="outline-text-5" id="text-org207cad0">
+<pre class="example">
+[[link][description]]
+[[link]]
+
+</pre>
+</div>
+</li>
+<li><a id="orgfd9a373"></a>内部链接<br />
+<div class="outline-text-5" id="text-orgfd9a373">
+<pre class="example">
+#&lt;&lt;target&gt;&gt;
+设置到target的链接：[[target]] 或 [[target][猛击锚点]]
+
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orga7dcd32" class="outline-4">
+<h4 id="orga7dcd32">注脚</h4>
+<div class="outline-text-4" id="text-orga7dcd32">
+<pre class="example">
+注脚的格式有两种，一是方括号+数字，二是方括号+fn+名字。
+插入脚注：C-c C-x f ，接下俩你可以写一些其他东西，然后在文章的末尾写上下面两句话（注意：必须要顶格写）：
+[1] The link is: http://orgmode.org
+[fn:orghome] The link is: http://orgmode.org
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org8faf72b" class="outline-4">
+<h4 id="org8faf72b">分割线</h4>
+<div class="outline-text-4" id="text-org8faf72b">
+<pre class="example">
+五条短线或以上
+
+</pre>
+<hr />
+</div>
+</div>
+<div id="outline-container-org91ce095" class="outline-4">
+<h4 id="org91ce095">标签(Tag)</h4>
+<div class="outline-text-4" id="text-org91ce095">
+</div>
+<ul class="org-ul">
+<li><a id="orgb8211fd"></a>标记tags<br />
+<div class="outline-text-5" id="text-orgb8211fd">
+<pre class="example">
+#+FILETAGS: :Peter:Boss:Secret:
+// 更方便的做法是在正文部分用C-c C-q 或直接在标题上用C-c C-c创建标签
+
+</pre>
+</div>
+</li>
+<li><a id="orgb83039d"></a>预定义tags<br />
+<div class="outline-text-5" id="text-orgb83039d">
+<ul class="org-ul">
+<li>预定义的方式有两种：
+<ul class="org-ul">
+<li><p>
+在当前文件头部定义这种方式预定义的标签只能在当前文件中使用。使用#+TAGS元数据进行标记，:: 
+</p>
+<pre class="example">
+#+TAGS: { 桌面(d) 服务器(s) }  编辑器(e) 浏览器(f) 多媒体(m) 压缩(z)
+每项之间必须用空格分隔，可以在括号中定义一个快捷键；
+花括号里的为标签组，只能选择一个对标签定义进行修改后，要在标签定义的位置按 C-c C-c 刷新才能生效。
+
+</pre></li>
+<li><p>
+在配置文件中定义
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org1a07739">(<span style="color: #a020f0;">setq</span> org-tag-alist '((<span style="color: #483d8b;">:startgroup</span> . nil)
+    (<span style="color: #8b2252;">"@work . ?w) ("</span>@home<span style="color: #8b2252;">" . ?h)</span>
+<span style="color: #8b2252;">    ("</span>@tennisclub<span style="color: #8b2252;">" . ?t)</span>
+<span style="color: #8b2252;">    (:endgroup . nil)</span>
+<span style="color: #8b2252;">    ("</span>laptop<span style="color: #8b2252;">" . ?l) ("</span>pc<span style="color: #8b2252;">" . ?p)))</span>
+</pre>
+</div>
+<pre class="example">
+默认情况下，org会动态维护一个Tag列表，即当前输入的标签若不在列表中，则自动加入列表以供下次补齐使用。
+为了使这几种情况（默认列表、文件预设tags，全局预设tags）同时生效，需要在文件中增加一个空的TAGS定义：#+TAGS:
+
+</pre></li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="orgd544e9d"></a>tags查询<br />
+<div class="outline-text-5" id="text-orgd544e9d">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 9:</span> tags查询快捷键</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-c \</td>
+<td class="org-left">可以用来查找某个tag下的所有项目</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c / m</td>
+<td class="org-left">搜索并按树状结构显示</td>
+</tr>
+
+<tr>
+<td class="org-left">C-c a m</td>
+<td class="org-left">从所有agenda file里建立符合某tag的全局性列表</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
++   和      a+b   同时有这两个标签
+-   排除    a-b   有 a 但没有 b
+|   或      a|b   有 a 或者有 b
+&amp;   和      a&amp;b   同时有 a 和 b，可以用“+”替代
+
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orgfd7c030" class="outline-4">
+<h4 id="orgfd7c030">Working with Source Code</h4>
+<div class="outline-text-4" id="text-orgfd7c030">
+</div>
+<ul class="org-ul">
+<li><a id="org8fbbedb"></a>Structure of Code Blocks<br />
+<div class="outline-text-5" id="text-org8fbbedb">
 <pre class="example">
 #+NAME:&lt;name&gt;
 #+BEGIN_SRC &lt;language&gt; &lt;switches&gt; &lt;header arguments&gt;
 &lt;body&gt;
 
 </pre>
-<p>
-'#+NAME:&lt;name&gt;': Optional. Names the source block so it can be called, like a function, from other source blocks or inline code to evaluate or to capture the results. 
-'#+BEGIN_SRC'&#x2026;'#+END_SRC': Mandatory. They mark the start and end of a block that Org requires.
-'&lt;language&gt;': Mandatory. It is the identifier of the source code language in the block. See <a href="https://orgmode.org/org.html#Languages">Languages</a>
-'&lt;switches&gt;': Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in <a href="https://orgmode.org/org.html#Literal-Examples">Literal Examples</a>).
-'&lt;header arguments&gt;': Optional. Heading arguments control many aspects of evaluation, export and tangling of code blocks(see <a href="https://orgmode.org/org.html#Using-Header-Arguments">Using Header Arguments</a>).
-'&lt;body&gt;': Source code in the dialect of the specified language identifier.
-</p>
+<dl class="org-dl">
+<dt>'#+NAME:&lt;name&gt;'</dt><dd>Optional. Names the source block so it can be called, like a function, from other source blocks or inline code to evaluate or to capture the results.</dd>
+<dt>'#+BEGIN_SRC'&#x2026;'#+END_SRC'</dt><dd>Mandatory. They mark the start and end of a block that Org requires.</dd>
+<dt>'&lt;language&gt;'</dt><dd>Mandatory. It is the identifier of the source code language in the block. See <a href="https://orgmode.org/org.html#Languages">Languages</a></dd>
+<dt>'&lt;switches&gt;'</dt><dd>Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in <a href="https://orgmode.org/org.html#Literal-Examples">Literal Examples</a>).</dd>
+<dt>'&lt;header arguments&gt;'</dt><dd>Optional. Heading arguments control many aspects of evaluation, export and tangling of code blocks(see <a href="https://orgmode.org/org.html#Using-Header-Arguments">Using Header Arguments</a>).</dd>
+<dt>'&lt;body&gt;'</dt><dd>Source code in the dialect of the specified language identifier.</dd>
+</dl>
 <pre class="example">
 more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
 
 </pre>
 </div>
-</div>
-<div id="outline-container-orge9f7a91" class="outline-4">
-<h4 id="orge9f7a91">Literal Examples</h4>
-<div class="outline-text-4" id="text-orge9f7a91">
+</li>
+<li><a id="orge9f7a91"></a>Literal Examples<br />
+<div class="outline-text-5" id="text-orge9f7a91">
 <pre class="example">
 #+BEGIN_SRC emacs-lisp -n 1 -r -l "((%s))"
 (save-excursion                 (ref:sc)
@@ -1289,10 +1919,10 @@ jumps to point-min.
 
 </pre>
 <p>
--n or +n, to get the lines of the example numbered.
--r, switch which removes the labels from the source code. With the ‘-n’ switch, links to these references are labeled by the line numbers from the code liing.
--i, to preserve the indentation of a specific code block(see <a href="https://orgmode.org/org.html#Editing-Source-Code">Editing Source Code</a>).
--l, to change the format. See also the variable org-coderef-label-format.
+-n or +n, to get the lines of the example numbered.<br />
+-r, switch which removes the labels from the source code. With the ‘-n’ switch, links to these references are labeled by the line numbers from the code liing.<br />
+-i, to preserve the indentation of a specific code block(see <a href="https://orgmode.org/org.html#Editing-Source-Code">Editing Source Code</a>).<br />
+-l, to change the format. See also the variable org-coderef-label-format.<br />
 </p>
 
 <pre class="example">
@@ -1302,16 +1932,13 @@ jumps to point-min.
  "Exclusive or."
  (if a (not b) b))
 #+END_EXAMPLE
+HTML export also allows examples to be published as text areas (see [[https://orgmode.org/org.html#Text-areas-in-HTML-export][Text areas in HTML export]]).
 
 </pre>
-<p>
-HTML export also allows examples to be published as text areas (see <a href="https://orgmode.org/org.html#Text-areas-in-HTML-export">Text areas in HTML export</a>).
-</p>
 </div>
-</div>
-<div id="outline-container-org55fdc1f" class="outline-4">
-<h4 id="org55fdc1f">Environment of a Code Block</h4>
-<div class="outline-text-4" id="text-org55fdc1f">
+</li>
+<li><a id="org55fdc1f"></a>Environment of a Code Block<br />
+<div class="outline-text-5" id="text-org55fdc1f">
 <pre class="example">
 1) Passing arguments
 #+NAME: with-rownames
@@ -1352,10 +1979,9 @@ For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org8146c08" class="outline-4">
-<h4 id="org8146c08">Evaluating Code Blocks</h4>
-<div class="outline-text-4" id="text-org8146c08">
+</li>
+<li><a id="org8146c08"></a>Evaluating Code Blocks<br />
+<div class="outline-text-5" id="text-org8146c08">
 <pre class="example">
 1. How to evaluate source code
 
@@ -1372,14 +1998,11 @@ For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for
 
 </pre>
 </div>
-</div>
+</li>
 
-<div id="outline-container-org9c3d82c" class="outline-4">
-<h4 id="org9c3d82c">Results of Evaluation</h4>
-</div>
-<div id="outline-container-org6813fca" class="outline-4">
-<h4 id="org6813fca">Exporting Code Blocks</h4>
-<div class="outline-text-4" id="text-org6813fca">
+<li><a id="org9c3d82c"></a>Results of Evaluation<br /></li>
+<li><a id="org6813fca"></a>Exporting Code Blocks<br />
+<div class="outline-text-5" id="text-org6813fca">
 <ul class="org-ul">
 <li>‘code’</li>
 </ul>
@@ -1408,10 +2031,9 @@ Both the code and results of evaluation are included in the exported file. Examp
 Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
 </p>
 </div>
-</div>
-<div id="outline-container-org2dc3d49" class="outline-4">
-<h4 id="org2dc3d49">Extracting Source Code</h4>
-<div class="outline-text-4" id="text-org2dc3d49">
+</li>
+<li><a id="org2dc3d49"></a>Extracting Source Code<br />
+<div class="outline-text-5" id="text-org2dc3d49">
 <pre class="example">
 Create pure source code files.
 
@@ -1430,10 +2052,9 @@ more info.：https://orgmode.org/org.html#Extracting-Source-Code
 
 </pre>
 </div>
-</div>
-<div id="outline-container-orge16e2a4" class="outline-4">
-<h4 id="orge16e2a4">Noweb Reference Syntax</h4>
-<div class="outline-text-4" id="text-orge16e2a4">
+</li>
+<li><a id="orge16e2a4"></a>Noweb Reference Syntax<br />
+<div class="outline-text-5" id="text-orge16e2a4">
 <pre class="example">
 Literate programming in Org mode.
 
@@ -1444,6 +2065,8 @@ more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
 
 </pre>
 </div>
+</li>
+</ul>
 </div>
 </div>
 <div id="outline-container-orga48e49e" class="outline-3">
@@ -1479,22 +2102,20 @@ PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例
 <div id="outline-container-org2fef480" class="outline-4">
 <h4 id="org2fef480">配置 Emacs 支持 PlantUML</h4>
 <div class="outline-text-4" id="text-org2fef480">
-<pre class="example">
-1. 下载 plantuml.jar 到你的硬盘上
-
-</pre>
-<p>
-<a href="http://www.plantuml.com/download.html">官网下载页面</a>
+<ol class="org-ol">
+<li>下载 plantuml.jar 到你的硬盘上
+<a href="http://www.plantuml.com/download.html">官网下载页面</a></li>
+<li><p>
+安装生成图片用的软件：Graphviz
 </p>
-
 <pre class="example">
-2. 安装生成图片用的软件：Graphviz
 $ sudo apt install graphviz
 
-</pre>
-
+</pre></li>
+<li><p>
+配置 Emacs 支持 PlantUML
+</p>
 <pre class="example">
-3. 配置 Emacs 支持 PlantUML
 首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
 其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
 
@@ -1502,9 +2123,10 @@ $ sudo apt install graphviz
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">Load plantuml</span>
 <span class="linenr">2: </span>(<span style="color: #a020f0;">setq</span> org-plantuml-jar-path
-<span class="linenr">3: </span>      (expand-file-name <span style="color: #8b2252;">"~/.emacs.d/plantuml/plantuml.jar"</span>))
+<span class="linenr">3: </span>(expand-file-name <span style="color: #8b2252;">"~/.emacs.d/plantuml/plantuml.jar"</span>))
 </pre>
 </div>
+
 <pre class="example">
 最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
 
@@ -1512,31 +2134,47 @@ $ sudo apt install graphviz
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span class="linenr">1: </span><span style="color: #b22222;">;; </span><span style="color: #b22222;">active Org-babel languages</span>
 <span class="linenr">2: </span>(org-babel-do-load-languages
-<span class="linenr">3: </span> 'org-babel-load-languages
-<span class="linenr">4: </span> '(<span style="color: #b22222;">;; </span><span style="color: #b22222;">other Babel languages</span>
-<span class="linenr">5: </span>   (plantuml . t))) <span style="color: #b22222;">;; </span><span style="color: #b22222;">add this line</span>
+<span class="linenr">3: </span>'org-babel-load-languages
+<span class="linenr">4: </span>'(<span style="color: #b22222;">;; </span><span style="color: #b22222;">other Babel languages</span>
+<span class="linenr">5: </span>(plantuml . t))) <span style="color: #b22222;">;; </span><span style="color: #b22222;">add this line</span>
 </pre>
+</div></li>
+<li><p>
+PlantUML mode for Emacs
+</p>
+<pre class="example">
+M-x package-install &lt;RET&gt;
+plantuml-mode &lt;RET&gt;
+
+</pre>
+
+<pre class="example">
+M-x customize-variable &lt;RET&gt;
+plantuml-jar-path &lt;RET&gt;
+
+</pre></li>
+</ol>
 </div>
 </div>
-</div>
-<div id="outline-container-org31e9992" class="outline-4">
-<h4 id="org31e9992">PlantUML 的使用</h4>
-<div class="outline-text-4" id="text-org31e9992">
+<div id="outline-container-orge94db4f" class="outline-4">
+<h4 id="orge94db4f">PlantUML 使用</h4>
+<div class="outline-text-4" id="text-orge94db4f">
 </div>
 <ul class="org-ul">
 <li><a id="org0087ab6"></a>顺序图(Sequence Diagram)<br />
 <div class="outline-text-5" id="text-org0087ab6">
-<pre class="example">
-顺序图用 -&gt; , --&gt;, &lt;-, &lt;-- 来绘制参与者（Participants）之 间的消息（Message）。
-
-</pre>
+<ol class="org-ol">
+<li><p>
+简单示例
+顺序图用 -&gt; , &#x2013;&gt;, &lt;-, &lt;&#x2013; 来绘制参与者（Participants）之 间的消息（Message）。
+</p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> http://localhost:4000/assets/images/plantuml-quickstart-s1.png
-  Alice -&gt; Bob: Authentication Request
-  Bob --&gt; Alice: Authentication Response
+Alice -&gt; Bob: Authentication Request
+Bob --&gt; Alice: Authentication Response
 
-  Alice -&gt; Bob: Another atuhentication Request
-  Alice &lt;-- Bob: Another authentication Response
+Alice -&gt; Bob: Another atuhentication Request
+Alice &lt;-- Bob: Another authentication Response
 </pre>
 </div>
 
@@ -1544,14 +2182,210 @@ $ sudo apt install graphviz
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s1.png" alt="plantuml-quickstart-s1.png" />
 </p>
+</div></li>
+<li><p>
+注释
+</p>
+<pre class="example">
+使用  ' 进行单行/多行注释
+
+</pre></li>
+<li><p>
+申明参与者
+</p>
+<pre class="example">
+使用 participant 关键词，也可以使用下面的参与者 分类关键词来申明参与者：
+
+</pre>
+<ul class="org-ul">
+<li>actor</li>
+<li>boundary</li>
+<li>control</li>
+<li>entity</li>
+<li>database</li>
+</ul>
+<pre class="example">
+不同的参与者类型，其图标也是不一样的：
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s2.png" alt="plantuml-quickstart-s2.png" />
+</p>
 </div>
+
+<pre class="example">
+使用 as 关键词可以为参与者起一个别名(显示申明)
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s3.png" alt="plantuml-quickstart-s3.png" />
+</p>
+</div>
+
+<pre class="example">
+采用引号来申明参与者(隐示申明)
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s4.png" alt="plantuml-quickstart-s4.png" />
+</p>
+</div></li>
+<li><p>
+发送消息给自己(Message to Self)
+</p>
+<pre class="example">
+一个参与者可以给自己发送消息，消息名如果需要有多行文本，可以用 \n 来表示换行。
+
+</pre>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s5.png" alt="plantuml-quickstart-s5.png" />
+</p>
+</div></li>
+<li>改变箭头(Arrow)
+<ul class="org-ul">
+<li><p>
+样式(Style)
+</p>
+<pre class="example">
+在用例图里可以通过以下方式来改变箭头的样式：
+
+</pre>
+<ul class="org-ul">
+<li>使用 \ 或 / 来替换 &lt; 或 &gt; 可以让箭头只显示上半部分或下半 部分。</li>
+<li>重复输入箭头或斜杠（ &gt;&gt; // ），用来绘制空心箭头。</li>
+<li>使用双横线 &#x2013; 替代 - 可以用来绘制点线。</li>
+<li>在箭头后面加个 o 可以在箭头前绘制一个圆圈。</li>
+<li>使用 &lt;-&gt; 可用来绘制双向箭头。</li>
+</ul>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s6.png" alt="plantuml-quickstart-s6.png" />
+</p>
+</div></li>
+<li><p>
+颜色(Color)
+要改变箭头的颜色，可以使用HTML颜色符号
+</p>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/plantuml-quickstart-s7.png" alt="plantuml-quickstart-s7.png" />
+</p>
+</div></li>
+</ul></li>
+<li><p>
+消息序号(Message sequence numbering)
+</p>
+<pre class="example">
+使用关键词 autonumber 给自动的给消息添加上序号。
+
+</pre></li>
+<li><p>
+标题(Title)
+</p>
+<pre class="example">
+要给图形加一个标题可以用 title 关键词来设置。
+
+</pre></li>
+<li><p>
+图形图例(Legend the diagram)
+</p>
+<pre class="example">
+使用 legend 和 end legend 关键词可以设置图形的图例。图例可以设 为左对齐、右对齐和居中对齐。
+
+</pre></li>
+<li><p>
+分割图形(Splitting diagrams)
+</p>
+<pre class="example">
+关键词 newpage 是用来把图形分割成几个图片的。每一个被分割出来的 图片可以看作是一个新的页面（ new page ），如果要给新的页面添加一 个标题，可以紧跟在关键词 newpage 之后来设置。
+
+</pre></li>
+<li>消息(Message)
+<ul class="org-ul">
+<li>分组(Grouping)</li>
+<li>注解(Notes)</li>
+<li>一些其他的注解方式(Some other notes)</li>
+</ul></li>
+<li>使用HTML进行格式化(Formatting using HTML)</li>
+</ol>
 </div>
 </li>
-
-<li><a id="org42ebb0c"></a>用例图(Use Case Diagram)<br /></li>
-<li><a id="org22b6b0c"></a>类图(Class Diagram)<br /></li>
-<li><a id="org12b4c66"></a>活动图(Activity Diagram)<br /></li>
+<li><a id="org42ebb0c"></a>用例图(Use Case Diagram)<br />
+<div class="outline-text-5" id="text-org42ebb0c">
+<ol class="org-ol">
+<li>用例(Usecase)</li>
+<li>参与者(Actors)</li>
+<li>示例</li>
+</ol>
+</div>
+</li>
+<li><a id="org22b6b0c"></a>类图(Class Diagram)<br />
+<div class="outline-text-5" id="text-org22b6b0c">
+<ul class="org-ul">
+<li>示例1</li>
 </ul>
+</div>
+</li>
+<li><a id="org12b4c66"></a>活动图(Activity Diagram)<br />
+<div class="outline-text-5" id="text-org12b4c66">
+<ol class="org-ol">
+<li>简单活动(Simple Activity)</li>
+<li>带标注的箭头(Label on arrows)</li>
+<li>改变箭头的方向(Changing arrow direction)</li>
+<li>分支(Branches)</li>
+<li>多分支(More on Branches)</li>
+<li>同步块(Synchronization)</li>
+<li>长文本的活动描述(Long activity description)</li>
+<li>注释(Notes)</li>
+<li>分区(Partition)</li>
+<li>图形标题(Title the diagram)</li>
+<li>皮肤(Skinparam)</li>
+<li>完整示例(Complete Example)</li>
+</ol>
+</div>
+</li>
+<li><a id="org2dd8031"></a>活动图Beta版本<br /></li>
+</ul>
+</div>
+<div id="outline-container-orgd1b57ce" class="outline-4">
+<h4 id="orgd1b57ce">快捷键(Keyboard)</h4>
+<div class="outline-text-4" id="text-orgd1b57ce">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 10:</span> Default key bindings</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">快捷键</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C-c C-c</td>
+<td class="org-left">plantuml-preview: renders a PlantUML diagram from the current buffer in the best supported format</td>
+</tr>
+
+<tr>
+<td class="org-left">C-u C-c C-c</td>
+<td class="org-left">plantuml-preview in other window</td>
+</tr>
+
+<tr>
+<td class="org-left">C-u C-u C-c C-c</td>
+<td class="org-left">plantuml-preview in other frame</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -1588,6 +2422,9 @@ LC_CTYPE="zh_CN.utf8"
 <li><a href="http://plantuml.com/">PlantUML Official Site</a></li>
 <li><a href="http://nasseralkmim.github.io/notes/2016/08/14/using-dot-to-make-diagrams-in-org-mode/">Using plantuml to make diagrams in org-mode</a></li>
 <li><a href="http://blog.3zso.com/archives/plantuml-quickstart.html">使用Emacs敲出UML，PlantUML快速指南</a></li>
+<li><a href="http://www.zmonster.me/2016/06/03/org-mode-table.html">强大的 Org mode</a></li>
+<li><a href="https://github.com/skuro/plantuml-mode">github plantuml-mode</a></li>
+<li><a href="https://www.cnblogs.com/bamanzi/p/org-mode-tips.html">org-mode的一些小技巧</a></li>
 </ul>
 </div>
 </div>
@@ -1827,7 +2664,7 @@ LC_CTYPE="zh_CN.utf8"
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd3d95f"> <span class="nav-number">1</span> <span class="nav-text">简介(Introduction)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb243a96"> <span class="nav-number">2</span> <span class="nav-text">快捷键(Keyboard)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org10ef953"> <span class="nav-number">2.1</span> <span class="nav-text">Open Emacs by command line.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2c9631"> <span class="nav-number">2.2</span> <span class="nav-text">Don't know how to use emacs?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaa2c0"> <span class="nav-number">2.2.1</span> <span class="nav-text">缺省按键前缀(Default Prefix)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org66e9757"> <span class="nav-number">2.2.2</span> <span class="nav-text">常用的快捷键(General Keyboard)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d29cd2"> <span class="nav-number">2.2.3</span> <span class="nav-text">基本文件操作(File)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfaaf568"> <span class="nav-number">2.2.4</span> <span class="nav-text">光标移动(Move)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe6d70c"> <span class="nav-number">2.2.5</span> <span class="nav-text">文本编辑(Text Edit)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51bbfe"> <span class="nav-number">2.2.6</span> <span class="nav-text">搜索(search)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6283acd"> <span class="nav-number">2.2.7</span> <span class="nav-text">窗口命令(Window)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee8aa9"> <span class="nav-number">2.2.8</span> <span class="nav-text">帮助(Help)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5232a12"> <span class="nav-number">3</span> <span class="nav-text">自定义(Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8694044"> <span class="nav-number">3.1</span> <span class="nav-text">Emacs 基础定制(Basic Custom)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbda0f95"> <span class="nav-number">3.2</span> <span class="nav-text">自定义高级配置(Advanced Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf6d061a"> <span class="nav-number">3.2.1</span> <span class="nav-text">安装 Emacs 插件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3f7e0ff"> <span class="nav-number">3.2.2</span> <span class="nav-text">Emacs 主题(Themes)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5cc13bf"> <span class="nav-number">4</span> <span class="nav-text">org-mode</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11b8cac"> <span class="nav-number">4.1</span> <span class="nav-text">org-mode 快捷键(Keyboard)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org97747ed"> <span class="nav-number">4.2</span> <span class="nav-text">Tables</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd7c030"> <span class="nav-number">4.3</span> <span class="nav-text">Working with Source Code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fbbedb"> <span class="nav-number">4.3.1</span> <span class="nav-text">Structure of Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge9f7a91"> <span class="nav-number">4.3.2</span> <span class="nav-text">Literal Examples</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org55fdc1f"> <span class="nav-number">4.3.3</span> <span class="nav-text">Environment of a Code Block</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8146c08"> <span class="nav-number">4.3.4</span> <span class="nav-text">Evaluating Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9c3d82c"> <span class="nav-number">4.3.5</span> <span class="nav-text">Results of Evaluation</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6813fca"> <span class="nav-number">4.3.6</span> <span class="nav-text">Exporting Code Blocks</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2dc3d49"> <span class="nav-number">4.3.7</span> <span class="nav-text">Extracting Source Code</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge16e2a4"> <span class="nav-number">4.3.8</span> <span class="nav-text">Noweb Reference Syntax</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga48e49e"> <span class="nav-number">4.4</span> <span class="nav-text">PlantUML</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf5f259"> <span class="nav-number">4.4.1</span> <span class="nav-text">什么是 PlantUML?</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2fef480"> <span class="nav-number">4.4.2</span> <span class="nav-text">配置 Emacs 支持 PlantUML</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org31e9992"> <span class="nav-number">4.4.3</span> <span class="nav-text">PlantUML 的使用</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe1cb6f"> <span class="nav-number">5</span> <span class="nav-text">问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf9fff1c"> <span class="nav-number">5.1</span> <span class="nav-text">emacs不能输入中文</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org641fc2f"> <span class="nav-number">6</span> <span class="nav-text">References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd3d95f"> <span class="nav-number">1</span> <span class="nav-text">简介(Introduction)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd1a9914"> <span class="nav-number">2</span> <span class="nav-text">快捷键(Keyboard)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org10ef953"> <span class="nav-number">2.1</span> <span class="nav-text">Open Emacs by command line.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2c9631"> <span class="nav-number">2.2</span> <span class="nav-text">Don't know how to use emacs?</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaa2c0"> <span class="nav-number">2.2.1</span> <span class="nav-text">缺省按键前缀(Default Prefix)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org66e9757"> <span class="nav-number">2.2.2</span> <span class="nav-text">常用的快捷键(General Keyboard)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0d29cd2"> <span class="nav-number">2.2.3</span> <span class="nav-text">基本文件操作(File)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfaaf568"> <span class="nav-number">2.2.4</span> <span class="nav-text">光标移动(Move)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe6d70c"> <span class="nav-number">2.2.5</span> <span class="nav-text">文本编辑(Text Edit)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51bbfe"> <span class="nav-number">2.2.6</span> <span class="nav-text">搜索(search)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6283acd"> <span class="nav-number">2.2.7</span> <span class="nav-text">窗口命令(Window)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ee8aa9"> <span class="nav-number">2.2.8</span> <span class="nav-text">帮助(Help)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5232a12"> <span class="nav-number">3</span> <span class="nav-text">自定义(Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org28e3154"> <span class="nav-number">3.1</span> <span class="nav-text">基础定制(Basic Custom)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbda0f95"> <span class="nav-number">3.2</span> <span class="nav-text">自定义高级配置(Advanced Custom)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org02db4e3"> <span class="nav-number">3.2.1</span> <span class="nav-text">安装插件(plugin)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org558ee2c"> <span class="nav-number">3.2.2</span> <span class="nav-text">安装主题(Themes)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5cc13bf"> <span class="nav-number">4</span> <span class="nav-text">org-mode</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge5ebb99"> <span class="nav-number">4.1</span> <span class="nav-text">常用快捷键(Keyboard)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge24b7b7"> <span class="nav-number">4.2</span> <span class="nav-text">基本语法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2778b2b"> <span class="nav-number">4.2.1</span> <span class="nav-text">标题(Title)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org526e732"> <span class="nav-number">4.2.2</span> <span class="nav-text">字体(Font)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org51eb1c7"> <span class="nav-number">4.2.3</span> <span class="nav-text">段落(paragraph)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9a2ee90"> <span class="nav-number">4.2.4</span> <span class="nav-text">列表(List)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc8f7c1d"> <span class="nav-number">4.2.5</span> <span class="nav-text">嵌入元数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc1c82d7"> <span class="nav-number">4.2.6</span> <span class="nav-text">表格(Table)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86c3ce1"> <span class="nav-number">4.2.7</span> <span class="nav-text">链接(Link)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga7dcd32"> <span class="nav-number">4.2.8</span> <span class="nav-text">注脚</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8faf72b"> <span class="nav-number">4.2.9</span> <span class="nav-text">分割线</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org91ce095"> <span class="nav-number">4.2.10</span> <span class="nav-text">标签(Tag)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd7c030"> <span class="nav-number">4.2.11</span> <span class="nav-text">Working with Source Code</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga48e49e"> <span class="nav-number">4.3</span> <span class="nav-text">PlantUML</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf5f259"> <span class="nav-number">4.3.1</span> <span class="nav-text">什么是 PlantUML?</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2fef480"> <span class="nav-number">4.3.2</span> <span class="nav-text">配置 Emacs 支持 PlantUML</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge94db4f"> <span class="nav-number">4.3.3</span> <span class="nav-text">PlantUML 使用</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd1b57ce"> <span class="nav-number">4.3.4</span> <span class="nav-text">快捷键(Keyboard)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe1cb6f"> <span class="nav-number">5</span> <span class="nav-text">问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf9fff1c"> <span class="nav-number">5.1</span> <span class="nav-text">emacs不能输入中文</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org641fc2f"> <span class="nav-number">6</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             
