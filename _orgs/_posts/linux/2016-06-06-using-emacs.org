@@ -46,14 +46,17 @@ photos:
    : $ emacs -nw filename
 ** Don't know how to use emacs?
 *** 缺省按键前缀(Default Prefix)
-    | 按键前缀 | 描述                   |
-    |----------+------------------------|
-    | C        | Ctrl                   |
-    | M        | Alt                    |
-    | C-c      | 当前编辑模式特有的命令 |
-    | C-x      | 文件和缓冲区命令       |
-    | C-h      | 帮助命令               |
-    | M-x      | 函数名称               |
+    | 按键前缀           | 描述                   |
+    |--------------------+------------------------|
+    | C                  | Ctrl                   |
+    | M                  | Alt                    |
+    | S                  | Shift                  |
+    | RET                | Enter 回车键           |
+    | up/down/left/right | 上/下/左/右 方向键     |
+    | C-c                | 当前编辑模式特有的命令 |
+    | C-x                | 文件和缓冲区命令       |
+    | C-h                | 帮助命令               |
+    | M-x                | 函数名称               |
 *** 常用的快捷键(General Keyboard)
     | 快捷键   | 描述                                   | 快捷键  | 描述                       |
     |----------+----------------------------------------+---------+----------------------------|
@@ -147,48 +150,50 @@ photos:
     | C-h t    | 打开emacs教程                  |
     | M-x quit | 退出help                       |
 * 自定义(Custom)
-** Emacs 基础定制(Basic Custom)
-   #+NAME: .emacs
+** 基础定制(Basic Custom)
+   #+NAME:~/.emacs or ~/.emacs.d/init.el
    #+BEGIN_SRC emacs-lisp
-;; 显示行列号
-(setq column-number-mode t)
-(setq line-number-mode t)
-;; 设置标题栏
-(setq frame-title-format "Welcome to Emacs world! ")
-;; 禁用菜单栏；F10开启菜单栏
-(menu-bar-mode nil)
-;; 取消工具栏
-(tool-bar-mode nil)
-;; 取消滚动栏
-(set-scroll-bar-mode nil)
-;; 直接打开和显示图片
-(setq auto-image-file-mode t)
-;; 显示时间
-(display-time-mode t)
-;; 24小时制
-(setq display-time-24hr-format t)
-;; 设置F11最大化
-(global-set-key [f11] 'maximized)
-(defun maximized ()
-(interactive)
-(x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)) (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
- )
+   ;; 显示行列号
+   (setq column-number-mode t)
+   (setq line-number-mode t)
+   ;; 设置标题栏
+   (setq frame-title-format "Welcome to Emacs world! ")
+   ;; 禁用菜单栏；F10开启菜单栏
+   (menu-bar-mode nil)
+   ;; 取消工具栏
+   (tool-bar-mode nil)
+   ;; 取消滚动栏
+   (set-scroll-bar-mode nil)
+   ;; 直接打开和显示图片
+   (setq auto-image-file-mode t)
+   ;; 显示时间
+   (display-time-mode t)
+   ;; 24小时制
+   (setq display-time-24hr-format t)
+   ;; 设置F11最大化
+   (global-set-key [f11] 'maximized)
+   (defun maximized ()
+   (interactive)
+   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)) (x-send-client-message nil 0 nil "_NET_WM_STATE" 32 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+   )
    #+END_SRC
-   : 快速使用设置命令: M-x eval-buffer
+
+   快速设置生效命令: M-x eval-buffer
 ** 自定义高级配置(Advanced Custom)
-*** 安装 Emacs 插件
-: M+x package-install RET
-*** Emacs 主题(Themes)
-    : .el
-    : ~/.emacs.d/
-    #+NAME: 加载 ~/.emacs.d/lisp 目录
+*** 安装插件(plugin)
+    : // 示例安装 plantuml
+    : M+x package-install <RET>
+    : plantuml-mode <RET>
+*** 安装主题(Themes)
+    #+NAME: 加载 ~/.emacs.d/lisp/ 目录
     #+BEGIN_SRC emacs-lisp
-//添加到.emacs文件
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(require 'pluginname)
+    // 将添加到 ~/.emacs 或 ~/.emacs.d/init.el 文件
+    (add-to-list 'load-path "~/.emacs.d/lisp/")
+    (require 'plugin-name)
     #+END_SRC
 * org-mode
-** org-mode 快捷键(Keyboard)
+** 常用快捷键(Keyboard)
+   #+CAPTION:org-mode keyboard
    | 快捷键                                     | 描述                                                    |
    |--------------------------------------------+---------------------------------------------------------|
    | TAB  (org-cycle)                           | Cycle visibility. 循环切换光标所在大纲的状态            |
@@ -204,92 +209,253 @@ photos:
    | M-LEFT/RIGHT                               | 将当前标题升/降级                                       |
    | M-S-LEFT/RIGHT                             | 将子树升/降级                                           |
    | M-S-UP/DOWN                                | 将子树上/下移                                           |
-** Tables
+** 标题(Title)
+   : #+TITLE: GNU Emacs
+** 字体(Font)
+   *粗体*
+   /斜体/
+   +删除线+
+   _下划线_
+   下标：H_2 O(这里必须留一个空格要不然2和O都成为小标，目前还不知道怎么去掉空格)
+   上标：E=mc^2
+   等宽字： =git=
+** 列表(List)
+   1. 有序列表
+      + 无序列表以'-'、'+'或者'*'开头
+      + 有序列表以'1.'或者'1)'开头
+      + 描述列表用'::'
+   2. 注意事项
+      + 列表符号后面都要有空格
+      + 同级别的列表缩进要相同
+      + 如果想要加入同级别的列表，可以 M-RET
+      + 空两行之后列表结束，如果空一行执行M-RET，实际上还是输入同级项
+   3. 列表相关快捷键
+   	#+CAPTION:折叠
+   	| 快捷键	 | 说明                                                     |
+   	|----------------+----------------------------------------------------------|
+   	| S-TAB	  | 循环切换整个文档的大纲状态（折叠、打开下一级、打开全部） |
+   	| TAB	    | 循环切换光标所在的大纲状态                               |
+   	#+CAPTION:大纲或者列表之间移动
+   	| 快捷键    | 说明                                   |
+   	|-----------+----------------------------------------|
+   	| C-c C-n/p | 移动到下上一个标题（不断标题是哪一级） |
+   	| C-c C-f/b | 移动到同一级别的下/上标题              |
+   	| C-c C-u   | 跳到上一级标题                         |
+   	| C-c C-j   | 切换到大纲预览状态                     |
+   	#+CAPTION:基于大纲/标题的编辑
+	| 快捷键         | 说明                                               |
+	|----------------+----------------------------------------------------|
+	| M-RET          | 插入一个同级别的标题                               |
+	| M-S-RET        | 插入一个同级别的TODO标题                           |
+	| M-LEFT/RIGHT   | 将当前标题升/降级                                  |
+	| M-S-LEFT/RIGHT | 将子树升/降级                                      |
+	| M-S-UP/DOWN    | 将子树上/下移动                                    |
+	| C-c *          | 将本行设为标题或者正文                             |
+	| C-c C-w        | 将子树或者区域移动到另一个标题处（跨缓冲区）       |
+	| C-c C-x b      | 在新缓冲区显示当前分支                             |
+	| C-c /          | 只列出包含搜索结果的大纲，并高亮，支持多种搜索方式 |
+** 嵌入元数据
+*** 内容元数据
+    1. 代码
+       : #+begin_src c -n -t -h 7 -w 40
+       : ...
+       : #+end_src
+       : c 为所添加的语言
+       : -n 显示行号
+       : -t 清除格式
+       : -h 7 设置高度为7
+       : -w 40设置宽度为40
+    2. 注释
+       : #+BEGIN_COMMENT
+       : 块注释
+       : ...
+       : #+END_COMMENT
+    3. 表格与图片
+       : #+CAPTION: This is the caption for the next table (or link)
+       : 则在需要的地方可以通过 \ref{table1} 来引用该表格。
+    4. 嵌入HTML
+       : #+BEGIN_EXPORT html
+       : All lines between these markers are exported literally
+       : #+END_EXPORT
+    5. 包含文件
+       : #+INCLUDE: "~/.emacs" src emacs-lisp
+*** 文档元数据
+    #+CAPTION: 文档元数据
+    | H:        | 标题层数                    |
+    | num:      | 章节(标题)是否自动编号      |
+    | toc:      | 是否生成索引                |
+    | creator:  | 是否生成 "creat by emacs…" |
+    | LINKUP:   | UP: 链接                    |
+    | LINKHOME: | HEME: 链接                  |
+** 表格(Table)
+1. 快捷键
+   #+CAPTION: 整体区域
+   | 操作     | 说明                           |
+   |----------+--------------------------------|
+   | C-c 竖线 | 创建或者转化成表格             |
+   | C-c C-c  | 调整表格，不移动光标           |
+   | TAB      | 移动到下一区域，必要时新建一行 |
+   | S-TAB    | 移动到上一区域                 |
+   | RET      | 移动到下一行，必要时新建一行   |
+   #+CAPTION: 编辑行和列
+   | 快捷键              | 说明                             |
+   |---------------------+----------------------------------|
+   | M-LEFT/RIGHT        | 移动列                           |
+   | M-UP/DOWN           | 移动行                           |
+   | M-S-LEFT/RIGHT      | 删除/插入列                      |
+   | M-S-UP/DOWN         | 删除/插入行                      |
+   | C-m                 | 移动到下一行，或新建一行         |
+   | C-c -               | 添加水平分割线                   |
+   | C-c RET             | 添加水平分割线并跳到下一行       |
+   | C-c ^               | 根据当前列排序，可以选择排序方式 |
+   | C-c `	       | 编辑当前单元格                   |
+   | C-c C-x C-w	 | 剪切某个区域的表格内容           |
+   | C-c C-x C-y         | 	拷贝复制的内容到表格     |
+2. 表格计算
+   #+CAPTION: 一张价格表，要求算出总额
+   | 数量 | 单价 |  总额 |
+   |------+------+-------|
+   |    2 | 3.45 |   6.9 |
+   |    4 | 4.34 | 17.36 |
+   |    5 | 3.44 |  17.2 |
+   |    5 |  5.6 |   28. |
+   #+TBLFM: $3=$1*$2
+   : ’C-u C-c C-c’强制org mode为整个表格进行计。只希望在某一特定项上进行计算，输入：':=$1*$2′, 即在等号前再加一个冒号。
+** 链接(Link)
+   : 在一个链接上按C-c C-o即可访问。
+*** 自动链接
+    : 对于符合链接规则的内容，org-mode会自动将其视为链接，包括括文件、网页、邮箱、新闻组、BBDB 数据库项、 IRC 会话和记录等。
+*** 手动链接
+    : [[link][description]]
+    : [[link]]
+*** 内部链接
+    : #<<target>>
+    : 设置到target的链接：[[target]] 或 [[target][猛击锚点]]
+** 注脚
+: 注脚的格式有两种，一是方括号+数字，二是方括号+fn+名字。
+: 插入脚注：C-c C-x f ，接下俩你可以写一些其他东西，然后在文章的末尾写上下面两句话（注意：必须要顶格写）：
+: [1] The link is: http://orgmode.org
+: [fn:orghome] The link is: http://orgmode.org
+** 分割线
+: 五条短线或以上
+-----
+** 标签(Tag)
+*** 标记tags
+   : #+FILETAGS: :Peter:Boss:Secret:
+   : // 更方便的做法是在正文部分用C-c C-q 或直接在标题上用C-c C-c创建标签
+*** 预定义tags
++ 预定义的方式有两种：
+  - 在当前文件头部定义这种方式预定义的标签只能在当前文件中使用。使用#+TAGS元数据进行标记，:: 
+    : #+TAGS: { 桌面(d) 服务器(s) }  编辑器(e) 浏览器(f) 多媒体(m) 压缩(z)
+    : 每项之间必须用空格分隔，可以在括号中定义一个快捷键；
+    : 花括号里的为标签组，只能选择一个对标签定义进行修改后，要在标签定义的位置按 C-c C-c 刷新才能生效。
+  - 在配置文件中定义
+    #+NAME: 在配置文件中定义
+    #+BEGIN_SRC emacs-lisp
+    (setq org-tag-alist '((:startgroup . nil)
+    	("@work . ?w) ("@home" . ?h)
+        ("@tennisclub" . ?t)
+        (:endgroup . nil)
+        ("laptop" . ?l) ("pc" . ?p)))
+    #+END_SRC
+    : 默认情况下，org会动态维护一个Tag列表，即当前输入的标签若不在列表中，则自动加入列表以供下次补齐使用。
+    : 为了使这几种情况（默认列表、文件预设tags，全局预设tags）同时生效，需要在文件中增加一个空的TAGS定义：#+TAGS:
+*** tags查询
+    #+CAPTION: tags查询快捷键
+    | 快捷键  | 说明                                         |
+    |---------+----------------------------------------------|
+    | C-c \   | 可以用来查找某个tag下的所有项目              |
+    | C-c / m | 搜索并按树状结构显示                         |
+    | C-c a m | 从所有agenda file里建立符合某tag的全局性列表 |
+    : +   和      a+b   同时有这两个标签
+    : -   排除    a-b   有 a 但没有 b
+    : |   或      a|b   有 a 或者有 b
+    : &   和      a&b   同时有 a 和 b，可以用“+”替代
 ** Working with Source Code
 *** Structure of Code Blocks
-   : #+NAME:<name>
-   : #+BEGIN_SRC <language> <switches> <header arguments>
-   : <body>
-   '#+NAME:<name>': Optional. Names the source block so it can be called, like a function, from other source blocks or inline code to evaluate or to capture the results. 
-   '#+BEGIN_SRC'...'#+END_SRC': Mandatory. They mark the start and end of a block that Org requires.
-   '<language>': Mandatory. It is the identifier of the source code language in the block. See [[https://orgmode.org/org.html#Languages][Languages]]
-   '<switches>': Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in [[https://orgmode.org/org.html#Literal-Examples][Literal Examples]]).
-   '<header arguments>': Optional. Heading arguments control many aspects of evaluation, export and tangling of code blocks(see [[https://orgmode.org/org.html#Using-Header-Arguments][Using Header Arguments]]).
-   '<body>': Source code in the dialect of the specified language identifier.
-   : more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
+    : #+NAME:<name>
+    : #+BEGIN_SRC <language> <switches> <header arguments>
+    : <body>
+    '#+NAME:<name>': Optional. Names the source block so it can be called, like a function, from other source blocks or inline code to evaluate or to capture the results. 
+    '#+BEGIN_SRC'...'#+END_SRC': Mandatory. They mark the start and end of a block that Org requires.
+    '<language>': Mandatory. It is the identifier of the source code language in the block. See [[https://orgmode.org/org.html#Languages][Languages]]
+    '<switches>': Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in [[https://orgmode.org/org.html#Literal-Examples][Literal Examples]]).
+    '<header arguments>': Optional. Heading arguments control many aspects of evaluation, export and tangling of code blocks(see [[https://orgmode.org/org.html#Using-Header-Arguments][Using Header Arguments]]).
+    '<body>': Source code in the dialect of the specified language identifier.
+    : more info.：https://orgmode.org/org.html#Structure-of-Code-Blocks
 *** Literal Examples
-   : #+BEGIN_SRC emacs-lisp -n 1 -r -l "((%s))"
-   : (save-excursion                 (ref:sc)
-   : 	(goto-char (point-min))      (ref:jump)
-   : #+END_SRC
-   : In line [[(sc)]] we remember the current position. [[(jump)][Line (jump)]]
-   : jumps to point-min.
-   -n or +n, to get the lines of the example numbered.
-   -r, switch which removes the labels from the source code. With the ‘-n’ switch, links to these references are labeled by the line numbers from the code liing.
-   -i, to preserve the indentation of a specific code block(see [[https://orgmode.org/org.html#Editing-Source-Code][Editing Source Code]]).
-   -l, to change the format. See also the variable org-coderef-label-format.
+    : #+BEGIN_SRC emacs-lisp -n 1 -r -l "((%s))"
+    : (save-excursion                 (ref:sc)
+    : 	(goto-char (point-min))      (ref:jump)
+    : #+END_SRC
+    : In line [[(sc)]] we remember the current position. [[(jump)][Line (jump)]]
+    : jumps to point-min.
+    -n or +n, to get the lines of the example numbered.
+    -r, switch which removes the labels from the source code. With the ‘-n’ switch, links to these references are labeled by the line numbers from the code liing.
+    -i, to preserve the indentation of a specific code block(see [[https://orgmode.org/org.html#Editing-Source-Code][Editing Source Code]]).
+    -l, to change the format. See also the variable org-coderef-label-format.
    
-   : #+ALTR_HTML::textarea t :width 40
-   : #+BEGIN_EXAMPLE
-   :  (defun org-xor (a b)
-   :  "Exclusive or."
-   :  (if a (not b) b))
-   : #+END_EXAMPLE
-   HTML export also allows examples to be published as text areas (see [[https://orgmode.org/org.html#Text-areas-in-HTML-export][Text areas in HTML export]]).
+    : #+ALTR_HTML::textarea t :width 40
+    : #+BEGIN_EXAMPLE
+    :  (defun org-xor (a b)
+    :  "Exclusive or."
+    :  (if a (not b) b))
+    : #+END_EXAMPLE
+    HTML export also allows examples to be published as text areas (see [[https://orgmode.org/org.html#Text-areas-in-HTML-export][Text areas in HTML export]]).
 *** Environment of a Code Block
-   : 1) Passing arguments
-   : #+NAME: with-rownames
-   : | one | 1 | 2 | 3 | 4 |  5 |
-   : | two | 6 | 7 | 8 | 9 | 10 |
-   : #+BEGIN_SRC python :var tab=with-rownames :rownames yes
-   :  return [[val + 10 for val in row] for row in tab]
-   : #+END_SRC
-   : 
-   : #+RESULTS:
-   : | one | 11 | 12 | 13 | 14 | 15 |
-   : | two | 16 | 17 | 18 | 19 | 20 |
-   : more info: https://orgmode.org/org.html#Environment-of-a-Code-Block
+    : 1) Passing arguments
+    : #+NAME: with-rownames
+    : | one | 1 | 2 | 3 | 4 |  5 |
+    : | two | 6 | 7 | 8 | 9 | 10 |
+    : #+BEGIN_SRC python :var tab=with-rownames :rownames yes
+    :  return [[val + 10 for val in row] for row in tab]
+    : #+END_SRC
+    : 
+    : #+RESULTS:
+    : | one | 11 | 12 | 13 | 14 | 15 |
+    : | two | 16 | 17 | 18 | 19 | 20 |
+    : more info: https://orgmode.org/org.html#Environment-of-a-Code-Block
 
-   : 2) Using sessions
-   : 3) Choosing a working directory
-   : #+BEGIN_SRC R :file myplot.png :dir ~/Work
-   :  matplot(matrix(rnorm(100), 10), type="l")
-   : #+END_SRC
-   : 
-   : #+BEGIN_SRC R :file plot.png :dir /scp:dand@yakuba.princeton.edu:
-   :   plot(1:10, main=system("hostname", intern=TRUE))
-   : #+END_SRC
-   : 
-   : [[file:{{site.url}}/assets/images/plot.png][plot.png]]
-   : 
-   : 4) Inserting headers and footers 
-   : The ‘prologue’ header argument is for appending to the top of the code block for execution, like a reset instruction.
-   : For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for every such block:
-   #+BEGIN_SRC emacs-lisp -n 1
+    : 2) Using sessions
+    : 3) Choosing a working directory
+    : #+BEGIN_SRC R :file myplot.png :dir ~/Work
+    :  matplot(matrix(rnorm(100), 10), type="l")
+    : #+END_SRC
+    : 
+    : #+BEGIN_SRC R :file plot.png :dir /scp:dand@yakuba.princeton.edu:
+    :   plot(1:10, main=system("hostname", intern=TRUE))
+    : #+END_SRC
+    : 
+    : [[file:{{site.url}}/assets/images/plot.png][plot.png]]
+    : 
+    : 4) Inserting headers and footers 
+    : The ‘prologue’ header argument is for appending to the top of the code block for execution, like a reset instruction.
+    : For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for every such block:
+    #+BEGIN_SRC emacs-lisp -n 1
    (add-to-list 'org-babel-default-header-args:gnuplot
    	'((:prologue . "reset")))
-   #+END_SRC
+    #+END_SRC
 *** Evaluating Code Blocks
-: 1. How to evaluate source code
-: 
+    : 1. How to evaluate source code
+    : 
 
-: 2. Limit code block evaluation
+    : 2. Limit code block evaluation
 
-: 3. Cache results of evaluation
+    : 3. Cache results of evaluation
 
 *** Results of Evaluation
 *** Exporting Code Blocks
-- ‘code’
-The default. The body of code is included into the exported file. Example: ‘:exports code’.
+    - ‘code’
+    The default. The body of code is included into the exported file. Example: ‘:exports code’.
 
-- ‘results’
-The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
+    - ‘results’
+    The results of evaluation of the code is included in the exported file. Example: ‘:exports results’.
 
-- ‘both’
-Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
+    - ‘both’
+    Both the code and results of evaluation are included in the exported file. Example: ‘:exports both’.
 
-- ‘none’
-Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
+    - ‘none’
+    Neither the code nor the results of evaluation is included in the exported file. Whether the code is evaluated at all depends on other options. Example: ‘:exports none’.
 *** Extracting Source Code
     : Create pure source code files.
 
@@ -305,63 +471,63 @@ Neither the code nor the results of evaluation is included in the exported file.
     : more info.：https://orgmode.org/org.html#Noweb-Reference-Syntax
 ** PlantUML
 *** 什么是 PlantUML?
-: PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
-: 代码：
-#+BEGIN_SRC emacs-lisp
+    : PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
+    : 代码：
+    #+BEGIN_SRC emacs-lisp
 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
     Alice -> Bob: synchronous call
     Alice ->> Bob: asynchronous call
-#+END_SRC
+    #+END_SRC
 
-#+NAME: PlantUML 简单示例
-#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
+    #+NAME: PlantUML 简单示例
+    #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
    Alice -> Bob: synchronous call
    Alice ->> Bob: asynchronous call
-#+END_SRC
-[[http://www.plantuml.com/plantuml/][在线Demo服务]]
+    #+END_SRC
+    [[http://www.plantuml.com/plantuml/][在线Demo服务]]
 *** 配置 Emacs 支持 PlantUML
-: 1. 下载 plantuml.jar 到你的硬盘上
-[[http://www.plantuml.com/download.html][官网下载页面]]
+    : 1. 下载 plantuml.jar 到你的硬盘上
+    [[http://www.plantuml.com/download.html][官网下载页面]]
 
-: 2. 安装生成图片用的软件：Graphviz
-: $ sudo apt install graphviz
+    : 2. 安装生成图片用的软件：Graphviz
+    : $ sudo apt install graphviz
 
-: 3. 配置 Emacs 支持 PlantUML
-: 首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
-: 其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
-#+BEGIN_SRC emacs-lisp -n 1
+    : 3. 配置 Emacs 支持 PlantUML
+    : 首先，将下载的 plantuml.jar 文件放到 ~/.emacs.d/plantuml/ 目录下；
+    : 其次，打开 ~/.emacs.d/init.el 文件，添加配置加载 PlantUML；
+    #+BEGIN_SRC emacs-lisp -n 1
 ;; Load plantuml
 (setq org-plantuml-jar-path
       (expand-file-name "~/.emacs.d/plantuml/plantuml.jar"))
-#+END_SRC
-: 最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
-#+BEGIN_SRC emacs-lisp -n 1
+    #+END_SRC
+    : 最后在 ~/.emacs 或 ~/.emacs.d/init.el 中，添加配置语言。
+    #+BEGIN_SRC emacs-lisp -n 1
 ;; active Org-babel languages
 (org-babel-do-load-languages
  'org-babel-load-languages
  '(;; other Babel languages
    (plantuml . t))) ;; add this line
-#+END_SRC
+    #+END_SRC
 *** PlantUML 的使用
 **** 顺序图(Sequence Diagram)
-: 顺序图用 -> , -->, <-, <-- 来绘制参与者（Participants）之 间的消息（Message）。
-#+BEGIN_SRC emacs-lisp
+     : 顺序图用 -> , -->, <-, <-- 来绘制参与者（Participants）之 间的消息（Message）。
+     #+BEGIN_SRC emacs-lisp
 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
   Alice -> Bob: Authentication Request
   Bob --> Alice: Authentication Response
 
   Alice -> Bob: Another atuhentication Request
   Alice <-- Bob: Another authentication Response
-#+END_SRC
+     #+END_SRC
 
-#+NAME:PlantUML Quick Start
-#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
+     #+NAME:PlantUML Quick Start
+     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
   Alice -> Bob: Authentication Request
   Bob --> Alice: Authentication Response
 
   Alice -> Bob: Another atuhentication Request
   Alice <-- Bob: Another authentication Response
-#+END_SRC
+     #+END_SRC
 **** 用例图(Use Case Diagram)
 **** 类图(Class Diagram)
 **** 活动图(Activity Diagram)
