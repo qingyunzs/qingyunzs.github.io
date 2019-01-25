@@ -599,39 +599,53 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : $ git push origin --tags
 ** 日志、差别对比
 *** 日志
-: //查看提交日志，不带参数，按提交时间列出所有的更新，最近的更新排在最上面
-: $ git log
-
-: //查看所有操作日志
-: $ git reflog
-
-: //只显示指定文件的日志信息
-: $ git log README.md
-
-: //-p 选项展开显示每次提交的内容差异
-: //-2 则仅显示最近的两次更新：
-: $ git log -p -2 README.md
-
-: //--stat 选项仅显示简要的增改行数统计
-: $ git log --stat
-: //--shortstat 选项只显示 --stat 中最后的行数修改添加移除统计。
-
-: //以图表形式输出分支提交日志
-: $ git log --graph
-
-: //--word-diff 选项，进行单词层面上的对比。你需要在书籍、论文这种很大的文本文件上进行对比的时候，这个功能就显出用武之地了。
-: $ git log -U1 --word-diff
-: //-U1，表示希望上下文（ context ）行数从默认的 3 行，减为 1 行 
-
-: //--pretty 选项指定使用完全不同于默认格式的方式展示提交历史
-: // 将每个提交放在一行显示
-: $ git log --pretty=online
-: // 另外还有short，full，fuller 和 format 可以用。format可以定制要显示的记录格式，这样的输出便于后期编程提取分析
-
-: --name-only 选项仅在提交信息后显示已修改的文件清单。
-: --name-status 选项显示新增、修改、删除的文件清单。
-: --abbrev-commit 选项仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
-: --relative-date 选项使用较短的相对时间显示（比如，“2 weeks ago”）。
++ 基本使用
+  - log
+    : //查看提交日志，不带参数，按提交时间列出所有的更新，最近的更新排在最上面
+    : $ git log
+    
+    : //查看所有操作日志
+    : $ git reflog
+    
+    : //只显示指定文件的日志信息
+    : $ git log README.md
+  - show
+    : $ git show
+    : //显示最后 5 次的文件改变的具体内容
+    
+    : $ git show commitid
+    : //显示某个 commitid 改变的具体内容
+  - whatchanged
+    : $ git whatchanged --stat
+    : 每次修改的文件列表, 及文件修改的统计
++ 选项(Option)
+  - -p
+    : $ git log -p -2 README.md
+    : //-p 选项展开显示每次提交的内容差异，-2 则仅显示最近的两次更新：
+  - --stat
+    : $ git log --stat -1
+    : $ git log --name-status -1
+    : //--stat 选项仅显示简要的增改行数统计，--shortstat 选项只显示，--name-status 每次修改的文件列表, 显示状态
+  - --graph
+    : //以图表形式输出分支提交日志
+    : $ git log --graph
+  - --word-diff
+    : //--word-diff 选项，进行单词层面上的对比。你需要在书籍、论文这种很大的文本文件上进行对比的时候，这个功能就显出用武之地了。
+    : $ git log -U1 --word-diff
+    : //-U1，表示希望上下文（ context ）行数从默认的 3 行，减为 1 行 
+  - --pretty
+    : //--pretty 选项指定使用完全不同于默认格式的方式展示提交历史
+    : // 将每个提交放在一行显示
+    : $ git log --pretty=oneline
+    : // 另外还有short，full，fuller 和 format 可以用。format可以定制要显示的记录格式，这样的输出便于后期编程提取分析
+  - --name-only
+    : 仅在提交信息后显示已修改的文件清单。
+  - --name-status
+    : 显示新增、修改、删除的文件清单。
+  - --abbrev-commit
+    : 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
+  - --relative-date
+    : 使用较短的相对时间显示（比如，“2 weeks ago”）。
 *** 差别对比
 : //查看更改前后的差别
 : $git diff 
