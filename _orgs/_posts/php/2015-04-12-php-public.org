@@ -18,7 +18,7 @@
 layout: post
 title: PHP 公共函数
 author: zrg
-comments: false
+comments: true
 description: PHP 公共函数
 categories:
 - php
@@ -34,7 +34,7 @@ photos:
 
 * 写在前面
   : 关于PHP的一些公共方法
-* String/Array
+* 字符串(String)/数组(Array)
 ** 字符串(String)
 *** 字符串长度
     : $strLength=strlen($str);
@@ -84,7 +84,7 @@ function array_is_null($arr = null){
 	}
 }
     #+END_SRC
-* Date/Time
+* 日期(Date)/时间(Time)
 ** 获取当月天数及当月第一天及最后一天、上月第一天及最后一天
 *** 获取上个月第一天及最后一天
     : echo date('Y-m-01', strtotime('-1 month'));
@@ -105,7 +105,6 @@ function array_is_null($arr = null){
 ** 日期转时间戳，时间戳转日期
    : strtotime('2010-03-24 08:15:42');
    : date('Y-m-d H:i:s', 1156219870);
-
 
 
 
@@ -208,10 +207,57 @@ function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$resp
 	return $result;
 }
    #+END_SRC
+* 文件(File)
+** 下载文件
+   #+NAME: download file
+   #+BEGIN_SRC shell -n 1
+   header("Content-type:text/html;charset=utf-8");
+   /**
+   * 文件下载
+   * @param  [type] $file_url [绝对路径，如:$_SERVER['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]
+   * @param  [type] $new_name [指定文件名称]
+   * @return [type] [description]
+   */
+   function downloadFile($file_url,$new_name=''){
+   	if(!isset($file_url)||trim($file_url) == ''){
+		echo '500';
+	}
+	//检查文件是否存在
+	if(!file_exists($file_url)){
+		echo '404';
+	}
+	$file_name=basename($file_url);
+	$file_type=explode('.',$file_url);
+	$file_type=$file_type[count($file_type)-1];
+	$file_name=trim($new_name=='')?$file_name:urlencode($new_name);
+	$file_type=fopen($file_url,'r'); //打开文件
+	//输入文件标签
+	header("Content-type: application/octet-stream");  
+        header("Accept-Ranges: bytes");  
+        header("Accept-Length: ".filesize($file_url));  
+        header("Content-Disposition: attachment; filename=".$file_name);  
+        //输出文件内容  
+        echo fread($file_type,filesize($file_url));
+	fclose($file_type);
+   }
+   #+END_SRC
+   : 几点注意事项：
+   1. header("Content-type:text/html;charset=utf-8")的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。
+   2. 关于file_exists()函数不支持中文路径的问题:因为php函数比较早，不支持中文，所以如果被下载的文件名是中文的话，需要对其进行字符编码转换，否则file_exists()函数不能识别，可以使用iconv()函数进行编码转换。
+   3. $file_sub_path() 我使用的是绝对路径，执行效率要比相对路径高。
+   4. Header("Content-type: application/octet-stream")的作用：通过这句代码客户端浏览器就能知道服务端返回的文件形式。
+   5. Header("Accept-Ranges: bytes")的作用：告诉客户端浏览器返回的文件大小是按照字节进行计算的。
+   6. Header("Accept-Length:".$file_size)的作用：告诉浏览器返回的文件大小。
+   7. Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。
+   8. 以上四个Header()是必需的。
+   9. fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区
+** 参考资料
++ [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
++ [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
 * 其他代码片段
 ** PHP 生成UUID我唯一序列
 #+NAME: PHP 生成UUID
-#+BEGIN_SRC shell                                                                                                                                     
+#+BEGIN_SRC shell -n 1
 function uuid($prefix ='')                                                                                                                            
 {                                                                                                                                                     
         $chars = md5(uniqid(mt_rand(), true));                                                                                                        
@@ -223,5 +269,4 @@ function uuid($prefix ='')
         return $prefix . $uuid;                                                                                                                       
 }                                                                                                                                                     
 #+END_SRC                                                                                                                                             
-: 也可以使用SQL语句生成：insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
-** 
+: 也可以使用SQL语句生成：insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32); 
