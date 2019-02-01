@@ -783,6 +783,7 @@ do
 done
 #+END_SRC
 *** 应用
+**** 循环处理文件数据
 #+NAME:循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
 #+BEGIN_SRC shell -n 1
 #!/bin/bash
@@ -800,17 +801,157 @@ do
 done
 # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
 #+END_SRC
-
+**** break 命令
 #+NAME:控制循环
 #+BEGIN_SRC shell -n 1
 #!/bin/bash
-# 1.breaking out of an inner loop
-# 2.breaking out of an outer loop
-# 3.using the continue command
-# 4.continuing an outer loop
+# --------------------------------
+# 跳出单个循环
+# 1.breaking out of a for loop
+for var1 in 1 2 3 4 5
+do
+	if [ $var1 -eq 5]
+	then
+		break
+	fi
+	echo "Iteration number: $var1"
+done
+echo "The for loop is completed"
+# 2.breaking out of a while loop
+var1=1
+while [ $var1 -lt 10 ]
+do
+	if [ $var1 -eq 5]
+	then
+		break
+	fi
+	echo "Iteration number: $var1"
+done
+echo "The while loop is completed"
+# --------------------------------
+# 跳出内部循环
+# 3.breaking out of an inner loop
+for(( a = 1; a<4; a++))
+do
+	echo "Outer loop: $a"
+	for((b = 1; b<100; b++))
+	do
+		if [ $var1 -eq 5]
+		then
+			break
+		fi
+		echo "Inner loop: $b"
+	done
+done
+# ---------------------------------
+# 跳出外部循环
+# 4.breaking out of an outer loop
+for(( a = 1; a<4; a++))
+do
+	echo "Outer loop: $a"
+	for((b = 1; b<100; b++))
+	do
+		if [ $var1 -eq 5]
+		then
+			break 2
+		fi
+		echo "Inner loop: $b"
+	done
+done
+#+END_SRC
+**** continue 命令
+#+NAME:控制循环
+#+BEGIN_SRC shell -n 1
+# 1.using the continue command
+for((var1 = 1; var1<15; var1++))
+do
+	if [$var1 -gt 5] && [$var1 -lt 10]
+	then
+		continue
+	fi
+	echo "Iteration number: $var1"
+done
+# 2.improperly using the continue command in a while loop
+var1=1
+while echo "while iteration: $var1"
+	[ $var1 -lt 15 ]
+do
+	if [ $var1 -gt 5] && [$var1 -lt 10]
+	then
+		continue
+	fi
+	echo "Inside iteration number: $var1"
+	var1 = $[$var1 +1]
+done
+# 3.continuing an outer loop
+for(( a = 1; a<5; a++))
+do
+	echo "Interation : $a"
+	for((b = 1; b<3; b++))
+	do
+		if [ $b -gt 2] && [$a -lt 4]
+		then
+			continue 2
+		fi
+		var3=$[$a+$b]
+		echo "The result of $a * $b is $var3"
+	done
+done
+#+END_SRC
+**** 处理循环的输出
+: 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
+#+NAME:处理循环的输出
+#+BEGIN_SRC emacs-lisp
+for file in /home/zrg/*
+do
+...
+done > output.txt
+#+END_SRC
+**** 实例
+#+NAME:查找可执行文件
+#+BEGIN_SRC emacs-lisp
+#!/bin/bash
+# finding files in the PATH
+IF=:
+for folder in $PATH
+do
+	echo "$folder:"
+	for file in $folder/*
+	do
+		if [-x $file]
+		then
+			echo "$file"
+		fi
+	done
+done
+#+END_SRC
 
+#+NAME:创建多个用户账户
+#+BEGIN_SRC emacs-lisp
+#!/bin/bash
+# process new user accounts
+input = "users.csv"
+while IFS=',' read -r userid name
+do
+	echo "adding $userid"
+	useradd -c "$name" -m $userid
+done < "$input"
 #+END_SRC
 ** 输入输出
+*** 命令行参数
+: 位置参数(positional parameter)变量是标准的数字：$0是程序名，$1是第一个参数，$2是第二个参数，依次类推，直到第九个参数$9
+#+NAME:读取参数
+#+BEGIN_SRC emacs-lisp
+#!/bin/bash
+# using one command line parameter
+#
+factorial=1
+for ((number=1; number<=$1; number++))
+do
+	factorial=$[$factorial * $number]
+done
+echo "The factorial of $1 is $factorial"
+#+END_SRC
 
 ** 控制脚本
 * 高级 shell 脚本编程

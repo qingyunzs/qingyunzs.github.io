@@ -450,7 +450,7 @@
 <h2 id="org5eab1ab">Vim 快捷键</h2>
 <div class="outline-text-2" id="text-org5eab1ab">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
+<caption class="t-above"><span class="table-number">Table 1:</span> Vim Keyboard</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -459,10 +459,16 @@
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="org-left">:set nu!</th>
-<th scope="col" class="org-left">显示行号</th>
+<th scope="col" class="org-left">命令</th>
+<th scope="col" class="org-left">描述</th>
 </tr>
 </thead>
+<tbody>
+<tr>
+<td class="org-left">:set nu!</td>
+<td class="org-left">显示行号</td>
+</tr>
+</tbody>
 <tbody>
 <tr>
 <td class="org-left">syntax on</td>
@@ -523,13 +529,220 @@
 <td class="org-left">粘贴</td>
 </tr>
 </tbody>
-</table>
+<tbody>
+<tr>
+<td class="org-left">顺斜杠:/</td>
+<td class="org-left">查找(normal模式下)</td>
+</tr>
 
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">按下n查找下一个，按下N查找上一个。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Vim查找支持正则表达式，例如/vim$匹配行尾的"vim"。 需要查找特殊字符需要转义，例如/vim\\(匹配"vim\)"。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">注意：查找回车应当用\n，而替换为回车应当用\r（相当于&lt;CR&gt;）。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">\c表示大小写不敏感查找，\C表示大小写敏感查找。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">*即可查找光标所在单词（word）， 要求每次出现的前后为空白字符或标点符号。例如当前为foo， 可以匹配foo bar中的foo，但不可匹配foobar中的foo。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">g*即可查找光标所在单词的字符序列，每次出现前后字符无要求。 即foo bar和foobar中的foo均可被匹配到。</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">:s（substitute）</td>
+<td class="org-left">查找和替换。语法如下：</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">:{作用范围}s/{目标}/{替换}/{替换标志}</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">例如:%s/foo/bar/g会在全局范围(%)查找foo并替换为bar，所有出现都会被替换（g）。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">1. 作用范围分为当前行、全文、选区等等。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">当前行：:s/foo/bar/g。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">全文：:%s/foo/bar/g。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">选区，在Visual模式下选择区域后输入:，Vim即可自动补全为 :'&lt;,'&gt;：:'&lt;,'&gt;s/foo/bar/g。</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">2-11行：:5,12s/foo/bar/g</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">当前行.与接下来两行+2：:.,+2s/foo/bar/g</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">2. 替换标志</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">空替换标志表示只替换从光标位置开始，目标的第一次出现：:%s/foo/bar</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">i表示大小写不敏感查找，I表示大小写敏感：</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">:%s/foo/bar/i</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"># 等效于模式中的\c（不敏感）或\C（敏感）</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">:%s/foo\c/bar</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">c表示需要确认，例如全局查找"foo"替换为"bar"并且需要确认：:%s/foo/bar/gc</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgb23a87e" class="outline-2">
+<h2 id="orgb23a87e">高亮设置</h2>
+<div class="outline-text-2" id="text-orgb23a87e">
+</div>
+<div id="outline-container-org46b19a2" class="outline-3">
+<h3 id="org46b19a2">高亮颜色设置</h3>
+<div class="outline-text-3" id="text-org46b19a2">
 <pre class="example">
-Notice:设置完成后，发现功能没有起作用，检查一下系统下是否安装了vim-enhanced包，查询命令为： 
-$ rpm -q vim-enhanced
+可以在 ~/.vimrc 中进行设置：
 
 </pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgddae43c">highlight Search ctermbg=yellow ctermfg=black 
+highlight IncSearch ctermbg=black ctermfg=yellow 
+highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
+</pre>
+</div>
+<pre class="example">
+上述配置指定 Search 结果的前景色（foreground）为黑色，背景色（background）为灰色； 渐进搜索的前景色为黑色，背景色为黄色；光标处的字符加下划线。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org2a97d7a" class="outline-3">
+<h3 id="org2a97d7a">禁用/启用高亮</h3>
+<div class="outline-text-3" id="text-org2a97d7a">
+<pre class="example">
+// 禁用所有高亮
+:nohighlight 或 :nohl
+
+</pre>
+
+<pre class="example">
+//只禁用搜索高亮
+:set nohlsearch
+//下次搜索时，需再次启动搜索高亮
+:set hlsearch
+
+</pre>
+<ul class="org-ul">
+<li><p>
+延时禁用
+</p>
+<pre class="example">
+让Vim查找/替换后一段时间自动取消高亮，发生查找时自动开启呢？
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgd6dc45d"><span class="linenr">1: </span><span style="color: #8b2252;">" &#24403;&#20809;&#26631;&#19968;&#27573;&#26102;&#38388;&#20445;&#25345;&#19981;&#21160;&#20102;&#65292;&#23601;&#31105;&#29992;&#39640;&#20142;</span>
+<span class="linenr">2: </span><span style="color: #8b2252;">autocmd cursorhold * set nohlsearch</span>
+<span class="linenr">3: </span><span style="color: #8b2252;">"</span> &#24403;&#36755;&#20837;&#26597;&#25214;&#21629;&#20196;&#26102;&#65292;&#20877;&#21551;&#29992;&#39640;&#20142;
+<span class="linenr">4: </span>noremap n <span style="color: #483d8b;">:set</span> hlsearch&lt;cr&gt;n
+<span class="linenr">5: </span>noremap N <span style="color: #483d8b;">:set</span> hlsearch&lt;cr&gt;N
+<span class="linenr">6: </span>noremap / <span style="color: #483d8b;">:set</span> hlsearch&lt;cr&gt;/
+<span class="linenr">7: </span>noremap ? <span style="color: #483d8b;">:set</span> hlsearch&lt;cr&gt;?
+<span class="linenr">8: </span>noremap * *:set hlsearch&lt;cr&gt;
+</pre>
+</div></li>
+<li><p>
+一键禁用
+</p>
+<pre class="example">
+设置快捷键来一键禁用/开启搜索高亮：
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org78598fc">nnoremap &lt;c-h&gt; <span style="color: #483d8b;">:call</span> DisableHighlight()&lt;cr&gt;
+function! DisableHighlight()
+      set nohlsearch
+endfunc
+</pre>
+</div>
+<pre class="example">
+希望关闭高亮时只需要按下 Ctrl+H，当发生下次搜索时又会自动启用。
+
+</pre></li>
+<li><p>
+设置生效
+</p>
+<pre class="example">
+Notice: 设置完成后，发现功能没有起作用，检查一下系统下是否安装了vim-enhanced包，查询命令为： 
+$ rpm -q vim-enhanced
+
+</pre></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org2554303" class="outline-2">
+<h2 id="org2554303">References</h2>
+<div class="outline-text-2" id="text-org2554303">
+<ul class="org-ul">
+<li><a href="https://harttle.land/2016/08/08/vim-search-in-file.html">在 Vim 中优雅地查找和替换</a></li>
+</ul>
 </div>
 </div>
 
@@ -668,7 +881,7 @@ $ rpm -q vim-enhanced
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-count">51</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -679,7 +892,7 @@ $ rpm -q vim-enhanced
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -690,7 +903,7 @@ $ rpm -q vim-enhanced
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -768,7 +981,7 @@ $ rpm -q vim-enhanced
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5eab1ab"> <span class="nav-number">1</span> <span class="nav-text">Vim 快捷键</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5eab1ab"> <span class="nav-number">1</span> <span class="nav-text">Vim 快捷键</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb23a87e"> <span class="nav-number">2</span> <span class="nav-text">高亮设置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org46b19a2"> <span class="nav-number">2.1</span> <span class="nav-text">高亮颜色设置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2a97d7a"> <span class="nav-number">2.2</span> <span class="nav-text">禁用/启用高亮</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2554303"> <span class="nav-number">3</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             
@@ -929,14 +1142,6 @@ $ rpm -q vim-enhanced
 
   
 
-    
-      <script id="dsq-count-scr" src="https://rengui.disqus.com/count.js" async></script>
-    
-
-    
-
-  
-
 
 
 
@@ -962,6 +1167,10 @@ $ rpm -q vim-enhanced
 
 
 
+
+  
+
+    
 
   
 

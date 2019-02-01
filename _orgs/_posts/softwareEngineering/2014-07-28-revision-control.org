@@ -313,6 +313,8 @@ Fast forward
 : E.在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。
 : 由于当前 hotfix 分支和 master 都指向相同的提交对象，所以hotfix 已经完成了历史使命，可以删掉了。使用 git branch 的 -d 选项执行删除操作：
 : $ git branch -d <BranchName>
+: 删除远程分支(原理是把一个空分支push到server上，相当于删除该分支。)
+: $ git push origin :<BranchName>
 
 : F.现在回到之前未完成的 #53 问题修复分支上继续工作
 : $ git checkout iss53
@@ -585,18 +587,23 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 : 这样的历史推送到服务器后，会再次把这些衍合后的提交引入到中央服务 器，进一步困扰其他人（译注：这个例子中，出问题的责任方是那个发布
 : 了 C6 后又用衍合发布 C4’ 的人，其他人会因此反馈双重历史到共享主干，从而混淆大家的视听。）。
 ** 标签
-: //显示所有标签
-: $ git tag
-
-: //推荐为软件发布创建标签。这个概念在SVN中也有。你可以执行如下命令创建一个叫做1.0.0的标签:
-: $ git tag 1.0.0 1b2e1d63ff //1b2e1d63ff是你想要标记的提交 ID 的前 10 位字符。
-: $ git tag -a V0.1 -m "版本0.1"
-
-: //确认对应内容 
-: $ git show V0.1
-
-: //推送tag到远程仓库
-: $ git push origin --tags
++ 查看标签
+  : //显示所有标签
+  : $ git tag
+  : //查看 v4.0 系列的标签
+  : $ git tag -l v4.0.*
+  : //查看相应标签的版本信息
+  : $ git show V0.1
++ 创建标签
+  : //推荐为软件发布创建标签。这个概念在SVN中也有。
+  : //创建一个叫做1.0.0的标签:
+  : $ git tag 1.0.0 1b2e1d63ff //1b2e1d63ff是你想要标记的提交 ID 的前 10 位字符。
+  : //创建带有注释的标签
+  : $ git tag -a V0.1 -m "版本0.1" 
++ 删除标签
+  : $ git tag -d tagName
++ 推送tag到远程仓库
+  : $ git push origin --tags
 ** 日志、差别对比
 *** 日志
 + 基本使用
