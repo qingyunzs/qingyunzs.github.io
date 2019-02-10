@@ -622,65 +622,215 @@ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功�
 : 规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
 
 : 目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略
-: 的防火墙管理工具而已，或者说，它们只是一种服务。
+: 的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组
+: 成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
 
 : iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的
 : nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我
 : 们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
-*** 理解
-: IPTABLES 是与 Linux 内核集成的 IP 信息包过滤系统。
-: 防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
 
-: 而netfilter/iptables IP 数据包过滤系统是一款功能强大的工具，可用于添加、编辑和移除规则。
 : netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
 : iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
-*** iptables 命令
-: 1. 查看规则
-: iptables -nvL –line-number
-: -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
-: -n 不对ip地址进行反查，加上这个参数显示速度会快很多
-: -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-: –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+*** iptables
+: 在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于
+: 各种原因而继续使用iptables。
+**** 策略与规则链
+: 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则
+: 之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。
 
-: 2. 添加规则
-: 添加规则有两个参数：-A和-I。其中-A是添加到规则的末尾；-I可以插入到指定位置，没有指定位置的话默认插入到规则的首部。
-: // 查看当前规则
-: $ sudo iptables -L
-: $ sudo iptables -nL --line-number
-: // 添加一条规则到尾部
-: $ sudo iptables -A INPUT -s 192.168.122.5 -j DROP
+: iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+- 在进行路由选择前处理数据包（PREROUTING）；
+- 处理流入的数据包（INPUT）；
+- 处理流出的数据包（OUTPUT）；
+- 处理转发的数据包（FORWARD）；
+- 在进行路由选择后处理数据包（POSTROUTING）。
 
-: 3. 修改规则
-: // 修改 DROP 为 ACCEPT
-: $ sudo iptables -R INPUT 3 -j ACCEPT
+: 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
 
-: 4. 删除规则
-: $ sudo iptables -D INPUT -s 192.168.122.5 -j DROP
-: // 通过行号删除
-: $ sudo iptables -nL --line-number
-: $ sudo iptables -D INPUT 2
+: iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、
+: DROP（拒绝流量通过，直接将流量丢弃不响应）。
+: 当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：
+: 把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
 
-*** 规则功能说明
-: 1. 
-#+CAPTION: 表
-| filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
-| input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
-| forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
-| output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
-: 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
-#+CAPTION: NAT
-| snat | 地址转换   |
-| dnat | 标地址转换 |
-| pnat | 标端口转换 |
-: 3. mangle 表
-: 将报文拆开来并修改报文标志位，最后封装起来
+**** 基本的命令参数
++ 规则功能说明
+ : 1. 
+ #+CAPTION: 表
+ | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
+ | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
+ | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
+ | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
+ : 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
+ #+CAPTION: NAT
+ | snat | 地址转换   |
+ | dnat | 标地址转换 |
+ | pnat | 标端口转换 |
+ : 3. mangle 表
+ : 将报文拆开来并修改报文标志位，最后封装起来
 
-: 4. 5个检查点（内置链）
-- PREROUTING
-- INPUT
-- FORWORD
-- OUTPUT
-- POSTROUTING    
+ : 4. 5个检查点（内置链）
+ - PREROUTING
+ - INPUT
+ - FORWORD
+ - OUTPUT
+ - POSTROUTING    
++ iptables中常用的参数以及作用
+  #+CAPTION:  iptables中常用的参数以及作用
+  | 参数        | 作用                                           |
+  |-------------+------------------------------------------------|
+  | -P	  | 设置默认策略                                   |
+  | -F          | 清空规则链                                     |
+  | -L          | 查看规则链                                     |
+  | -A          | 在规则链的末尾加入新规则                       |
+  | -I num      | 在规则链的头部加入新规则                       |
+  | -D num      | 删除某一条规则                                 |
+  | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
+  | -d          | 匹配目标地址                                   |
+  | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
+  | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
+  | -p          | 匹配协议，如TCP、UDP、ICMP                     |
+  | --dport num | 匹配目标端口号                                 |
+  | --sport num | 匹配来源端口号                                 |
++ 查看已有的防火墙规则链
+  : $ iptables -L
+  : $ iptables -nvL –line-number
+  : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+  : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+  : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+  : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
++ 清空已有的防火墙规则链
+  : $ iptables -F
++ 添加规则
+  + 把INPUT规则链的默认策略设置为拒绝
+    : $ iptables -P INPUT DROP
+    : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
+  + 向INPUT链中添加允许ICMP流量进入的策略规则
+    : $ iptables -I INPUT -p icmp -j ACCEPT
+    : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
+    : 这种ping命令检测行为。
+  + 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
+    : $ iptables -D INPUT 1
+    : $ iptables -P INPUT ACCEPT
+  + 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
+    : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
+    : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
+  + 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
+    : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
+    : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
+  + 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
+    : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
+  + 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
+    : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
+    : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
+  + 保存防火墙策略命令，使其永久生效
+    : $ service iptables save
+*** Firewalld
+: Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）
+: 和基于GUI（图形用户界面）的两种管理方式。
+
+: 相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（
+: 策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+
+: firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
+#+CAPTION:firewalld中常用的区域名称及策略规则
+| 区域     | 默认规则策略                                                                                                            |
+|----------+-------------------------------------------------------------------------------------------------------------------------|
+| trusted  | 允许所有的数据包                                                                                                        |
+| home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
+| internal | 等同于home区域                                                                                                          |
+| work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
+| public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
+| external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+| dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+| block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+| drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+**** 终端管理工具
+: firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
+#+CAPTION: firewall-cmd命令中使用的参数以及作用
+| 参数                          | 作用                                                   |
+|-------------------------------+--------------------------------------------------------|
+| --get-default-zone            | 查询默认的区域名称                                     |
+| --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
+| --get-zones                   | 显示可用的区域                                         |
+| --get-services                | 显示预先定义的服务                                     |
+| --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
+| --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
+| --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
+| --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
+| --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
+| --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
+| --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
+| --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
+| --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
+| --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
+| --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
+| --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
+| --panic-on                    | 开启应急状况模式                                       |
+| --panic-off                   | 关闭应急状况模式                                       |
+
+: 使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，
+: 就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以
+: 永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立即
+: 生效，需要手动执行firewall-cmd --reload命令。
++ 使用示例
+  - 查看firewalld服务当前所使用的区域
+    : # firewall-cmd --get-default-zone
+  - 查询eno16777728网卡在firewalld服务中的区域
+    : # firewall-cmd --get-zone-of-interface=eno16777728
+  - 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
+    : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
+    : # firewall-cmd --get-zone-of-interface=eno16777728
+    : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
+  - 把firewalld服务的当前默认区域设置为public
+    : # firewall-cmd --set-default-zone=public
+    : # firewall-cmd --get-default-zone
+  - 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
+    : # firewall-cmd --panic-on
+    : # firewall-cmd --panic-off
+  - 查询public区域是否允许请求SSH和HTTPS协议的流量
+    : # firewall-cmd --zone=public --query-service=ssh
+    : # firewall-cmd --zone=public --query-service=https
+  - 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
+    : # firewall-cmd --zone=public --add-service=https
+    : # firewall-cmd --permanent --zone=public --add-service=https
+    : # firewall-cmd --reload
+  - 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
+    : # firewall-cmd --permanent --zone=public --remove-service=http
+    : # firewall-cmd --reload 
+  - 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
+    : # firewall-cmd --zone=public --add-port=8080-8081/tcp
+    : # firewall-cmd --zone=public --list-ports
+  - 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
+    : 流量转发命令格式为:
+    : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
+    
+    : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
+    : # firewall-cmd --reload
+  - firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
+    : # firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
+**** 图形化管理工具
+**** 服务的访问控制列表
+: TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，
+: Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供
+: 服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+
+: TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略
+: 则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，
+: 则默认放行流量。
+
+#+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
+| 客户端类型     | 示例                       | 满足示例的客户端列表               |
+|----------------+----------------------------+------------------------------------|
+| 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
+| 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
+| 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
+| 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
+| 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
+| 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
+
+: 在配置TCP Wrappers服务时需要遵循两个原则：
+1. 编写拒绝策略规则时，填写的是服务名称，而非协议名称；
+2. 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
 *** 参考资料
 + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
 + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]

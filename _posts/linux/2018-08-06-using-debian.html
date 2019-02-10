@@ -309,9 +309,9 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 </li>
 </ul>
 </div>
-<div id="outline-container-orga94686d" class="outline-4">
-<h4 id="orga94686d">参考资料</h4>
-<div class="outline-text-4" id="text-orga94686d">
+<div id="outline-container-org356929b" class="outline-4">
+<h4 id="org356929b">参考资料</h4>
+<div class="outline-text-4" id="text-org356929b">
 <ul class="org-ul">
 <li><a href="https://wiki.debian.org/Locale">Locale debian wiki</a></li>
 </ul>
@@ -1381,72 +1381,93 @@ scp  -r local_dir username@servername:remote_dir
 </p>
 </div>
 </div>
-<div id="outline-container-org4f15595" class="outline-3">
-<h3 id="org4f15595">防火墙：iptables</h3>
-<div class="outline-text-3" id="text-org4f15595">
+<div id="outline-container-org0fae4fa" class="outline-3">
+<h3 id="org0fae4fa">iptables &amp; firewalld</h3>
+<div class="outline-text-3" id="text-org0fae4fa">
 </div>
-<div id="outline-container-orgf1f508c" class="outline-4">
-<h4 id="orgf1f508c">理解</h4>
-<div class="outline-text-4" id="text-orgf1f508c">
+<div id="outline-container-org63c361c" class="outline-4">
+<h4 id="org63c361c">防火墙管理工具</h4>
+<div class="outline-text-4" id="text-org63c361c">
 <pre class="example">
-IPTABLES 是与 Linux 内核集成的 IP 信息包过滤系统。
-防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。
+在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。
+防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略
+规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
 
 </pre>
 
 <pre class="example">
-而netfilter/iptables IP 数据包过滤系统是一款功能强大的工具，可用于添加、编辑和移除规则。
+目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略
+的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组
+成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+
+</pre>
+
+<pre class="example">
+iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的
+nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我
+们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
+
+</pre>
+
+<pre class="example">
 netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
 iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org396964f" class="outline-4">
-<h4 id="org396964f">iptables 命令</h4>
-<div class="outline-text-4" id="text-org396964f">
+<div id="outline-container-orgf5cc3a3" class="outline-4">
+<h4 id="orgf5cc3a3">iptables</h4>
+<div class="outline-text-4" id="text-orgf5cc3a3">
 <pre class="example">
-1. 查看规则
-iptables -nvL –line-number
--L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
--n 不对ip地址进行反查，加上这个参数显示速度会快很多
--v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-–line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
-
-</pre>
-
-<pre class="example">
-2. 添加规则
-添加规则有两个参数：-A和-I。其中-A是添加到规则的末尾；-I可以插入到指定位置，没有指定位置的话默认插入到规则的首部。
-// 查看当前规则
-$ sudo iptables -L
-$ sudo iptables -nL --line-number
-// 添加一条规则到尾部
-$ sudo iptables -A INPUT -s 192.168.122.5 -j DROP
-
-</pre>
-
-<pre class="example">
-3. 修改规则
-// 修改 DROP 为 ACCEPT
-$ sudo iptables -R INPUT 3 -j ACCEPT
-
-</pre>
-
-<pre class="example">
-4. 删除规则
-$ sudo iptables -D INPUT -s 192.168.122.5 -j DROP
-// 通过行号删除
-$ sudo iptables -nL --line-number
-$ sudo iptables -D INPUT 2
+在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于
+各种原因而继续使用iptables。
 
 </pre>
 </div>
-</div>
+<ul class="org-ul">
+<li><a id="org0706ac7"></a>策略与规则链<br />
+<div class="outline-text-5" id="text-org0706ac7">
+<pre class="example">
+防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则
+之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。
 
-<div id="outline-container-org8228bcc" class="outline-4">
-<h4 id="org8228bcc">规则功能说明</h4>
-<div class="outline-text-4" id="text-org8228bcc">
+</pre>
+
+<pre class="example">
+iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+
+</pre>
+<ul class="org-ul">
+<li>在进行路由选择前处理数据包（PREROUTING）；</li>
+<li>处理流入的数据包（INPUT）；</li>
+<li>处理流出的数据包（OUTPUT）；</li>
+<li>处理转发的数据包（FORWARD）；</li>
+<li>在进行路由选择后处理数据包（POSTROUTING）。</li>
+</ul>
+
+<pre class="example">
+一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+
+</pre>
+
+<pre class="example">
+iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、
+DROP（拒绝流量通过，直接将流量丢弃不响应）。
+当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：
+把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
+
+</pre>
+</div>
+</li>
+
+<li><a id="orge7b58d9"></a>基本的命令参数<br />
+<div class="outline-text-5" id="text-orge7b58d9">
+<ul class="org-ul">
+<li><p>
+规则功能说明
+</p>
 <pre class="example">
 1. 
 
@@ -1526,12 +1547,571 @@ $ sudo iptables -D INPUT 2
 <li>FORWORD</li>
 <li>OUTPUT</li>
 <li>POSTROUTING</li>
+</ul></li>
+<li><p>
+iptables中常用的参数以及作用
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 7:</span> iptables中常用的参数以及作用</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">参数</th>
+<th scope="col" class="org-left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-P</td>
+<td class="org-left">设置默认策略</td>
+</tr>
+
+<tr>
+<td class="org-left">-F</td>
+<td class="org-left">清空规则链</td>
+</tr>
+
+<tr>
+<td class="org-left">-L</td>
+<td class="org-left">查看规则链</td>
+</tr>
+
+<tr>
+<td class="org-left">-A</td>
+<td class="org-left">在规则链的末尾加入新规则</td>
+</tr>
+
+<tr>
+<td class="org-left">-I num</td>
+<td class="org-left">在规则链的头部加入新规则</td>
+</tr>
+
+<tr>
+<td class="org-left">-D num</td>
+<td class="org-left">删除某一条规则</td>
+</tr>
+
+<tr>
+<td class="org-left">-s</td>
+<td class="org-left">匹配来源地址IP/MASK，加叹号“!”表示除这个IP外</td>
+</tr>
+
+<tr>
+<td class="org-left">-d</td>
+<td class="org-left">匹配目标地址</td>
+</tr>
+
+<tr>
+<td class="org-left">-i 网卡名称</td>
+<td class="org-left">匹配从这块网卡流入的数据</td>
+</tr>
+
+<tr>
+<td class="org-left">-o 网卡名称</td>
+<td class="org-left">匹配从这块网卡流出的数据</td>
+</tr>
+
+<tr>
+<td class="org-left">-p</td>
+<td class="org-left">匹配协议，如TCP、UDP、ICMP</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;dport num</td>
+<td class="org-left">匹配目标端口号</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;sport num</td>
+<td class="org-left">匹配来源端口号</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+查看已有的防火墙规则链
+</p>
+<pre class="example">
+$ iptables -L
+$ iptables -nvL –line-number
+-L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+-n 不对ip地址进行反查，加上这个参数显示速度会快很多
+-v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+–line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+
+</pre></li>
+<li><p>
+清空已有的防火墙规则链
+</p>
+<pre class="example">
+$ iptables -F
+
+</pre></li>
+<li>添加规则
+<ul class="org-ul">
+<li><p>
+把INPUT规则链的默认策略设置为拒绝
+</p>
+<pre class="example">
+$ iptables -P INPUT DROP
+规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
+
+</pre></li>
+<li><p>
+向INPUT链中添加允许ICMP流量进入的策略规则
+</p>
+<pre class="example">
+$ iptables -I INPUT -p icmp -j ACCEPT
+在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
+这种ping命令检测行为。
+
+</pre></li>
+<li><p>
+删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
+</p>
+<pre class="example">
+$ iptables -D INPUT 1
+$ iptables -P INPUT ACCEPT
+
+</pre></li>
+<li><p>
+将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
+</p>
+<pre class="example">
+$ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
+$ iptables -A INPUT -p tcp --dport 22 -j REJECT
+
+</pre></li>
+<li><p>
+向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
+</p>
+<pre class="example">
+$ iptables -I INPUT -p tcp --dport 12345 -j REJECT
+$ iptables -I INPUT -p udp --dport 12345 -j REJECT
+
+</pre></li>
+<li><p>
+向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
+</p>
+<pre class="example">
+$ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
+
+</pre></li>
+<li><p>
+向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
+</p>
+<pre class="example">
+$ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
+$ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
+
+</pre></li>
+<li><p>
+保存防火墙策略命令，使其永久生效
+</p>
+<pre class="example">
+$ service iptables save
+
+</pre></li>
+</ul></li>
 </ul>
 </div>
+</li>
+</ul>
 </div>
-<div id="outline-container-orgad0649b" class="outline-4">
-<h4 id="orgad0649b">参考资料</h4>
-<div class="outline-text-4" id="text-orgad0649b">
+<div id="outline-container-orgec0a218" class="outline-4">
+<h4 id="orgec0a218">Firewalld</h4>
+<div class="outline-text-4" id="text-orgec0a218">
+<pre class="example">
+Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）
+和基于GUI（图形用户界面）的两种管理方式。
+
+</pre>
+
+<pre class="example">
+相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（
+策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+
+</pre>
+
+<pre class="example">
+firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
+
+</pre>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 8:</span> firewalld中常用的区域名称及策略规则</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">区域</th>
+<th scope="col" class="org-left">默认规则策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">trusted</td>
+<td class="org-left">允许所有的数据包</td>
+</tr>
+
+<tr>
+<td class="org-left">home</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+
+<tr>
+<td class="org-left">internal</td>
+<td class="org-left">等同于home区域</td>
+</tr>
+
+<tr>
+<td class="org-left">work</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+
+<tr>
+<td class="org-left">public</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量</td>
+</tr>
+
+<tr>
+<td class="org-left">external</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+
+<tr>
+<td class="org-left">dmz</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+
+<tr>
+<td class="org-left">block</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+
+<tr>
+<td class="org-left">drop</td>
+<td class="org-left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul class="org-ul">
+<li><a id="org22473ea"></a>终端管理工具<br />
+<div class="outline-text-5" id="text-org22473ea">
+<pre class="example">
+firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
+
+</pre>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 9:</span> firewall-cmd命令中使用的参数以及作用</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">参数</th>
+<th scope="col" class="org-left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#x2013;get-default-zone</td>
+<td class="org-left">查询默认的区域名称</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;set-default-zone=&lt;区域名称&gt;</td>
+<td class="org-left">设置默认的区域，使其永久生效</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;get-zones</td>
+<td class="org-left">显示可用的区域</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;get-services</td>
+<td class="org-left">显示预先定义的服务</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;get-active-zones</td>
+<td class="org-left">显示当前正在使用的区域与网卡名称</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;add-source=</td>
+<td class="org-left">将源自此IP或子网的流量导向指定的区域</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;remove-source=</td>
+<td class="org-left">不再将源自此IP或子网的流量导向某个指定区域</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;add-interface=&lt;网卡名称&gt;</td>
+<td class="org-left">将源自该网卡的所有流量都导向某个指定区域</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;change-interface=&lt;网卡名称&gt;</td>
+<td class="org-left">将某个网卡与区域进行关联</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;list-all</td>
+<td class="org-left">显示当前区域的网卡配置参数、资源、端口以及服务等信息</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;list-all-zones</td>
+<td class="org-left">显示所有区域的网卡配置参数、资源、端口以及服务等信息</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;add-service=&lt;服务名&gt;</td>
+<td class="org-left">设置默认区域允许该服务的流量</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;add-port=&lt;端口号/协议&gt;</td>
+<td class="org-left">设置默认区域允许该端口的流量</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;remove-service=&lt;服务名&gt;</td>
+<td class="org-left">设置默认区域不再允许该服务的流量</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;remove-port=&lt;端口号/协议&gt;</td>
+<td class="org-left">设置默认区域不再允许该端口的流量</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;reload</td>
+<td class="org-left">让“永久生效”的配置规则立即生效，并覆盖当前的配置规则</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;panic-on</td>
+<td class="org-left">开启应急状况模式</td>
+</tr>
+
+<tr>
+<td class="org-left">&#x2013;panic-off</td>
+<td class="org-left">关闭应急状况模式</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，
+就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以
+永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立即
+生效，需要手动执行firewall-cmd --reload命令。
+
+</pre>
+<ul class="org-ul">
+<li>使用示例
+<ul class="org-ul">
+<li><p>
+查看firewalld服务当前所使用的区域
+</p>
+<pre class="example">
+# firewall-cmd --get-default-zone
+
+</pre></li>
+<li><p>
+查询eno16777728网卡在firewalld服务中的区域
+</p>
+<pre class="example">
+# firewall-cmd --get-zone-of-interface=eno16777728
+
+</pre></li>
+<li><p>
+把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
+</p>
+<pre class="example">
+# firewall-cmd --permanent --zone=external --change-interface=eno16777728
+# firewall-cmd --get-zone-of-interface=eno16777728
+# firewall-cmd --permanent --get-zone-of-interface=eno16777728
+
+</pre></li>
+<li><p>
+把firewalld服务的当前默认区域设置为public
+</p>
+<pre class="example">
+# firewall-cmd --set-default-zone=public
+# firewall-cmd --get-default-zone
+
+</pre></li>
+<li><p>
+启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
+</p>
+<pre class="example">
+# firewall-cmd --panic-on
+# firewall-cmd --panic-off
+
+</pre></li>
+<li><p>
+查询public区域是否允许请求SSH和HTTPS协议的流量
+</p>
+<pre class="example">
+# firewall-cmd --zone=public --query-service=ssh
+# firewall-cmd --zone=public --query-service=https
+
+</pre></li>
+<li><p>
+把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
+</p>
+<pre class="example">
+# firewall-cmd --zone=public --add-service=https
+# firewall-cmd --permanent --zone=public --add-service=https
+# firewall-cmd --reload
+
+</pre></li>
+<li><p>
+把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
+</p>
+<pre class="example">
+# firewall-cmd --permanent --zone=public --remove-service=http
+# firewall-cmd --reload 
+
+</pre></li>
+<li><p>
+把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
+</p>
+<pre class="example">
+# firewall-cmd --zone=public --add-port=8080-8081/tcp
+# firewall-cmd --zone=public --list-ports
+
+</pre></li>
+<li><p>
+把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
+</p>
+<pre class="example">
+流量转发命令格式为:
+# firewall-cmd --permanent --zone=&lt;区域&gt; --add-forward-port=port=&lt;源端口号&gt;:proto=&lt;协议&gt;:toport=&lt;目标端口号&gt;:toaddr=&lt;目标IP地址&gt;
+
+</pre>
+
+<pre class="example">
+# firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
+# firewall-cmd --reload
+
+</pre></li>
+<li><p>
+firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
+</p>
+<pre class="example">
+# firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
+
+</pre></li>
+</ul></li>
+</ul>
+</div>
+</li>
+<li><a id="org0048efc"></a>图形化管理工具<br /></li>
+<li><a id="org2edea9d"></a>服务的访问控制列表<br />
+<div class="outline-text-5" id="text-org2edea9d">
+<pre class="example">
+TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，
+Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供
+服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+
+</pre>
+
+<pre class="example">
+TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略
+则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，
+则默认放行流量。
+
+</pre>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 10:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">客户端类型</th>
+<th scope="col" class="org-left">示例</th>
+<th scope="col" class="org-left">满足示例的客户端列表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">单一主机</td>
+<td class="org-left">192.168.10.10</td>
+<td class="org-left">IP地址为192.168.10.10的主机</td>
+</tr>
+
+<tr>
+<td class="org-left">指定网段</td>
+<td class="org-left">192.168.10.</td>
+<td class="org-left">IP段为192.168.10.0/24的主机</td>
+</tr>
+
+<tr>
+<td class="org-left">指定网段</td>
+<td class="org-left">192.168.10.0/255.255.255.0</td>
+<td class="org-left">IP段为192.168.10.0/24的主机</td>
+</tr>
+
+<tr>
+<td class="org-left">指定DNS后缀</td>
+<td class="org-left">.linuxprobe.com</td>
+<td class="org-left">所有DNS后缀为.linuxprobe.com的主机</td>
+</tr>
+
+<tr>
+<td class="org-left">指定主机名称</td>
+<td class="org-left">www.linuxprobe.com</td>
+<td class="org-left">主机名称为www.linuxprobe.com的主机</td>
+</tr>
+
+<tr>
+<td class="org-left">指定所有客户端</td>
+<td class="org-left">ALL</td>
+<td class="org-left">所有主机全部包括在内</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+在配置TCP Wrappers服务时需要遵循两个原则：
+
+</pre>
+<ol class="org-ol">
+<li>编写拒绝策略规则时，填写的是服务名称，而非协议名称；</li>
+<li>建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。</li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org0d531dd" class="outline-4">
+<h4 id="org0d531dd">参考资料</h4>
+<div class="outline-text-4" id="text-org0d531dd">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Iptables">iptables wiki</a></li>
 <li><a href="https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin">iptables 百度百科</a></li>
@@ -1827,9 +2407,9 @@ netcat所做的就是在两台电脑之间建立链接并返回两个数据流�
 </pre>
 </div>
 </div>
-<div id="outline-container-orgcbee3e2" class="outline-4">
-<h4 id="orgcbee3e2">安装</h4>
-<div class="outline-text-4" id="text-orgcbee3e2">
+<div id="outline-container-orge210a97" class="outline-4">
+<h4 id="orge210a97">安装</h4>
+<div class="outline-text-4" id="text-orge210a97">
 <pre class="example">
 // Redhat/CentOS/Fedora
 $ yum install nc
@@ -1940,9 +2520,9 @@ dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定
 </li>
 </ul>
 </div>
-<div id="outline-container-org4830e3d" class="outline-4">
-<h4 id="org4830e3d">参考资料</h4>
-<div class="outline-text-4" id="text-org4830e3d">
+<div id="outline-container-orgf3c477d" class="outline-4">
+<h4 id="orgf3c477d">参考资料</h4>
+<div class="outline-text-4" id="text-orgf3c477d">
 <pre class="example">
 https://blog.csdn.net/zhangxiao93/article/details/52705642
 
@@ -2157,9 +2737,9 @@ $ sudo apt-get install iftop
 </pre>
 </div>
 </div>
-<div id="outline-container-org87eb228" class="outline-3">
-<h3 id="org87eb228">常用软件（Software）</h3>
-<div class="outline-text-3" id="text-org87eb228">
+<div id="outline-container-org598990b" class="outline-3">
+<h3 id="org598990b">常用软件工具（Software）</h3>
+<div class="outline-text-3" id="text-org598990b">
 </div>
 <div id="outline-container-orgf04f847" class="outline-4">
 <h4 id="orgf04f847">VIM&amp;Emacs</h4>
@@ -2230,8 +2810,8 @@ $ sudo apt-get install chromium chromium-l10n
 <div class="outline-text-4" id="text-orge735fd6">
 </div>
 <ul class="org-ul">
-<li><a id="orgce1cf21"></a>安装<br />
-<div class="outline-text-5" id="text-orgce1cf21">
+<li><a id="orgd6dfa68"></a>安装<br />
+<div class="outline-text-5" id="text-orgd6dfa68">
 <pre class="example">
 $ sudo apt-get install scrot
 
@@ -2323,8 +2903,8 @@ $ rarcrack --threads 10 --type rar test.rar
 <div class="outline-text-4" id="text-org5e092d4">
 </div>
 <ul class="org-ul">
-<li><a id="org4e307fe"></a>问题解决<br />
-<div class="outline-text-5" id="text-org4e307fe">
+<li><a id="org6ad6e76"></a>问题解决<br />
+<div class="outline-text-5" id="text-org6ad6e76">
 <pre class="example">
 $ sudo systemctl enable vpnagentd_init
 vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
@@ -2365,8 +2945,8 @@ update-rc.d: error: insserv rejected the script header
 <div class="outline-text-4" id="text-org2b1bd4f">
 </div>
 <ul class="org-ul">
-<li><a id="org250569d"></a>安装<br />
-<div class="outline-text-5" id="text-org250569d">
+<li><a id="org0d41053"></a>安装<br />
+<div class="outline-text-5" id="text-org0d41053">
 <pre class="example">
 # yum install -y bind
 
@@ -2457,8 +3037,8 @@ Nameserver 192.168.120.166
 <div class="outline-text-4" id="text-org4287461">
 </div>
 <ul class="org-ul">
-<li><a id="org34b7bb3"></a>安装<br />
-<div class="outline-text-5" id="text-org34b7bb3">
+<li><a id="orgbcb8a05"></a>安装<br />
+<div class="outline-text-5" id="text-orgbcb8a05">
 <pre class="example">
 1.Download composer.phar file.
 2.Excute:
@@ -2471,8 +3051,8 @@ Nameserver 192.168.120.166
 </pre>
 </div>
 </li>
-<li><a id="org30c07e7"></a>问题解决<br />
-<div class="outline-text-5" id="text-org30c07e7">
+<li><a id="org549480b"></a>问题解决<br />
+<div class="outline-text-5" id="text-org549480b">
 <pre class="example">
 error: /usr/bin/env: php: No such file or directory
  solve:Configuring php to become global variables
@@ -2666,8 +3246,8 @@ tcp_wrappers=YES
 </div>
 </div>
 </li>
-<li><a id="orgbcbb6bf"></a>References<br />
-<div class="outline-text-5" id="text-orgbcbb6bf">
+<li><a id="org2609e48"></a>References<br />
+<div class="outline-text-5" id="text-org2609e48">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -2709,8 +3289,8 @@ http://baike.baidu.com/item/vsftpd
 </pre>
 </div>
 </li>
-<li><a id="orgbd9f28a"></a>参考资料<br />
-<div class="outline-text-5" id="text-orgbd9f28a">
+<li><a id="orga20c000"></a>参考资料<br />
+<div class="outline-text-5" id="text-orga20c000">
 <pre class="example">
 1.Cygwin-Official Site:http://cygwin.com/
 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
@@ -2903,8 +3483,8 @@ $ mv 05Music/ /mnt/sda/sda2/
 </pre>
 </div>
 </li>
-<li><a id="org7d2dc12"></a>参考资料<br />
-<div class="outline-text-5" id="text-org7d2dc12">
+<li><a id="org96f2828"></a>参考资料<br />
+<div class="outline-text-5" id="text-org96f2828">
 <pre class="example">
 https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
 http://www.tuicool.com/articles/ZbENfie
@@ -3006,9 +3586,9 @@ $ sudo alsactl init
 </pre>
 </div>
 </div>
-<div id="outline-container-org9559eb5" class="outline-4">
-<h4 id="org9559eb5">参考资料</h4>
-<div class="outline-text-4" id="text-org9559eb5">
+<div id="outline-container-org943d651" class="outline-4">
+<h4 id="org943d651">参考资料</h4>
+<div class="outline-text-4" id="text-org943d651">
 <pre class="example">
 https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/
 http://blog.163.com/lixiangqiu_9202/blog/static/535750372012541358800/ 
@@ -3053,9 +3633,9 @@ LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb4930be" class="outline-4">
-<h4 id="orgb4930be">参考资料</h4>
-<div class="outline-text-4" id="text-orgb4930be">
+<div id="outline-container-orge53656d" class="outline-4">
+<h4 id="orge53656d">参考资料</h4>
+<div class="outline-text-4" id="text-orge53656d">
 <pre class="example">
 http://www.jianshu.com/p/bf05fb3a4709
 
@@ -3267,9 +3847,9 @@ service php-fpm start/stop/restart/reload
 </pre>
 </div>
 </div>
-<div id="outline-container-org043366a" class="outline-4">
-<h4 id="org043366a">References</h4>
-<div class="outline-text-4" id="text-org043366a">
+<div id="outline-container-orgb6662bf" class="outline-4">
+<h4 id="orgb6662bf">References</h4>
+<div class="outline-text-4" id="text-orgb6662bf">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>
 </ul>
