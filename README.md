@@ -1,4 +1,4 @@
-> 本站点所用的 NexT 是由 [Hexo NexT](https://github.com/iissnan/hexo-theme-next) 移植而来的 Jekyll 主题。<!--commit: f951075d9b739d26b42472431995fa68d08796aa-->
+> 本站点所用的 NexT 是由 [Hexo NexT](https://github.com/iissnan/hexo-theme-next) 移植而来的 Jekyll 主题，并结合 org-mode 进行构建。<!--commit: f951075d9b739d26b42472431995fa68d08796aa-->
 
 <a href="http://simpleyyt.github.io/jekyll-theme-next/" target="_blank">在线预览 Preview</a> | <a href="http://simpleyyt.com" target="_blank">Yitao's Blog</a> | <a href="http://theme-next.simpleyyt.com" target="_blank">NexT 使用文档</a> |  [English Documentation](README.en.md)
 
@@ -7,6 +7,10 @@
 欢迎提交问题与需求，修复代码。
 
 ## 开发 Development
+- Jekyll
+- org-mode
+- PlantUML
+- Latex
 
 ## 目录结构
 ~~~
