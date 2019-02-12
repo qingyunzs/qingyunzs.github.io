@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="If you have questions, please send email to zrg1390556487@gmail.com. Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. Installing environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion First Method: installing by source package Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile Second Method: yum install yum install subversion mod_dav_svn Build warehouse of test Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 Start Start service of SVN svnserve -d -r /opt/svn/ Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest Apache and Subversion Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! Question Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
+<meta name="description" content="If you have questions, please send email to zrg1390556487@gmail.com. 1 Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. 2 Installing 2.1 environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion 2.2 First Method: installing by source package 2.2.1 Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz 2.2.2 Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install 2.2.3 Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile 2.3 Second Method: yum install yum install subversion mod_dav_svn 3 Build warehouse of test 3.1 Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ 3.2 Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 4 Start 4.1 Start service of SVN svnserve -d -r /opt/svn/ 4.2 Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve 4.3 Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn 4.4 Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest 5 Apache and Subversion 5.1 Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; 5.2 Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 5.3 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo 5.4 You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload 5.5 Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! 6 Question 6.1 Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). 6.2 Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. 6.3 Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
 <meta name="keywords" content="SVN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Install SVN in Linux">
 <meta property="og:url" content="http://localhost:4000/software/linux/2014/10/15/using-svn/">
 <meta property="og:site_name" content="Rengui's Notes">
-<meta property="og:description" content="If you have questions, please send email to zrg1390556487@gmail.com. Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. Installing environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion First Method: installing by source package Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile Second Method: yum install yum install subversion mod_dav_svn Build warehouse of test Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 Start Start service of SVN svnserve -d -r /opt/svn/ Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest Apache and Subversion Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! Question Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
+<meta property="og:description" content="If you have questions, please send email to zrg1390556487@gmail.com. 1 Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. 2 Installing 2.1 environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion 2.2 First Method: installing by source package 2.2.1 Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz 2.2.2 Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install 2.2.3 Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile 2.3 Second Method: yum install yum install subversion mod_dav_svn 3 Build warehouse of test 3.1 Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ 3.2 Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 4 Start 4.1 Start service of SVN svnserve -d -r /opt/svn/ 4.2 Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve 4.3 Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn 4.4 Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest 5 Apache and Subversion 5.1 Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; 5.2 Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 5.3 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo 5.4 You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload 5.5 Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! 6 Question 6.1 Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). 6.2 Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. 6.3 Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Install SVN in Linux">
-<meta name="twitter:description" content="If you have questions, please send email to zrg1390556487@gmail.com. Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. Installing environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion First Method: installing by source package Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile Second Method: yum install yum install subversion mod_dav_svn Build warehouse of test Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 Start Start service of SVN svnserve -d -r /opt/svn/ Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest Apache and Subversion Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! Question Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
+<meta name="twitter:description" content="If you have questions, please send email to zrg1390556487@gmail.com. 1 Preface I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today. 2 Installing 2.1 environment Linux kernel version: 3.10.0 OS: CentOS 7 software: subversion 2.2 First Method: installing by source package 2.2.1 Download and decompression Official Site: https://www.visualsvn.com Dowload: 1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz 2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz Decompression command: tar zxvf subversion-1.6.1.tar.gz tar zxvf subversion-deps-1.6.1.tar.gz 2.2.2 Compile and install Command: ./configure --prefix=/usr/local/svn/ make &amp;amp;&amp;amp; make install 2.2.3 Add command of svn to path Comand: echo &quot;export PATH=$PATH:/usr/local/svn/bin/&quot; &amp;gt;&amp;gt; /etc/profile source /etc/profile 2.3 Second Method: yum install yum install subversion mod_dav_svn 3 Build warehouse of test 3.1 Build Build root directory of svn mkdir -p /opt/svn Build warehoust of test mkdir -p /opt/svn/svntest/ svnadmin create /opt/svn/svntest/ 3.2 Configure 1.To directory of configure,There are three file here. cd /opt/svn/svntest/conf/ authz: Configure file about setting permissions of users. passwd: Configure file about setting username and password. svnserve.conf: Configure file about svn. 2.svnserve.conf vim svnserve.conf edit: [general] anon-access = none auth-access = write password-db = passwd authz-db = authz 3.authz add: [svntest:/] 92csz.com = rw # add a user(92csz.com),read and write. 4.passwd edit: 92csz.com = 123456 # password is 123456 4 Start 4.1 Start service of SVN svnserve -d -r /opt/svn/ 4.2 Check service netstat -aux |grep svn restult: tcp 000.0.0.0:3690.0.0.0:* LISTEN 8646/svnserve 4.3 Change permission of user Command: chmod -R 775 /opt/svn/ or chmod -R o+rw /opt/svn 4.4 Test by client Open svn client(right),Enter IP address of svn server and warehouse name exmple: svn://192.168.120.166/svntest 5 Apache and Subversion 5.1 Add this config file to apache LoadModule dav_svn_module modules/mod_dav_svn.so LoadModule authz_svn_module modules/mod_authz_svn.so &amp;lt;Location /svn&amp;gt; DAV svn SVNParentPath /var/www/unixmensvn AuthType Basic AuthName &quot;Subversion repositories&quot; AuthUserFile /etc/svn-auth-users Require valid-user &amp;lt;/Location&amp;gt; 5.2 Create SVN users htpasswd -cm /etc/svn-auth-users testuser1 5.3 Create and configure SVN repository mkdir /var/www/unixmensvn cd /var/www/unixmensvn svnadmin create repo chown -R apache.apache repo # If you still have issues with SELinux Security please apply this: chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo 5.4 You can open the http and https on the file with thi way firewall-cmd --permanent --zone=public --add-service=http firewall-cmd --permanent --zone=public --add-service=https firewall-cmd --reload 5.5 Make trunk, branches and tags structure under repo mkdir -p /tmp/svn-structure-template/{trunk,branches,tags} svn import -m &quot;Initial repository&quot; /tmp/svn-structure-template file:///var/www/unixmensvn/repo/ Adding /tmp/svn-structure-template/branches Adding /tmp/svn-structure-template/tags Adding /tmp/svn-structure-template/trunk Committed revision 1. Done! 6 Question 6.1 Problem 1 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied Solve: Severth(Vew 7th section). 6.2 Problem 2 2.Happen &quot;authorization failed&quot; error client Solve: Check configure. ### Evey establishment of a lirary need to be configured.This is very important. 6.3 Problem 3 3.When committing,error: post commit FS processing had error: &quot;sqlite:attempt to write a readonly database&quot; Solve: into /opt/svn/wp-job/db , there is a file &quot;rep-cache.db&quot; chown -R zrg.zrggroup rep-cache.db">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -465,8 +465,8 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 </div>
 
 <div id="outline-container-org399735d" class="outline-2">
-<h2 id="org399735d">Preface</h2>
-<div class="outline-text-2" id="text-org399735d">
+<h2 id="org399735d"><span class="section-number-2">1</span> Preface</h2>
+<div class="outline-text-2" id="text-1">
 <pre class="example">
 I have always been fascinated website development. So, management and back up of code is very important. 
 Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today.
@@ -475,12 +475,12 @@ Last night, installed successfully SVN on linux. In fack,I have tried before,but
 </div>
 </div>
 <div id="outline-container-org167bf58" class="outline-2">
-<h2 id="org167bf58">Installing</h2>
-<div class="outline-text-2" id="text-org167bf58">
+<h2 id="org167bf58"><span class="section-number-2">2</span> Installing</h2>
+<div class="outline-text-2" id="text-2">
 </div>
 <div id="outline-container-org9fa15ad" class="outline-3">
-<h3 id="org9fa15ad">environment</h3>
-<div class="outline-text-3" id="text-org9fa15ad">
+<h3 id="org9fa15ad"><span class="section-number-3">2.1</span> environment</h3>
+<div class="outline-text-3" id="text-2-1">
 <pre class="example">
 Linux kernel version: 3.10.0 
 OS: CentOS 7
@@ -490,12 +490,12 @@ software: subversion
 </div>
 </div>
 <div id="outline-container-orgcbe244d" class="outline-3">
-<h3 id="orgcbe244d">First Method: installing by source package</h3>
-<div class="outline-text-3" id="text-orgcbe244d">
+<h3 id="orgcbe244d"><span class="section-number-3">2.2</span> First Method: installing by source package</h3>
+<div class="outline-text-3" id="text-2-2">
 </div>
 <div id="outline-container-orgd142a18" class="outline-4">
-<h4 id="orgd142a18">Download and decompression</h4>
-<div class="outline-text-4" id="text-orgd142a18">
+<h4 id="orgd142a18"><span class="section-number-4">2.2.1</span> Download and decompression</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <pre class="example">
 Official Site: https://www.visualsvn.com
 Dowload:
@@ -509,8 +509,8 @@ Decompression command:
 </div>
 </div>
 <div id="outline-container-org9ca6bf9" class="outline-4">
-<h4 id="org9ca6bf9">Compile and install</h4>
-<div class="outline-text-4" id="text-org9ca6bf9">
+<h4 id="org9ca6bf9"><span class="section-number-4">2.2.2</span> Compile and install</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <pre class="example">
 Command:
         ./configure --prefix=/usr/local/svn/
@@ -520,8 +520,8 @@ Command:
 </div>
 </div>
 <div id="outline-container-org072aa85" class="outline-4">
-<h4 id="org072aa85">Add command of svn to path</h4>
-<div class="outline-text-4" id="text-org072aa85">
+<h4 id="org072aa85"><span class="section-number-4">2.2.3</span> Add command of svn to path</h4>
+<div class="outline-text-4" id="text-2-2-3">
 <pre class="example">
 Comand:
        echo "export PATH=$PATH:/usr/local/svn/bin/" &gt;&gt; /etc/profile
@@ -533,8 +533,8 @@ Comand:
 </div>
 </div>
 <div id="outline-container-orgf73fa58" class="outline-3">
-<h3 id="orgf73fa58">Second Method: yum install</h3>
-<div class="outline-text-3" id="text-orgf73fa58">
+<h3 id="orgf73fa58"><span class="section-number-3">2.3</span> Second Method: yum install</h3>
+<div class="outline-text-3" id="text-2-3">
 <pre class="example">
 yum install subversion mod_dav_svn
 
@@ -543,12 +543,12 @@ yum install subversion mod_dav_svn
 </div>
 </div>
 <div id="outline-container-orgbd2f0fb" class="outline-2">
-<h2 id="orgbd2f0fb">Build warehouse of test</h2>
-<div class="outline-text-2" id="text-orgbd2f0fb">
+<h2 id="orgbd2f0fb"><span class="section-number-2">3</span> Build warehouse of test</h2>
+<div class="outline-text-2" id="text-3">
 </div>
 <div id="outline-container-orga7153f9" class="outline-3">
-<h3 id="orga7153f9">Build</h3>
-<div class="outline-text-3" id="text-orga7153f9">
+<h3 id="orga7153f9"><span class="section-number-3">3.1</span> Build</h3>
+<div class="outline-text-3" id="text-3-1">
 <pre class="example">
 Build root directory of svn
 mkdir -p /opt/svn
@@ -564,8 +564,8 @@ svnadmin create /opt/svn/svntest/
 </div>
 </div>
 <div id="outline-container-org8c3ce61" class="outline-3">
-<h3 id="org8c3ce61">Configure</h3>
-<div class="outline-text-3" id="text-org8c3ce61">
+<h3 id="org8c3ce61"><span class="section-number-3">3.2</span> Configure</h3>
+<div class="outline-text-3" id="text-3-2">
 <pre class="example">
 1.To directory of configure,There are three file here.
    cd /opt/svn/svntest/conf/
@@ -594,12 +594,12 @@ edit:
 </div>
 </div>
 <div id="outline-container-org864b8dd" class="outline-2">
-<h2 id="org864b8dd">Start</h2>
-<div class="outline-text-2" id="text-org864b8dd">
+<h2 id="org864b8dd"><span class="section-number-2">4</span> Start</h2>
+<div class="outline-text-2" id="text-4">
 </div>
 <div id="outline-container-org1079e7b" class="outline-3">
-<h3 id="org1079e7b">Start service of SVN</h3>
-<div class="outline-text-3" id="text-org1079e7b">
+<h3 id="org1079e7b"><span class="section-number-3">4.1</span> Start service of SVN</h3>
+<div class="outline-text-3" id="text-4-1">
 <pre class="example">
 svnserve -d -r /opt/svn/
 
@@ -607,8 +607,8 @@ svnserve -d -r /opt/svn/
 </div>
 </div>
 <div id="outline-container-org80b6bbc" class="outline-3">
-<h3 id="org80b6bbc">Check service</h3>
-<div class="outline-text-3" id="text-org80b6bbc">
+<h3 id="org80b6bbc"><span class="section-number-3">4.2</span> Check service</h3>
+<div class="outline-text-3" id="text-4-2">
 <pre class="example">
 netstat -aux |grep svn
 restult:
@@ -619,8 +619,8 @@ restult:
 </div>
 </div>
 <div id="outline-container-orgf6658a4" class="outline-3">
-<h3 id="orgf6658a4">Change permission of user</h3>
-<div class="outline-text-3" id="text-orgf6658a4">
+<h3 id="orgf6658a4"><span class="section-number-3">4.3</span> Change permission of user</h3>
+<div class="outline-text-3" id="text-4-3">
 <pre class="example">
 Command:
         chmod -R 775 /opt/svn/
@@ -631,8 +631,8 @@ Command:
 </div>
 </div>
 <div id="outline-container-org4c9f799" class="outline-3">
-<h3 id="org4c9f799">Test by client</h3>
-<div class="outline-text-3" id="text-org4c9f799">
+<h3 id="org4c9f799"><span class="section-number-3">4.4</span> Test by client</h3>
+<div class="outline-text-3" id="text-4-4">
 <pre class="example">
 Open svn client(right),Enter IP address of svn server and warehouse name
 exmple:
@@ -644,12 +644,12 @@ exmple:
 </div>
 </div>
 <div id="outline-container-org70d3332" class="outline-2">
-<h2 id="org70d3332">Apache and Subversion</h2>
-<div class="outline-text-2" id="text-org70d3332">
+<h2 id="org70d3332"><span class="section-number-2">5</span> Apache and Subversion</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 <div id="outline-container-org6924d46" class="outline-3">
-<h3 id="org6924d46">Add this config file to apache</h3>
-<div class="outline-text-3" id="text-org6924d46">
+<h3 id="org6924d46"><span class="section-number-3">5.1</span> Add this config file to apache</h3>
+<div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs_lisp">LoadModule dav_svn_module     modules/mod_dav_svn.so
 LoadModule authz_svn_module   modules/mod_authz_svn.so
@@ -667,8 +667,8 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 </div>
 </div>
 <div id="outline-container-org1d8b176" class="outline-3">
-<h3 id="org1d8b176">Create SVN users</h3>
-<div class="outline-text-3" id="text-org1d8b176">
+<h3 id="org1d8b176"><span class="section-number-3">5.2</span> Create SVN users</h3>
+<div class="outline-text-3" id="text-5-2">
 <pre class="example">
 htpasswd -cm /etc/svn-auth-users testuser1
 
@@ -676,8 +676,8 @@ htpasswd -cm /etc/svn-auth-users testuser1
 </div>
 </div>
 <div id="outline-container-org0fab3e2" class="outline-3">
-<h3 id="org0fab3e2">Create and configure SVN repository</h3>
-<div class="outline-text-3" id="text-org0fab3e2">
+<h3 id="org0fab3e2"><span class="section-number-3">5.3</span> Create and configure SVN repository</h3>
+<div class="outline-text-3" id="text-5-3">
 <pre class="example">
 mkdir /var/www/unixmensvn
 cd  /var/www/unixmensvn
@@ -692,8 +692,8 @@ chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo
 </div>
 </div>
 <div id="outline-container-org399c8d2" class="outline-3">
-<h3 id="org399c8d2">You can open the http and https on the file with thi way</h3>
-<div class="outline-text-3" id="text-org399c8d2">
+<h3 id="org399c8d2"><span class="section-number-3">5.4</span> You can open the http and https on the file with thi way</h3>
+<div class="outline-text-3" id="text-5-4">
 <pre class="example">
 firewall-cmd --permanent --zone=public --add-service=http
 firewall-cmd --permanent --zone=public --add-service=https
@@ -703,8 +703,8 @@ firewall-cmd --reload
 </div>
 </div>
 <div id="outline-container-org94ddb5e" class="outline-3">
-<h3 id="org94ddb5e">Make trunk, branches and tags structure under repo</h3>
-<div class="outline-text-3" id="text-org94ddb5e">
+<h3 id="org94ddb5e"><span class="section-number-3">5.5</span> Make trunk, branches and tags structure under repo</h3>
+<div class="outline-text-3" id="text-5-5">
 <pre class="example">
 mkdir -p /tmp/svn-structure-template/{trunk,branches,tags}
 
@@ -725,12 +725,12 @@ Done!
 </div>
 </div>
 <div id="outline-container-org250fe7c" class="outline-2">
-<h2 id="org250fe7c">Question</h2>
-<div class="outline-text-2" id="text-org250fe7c">
+<h2 id="org250fe7c"><span class="section-number-2">6</span> Question</h2>
+<div class="outline-text-2" id="text-6">
 </div>
 <div id="outline-container-org723eaa8" class="outline-3">
-<h3 id="org723eaa8">Problem 1</h3>
-<div class="outline-text-3" id="text-org723eaa8">
+<h3 id="org723eaa8"><span class="section-number-3">6.1</span> Problem 1</h3>
+<div class="outline-text-3" id="text-6-1">
 <pre class="example">
 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied
 Solve:
@@ -740,8 +740,8 @@ Solve:
 </div>
 </div>
 <div id="outline-container-org2c8afa5" class="outline-3">
-<h3 id="org2c8afa5">Problem 2</h3>
-<div class="outline-text-3" id="text-org2c8afa5">
+<h3 id="org2c8afa5"><span class="section-number-3">6.2</span> Problem 2</h3>
+<div class="outline-text-3" id="text-6-2">
 <pre class="example">
 2.Happen "authorization failed" error client
 Solve:
@@ -752,8 +752,8 @@ Solve:
 </div>
 </div>
 <div id="outline-container-org25b8026" class="outline-3">
-<h3 id="org25b8026">Problem 3</h3>
-<div class="outline-text-3" id="text-org25b8026">
+<h3 id="org25b8026"><span class="section-number-3">6.3</span> Problem 3</h3>
+<div class="outline-text-3" id="text-6-3">
 <pre class="example">
 3.When committing,error:
          post commit FS processing had error:
@@ -1002,7 +1002,7 @@ chown -R zrg.zrggroup rep-cache.db
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org399735d"> <span class="nav-text">Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org167bf58"> <span class="nav-text">Installing</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9fa15ad"> <span class="nav-text">environment</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcbe244d"> <span class="nav-text">First Method: installing by source package</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd142a18"> <span class="nav-text">Download and decompression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ca6bf9"> <span class="nav-text">Compile and install</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org072aa85"> <span class="nav-text">Add command of svn to path</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf73fa58"> <span class="nav-text">Second Method: yum install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd2f0fb"> <span class="nav-text">Build warehouse of test</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga7153f9"> <span class="nav-text">Build</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8c3ce61"> <span class="nav-text">Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org864b8dd"> <span class="nav-text">Start</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1079e7b"> <span class="nav-text">Start service of SVN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org80b6bbc"> <span class="nav-text">Check service</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf6658a4"> <span class="nav-text">Change permission of user</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4c9f799"> <span class="nav-text">Test by client</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org70d3332"> <span class="nav-text">Apache and Subversion</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6924d46"> <span class="nav-text">Add this config file to apache</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1d8b176"> <span class="nav-text">Create SVN users</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0fab3e2"> <span class="nav-text">Create and configure SVN repository</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org399c8d2"> <span class="nav-text">You can open the http and https on the file with thi way</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94ddb5e"> <span class="nav-text">Make trunk, branches and tags structure under repo</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org250fe7c"> <span class="nav-text">Question</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org723eaa8"> <span class="nav-text">Problem 1</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2c8afa5"> <span class="nav-text">Problem 2</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org25b8026"> <span class="nav-text">Problem 3</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org399735d"> <span class="nav-text">1 Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org167bf58"> <span class="nav-text">2 Installing</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9fa15ad"> <span class="nav-text">2.1 environment</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcbe244d"> <span class="nav-text">2.2 First Method: installing by source package</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd142a18"> <span class="nav-text">2.2.1 Download and decompression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ca6bf9"> <span class="nav-text">2.2.2 Compile and install</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org072aa85"> <span class="nav-text">2.2.3 Add command of svn to path</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf73fa58"> <span class="nav-text">2.3 Second Method: yum install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbd2f0fb"> <span class="nav-text">3 Build warehouse of test</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga7153f9"> <span class="nav-text">3.1 Build</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8c3ce61"> <span class="nav-text">3.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org864b8dd"> <span class="nav-text">4 Start</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1079e7b"> <span class="nav-text">4.1 Start service of SVN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org80b6bbc"> <span class="nav-text">4.2 Check service</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf6658a4"> <span class="nav-text">4.3 Change permission of user</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4c9f799"> <span class="nav-text">4.4 Test by client</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org70d3332"> <span class="nav-text">5 Apache and Subversion</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6924d46"> <span class="nav-text">5.1 Add this config file to apache</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1d8b176"> <span class="nav-text">5.2 Create SVN users</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0fab3e2"> <span class="nav-text">5.3 Create and configure SVN repository</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org399c8d2"> <span class="nav-text">5.4 You can open the http and https on the file with thi way</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94ddb5e"> <span class="nav-text">5.5 Make trunk, branches and tags structure under repo</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org250fe7c"> <span class="nav-text">6 Question</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org723eaa8"> <span class="nav-text">6.1 Problem 1</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2c8afa5"> <span class="nav-text">6.2 Problem 2</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org25b8026"> <span class="nav-text">6.3 Problem 3</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

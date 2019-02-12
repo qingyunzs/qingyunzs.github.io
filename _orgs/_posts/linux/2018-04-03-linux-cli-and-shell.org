@@ -519,9 +519,8 @@ Hello, World
 *** if-then
 #+NAME: if-then
 #+BEGIN_SRC shell
-示例：
 #!/bin/bash
-testuser = NoSuchUser
+testuser = zrg
 #
 if grep $testuser /etc/passwd
 then
@@ -536,8 +535,8 @@ else
     echo
 fi
 
-test命令提供了在if-then语句中测试不同条件的途径。
-test命令可以判断三类条件：数值比较；字符串比较；文件比较
+#test命令提供了在if-then语句中测试不同条件的途径。
+#test命令可以判断三类条件：数值比较；字符串比较；文件比较
 #+END_SRC
 **** test 命令
  : 格式：
@@ -764,6 +763,19 @@ do
 	var1=$[ $var1 - 1 ]
 done
 #+END_SRC
+
+#+RESULTS: while
+| 10 |
+|  9 |
+|  8 |
+|  7 |
+|  6 |
+|  5 |
+|  4 |
+|  3 |
+|  2 |
+|  1 |
+
 *** until 命令
 : until 命令和 while 命令完全相反。
 : 格式：
@@ -782,6 +794,13 @@ do
 	var1=$[ $var1 -25 ]
 done
 #+END_SRC
+
+#+RESULTS: until
+| 100 |
+|  75 |
+|  50 |
+|  25 |
+
 *** 应用
 **** 循环处理文件数据
 #+NAME:循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
@@ -941,7 +960,7 @@ done < "$input"
 *** 命令行参数
 : 位置参数(positional parameter)变量是标准的数字：$0是程序名，$1是第一个参数，$2是第二个参数，依次类推，直到第九个参数$9
 #+NAME:读取参数
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC shell
 #!/bin/bash
 # using one command line parameter
 #
@@ -952,6 +971,9 @@ do
 done
 echo "The factorial of $1 is $factorial"
 #+END_SRC
+
+#+RESULTS: 读取参数
+: The factorial of  is 1
 
 ** 控制脚本
 * 高级 shell 脚本编程
