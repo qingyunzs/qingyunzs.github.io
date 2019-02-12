@@ -1,0 +1,229 @@
+#+TITLE:     剑指 Offer
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:16pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: 剑指 Offer
+author: zrg
+comments: false
+description: 精选谷歌、微软等知名IT企业的典型面试题，从基础知识、代码质量、解题思路、优化效率和综合能力五个方面系统整理了影响面试的5个要点。
+categories:
+- algorithms
+tags:
+- 剑指-Offer
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 1~10
+1. 二维数组的查找
+   - *题目描述*
+     在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
+     #+NAME: C++
+     #+BEGIN_SRC C++
+     
+     #+END_SRC
+
+     #+NAME: PHP
+     #+BEGIN_SRC emacs-lisp
+   <?php
+
+function Find($target, $array)
+{
+    foreach($array as $key=>$val){
+        if(in_array($target,$val)){
+            return "true";
+        }
+    }
+    return "false";
+}
+while(fscanf(STDIN,"%d,%s",$a,$b) == 2){
+    $target = $a;
+    eval('$array='.$b.';');
+    try{
+        echo Find($target,$array)."\n";
+    }catch(Exception $e){
+        die;
+    }
+}
+   #+END_SRC
+     
+     #+NAME: Java 
+     #+BEGIN_SRC java
+   public class Solution {
+    public boolean Find(int target, int [][] array) {
+        int rows = array.length;
+        int cols = array[0].length;
+        int i=rows-1,j=0;
+        while(i>=0 && j<cols){
+            if(target<array[i][j])
+                i--;
+            else if(target>array[i][j])
+                j++;
+            else
+                return true;
+        }
+        return false;
+    }
+}
+   #+END_SRC
+     
+     #+NAME: Python
+     #+BEGIN_SRC python
+   # -*- coding:utf-8 -*-
+   class Solution:
+    # array 二维列表
+    def Find(self, target, array):
+        rows=len(array)
+        cols=len(array[0])
+        i=rows-1
+        j=0
+        while i>=0 and j<cols:
+            if target<array[i][j]:
+                i -= 1
+            elif target>array[i][j]:
+                j += 1
+            else:
+                return True
+        return False
+   #+END_SRC
+     
+     #+NAME: C#
+     #+BEGIN_SRC emacs-lisp
+   class Solution
+{
+    public bool Find(int target, int[][] array)
+    {
+        int row=0;
+        int col=array[0].Length-1;
+        while(row<=array.Length-1&&col>=0){
+            if(target==array[row][col])
+                return true;
+            else if(target>array[row][col])
+                row++;
+            else
+                col--;
+        }
+        return false;
+  
+    }
+}
+   #+END_SRC
+   - *解题思路*
+     矩阵是有序的，从左下角来看，向上数字递减，向右数字递增，因此从左下角开始查找，当要查找数字比左下角数字大时。右移要查找数字比左下角数字小时，上移。
+2. 替换空格
+   + *题目描述*
+     请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+     #+NAME: PHP
+     #+BEGIN_SRC emacs-lisp
+   <?php
+// 直接使用函数
+function replaceSpace($str)
+{
+    return str_replace(' ','%20',$str);
+}
+// 不允许直接调用内置函数
+<?php
+function replaceSpace($str)
+{
+    $res = '';
+    $strLength = strlen($str);
+    for($i=0;$i<$len;$i++){
+	if($str[$i]==' '){
+		$res .='%20';
+	}else{
+		$res .=$str[$i];
+	}
+    }
+    return $res;
+}
+   #+END_SRC
+   + *解题思路*
+     - 问题1：替换字符串，是在原来的字符串上做替换，还是新开辟一个字符串做替换！
+     - 问题2：在当前字符串替换，怎么替换才更有效率（不考虑内置的replace方法）。
+       - 从前往后替换，后面的字符要不断往后移动，要多次移动，所以效率低下
+       - 从后往前，先计算需要多少空间，然后从后往前移动，则每个字符只为移动一次，这样效率更高一点。
+4. 从尾到头打印链表
+
+   
+   *题目描述*
+   *解题思路*
+5. 
+   *题目描述*
+   *解题思路*
+6. 
+   *题目描述*
+   *解题思路*
+7. 
+   *题目描述*
+   *解题思路*
+8. 
+   *题目描述*
+   *解题思路*
+9. 
+   *题目描述*
+   *解题思路*
+10. 
+* 11~20
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+* 21~30
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
+   *题目描述*
+   *解题思路*
+
