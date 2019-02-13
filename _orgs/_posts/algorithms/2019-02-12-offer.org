@@ -31,6 +31,11 @@ photos:
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
+* 前言
+1. 本文内容是《剑指 Offer》的问题求解整理，使其文档化，主要包括问题的代码编写（主流语言）和思路分析。
+2. 文章结构按照10小题为一章节来划分，每一小题的编程语言的实现一般按照【低级语言》脚本语言》高级语言】的格式来展示。
+3. 引用别人的一句话“我们不生产代码，我们是代码的搬运工”。
+4. 文章内容仅供参考。
 * 1~10
 1. 二维数组的查找
    - *题目描述*
@@ -159,11 +164,44 @@ function replaceSpace($str)
      - 问题2：在当前字符串替换，怎么替换才更有效率（不考虑内置的replace方法）。
        - 从前往后替换，后面的字符要不断往后移动，要多次移动，所以效率低下
        - 从后往前，先计算需要多少空间，然后从后往前移动，则每个字符只为移动一次，这样效率更高一点。
-4. 从尾到头打印链表
+3. 从尾到头打印链表
+   + *题目描述*
+     输入一个链表，按链表值从尾到头的顺序返回一个ArrayList。
+     #+NAME: PHP
+     #+BEGIN_SRC emacs-lisp
+     <?php
 
-   
-   *题目描述*
-   *解题思路*
+/*class ListNode{
+    var $val;
+    var $next = NULL;
+    function __construct($x){
+        $this->val = $x;
+    }
+}*/
+function printListFromTailToHead($head)
+{
+    $arrayList = [];
+    while($head !== null){
+        $arrayList[]=$head->val;
+        $head=$head->next;
+    }
+    return array_reverse($arrayList);
+}
+     #+END_SRC
+   + *解题思路*
+     有三种思路，
+     - 第一就是利用栈先入后出的特性完成；
+     - 第二就是存下来然后进行数组翻转；
+     - 第三是利用递归。
+4. 重建二叉树
+   + *题目描述*
+     输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
+     #+NAME: PHP
+     #+BEGIN_SRC emacs-lisp
+     
+     #+END_SRC
+   + *解题思路*
+     
 5. 
    *题目描述*
    *解题思路*
@@ -179,7 +217,7 @@ function replaceSpace($str)
 9. 
    *题目描述*
    *解题思路*
-10. 
+10.
 * 11~20
    *题目描述*
    *解题思路*
