@@ -34,1183 +34,2352 @@ photos:
 # (setq org-export-html-style nil)
 
 * 前言(Preface)
-** 我的 Linux 学习之路（My road of learning Linux）
-1. 第一次接触 Linux 是由于大二上学期的 Linux 基础课，但是，我并没有喜欢上这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。
-2. 后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。
-3. 再后来，就是现在了，能使用它搭建一些服务，使我的生活更加方便，并将一些网站之类的放在上面，下面就是平时使用 Linux 的总结，仅供参考！
-4. 尽管工作的大部分时间都在用 Windows 操作系统，但是对 Linux 系列的折腾从未停止过。
-5. 现在好了，今年（2018年）1月换了一份工作，公司使用的技术基本都是 Linux 上构建的，除了正常必要性开发，使用 Windows，使用 Linux 的时间将占据工作时间的 1/3。
-: #2018-08-22,更新中……
-** 那些年用过的 Linux 操作系统
-: 1.Ubuntu 12.04/14.04/16.04;
-: 2.CentOS 6.0/7.0;
-: 3.RedHat 7;
-: 4.Debian 7/8/9;
-: 5.SUSE Linux Enterprise server 11/12;
-: 6.Raspberry pi Debian;
-*** 查看 Linux 发行版名称及版本号
-: 1. 查看 Linux 内核版本
-: // 方式一
-: $ cat /proc/version
-: // 方式二
-: $ uname -a
-
-: 2. 查看 Linux 系统版本
-: // 方式一(这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。)
-: $ lsb_release -a
-: // 方式二(这种方法只适合Redhat系的Linux)
-: $ cat /etc/redhat-release
-: // 方式三(使用所有Linux版本)
-: $ cat /etc/issue
-** 英文太差，能学好 Linux 吗？
-- [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
-- [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]]
-** 阅读提示
-+ 阅读本文时，每个知识章节都会有「参考资料」（中文）或「References」（英文）的章节，部分实际操作章节除外。
-+ 本文内容以笔记的形式记录，阅读时知识点不能完全列出，敬请见谅。
-+ 本文内容以实际应用为主。
+  : 欢迎阅读本册子，和其他大‘全图书不一样，本册子以实践的方式介绍Linux基础、Linux服务架构和Linux实用技巧，涵盖了详尽的动手教程和实践信息，还提供了
+  : 与内容相关的参考资料。本册子可以作为Linux的操作参考工具书。作者会持续更新与完善内容，血不流干，死不休战。
+  *读者对象*
+  - Linux 系统管理员
+    : 如果你是 Linux 环境下的系统管理员，那么本册子也许能为你提供一定的帮助。
+  - Linux 爱好者
+    : 如果你是 Linux 爱好者，本册子将告诉你部分问题的解决办法及原因。
+  *本册子结构*
+  : 本册子将会引领你从认识 Linux 开始，一直到熟练使用 Linux。本册子分为五大部分。
+  : 第一部分，获取和安装 Linux 系统，Linux 配置，Linux 介绍。
+  : 第二部分，介绍 Linux 文件、目录及磁盘常见操作。
+  : 第三部分，学习及应用 shell scripts。
+  : 第四部分，属于 Linux 进阶篇，对于 Linux 系统管理员比较实用。
+  : 第五部分，聚集常见开发、运维中遇到的各种问题的解决办法。
+  *阅读提示*
+  1. 阅读本文时，每个知识章节都会有「参考资料」（中文）或「References」（英文）的章节，部分实际操作章节除外。
+  2. 本文内容以笔记的形式记录，阅读时知识点不能完全列出，敬请见谅。内容以实际应用为主。
+  *作者*
+  + zrg 的 Linux 学习之路（My road of learning Linux）
+    - 第一次接触 Linux 是由于大二上学期的 Linux 基础课，但是，我并没有喜欢上这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。
+    - 后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。
+    - 再后来，就是现在了，能使用它搭建一些服务，使我的生活更加方便，并将一些网站之类的放在上面，下面就是平时使用 Linux 的总结，仅供参考！
+    - 尽管工作的大部分时间都在用 Windows 操作系统，但是对 Linux 系列的折腾从未停止过。
+    - 现在好了，今年（2018年）1月换了一份工作，公司使用的技术基本都是 Linux 上构建的，除了正常必要性开发，使用 Windows，使用 Linux 的时间将占据工作时间的 1/3。
+    - #2018-08-22,更新中……
+  + 那些年用过的 Linux 操作系统
+    : 1.Ubuntu 12.04/14.04/16.04;
+    : 2.CentOS 6.0/7.0;
+    : 3.RedHat 7;
+    : 4.Debian 7/8/9;
+    : 5.SUSE Linux Enterprise server 11/12;
+    : 6.Raspberry pi Debian;
+  + 英文太差，能学好 Linux 吗？
+    : 关于这个问题，可以参考一下两个链接，或许能让你收获点什么！
+    - [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
+    - [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]] 
 * 开始(Get Started)
-** Wifi连接配置（configure）
-: 完成安装第一步，当然是先解决网络。
+** 安装(Install)
+   : 系统安装过程暂不详细介绍，主要对安装过程和安装后的常用操作做一下简单说明。
+*** 主机规划与磁盘分区
+*** 安装后的常见操作
+**** 查看 Linux 发行版名称及版本号
+     : 1. 查看 Linux 内核版本
+     : // 方式一
+     : $ cat /proc/version
+     : // 方式二
+     : $ uname -a
+     : 2. 查看 Linux 系统版本
+     : // 方式一(这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。)
+     : $ lsb_release -a
+     : // 方式二(这种方法只适合Redhat系的Linux)
+     : $ cat /etc/redhat-release
+     : // 方式三(使用所有Linux版本)
+     : $ cat /etc/issue
+**** Linux 上挂载NTFS格式文件系统
+     + 方案A（Scheme A）：使用linux-ntfs
+       : 1.
+       : $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+       : 2.
+       : # rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+       : 3.
+       : 检查 ntfs 模块是否被加载进系统
+       : $ /sbin/modprobe ntfs
+       :  [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
+       : $ cat /proc/filesystems
+       :  [ntfs应该出现在列表中]
+       : 4.查看NTFS系统的编号
+       : /sbin/fdisk -l |grep NTFS 
+       : 5.
+       : #mkdir -p /mnt/win_ntfs
+       : #mount -t ntfs /dev/sda1 /mnt/win_ntfs
+     + 方案B（Scheme B）：使用fuse和ntfs-3g
+       : 1.
+       : # wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
+       : # wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
+       : 2.
+       : # tar -zxf fuse-2.7.4.tar.gz
+       : # ./configure --prefix=/usr/local/fuse-2.7.4
+       : # make 
+       : # make install
 
-: 1.查看无线（wireless）网卡（LAN）驱动（driver）
-: # lsmod | grep iw
+       : # tar -zxf ntfs-3g-2009.4.4.tgz
+       : # ./configure --prefix=/usr/local/ntfs-3
+       : # make 
+       : # make install 
+       : 3.
+       : 检查fuse模块是否被加载进系统
+       : $ /sbin/modprobe fuse
+       :  [没有输出则代表存在；否则将会有错误信息报出]
+       : $ cat /proc/filesystems
+       :  [fuse应该出现在列表中]
+       : 4.
+       : 查看NTFS系统的编号 
+       : $ /sbin/fdisk -l |grep NTFS 
+       : 5.
+       : #mount ntfs-3g /dev/sda1 /mnt/win_ntfs
 
-: 2.安装（Installing）无线网卡驱动
-: # apt-get install firmware-iwlwifi wireless-tools
+       参考：http://blog.163.com/flybood@126/blog/static/41230911201062165035335/
+     + 自动挂载 NTFS 格式硬盘
+       1. 安装 ntfs-3g
+	  : $ sudo apt-get install ntfs-3g
+       2. 步骤1：编辑/etc/fstab
+	  : $ sudo vim /etc/fstab
+	  : /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+	  : Notice:
+	  :    If /dev/sdb1 path will change due to system configuration, I recommend that you use
+	  : the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
+	  : 翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符），下面是查看 UUID 的命令。
+	  : $ sudo /sbin/blkid /dev/sda1
+	  : //Note down the UUID value and update /etc/fstab as follows:
+	  : 翻译：记录下 UUID，更新 /etc/fstab 文件。
+	  #+BEGIN_SRC emacs-lisp
+       # syntax
+       # UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+       UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+       # Owning entire file system
+       UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
+	  #+END_SRC
+	  : //保存关闭文件
+       3. 步骤2：创建目录
+	  : $ sudo mkdir -p /mnt/ntfs
+       4. 步骤3：测试（Test）可用性
+	  : $ sudo mount -a
+	  : $ df -h
+	  : $ cd /mnt/ntfs
+	  : $ ls -l
+       5. 步骤4：卸载NTFS分区
+	  : $ sudo umount /mnt/ntfs
+	  : // or
+	  : $ sudo umount /dev/sda1
+       6. 注意错误信息：“Read-only file system”提示
+	  : $ mv 05Music/ /mnt/sda/sda2/
+	  : /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
+	  : //解决（Solving）：配置 /etc/fstab
+     + 参考资料
+       : https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
+       : http://www.tuicool.com/articles/ZbENfie
+       : https://wiki.archlinux.org/index.php/NTFS-3G
+       : https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+       : https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+**** boot 加载选项修改
+     : # chmod +w /boot/grub/grub.cfg
+     : # vim /boot/grub/grub.cfg
+     : 注释不需要的加载项！
+**** 改变 Home 目录下的目录中文名称为英文
+     + 方法1
+       : $ vim ~/.config/user-dirs.dirs
+       #+BEGIN_SRC emacs-lisp
+      XDG_DESKTOP_DIR="$HOME/Desktop"
+      XDG_DOWNLOAD_DIR="$HOME/Download"
+      XDG_TEMPLATES_DIR="$HOME/Template"
+      XDG_PUBLICSHARE_DIR="$HOME/Public"
+      XDG_DOCUMENTS_DIR="$HOME/Document"
+      XDG_MUSIC_DIR="$HOME/Music"
+      XDG_PICTURES_DIR="$HOME/Picture"
+      XDG_VIDEOS_DIR="$HOME/Video"
+       #+END_SRC
+     + 方法2
+       : export LANG=en_US
+       : xdg-user-dirs-gtk-update
+**** 电脑没有声音
+     + 解决
+       : //安装驱动软件
+       : $ sudo apt-get install alsa-utils
+       : $ sudo apt-get install alsa-oos
+       : $ sudo apt-get install esound
+       : $ sudo apt-get install gnome-audio
+       : //检查声卡驱动
+       : $ lspci |grep Audio
+       : //检查内核模块
+       : $ lsmod |grep snd
+       : //检查系统音量
+       : $ alsamixer
+       : //alsamixer是alsa驱动的一个插件,是一个命令行下的图形设置工具.
+       : //alsamixer命令，00表示音量正常，MM表示此声道静音。可以通过M键切换
+       : //初始化声卡
+       : $ sudo alsactl init
+     + 参考资料
+       - [[https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/][解決 Ubuntu Linux 16.04 耳機輸出沒有聲音的問題]]
+**** 关机和重启
+     + shutdown
+       + 描述
+	 : 关机、重启计算机(Halt, power-off or reboot the machine)
+	 : 格式: shutdown [OPTIONS...] [TIME] [WALL...]
+       + 实践
+	 - 重启
+	   : $ sudo shutdown -r now
 
-: 3.向内核（kernel）中加载/移除模块（modules）
-: # modprobe iwl4965
+	   : // 其他重启命令
+	   : $ sudo reboot
+	   : $ init 6
 
-: 4.重启系统
-: # reboot
+	   #+NAME:系统运行级别
+	   | 级别 | 描述                           |
+	   |------+--------------------------------|
+	   |    0 | 关机，不允许设置为初始化默认值 |
+	   |    1 | 单用户模式                     |
+	   |    2 | 不完全多用户，不含NFS服务      |
+	   |    3 | 完全多用户                     |
+	   |    4 | 未分配                         |
+	   |    5 | 图形界面                       |
+	   |    6 | 重启，不允许设置为初始化默认值 |
+	   : $ cat /etc/initable
+	   : // 查看系统运行级别
+	   : $ sudo runlevel
+     + 其他关机/注销命令
+       + 描述
+	 : halt
+	 : poweroff
+	 : init 0
+	 : logout
+       + 实践
+** 配置(Configure)
+*** Wifi连接配置（configure）
+    : 完成安装第一步，当然是先解决网络。
 
-: 5.配置无线网络
-: //查看无线网口（nerwork port）
-: # iwconfig
-: //开启无线网口
-: # ifconfig wlan0 up
-: //扫描（scaning）无线网络
-: # iwlist wlan0 scan
-: //连接无线网络
-: # iwconfig wlan0 ESSID "wifi-name" KEY "password" open
-: //执行上面的命令（command）后，发现并不能成功！！！
-: //于是，通过如下命令继续配置
-: //格式：wpa_passphrase <ssid> [passphrase]
-: # wpa_passphrase "wifi-name" "passowrd">/etc/wpa_supplicant.conf
-: # wpa_passphrase -B -i wlan0 -Dwext -c /etc/wpa_supplicant.conf
-: //查看wlan0无线网口
-: # iwconfig wlan0
-: //执行命令获取到IP地址，成功连上WiFi
-: # dhclient wlan0
+    : 1.查看无线（wireless）网卡（LAN）驱动（driver）
+    : # lsmod | grep iw
 
-: 6.开机自动连接WiFi配置
-: # vim /etc/network/interfaces.d/wlan0
-#+BEGIN_SRC emacs-lisp
- auto wlan0
- allow-hotplug wlan0
- iface wlan0 inet dhcp
- 	wpa-conf /etc/wpa_supplicant.conf 
-#+END_SRC
-** 配置安装源(source)
-*** 以配置163源举例说明
-: 1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
-: 2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
-: 3. 复制安装源文本到 /etc/apt/source.list 中。
-#+NAME: 163源配置
-#+BEGIN_SRC emacs-lisp
-# mirrors.163.com
-deb http://mirrors.163.com/debian/ jessie main non-free contrib
-deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
-deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
-#+END_SRC
-*** 其他安装源
-- [[https://mirrors.ustc.edu.cn/][中国科学技术大学开源软件镜像站]]
-- [[https://mirrors.tuna.tsinghua.edu.cn/][清华大学开源软件镜像站]]
-- [[http://mirror.hust.edu.cn/][华中科技大学开源镜像站]]
-- [[https://mirrors.aliyun.com][阿里云开源镜像站]]
-** 配置系统支持中文（support chinese）
-*** 安装及配置
-: 1. 查看并设置环境变量
-: $ echo $LANG
-: $ export LANG=en_US.UTF-8
+    : 2.安装（Installing）无线网卡驱动
+    : # apt-get install firmware-iwlwifi wireless-tools
 
-: 2. 没有安装 locales,先安装 locales
-: $ sudo aptitude install locales
+    : 3.向内核（kernel）中加载/移除模块（modules）
+    : # modprobe iwl4965
 
-: 3. 配置中文编码
-: $ sudo dpkg-reconfigure locales
-: //选择编码（encode），space选择
-- en_US.UTF-8
-- zh_CN.GB2312
-- zh_CN.GB18030
-- zh_CN.GBK
-- zh_CN.UTF-8
+    : 4.重启系统
+    : # reboot
 
-: 4. 文件配置
-: $ sudo vim /etc/default/locate
-#+BEGIN_SRC emacs-lisp 
-# LANG="zh_CN.UTF-8"
-# LANGUAGE="zh_CN:zh"
-LANG="en_US.UTF-8"
-LANGUAGE="en_US:en"
-#+END_SRC
-*** 安装中文输入法
-**** ibus & UIM & SCIM & Fcitx
- - [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
- - [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
-**** Fcitx 输入法补充
- + [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
- : 1. 安装 fcitx 组件（module）
- : $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+    : 5.配置无线网络
+    : //查看无线网口（nerwork port）
+    : # iwconfig
+    : //开启无线网口
+    : # ifconfig wlan0 up
+    : //扫描（scaning）无线网络
+    : # iwlist wlan0 scan
+    : //连接无线网络
+    : # iwconfig wlan0 ESSID "wifi-name" KEY "password" open
+    : //执行上面的命令（command）后，发现并不能成功！！！
+    : //于是，通过如下命令继续配置
+    : //格式：wpa_passphrase <ssid> [passphrase]
+    : # wpa_passphrase "wifi-name" "passowrd">/etc/wpa_supplicant.conf
+    : # wpa_passphrase -B -i wlan0 -Dwext -c /etc/wpa_supplicant.conf
+    : //查看wlan0无线网口
+    : # iwconfig wlan0
+    : //执行命令获取到IP地址，成功连上WiFi
+    : # dhclient wlan0
 
- : 2. 安装 fcitx 输入法
- : $ sudo apt install fcitx-pinyin
- : $ sudo apt install fcitx-googlepinyin
- : $ sudo apt install fcitx-table //五笔
+    : 6.开机自动连接WiFi配置
+    : # vim /etc/network/interfaces.d/wlan0
+    #+BEGIN_SRC emacs-lisp
+  auto wlan0
+  allow-hotplug wlan0
+  iface wlan0 inet dhcp
+ 	 wpa-conf /etc/wpa_supplicant.conf 
+    #+END_SRC
+*** 配置安装源(source)
+    + 以配置163源举例说明
+      : 1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
+      : 2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
+      : 3. 复制安装源文本到 /etc/apt/source.list 中。
+      #+NAME: 163源配置
+      #+BEGIN_SRC emacs-lisp
+     # mirrors.163.com
+     deb http://mirrors.163.com/debian/ jessie main non-free contrib
+     deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+     deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+     deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+     deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+     deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+     deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+     deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+      #+END_SRC
+    + 其他安装源
+      - [[https://mirrors.ustc.edu.cn/][中国科学技术大学开源软件镜像站]]
+      - [[https://mirrors.tuna.tsinghua.edu.cn/][清华大学开源软件镜像站]]
+      - [[http://mirror.hust.edu.cn/][华中科技大学开源镜像站]]
+      - [[https://mirrors.aliyun.com][阿里云开源镜像站]]
+*** 配置系统支持中文（support chinese）
+    + 安装及配置
+      : 1. 查看并设置环境变量
+      : $ echo $LANG
+      : $ export LANG=en_US.UTF-8
 
- : 3. 设置并运行
- : $ export LANG=zh_CN.utf8
- : $ export LC_CTYPE=zh_CN.utf8
- : $ export LC_ALL=zh_CN.utf8
- : $ export XMODIFIERS=@im=fcitx
- : $ fcitx &
+      : 2. 没有安装 locales,先安装 locales
+      : $ sudo aptitude install locales
 
- : 4. ui 动态库的支持:
- : $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
+      : 3. 配置中文编码
+      : $ sudo dpkg-reconfigure locales
+      : //选择编码（encode），space选择
+      - en_US.UTF-8
+      - zh_CN.GB2312
+      - zh_CN.GB18030
+      - zh_CN.GBK
+      - zh_CN.UTF-8
 
- : 5. 重启可用
+	: 4. 文件配置
+	: $ sudo vim /etc/default/locate
+	#+BEGIN_SRC emacs-lisp 
+    # LANG="zh_CN.UTF-8"
+    # LANGUAGE="zh_CN:zh"
+    LANG="en_US.UTF-8"
+    LANGUAGE="en_US:en"
+	#+END_SRC
+    + 安装中文输入法
+      : ibus & UIM & SCIM & Fcitx
+      - [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
+      - [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
+    + Fcitx 输入法补充
+      - [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
+	: 1. 安装 fcitx 组件（module）
+	: $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+
+	: 2. 安装 fcitx 输入法
+	: $ sudo apt install fcitx-pinyin
+	: $ sudo apt install fcitx-googlepinyin
+	: $ sudo apt install fcitx-table //五笔
+
+	: 3. 设置并运行
+	: $ export LANG=zh_CN.utf8
+	: $ export LC_CTYPE=zh_CN.utf8
+	: $ export LC_ALL=zh_CN.utf8
+	: $ export XMODIFIERS=@im=fcitx
+	: $ fcitx &
+
+	: 4. ui 动态库的支持:
+	: $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
+
+	: 5. 重启可用
 *** 参考资料
-+ [[https://wiki.debian.org/Locale][Locale debian wiki]]
-* Linux 介绍(Instroduction)
-: 首先，明确一点：GNU Not's Unix.
-** Linux 系统
-*** Linux 可划分为以下四部分
-1. Linux 内核
-2. GNU 工具
-3. 图形化桌面环境
-4. 应用软件
-*** 深入探究 Linux 内核
-: Linus Torvalds：Linux 内核开发者。
+    + [[https://wiki.debian.org/Locale][Locale debian wiki]]
+** 介绍(Instroduction)
+   : 首先，明确一点：GNU Not's Unix.
+*** 入门第一步，理解 Linux
+    1. 首先，以 Linux 的思维方式系统性思考问题。
+    2. Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
+    3. Linux 是一个以命令行为主要的管理方式的 OS。
+    4. Linux 的日志非常完善，也至关重要。
+    5. Linux 是一个以配置文件为管理基础的 OS。
+    6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
+*** Linux 内容划分
+    : Linux 可划分为以下四部分
+    1. Linux 内核
+    2. GNU 工具
+    3. 图形化桌面环境
+    4. 应用软件
+**** 深入探究 Linux 内核
+     : Linus Torvalds：Linux 内核开发者。
+     : Linux 内核主要负责一下四种功能：
+     1. 系统内存管理
+	- 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
+	- 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
+	- 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
+	- 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
+     2. 软件程序管理
+	+ Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
+	+ 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
+	  - 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
+	  - 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
+	  - 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
+	  - Linux 系统可以通过调整启动运行级来控制整个系统的功能。
+     3. 硬件设备管理
+	+ 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
+	  - 编译进内核的设备驱动代码
+	  - 可插入内核的设备驱动模块
+	  : 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
+	  : 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
+	  - 设备文件有3种分类
+	    - 字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
+	    - 块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
+	    - 网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
+	+ Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
+     4. 文件系统管理
+	: Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
+	#+CAPTION: 
+	| 文件系统 | 描述                                              |
+	|----------+---------------------------------------------------|
+	| ext      | Linux 扩展文件系统，最早的 Linux 文件系统         |
+	| ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能     |
+	| ext3     | 第三扩展文件系统，支持日志功能                    |
+	| ext4     | 第四扩展文件系统，支持高级日志功能                |
+	| hpfs     | OS/2高性能文件系统                                |
+	| jfs      | IBM日志文件系统                                   |
+	| iso9660  | ISO 9660文件系统（CD-ROM）                        |
+	| mimix    | MINIX文件系统                                     |
+	| msdos    | 微软的FAT16                                       |
+	| ncp      | Netware文件系统                                   |
+	| nfs      | 网络文件系统                                      |
+	| ntfs     | 支持Microsoft NT文件系统                          |
+	| proc     | 访问系统信息                                      |
+	| ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
+	| smb      | 支持网络访问的Samba SMB文件系统                   |
+	| sysv     | 较早期的Unix文件系统                              |
+	| ufs      | BSD文件系统                                       |
+	| umsdos   | 建立在msdos上的类Unix文件系统                     |
+	| vfat     | Windows95文件系统（FAT32）                        |
+	| XFS      | 高性能64位日志文件系统                            |
+	: Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
+**** GNU工具
+     : 1.核心 GNU 工具：coreutils(coreutilities)软件包
+     : GNU coreutils 软件包由三部分构成：
+     : 1)用以处理文件的工具
+     : 2)用以操作文本的工具
+     : 3)用以管理进程的工具
 
-: Linux 内核主要负责一下四种功能：
-1.系统内存管理
-2.软件程序管理
-3.硬件设备管理
-4.文件系统管理
-**** 系统内存管理
-: 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
+     : 2.shell
+     : Linux 中常见的shell
+     | shell | 描述                                                                                                                                                                                               |
+     |-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+     | bash  | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
+     | ash   | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。                                                                                                                                |
+     | korn  | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。                                                                                                                              |
+     | tcsh  | 一种将C语言中的一些元素引入到shell脚本中的shell。                                                                                                                                                  |
+     | zsh   | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。                                                                                                    |
+     |-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+**** Linux 桌面环境
+     1.X Window
+     2.KDE 桌面（K Desktop Environment，K 桌面系统）
+     3.GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
+     4.Unity 桌面
+     5.其他桌面
+     #+CAPTION: 其他桌面
+     | 桌面    | 描述 |
+     |---------+------|
+     | Fluxbox |      |
+     | Xfce    |      |
+     | JWM     |      |
+     | Fvwm    |      |
+     | fvwm95  |      |
+     |---------+------|
+**** Linux 发行版
+     : 不同的 Linux 发行版通常归类为3种：
+     #+CAPTION: 1.完整的核心 Linux 发行版
+     | Slackware | 最早的 Linux 发行版之一                            |
+     | Red Hat   | 商业发行版                                         |
+     | Fedora    | Red Hat 分离出的家用发行版                         |
+     | Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
+     | openSuse  | 商用和家用的发行版                                 |
+     | Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
 
-: 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
-
-: 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
-
-: 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
-**** 软件程序管理
-: Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
-
-: 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
-: 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
-: 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
-: 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
-: Linux 系统可以通过调整启动运行级来控制整个系统的功能。
-**** 硬件设备管理
-: 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
-: 1.编译进内核的设备驱动代码
-: 2.可插入内核的设备驱动模块
-: 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
-: 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。设备文件有3种分类：
-: 1.字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
-: 2.块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
-: 3.网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
-
-: Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。
-: 每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
-**** 文件系统管理
-: Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
-| 文件系统 | 描述                                          |
-|----------+-----------------------------------------------|
-| ext      | Linux 扩展文件系统，最早的 Linux 文件系统     |
-| ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能 |
-| ext3     | 第三扩展文件系统，支持日志功能                |
-| ext4     | 第四扩展文件系统，支持高级日志功能    |
-| hpfs     | OS/2高性能文件系统                                   |
-| jfs      | IBM日志文件系统                               |
-| iso9660  | ISO 9660文件系统（CD-ROM）                    |
-| mimix    | MINIX文件系统                                 |
-| msdos    | 微软的FAT16                                   |
-| ncp      | Netware文件系统                               |
-| nfs      | 网络文件系统                                  |
-| ntfs     | 支持Microsoft NT文件系统                      |
-| proc     | 访问系统信息                                  |
-| ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
-| smb      | 支持网络访问的Samba SMB文件系统               |
-| sysv     | 较早期的Unix文件系统                          |
-| ufs      | BSD文件系统                                       |
-| umsdos   | 建立在msdos上的类Unix文件系统                 |
-| vfat     | Windows95文件系统（FAT32）                    |
-| XFS      | 高性能64位日志文件系统                        |
-
-: Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。
-*** GNU工具
-: 1.核心 GNU 工具：coreutils(coreutilities)软件包
-: GNU coreutils 软件包由三部分构成：
-: 1)用以处理文件的工具
-: 2)用以操作文本的工具
-: 3)用以管理进程的工具
-
-: 2.shell
-: Linux 中常见的shell
-| shell | 描述                                                                                                                                                                                               |
-|-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| bash  | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
-| ash   | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。                                                                                                                                |
-| korn  | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。                                                                                                                              |
-| tcsh  | 一种将C语言中的一些元素引入到shell脚本中的shell。                                                                                                                                                  |
-| zsh   | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。                                                                                                    |
-|-------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-*** Linux 桌面环境
-1.X Window
-2.KDE 桌面（K Desktop Environment，K 桌面系统）
-3.GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
-4.Unity 桌面
-5.其他桌面
-#+CAPTION: 其他桌面
-| 桌面    | 描述 |
-|---------+------|
-| Fluxbox |      |
-| Xfce    |      |
-| JWM     |      |
-| Fvwm    |      |
-| fvwm95  |      |
-|---------+------|
-*** Linux 发行版
-: 不同的 Linux 发行版通常归类为3种：
-#+CAPTION: 1.完整的核心 Linux 发行版
-| Slackware | 最早的 Linux 发行版之一                            |
-| Red Hat   | 商业发行版                                         |
-| Fedora    | Red Hat 分离出的家用发行版                         |
-| Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
-| openSuse  | 商用和家用的发行版                                 |
-| Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
-
-#+CAPTION: 2.特定用途的发行版
-| CentOS     | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
-| Ubuntu     | 一款用于学校和家庭的免费发行版                       |
-| PCLinuxOS  | 一款用于学校和办公的免费发行版                       |
-| Mint       | 一款用于家庭娱乐的免费发行版                         |
-| dyne:bolic | 一款用于音频和MIDI应用的免费发型版                   |
-| Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
-#+CAPTION: 3.LiveCD 测试发行版。
-| Knoppix     | 最早的 LiveCD Linux               |
-| PCLinuxOS   | 一款成熟的 LiveCD                 |
-| Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
-| Slax        | 基于 Slackware Linux              |
-| Pubby Linux | 为老旧 PC 设计的一款全功能 Linux             |
-** 入门第一步，理解 Linux
-1. 首先，以 Linux 的思维方式系统性思考问题。
-2. Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
-3. Linux 是一个以命令行为主要的管理方式的 OS。
-4. Linux 的日志非常完善，也至关重要。
-5. Linux 是一个以配置文件为管理基础的 OS。
-6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
-** 获取帮助 & 问题解决 
-1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
-2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
-3. 检查相关日志。
-4. 对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
-5. 使用网络
-6. 使用搜索命令：find，locate，whereis。。。
-** Linux 常用命令
-#+BEGIN_SRC shell 
-ls (list files and directories)
-less (view text files)
-file (classify a file's contents)
-
-cp - copy files and directories
-mv - move or rename files and directories
-rm - remove files and directories
-mkdir - create directories
-
-type - Display information about command type
-which - Locate a command
-help - Display reference page for shell builtin
-man - Display an on-line command reference
-
-chmod - modify file access rights
-su - temporarily become the superuser
-sudo - temporarily become the superuser
-chown - change file ownership
-chgrp - change a file's group ownership
-
-ps - list the processes running on the system
-kill - send a signal to one or more processes (usually to "kill" a process)
-jobs - an alternate way of listing your own processes
-bg - put a process in the background
-fg - put a process in the forground
-#+END_SRC
-** Linux 网络配置
-*** 基本的网络参数
-: IP地址
-: 子网掩码
-: 网关
-: DNS
-*** 安装网络工具
-: //Debian/Linux
-: $ sudo apt-get install net-tools
-*** 配置网络
-: 1.在 Linux 中，以太网接口被命名为：eth0、eth1等。
-: 2.lspci 命令可以查看网卡硬件信息（如果是 usb 网卡，则需要使用 lsusb 命令）
-: 3.ifconfig 命令：查看接口信息
-:  $ ifconfig -a
-:  $ ifconfig eth0
-: 4.ifup,ifdown 命令：启用、禁用一个接口
-:  $ ifup eth0
-:  $ ifdown eth0
-*** 相关配置文件
-: 1.网卡配置文件：/etc/sysconfig/network-scripts/ifcfg-eth0
-: 2.DNS 配置文件：/etc/resolv.conf
-: 3.主机名配置文件：/etc/sysconfig/network
-: 4.静态主机名配置文件：/etc/hosts
-*** 网络测试
-: 1.测试网路连通性：ping 命令
-: 2.测试DNS解析：host,dig 命令
-: 3.显示路由表：ip route 命令
-: 4.追踪到达目标地址的网络路径：traceroute 命令
-: 5.mtr 命令进行网络质量测试
-** 日期时间设置
-: Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中
-: 的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-: 1.date 命令
-: 2.hwclock 命令，查看硬件时间
-: //设置硬件时间
-: $ sudo hwclock -set -date='07/17/2017 20:00'
-: 3.硬件时间与系统时钟同步
-: $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-: $ sudo hwclock -systohc
+     #+CAPTION: 2.特定用途的发行版
+     | CentOS     | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
+     | Ubuntu     | 一款用于学校和家庭的免费发行版                       |
+     | PCLinuxOS  | 一款用于学校和办公的免费发行版                       |
+     | Mint       | 一款用于家庭娱乐的免费发行版                         |
+     | dyne:bolic | 一款用于音频和MIDI应用的免费发型版                   |
+     | Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
+     #+CAPTION: 3.LiveCD 测试发行版。
+     | Knoppix     | 最早的 LiveCD Linux               |
+     | PCLinuxOS   | 一款成熟的 LiveCD                 |
+     | Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
+     | Slax        | 基于 Slackware Linux              |
+     | Pubby Linux | 为老旧 PC 设计的一款全功能 Linux             |
+*** Linux 基本网络配置
+**** 安装网络工具
+     : //Debian/Linux
+     : $ sudo apt-get install net-tools
+**** 配置网络
+     : 1.在 Linux 中，以太网接口被命名为：eth0、eth1等。
+     : 2.lspci 命令可以查看网卡硬件信息（如果是 usb 网卡，则需要使用 lsusb 命令）
+     : 3.ifconfig 命令：查看接口信息
+     :  $ ifconfig -a
+     :  $ ifconfig eth0
+     : 4.ifup,ifdown 命令：启用、禁用一个接口
+     :  $ ifup eth0
+     :  $ ifdown eth0
+**** 相关配置文件
+     : 1.网卡配置文件：/etc/sysconfig/network-scripts/ifcfg-eth0
+     : 2.DNS 配置文件：/etc/resolv.conf
+     : 3.主机名配置文件：/etc/sysconfig/network
+     : 4.静态主机名配置文件：/etc/hosts
+**** 网络测试
+     : 1.测试网路连通性：ping 命令
+     : 2.测试DNS解析：host,dig 命令
+     : 3.显示路由表：ip route 命令
+     : 4.追踪到达目标地址的网络路径：traceroute 命令
+     : 5.mtr 命令进行网络质量测试
+*** Linux 日期时间设置
+    : Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中
+    : 的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
+    : 1.date 命令
+    : 2.hwclock 命令，查看硬件时间
+    : //设置硬件时间
+    : $ sudo hwclock -set -date='07/17/2017 20:00'
+    : 3.硬件时间与系统时钟同步
+    : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+    : $ sudo hwclock -systohc
+*** 获取帮助 & 问题解决 
+    1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
+    2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
+    3. 检查相关日志。
+    4. 对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
+    5. 使用网络
+    6. 使用搜索命令：find，locate，whereis。。。
+**** man
+     : 查看在线帮助手册(an interface to the on-line reference manuals)
+     : 如果不记得命令名怎么办？可以使用关键字搜索手册页。
+     : $ man -k terminal
+     #+CAPTION: Linux 手册页惯用的节名
+     | 节            | 描述                     |
+     |---------------+--------------------------|
+     | Name          | 显示命令和一段简短的描述 |
+     | Synopsis      | 命令的语法               |
+     | Configuration | 命令配置信息             |
+     | Description   | 命令的一般性描述         |
+     | Options       | 命令选项描述             |
+     | Exit Status   | 命令的推出状态指示       |
+     | Return Value  | 命令的返回值             |
+     | Errors        | 命令的错误信息           |
+     | Environment   | 描述所使用的环境变量     |
+     | Files         | 命令用到的文件           |
+     | Versions      | 命令的版本信息           |
+     | Conforming To | 命令所遵从的标准         |
+     | Notes         | 其他有帮助的资料         |
+     | Bugs          | 提供提交Bug的途径        |
+     | Example       | 展示命令的用法           |
+     | Authors       | 命令开发人员的信息       |
+     | Copyright     | 命令源代码的版权状况     |
+     | See Also      | 与该命令类似的其他命令   |
+     |---------------+--------------------------|
+     #+CAPTION: Linux 手册页的内容区域
+     | 区域号 | 所涵盖的内容             |
+     |--------+--------------------------|
+     |      1 | 可执行程序或shell命令    |
+     |      2 | 系统调用                 |
+     |      3 | 库调用                   |
+     |      4 | 特殊文件                 |
+     |      5 | 文件格式与约定           |
+     |      6 | 游戏                     |
+     |      7 | 概览、约定及杂项         |
+     |      8 | 超级用户和系统管理员命令 |
+     |      9 | 内核例程                 |
+     |--------+--------------------------|
+**** help
+     : 查看命令帮助信息(Display information about builtin commands.)
+**** type
+     : 查看命令类型(Display information about command type)
+* Linux 文件、目录与磁盘格式
+** Linux 文件权限
+*** Linux 的安全性
+    1. /etc/passwd
+       : $ cat /etc/passwd
+       root:x:0:0:root:/root:/bin/bash
+       daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+       bin:x:2:2:bin:/bin:/usr/sbin/nologin
+       ...
+       zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+       : /etc/passwd 文件的字段包含如下信息：
+       - 登录用户名
+       - 用户密码
+       - UID
+       - Group ID
+       - 描述
+       - HOME目录位置
+       - 默认shell
+       : /etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+       : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+    2. /etc/shadow
+       : /etc/shadow 文件的每条记录都有9个字段：
+       - 与/etc/passwd文件对应的登录名
+       - 加密后的密码
+       - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+       - 多少天后才能更改密码
+       - 多少天后必须更改密码
+       - 密码过期前提前多少天提醒用户更改密码
+       - 密码过期后多少天禁用用户帐目
+       - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+       - 预留字段给将来使用
+    3. 新增、删除和修改用户
+       : 新增用户
+       : $ /usr/sbin/useradd -D
+       - GROUP=100 //新用户被添加到GID为100的公共组
+       - HOME=/home //HOME目录位置
+       - INACTIVE=-1 //密码过期后不会被禁用
+       - EXPIRE= //未被设置过期日期
+       - SHELL=/bin/sh //将sh作为默认shell
+       - SKEL=/etc/skel //会将/etc/skel目录下的内容复制到用户的HOME目录下
+       - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+       : //用默认系统参数创建一个新用户账户
+       : $ useradd test
+       : //要想在创建用户时改变默认值或默认行为，可以使用命令参数。
+       : $ man useradd
+       : //删除用户
+       : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+       : $ userdel -r test
+       : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+       : //修改用户
+       #+CAPTION: 用户账户修改工具
+       | 命令     | 描述                                               |
+       |----------+----------------------------------------------------|
+       | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+       | passwd   | 修改已有用户的密码                                 |
+       | chpasswd | 从文件中读取登录名密码对，并更新密码               |
+       | chage    | 修改密码的过期时间                                 |
+       | chfn     | 修改用户账户的备注信息                             |
+       | chsh     | 修改用户账户的默认登录shell                        |
+*** 使用 Linux 组
+    1. /etc/group
+       : /etc/group文件有4个字段：
+       - 组名
+       - 组密码
+       - GID
+       - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
+    2. 创建、修改组
+       : $ /usr/sbin/groupadd shared
+       : $ /usr/sbin/groupmod -n sharing shared
+*** 理解文件权限
+    1. 使用文件权限符
+       - -文件
+       - d目录
+       - l链接
+       - c字符型设备
+       - b块设备
+       - n网络设备
+       - r可读
+       - w可写
+       - x可执行
+       - 对象所属用户
+       - 对象所属组
+       - 系统其他用户
+    2. 默认文件权限
+       : umask命令用来设置所创建文件和目录的默认权限。
+*** 共享文件
+    : Linux 为每个文件和目录存储了3个额外的信息位。
+    - 设置用户ID（SUID）
+    - 设置组ID（GID）
+    - 粘着位：进程结束后文件还驻留（粘着）在内存中。
+    #+CAPTION: chmod SUID、SGID和粘着位的八进制值
+    | 二进制值 | 八进制值 | 描述                 |
+    |----------+----------+----------------------|
+    |      000 |        0 | 所有位都清零         |
+    |      001 |        1 | 粘着位置位           |
+    |      010 |        2 | SGID位置位           |
+    |      011 |        3 | SGID位和粘着位都置位 |
+    |      100 |        4 | SUID位置位           |
+    |      101 |        5 | SUID位和粘着位都置位 |
+    |      110 |        6 | SUID位和SGID都置位   |
+    |      111 |        7 | 所有位都置位         |
+    : //创建一个共享目录
+    : $ mkdir testdir
+    : $ chgrp shared testdir
+    : $ chmod g+s testdir
+    : $ umask 002
+    : $ cd testdir
+    : $ touch testfile
 ** Linux 目录结构
-#+CAPTION:
-#+ALTR_HTML: :alt cat/spider image :align center
-[[file:{{site.url}}/assets/images/cs2.png]]
-* Linux 进阶篇(Advanced)
-** crontab 定时执行任务
+   #+CAPTION:
+   #+ALTR_HTML: :alt cat/spider image :align center
+   [[file:{{site.url}}/assets/images/cs2.png]]
+** Linux 文件搜索
+*** find 命令
+    + 根据文件名查找
+      : 格式：find [搜索范围][匹配条件]
+
+      : // 默认在当前目录下搜索
+      : $ find -name "MyCProgram.c"
+
+      : // 忽略大小写
+      : $ find -iname "MyCProgram.c"
+
+      : // 查找以my开头，后面包含三个字符的文件
+      : $ find -name my??? 
+
+      : // 深度查找：
+      : // 在 root 目录及其子目录下查找 passwd 文件。
+      : $ sudo find / -maxdepth 2 -name passwd
+      : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
+      : $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
+      : // 找到 home 目录及子目录下所有的空文件(0字节文件) 
+      : // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
+      : $ find ~/ -empty
+      : //列出你 home 目录里的空文件。
+      : $ find ~/ -maxdepth 1 -empty
+      : //列出 home目录下的非隐藏空文件。
+      : $ find ~/ -maxdepth 1 -empty -not -name ".*"
+
+      : // 相反匹配
+      : // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
+      : $ find -maxdepth 1 -not -iname "MyCProgram.c"
+
+      : // 在查找到的文件上执行命令
+      : // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
+      : $ find -iname "MyCProgram.c" -exec md5sum {} \;
+      : // 在 /etc 目录下查找 inittab 文件并显示其详细属性
+      : $ sudo find /etc -name initab -exec ls -l {} \;
+      : 注意：{} 将会被当前文件名取代。
+      : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
+    + 文件大小查找
+      : // 格式：+n 大于；-n 小于；n 等于
+      : // 在 root 目录下查找大于100MB的文件
+      : $ sudo find / -size +204800
+      : 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
+
+      : // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
+      : $ sudo find /etc -size +163840 -a size -204800
+      : -a 表示两个条件同时满足
+      : -o 表示两个条件满足一个即可
+
+      : //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
+      : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
+      : //查找 5个最小的文件
+      : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
+      : //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
+      : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
+
+      : //查找并删除大于 100M 的 *.zip 文件。
+      : $ find / -type f -name *.zip -size +100M -exec rm -i {} \;"
+    + 根据文件变动情况查找
+      : // 在/etc目录下查找5分钟内被修改过属性的文件和目录
+      : $ sudo /etc -cmin -5
+
+      : -amin 访问时间 access
+      : -cmin 文件属性 change
+      : -mmin 文件内容 modify
+
+      : // 显示所有的在 ordinary_file 之后创建修改的文件。
+      : $ ls -lrt
+      : $ find -newer ordinary_file
+    + 根据文件类型查找
+      : f 文件，d 目录，l 软链接，s socket文件
+      : //查找所有的一般文件
+      : $ find ./ -type f
+      : //查找所有的隐藏文件和目录
+      : $ find ./ -type f -name ".*"
+      : $ find ./ -type d -name ".*"
+    + 根据文件权限、所属关系查找
+      : $ find /home -user zrg
+      : $ find /home -group zrg
+
+      : // 查到当前目录下对同组用户具有读权限的文件
+      : $ find ./ -perm -g=r -type f -exec ls -l {} \;
+      : // 找到对组用户具有只读权限的文件。
+      : $find ./ -perm g=r -type f -exec ls -l {} \;  
+      : // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
+      : $ find ./ -perm 040 -type f -exec ls -l {} \;
+    + 使用 inode 编号查找
+      : //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+      : //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
+      : $ ls -i1 test*
+      : 16187429 test-file-name
+      : 16187430 test-file-name
+      : //使用 inode 编号来删除那些具有特殊符号的文件名。
+      : $ find -inum 16187430 -exec rm {} \;
+*** locate 命令
+    : 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
+
+    : // 安装：
+    : $ sudo apt install mlocate
+
+    : // 使用
+    : $ locate init
+    : 注意：locate 命令不会查找/tmp目录下内容。
+
+    : // 更新文件资料库：
+    : $ updatedb
+*** which 和 where 命令
+    + 描述
+      : 用于查找某个命令(Locate a command)
+    + 实践
+      : $ which ls
+      : $ where useradd
+*** grep 命令
+    : 语法格式：grep -iv [指定字符串][文件]
+    : -i 不区分大小写
+    : -v 排除指定字符串
+
+    : // 查找指定字符串的行并显示
+    : $ grep 123 test.txt
+
+    : // 去掉# 注释行
+    : $ grep -v ^# config.txt
+** Linux 文件压缩与打包
+   #+CAPTION: 文件解压缩大全
+   #+ALTR_HTML: :alt cat/spider image :title :align center
+   [[file:{{site.url}}/assets/images/tar.png]]
+
+   : 另外还有不常见的，但时有遇到的：
+   : .tar.xz
+   : $ tar xpvf file.tar.xz
+   : 
+   : .tgz
+   : $ tar zxf  name.tgz
+   : 
+   : //解压到指定目录
+   : $ tar zxvf name.tar.gz -C ./dir
+   : $ unzip name.zip -d ./dir
+
+** Linux 磁盘与文件系统
+*** 格式化分区命令
+    : 将 /dev/sda7 硬盘格式化为 ext3 格式。
+    : mkfs -t ext3 -c /dev/sda7
+** ～～～
+*** 网络命令
+**** write
+     + 描述
+       : 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
+       : 格式: write user [tty]
+     + 实践
+**** wall
+     + 描述
+       : 发送广播信息(write a message to all users)
+       : 格式: wall [-n] [-t timeout] [message | file]
+     + 实践
+**** ping
+     + 描述
+       : 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
+     + 实践
+       - 指定ping次数
+	 : $ ping -c 4 baidu.com
+**** ifconfig
+     + 描述
+       : configure a network interface
+     + 实践
+**** mail
+     + 描述
+       : 查看/发送电子邮件
+     + 实践
+**** last & lastlog
+     + 描述
+       : 列出目前/过去登入系统的用户信息
+       : last, lastb - show a listing of last logged in users
+       : last [options] [username...] [tty...]
+       : lastb [options] [username...] [tty...]
+
+       : 列出用户最后一次登录系统的信息
+       : lastlog - reports the most recent login of all users or of a given user
+       : lastlog [options]
+     + 实践
+**** traceroute
+     + 描述
+       : 追踪数据包到主机间的路径
+       : traceroute - print the route packets trace to network host
+     + 实践
+**** netstat
+     + 描述
+       : 显示网络相关信息
+       : netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+     + 实践
+       - 查看主机对外开放端口
+	 : $ netstat -ntlp
+       - 查看本机监听的端口
+	 : $ netstat -tlun
+       - 查看本机所有的网络连接
+	 : $ netstat -ano
+       - 查看本机路由表
+	 : $ netstat -rn
+**** setup
+     + 描述
+       : 配置网络
+     + 实践
+*** 进程管理命令
+**** top
+     - 描述
+**** ps
+     - 描述
+       : list the processes running on the system
+     - 实践
+       - 查看
+	 : $ ps -ef
+**** kill & killall
+     - 描述
+       : send a signal to one or more processes (usually to "kill" a process)
+**** jobs
+     - 描述
+       : an alternate way of listing your own processes
+**** bg
+     - 描述
+       : put a process in the background
+**** fg
+     - 描述
+       : put a process in the forground
+
+* Shell Scripts
+** 疑惑
+   - 如何启动命令行以及接下来做什么？
+   - 如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？
+** 学习 shell 开始
+   1. 启动 shell
+      - /bin/bash //重点讨论 GNU bash shell
+   2. shell 提示符
+      - 默认的 bash shell 提示符是美元符号 $，看起来是这样的：zrg@debian:~$
+   3. bash 手册
+      : man 命令用来访问存储在 Linux 系统上的手册页面。
+** 理解 shell
+*** shell 类型
+    - /bin/bash
+    - /bin/tcsh
+    - /bin/dash
+    - /bin/csh
+    - /bin/sh
+*** Shell 的父子关系
+**** 理解
+     : $ ps -f
+     UID        PID  PPID  C STIME TTY          TIME CMD
+     zrg      25305  4834  8 23:51 pts/4    00:00:00 -bash
+     zrg      25317 25305  0 23:51 pts/4    00:00:00 ps -f
+     : $ bash
+     : $ ps -f
+     UID        PID  PPID  C STIME TTY          TIME CMD
+     zrg      25305  4834  0 23:51 pts/4    00:00:00 -bash
+     zrg      25347 25305  0 23:53 pts/4    00:00:00 bash
+     zrg      25352 25347  0 23:54 pts/4    00:00:00 ps -f
+     输入命令之后，一个子 shell 就出现了。第二个 ps -f 是在子 shell 中执行的。可以从显示结果中看到两个 bash shell 程序在运行。
+     : $ bash
+     : $ bash
+     : $ bash
+     : $ ps --forest
+     PID TTY          TIME CMD
+     25305 pts/4    00:00:00 bash
+     25347 pts/4    00:00:00  \_ bash
+     25372 pts/4    00:00:00      \_ bash
+     25377 pts/4    00:00:00          \_ bash
+     25382 pts/4    00:00:00              \_ ps
+     在上面例子中，bash 命令被输入了三次。实际上创建了三个子 shell。ps --forest 命令展示了这些子 shell 间的嵌套结构。
+     可以使用 exit 命令退出子 shell
+     : $ exit
+**** 进程列表
+     : $ pwd;ls;cd /etc;pwd
+     /home/zrg/zhaorengui.github.io
+     404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
+     about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
+     /etc
+     在命令之间加入“;，指定要依次执行的一系列命令
+
+     : $ (pwd;ls;cd /etc;pwd)
+     /home/zrg/zhaorengui.github.io
+     404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
+     about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
+     /etc
+     使用括号包含命令，成为进程列表
+
+     查看是否生成了子 shell，使用：
+     : $ echo $BASH_SUBSHELL
+**** 子shell用法
+     : // 在后台睡眠10s
+     : $ sleep 10&
+     : // 查看后台进程
+     : $ ps -f
+     : or
+     : $ jobs -l
+
+     : //将进程列表置入后台
+     : $ (sleep 2;echo $BASH_SUBSHELL;sleep 2)&
+     : // 创建备份
+     : $ (tar -cf Rich.rar /home/rich;tar -cf My.tar /home/christine)&
+
+     : //协程：在后台生成一个子shell，同时在这个子shell中执行命令。
+     : // 进行协程处理，使用 coproc 命令
+     : $ coproc sleep 10
+     : $ coproc My_Job{sleep 10;}
+*** 理解 shell 的内建命令
+    - 外部命令
+    : 也被称为文件系统命令，是存在于bash shell之外的程序。
+    : ps 就是一个外部命令，可以使用 which 和 type 命令找到
+    : $ which ps
+    : $ type -a ps
+    : 当外部命令执行时，会创建一个子进程，这种操作叫做衍生（forking）。
+
+    - 内建命令
+    : 内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和 shell 编译成一体，作为 shell 工具的组成部分存在。
+    : 可以利用 type 命令来了解某个命令是否是内建的。
+    : $ type cd
+    : cd is a shell builtin
+    : 要注意，有些命令有多种实现。既有内建命令也有外部命令。
+    : $ type -a echo
+    : echo is a shell builtin
+    : echo is /bin/echo
+    : $ type -a pwd
+    : pwd is a shell builtin
+    : pwd is /bin/pwd 
+** 使用 Linux 环境变量
+   1. 概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
+   2. 全局环境变量和局部环境变量:
+      : // 查看全局变量
+      : $ env
+      : or
+      : $ printenv
+      : // 查看某个全局环境变量
+      : $ env HOME
+      : or
+      : $ echo $HOME
+      : // set 命令会显示为某个特定进程设置的所有环境变量，包括全局变量、局部变量以及用户自定义变量。
+      : $ set
+   3. 设置用户自定义变量
+      : $ my_variable=Hello
+      : 注意：所有环境变量名均使用大写字母，这是 bash shell 的标准惯例。自己创建的局部变量或是 shell 脚本，请使用小写字母。变量名区分大小写。
+      : $ my_variable="Hello World"
+      : // 设置全局变量
+      : $ export my_variable="I am Global now"
+      : // 删除环境变量
+      : $ unset my_variable
+      : 注意：如果要用到变量，使用$；如果要操作变量，不使用$。
+   4. 默认的 shell 环境变量
+   5. 设置 PATH 环境变量
+      $ PATH=$PATH:/opt/test/scripts
+   6. 定位系统环境变量
+      - 登录时作为默认登录 shell
+	: 登录 shell 会从5个不同的启动文件里读取命令：
+	: /etc/profile，默认的 bash shell 主启动文件。
+	: $HOME/.bash_profile
+	: $HOME/.bashrc
+	: $HOME/.bash_login
+	: $HOME/.profile
+      - 作为非登录 shell 的交互式 shell
+	: 作为非登录 shell 的交互式启动的，它不会访问 /etc/profile 文件，只会检查 HOME 目录中的 .bashrc 文件。
+	: .bashrc 文件有两个作用：一是查看/etc目录下通用的 bashrc 文件；二是为用户提供一个定制自己的命名别名和私有脚本函数的地方。
+      - 作为运行脚本的非交互式shell
+	: 系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
+	: // 环境变量持久化
+	: 在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。
+   7. 数组变量
+      : //环境变量作为数组使用
+      : $ mytest=(one two three four five)
+      : $ echo ${mytest[2]}
+      : three
+      : $ echo ${mytest[*]}
+      : one two three four five
+      : //改变某个索引的值
+      : $ mytest[2] = seven
+      : //删除某个索引的值和删除整个数组
+      : $ unset mytest[2]
+      : $ unset mytest
+*** 改变安全性设置
+    : 1. 改变权限
+    : chmod命令用来改变文件和目录的安全性设置。
+
+    : 2. 改变所属关系
+    : chown命令用来改变文件的所属组。
+*** 共享文件
+    : Linux为每个文件和目录存储了3个额外的信息位。
+    - 设置用户ID（SUID）
+    - 设置组ID（GID）
+    - 粘着位：进程结束后文件还驻留（粘着）在内存中。
+    #+CAPTION: chmod SUID、SGID和粘着位的八进制值
+    | 二进制值 | 八进制值 | 描述                 |
+    |----------+----------+----------------------|
+    |      000 |        0 | 所有位都清零         |
+    |      001 |        1 | 粘着位置位           |
+    |      010 |        2 | SGID位置位           |
+    |      011 |        3 | SGID位和粘着位都置位 |
+    |      100 |        4 | SUID位置位           |
+    |      101 |        5 | SUID位和粘着位都置位 |
+    |      110 |        6 | SUID位和SGID都置位   |
+    |      111 |        7 | 所有位都置位         |
+
+    : //创建一个共享目录
+    : $ mkdir testdir
+    : $ chgrp shared testdir
+    : $ chmod g+s testdir
+    : $ umask 002
+    : $ cd testdir
+    : $ touch testfile
+** shell 脚本编程基础
+*** 构建基本脚本
+**** 创建一个简单的脚本
+ #+NAME: 一个简单的脚本
+ #+BEGIN_SRC shell
+ #!/bin/bash  #告诉shell用/bin/bash来运行脚本。
+ # This script displays the date and who's #脚本用途说明及作者等信息描述 
+ echo "This's is a shell script." #显示消息
+ echo -n "The time and date are: " #n表示在一行显示
+ date
+
+ echo "User info for userid: $USER" #环境变量，用set命令可以查看一份完整的当前环境变量列表。
+ echo UID: $UID
+ echo HOME: $HOME
+ echo "The cost of the item is \$15." #美元需要使用\转义
+
+ days = 10 #用户自定义变量
+ echo $days
+
+ # 有两种方法可以将命令赋给变量
+ test = `date` #用一对反引号把整个命令围起来
+ test = $(date) #使用$()格式
+ today = $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
+ #+END_SRC
+**** 重定向输入和输出
+ : // 输出重定向
+ : $ date > test
+ : $ date >> test
+
+ : // 输入重定向
+ : $ wc < test
+  2 11 60
+ : //wc命令，默认情况下，会输出3个值：
+ - 文本的行数
+ - 文本的词数
+ - 文本的字节数
+
+ : 内联输入重定向（inline input redirection）
+ : $ wc << EOF
+ : shell 会用PS2环境变量中定义的次提示符来提示输入数据
+**** 管道
+ : $ rpm -qa | sort
+ : //上面的命令会同时运行。
+**** 执行数学运算
+ : $ var1=$(1+5)
+ : $ var2=$[$var1 * 2]
+ : // 使用$和[]将数学表达式围起来
+ : 注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+
+ : 浮点解决方案
+ : 1.用内建的bash计算器：bc
+ : $ bc
+ 3.44 / 5
+ 0
+ scale = 4 浮点运算由scale控制，默认值为0
+ : // -q选项可以不显示冗长的欢迎信息
+ : $ bc -q 
+ var1 = 10
+ var1 * 4
+ 40
+ var2 = var1 / 5
+ print var2
+ 2
+ quit
+ : $
+
+ : 2. 在脚本中使用bc
+ #+NAME: 简单示例
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ var1 = $(echo "scale=4;3.44 / 5" | bc)
+ echo The answer is $var1
+ #+END_SRC 
+
+ #+NAME:使用内联重定向，允许直接在命令行中重定向数据
+ #+BEGIN_SRC shell
+ #!/bin/bash
+
+ var1 = 10.46
+ var2 = 43.67
+ var3 = 33.2
+ var4 = 71
+
+ var5 = $(bc << EOF
+ scale =4
+ a1 = ($var1*$var2)
+ a2 = ($var3*var4)
+ a1+b1
+ EOF
+ )
+
+ echo "The final answer for this mess is $var5"
+ #+END_SRC
+**** 退出脚本
+ : 1. 退出状态码（exit status）
+ : $ echo $?
+ 0
+ #+NAME: 退出状态码
+ | 状态码 | 描述                       |
+ |--------+----------------------------|
+ |      0 | 命令成功结束               |
+ |      1 | 一般性未知错误             |
+ |      2 | 不适合的shell命令          |
+ |    126 | 命令不可执行               |
+ |    127 | 没找到命令                 |
+ |    128 | 无效的退出参数             |
+ |  128+x | 与Linux信号x相关的严重错误 |
+ |    130 | 通过Ctrl+C终止的命令       |
+ |    255 | 正常范围之外的退出状态码   |
+ : 2. exit命令
+ : exit命令允许在脚本结束时指定一个退出状态码
+ #+NAME: test文件
+ #+BEGIN_SRC shell
+ echo 'Hello, World'
+ exit 5 
+ #+END_SRC
+ : $ ./test 
+ Hello, World
+ : $ echo $?
+ 5
+*** 结构化命令
+**** if-then
+ #+NAME: if-then
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ testuser = zrg
+ #
+ if grep $testuser /etc/passwd
+ then
+	 echo "The bash files for user $testuser are:"
+     ls -a /home/$testuser/.b*
+     echo
+ elif ls -d /home/$testuser
+ then
+	 echo "The user $testuser has a directory"
+ else
+	 echo "The user $testuser does not exist on this system."
+     echo
+ fi
+
+ #test命令提供了在if-then语句中测试不同条件的途径。
+ #test命令可以判断三类条件：数值比较；字符串比较；文件比较
+ #+END_SRC
+***** test 命令
+  : 格式：
+  if test condition
+  then
+	  commands
+  fi
+  : 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+  #+NAME: if-then 字符串比较
+  #+BEGIN_SRC shell
+  #!/bin/bash
+  $var = 10
+  if [$var -eq 5]
+  then 
+	  echo "The value $var are equal."
+  else
+	  echo "The value $var are different."
+  fi
+  $var1 = baduser
+  if [$USER != $var1]
+  then
+	  echo "This is not $var1"
+  else
+	  echo "Welcome $var"
+  fi
+  $var2 = baseall
+  $var3 = hockey
+  if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
+  then
+	  echo "$var2 is greater than $var3"
+  else
+	  echo "$var2 is less than $var3"
+  fi
+  #+END_SRC
+  : 特别说明：
+  : 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+  : 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+
+  #+NAME: if-then 字符串大小
+  #+BEGIN_SRC shell
+  #!/bin/bash
+  var1 = testing
+  var2 =''
+  if [-n $var1]
+  then
+	  echo "The string '$var1' is not empty."
+  else
+	  echo "The string '$var1' is empty."
+  fi
+  if [-z $var2]
+  then
+	  echo "The string '$var2' is empty."
+  else
+	  echo "The string '$var2' is not empty."
+  fi
+  #+END_SRC
+
+  #+NAME: if-then 文件比较
+  #+BEGIN_SRC shell
+  #!/bin/bash
+  jump_directory=/home/arthur
+  if [-d $jump_directory]
+  then
+	  echo "The $jump_directory directory exists."
+  else
+	  echo "The $jump_directory directory does not exists."
+  fi
+  #+END_SRC
+  | 比较            | 描述                                     |
+  |-----------------+------------------------------------------|
+  | -d file         | 检查file是否存在并是一个目录             |
+  | -e file         | 检查file是否存在                         |
+  | -f file         | 检查file是否存在并是一个文件             |
+  | -r file         | 检查file是否存在并可读                   |
+  | -s file         | 检查file是否存在并非空                   |
+  | -w file         | 检查file是否存在并可写                   |
+  | -x file         | 检查file是否存在并可执行                 |
+  | -O file         | 检查file是否存在并属当前用户所有         |
+  | -G file         | 检查file是否存在并且默认组与当前用户相同 |
+  | file1 -nt file2 | 检查file是否比file2                      |
+  | file1 -ot file2 | 检查file是否比file2旧                    |
+***** 复合条件
+  : 格式：
+  [condition1] && [condition2]
+  [condition1] || [condition2]
+  #+NAME: if-then 复合条件测试
+  #+BEGIN_SRC shell
+    #!/bin/bash
+    # testing compound comparisons
+    #
+    if [-d $HOME] && [-w $HOME/testing]
+    then
+	    echo "The file exists and you can write to it."
+    else
+	    echo "I cannot write to the file."
+    fi
+  #+END_SRC
+***** if-then 的高级特性
+  #+NAME: if-then 双括号
+  #+BEGIN_SRC shell
+    #!/bin/bash
+    # (( expression )) expression 可以是任意的数学赋值或比较表达式。
+    var1=10
+    if(( $var1 ** 2 > 90))
+    then
+	    (( $var2 = $var1 ** 2))
+	    echo "The square of $var1 is $var2."
+    fi
+  #+END_SRC
+
+  #+NAME: if-then 双方括号
+  #+BEGIN_SRC shell
+    #!/bin/bash
+    # [[ expression ]]
+    if[[ $USER == r* ]]
+    then
+	    echo "Hello $USER"
+  else
+	  echo "Sorry, I do not know you."
+    fi
+  #+END_SRC
+**** case 命令
+ : 格式：
+ case $变量名 in
+ 模式1)
+	 命令序列1;;
+ 模式2)
+	 命令序列2;;
+ *)
+	 默认执行的命令序列;;
+ esac 
+ #+NAME: case
+ #+BEGIN_SRC shell
+   #!/bin/bash
+   case $action in
+	 start | begin)
+		 echo "start something"
+		 echo "begin something";;
+	 stop | end)
+		 echo "stop something"
+		 echo "end something";;
+	 *)
+	 echo "Ignorant.";;
+ esac
+ #+END_SRC
+**** for 命令
+ : 格式：
+ for var in list
+ do
+	 commands
+ done
+ #+NAME: 遍历
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ #
+ # basic for command
+ for country in China America India Japen
+ do
+	 echo "The next state is $country"
+ done
+
+ # another example of how not to use the for command
+ # 1.使用转义字符（反斜线）
+ # 2.使用双引号
+ for test in I don\'t know if "this'll" work
+ do
+	 echo "word:$test"
+ done
+
+ # using a variable to hold the list
+ list="China America India Japen"
+ list=$list" Connecticut"
+ for country in $list
+ do
+	 echo "Welcome to $country"
+ done
+
+ # reading values from a file
+ file="states"
+ # 修改IFS环境变量的值，使其只能识别换行符
+ IFS=$'\n'
+ for state in $(cat $file)
+ do
+	 echo "Visit beautiful $state"
+ done
+
+ # iterate through all the files in a directory
+ for file in $HOME/* /etc/nginx/*
+ do
+	 if [-d "$file"]
+	 then
+		 echo "$file is a directory."
+	 elif [-f "$file"]
+	 then
+		 echo "$file is a file."
+	 fi
+ done
+
+ # C-style for loop
+ #
+ for (( i=1; i <= 10; i++))
+ do
+	 echo "The next number is $i"
+ done
+ # multiple variable
+ for (( a=1; b=10;a <= 10; a++, b++))
+ do
+	 echo "$a - $b"
+ done
+ #+END_SRC
+**** while 命令
+ : 格式：
+ while test command
+ do
+	 other commands
+ done
+ #+NAME: while
+ #+BEGIN_SRC shell
+ # while command test
+ var1=10
+ while [ $var1 -gt 0 ]
+ do
+	 echo $var1
+	 var1=$[ $var1 - 1 ]
+ done
+ #+END_SRC
+
+ #+RESULTS: while
+ | 10 |
+ |  9 |
+ |  8 |
+ |  7 |
+ |  6 |
+ |  5 |
+ |  4 |
+ |  3 |
+ |  2 |
+ |  1 |
+
+**** until 命令
+ : until 命令和 while 命令完全相反。
+ : 格式：
+ until test command
+ do
+	 other commands
+ done
+ #+NAME:until
+ #+BEGIN_SRC shell -n 1
+ #!/bin/bash
+ # using the until command
+ var1=100
+ until [ $var1 -eq 0 ]
+ do
+	 echo $var1
+	 var1=$[ $var1 -25 ]
+ done
+ #+END_SRC
+
+ #+RESULTS: until
+ | 100 |
+ |  75 |
+ |  50 |
+ |  25 |
+
+**** 应用
+***** 循环处理文件数据
+ #+NAME:循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
+ #+BEGIN_SRC shell -n 1
+ #!/bin/bash
+ # changing the IFS value
+ IFS.OLD=$IFS
+ IFS=$'\n'
+ for entry in $(cat /etc/passwd)
+ do
+	 echo "Values in $entry -"
+	 IFS=:
+	 for value in $entry
+	 do
+		 echo "$value"
+	 done
+ done
+ # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
+ #+END_SRC
+***** break 命令
+ #+NAME:控制循环
+ #+BEGIN_SRC shell -n 1
+ #!/bin/bash
+ # --------------------------------
+ # 跳出单个循环
+ # 1.breaking out of a for loop
+ for var1 in 1 2 3 4 5
+ do
+	 if [ $var1 -eq 5]
+	 then
+		 break
+	 fi
+	 echo "Iteration number: $var1"
+ done
+ echo "The for loop is completed"
+ # 2.breaking out of a while loop
+ var1=1
+ while [ $var1 -lt 10 ]
+ do
+	 if [ $var1 -eq 5]
+	 then
+		 break
+	 fi
+	 echo "Iteration number: $var1"
+ done
+ echo "The while loop is completed"
+ # --------------------------------
+ # 跳出内部循环
+ # 3.breaking out of an inner loop
+ for(( a = 1; a<4; a++))
+ do
+	 echo "Outer loop: $a"
+	 for((b = 1; b<100; b++))
+	 do
+		 if [ $var1 -eq 5]
+		 then
+			 break
+		 fi
+		 echo "Inner loop: $b"
+	 done
+ done
+ # ---------------------------------
+ # 跳出外部循环
+ # 4.breaking out of an outer loop
+ for(( a = 1; a<4; a++))
+ do
+	 echo "Outer loop: $a"
+	 for((b = 1; b<100; b++))
+	 do
+		 if [ $var1 -eq 5]
+		 then
+			 break 2
+		 fi
+		 echo "Inner loop: $b"
+	 done
+ done
+ #+END_SRC
+***** continue 命令
+ #+NAME:控制循环
+ #+BEGIN_SRC shell -n 1
+ # 1.using the continue command
+ for((var1 = 1; var1<15; var1++))
+ do
+	 if [$var1 -gt 5] && [$var1 -lt 10]
+	 then
+		 continue
+	 fi
+	 echo "Iteration number: $var1"
+ done
+ # 2.improperly using the continue command in a while loop
+ var1=1
+ while echo "while iteration: $var1"
+	 [ $var1 -lt 15 ]
+ do
+	 if [ $var1 -gt 5] && [$var1 -lt 10]
+	 then
+		 continue
+	 fi
+	 echo "Inside iteration number: $var1"
+	 var1 = $[$var1 +1]
+ done
+ # 3.continuing an outer loop
+ for(( a = 1; a<5; a++))
+ do
+	 echo "Interation : $a"
+	 for((b = 1; b<3; b++))
+	 do
+		 if [ $b -gt 2] && [$a -lt 4]
+		 then
+			 continue 2
+		 fi
+		 var3=$[$a+$b]
+		 echo "The result of $a * $b is $var3"
+	 done
+ done
+ #+END_SRC
+***** 处理循环的输出
+ : 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
+ #+NAME:处理循环的输出
+ #+BEGIN_SRC emacs-lisp
+ for file in /home/zrg/*
+ do
+ ...
+ done > output.txt
+ #+END_SRC
+***** 实例
+ #+NAME:查找可执行文件
+ #+BEGIN_SRC emacs-lisp
+ #!/bin/bash
+ # finding files in the PATH
+ IF=:
+ for folder in $PATH
+ do
+	 echo "$folder:"
+	 for file in $folder/*
+	 do
+		 if [-x $file]
+		 then
+			 echo "$file"
+		 fi
+	 done
+ done
+ #+END_SRC
+
+ #+NAME:创建多个用户账户
+ #+BEGIN_SRC emacs-lisp
+ #!/bin/bash
+ # process new user accounts
+ input = "users.csv"
+ while IFS=',' read -r userid name
+ do
+	 echo "adding $userid"
+	 useradd -c "$name" -m $userid
+ done < "$input"
+ #+END_SRC
+*** 输入输出
+**** 命令行参数
+ : 位置参数(positional parameter)变量是标准的数字：$0是程序名，$1是第一个参数，$2是第二个参数，依次类推，直到第九个参数$9
+ #+NAME:读取参数
+ #+BEGIN_SRC shell
+ #!/bin/bash
+ # using one command line parameter
+ #
+ factorial=1
+ for ((number=1; number<=$1; number++))
+ do
+	 factorial=$[$factorial * $number]
+ done
+ echo "The factorial of $1 is $factorial"
+ #+END_SRC
+
+ #+RESULTS: 读取参数
+ : The factorial of  is 1
+
+*** 控制脚本
+** 高级 shell 脚本编程
+*** 创建函数
+*** 图形化桌面环境中的脚本编程
+*** 初识 sed 和 gawk
+*** 正则表达式
+*** sed 和 gawk 进阶
+*** 使用其他 shell
+** 创建实用的脚本
+*** 编写简单的脚本实用工具
+**** 归档
+**** 管理用户账户
+**** 检测磁盘空间
+*** 创建与数据库、Web及E-Mail相关的脚本
+*** 一些小意思的脚本
+**** 发送消息
+**** 获取格言
+**** 编造借口
+**** 在当前目录及指定子目录深度下创建.gitignore文件
+   #+BEGIN_SRC shell
+   #!/bin/sh
+   for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
+   do
+	   echo $dir
+	   `touch $dir/.gitignore`
+	   echo "*">$dir/.gitignore
+   done
+   #+END_SRC
+**** 解决 dpkg: warning: files list file for package 'x' missing
+  #+CAPTION: 
+  #+BEGIN_SRC shell
+  for package in $(sudo apt install catdoc 2&1 |grep "warning: files list file for package'" |grep -Po "[^'\n ]+'" |grep -Po "[^']+");
+  do
+	  sudo apt install --reinstall "$package"
+  done
+  #+END_SRC
+* Linux 进阶篇(Advanced)：系统管理
+** Linux 帐号管理与 ACL 权限控制
+** 磁盘配额(Quota)与进阶文件系统管理 
+** 例行性工作排程
 *** 对于 Linux 用户
-: 你肯定希望：
-:      每一天早上 8:00 钟，让电脑连接上音响，并播放音乐来唤你起床；
-:      而中午 12:00 希望 Linux 可以发一封信到你的邮件信箱，提醒你可以去吃午餐了；
-:      另外，在每年你爱人生日的前一天，先发封信提醒你，以免忘记这么重要的一天。
+    : 你肯定希望：
+    :      每一天早上 8:00 钟，让电脑连接上音响，并播放音乐来唤你起床；
+    :      而中午 12:00 希望 Linux 可以发一封信到你的邮件信箱，提醒你可以去吃午餐了；
+    :      另外，在每年你爱人生日的前一天，先发封信提醒你，以免忘记这么重要的一天。
 *** crontab 简单介绍 
-: crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
-: 1./etc/crontab 文件
-: 在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。
-: 
-: cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。
-: 
-: 用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
-: 
-: 2.crontab 文件格式如下：
-#+BEGIN_SRC shell
+    : crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
+    : 1./etc/crontab 文件
+    : 在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。
+    : 
+    : cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。
+    : 
+    : 用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
+    : 
+    : 2.crontab 文件格式如下：
+    #+BEGIN_SRC shell
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=root       #如果出现错误，或者有数据输出，数据作为邮件发给这个帐号
 HOME=/            #使用者运行的路径,这里是根目录
 # run-parts
-#+END_SRC
-: 注意到"run-parts"这个参数，后面可以写要运行的某个脚本。
-: 
-: 另外：
-: /usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。
-: /usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。
+    #+END_SRC
+    : 注意到"run-parts"这个参数，后面可以写要运行的某个脚本。
+    : 
+    : 另外：
+    : /usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。
+    : /usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。
 *** crontab 基本格式
-| \        | *      | *      | *      | *      | *     | commond |
-|----------+--------+--------+--------+--------+-------+---------|
-| 代表意思 | 分     | 时     | 日     | 月     | 周    |         |
-| 范    围 | (0-59) | (0-23) | (1-31) | (1-12) | (0-6) |         |
+    | \        | *      | *      | *      | *      | *     | commond |
+    |----------+--------+--------+--------+--------+-------+---------|
+    | 代表意思 | 分     | 时     | 日     | 月     | 周    |         |
+    | 范    围 | (0-59) | (0-23) | (1-31) | (1-12) | (0-6) |         |
 
-: “ * ”表示任意时刻
-: “ , ”表示分割
-: “ - ”表示一个段
-: “ /n ”表示每 n 的单位执行一次
+    : “ * ”表示任意时刻
+    : “ , ”表示分割
+    : “ - ”表示一个段
+    : “ /n ”表示每 n 的单位执行一次
 
-: 命令后面加上 >/dev/null 2>&1  ,标准错误重定向到标准输出
+    : 命令后面加上 >/dev/null 2>&1  ,标准错误重定向到标准输出
 
 *** 实例1：实现两个周备份一次 /var/ftp 目录下的内容
-: 具体实现方法如下:
-:    a.先新建一个 txt 文件，这里是 ftp-back-shell.txt，文件内容：
-: * * 14 * * cd /back/ftp-back/ && rsync -avzc /var/ftp ./
-: 
-:    b.将 ftp-back.txt 文件放到 /opt/ftp-back/ 目录下 
-: 
-:    c.运行：
-:         $ crontab /opt/ftp-back/ftp-back.txt
-:         $ crontab -l
-: 
-:    d.需要进行重启，配置文件生效： sudo systemctl restart crond.service
+    : 具体实现方法如下:
+    :    a.先新建一个 txt 文件，这里是 ftp-back-shell.txt，文件内容：
+    : * * 14 * * cd /back/ftp-back/ && rsync -avzc /var/ftp ./
+    : 
+    :    b.将 ftp-back.txt 文件放到 /opt/ftp-back/ 目录下 
+    : 
+    :    c.运行：
+    :         $ crontab /opt/ftp-back/ftp-back.txt
+    :         $ crontab -l
+    : 
+    :    d.需要进行重启，配置文件生效： sudo systemctl restart crond.service
 *** 实例2：实现定时插入数据
-: 1.新建 crontab.sh 脚本文件
-: $ vim crontab.sh
-#+BEGIN_SRC shell
+    : 1.新建 crontab.sh 脚本文件
+    : $ vim crontab.sh
+    #+BEGIN_SRC shell
  #!/bin/sh
  /usr/bin/php /home/zrg/.crontab/crontab.php
-#+END_SRC
-: 2.编辑 php 文件
-:
-: 3.设置定时任务
-: $ crontab -e
-:    */2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
-: 
-: 4.查看定时任务
-: $ crontab -l
-: 重启服务使生效：sudo systemctl restart cron.service
-: 
-: 5.移除定时服务
-: $ crontab -r
+    #+END_SRC
+    : 2.编辑 php 文件
+    :
+    : 3.设置定时任务
+    : $ crontab -e
+    :    */2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
+    : 
+    : 4.查看定时任务
+    : $ crontab -l
+    : 重启服务使生效：sudo systemctl restart cron.service
+    : 
+    : 5.移除定时服务
+    : $ crontab -r
 *** 示例3：备份 mysql 数据
-: $ vim cron.sh
-#+BEGIN_SRC shell
+    : $ vim cron.sh
+    #+BEGIN_SRC shell
  #!/bin/sh
  filename=`date +%Y%m%d%H%M%S`
  mysqldump -u root -proot testdb>/home/zrg/crontab/$filename.sql
-#+END_SRC
-: $ crontab -e
-: 0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
-: $rccron reload
+    #+END_SRC
+    : $ crontab -e
+    : 0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
+    : $rccron reload
 *** 一些简单示例
-: 43 21 * * * 21:43 执行
-: 
-: 0 17 * * 1 每周一的 17:00 执行
-: 0,10 17 * * 0,2,3 每周日,周二,周三的 17:00和 17:10 执行
-: 0-10 17 1 * * 毎月1日从 17:00到17:10 毎隔1分钟 执行
-: 
-: */10 * * * * 　　　　　　 每隔10分 执行
-: 0,10,20,30,40,50 * * * *　每隔10分 执行
-: 
-: 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
-** ssh 
-*** SSH & OpenSSH & SSL & OpenSSL
-- SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
-- OpenSSL，对SSL的实现。
-- SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
-- OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-- HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
-*** ssh 配置
-**** 配置持久连接
-: 1. 服务端
-: $ sudo vim /etc/ssh/sshd_config
-#+NAME: sshd_config
-#+BEGIN_SRC shell
-#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-ClientAliveInterval 60  
-#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-ClientAliveCountMax 3
-#+END_SRC
+    : 43 21 * * * 21:43 执行
+    : 
+    : 0 17 * * 1 每周一的 17:00 执行
+    : 0,10 17 * * 0,2,3 每周日,周二,周三的 17:00和 17:10 执行
+    : 0-10 17 1 * * 毎月1日从 17:00到17:10 毎隔1分钟 执行
+    : 
+    : */10 * * * * 　　　　　　 每隔10分 执行
+    : 0,10,20,30,40,50 * * * *　每隔10分 执行
+    : 
+    : 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
+** 软件安装
+*** ssh
+**** SSH & OpenSSH & SSL & OpenSSL
+     - SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
+     - OpenSSL，对SSL的实现。
+     - SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
+     - OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+     - HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+**** ssh 配置
+     *配置持久连接*
+     : 1. 服务端
+     : $ sudo vim /etc/ssh/sshd_config
+     #+NAME: sshd_config
+     #+BEGIN_SRC shell
+ #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+ ClientAliveInterval 60  
+ #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+ ClientAliveCountMax 3
+     #+END_SRC
 
-: // 2. 客户端
-: $ sudo vim /etc/ssh/ssh_config
-#+NAME: ssh_config
-#+BEGIN_SRC shell
-#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-ServerAliveInterval 60  
-#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-ServerAliveCountMax 3
-#+END_SRC
+     : // 2. 客户端
+     : $ sudo vim /etc/ssh/ssh_config
+     #+NAME: ssh_config
+     #+BEGIN_SRC shell
+ #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+ ServerAliveInterval 60  
+ #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+ ServerAliveCountMax 3
+     #+END_SRC
+**** 使用OpenSSL生成密钥对
+     : 生成私钥
+     : $ openssl genrsa -out rsa_private_key.pem 1024
+     : 参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
 
-*** 使用OpenSSL生成密钥对
-: 生成私钥
-: $ openssl genrsa -out rsa_private_key.pem 1024
-: 参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+     : 从私钥中提取公钥
+     : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+     : 参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+**** 修改ssh默认端口号
+     : 1. 首先修改配置文件：
+     : $ vim /etc/ssh/sshd_config
+     Port 22 Port 6666
+     : 注意：
+     - 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
+     - 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
 
-: 从私钥中提取公钥
-: $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-: 参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-*** 修改ssh默认端口号
-: 1. 首先修改配置文件：
-: $ vim /etc/ssh/sshd_config
-Port 22 Port 6666
-: 注意：
-- 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
-- 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
+     : 3. 重启ssh和防火墙
+     : $ systemctl restart iptables
+     : $ systemctl restart sshd
 
-: 3. 重启ssh和防火墙
-: $ systemctl restart iptables
-: $ systemctl restart sshd
+     : 4. 假如要限制SSH登陆的IP，那么可以如下做：
+     : 先：修改/etc/hosts.deny，在其中加入sshd:ALL
+     : 然后：修改：/etc/hosts.allow，在其中进行如下设置：sshd:192.168.1.1：deny  （192.168.1.*）
+     : 这样就可以限制只有192.168.1.1的IP通过SSH登陆上LINUX机器了。
+**** 通过密钥登录服务器
+     : 1. 生成密钥对
+     : $ ssh-keygen
+     #+NAME: 生成密钥对
+     #+BEGIN_SRC emacs-lisp
+ Generating public/private rsa key pair.
+ Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+ Enter passphrase (empty for no passphrase):
+ Enter same passphrase again:
+ Your identification has been saved in /home/zrg/.ssh/id_rsa.
+ Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+ The key fingerprint is:
+ SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+ The key's randomart image is:
+ +---[RSA 2048]----+
+ |    +*B==o o.oo=*|
+ |   .o+o= .. . =o.|
+ |     .+ o .o + E |
+ |     . *   o= =  |
+ |      = S . o+   |
+ |       + o .     |
+ |    o . =        |
+ |   . + o .       |
+ |    ..o          |
+ +----[SHA256]-----+
+     #+END_SRC
 
-: 4. 假如要限制SSH登陆的IP，那么可以如下做：
-: 先：修改/etc/hosts.deny，在其中加入sshd:ALL
-: 然后：修改：/etc/hosts.allow，在其中进行如下设置：sshd:192.168.1.1：deny  （192.168.1.*）
-: 这样就可以限制只有192.168.1.1的IP通过SSH登陆上LINUX机器了。
-*** 通过密钥登录服务器
-: 1. 生成密钥对
-: $ ssh-keygen
-#+NAME: 生成密钥对
-#+BEGIN_SRC emacs-lisp
-Generating public/private rsa key pair.
-Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/zrg/.ssh/id_rsa.
-Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-The key's randomart image is:
-+---[RSA 2048]----+
-|    +*B==o o.oo=*|
-|   .o+o= .. . =o.|
-|     .+ o .o + E |
-|     . *   o= =  |
-|      = S . o+   |
-|       + o .     |
-|    o . =        |
-|   . + o .       |
-|    ..o          |
-+----[SHA256]-----+
-#+END_SRC
+     : 2. 在服务器上配置上公钥
+     : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
+     : $ chmod 600 ~/.ssh/authorized_keys
+     : $ chmod 700 ~/.ssh
 
-: 2. 在服务器上配置上公钥
-: $ cat ~/.ssh/id_rsa.pub >> authorized_keys
-: $ chmod 600 ~/.ssh/authorized_keys
-: $ chmod 700 ~/.ssh
+     : 3. 配置ssh，打开密钥登录功能
+     : $ vim /etc/ssh/sshd_config
+     #+NAME: 配置ssh
+     #+BEGIN_SRC emacs-lisp
+ RSAAuthentication yes
+ PubkeyAuthentication yes
+ PermitRootLogin yes //root 用户能否通过 SSH 登录
+ PasswordAuthentication no //当完成全部设置，以密钥方式登录成功后，可以禁用密码登录：
+     #+END_SRC
 
-: 3. 配置ssh，打开密钥登录功能
-: $ vim /etc/ssh/sshd_config
-#+NAME: 配置ssh
-#+BEGIN_SRC emacs-lisp
-RSAAuthentication yes
-PubkeyAuthentication yes
-PermitRootLogin yes //root 用户能否通过 SSH 登录
-PasswordAuthentication no //当完成全部设置，以密钥方式登录成功后，可以禁用密码登录：
-#+END_SRC
+     : 4. 重启ssh服务
+     : $ systemctl restart sshd.service
+**** 使用scp上传或下载文件
+     : 1. 从服务器上下载文件
+     : scp username@servername:/path/filename /var/www/local_dir（本地目录）
+     : 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
 
-: 4. 重启ssh服务
-: $ systemctl restart sshd.service
-*** 使用scp上传或下载文件
-: 1. 从服务器上下载文件
-: scp username@servername:/path/filename /var/www/local_dir（本地目录）
-: 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+     : 2. 上传本地文件到服务器
+     : scp /path/filename username@servername:/path   
+     : 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
 
-: 2. 上传本地文件到服务器
-: scp /path/filename username@servername:/path   
-: 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
+     : 3. 从服务器下载整个目录
+     : scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+     : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
+     : 4. 上传目录到服务器
+     : scp  -r local_dir username@servername:remote_dir
+     : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+*** 在服务器上启用HTTPS
+    - 创建一个 2048 位 RSA 公钥/私钥对。
+    - 生成一个嵌入您的公钥的证书签名请求 (CSR)
+    - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
+    - 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
+    : 1. 生成密钥和证书签名请求
+    : 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
+    : 
 
-: 3. 从服务器下载整个目录
-: scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-: 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-: 4. 上传目录到服务器
-: scp  -r local_dir username@servername:remote_dir
-: 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-** 在服务器上启用HTTPS
-- 创建一个 2048 位 RSA 公钥/私钥对。
-- 生成一个嵌入您的公钥的证书签名请求 (CSR)
-- 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
-- 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
-: 1. 生成密钥和证书签名请求
-: 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
-: 
+    : 参考资料：
+    [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
+*** iptables & firewalld
+**** 防火墙管理工具
+     : 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。
+     : 在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。
+     : 防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略
+     : 规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
 
-: 参考资料：
-[[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
-** iptables & firewalld
-*** 防火墙管理工具
-: 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。
-: 在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。
-: 防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略
-: 规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
+     : 目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略
+     : 的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组
+     : 成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
 
-: 目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略
-: 的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组
-: 成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+     : iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的
+     : nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我
+     : 们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
 
-: iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的
-: nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我
-: 们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
+     : netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
+     : iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
+**** iptables
+     : 在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于
+     : 各种原因而继续使用iptables。
+***** 策略与规则链
+      : 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则
+      : 之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。
 
-: netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
-: iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
-*** iptables
-: 在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于
-: 各种原因而继续使用iptables。
-**** 策略与规则链
-: 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则
-: 之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。
+      : iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+      - 在进行路由选择前处理数据包（PREROUTING）；
+      - 处理流入的数据包（INPUT）；
+      - 处理流出的数据包（OUTPUT）；
+      - 处理转发的数据包（FORWARD）；
+      - 在进行路由选择后处理数据包（POSTROUTING）。
 
-: iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
-- 在进行路由选择前处理数据包（PREROUTING）；
-- 处理流入的数据包（INPUT）；
-- 处理流出的数据包（OUTPUT）；
-- 处理转发的数据包（FORWARD）；
-- 在进行路由选择后处理数据包（POSTROUTING）。
+      : 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
 
-: 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+      : iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、
+      : DROP（拒绝流量通过，直接将流量丢弃不响应）。
+      : 当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：
+      : 把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
 
-: iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、
-: DROP（拒绝流量通过，直接将流量丢弃不响应）。
-: 当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：
-: 把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
+***** 基本的命令参数
+      + 规则功能说明
+	: 1. 
+	#+CAPTION: 表
+	| filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
+	| input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
+	| forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
+	| output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
+	: 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
+	#+CAPTION: NAT
+	| snat | 地址转换   |
+	| dnat | 标地址转换 |
+	| pnat | 标端口转换 |
+	: 3. mangle 表
+	: 将报文拆开来并修改报文标志位，最后封装起来
 
-**** 基本的命令参数
-+ 规则功能说明
- : 1. 
- #+CAPTION: 表
- | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
- | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
- | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
- | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
- : 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
- #+CAPTION: NAT
- | snat | 地址转换   |
- | dnat | 标地址转换 |
- | pnat | 标端口转换 |
- : 3. mangle 表
- : 将报文拆开来并修改报文标志位，最后封装起来
+	: 4. 5个检查点（内置链）
+	- PREROUTING
+	- INPUT
+	- FORWORD
+	- OUTPUT
+	- POSTROUTING    
+      + iptables中常用的参数以及作用
+	#+CAPTION:  iptables中常用的参数以及作用
+	| 参数        | 作用                                           |
+	|-------------+------------------------------------------------|
+	| -P	  | 设置默认策略                                   |
+	| -F          | 清空规则链                                     |
+	| -L          | 查看规则链                                     |
+	| -A          | 在规则链的末尾加入新规则                       |
+	| -I num      | 在规则链的头部加入新规则                       |
+	| -D num      | 删除某一条规则                                 |
+	| -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
+	| -d          | 匹配目标地址                                   |
+	| -i 网卡名称 | 匹配从这块网卡流入的数据                       |
+	| -o 网卡名称 | 匹配从这块网卡流出的数据                       |
+	| -p          | 匹配协议，如TCP、UDP、ICMP                     |
+	| --dport num | 匹配目标端口号                                 |
+	| --sport num | 匹配来源端口号                                 |
+      + 查看已有的防火墙规则链
+	: $ iptables -L
+	: $ iptables -nvL –line-number
+	: -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+	: -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+	: -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+	: –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+      + 清空已有的防火墙规则链
+	: $ iptables -F
+      + 添加规则
+	+ 把INPUT规则链的默认策略设置为拒绝
+	  : $ iptables -P INPUT DROP
+	  : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
+	+ 向INPUT链中添加允许ICMP流量进入的策略规则
+	  : $ iptables -I INPUT -p icmp -j ACCEPT
+	  : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
+	  : 这种ping命令检测行为。
+	+ 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
+	  : $ iptables -D INPUT 1
+	  : $ iptables -P INPUT ACCEPT
+	+ 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
+	  : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
+	  : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
+	+ 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
+	  : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
+	  : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
+	+ 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
+	  : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
+	+ 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
+	  : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
+	  : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
+	+ 保存防火墙策略命令，使其永久生效
+	  : $ service iptables save
+**** Firewalld
+     : Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）
+     : 和基于GUI（图形用户界面）的两种管理方式。
 
- : 4. 5个检查点（内置链）
- - PREROUTING
- - INPUT
- - FORWORD
- - OUTPUT
- - POSTROUTING    
-+ iptables中常用的参数以及作用
-  #+CAPTION:  iptables中常用的参数以及作用
-  | 参数        | 作用                                           |
-  |-------------+------------------------------------------------|
-  | -P	  | 设置默认策略                                   |
-  | -F          | 清空规则链                                     |
-  | -L          | 查看规则链                                     |
-  | -A          | 在规则链的末尾加入新规则                       |
-  | -I num      | 在规则链的头部加入新规则                       |
-  | -D num      | 删除某一条规则                                 |
-  | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
-  | -d          | 匹配目标地址                                   |
-  | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
-  | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
-  | -p          | 匹配协议，如TCP、UDP、ICMP                     |
-  | --dport num | 匹配目标端口号                                 |
-  | --sport num | 匹配来源端口号                                 |
-+ 查看已有的防火墙规则链
-  : $ iptables -L
-  : $ iptables -nvL –line-number
-  : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
-  : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
-  : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-  : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
-+ 清空已有的防火墙规则链
-  : $ iptables -F
-+ 添加规则
-  + 把INPUT规则链的默认策略设置为拒绝
-    : $ iptables -P INPUT DROP
-    : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
-  + 向INPUT链中添加允许ICMP流量进入的策略规则
-    : $ iptables -I INPUT -p icmp -j ACCEPT
-    : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
-    : 这种ping命令检测行为。
-  + 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
-    : $ iptables -D INPUT 1
-    : $ iptables -P INPUT ACCEPT
-  + 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
-    : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
-    : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
-  + 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
-    : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
-    : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
-  + 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
-    : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
-  + 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
-    : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
-    : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
-  + 保存防火墙策略命令，使其永久生效
-    : $ service iptables save
-*** Firewalld
-: Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）
-: 和基于GUI（图形用户界面）的两种管理方式。
+     : 相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（
+     : 策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
 
-: 相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（
-: 策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+     : firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
+     #+CAPTION:firewalld中常用的区域名称及策略规则
+     | 区域     | 默认规则策略                                                                                                            |
+     |----------+-------------------------------------------------------------------------------------------------------------------------|
+     | trusted  | 允许所有的数据包                                                                                                        |
+     | home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
+     | internal | 等同于home区域                                                                                                          |
+     | work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
+     | public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
+     | external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+     | dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+     | block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+     | drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+***** 终端管理工具
+      : firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
+      #+CAPTION: firewall-cmd命令中使用的参数以及作用
+      | 参数                          | 作用                                                   |
+      |-------------------------------+--------------------------------------------------------|
+      | --get-default-zone            | 查询默认的区域名称                                     |
+      | --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
+      | --get-zones                   | 显示可用的区域                                         |
+      | --get-services                | 显示预先定义的服务                                     |
+      | --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
+      | --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
+      | --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
+      | --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
+      | --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
+      | --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
+      | --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
+      | --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
+      | --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
+      | --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
+      | --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
+      | --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
+      | --panic-on                    | 开启应急状况模式                                       |
+      | --panic-off                   | 关闭应急状况模式                                       |
 
-: firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
-#+CAPTION:firewalld中常用的区域名称及策略规则
-| 区域     | 默认规则策略                                                                                                            |
-|----------+-------------------------------------------------------------------------------------------------------------------------|
-| trusted  | 允许所有的数据包                                                                                                        |
-| home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
-| internal | 等同于home区域                                                                                                          |
-| work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
-| public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
-| external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-| dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-| block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-| drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-**** 终端管理工具
-: firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
-#+CAPTION: firewall-cmd命令中使用的参数以及作用
-| 参数                          | 作用                                                   |
-|-------------------------------+--------------------------------------------------------|
-| --get-default-zone            | 查询默认的区域名称                                     |
-| --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
-| --get-zones                   | 显示可用的区域                                         |
-| --get-services                | 显示预先定义的服务                                     |
-| --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
-| --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
-| --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
-| --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
-| --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
-| --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
-| --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
-| --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
-| --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
-| --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
-| --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
-| --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
-| --panic-on                    | 开启应急状况模式                                       |
-| --panic-off                   | 关闭应急状况模式                                       |
+      : 使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，
+      : 就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以
+      : 永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立即
+      : 生效，需要手动执行firewall-cmd --reload命令。
+      + 使用示例
+	- 查看firewalld服务当前所使用的区域
+	  : # firewall-cmd --get-default-zone
+	- 查询eno16777728网卡在firewalld服务中的区域
+	  : # firewall-cmd --get-zone-of-interface=eno16777728
+	- 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
+	  : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
+	  : # firewall-cmd --get-zone-of-interface=eno16777728
+	  : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
+	- 把firewalld服务的当前默认区域设置为public
+	  : # firewall-cmd --set-default-zone=public
+	  : # firewall-cmd --get-default-zone
+	- 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
+	  : # firewall-cmd --panic-on
+	  : # firewall-cmd --panic-off
+	- 查询public区域是否允许请求SSH和HTTPS协议的流量
+	  : # firewall-cmd --zone=public --query-service=ssh
+	  : # firewall-cmd --zone=public --query-service=https
+	- 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
+	  : # firewall-cmd --zone=public --add-service=https
+	  : # firewall-cmd --permanent --zone=public --add-service=https
+	  : # firewall-cmd --reload
+	- 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
+	  : # firewall-cmd --permanent --zone=public --remove-service=http
+	  : # firewall-cmd --reload 
+	- 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
+	  : # firewall-cmd --zone=public --add-port=8080-8081/tcp
+	  : # firewall-cmd --zone=public --list-ports
+	- 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
+	  : 流量转发命令格式为:
+	  : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
 
-: 使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，
-: 就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以
-: 永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立即
-: 生效，需要手动执行firewall-cmd --reload命令。
-+ 使用示例
-  - 查看firewalld服务当前所使用的区域
-    : # firewall-cmd --get-default-zone
-  - 查询eno16777728网卡在firewalld服务中的区域
-    : # firewall-cmd --get-zone-of-interface=eno16777728
-  - 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
-    : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
-    : # firewall-cmd --get-zone-of-interface=eno16777728
-    : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
-  - 把firewalld服务的当前默认区域设置为public
-    : # firewall-cmd --set-default-zone=public
-    : # firewall-cmd --get-default-zone
-  - 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
-    : # firewall-cmd --panic-on
-    : # firewall-cmd --panic-off
-  - 查询public区域是否允许请求SSH和HTTPS协议的流量
-    : # firewall-cmd --zone=public --query-service=ssh
-    : # firewall-cmd --zone=public --query-service=https
-  - 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
-    : # firewall-cmd --zone=public --add-service=https
-    : # firewall-cmd --permanent --zone=public --add-service=https
-    : # firewall-cmd --reload
-  - 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
-    : # firewall-cmd --permanent --zone=public --remove-service=http
-    : # firewall-cmd --reload 
-  - 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
-    : # firewall-cmd --zone=public --add-port=8080-8081/tcp
-    : # firewall-cmd --zone=public --list-ports
-  - 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
-    : 流量转发命令格式为:
-    : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
-    
-    : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
-    : # firewall-cmd --reload
-  - firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
-    : # firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
-**** 图形化管理工具
-**** 服务的访问控制列表
-: TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，
-: Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供
-: 服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+	  : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
+	  : # firewall-cmd --reload
+	- firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
+	  : # firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
+***** 图形化管理工具
+***** 服务的访问控制列表
+      : TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，
+      : Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供
+      : 服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
 
-: TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略
-: 则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，
-: 则默认放行流量。
+      : TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略
+      : 则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，
+      : 则默认放行流量。
 
-#+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
-| 客户端类型     | 示例                       | 满足示例的客户端列表               |
-|----------------+----------------------------+------------------------------------|
-| 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
-| 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
-| 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
-| 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
-| 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
-| 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
+      #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
+      | 客户端类型     | 示例                       | 满足示例的客户端列表               |
+      |----------------+----------------------------+------------------------------------|
+      | 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
+      | 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
+      | 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
+      | 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
+      | 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
+      | 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
 
-: 在配置TCP Wrappers服务时需要遵循两个原则：
-1. 编写拒绝策略规则时，填写的是服务名称，而非协议名称；
-2. 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
-*** 参考资料
-+ [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
-+ [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
-+ [[https://wiki.debian.org/iptables][iptables debian wiki]]
-** 删除大文件的前n行
-#+CAPTION: 示例：删除前10行
-#+BEGIN_SRC shell
-tail -n +10 old_file>new_file
-mv new_file old_file
-#+END_SRC
-** 解压缩命令大全
-#+CAPTION:
-#+ALTR_HTML: :alt cat/spider image :title :align center
-[[file:{{site.url}}/assets/images/tar.png]]
+      : 在配置TCP Wrappers服务时需要遵循两个原则：
+      1. 编写拒绝策略规则时，填写的是服务名称，而非协议名称；
+      2. 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
+**** 参考资料
+     + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
+     + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
+     + [[https://wiki.debian.org/iptables][iptables debian wiki]]
+*** 删除大文件的前n行
+    #+CAPTION: 示例：删除前10行
+    #+BEGIN_SRC shell
+ tail -n +10 old_file>new_file
+ mv new_file old_file
+    #+END_SRC
+*** 神奇的 nc 命令
+**** 介绍
+     : netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
+     : netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
+**** 安装
+     : // Redhat/CentOS/Fedora
+     : $ yum install nc
+     : // Debian/Ubuntu
+     : $ sudo apt-get install netcat
+**** 常见使用
+***** 端口扫描
+      : 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
+      : $ nc -z -v -n 172.31.100.7 21-25
+      : 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
+      : z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
+      : v 参数指使用冗余选项（译者注：即详细输出）
+      : n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
+      : 
+      : Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
+      : 一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
+      : $ nc -v 172.31.100.7 21
+***** 聊天工具
+      : // Server
+      : $ nc -l 1234
+      : // Client
+      : $ nc 172.168.100.7 1234
+***** 文件传输
+      : // Server > Client
+      : $ nc -l 1234 > file.txt
+      : $ nc 172.168.100.7 1234 <file.txt
+***** 目录传输
+      : // Server > Client
+      : $ tar -cvf - dir_name | nc -l 1234
+      : $ nc -n 172.168.100.7 1234 | tar -xvf -
+      : 这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
+      : 在客户端我们下载该压缩包通过netcat 管道然后打开文件。
+      : 如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
+      : // Server
+      : $ tar -cvf – dir_name| bzip2 -z | nc -l 1234
+      : // Client
+      : $ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
+***** 加密网络传输数据
+      : // Server
+      : $ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
+      : // Client
+      : $ mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1234
+***** 流视频
+      : // Server
+      : $ cat video.avi | nc -l 1234
+      : 从一个视频文件中读入并重定向输出到netcat客户端
+      : // Client
+      : $ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
+      : 从socket中读入数据并重定向到mplayer。
+***** 克隆一个设备
+      : 已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
+      : 假如你的系统在磁盘/dev/sda上:
+      : // Server
+      : $ dd if=/dev/sda | nc -l 1234
+      : // Client
+      : $ nc -n 172.31.100.7 1567 | dd of=/dev/sda
+      : dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
+      : 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
+**** 参考资料
+     : https://blog.csdn.net/zhangxiao93/article/details/52705642
+*** 设置命令别名：alias
+    : //利用别名代替长命令
+    : $ vim ~/.bashrc                                                                                                                                     
+    : //存在这样的三行代码，意思就是检查是否存在 .bash_aliases 文件，存在就加载                 
+    #+BEGIN_SRC shell
+ if [ -f ~/.bash_aliases ]; then                                                                                                                       
+     . ~/.bash_aliases                                                                                                                                 
+ fi                                                                                                                                                    
+    #+END_SRC
+    : //于是,新建并编辑                                                                                                                                   
+    : $ vim .bash_aliases                                                                                                                                 
+    #+BEGIN_SRC emacs-lisp
+  # shadowsocks                                                                                                                                         
+  alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"                                                                                    
+    #+END_SRC 
+*** GCC
+**** 简单编译
+     : $ gcc test.c -o test
+     : 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
 
-: 另外还有不常见的，但时有遇到的：
-: .tar.xz
-: $ tar xpvf file.tar.xz
-: 
-: .tgz
-: $ tar zxf  name.tgz
-: 
-: //解压到指定目录
-: $ tar zxvf name.tar.gz -C ./dir
-: $ unzip name.zip -d ./dir
+     : 1.Preprocessing
+     : $ gcc -E test.c -o test.i
+     : 或
+     : $ gcc -E test.c
+     : gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
+     : 2.Compilation
+     : $ gcc -S test.i -o test.s
+     : gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
+     : 3.Assembly
+     : $ gcc -c test.s -o test.o
+     : 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
+     : 4.Linking
+     : gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
+     : 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
+     : $ gcc test.o -o test
+**** 多个程序文件的编译
+     : $ gcc test1.c test2.c -o test
+**** 检错
+     : $ gcc -pedantic test.c -o test
+     : //警告信息
+     : $ gcc -Wall test.c -p test
+     : //-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
+     : $ gcc -Werror test.c -o test
+**** 库文件连接
+     : 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
+     : $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
+     : 2.链接。最后我们把所有目标文件链接成可执行文件:
+     : $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
+     : 3.强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
+     : $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
+**** 其他
+     : 静态库链接时搜索路径顺序：
 
-** 文件搜索命令
-*** find 命令
-**** 根据文件名查找
-: 格式：find [搜索范围][匹配条件]
+     : 1. ld 会去找GCC命令中的参数 -L
+     : 2. 再找 gcc 的环境变量 LIBRARY_PATH
+     : 3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
 
-: // 默认在当前目录下搜索
-: $ find -name "MyCProgram.c"
+     : 动态链接时、执行时搜索路径顺序:
 
-: // 忽略大小写
-: $ find -iname "MyCProgram.c"
+     : 1. 编译目标代码时指定的动态库搜索路径
+     : 2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
+     : 3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
+     : 4. 默认的动态库搜索路径 /lib
+     : 5. 默认的动态库搜索路径 /usr/lib
 
-: // 查找以my开头，后面包含三个字符的文件
-: $ find -name my??? 
-
-: // 深度查找：
-: // 在 root 目录及其子目录下查找 passwd 文件。
-: $ sudo find / -maxdepth 2 -name passwd
-: // 在第二层子目录和第四层子目录之间查找 passwd 文件。
-: $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
-: // 找到 home 目录及子目录下所有的空文件(0字节文件) 
-: // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
-: $ find ~/ -empty
-: //列出你 home 目录里的空文件。
-: $ find ~/ -maxdepth 1 -empty
-: //列出 home目录下的非隐藏空文件。
-: $ find ~/ -maxdepth 1 -empty -not -name ".*"
-
-: // 相反匹配
-: // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
-: $ find -maxdepth 1 -not -iname "MyCProgram.c"
-
-: // 在查找到的文件上执行命令
-: // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
-: $ find -iname "MyCProgram.c" -exec md5sum {} \;
-: // 在 /etc 目录下查找 inittab 文件并显示其详细属性
-: $ sudo find /etc -name initab -exec ls -l {} \;
-: 注意：{} 将会被当前文件名取代。
-: -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
-**** 文件大小查找
-: // 格式：+n 大于；-n 小于；n 等于
-: // 在 root 目录下查找大于100MB的文件
-: $ sudo find / -size +204800
-: 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
-
-: // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
-: $ sudo find /etc -size +163840 -a size -204800
-: -a 表示两个条件同时满足
-: -o 表示两个条件满足一个即可
-
-: //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
-: $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
-: //查找 5个最小的文件
-: $ find . -type f -exec ls -s {} \; | sort -n  | head -5
-: //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
-: $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
-
-: //查找并删除大于 100M 的 *.zip 文件。
-: $ find / -type f -name *.zip -size +100M -exec rm -i {} \;"
-**** 根据文件变动情况查找
-: // 在/etc目录下查找5分钟内被修改过属性的文件和目录
-: $ sudo /etc -cmin -5
-
-: -amin 访问时间 access
-: -cmin 文件属性 change
-: -mmin 文件内容 modify
-
-: // 显示所有的在 ordinary_file 之后创建修改的文件。
-: $ ls -lrt
-: $ find -newer ordinary_file
-**** 根据文件类型查找
-: f 文件，d 目录，l 软链接，s socket文件
-: //查找所有的一般文件
-: $ find ./ -type f
-: //查找所有的隐藏文件和目录
-: $ find ./ -type f -name ".*"
-: $ find ./ -type d -name ".*"
-**** 根据文件权限、所属关系查找
-: $ find /home -user zrg
-: $ find /home -group zrg
-
-: // 查到当前目录下对同组用户具有读权限的文件
-: $ find ./ -perm -g=r -type f -exec ls -l {} \;
-: // 找到对组用户具有只读权限的文件。
-: $find ./ -perm g=r -type f -exec ls -l {} \;  
-: // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
-: $ find ./ -perm 040 -type f -exec ls -l {} \;
-**** 使用 inode 编号查找
-: //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
-: //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
-: $ ls -i1 test*
-: 16187429 test-file-name
-: 16187430 test-file-name
-: //使用 inode 编号来删除那些具有特殊符号的文件名。
-: $ find -inum 16187430 -exec rm {} \;
-*** locate 命令
-: 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
-
-: // 安装：
-: $ sudo apt install mlocate
-
-: // 使用
-: $ locate init
-: 注意：locate 命令不会查找/tmp目录下内容。
-
-: // 更新文件资料库：
-: $ updatedb
-*** which 和 where 命令
-: 用于查找某个命令。
-: $ which ls
-: $ where useradd
-*** grep 命令
-: 语法格式：grep -iv [指定字符串][文件]
-: -i 不区分大小写
-: -v 排除指定字符串
-
-: // 查找指定字符串的行并显示
-: $ grep 123 test.txt
-
-: // 去掉# 注释行
-: $ grep -v ^# config.txt
-** 神奇的 nc 命令
-*** 介绍
-: netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
-: netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
-*** 安装
-: // Redhat/CentOS/Fedora
-: $ yum install nc
-: // Debian/Ubuntu
-: $ sudo apt-get install netcat
-*** 常见使用
-**** 端口扫描
-: 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
-: $ nc -z -v -n 172.31.100.7 21-25
-: 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
-: z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
-: v 参数指使用冗余选项（译者注：即详细输出）
-: n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
-: 
-: Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
-: 一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
-: $ nc -v 172.31.100.7 21
-**** 聊天工具
-: // Server
-: $ nc -l 1234
-: // Client
-: $ nc 172.168.100.7 1234
-**** 文件传输
-: // Server > Client
-: $ nc -l 1234 > file.txt
-: $ nc 172.168.100.7 1234 <file.txt
-**** 目录传输
-: // Server > Client
-: $ tar -cvf - dir_name | nc -l 1234
-: $ nc -n 172.168.100.7 1234 | tar -xvf -
-: 这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
-: 在客户端我们下载该压缩包通过netcat 管道然后打开文件。
-: 如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
-: // Server
-: $ tar -cvf – dir_name| bzip2 -z | nc -l 1234
-: // Client
-: $ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
-**** 加密网络传输数据
-: // Server
-: $ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
-: // Client
-: $ mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1234
-**** 流视频
-: // Server
-: $ cat video.avi | nc -l 1234
-: 从一个视频文件中读入并重定向输出到netcat客户端
-: // Client
-: $ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
-: 从socket中读入数据并重定向到mplayer。
-**** 克隆一个设备
-: 已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
-: 假如你的系统在磁盘/dev/sda上:
-: // Server
-: $ dd if=/dev/sda | nc -l 1234
-: // Client
-: $ nc -n 172.31.100.7 1567 | dd of=/dev/sda
-: dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
-: 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
-*** 参考资料
-: https://blog.csdn.net/zhangxiao93/article/details/52705642
-** 设置命令别名：alias
-: //利用别名代替长命令
-: $ vim ~/.bashrc                                                                                                                                     
-: //存在这样的三行代码，意思就是检查是否存在 .bash_aliases 文件，存在就加载                 
-#+BEGIN_SRC shell
-if [ -f ~/.bash_aliases ]; then                                                                                                                       
-    . ~/.bash_aliases                                                                                                                                 
-fi                                                                                                                                                    
-#+END_SRC
-: //于是,新建并编辑                                                                                                                                   
-: $ vim .bash_aliases                                                                                                                                 
-#+BEGIN_SRC emacs-lisp
- # shadowsocks                                                                                                                                         
- alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"                                                                                    
-#+END_SRC 
-** GCC
-*** 简单编译
-: $ gcc test.c -o test
-: 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
-
-: 1.Preprocessing
-: $ gcc -E test.c -o test.i
-: 或
-: $ gcc -E test.c
-: gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
-: 2.Compilation
-: $ gcc -S test.i -o test.s
-: gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
-: 3.Assembly
-: $ gcc -c test.s -o test.o
-: 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
-: 4.Linking
-: gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
-: 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
-: $ gcc test.o -o test
-*** 多个程序文件的编译
-: $ gcc test1.c test2.c -o test
-*** 检错
-: $ gcc -pedantic test.c -o test
-: //警告信息
-: $ gcc -Wall test.c -p test
-: //-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
-: $ gcc -Werror test.c -o test
-*** 库文件连接
-: 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
-: $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
-: 2.链接。最后我们把所有目标文件链接成可执行文件:
-: $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
-: 3.强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
-: $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
-*** 其他
-: 静态库链接时搜索路径顺序：
-
-: 1. ld 会去找GCC命令中的参数 -L
-: 2. 再找 gcc 的环境变量 LIBRARY_PATH
-: 3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
-
-: 动态链接时、执行时搜索路径顺序:
-
-: 1. 编译目标代码时指定的动态库搜索路径
-: 2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
-: 3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
-: 4. 默认的动态库搜索路径 /lib
-: 5. 默认的动态库搜索路径 /usr/lib
-
-: 有关环境变量：
-: LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
-: LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
-*** Reference
-: http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
-** 系统状态监视命令：top & htop
-*** top
-#+CAPTION:
-#+ALTR_HTML: :align center
-[[file:{{site.url}}/assets/images/top.jpg]]
-*** htop
-**** 下载及安装
- : $ git clone https://github.com/hishamhm/htop 
- : $ tar zxvf htop-2.0.2.tar.gz
- : $ cd htop-2.0.2
- : $ ./configure
- : # make && make install
-**** 错误解决
- : configure: error: missing libraries: libncurses
- : Solving:
- : $ sudo apt-get install nucurses-dev
-** 网络监视命令：iftop
-: $ sudo apt-get install iftop
-: 
-** wget vs axel
-: 官方地址: http://axel.alioth.debian.org/
-: 描述: 替换wget命令
-** 常用软件工具（Software）
+     : 有关环境变量：
+     : LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
+     : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
+**** Reference
+     : http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
+*** 系统状态监视命令：top & htop
+**** top
+     #+CAPTION:
+     #+ALTR_HTML: :align center
+     [[file:{{site.url}}/assets/images/top.jpg]]
+**** htop
+***** 下载及安装
+      : $ git clone https://github.com/hishamhm/htop 
+      : $ tar zxvf htop-2.0.2.tar.gz
+      : $ cd htop-2.0.2
+      : $ ./configure
+      : # make && make install
+***** 错误解决
+      : configure: error: missing libraries: libncurses
+      : Solving:
+      : $ sudo apt-get install nucurses-dev
+*** 网络监视命令：iftop
+    : $ sudo apt-get install iftop
+    : 
+*** wget vs axel
+    : 官方地址: http://axel.alioth.debian.org/
+    : 描述: 替换wget命令
 *** VIM&Emacs
-  : 两个神器软件单独介绍，这里不重复叙写。
+    : 两个神器软件单独介绍，这里不重复叙写。
 *** MPlayer
-  : // official：http://www.mplayerhq.hu/design7/news.html
-  : $ tar -Jxf MPlayer-1.1.1.tar.xz
-  : $ cd MPlayer-1.1.1
-  : $ sudo ./configure
-  : // 发现，需要安装一个依赖包:yasm
-  : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
-  : // 安装完成后，重新配置、编译和安装
-  : $ sudo ./configure
-  : $ sudo make && make install
+    : // official：http://www.mplayerhq.hu/design7/news.html
+    : $ tar -Jxf MPlayer-1.1.1.tar.xz
+    : $ cd MPlayer-1.1.1
+    : $ sudo ./configure
+    : // 发现，需要安装一个依赖包:yasm
+    : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+    : // 安装完成后，重新配置、编译和安装
+    : $ sudo ./configure
+    : $ sudo make && make install
 *** google-chrome & chromium
-  : 1. 添加安装源
-  : $ sudo vim /etc/apt/sources.list
-  : deb http://dl.google.com/linux/chrome/deb/ stable main
+    : 1. 添加安装源
+    : $ sudo vim /etc/apt/sources.list
+    : deb http://dl.google.com/linux/chrome/deb/ stable main
 
-  : 2. 添加公钥验证下载
-  : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
-  : $ apt-key add linux_signing_key.pub
+    : 2. 添加公钥验证下载
+    : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
+    : $ apt-key add linux_signing_key.pub
 
-  : 3. 执行安装
-  : $ sudo apt update
- : // stable ersion
- : $ sudo apt install google-chrome-stable
- : // beta or unstable ersion
- : $ sudo apt install google-chrome-beta
- : $ sudo apt install google-chrome-unstable
+    : 3. 执行安装
+    : $ sudo apt update
+    : // stable ersion
+    : $ sudo apt install google-chrome-stable
+    : // beta or unstable ersion
+    : $ sudo apt install google-chrome-beta
+    : $ sudo apt install google-chrome-unstable
 
- : 4. 安装 chromium
-  : $ sudo apt-get update
-  : $ sudo apt-get install chromium chromium-l10n
-  : （chromium-l10n 是用于本地化界面的，是可选的软件包）
-  : 注意：chromium不支持PDF查看
+    : 4. 安装 chromium
+    : $ sudo apt-get update
+    : $ sudo apt-get install chromium chromium-l10n
+    : （chromium-l10n 是用于本地化界面的，是可选的软件包）
+    : 注意：chromium不支持PDF查看
 *** Scrot：截图工具
 **** 安装
-: $ sudo apt-get install scrot
+     : $ sudo apt-get install scrot
 **** 使用方法
-  1.整个桌面截图(Full desktop)
-  : $ scrot
-  : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
-  2.特定区域截图（选择截取）(Specific area)
-  : $ scrot -s
-  3.延迟截图(temporize screenshot)
-  : $ scrot -s -d 5
-  4.截图调整质量(Adjust the quality of screenshots)
-  : $ scrot -q 50
-  5.截图调整大小(Adjust the screen size)
-  : $ scrot -t 10
-  6.将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
-  : $ scrot -e 'mv $f ~/screenshots'
+     1.整个桌面截图(Full desktop)
+     : $ scrot
+     : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+     2.特定区域截图（选择截取）(Specific area)
+     : $ scrot -s
+     3.延迟截图(temporize screenshot)
+     : $ scrot -s -d 5
+     4.截图调整质量(Adjust the quality of screenshots)
+     : $ scrot -q 50
+     5.截图调整大小(Adjust the screen size)
+     : $ scrot -t 10
+     6.将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+     : $ scrot -e 'mv $f ~/screenshots'
 **** 参考资料(References)
-  : https://linux.cn/article-3197-1.html
+     : https://linux.cn/article-3197-1.html
 *** rarcrack（压缩包密码破解工具）
-  : 支持格式：rar,7z,zip
-  : // install
-  : $ sudo apt-get install libxml2-dev build-essential
-  : $ sudo apt-get install rarcrack
-  : // use
-  : $ rarcrack --threads 10 --type rar test.rar
+    : 支持格式：rar,7z,zip
+    : // install
+    : $ sudo apt-get install libxml2-dev build-essential
+    : $ sudo apt-get install rarcrack
+    : // use
+    : $ rarcrack --threads 10 --type rar test.rar
 *** 宝塔面板
-  : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+    : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
 *** Cisco AnyConnect VPN Client
 **** 问题解决
- : $ sudo systemctl enable vpnagentd_init
- : vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
- : Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
- : insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
- : insserv: There is a loop between service bt and vpnagentd_init if stopped
- : insserv:  loop involving service vpnagentd_init at depth 2
- : insserv:  loop involving service bt at depth 1
- : insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
- : insserv: exiting now without changing boot order!
- : update-rc.d: error: insserv rejected the script header
+     : $ sudo systemctl enable vpnagentd_init
+     : vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
+     : Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
+     : insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
+     : insserv: There is a loop between service bt and vpnagentd_init if stopped
+     : insserv:  loop involving service vpnagentd_init at depth 2
+     : insserv:  loop involving service bt at depth 1
+     : insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
+     : insserv: exiting now without changing boot order!
+     : update-rc.d: error: insserv rejected the script header
 
- : [solve]：$ sudo vim /etc/init.d/vpnagentd_init
- #+BEGIN_SRC shell
+     : [solve]：$ sudo vim /etc/init.d/vpnagentd_init
+     #+BEGIN_SRC shell
  #!/bin/sh
  ### BEGIN INIT INFO
  # Provides: vpnagentd_init
@@ -1221,90 +2390,90 @@ fi
  # Short-Description: Start Cisco vpn agent daemon at boot time
  # Description: Cisco vpn agent daemon
  ### END INIT INFO
- #+END_SRC
+     #+END_SRC
 *** Bind：DNS工具
 **** 安装
- : # yum install -y bind
+     : # yum install -y bind
 **** 配置
- : 1)# vim /etc/named.conf
- : 修改内容如下：
- :  将下面
- :  listen-on port 53 { 127.0.0.1; };
- :  allow-query { localhost; };
- :  改为
- :  listen-on port 53 { any; };
- :  allow-query { any; };
+     : 1)# vim /etc/named.conf
+     : 修改内容如下：
+     :  将下面
+     :  listen-on port 53 { 127.0.0.1; };
+     :  allow-query { localhost; };
+     :  改为
+     :  listen-on port 53 { any; };
+     :  allow-query { any; };
 
- : 2)# vim named.rfc1912.zones
- : 注意改动位置：
- : zone "zrg.com.cn" IN {
- : type master;
- : file "named.zrg";
- : allow-update { none; };
- : };
+     : 2)# vim named.rfc1912.zones
+     : 注意改动位置：
+     : zone "zrg.com.cn" IN {
+     : type master;
+     : file "named.zrg";
+     : allow-update { none; };
+     : };
 
- : 3)# cp /var/named/named.localhost /var/named/named.zrg
- : //修改文件所属群组
- : #chgrp named /var/named/named.zrg
+     : 3)# cp /var/named/named.localhost /var/named/named.zrg
+     : //修改文件所属群组
+     : #chgrp named /var/named/named.zrg
 
- : 4)# vim /var/named/named.zrg
- : 注意改动位置：
- : $TTL 1D
- : @ IN SOA @ dns.zrg.com.cn. root(
- : 0 ; serial
- : 1D ; refresh
- : 1H ; retry
- : 1W ; expire
- : 3H ) ; minimum
- : NS dns.zrg.com.cn.
- : DNS A 192.168.120.166
- : A 127.0.0.1
- : AAAA ::1
+     : 4)# vim /var/named/named.zrg
+     : 注意改动位置：
+     : $TTL 1D
+     : @ IN SOA @ dns.zrg.com.cn. root(
+     : 0 ; serial
+     : 1D ; refresh
+     : 1H ; retry
+     : 1W ; expire
+     : 3H ) ; minimum
+     : NS dns.zrg.com.cn.
+     : DNS A 192.168.120.166
+     : A 127.0.0.1
+     : AAAA ::1
 
- : 5)# /etc/init.d/named restart
- : # chkconfig named on
+     : 5)# /etc/init.d/named restart
+     : # chkconfig named on
 
- : 6)# vim /etc/sysconfig/network
- : Network=yes
- : Hostname=dns.zrg.com.cn
+     : 6)# vim /etc/sysconfig/network
+     : Network=yes
+     : Hostname=dns.zrg.com.cn
 
- : 7)# vim /etc/resolv.conf
- : Search zrg.com.cn
- : Nameserver 192.168.120.166
+     : 7)# vim /etc/resolv.conf
+     : Search zrg.com.cn
+     : Nameserver 192.168.120.166
 
- : 8)# /etc/init.d/named restart
- : # ping zrg.com.cn
- : # reboot
+     : 8)# /etc/init.d/named restart
+     : # ping zrg.com.cn
+     : # reboot
 *** Composer
 **** 安装
-  : 1.Download composer.phar file.
-  : 2.Excute:
-  : # php composer.phar
-  : 3.Global:
-  : # mv composer.phar /usr/local/bin/composer
-  : 4.Permission:
-  : # chmod 744 composer
+     : 1.Download composer.phar file.
+     : 2.Excute:
+     : # php composer.phar
+     : 3.Global:
+     : # mv composer.phar /usr/local/bin/composer
+     : 4.Permission:
+     : # chmod 744 composer
 **** 问题解决
-  : error: /usr/bin/env: php: No such file or directory
-  :  solve:Configuring php to become global variables
+     : error: /usr/bin/env: php: No such file or directory
+     :  solve:Configuring php to become global variables
 *** vsftpd
 **** Download and Install
-  : https://security.appspot.com/vsftpd.html#download
-  : //yum
-  : yum install -y vsftpd
+     : https://security.appspot.com/vsftpd.html#download
+     : //yum
+     : yum install -y vsftpd
 
 **** Change default dir
-  #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
   #local user
   local_root=/usr/share/nginx/html
   #is_enable local view,default_setting is NO
   chroot_local_user=NO
   #anonymous user
   anon_root=/var/ftp/pub
-  #+END_SRC
+     #+END_SRC
 
 **** Configuring directory of access
-  #+BEGIN_SRC emacs-lisp
+     #+BEGIN_SRC emacs-lisp
   chroot_local_user=YES
   chroot_list_enable=NO
   allow_writeable_chroot=YES
@@ -1320,11 +2489,11 @@ fi
   4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
 
   5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
-  #+END_SRC
+     #+END_SRC
 
 **** my vsftpd.conf
-  //CentOS 7, /etc/vsftpd/vsftpd.conf.
-  #+BEGIN_SRC emacs-lisp
+     //CentOS 7, /etc/vsftpd/vsftpd.conf.
+     #+BEGIN_SRC emacs-lisp
   # Example config file /etc/vsftpd/vsftpd.conf
   # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
   anonymous_enable=NO
@@ -1446,228 +2615,98 @@ fi
   pam_service_name=vsftpd
   userlist_enable=YES
   tcp_wrappers=YES
-  #+END_SRC
+     #+END_SRC
 **** References
-   : https://security.appspot.com/vsftpd.html
-   : https://en.wikipedia.org/wiki/Vsftpd
-   : http://baike.baidu.com/item/vsftpd
+     : https://security.appspot.com/vsftpd.html
+     : https://en.wikipedia.org/wiki/Vsftpd
+     : http://baike.baidu.com/item/vsftpd
 *** Cygwin：windows 下 Linux 模拟软件
 **** 安装Cygwin
-   : 略
-   : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
+     : 略
+     : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
 
- : // 举例说明：安装及配置ssh
-   : 1.运行安装文件
-   : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
-   : 3.安装完成后，打开Cygwin，输入ssh-host-config
-   : 当询问if privilege separation should be used 时输入 no . 
-   : 当询问if sshd should be installed as a service 时输入yes . 
-   : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
-   : 其余询问均输入 no
-   : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
-   : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
-   : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
-   : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
-   : 8.输入 ssh localhost 启动SSH
+     : // 举例说明：安装及配置ssh
+     : 1.运行安装文件
+     : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
+     : 3.安装完成后，打开Cygwin，输入ssh-host-config
+     : 当询问if privilege separation should be used 时输入 no . 
+     : 当询问if sshd should be installed as a service 时输入yes . 
+     : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
+     : 其余询问均输入 no
+     : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
+     : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
+     : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
+     : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
+     : 8.输入 ssh localhost 启动SSH
 **** 参考资料
-   : 1.Cygwin-Official Site:http://cygwin.com/
-   : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
-   : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
-   : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+     : 1.Cygwin-Official Site:http://cygwin.com/
+     : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
+     : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
+     : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
 *** Wps for Linux
- : 1. 从官网下载安装包，网址：http://www.wps.cn/
+    : 1. 从官网下载安装包，网址：http://www.wps.cn/
 
- : 2. 安装
- : $ sudo dpkg -i wps_office_10.xxx.deb
+    : 2. 安装
+    : $ sudo dpkg -i wps_office_10.xxx.deb
 
- : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
- : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
- : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
- : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
- : 或者直接 在win 中（C/WINDOWS/FONTS）
- : 2) 执行以下命令,生成字体的索引信息：
- : $ sudo mkfontscale
- : $ sudo mkfontdir
- : 3) 运行fc-cache命令更新字体缓存
- : $ sudo fc-cache
-* 分区(Partition)
-** Linux上挂载NTFS格式文件系统
-*** 方案A（Scheme A）：使用linux-ntfs
-: 1.
-: $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-: 2.
-: # rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-: 3.
-: 检查 ntfs 模块是否被加载进系统
-: $ /sbin/modprobe ntfs
-:  [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
-: $ cat /proc/filesystems
-:  [ntfs应该出现在列表中]
-: 4.查看NTFS系统的编号
-: /sbin/fdisk -l |grep NTFS 
-: 5.
-: #mkdir -p /mnt/win_ntfs
-: #mount -t ntfs /dev/sda1 /mnt/win_ntfs
-*** 方案B（Scheme B）：使用fuse和ntfs-3g
-: 1.
-: # wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
-: # wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
-: 2.
-: # tar -zxf fuse-2.7.4.tar.gz
-: # ./configure --prefix=/usr/local/fuse-2.7.4
-: # make 
-: # make install
-
-: # tar -zxf ntfs-3g-2009.4.4.tgz
-: # ./configure --prefix=/usr/local/ntfs-3
-: # make 
-: # make install 
-: 3.
-: 检查fuse模块是否被加载进系统
-: $ /sbin/modprobe fuse
-:  [没有输出则代表存在；否则将会有错误信息报出]
-: $ cat /proc/filesystems
-:  [fuse应该出现在列表中]
-: 4.
-: 查看NTFS系统的编号 
-: $ /sbin/fdisk -l |grep NTFS 
-: 5.
-: #mount ntfs-3g /dev/sda1 /mnt/win_ntfs
-
-参考：http://blog.163.com/flybood@126/blog/static/41230911201062165035335/
-*** 自动挂载 NTFS 格式硬盘
-**** 安装 ntfs-3g
-: $ sudo apt-get install ntfs-3g
-**** 步骤1：编辑/etc/fstab
-: $ sudo vim /etc/fstab
-: /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-: Notice:
-:    If /dev/sdb1 path will change due to system configuration, I recommend that you use
-: the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
-: 翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符），下面是查看 UUID 的命令。
-: $ sudo /sbin/blkid /dev/sda1
-: //Note down the UUID value and update /etc/fstab as follows:
-: 翻译：记录下 UUID，更新 /etc/fstab 文件。
-#+BEGIN_SRC emacs-lisp
-# syntax
-# UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-# Owning entire file system
-UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
-#+END_SRC
-: //保存关闭文件
-**** 步骤2：创建目录
-: $ sudo mkdir -p /mnt/ntfs
-**** 步骤3：测试（Test）可用性
-: $ sudo mount -a
-: $ df -h
-: $ cd /mnt/ntfs
-: $ ls -l
-**** 步骤4：卸载NTFS分区
-: $ sudo umount /mnt/ntfs
-: // or
-: $ sudo umount /dev/sda1
-**** 注意错误信息：“Read-only file system”提示
-: $ mv 05Music/ /mnt/sda/sda2/
-: /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
-: //解决（Solving）：配置 /etc/fstab
-**** 参考资料
-: https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/
-: http://www.tuicool.com/articles/ZbENfie
-: https://wiki.archlinux.org/index.php/NTFS-3G
-: https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-: https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
-** 格式化分区命令
-: 将 /dev/sda7 硬盘格式化为 ext3 格式。
-: mkfs -t ext3 -c /dev/sda7
-** Boot加载选项修改
-: #chmod +w /boot/grub/grub.cfg
-: #vim /boot/grub/grub.cfg
-: 注释不需要的加载项！
-* 问题解决(Problem)
-** 改变 Home 目录下的目录中文名称为英文
-*** 方法1
-: $ vim ~/.config/user-dirs.dirs
-#+BEGIN_SRC emacs-lisp
-XDG_DESKTOP_DIR="$HOME/Desktop"
-XDG_DOWNLOAD_DIR="$HOME/Download"
-XDG_TEMPLATES_DIR="$HOME/Template"
-XDG_PUBLICSHARE_DIR="$HOME/Public"
-XDG_DOCUMENTS_DIR="$HOME/Document"
-XDG_MUSIC_DIR="$HOME/Music"
-XDG_PICTURES_DIR="$HOME/Picture"
-XDG_VIDEOS_DIR="$HOME/Video"
-#+END_SRC
-*** 方法2
-: export LANG=en_US
-: xdg-user-dirs-gtk-update
-** 电脑没有声音
-*** 解决
-: //安装驱动软件
-: $ sudo apt-get install alsa-utils
-: $ sudo apt-get install alsa-oos
-: $ sudo apt-get install esound
-: $ sudo apt-get install gnome-audio
-: //检查声卡驱动
-: $ lspci |grep Audio
-: //检查内核模块
-: $ lsmod |grep snd
-: //检查系统音量
-: $ alsamixer
-: //alsamixer是alsa驱动的一个插件,是一个命令行下的图形设置工具.
-: //alsamixer命令，00表示音量正常，MM表示此声道静音。可以通过M键切换
-: //初始化声卡
-: $ sudo alsactl init
-*** 参考资料
-: https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/
-: http://blog.163.com/lixiangqiu_9202/blog/static/535750372012541358800/ 
+    : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
+    : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
+    : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+    : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
+    : 或者直接 在win 中（C/WINDOWS/FONTS）
+    : 2) 执行以下命令,生成字体的索引信息：
+    : $ sudo mkfontscale
+    : $ sudo mkfontdir
+    : 3) 运行fc-cache命令更新字体缓存
+    : $ sudo fc-cache
+* 常见问题解决(Problem)
 ** 不能在 Sublime 编辑器（Editor）中输入中文
 *** 1.下载（Download）
-: $ git clone https://github.com/lyfeyaj/sublime-text-imfix.git
+    : $ git clone https://github.com/lyfeyaj/sublime-text-imfix.git
 *** 2.配置（Configure）
-: $ cd ~/sublime-text-imfix
-: $ sudo cp ./lib/libsublime-imfix.so /opt/sublime_text/
-: $ sudo cp ./src/subl /usr/bin/ 
-: $ LD_PRELOAD=./libsublime-imfix.so subl
+    : $ cd ~/sublime-text-imfix
+    : $ sudo cp ./lib/libsublime-imfix.so /opt/sublime_text/
+    : $ sudo cp ./src/subl /usr/bin/ 
+    : $ LD_PRELOAD=./libsublime-imfix.so subl
 *** 3.新建Shell脚本
-: $ vim /home/zrg/sublime
-: #!/bin/bash
-: LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
+    : $ vim /home/zrg/sublime
+    : #!/bin/bash
+    : LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 *** 参考资料
-: http://www.jianshu.com/p/bf05fb3a4709
+    : http://www.jianshu.com/p/bf05fb3a4709
 ** 解决系统不能支持加密算法：chacha20
-: $ sudo apt-get install m2crypto gcc -y
-: $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
-: $ tar zxvf libsodium-1.0.8.tar.gz
-: $ cd libsodium-1.0.8
-: $ ./configure
-: $ sudo make && make install
-: $ sudo echo "include ld.so.conf.d/*.conf">/etc/ld.so.conf
-: $ sudo echo "/lib">>/etc/ld.so.conf
-: $ sudo echo "/usr/lib64">>/etc/ld.so.conf
-: $ sudo echo "/usr/local/lib">>/etc/ld.so.conf
-: $ ldconfig
+   : $ sudo apt-get install m2crypto gcc -y
+   : $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
+   : $ tar zxvf libsodium-1.0.8.tar.gz
+   : $ cd libsodium-1.0.8
+   : $ ./configure
+   : $ sudo make && make install
+   : $ sudo echo "include ld.so.conf.d/*.conf">/etc/ld.so.conf
+   : $ sudo echo "/lib">>/etc/ld.so.conf
+   : $ sudo echo "/usr/lib64">>/etc/ld.so.conf
+   : $ sudo echo "/usr/local/lib">>/etc/ld.so.conf
+   : $ ldconfig
 ** 软件源配置不全，导致软件不能安装
-: //Error: Can't fix the error because you are asking some packages to stay the same, that is they break the dependencies between the packages.
-: //翻译：无法修正错误,因为您要求某些软件包保持现状,就是它们破坏了软件包间的依赖关系
-: //解决：检查安装源，进行重新配置，必要时添加debian官方安装源
-: $ vim /etc/apt/sources.list
-: $ sudo apt-get update
+   : //Error: Can't fix the error because you are asking some packages to stay the same, that is they break the dependencies between the packages.
+   : //翻译：无法修正错误,因为您要求某些软件包保持现状,就是它们破坏了软件包间的依赖关系
+   : //解决：检查安装源，进行重新配置，必要时添加debian官方安装源
+   : $ vim /etc/apt/sources.list
+   : $ sudo apt-get update
 ** .deb 转换为 .rpm
 *** 下载及安装 alien
-: 1.下载:
-: $ wget https://packages.debian.org/unstable/source/alien
+    : 1.下载:
+    : $ wget https://packages.debian.org/unstable/source/alien
 
-: 2.安装:
-: $ tar xpvf alien_8.95.tar.xz 
-: $ cd alien-8.95
-: $ make && make install
+    : 2.安装:
+    : $ tar xpvf alien_8.95.tar.xz 
+    : $ cd alien-8.95
+    : $ make && make install
 *** 转换(Conversion)
-: $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
+    : $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
 ** 软件自启动脚本实例
 *** 实例：php-fpm 服务启动脚本
-1. $ sudo vim /etc/init.d/php-fpm
-#+BEGIN_SRC shell
+    1. $ sudo vim /etc/init.d/php-fpm
+    #+BEGIN_SRC shell
 #!/bin/sh
 # DateTime:2017-03-09
 # Author:zrg
@@ -1757,65 +2796,65 @@ case "$1" in
         echo $"Usage: $0 {start|stop|status|restart|reload|configtest}"
         exit 2
 esac
-#+END_SRC
-: 脚本说明：
-: # Source function library.  
-: . /etc/rc.d/init.d/functions  //类似于include,require，引入文件。
-: # Source networking configuration.  
-: . /etc/sysconfig/network   //同理。
-: //引入后，用到的daemon、status
-: NETWORKING=yes
-:  HOSTNAME=E10162
-: //将他们作为变量赋值,判断网卡是否启动，如果你的 nginx 不走网卡，其实网络这段可以去掉
-: //daemon便是实现上图漂亮的【 OK 】的函数.
-2.设置自启动
-: # php-fpm 加入服务
-: chkconfig --add php-fpm
-: # php-fpm 234 级别下设置为启动
-: chkconfig php-fpm on
-: # 查看 php-fpm 服务当前配置
-: chkconfig --list php-fpm
-: php-fpm         0:off   1:off   2:on    3:on    4:on    5:on    6:off
-3.php-fpm操作
-: # 启动/关闭/重启/重载
-: service php-fpm start/stop/restart/reload
-: # 检查配置文件
-: #service php-fpm configtest
+    #+END_SRC
+    : 脚本说明：
+    : # Source function library.  
+    : . /etc/rc.d/init.d/functions  //类似于include,require，引入文件。
+    : # Source networking configuration.  
+    : . /etc/sysconfig/network   //同理。
+    : //引入后，用到的daemon、status
+    : NETWORKING=yes
+    :  HOSTNAME=E10162
+    : //将他们作为变量赋值,判断网卡是否启动，如果你的 nginx 不走网卡，其实网络这段可以去掉
+    : //daemon便是实现上图漂亮的【 OK 】的函数.
+    2.设置自启动
+    : # php-fpm 加入服务
+    : chkconfig --add php-fpm
+    : # php-fpm 234 级别下设置为启动
+    : chkconfig php-fpm on
+    : # 查看 php-fpm 服务当前配置
+    : chkconfig --list php-fpm
+    : php-fpm         0:off   1:off   2:on    3:on    4:on    5:on    6:off
+    3.php-fpm操作
+    : # 启动/关闭/重启/重载
+    : service php-fpm start/stop/restart/reload
+    : # 检查配置文件
+    : #service php-fpm configtest
 *** References
-+ http://www.ttlsa.com/php/php-fpm-service-scripts/
+    + http://www.ttlsa.com/php/php-fpm-service-scripts/
 ** 解决 dpkg: warning: files list file for package 'x' missing 问题
-#+CAPTION: 
-#+BEGIN_SRC shell
+   #+CAPTION: 
+   #+BEGIN_SRC shell
 for package in $(apt-get upgrade 2>&1 |\
                  grep "warning: files list file for package '" |\
                  grep -Po "[^'\n ]+'" | grep -Po "[^']+"); do
     apt-get install --reinstall "$package";
 done
-#+END_SRC
+   #+END_SRC
 ** dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading
-: $ sudo dpkg --configure -a
-: $ sudo apt-get -f install
-: $ sudo apt-get --fix-missing install
-: $ sudo apt-get clean
-: $ sudo apt-get update
-: $ sudo apt-get upgrade
-: $ sudo apt-get dist-upgrade
-: $ sudo apt-get clean
-: $ sudo apt-get autoremove
+   : $ sudo dpkg --configure -a
+   : $ sudo apt-get -f install
+   : $ sudo apt-get --fix-missing install
+   : $ sudo apt-get clean
+   : $ sudo apt-get update
+   : $ sudo apt-get upgrade
+   : $ sudo apt-get dist-upgrade
+   : $ sudo apt-get clean
+   : $ sudo apt-get autoremove
 ** CentOS 7关闭firewall，安装iptables
-: 1. 查看安装和状态
-: $ yum installed firewalld iptables
-: $ systemctl list-unit-files firewalld.service iptables.service
+   : 1. 查看安装和状态
+   : $ yum installed firewalld iptables
+   : $ systemctl list-unit-files firewalld.service iptables.service
 
-: 2. 停止并禁止自启动firewall和安装iptables防火墙
-: $ systemctl stop firewalld.service
-: $ systemctl disable firewalld.service
-: $ yum install iptables-service
-: $ systemctl enable iptables.service
+   : 2. 停止并禁止自启动firewall和安装iptables防火墙
+   : $ systemctl stop firewalld.service
+   : $ systemctl disable firewalld.service
+   : $ yum install iptables-service
+   : $ systemctl enable iptables.service
 
-: 3. 编辑并修改配置文件/etc/sysconfig/iptables，使用如下配置
-#+NAME: /etc/sysconfig/iptables
-#+BEGIN_SRC shell
+   : 3. 编辑并修改配置文件/etc/sysconfig/iptables，使用如下配置
+   #+NAME: /etc/sysconfig/iptables
+   #+BEGIN_SRC shell
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]
@@ -1839,8 +2878,8 @@ done
 -A OUTPUT -j TEST
 -A TEST -j RETURN
 COMMIT
-#+END_SRC
-: 
+   #+END_SRC
+   : 
 
-: 4. 查看防火墙规则是否启用。
-: $ iptables -L
+   : 4. 查看防火墙规则是否启用。
+   : $ iptables -L
