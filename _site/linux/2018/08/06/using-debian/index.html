@@ -521,7 +521,7 @@ Linux 爱好者
 <b>作者</b>
 </p>
 <ul class="org-ul">
-<li>我的 Linux 学习之路（My road of learning Linux）
+<li>zrg 的 Linux 学习之路（My road of learning Linux）
 <ul class="org-ul">
 <li>第一次接触 Linux 是由于大二上学期的 Linux 基础课，但是，我并没有喜欢上这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。</li>
 <li>后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。</li>
@@ -1199,8 +1199,8 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 </ul>
 </div>
 </div>
-<div id="outline-container-orgedf4f36" class="outline-4">
-<h4 id="orgedf4f36">
+<div id="outline-container-orgd0cf67e" class="outline-4">
+<h4 id="orgd0cf67e">
 <span class="section-number-4">2.2.4</span> 参考资料</h4>
 <div class="outline-text-4" id="text-2-2-4">
 <ul class="org-ul">
@@ -2192,6 +2192,99 @@ umask命令用来设置所创建文件和目录的默认权限。
 </ol>
 </div>
 </div>
+<div id="outline-container-org4e3c41c" class="outline-4">
+<h4 id="org4e3c41c">
+<span class="section-number-4">3.1.4</span> 共享文件</h4>
+<div class="outline-text-4" id="text-3-1-4">
+<pre class="example">
+Linux 为每个文件和目录存储了3个额外的信息位。
+
+</pre>
+<ul class="org-ul">
+<li>设置用户ID（SUID）</li>
+<li>设置组ID（GID）</li>
+<li>粘着位：进程结束后文件还驻留（粘着）在内存中。</li>
+</ul>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above">
+<span class="table-number">Table 9:</span> chmod SUID、SGID和粘着位的八进制值</caption>
+
+<colgroup>
+<col class="org-right">
+
+<col class="org-right">
+
+<col class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">二进制值</th>
+<th scope="col" class="org-right">八进制值</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">000</td>
+<td class="org-right">0</td>
+<td class="org-left">所有位都清零</td>
+</tr>
+
+<tr>
+<td class="org-right">001</td>
+<td class="org-right">1</td>
+<td class="org-left">粘着位置位</td>
+</tr>
+
+<tr>
+<td class="org-right">010</td>
+<td class="org-right">2</td>
+<td class="org-left">SGID位置位</td>
+</tr>
+
+<tr>
+<td class="org-right">011</td>
+<td class="org-right">3</td>
+<td class="org-left">SGID位和粘着位都置位</td>
+</tr>
+
+<tr>
+<td class="org-right">100</td>
+<td class="org-right">4</td>
+<td class="org-left">SUID位置位</td>
+</tr>
+
+<tr>
+<td class="org-right">101</td>
+<td class="org-right">5</td>
+<td class="org-left">SUID位和粘着位都置位</td>
+</tr>
+
+<tr>
+<td class="org-right">110</td>
+<td class="org-right">6</td>
+<td class="org-left">SUID位和SGID都置位</td>
+</tr>
+
+<tr>
+<td class="org-right">111</td>
+<td class="org-right">7</td>
+<td class="org-left">所有位都置位</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+//创建一个共享目录
+$ mkdir testdir
+$ chgrp shared testdir
+$ chmod g+s testdir
+$ umask 002
+$ cd testdir
+$ touch testfile
+
+</pre>
+</div>
+</div>
 </div>
 <div id="outline-container-org5ddde26" class="outline-3">
 <h3 id="org5ddde26">
@@ -2749,7 +2842,7 @@ $ netstat -rn
 </div>
 <ol class="org-ol">
 <li>
-<a id="org67306a5"></a>top<br>
+<a id="org25909ee"></a>top<br>
 <div class="outline-text-5" id="text-3-6-2-1">
 <ul class="org-ul">
 <li>描述</li>
@@ -3191,8 +3284,8 @@ chown命令用来改变文件的所属组。
 </pre>
 </div>
 </div>
-<div id="outline-container-org4e3c41c" class="outline-4">
-<h4 id="org4e3c41c">
+<div id="outline-container-org81e8257" class="outline-4">
+<h4 id="org81e8257">
 <span class="section-number-4">4.4.2</span> 共享文件</h4>
 <div class="outline-text-4" id="text-4-4-2">
 <pre class="example">
@@ -3206,7 +3299,7 @@ Linux为每个文件和目录存储了3个额外的信息位。
 </ul>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 9:</span> chmod SUID、SGID和粘着位的八进制值</caption>
+<span class="table-number">Table 10:</span> chmod SUID、SGID和粘着位的八进制值</caption>
 
 <colgroup>
 <col class="org-right">
@@ -3284,6 +3377,983 @@ $ touch testfile
 
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-org0b7acca" class="outline-3">
+<h3 id="org0b7acca">
+<span class="section-number-3">4.5</span> shell 脚本编程基础</h3>
+<div class="outline-text-3" id="text-4-5">
+</div>
+<div id="outline-container-orgda8d7da" class="outline-4">
+<h4 id="orgda8d7da">
+<span class="section-number-4">4.5.1</span> 构建基本脚本</h4>
+<div class="outline-text-4" id="text-4-5-1">
+</div>
+<ol class="org-ol">
+<li>
+<a id="org07470f1"></a>创建一个简单的脚本<br>
+<div class="outline-text-5" id="text-4-5-1-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org60989d3"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash  #告诉shell用/bin/</span><span style="color: #a020f0;">bash来运行脚本。</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">This script displays the date and who's #脚本用途说明及作者等信息描述 </span>
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"This's is a shell script."</span> <span style="color: #b22222;">#</span><span style="color: #b22222;">显示消息</span>
+<span style="color: #483d8b;">echo</span> -n <span style="color: #8b2252;">"The time and date are: "</span> <span style="color: #b22222;">#</span><span style="color: #b22222;">n表示在一行显示</span>
+date
+
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"User info for userid: $USER"</span> <span style="color: #b22222;">#</span><span style="color: #b22222;">环境变量，用set命令可以查看一份完整的当前环境变量列表。</span>
+<span style="color: #483d8b;">echo</span> UID: $<span style="color: #a0522d;">UID</span>
+<span style="color: #483d8b;">echo</span> HOME: $<span style="color: #a0522d;">HOME</span>
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The cost of the item is \$15."</span> <span style="color: #b22222;">#</span><span style="color: #b22222;">美元需要使用\转义</span>
+
+days = 10 <span style="color: #b22222;">#</span><span style="color: #b22222;">用户自定义变量</span>
+<span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">days</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">有两种方法可以将命令赋给变量</span>
+<span style="color: #483d8b;">test</span> = <span style="color: #ff00ff;">`date`</span> <span style="color: #b22222;">#</span><span style="color: #b22222;">用一对反引号把整个命令围起来</span>
+<span style="color: #483d8b;">test</span> = $(<span style="color: #ff00ff;">date</span>) <span style="color: #b22222;">#</span><span style="color: #b22222;">使用$()格式</span>
+today = $(<span style="color: #ff00ff;">date</span>+%y%m%d) <span style="color: #b22222;">#</span><span style="color: #b22222;">today变量被赋予格式化后的date命令的输出。</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org0266f2e"></a>重定向输入和输出<br>
+<div class="outline-text-5" id="text-4-5-1-2">
+<pre class="example">
+// 输出重定向
+$ date &gt; test
+$ date &gt;&gt; test
+
+</pre>
+
+<pre class="example">
+// 输入重定向
+$ wc &lt; test
+
+</pre>
+<p>
+2 11 60
+</p>
+<pre class="example">
+//wc命令，默认情况下，会输出3个值：
+
+</pre>
+<ul class="org-ul">
+<li>文本的行数</li>
+<li>文本的词数</li>
+<li>文本的字节数</li>
+</ul>
+
+<pre class="example">
+内联输入重定向（inline input redirection）
+$ wc &lt;&lt; EOF
+shell 会用PS2环境变量中定义的次提示符来提示输入数据
+
+</pre>
+</div>
+</li>
+<li>
+<a id="org69f20ef"></a>管道<br>
+<div class="outline-text-5" id="text-4-5-1-3">
+<pre class="example">
+$ rpm -qa | sort
+//上面的命令会同时运行。
+
+</pre>
+</div>
+</li>
+<li>
+<a id="org2a3cd9e"></a>执行数学运算<br>
+<div class="outline-text-5" id="text-4-5-1-4">
+<pre class="example">
+$ var1=$(1+5)
+$ var2=$[$var1 * 2]
+// 使用$和[]将数学表达式围起来
+注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+
+</pre>
+
+<pre class="example">
+浮点解决方案
+1.用内建的bash计算器：bc
+$ bc
+
+</pre>
+<p>
+3.44 / 5
+0
+scale = 4 浮点运算由scale控制，默认值为0
+</p>
+<pre class="example">
+// -q选项可以不显示冗长的欢迎信息
+$ bc -q 
+
+</pre>
+<p>
+var1 = 10
+var1 * 4
+40
+var2 = var1 / 5
+print var2
+2
+quit
+</p>
+<pre class="example">
+$
+
+</pre>
+
+<pre class="example">
+2. 在脚本中使用bc
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="org17cd039"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+var1 = $(<span style="color: #ff00ff;">echo</span> <span style="color: #8b2252;">"scale=4;3.44 / 5"</span> | bc)
+<span style="color: #483d8b;">echo</span> The answer is $<span style="color: #a0522d;">var1</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org3e808b3"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+
+var1 = 10.46
+var2 = 43.67
+var3 = 33.2
+var4 = 71
+
+var5 = $(<span style="color: #ff00ff;">bc</span> &lt;&lt; EOF
+<span style="color: #ffa54f;">scale =4</span>
+<span style="color: #ffa54f;">a1 = ($var1*$var2)</span>
+<span style="color: #ffa54f;">a2 = ($var3*var4)</span>
+<span style="color: #ffa54f;">a1+b1</span>
+<span style="color: #ffa54f;">EOF</span>
+)
+
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The final answer for this mess is $var5"</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org5567ff5"></a>退出脚本<br>
+<div class="outline-text-5" id="text-4-5-1-5">
+<pre class="example">
+1. 退出状态码（exit status）
+$ echo $?
+
+</pre>
+<p>
+0
+</p>
+<table id="org79a1c35" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-right">
+
+<col class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">状态码</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">命令成功结束</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">一般性未知错误</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">不适合的shell命令</td>
+</tr>
+
+<tr>
+<td class="org-right">126</td>
+<td class="org-left">命令不可执行</td>
+</tr>
+
+<tr>
+<td class="org-right">127</td>
+<td class="org-left">没找到命令</td>
+</tr>
+
+<tr>
+<td class="org-right">128</td>
+<td class="org-left">无效的退出参数</td>
+</tr>
+
+<tr>
+<td class="org-right">128+x</td>
+<td class="org-left">与Linux信号x相关的严重错误</td>
+</tr>
+
+<tr>
+<td class="org-right">130</td>
+<td class="org-left">通过Ctrl+C终止的命令</td>
+</tr>
+
+<tr>
+<td class="org-right">255</td>
+<td class="org-left">正常范围之外的退出状态码</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+2. exit命令
+exit命令允许在脚本结束时指定一个退出状态码
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="org1267ca8"><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">'Hello, World'</span>
+<span style="color: #a020f0;">exit</span> 5 
+</pre>
+</div>
+<pre class="example">
+$ ./test 
+
+</pre>
+<p>
+Hello, World
+</p>
+<pre class="example">
+$ echo $?
+
+</pre>
+<p>
+5
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org8fa16d2" class="outline-4">
+<h4 id="org8fa16d2">
+<span class="section-number-4">4.5.2</span> 结构化命令</h4>
+<div class="outline-text-4" id="text-4-5-2">
+</div>
+<ol class="org-ol">
+<li>
+<a id="org40edc66"></a>if-then<br>
+<div class="outline-text-5" id="text-4-5-2-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org7885cf6"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+testuser = zrg
+<span style="color: #b22222;">#</span>
+<span style="color: #a020f0;">if</span> grep $<span style="color: #a0522d;">testuser</span> /etc/passwd
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The bash files for user $testuser are:"</span>
+    ls -a /home/$<span style="color: #a0522d;">testuser</span>/.b*
+    <span style="color: #483d8b;">echo</span>
+<span style="color: #a020f0;">elif</span> ls -d /home/$<span style="color: #a0522d;">testuser</span>
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The user $testuser has a directory"</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The user $testuser does not exist on this system."</span>
+    <span style="color: #483d8b;">echo</span>
+<span style="color: #a020f0;">fi</span>
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">test命令提供了在if-then语句中测试不同条件的途径。</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">test命令可以判断三类条件：数值比较；字符串比较；文件比较</span>
+</pre>
+</div>
+</div>
+<ol class="org-ol">
+<li>
+<a id="org649c4c1"></a>test 命令<br>
+<div class="outline-text-6" id="text-4-5-2-1-1">
+<pre class="example">
+格式：
+
+</pre>
+<p>
+if test condition
+then
+	commands
+fi
+</p>
+<pre class="example">
+如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgec84f88"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+$<span style="color: #a0522d;">var</span> = 10
+<span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">var</span> -eq 5]
+<span style="color: #a020f0;">then</span> 
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The value $var are equal."</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The value $var are different."</span>
+<span style="color: #a020f0;">fi</span>
+$<span style="color: #a0522d;">var1</span> = baduser
+<span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">USER</span> != $<span style="color: #a0522d;">var1</span>]
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"This is not $var1"</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Welcome $var"</span>
+<span style="color: #a020f0;">fi</span>
+$<span style="color: #a0522d;">var2</span> = baseall
+$<span style="color: #a0522d;">var3</span> = hockey
+<span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">var2</span> <span style="color: #8b2252;">\&gt;</span> $<span style="color: #a0522d;">var3</span>] <span style="color: #b22222;">#</span><span style="color: #b22222;">&gt;符号需要转义，防止解释成输出重定向</span>
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$var2 is greater than $var3"</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$var2 is less than $var3"</span>
+<span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+<pre class="example">
+特别说明：
+1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgfa1f5d1"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+var1 = testing
+var2 =<span style="color: #8b2252;">''</span>
+<span style="color: #a020f0;">if</span> [-n $<span style="color: #a0522d;">var1</span>]
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The string '$var1' is not empty."</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The string '$var1' is empty."</span>
+<span style="color: #a020f0;">fi</span>
+<span style="color: #a020f0;">if</span> [-z $<span style="color: #a0522d;">var2</span>]
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The string '$var2' is empty."</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The string '$var2' is not empty."</span>
+<span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org1350d56"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #a0522d;">jump_directory</span>=/home/arthur
+<span style="color: #a020f0;">if</span> [-d $<span style="color: #a0522d;">jump_directory</span>]
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The $jump_directory directory exists."</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The $jump_directory directory does not exists."</span>
+<span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">比较</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-d file</td>
+<td class="org-left">检查file是否存在并是一个目录</td>
+</tr>
+
+<tr>
+<td class="org-left">-e file</td>
+<td class="org-left">检查file是否存在</td>
+</tr>
+
+<tr>
+<td class="org-left">-f file</td>
+<td class="org-left">检查file是否存在并是一个文件</td>
+</tr>
+
+<tr>
+<td class="org-left">-r file</td>
+<td class="org-left">检查file是否存在并可读</td>
+</tr>
+
+<tr>
+<td class="org-left">-s file</td>
+<td class="org-left">检查file是否存在并非空</td>
+</tr>
+
+<tr>
+<td class="org-left">-w file</td>
+<td class="org-left">检查file是否存在并可写</td>
+</tr>
+
+<tr>
+<td class="org-left">-x file</td>
+<td class="org-left">检查file是否存在并可执行</td>
+</tr>
+
+<tr>
+<td class="org-left">-O file</td>
+<td class="org-left">检查file是否存在并属当前用户所有</td>
+</tr>
+
+<tr>
+<td class="org-left">-G file</td>
+<td class="org-left">检查file是否存在并且默认组与当前用户相同</td>
+</tr>
+
+<tr>
+<td class="org-left">file1 -nt file2</td>
+<td class="org-left">检查file是否比file2</td>
+</tr>
+
+<tr>
+<td class="org-left">file1 -ot file2</td>
+<td class="org-left">检查file是否比file2旧</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li>
+<a id="org21bc2ac"></a>复合条件<br>
+<div class="outline-text-6" id="text-4-5-2-1-2">
+<pre class="example">
+格式：
+
+</pre>
+<p>
+[condition1] &amp;&amp; [condition2]
+[condition1] || [condition2]
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgff05b33"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">testing compound comparisons</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #a020f0;">if</span> [-d $<span style="color: #a0522d;">HOME</span>] &amp;&amp; [-w $<span style="color: #a0522d;">HOME</span>/testing]
+<span style="color: #a020f0;">then</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The file exists and you can write to it."</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"I cannot write to the file."</span>
+<span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="orga212e31"></a>if-then 的高级特性<br>
+<div class="outline-text-6" id="text-4-5-2-1-3">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgf6a095e"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">(( expression )) expression 可以是任意的数学赋值或比较表达式。</span>
+<span style="color: #a0522d;">var1</span>=10
+<span style="color: #a020f0;">if</span>(( $<span style="color: #a0522d;">var1</span> ** 2 &gt; 90))
+<span style="color: #a020f0;">then</span>
+        (( $<span style="color: #a0522d;">var2</span> = $<span style="color: #a0522d;">var1</span> ** 2))
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The square of $var1 is $var2."</span>
+<span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org07d6fdc">  <span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash</span>
+  <span style="color: #b22222;"># </span><span style="color: #b22222;">[[ expression ]]</span>
+  <span style="color: #a020f0;">if</span>[[ $<span style="color: #a0522d;">USER</span> == r* ]]
+  <span style="color: #a020f0;">then</span>
+          <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Hello $USER"</span>
+<span style="color: #a020f0;">else</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Sorry, I do not know you."</span>
+  <span style="color: #a020f0;">fi</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li>
+<a id="org2c9a766"></a>case 命令<br>
+<div class="outline-text-5" id="text-4-5-2-2">
+<pre class="example">
+格式：
+
+</pre>
+<p>
+case $变量名 in
+模式1)
+	命令序列1;;
+模式2)
+	命令序列2;;
+*)
+	默认执行的命令序列;;
+esac 
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgcc69a6b">  <span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash</span>
+  <span style="color: #a020f0;">case</span> $<span style="color: #a0522d;">action</span><span style="color: #a020f0;"> in</span>
+        start | begin)
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"start something"</span>
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"begin something"</span>;;
+        stop | end)
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"stop something"</span>
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"end something"</span>;;
+        *)
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Ignorant."</span>;;
+<span style="color: #a020f0;">esac</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org16f3e72"></a>for 命令<br>
+<div class="outline-text-5" id="text-4-5-2-3">
+<pre class="example">
+格式：
+
+</pre>
+<p>
+for var in list
+do
+	commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org4406905"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">basic for command</span>
+<span style="color: #a020f0;">for</span> country<span style="color: #a020f0;"> in</span> China America India Japen
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The next state is $country"</span>
+<span style="color: #a020f0;">done</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">another example of how not to use the for command</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">1.使用转义字符（反斜线）</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">2.使用双引号</span>
+<span style="color: #a020f0;">for </span><span style="color: #483d8b;">test</span><span style="color: #a020f0;"> in</span> I don<span style="color: #8b2252;">\'</span>t know if <span style="color: #8b2252;">"this'll"</span> work
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"word:$test"</span>
+<span style="color: #a020f0;">done</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">using a variable to hold the list</span>
+<span style="color: #a0522d;">list</span>=<span style="color: #8b2252;">"China America India Japen"</span>
+<span style="color: #a0522d;">list</span>=$<span style="color: #a0522d;">list</span><span style="color: #8b2252;">" Connecticut"</span>
+<span style="color: #a020f0;">for</span> country<span style="color: #a020f0;"> in</span> $<span style="color: #a0522d;">list</span>
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Welcome to $country"</span>
+<span style="color: #a020f0;">done</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">reading values from a file</span>
+<span style="color: #a0522d;">file</span>=<span style="color: #8b2252;">"states"</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">修改IFS环境变量的值，使其只能识别换行符</span>
+<span style="color: #a0522d;">IFS</span>=$<span style="color: #8b2252;">'\n'</span>
+<span style="color: #a020f0;">for</span> state<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">cat</span> $<span style="color: #a0522d;">file</span>)
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Visit beautiful $state"</span>
+<span style="color: #a020f0;">done</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">iterate through all the files in a directory</span>
+<span style="color: #a020f0;">for</span> file<span style="color: #a020f0;"> in</span> $<span style="color: #a0522d;">HOME</span>/* /etc/nginx/*
+<span style="color: #a020f0;">do</span>
+        <span style="color: #a020f0;">if</span> [-d <span style="color: #8b2252;">"$file"</span>]
+        <span style="color: #a020f0;">then</span>
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$file is a directory."</span>
+        <span style="color: #a020f0;">elif</span> [-f <span style="color: #8b2252;">"$file"</span>]
+        <span style="color: #a020f0;">then</span>
+                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$file is a file."</span>
+        <span style="color: #a020f0;">fi</span>
+<span style="color: #a020f0;">done</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">C-style for loop</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #a020f0;">for</span> (( <span style="color: #a0522d;">i</span>=1; i &lt;= 10; i++))
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The next number is $i"</span>
+<span style="color: #a020f0;">done</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">multiple variable</span>
+<span style="color: #a020f0;">for</span> (( <span style="color: #a0522d;">a</span>=1; <span style="color: #a0522d;">b</span>=10;a &lt;= 10; a++, b++))
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$a - $b"</span>
+<span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org47769a2"></a>while 命令<br>
+<div class="outline-text-5" id="text-4-5-2-4">
+<pre class="example">
+格式：
+
+</pre>
+<p>
+while test command
+do
+	other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgd66bc91"><span style="color: #b22222;"># </span><span style="color: #b22222;">while command test</span>
+<span style="color: #a0522d;">var1</span>=10
+<span style="color: #a020f0;">while</span> [ $<span style="color: #a0522d;">var1</span> -gt 0 ]
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
+        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> - 1 ]
+<span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li>
+<a id="org4f55abf"></a>until 命令<br>
+<div class="outline-text-5" id="text-4-5-2-5">
+<pre class="example">
+until 命令和 while 命令完全相反。
+格式：
+
+</pre>
+<p>
+until test command
+do
+	other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org0d1df4e"><span class="linenr">1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr">2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">using the until command</span>
+<span class="linenr">3: </span><span style="color: #a0522d;">var1</span>=100
+<span class="linenr">4: </span><span style="color: #a020f0;">until</span> [ $<span style="color: #a0522d;">var1</span> -eq 0 ]
+<span class="linenr">5: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">6: </span>        <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">var1</span>
+<span class="linenr">7: </span>        <span style="color: #a0522d;">var1</span>=$[ $<span style="color: #a0522d;">var1</span> -25 ]
+<span class="linenr">8: </span><span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li>
+<a id="orgb793c58"></a>应用<br>
+<ol class="org-ol">
+<li>
+<a id="org935cf2b"></a>循环处理文件数据<br>
+<div class="outline-text-6" id="text-4-5-2-6-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org79a9d9c"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">changing the IFS value</span>
+<span class="linenr"> 3: </span>IFS.OLD=$<span style="color: #a0522d;">IFS</span>
+<span class="linenr"> 4: </span><span style="color: #a0522d;">IFS</span>=$<span style="color: #8b2252;">'\n'</span>
+<span class="linenr"> 5: </span><span style="color: #a020f0;">for</span> entry<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">cat</span> /etc/passwd)
+<span class="linenr"> 6: </span><span style="color: #a020f0;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Values in $entry -"</span>
+<span class="linenr"> 8: </span>        <span style="color: #a0522d;">IFS</span>=:
+<span class="linenr"> 9: </span>        <span style="color: #a020f0;">for</span> value<span style="color: #a020f0;"> in</span> $<span style="color: #a0522d;">entry</span>
+<span class="linenr">10: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">11: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"$value"</span>
+<span class="linenr">12: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">13: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">14: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org7bb19a0"></a>break 命令<br>
+<div class="outline-text-6" id="text-4-5-2-6-2">
+<div class="org-src-container">
+<pre class="src src-shell" id="org0f011cd"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">--------------------------------</span>
+<span class="linenr"> 3: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">跳出单个循环</span>
+<span class="linenr"> 4: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.breaking out of a for loop</span>
+<span class="linenr"> 5: </span><span style="color: #a020f0;">for</span> var1<span style="color: #a020f0;"> in</span> 1 2 3 4 5
+<span class="linenr"> 6: </span><span style="color: #a020f0;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">var1</span> -eq 5]
+<span class="linenr"> 8: </span>        <span style="color: #a020f0;">then</span>
+<span class="linenr"> 9: </span>                <span style="color: #a020f0;">break</span>
+<span class="linenr">10: </span>        <span style="color: #a020f0;">fi</span>
+<span class="linenr">11: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Iteration number: $var1"</span>
+<span class="linenr">12: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">13: </span><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The for loop is completed"</span>
+<span class="linenr">14: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">2.breaking out of a while loop</span>
+<span class="linenr">15: </span><span style="color: #a0522d;">var1</span>=1
+<span class="linenr">16: </span><span style="color: #a020f0;">while</span> [ $<span style="color: #a0522d;">var1</span> -lt 10 ]
+<span class="linenr">17: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">18: </span>        <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">var1</span> -eq 5]
+<span class="linenr">19: </span>        <span style="color: #a020f0;">then</span>
+<span class="linenr">20: </span>                <span style="color: #a020f0;">break</span>
+<span class="linenr">21: </span>        <span style="color: #a020f0;">fi</span>
+<span class="linenr">22: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Iteration number: $var1"</span>
+<span class="linenr">23: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">24: </span><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The while loop is completed"</span>
+<span class="linenr">25: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">--------------------------------</span>
+<span class="linenr">26: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">跳出内部循环</span>
+<span class="linenr">27: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">3.breaking out of an inner loop</span>
+<span class="linenr">28: </span><span style="color: #a020f0;">for</span>(( a = 1; a&lt;4; a++))
+<span class="linenr">29: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">30: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Outer loop: $a"</span>
+<span class="linenr">31: </span>        <span style="color: #a020f0;">for</span>((b = 1; b&lt;100; b++))
+<span class="linenr">32: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">33: </span>                <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">var1</span> -eq 5]
+<span class="linenr">34: </span>                <span style="color: #a020f0;">then</span>
+<span class="linenr">35: </span>                        <span style="color: #a020f0;">break</span>
+<span class="linenr">36: </span>                <span style="color: #a020f0;">fi</span>
+<span class="linenr">37: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Inner loop: $b"</span>
+<span class="linenr">38: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">39: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">40: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">---------------------------------</span>
+<span class="linenr">41: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">跳出外部循环</span>
+<span class="linenr">42: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">4.breaking out of an outer loop</span>
+<span class="linenr">43: </span><span style="color: #a020f0;">for</span>(( a = 1; a&lt;4; a++))
+<span class="linenr">44: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">45: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Outer loop: $a"</span>
+<span class="linenr">46: </span>        <span style="color: #a020f0;">for</span>((b = 1; b&lt;100; b++))
+<span class="linenr">47: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">48: </span>                <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">var1</span> -eq 5]
+<span class="linenr">49: </span>                <span style="color: #a020f0;">then</span>
+<span class="linenr">50: </span>                        <span style="color: #a020f0;">break</span> 2
+<span class="linenr">51: </span>                <span style="color: #a020f0;">fi</span>
+<span class="linenr">52: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Inner loop: $b"</span>
+<span class="linenr">53: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">54: </span><span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="orgd50b043"></a>continue 命令<br>
+<div class="outline-text-6" id="text-4-5-2-6-3">
+<div class="org-src-container">
+<pre class="src src-shell" id="org1f1eb7d"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.using the continue command</span>
+<span class="linenr"> 2: </span><span style="color: #a020f0;">for</span>((var1 = 1; var1&lt;15; var1++))
+<span class="linenr"> 3: </span><span style="color: #a020f0;">do</span>
+<span class="linenr"> 4: </span>        <span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #a0522d;">var1</span> -lt 10]
+<span class="linenr"> 5: </span>        <span style="color: #a020f0;">then</span>
+<span class="linenr"> 6: </span>                <span style="color: #a020f0;">continue</span>
+<span class="linenr"> 7: </span>        <span style="color: #a020f0;">fi</span>
+<span class="linenr"> 8: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Iteration number: $var1"</span>
+<span class="linenr"> 9: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">10: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">2.improperly using the continue command in a while loop</span>
+<span class="linenr">11: </span><span style="color: #a0522d;">var1</span>=1
+<span class="linenr">12: </span><span style="color: #a020f0;">while </span><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"while iteration: $var1"</span>
+<span class="linenr">13: </span>        [ $<span style="color: #a0522d;">var1</span> -lt 15 ]
+<span class="linenr">14: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">15: </span>        <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #a0522d;">var1</span> -lt 10]
+<span class="linenr">16: </span>        <span style="color: #a020f0;">then</span>
+<span class="linenr">17: </span>                <span style="color: #a020f0;">continue</span>
+<span class="linenr">18: </span>        <span style="color: #a020f0;">fi</span>
+<span class="linenr">19: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Inside iteration number: $var1"</span>
+<span class="linenr">20: </span>        var1 = $[$<span style="color: #a0522d;">var1</span> +1]
+<span class="linenr">21: </span><span style="color: #a020f0;">done</span>
+<span class="linenr">22: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">3.continuing an outer loop</span>
+<span class="linenr">23: </span><span style="color: #a020f0;">for</span>(( a = 1; a&lt;5; a++))
+<span class="linenr">24: </span><span style="color: #a020f0;">do</span>
+<span class="linenr">25: </span>        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"Interation : $a"</span>
+<span class="linenr">26: </span>        <span style="color: #a020f0;">for</span>((b = 1; b&lt;3; b++))
+<span class="linenr">27: </span>        <span style="color: #a020f0;">do</span>
+<span class="linenr">28: </span>                <span style="color: #a020f0;">if</span> [ $<span style="color: #a0522d;">b</span> -gt 2] &amp;&amp; [$<span style="color: #a0522d;">a</span> -lt 4]
+<span class="linenr">29: </span>                <span style="color: #a020f0;">then</span>
+<span class="linenr">30: </span>                        <span style="color: #a020f0;">continue</span> 2
+<span class="linenr">31: </span>                <span style="color: #a020f0;">fi</span>
+<span class="linenr">32: </span>                <span style="color: #a0522d;">var3</span>=$[$<span style="color: #a0522d;">a</span>+$<span style="color: #a0522d;">b</span>]
+<span class="linenr">33: </span>                <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The result of $a * $b is $var3"</span>
+<span class="linenr">34: </span>        <span style="color: #a020f0;">done</span>
+<span class="linenr">35: </span><span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org5925a93"></a>处理循环的输出<br>
+<div class="outline-text-6" id="text-4-5-2-6-4">
+<pre class="example">
+可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org00aaea9">for file in /home/zrg/*
+do
+...
+done &gt; output.txt
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="org6ca4a1a"></a>实例<br>
+<div class="outline-text-6" id="text-4-5-2-6-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgd52e788">#!/bin/bash
+# finding files in the PATH
+IF=:
+for folder in $PATH
+do
+        echo <span style="color: #8b2252;">"$folder:"</span>
+        for file in $folder/*
+        do
+                if [-x $file]
+                then
+                        echo <span style="color: #8b2252;">"$file"</span>
+                fi
+        done
+done
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org9ddfc83">#!/bin/bash
+# process new user accounts
+input = <span style="color: #8b2252;">"users.csv"</span>
+while IFS=',' read -r userid name
+do
+        echo <span style="color: #8b2252;">"adding $userid"</span>
+        useradd -c <span style="color: #8b2252;">"$name"</span> -m $userid
+done &lt; <span style="color: #8b2252;">"$input"</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgb6cb82d" class="outline-4">
+<h4 id="orgb6cb82d">
+<span class="section-number-4">4.5.3</span> 输入输出</h4>
+<div class="outline-text-4" id="text-4-5-3">
+</div>
+<ol class="org-ol">
+<li>
+<a id="orgae96675"></a>命令行参数<br>
+<div class="outline-text-5" id="text-4-5-3-1">
+<pre class="example">
+位置参数(positional parameter)变量是标准的数字：$0是程序名，$1是第一个参数，$2是第二个参数，依次类推，直到第九个参数$9
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell" id="org2cf40b0"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">using one command line parameter</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #a0522d;">factorial</span>=1
+<span style="color: #a020f0;">for</span> ((<span style="color: #a0522d;">number</span>=1; number&lt;=$<span style="color: #a0522d;">1</span>; number++))
+<span style="color: #a020f0;">do</span>
+        <span style="color: #a0522d;">factorial</span>=$[$<span style="color: #a0522d;">factorial</span> * $<span style="color: #a0522d;">number</span>]
+<span style="color: #a020f0;">done</span>
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The factorial of $1 is $factorial"</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgf3433d6" class="outline-4">
+<h4 id="orgf3433d6">
+<span class="section-number-4">4.5.4</span> 控制脚本</h4>
+</div>
+</div>
+<div id="outline-container-org3fafaf6" class="outline-3">
+<h3 id="org3fafaf6">
+<span class="section-number-3">4.6</span> 高级 shell 脚本编程</h3>
+<div class="outline-text-3" id="text-4-6">
+</div>
+<div id="outline-container-org376703c" class="outline-4">
+<h4 id="org376703c">
+<span class="section-number-4">4.6.1</span> 创建函数</h4>
+</div>
+<div id="outline-container-org4be1910" class="outline-4">
+<h4 id="org4be1910">
+<span class="section-number-4">4.6.2</span> 图形化桌面环境中的脚本编程</h4>
+</div>
+<div id="outline-container-org53f956d" class="outline-4">
+<h4 id="org53f956d">
+<span class="section-number-4">4.6.3</span> 初识 sed 和 gawk</h4>
+</div>
+<div id="outline-container-org3b56878" class="outline-4">
+<h4 id="org3b56878">
+<span class="section-number-4">4.6.4</span> 正则表达式</h4>
+</div>
+<div id="outline-container-orgf44a55a" class="outline-4">
+<h4 id="orgf44a55a">
+<span class="section-number-4">4.6.5</span> sed 和 gawk 进阶</h4>
+</div>
+<div id="outline-container-org24bd27e" class="outline-4">
+<h4 id="org24bd27e">
+<span class="section-number-4">4.6.6</span> 使用其他 shell</h4>
+</div>
+</div>
+<div id="outline-container-org9de2abb" class="outline-3">
+<h3 id="org9de2abb">
+<span class="section-number-3">4.7</span> 创建实用的脚本</h3>
+<div class="outline-text-3" id="text-4-7">
+</div>
+<div id="outline-container-org2c0b571" class="outline-4">
+<h4 id="org2c0b571">
+<span class="section-number-4">4.7.1</span> 编写简单的脚本实用工具</h4>
+<div class="outline-text-4" id="text-4-7-1">
+</div>
+<ol class="org-ol">
+<li>
+<a id="orgc603fe5"></a>归档<br>
+</li>
+<li>
+<a id="org4c01501"></a>管理用户账户<br>
+</li>
+<li>
+<a id="org064224d"></a>检测磁盘空间<br>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd259d52" class="outline-4">
+<h4 id="orgd259d52">
+<span class="section-number-4">4.7.2</span> 创建与数据库、Web及E-Mail相关的脚本</h4>
+</div>
+<div id="outline-container-orgdb49b17" class="outline-4">
+<h4 id="orgdb49b17">
+<span class="section-number-4">4.7.3</span> 一些小意思的脚本</h4>
+<div class="outline-text-4" id="text-4-7-3">
+</div>
+<ol class="org-ol">
+<li>
+<a id="orgfaff8c9"></a>发送消息<br>
+</li>
+<li>
+<a id="orgc26bee6"></a>获取格言<br>
+</li>
+<li>
+<a id="org0b99792"></a>编造借口<br>
+</li>
+<li>
+<a id="orgcb7981a"></a>在当前目录及指定子目录深度下创建.gitignore文件<br>
+<div class="outline-text-5" id="text-4-7-3-4">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">sh</span>
+<span style="color: #a020f0;">for</span> dir<span style="color: #a020f0;"> in</span> <span style="color: #ff00ff;">`find ./ -mindepth 2 -maxdepth 4 -type d`</span>
+<span style="color: #a020f0;">do</span>
+        <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">dir</span>
+        <span style="color: #ff00ff;">`touch $dir/.gitignore`</span>
+        <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"*"</span>&gt;$<span style="color: #a0522d;">dir</span>/.gitignore
+<span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+<li>
+<a id="orge0424bd"></a>解决 dpkg: warning: files list file for package 'x' missing<br>
+<div class="outline-text-5" id="text-4-7-3-5">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span></label><pre class="src src-shell"><span style="color: #a020f0;">for</span> package<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">sudo</span> apt install catdoc 2&amp;1 |grep <span style="color: #8b2252;">"warning: files list file for package'"</span> |grep -Po <span style="color: #8b2252;">"[^'\n ]+'"</span> |grep -Po <span style="color: #8b2252;">"[^']+"</span>);
+<span style="color: #a020f0;">do</span>
+        sudo apt install --reinstall <span style="color: #8b2252;">"$package"</span>
+<span style="color: #a020f0;">done</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -3840,7 +4910,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 10:</span> 表</caption>
+<span class="table-number">Table 11:</span> 表</caption>
 
 <colgroup>
 <col class="org-left">
@@ -3875,7 +4945,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 11:</span> NAT</caption>
+<span class="table-number">Table 12:</span> NAT</caption>
 
 <colgroup>
 <col class="org-left">
@@ -3923,7 +4993,7 @@ iptables中常用的参数以及作用
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 12:</span> iptables中常用的参数以及作用</caption>
+<span class="table-number">Table 13:</span> iptables中常用的参数以及作用</caption>
 
 <colgroup>
 <col class="org-left">
@@ -4136,7 +5206,7 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 13:</span> firewalld中常用的区域名称及策略规则</caption>
+<span class="table-number">Table 14:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col class="org-left">
@@ -4207,7 +5277,7 @@ firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）�
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 14:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<span class="table-number">Table 15:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col class="org-left">
@@ -4465,7 +5535,7 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above">
-<span class="table-number">Table 15:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<span class="table-number">Table 16:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col class="org-left">
@@ -4533,7 +5603,7 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 </ol>
 </li>
 <li>
-<a id="org361a8bb"></a>参考资料<br>
+<a id="orgc11e76a"></a>参考资料<br>
 <div class="outline-text-5" id="text-5-4-3-4">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Iptables">iptables wiki</a></li>
@@ -4549,7 +5619,7 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 <span class="section-number-4">5.4.4</span> 删除大文件的前n行</h4>
 <div class="outline-text-4" id="text-5-4-4">
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span>示例：删除前10行</label><pre class="src src-shell">tail -n +10 old_file&gt;new_file
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>示例：删除前10行</label><pre class="src src-shell">tail -n +10 old_file&gt;new_file
 mv new_file old_file
 </pre>
 </div>
@@ -4572,7 +5642,7 @@ netcat所做的就是在两台电脑之间建立链接并返回两个数据流�
 </div>
 </li>
 <li>
-<a id="org1beac3c"></a>安装<br>
+<a id="org22c00f4"></a>安装<br>
 <div class="outline-text-5" id="text-5-4-5-2">
 <pre class="example">
 // Redhat/CentOS/Fedora
@@ -4690,7 +5760,7 @@ dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定
 </ol>
 </li>
 <li>
-<a id="org99f246a"></a>参考资料<br>
+<a id="orgec02d0c"></a>参考资料<br>
 <div class="outline-text-5" id="text-5-4-5-4">
 <pre class="example">
 https://blog.csdn.net/zhangxiao93/article/details/52705642
@@ -4854,7 +5924,7 @@ http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 </div>
 <ol class="org-ol">
 <li>
-<a id="org25909ee"></a>top<br>
+<a id="orgdb9b85c"></a>top<br>
 <div class="outline-text-5" id="text-5-4-8-1">
 
 <div class="figure">
@@ -4990,7 +6060,7 @@ $ sudo apt-get install chromium chromium-l10n
 </div>
 <ol class="org-ol">
 <li>
-<a id="org514dc11"></a>安装<br>
+<a id="org0582ec2"></a>安装<br>
 <div class="outline-text-5" id="text-5-4-14-1">
 <pre class="example">
 $ sudo apt-get install scrot
@@ -5089,7 +6159,7 @@ $ rarcrack --threads 10 --type rar test.rar
 </div>
 <ol class="org-ol">
 <li>
-<a id="org08894a6"></a>问题解决<br>
+<a id="orgcc08902"></a>问题解决<br>
 <div class="outline-text-5" id="text-5-4-17-1">
 <pre class="example">
 $ sudo systemctl enable vpnagentd_init
@@ -5133,7 +6203,7 @@ update-rc.d: error: insserv rejected the script header
 </div>
 <ol class="org-ol">
 <li>
-<a id="org0641ddd"></a>安装<br>
+<a id="orgfbe7e85"></a>安装<br>
 <div class="outline-text-5" id="text-5-4-18-1">
 <pre class="example">
 # yum install -y bind
@@ -5228,7 +6298,7 @@ Nameserver 192.168.120.166
 </div>
 <ol class="org-ol">
 <li>
-<a id="org22c00f4"></a>安装<br>
+<a id="orge577bcf"></a>安装<br>
 <div class="outline-text-5" id="text-5-4-19-1">
 <pre class="example">
 1.Download composer.phar file.
@@ -5243,7 +6313,7 @@ Nameserver 192.168.120.166
 </div>
 </li>
 <li>
-<a id="orgcc08902"></a>问题解决<br>
+<a id="org7120e90"></a>问题解决<br>
 <div class="outline-text-5" id="text-5-4-19-2">
 <pre class="example">
 error: /usr/bin/env: php: No such file or directory
@@ -5444,7 +6514,7 @@ tcp_wrappers=YES
 </div>
 </li>
 <li>
-<a id="org03b0f45"></a>References<br>
+<a id="org185096c"></a>References<br>
 <div class="outline-text-5" id="text-5-4-20-5">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
@@ -5490,7 +6560,7 @@ http://baike.baidu.com/item/vsftpd
 </div>
 </li>
 <li>
-<a id="orgf1e8c4e"></a>参考资料<br>
+<a id="orge837a84"></a>参考资料<br>
 <div class="outline-text-5" id="text-5-4-21-2">
 <pre class="example">
 1.Cygwin-Official Site:http://cygwin.com/
@@ -5580,8 +6650,8 @@ LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd0cf67e" class="outline-4">
-<h4 id="orgd0cf67e">
+<div id="outline-container-orgc8f7d45" class="outline-4">
+<h4 id="orgc8f7d45">
 <span class="section-number-4">6.1.4</span> 参考资料</h4>
 <div class="outline-text-4" id="text-6-1-4">
 <pre class="example">
@@ -5802,8 +6872,8 @@ service php-fpm start/stop/restart/reload
 </pre>
 </div>
 </div>
-<div id="outline-container-org185096c" class="outline-4">
-<h4 id="org185096c">
+<div id="outline-container-org6d6d965" class="outline-4">
+<h4 id="org6d6d965">
 <span class="section-number-4">6.5.2</span> References</h4>
 <div class="outline-text-4" id="text-6-5-2">
 <ul class="org-ul">
@@ -5817,7 +6887,7 @@ service php-fpm start/stop/restart/reload
 <span class="section-number-3">6.6</span> 解决 dpkg: warning: files list file for package 'x' missing 问题</h3>
 <div class="outline-text-3" id="text-6-6">
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span></label><pre class="src src-shell"><span style="color: #a020f0;">for</span> package<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">apt-get</span> upgrade 2&gt;&amp;1 |<span style="color: #8b2252;">\</span>
+<label class="org-src-name"><span class="listing-number">Listing 3: </span></label><pre class="src src-shell"><span style="color: #a020f0;">for</span> package<span style="color: #a020f0;"> in</span> $(<span style="color: #ff00ff;">apt-get</span> upgrade 2&gt;&amp;1 |<span style="color: #8b2252;">\</span>
                  grep <span style="color: #8b2252;">"warning: files list file for package '"</span> |<span style="color: #8b2252;">\</span>
                  grep -Po <span style="color: #8b2252;">"[^'\n ]+'"</span> | grep -Po <span style="color: #8b2252;">"[^']+"</span>); <span style="color: #a020f0;">do</span>
     apt-get install --reinstall <span style="color: #8b2252;">"$package"</span>;
@@ -6041,7 +7111,7 @@ $ iptables -L
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">53</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -6052,7 +7122,7 @@ $ iptables -L
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -6063,7 +7133,7 @@ $ iptables -L
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -6141,7 +7211,7 @@ $ iptables -L
             
               <div class="post-toc-content">
     <ol class="nav">
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf1c0259"> <span class="nav-text">1 前言(Preface)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgeacb85d"> <span class="nav-text">2 开始(Get Started)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcdcd66a"> <span class="nav-text">2.1 安装(Install)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org02c3dfa"> <span class="nav-text">2.1.1 主机规划与磁盘分区</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org457e9a9"> <span class="nav-text">2.1.2 安装后的常见操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33b81e2"> <span class="nav-text">2.2 配置(Configure)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org872d615"> <span class="nav-text">2.2.1 Wifi连接配置（configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org745c43a"> <span class="nav-text">2.2.2 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org735f21e"> <span class="nav-text">2.2.3 配置系统支持中文（support chinese）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgedf4f36"> <span class="nav-text">2.2.4 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3aae00c"> <span class="nav-text">2.3 介绍(Instroduction)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgadc0f8f"> <span class="nav-text">2.3.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4a309b7"> <span class="nav-text">2.3.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgec62836"> <span class="nav-text">2.3.3 Linux 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbd407e6"> <span class="nav-text">2.3.4 Linux 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org79c6720"> <span class="nav-text">2.3.5 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org33848e0"> <span class="nav-text">3 Linux 文件、目录与磁盘格式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge344a78"> <span class="nav-text">3.1 Linux 文件权限</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgac7cf41"> <span class="nav-text">3.1.1 Linux 的安全性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org092ad1b"> <span class="nav-text">3.1.2 使用 Linux 组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8b8c2f3"> <span class="nav-text">3.1.3 理解文件权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5ddde26"> <span class="nav-text">3.2 Linux 目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9242f60"> <span class="nav-text">3.3 Linux 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org25cddda"> <span class="nav-text">3.3.1 find 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org585cc8d"> <span class="nav-text">3.3.2 locate 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org02264e3"> <span class="nav-text">3.3.3 which 和 where 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org64aef00"> <span class="nav-text">3.3.4 grep 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9bb3c61"> <span class="nav-text">3.4 Linux 文件压缩与打包</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc84e661"> <span class="nav-text">3.5 Linux 磁盘与文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbf21c16"> <span class="nav-text">3.5.1 格式化分区命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3ec84d6"> <span class="nav-text">3.6 ～～～</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org85d38ab"> <span class="nav-text">3.6.1 网络命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4c42da3"> <span class="nav-text">3.6.2 进程管理命令</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7772253"> <span class="nav-text">4 Shell Scripts</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org86b409c"> <span class="nav-text">4.1 疑惑</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdd9cd1f"> <span class="nav-text">4.2 学习 shell 开始</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb59a071"> <span class="nav-text">4.3 理解 shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfdd0744"> <span class="nav-text">4.3.1 shell 类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org65f85fb"> <span class="nav-text">4.3.2 Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0dc297e"> <span class="nav-text">4.3.3 理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org55362bd"> <span class="nav-text">4.4 使用 Linux 环境变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8ccb92"> <span class="nav-text">4.4.1 改变安全性设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e3c41c"> <span class="nav-text">4.4.2 共享文件</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfd56aaf"> <span class="nav-text">5 Linux 进阶篇(Advanced)：系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf8c1cc2"> <span class="nav-text">5.1 Linux 帐号管理与 ACL 权限控制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfac6bf3"> <span class="nav-text">5.2 磁盘配额(Quota)与进阶文件系统管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge7e5ed5"> <span class="nav-text">5.3 例行性工作排程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org09e5c7e"> <span class="nav-text">5.3.1 对于 Linux 用户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8585652"> <span class="nav-text">5.3.2 crontab 简单介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga98584a"> <span class="nav-text">5.3.3 crontab 基本格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6f45065"> <span class="nav-text">5.3.4 实例1：实现两个周备份一次 /var/ftp 目录下的内容</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org538f732"> <span class="nav-text">5.3.5 实例2：实现定时插入数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org630ed38"> <span class="nav-text">5.3.6 示例3：备份 mysql 数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org44ed683"> <span class="nav-text">5.3.7 一些简单示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6fae1b8"> <span class="nav-text">5.4 软件安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org63f90a6"> <span class="nav-text">5.4.1 ssh</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaf1fe"> <span class="nav-text">5.4.2 在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0fae4fa"> <span class="nav-text">5.4.3 iptables &amp; firewalld</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb4a0310"> <span class="nav-text">5.4.4 删除大文件的前n行</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1c80762"> <span class="nav-text">5.4.5 神奇的 nc 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdccda1e"> <span class="nav-text">5.4.6 设置命令别名：alias</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge41915b"> <span class="nav-text">5.4.7 GCC</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4375bea"> <span class="nav-text">5.4.8 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgddaca37"> <span class="nav-text">5.4.9 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3220bb3"> <span class="nav-text">5.4.10 wget vs axel</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf04f847"> <span class="nav-text">5.4.11 VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf2c68b6"> <span class="nav-text">5.4.12 MPlayer</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge3612ab"> <span class="nav-text">5.4.13 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge735fd6"> <span class="nav-text">5.4.14 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org967181f"> <span class="nav-text">5.4.15 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4b36baf"> <span class="nav-text">5.4.16 宝塔面板</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5e092d4"> <span class="nav-text">5.4.17 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2b1bd4f"> <span class="nav-text">5.4.18 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4287461"> <span class="nav-text">5.4.19 Composer</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4a60e9d"> <span class="nav-text">5.4.20 vsftpd</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdf0d7ba"> <span class="nav-text">5.4.21 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org68bf21f"> <span class="nav-text">5.4.22 Wps for Linux</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbaf2da2"> <span class="nav-text">6 常见问题解决(Problem)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3175d87"> <span class="nav-text">6.1 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb5108eb"> <span class="nav-text">6.1.1 1.下载（Download）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org533b701"> <span class="nav-text">6.1.2 2.配置（Configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc5b45c7"> <span class="nav-text">6.1.3 3.新建Shell脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd0cf67e"> <span class="nav-text">6.1.4 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org432ed85"> <span class="nav-text">6.2 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf58e401"> <span class="nav-text">6.3 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgffdfd3f"> <span class="nav-text">6.4 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fc265d"> <span class="nav-text">6.4.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5585ceb"> <span class="nav-text">6.4.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb6fc7c9"> <span class="nav-text">6.5 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1dbc429"> <span class="nav-text">6.5.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org185096c"> <span class="nav-text">6.5.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org620a92f"> <span class="nav-text">6.6 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfcadfc8"> <span class="nav-text">6.7 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf308f87"> <span class="nav-text">6.8 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf1c0259"> <span class="nav-text">1 前言(Preface)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgeacb85d"> <span class="nav-text">2 开始(Get Started)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcdcd66a"> <span class="nav-text">2.1 安装(Install)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org02c3dfa"> <span class="nav-text">2.1.1 主机规划与磁盘分区</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org457e9a9"> <span class="nav-text">2.1.2 安装后的常见操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33b81e2"> <span class="nav-text">2.2 配置(Configure)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org872d615"> <span class="nav-text">2.2.1 Wifi连接配置（configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org745c43a"> <span class="nav-text">2.2.2 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org735f21e"> <span class="nav-text">2.2.3 配置系统支持中文（support chinese）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd0cf67e"> <span class="nav-text">2.2.4 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3aae00c"> <span class="nav-text">2.3 介绍(Instroduction)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgadc0f8f"> <span class="nav-text">2.3.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4a309b7"> <span class="nav-text">2.3.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgec62836"> <span class="nav-text">2.3.3 Linux 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbd407e6"> <span class="nav-text">2.3.4 Linux 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org79c6720"> <span class="nav-text">2.3.5 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org33848e0"> <span class="nav-text">3 Linux 文件、目录与磁盘格式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge344a78"> <span class="nav-text">3.1 Linux 文件权限</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgac7cf41"> <span class="nav-text">3.1.1 Linux 的安全性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org092ad1b"> <span class="nav-text">3.1.2 使用 Linux 组</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8b8c2f3"> <span class="nav-text">3.1.3 理解文件权限</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e3c41c"> <span class="nav-text">3.1.4 共享文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5ddde26"> <span class="nav-text">3.2 Linux 目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9242f60"> <span class="nav-text">3.3 Linux 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org25cddda"> <span class="nav-text">3.3.1 find 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org585cc8d"> <span class="nav-text">3.3.2 locate 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org02264e3"> <span class="nav-text">3.3.3 which 和 where 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org64aef00"> <span class="nav-text">3.3.4 grep 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9bb3c61"> <span class="nav-text">3.4 Linux 文件压缩与打包</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc84e661"> <span class="nav-text">3.5 Linux 磁盘与文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbf21c16"> <span class="nav-text">3.5.1 格式化分区命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3ec84d6"> <span class="nav-text">3.6 ～～～</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org85d38ab"> <span class="nav-text">3.6.1 网络命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4c42da3"> <span class="nav-text">3.6.2 进程管理命令</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7772253"> <span class="nav-text">4 Shell Scripts</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org86b409c"> <span class="nav-text">4.1 疑惑</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdd9cd1f"> <span class="nav-text">4.2 学习 shell 开始</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb59a071"> <span class="nav-text">4.3 理解 shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfdd0744"> <span class="nav-text">4.3.1 shell 类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org65f85fb"> <span class="nav-text">4.3.2 Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0dc297e"> <span class="nav-text">4.3.3 理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org55362bd"> <span class="nav-text">4.4 使用 Linux 环境变量</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8ccb92"> <span class="nav-text">4.4.1 改变安全性设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org81e8257"> <span class="nav-text">4.4.2 共享文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0b7acca"> <span class="nav-text">4.5 shell 脚本编程基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda8d7da"> <span class="nav-text">4.5.1 构建基本脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fa16d2"> <span class="nav-text">4.5.2 结构化命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb6cb82d"> <span class="nav-text">4.5.3 输入输出</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf3433d6"> <span class="nav-text">4.5.4 控制脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3fafaf6"> <span class="nav-text">4.6 高级 shell 脚本编程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org376703c"> <span class="nav-text">4.6.1 创建函数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4be1910"> <span class="nav-text">4.6.2 图形化桌面环境中的脚本编程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org53f956d"> <span class="nav-text">4.6.3 初识 sed 和 gawk</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b56878"> <span class="nav-text">4.6.4 正则表达式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf44a55a"> <span class="nav-text">4.6.5 sed 和 gawk 进阶</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org24bd27e"> <span class="nav-text">4.6.6 使用其他 shell</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9de2abb"> <span class="nav-text">4.7 创建实用的脚本</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2c0b571"> <span class="nav-text">4.7.1 编写简单的脚本实用工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd259d52"> <span class="nav-text">4.7.2 创建与数据库、Web及E-Mail相关的脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdb49b17"> <span class="nav-text">4.7.3 一些小意思的脚本</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfd56aaf"> <span class="nav-text">5 Linux 进阶篇(Advanced)：系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf8c1cc2"> <span class="nav-text">5.1 Linux 帐号管理与 ACL 权限控制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfac6bf3"> <span class="nav-text">5.2 磁盘配额(Quota)与进阶文件系统管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge7e5ed5"> <span class="nav-text">5.3 例行性工作排程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org09e5c7e"> <span class="nav-text">5.3.1 对于 Linux 用户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8585652"> <span class="nav-text">5.3.2 crontab 简单介绍</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga98584a"> <span class="nav-text">5.3.3 crontab 基本格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6f45065"> <span class="nav-text">5.3.4 实例1：实现两个周备份一次 /var/ftp 目录下的内容</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org538f732"> <span class="nav-text">5.3.5 实例2：实现定时插入数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org630ed38"> <span class="nav-text">5.3.6 示例3：备份 mysql 数据</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org44ed683"> <span class="nav-text">5.3.7 一些简单示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6fae1b8"> <span class="nav-text">5.4 软件安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org63f90a6"> <span class="nav-text">5.4.1 ssh</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbeaf1fe"> <span class="nav-text">5.4.2 在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0fae4fa"> <span class="nav-text">5.4.3 iptables &amp; firewalld</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb4a0310"> <span class="nav-text">5.4.4 删除大文件的前n行</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1c80762"> <span class="nav-text">5.4.5 神奇的 nc 命令</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdccda1e"> <span class="nav-text">5.4.6 设置命令别名：alias</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge41915b"> <span class="nav-text">5.4.7 GCC</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4375bea"> <span class="nav-text">5.4.8 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgddaca37"> <span class="nav-text">5.4.9 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3220bb3"> <span class="nav-text">5.4.10 wget vs axel</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf04f847"> <span class="nav-text">5.4.11 VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf2c68b6"> <span class="nav-text">5.4.12 MPlayer</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge3612ab"> <span class="nav-text">5.4.13 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge735fd6"> <span class="nav-text">5.4.14 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org967181f"> <span class="nav-text">5.4.15 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4b36baf"> <span class="nav-text">5.4.16 宝塔面板</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5e092d4"> <span class="nav-text">5.4.17 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2b1bd4f"> <span class="nav-text">5.4.18 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4287461"> <span class="nav-text">5.4.19 Composer</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4a60e9d"> <span class="nav-text">5.4.20 vsftpd</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdf0d7ba"> <span class="nav-text">5.4.21 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org68bf21f"> <span class="nav-text">5.4.22 Wps for Linux</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbaf2da2"> <span class="nav-text">6 常见问题解决(Problem)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3175d87"> <span class="nav-text">6.1 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb5108eb"> <span class="nav-text">6.1.1 1.下载（Download）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org533b701"> <span class="nav-text">6.1.2 2.配置（Configure）</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc5b45c7"> <span class="nav-text">6.1.3 3.新建Shell脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc8f7d45"> <span class="nav-text">6.1.4 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org432ed85"> <span class="nav-text">6.2 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf58e401"> <span class="nav-text">6.3 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgffdfd3f"> <span class="nav-text">6.4 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fc265d"> <span class="nav-text">6.4.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5585ceb"> <span class="nav-text">6.4.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb6fc7c9"> <span class="nav-text">6.5 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1dbc429"> <span class="nav-text">6.5.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6d6d965"> <span class="nav-text">6.5.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org620a92f"> <span class="nav-text">6.6 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfcadfc8"> <span class="nav-text">6.7 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf308f87"> <span class="nav-text">6.8 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
