@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Shadowsocks+SwitchyOmega
+title: Over the wall with Shadowsocks+SwitchyOmega
 author: zrg
 comments: false
 description: As we all know, the walls of the continent have been very high. As a developer, "prison Break"(or "Over the wall") is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.
@@ -8,16 +8,19 @@ categories:
 - network
 - software
 tags:
+- VPN
 - Shadowsocks
 - SwitchyOmega
 photos:
 ---
 
-<pre class="example">
+<p>
 This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
-本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
+</p>
 
-</pre>
+<p>
+本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
+</p>
 
 <div class="org-center">
 <p>
@@ -29,41 +32,33 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 <h2 id="orgfd89a9c"><span class="section-number-2">1</span> Server</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org8e04738" class="outline-3">
-<h3 id="org8e04738"><span class="section-number-3">1.1</span> To buy server or to register shadowsocks.</h3>
+<div id="outline-container-org1124891" class="outline-3">
+<h3 id="org1124891"><span class="section-number-3">1.1</span> Buy a Cloud Host</h3>
 <div class="outline-text-3" id="text-1-1">
-<pre class="example">
-"搬瓦工"
-https://shadowsocks.com
-
-</pre>
+<ul class="org-ul">
+<li>搬瓦工</li>
+<li><a href="https://www.digitalocean.com">DigitalOcean</a></li>
+</ul>
 </div>
 </div>
-<div id="outline-container-org8ec4055" class="outline-3">
-<h3 id="org8ec4055"><span class="section-number-3">1.2</span> Installing and Configuring</h3>
+<div id="outline-container-org812758d" class="outline-3">
+<h3 id="org812758d"><span class="section-number-3">1.2</span> Installing and Configuring Shadowsocks</h3>
 <div class="outline-text-3" id="text-1-2">
-</div>
-<div id="outline-container-org860a4cd" class="outline-4">
-<h4 id="org860a4cd"><span class="section-number-4">1.2.1</span> Installing pip</h4>
-<div class="outline-text-4" id="text-1-2-1">
-<pre class="example">
-#yum install python-pip
-
-</pre>
-<p>
-or
+<ol class="org-ol">
+<li><p>
+Installing pip
 </p>
 <pre class="example">
-#curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-#python get-pip.py
-#pip install --upgrade pip
+# yum install python-pip
+or
+# curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+# python get-pip.py
+# pip install --upgrade pip
 
-</pre>
-</div>
-</div>
-<div id="outline-container-org8953c8d" class="outline-4">
-<h4 id="org8953c8d"><span class="section-number-4">1.2.2</span> Installing shadowsocks</h4>
-<div class="outline-text-4" id="text-1-2-2">
+</pre></li>
+<li><p>
+Installing shadowsocks
+</p>
 <pre class="example">
 #pip install shadowsocks
 #vim /etc/shadowsocks.json
@@ -76,14 +71,14 @@ or
   <span style="color: #8b2252;">"local_address"</span>:<span style="color: #8b2252;">"127.0.0.1"</span>,//local address
   <span style="color: #8b2252;">"local_port"</span><span style="color: #483d8b;">:1080</span>,//local port
   <span style="color: #8b2252;">"port_password"</span><span style="color: #483d8b;">:{</span> //multiple port
-        <span style="color: #8b2252;">"9001"</span>:<span style="color: #8b2252;">"password9001"</span>,
-        <span style="color: #8b2252;">"9002"</span>:<span style="color: #8b2252;">"password9002"</span>,
-        <span style="color: #8b2252;">"9003"</span>:<span style="color: #8b2252;">"password9003"</span>,
-  }
+          <span style="color: #8b2252;">"9001"</span>:<span style="color: #8b2252;">"password9001"</span>,
+          <span style="color: #8b2252;">"9002"</span>:<span style="color: #8b2252;">"password9002"</span>,
+          <span style="color: #8b2252;">"9003"</span>:<span style="color: #8b2252;">"password9003"</span>,
+     },
   <span style="color: #8b2252;">"password"</span>: <span style="color: #8b2252;">"password"</span>,//password
   <span style="color: #8b2252;">"method"</span>: <span style="color: #8b2252;">"aes-256-cfb"</span>,//encryption
   <span style="color: #8b2252;">"timeout"</span><span style="color: #483d8b;">:600</span> //timeout
-}
+  }
 </pre>
 </div>
 <p>
@@ -101,12 +96,10 @@ password:use
 <pre class="example">
 method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
 
-</pre>
-</div>
-</div>
-<div id="outline-container-org1a73e5a" class="outline-4">
-<h4 id="org1a73e5a"><span class="section-number-4">1.2.3</span> Configuring auto-start</h4>
-<div class="outline-text-4" id="text-1-2-3">
+</pre></li>
+<li><p>
+Configuring auto-start
+</p>
 <pre class="example">
 #vim /etc/systemd/system/shadowsocks.service
 
@@ -129,12 +122,10 @@ Start shadowsocks
 #systemctl start shadowsocks
 #systemctl status shadowsocks -l
 
-</pre>
-</div>
-</div>
-<div id="outline-container-org8def2fc" class="outline-4">
-<h4 id="org8def2fc"><span class="section-number-4">1.2.4</span> Install Script</h4>
-<div class="outline-text-4" id="text-1-2-4">
+</pre></li>
+<li><p>
+Auto install script
+</p>
 <pre class="example">
 $vim install-shadowsocks.sh, content of file from 
 
@@ -146,8 +137,8 @@ $vim install-shadowsocks.sh, content of file from
 #chmod +x install-shadowsocks.sh
 #./install-shadowsocks.sh
 
-</pre>
-</div>
+</pre></li>
+</ol>
 </div>
 </div>
 </div>
@@ -159,11 +150,12 @@ $vim install-shadowsocks.sh, content of file from
 <h3 id="orgb2c2f35"><span class="section-number-3">2.1</span> Linux</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orgcc0fc59" class="outline-4">
-<h4 id="orgcc0fc59"><span class="section-number-4">2.1.1</span> Install And Use Shadowsocks Command Line Client on Linux</h4>
+<div id="outline-container-org3c05231" class="outline-4">
+<h4 id="org3c05231"><span class="section-number-4">2.1.1</span> Install and Use Shadowsocks Command Line Client on Linux</h4>
 <div class="outline-text-4" id="text-2-1-1">
-<p>
-1.Linux series
+<ol class="org-ol">
+<li><p>
+Linux series
 </p>
 <pre class="example">
 Debian/Ubuntu:
@@ -202,9 +194,9 @@ to find the exact location.
 user@debian:~$ whereis sslocal
 sslocal: /usr/local/bin/sslocal
 
-</pre>
-<p>
-2.vim /etc/shadowsocks.json
+</pre></li>
+<li><p>
+/etc/shadowsocks.json
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">{
@@ -231,7 +223,13 @@ $sudo sslocal -c /etc/shadowsocks.json -d start
 
 <pre class="example">
 Auto Start the Client on System Boot
-$sudo vi /etc/rc.local
+
+</pre></li>
+<li><p>
+/etc/rc.local
+</p>
+<pre class="example">
+$ sudo vim /etc/rc.local
 
 </pre>
 <div class="org-src-container">
@@ -243,19 +241,20 @@ $sudo vi /etc/rc.local
 Check if It Works
 #sudo systemctl status rc-local.service
 
-</pre>
+</pre></li>
+</ol>
 </div>
 </div>
 <div id="outline-container-org9ac3cc0" class="outline-4">
 <h4 id="org9ac3cc0"><span class="section-number-4">2.1.2</span> Global Proxy</h4>
 <div class="outline-text-4" id="text-2-1-2">
+<ol class="org-ol">
+<li><p>
+Install and Configure polipo
+</p>
 <pre class="example">
-1. $ sudo apt install polipo
-
-</pre>
-
-<pre class="example">
-2. $ sudo vim /etc/polipo/config
+$ sudo apt install polipo
+$ sudo vim /etc/polipo/config
 
 </pre>
 <div class="org-src-container">
@@ -270,42 +269,48 @@ serverMaxSlots = 64
 serverSlots = 16
 serverSlots1 = 32
 </pre>
-</div>
-
+</div></li>
+<li><p>
+Restart polipo
+</p>
 <pre class="example">
-3. $ sudo systemctl restart polipo
+$ sudo systemctl restart polipo
 
-</pre>
-
+</pre></li>
+<li><p>
+Export http_proxy and https_proxy
+</p>
 <pre class="example">
-4. $ export http_proxy="http://127.0.0.1:8123/"
+$ export http_proxy="http://127.0.0.1:8123/"
 $ export https_proxy="https://127.0.0.1:8123/"
 
-</pre>
-
+</pre></li>
+<li><p>
+testing
+</p>
 <pre class="example">
-5. testing
 $ curl www.google.com
 
-</pre>
+</pre></li>
+</ol>
 </div>
 </div>
-<div id="outline-container-org3219592" class="outline-4">
-<h4 id="org3219592"><span class="section-number-4">2.1.3</span> Problem</h4>
+<div id="outline-container-orga41e7c6" class="outline-4">
+<h4 id="orga41e7c6"><span class="section-number-4">2.1.3</span> Solving Problem</h4>
 <div class="outline-text-4" id="text-2-1-3">
 </div>
 <ol class="org-ol">
 <li><a id="orgf151d95"></a>ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup<br />
 <div class="outline-text-5" id="text-2-1-3-1">
 <p>
-Reason:
+[Reason]
 </p>
 <pre class="example">
 openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
 
 </pre>
 <p>
-Solving:
+[Solving]
 </p>
 <pre class="example">
 $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
@@ -322,7 +327,7 @@ $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
 <li><a id="org1eb923e"></a>not support "chacha20"<br />
 <div class="outline-text-5" id="text-2-1-3-2">
 <p>
-Solving:
+[Solving]
 </p>
 <pre class="example">
 $ apt install m2crypto gcc -y
@@ -347,65 +352,52 @@ $ sudo ldconfig
 <h3 id="org9c27c3e"><span class="section-number-3">2.2</span> Windows</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org83b6735" class="outline-4">
-<h4 id="org83b6735"><span class="section-number-4">2.2.1</span> Dowload win-client</h4>
+<div id="outline-container-org651d8fb" class="outline-4">
+<h4 id="org651d8fb"><span class="section-number-4">2.2.1</span> Download</h4>
 <div class="outline-text-4" id="text-2-2-1">
-<p>
-<a href="https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks">Dowload1</a>
-<a href="http://pan.baidu.com/s/1miLpEkS">Dowload2</a> 密码：jnfr
-</p>
+<ul class="org-ul">
+<li><a href="https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks">Dowload1</a></li>
+<li><a href="http://pan.baidu.com/s/1miLpEkS">Dowload2</a> 密码：jnfr</li>
+</ul>
 </div>
 </div>
 <div id="outline-container-org82d66c9" class="outline-4">
 <h4 id="org82d66c9"><span class="section-number-4">2.2.2</span> Configure</h4>
 <div class="outline-text-4" id="text-2-2-2">
-<pre class="example">
-1.unzip
-
-</pre>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/shadowsocks-20170123111438.png" alt="shadowsocks-20170123111438.png" />
+<ol class="org-ol">
+<li>unzip
+<img src="{{site.url}}/assets/images/shadowsocks-20170123111438.png" alt="shadowsocks-20170123111438.png" /></li>
+<li><p>
+running
+<img src="{{site.url}}/assets/images/shadowsocks-20170123111902.png" alt="shadowsocks-20170123111902.png" />
 </p>
-</div>
-<pre class="example">
-2.running
-
-</pre>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/shadowsocks-20170123111902.png" alt="shadowsocks-20170123111902.png" />
-</p>
-</div>
 
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/shadowsocks-20170123111953.png" alt="shadowsocks-20170123111953.png" />
 </p>
-</div>
-<pre class="example">
-3.proxy
-
-</pre>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/shadowsocks-20170123112126.png" alt="shadowsocks-20170123112126.png" />
-</p>
-</div>
+</div></li>
+<li>proxy
+<img src="{{site.url}}/assets/images/shadowsocks-20170123112126.png" alt="shadowsocks-20170123112126.png" /></li>
+</ol>
 </div>
 </div>
 </div>
 <div id="outline-container-orgc6313aa" class="outline-3">
 <h3 id="orgc6313aa"><span class="section-number-3">2.3</span> Android</h3>
 <div class="outline-text-3" id="text-2-3">
-<pre class="example">
-Download
-
-</pre>
+</div>
+<div id="outline-container-org560caea" class="outline-4">
+<h4 id="org560caea"><span class="section-number-4">2.3.1</span> Download</h4>
+<div class="outline-text-4" id="text-2-3-1">
 <p>
-<a href="http://pan.baidu.com/s/1nuXO9KX">apk</a> 5n8v
+<a href="http://pan.baidu.com/s/1nuXO9KX">download location</a> 密码：5n8v
 </p>
-
+</div>
+</div>
+<div id="outline-container-org40cf007" class="outline-4">
+<h4 id="org40cf007"><span class="section-number-4">2.3.2</span> Configure</h4>
+<div class="outline-text-4" id="text-2-3-2">
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/shadowsocks-20170123141118.png" alt="shadowsocks-20170123141118.png" />
@@ -413,21 +405,21 @@ Download
 </div>
 </div>
 </div>
+</div>
 <div id="outline-container-org1bca661" class="outline-3">
 <h3 id="org1bca661"><span class="section-number-3">2.4</span> IOS</h3>
 <div class="outline-text-3" id="text-2-4">
-<pre class="example">
-1.Open "App Store", To search "shadowrocket". Current price: ￥12
-2.Add server configure. Okay.
-
-</pre>
+<ol class="org-ol">
+<li>Open "App Store", To search "shadowrocket". Current price: ￥12</li>
+<li>Add server configure. Okay.</li>
+</ol>
 </div>
 </div>
 <div id="outline-container-org47d874d" class="outline-3">
 <h3 id="org47d874d"><span class="section-number-3">2.5</span> Mac OS X</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
-<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases">Download Address</a>
+<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases">Download Location</a>
 </p>
 </div>
 </div>
@@ -436,34 +428,36 @@ Download
 <h2 id="orgfabd390"><span class="section-number-2">3</span> Browser Plugin: SwitchyOmega</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgfad338d" class="outline-3">
-<h3 id="orgfad338d"><span class="section-number-3">3.1</span> Add SwitchyOmega plugin</h3>
+<div id="outline-container-org25d3a75" class="outline-3">
+<h3 id="org25d3a75"><span class="section-number-3">3.1</span> Download</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-<a href="https://github.com/FelisCatus/SwitchyOmega/releases/">Dowload Address</a>
+<a href="https://github.com/FelisCatus/SwitchyOmega/releases/">Dowload Location</a>
 </p>
 </div>
 </div>
-<div id="outline-container-org5997d49" class="outline-3">
-<h3 id="org5997d49"><span class="section-number-3">3.2</span> Configure SwitchyOmega</h3>
+<div id="outline-container-orgf5c35a6" class="outline-3">
+<h3 id="orgf5c35a6"><span class="section-number-3">3.2</span> Configure</h3>
 <div class="outline-text-3" id="text-3-2">
-<p>
-1.setting proxy
-2.auto switch
+<ol class="org-ol">
+<li>setting proxy</li>
+<li><p>
+auto switch
 </p>
 <pre class="example">
 Add rule.
 
-</pre>
-<p>
-3.rule list setting
+</pre></li>
+<li><p>
+rule list setting
 </p>
 <pre class="example">
 rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
 or
 https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
 
-</pre>
+</pre></li>
+</ol>
 </div>
 </div>
 </div>

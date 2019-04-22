@@ -473,9 +473,42 @@ logout
 <h3 id="org33b81e2"><span class="section-number-3">2.2</span> 配置(Configure)</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org872d615" class="outline-4">
-<h4 id="org872d615"><span class="section-number-4">2.2.1</span> Wifi连接配置（configure）</h4>
+<div id="outline-container-orgb32ce9c" class="outline-4">
+<h4 id="orgb32ce9c"><span class="section-number-4">2.2.1</span> 用户身份切换: su &amp; sudo</h4>
 <div class="outline-text-4" id="text-2-2-1">
+<pre class="example">
+Linux 系统当中，作身份变换，可能有以下几个原因：
+
+</pre>
+<ul class="org-ul">
+<li>使用一般账号：系统平日操作的好习惯</li>
+<li>用较低权限启动系统服务</li>
+<li>软件本身的限制</li>
+</ul>
+
+<pre class="example">
+su 是最简单的身份切换命令。
+# su [options] [username]
+
+</pre>
+<p>
+-：单纯使用 - 如『 su - 』代表使用 login-shell 的变量文件读取方式来登陆系统；若使用者名称没有加上去，则代表切换为 root 的身份。
+-l：与 - 类似，但后面需要加欲切换的使用者账号！也是 login-shell 的方式。
+-m：-m 与 -p 是一样的，表示『使用目前的环境配置，而不读取新使用者的配置文件』
+-c：仅进行一次命令，所以 -c 后面可以加上命令喔！
+</p>
+
+<pre class="example">
+针对 su 的缺点：当我的主机是多人共管的环境时，如果大家都要使用 su 来切换成为 root 的身份，那么不就每个人都得要知道 root 的口令，
+这样很不妥当，所以使用 sudo 来处理即可。
+并非所有人都能够运行 sudo ， 而是仅有规范到 /etc/sudoers 内的用户才能够运行 sudo 这个命令。
+
+</pre>
+</div>
+</div>
+<div id="outline-container-org872d615" class="outline-4">
+<h4 id="org872d615"><span class="section-number-4">2.2.2</span> Wifi连接配置（configure）</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <pre class="example">
 完成安装第一步，当然是先解决网络。
 
@@ -542,8 +575,8 @@ iface wlan0 inet dhcp
 </div>
 </div>
 <div id="outline-container-org745c43a" class="outline-4">
-<h4 id="org745c43a"><span class="section-number-4">2.2.2</span> 配置安装源(source)</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<h4 id="org745c43a"><span class="section-number-4">2.2.3</span> 配置安装源(source)</h4>
+<div class="outline-text-4" id="text-2-2-3">
 <ul class="org-ul">
 <li><p>
 以配置163源举例说明
@@ -577,8 +610,8 @@ deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free con
 </div>
 </div>
 <div id="outline-container-org735f21e" class="outline-4">
-<h4 id="org735f21e"><span class="section-number-4">2.2.3</span> 配置系统支持中文（support chinese）</h4>
-<div class="outline-text-4" id="text-2-2-3">
+<h4 id="org735f21e"><span class="section-number-4">2.2.4</span> 配置系统支持中文（support chinese）</h4>
+<div class="outline-text-4" id="text-2-2-4">
 <ul class="org-ul">
 <li><p>
 安装及配置
@@ -678,9 +711,9 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc8f7d45" class="outline-4">
-<h4 id="orgc8f7d45"><span class="section-number-4">2.2.4</span> 参考资料</h4>
-<div class="outline-text-4" id="text-2-2-4">
+<div id="outline-container-orgcb72d15" class="outline-4">
+<h4 id="orgcb72d15"><span class="section-number-4">2.2.5</span> 参考资料</h4>
+<div class="outline-text-4" id="text-2-2-5">
 <ul class="org-ul">
 <li><a href="https://wiki.debian.org/Locale">Locale debian wiki</a></li>
 </ul>
@@ -1429,198 +1462,156 @@ $ man -k terminal
 <h3 id="orge344a78"><span class="section-number-3">3.1</span> Linux 文件权限</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-orgac7cf41" class="outline-4">
-<h4 id="orgac7cf41"><span class="section-number-4">3.1.1</span> Linux 的安全性</h4>
+<div id="outline-container-org8b8c2f3" class="outline-4">
+<h4 id="org8b8c2f3"><span class="section-number-4">3.1.1</span> 理解文件权限</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <ol class="org-ol">
 <li><p>
-/etc/passwd
+使用文件权限符
 </p>
 <pre class="example">
-$ cat /etc/passwd
+$ ls -lh
 
 </pre>
 <p>
-root:x:0:0:root:/root:/bin/bash
-daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-&#x2026;
-zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+drwxr-xr-x 3 zrg zrg 4.0K Apr 21 16:24 练手项目
+-rw-r&#x2013;r&#x2013; 1 zrg zrg 2.5M Apr 21 11:51 练手项目.rar
 </p>
-<pre class="example">
-/etc/passwd 文件的字段包含如下信息：
-
-</pre>
-<ul class="org-ul">
-<li>登录用户名</li>
-<li>用户密码</li>
-<li>UID</li>
-<li>Group ID</li>
-<li>描述</li>
-<li>HOME目录位置</li>
-<li>默认shell</li>
-</ul>
-<pre class="example">
-/etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-
-</pre></li>
-<li><p>
-/etc/shadow
-</p>
-<pre class="example">
-/etc/shadow 文件的每条记录都有9个字段：
-
-</pre>
-<ul class="org-ul">
-<li>与/etc/passwd文件对应的登录名</li>
-<li>加密后的密码</li>
-<li>自上次修改密码后过去的天数密码（自1970年1月1日开始计算）</li>
-<li>多少天后才能更改密码</li>
-<li>多少天后必须更改密码</li>
-<li>密码过期前提前多少天提醒用户更改密码</li>
-<li>密码过期后多少天禁用用户帐目</li>
-<li>用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）</li>
-<li>预留字段给将来使用</li>
-</ul></li>
-<li><p>
-新增、删除和修改用户
-</p>
-<pre class="example">
-新增用户
-$ /usr/sbin/useradd -D
-
-</pre>
-<ul class="org-ul">
-<li>GROUP=100 //新用户被添加到GID为100的公共组</li>
-<li>HOME=/home //HOME目录位置</li>
-<li>INACTIVE=-1 //密码过期后不会被禁用</li>
-<li>EXPIRE= //未被设置过期日期</li>
-<li>SHELL=/bin/sh //将sh作为默认shell</li>
-<li>SKEL=/etc/skel //会将/etc/skel目录下的内容复制到用户的HOME目录下</li>
-<li>CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件</li>
-</ul>
-<pre class="example">
-//用默认系统参数创建一个新用户账户
-$ useradd test
-//要想在创建用户时改变默认值或默认行为，可以使用命令参数。
-$ man useradd
-//删除用户
-默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
-$ userdel -r test
-加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
-//修改用户
-
-</pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 8:</span> 用户账户修改工具</caption>
+<caption class="t-above"><span class="table-number">Table 8:</span> 解释</caption>
 
 <colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
 <col  class="org-left" />
 
 <col  class="org-left" />
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="org-left">命令</th>
-<th scope="col" class="org-left">描述</th>
+<th scope="col" class="org-left">d</th>
+<th scope="col" class="org-left">rwxr-xr-x</th>
+<th scope="col" class="org-left">3</th>
+<th scope="col" class="org-left">zrg</th>
+<th scope="col" class="org-left">zrg</th>
+<th scope="col" class="org-left">4.0K</th>
+<th scope="col" class="org-left">Apr 21 16:24</th>
+<th scope="col" class="org-left">练手项目</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="org-left">usermod</td>
-<td class="org-left">修改用户账户的字段，指定主要组以及附加组的所属关系</td>
+<td class="org-left">文件类型。</td>
+<td class="org-left">文件权限。</td>
+<td class="org-left">对于普通文件：链接数</td>
+<td class="org-left">用户名</td>
+<td class="org-left">组名</td>
+<td class="org-left">文件大小，单位：字节</td>
+<td class="org-left">最后修改日期时间</td>
+<td class="org-left">文件名</td>
 </tr>
 
 <tr>
-<td class="org-left">passwd</td>
-<td class="org-left">修改已有用户的密码</td>
+<td class="org-left">d 目录文件</td>
+<td class="org-left">从左往右分别代表所有者权限、组用户权限和其他用户权限</td>
+<td class="org-left">对于目录文件：第一级子目录数</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 <tr>
-<td class="org-left">chpasswd</td>
-<td class="org-left">从文件中读取登录名密码对，并更新密码</td>
+<td class="org-left">- 普通文件</td>
+<td class="org-left">r 可读</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 <tr>
-<td class="org-left">chage</td>
-<td class="org-left">修改密码的过期时间</td>
+<td class="org-left">l 链接文件</td>
+<td class="org-left">w 可写</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 <tr>
-<td class="org-left">chfn</td>
-<td class="org-left">修改用户账户的备注信息</td>
+<td class="org-left">c 字符型设备文件</td>
+<td class="org-left">x 可执行</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 
 <tr>
-<td class="org-left">chsh</td>
-<td class="org-left">修改用户账户的默认登录shell</td>
+<td class="org-left">b 块设备文件</td>
+<td class="org-left">- 无执行权限</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">n 网络设备文件</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">s 套接字文件</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
 </table></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org092ad1b" class="outline-4">
-<h4 id="org092ad1b"><span class="section-number-4">3.1.2</span> 使用 Linux 组</h4>
-<div class="outline-text-4" id="text-3-1-2">
-<ol class="org-ol">
-<li><p>
-/etc/group
-</p>
-<pre class="example">
-/etc/group文件有4个字段：
-
-</pre>
-<ul class="org-ul">
-<li>组名</li>
-<li>组密码</li>
-<li>GID</li>
-<li>属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。</li>
-</ul></li>
-<li><p>
-创建、修改组
-</p>
-<pre class="example">
-$ /usr/sbin/groupadd shared
-$ /usr/sbin/groupmod -n sharing shared
-
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org8b8c2f3" class="outline-4">
-<h4 id="org8b8c2f3"><span class="section-number-4">3.1.3</span> 理解文件权限</h4>
-<div class="outline-text-4" id="text-3-1-3">
-<ol class="org-ol">
-<li>使用文件权限符
-<ul class="org-ul">
-<li>-文件</li>
-<li>d目录</li>
-<li>l链接</li>
-<li>c字符型设备</li>
-<li>b块设备</li>
-<li>n网络设备</li>
-<li>r可读</li>
-<li>w可写</li>
-<li>x可执行</li>
-<li>对象所属用户</li>
-<li>对象所属组</li>
-<li>系统其他用户</li>
-</ul></li>
 <li><p>
 默认文件权限
 </p>
 <pre class="example">
-umask命令用来设置所创建文件和目录的默认权限。
+umask 命令用来设置所创建文件和目录的默认权限。
 
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org81e8257" class="outline-4">
-<h4 id="org81e8257"><span class="section-number-4">3.1.4</span> 共享文件</h4>
-<div class="outline-text-4" id="text-3-1-4">
+<div id="outline-container-orge607bac" class="outline-4">
+<h4 id="orge607bac"><span class="section-number-4">3.1.2</span> 共享文件</h4>
+<div class="outline-text-4" id="text-3-1-2">
 <pre class="example">
 Linux 为每个文件和目录存储了3个额外的信息位。
 
@@ -2198,7 +2189,7 @@ $ netstat -rn
 <div class="outline-text-4" id="text-3-6-2">
 </div>
 <ol class="org-ol">
-<li><a id="orgdb9b85c"></a>top<br />
+<li><a id="org7d9fbd0"></a>top<br />
 <div class="outline-text-5" id="text-3-6-2-1">
 <ul class="org-ul">
 <li>描述</li>
@@ -2593,8 +2584,8 @@ chown命令用来改变文件的所属组。
 </pre>
 </div>
 </div>
-<div id="outline-container-orgdd6edf7" class="outline-4">
-<h4 id="orgdd6edf7"><span class="section-number-4">4.4.2</span> 共享文件</h4>
+<div id="outline-container-orgbe3def7" class="outline-4">
+<h4 id="orgbe3def7"><span class="section-number-4">4.4.2</span> 共享文件</h4>
 <div class="outline-text-4" id="text-4-4-2">
 <pre class="example">
 Linux为每个文件和目录存储了3个额外的信息位。
@@ -2940,10 +2931,10 @@ $ echo $?
 <div class="outline-text-4" id="text-4-5-2">
 </div>
 <ol class="org-ol">
-<li><a id="org8ade6d6"></a>if-then<br />
+<li><a id="org0553b47"></a>if-then<br />
 <div class="outline-text-5" id="text-4-5-2-1">
 <div class="org-src-container">
-<pre class="src src-shell" id="org40edc66"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<pre class="src src-shell" id="orga1708ee"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 testuser = zrg
 <span style="color: #b22222;">#</span>
 <span style="color: #a020f0;">if</span> grep $<span style="color: #a0522d;">testuser</span> /etc/passwd
@@ -3353,7 +3344,7 @@ done
 <li><a id="org7bb19a0"></a>break 命令<br />
 <div class="outline-text-6" id="text-4-5-2-6-2">
 <div class="org-src-container">
-<pre class="src src-shell" id="org1f1eb7d"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<pre class="src src-shell" id="orgf492cbb"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 <span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">--------------------------------</span>
 <span class="linenr"> 3: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
 <span class="linenr"> 4: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.breaking out of a for loop</span>
@@ -3414,7 +3405,7 @@ done
 <li><a id="orgd50b043"></a>continue 命令<br />
 <div class="outline-text-6" id="text-4-5-2-6-3">
 <div class="org-src-container">
-<pre class="src src-shell" id="orgc2ca5b6"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.using the continue command</span>
+<pre class="src src-shell" id="org53d460a"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.using the continue command</span>
 <span class="linenr"> 2: </span><span style="color: #a020f0;">for</span>((var1 = 1; var1&lt;15; var1++))
 <span class="linenr"> 3: </span><span style="color: #a020f0;">do</span>
 <span class="linenr"> 4: </span>        <span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #a0522d;">var1</span> -lt 10]
@@ -3453,14 +3444,14 @@ done
 </div>
 </div>
 </li>
-<li><a id="org8df1604"></a>处理循环的输出<br />
+<li><a id="orgca5a827"></a>处理循环的输出<br />
 <div class="outline-text-6" id="text-4-5-2-6-4">
 <pre class="example">
 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org5925a93">for file in /home/zrg/*
+<pre class="src src-emacs-lisp" id="orge9104d1">for file in /home/zrg/*
 do
 ...
 done &gt; output.txt
@@ -3620,17 +3611,363 @@ done &lt; <span style="color: #8b2252;">"$input"</span>
 </div>
 <div id="outline-container-orgf8c1cc2" class="outline-3">
 <h3 id="orgf8c1cc2"><span class="section-number-3">5.1</span> Linux 帐号管理与 ACL 权限控制</h3>
+<div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-orgfac6bf3" class="outline-3">
-<h3 id="orgfac6bf3"><span class="section-number-3">5.2</span> 磁盘配额(Quota)与进阶文件系统管理</h3>
+<div id="outline-container-org8d9b91c" class="outline-4">
+<h4 id="org8d9b91c"><span class="section-number-4">5.1.1</span> Linux 账户</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<ol class="org-ol">
+<li><p>
+/etc/passwd
+</p>
+<pre class="example">
+$ cat /etc/passwd
+
+</pre>
+<p>
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+&#x2026;
+zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+</p>
+<pre class="example">
+/etc/passwd 文件的字段包含如下信息：
+
+</pre>
+<ul class="org-ul">
+<li>登录用户名</li>
+<li>用户密码</li>
+<li>UID</li>
+<li>Group ID</li>
+<li>描述</li>
+<li>HOME目录位置</li>
+<li>默认shell</li>
+</ul>
+<pre class="example">
+/etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+
+</pre></li>
+<li><p>
+/etc/shadow
+</p>
+<pre class="example">
+/etc/shadow 文件的每条记录都有9个字段：
+
+</pre>
+<ul class="org-ul">
+<li>与/etc/passwd文件对应的登录名</li>
+<li>加密后的密码</li>
+<li>自上次修改密码后过去的天数密码（自1970年1月1日开始计算）</li>
+<li>多少天后才能更改密码</li>
+<li>多少天后必须更改密码</li>
+<li>密码过期前提前多少天提醒用户更改密码</li>
+<li>密码过期后多少天禁用用户帐目</li>
+<li>用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）</li>
+<li>预留字段给将来使用</li>
+</ul></li>
+<li>用户管理文件
+<ul class="org-ul">
+<li><p>
+Home 目录
+</p>
+<pre class="example">
+超级用户：/root/
+普通用户：/home/zrg/
+
+</pre></li>
+<li><p>
+<i>var/spool/mail/zrg</i>
+</p>
+<pre class="example">
+用户邮箱目录
+
+</pre></li>
+<li><p>
+/etc/skel
+</p>
+<pre class="example">
+在创建用户时，默认复制该目录下的文件到用户的家目录。
+
+</pre></li>
+</ul></li>
+<li><p>
+新增、删除和修改用户
+</p>
+<pre class="example">
+//新增用户
+$ sudo useradd -D
+or
+$ sudo less /etc/default/useradd
+See below, the subsection "Changing the default values".
+
+</pre>
+<p>
+GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
+HOME=/home //HOME目录位置
+INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
+EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
+SHELL=/bin/sh //将sh作为默认shell
+SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
+CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+</p>
+<pre class="example">
+//用上面的默认系统参数创建一个新用户账户
+$ sudo useradd test
+//要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
+$ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+
+</pre>
+
+<pre class="example">
+//删除用户
+默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+$ userdel -r test
+加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+
+</pre>
+
+<pre class="example">
+//修改用户
+
+</pre>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 11:</span> 用户账户修改工具</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">命令</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">usermod</td>
+<td class="org-left">修改用户账户的字段，指定主要组以及附加组的所属关系</td>
+</tr>
+
+<tr>
+<td class="org-left">passwd</td>
+<td class="org-left">修改已有用户的密码</td>
+</tr>
+
+<tr>
+<td class="org-left">chpasswd</td>
+<td class="org-left">从文件中读取登录名密码对，并更新密码</td>
+</tr>
+
+<tr>
+<td class="org-left">chage</td>
+<td class="org-left">修改密码的过期时间</td>
+</tr>
+
+<tr>
+<td class="org-left">chfn</td>
+<td class="org-left">修改用户账户的备注信息</td>
+</tr>
+
+<tr>
+<td class="org-left">chsh</td>
+<td class="org-left">修改用户账户的默认登录shell</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+修改密码
+</p>
+<pre class="example">
+修改用户密码的命令：passwd
+
+</pre>
+<p>
+-S 查询用户密码的状态，仅root用户可用。
+-l 暂时锁定用户。仅root用户可用。
+-u 解锁用户。仅root用户可用。
+&#x2013;stdin 通过管道符输出的数据作为用户的密码。
+</p></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge426e44" class="outline-4">
+<h4 id="orge426e44"><span class="section-number-4">5.1.2</span> Linux 群组</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<ol class="org-ol">
+<li><p>
+/etc/group
+</p>
+<pre class="example">
+/etc/group文件有4个字段：
+
+</pre>
+<ul class="org-ul">
+<li>组名</li>
+<li>组密码</li>
+<li>GID</li>
+<li>属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。</li>
+</ul></li>
+<li><p>
+/etc/gshadow
+</p>
+<pre class="example">
+/etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
+/etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
+必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
+这时就要用到用户组密码。
+
+</pre>
+
+<pre class="example">
+$ sudo less /etc/gshadow
+
+</pre>
+<p>
+组名：用户组的名称，由字母或数字构成。
+口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+组内用户列表：如果有多个成员，用,号分割 ;
+</p></li>
+<li><p>
+创建、修改和删除组
+</p>
+<pre class="example">
+$ sudo groupadd shared
+$ sudo groupmod -n sharing shared
+$ sudo groupdel shared
+
+</pre></li>
+<li><p>
+加入组和从组里删除
+</p>
+<pre class="example">
+$ sudo gpasswd -a test tests
+$ sudo gpasswd -d test tests
+
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org9d88a1c" class="outline-4">
+<h4 id="org9d88a1c"><span class="section-number-4">5.1.3</span> Linux 细部权限规划：ACL 的使用</h4>
+<div class="outline-text-4" id="text-5-1-3">
+</div>
+<ol class="org-ol">
+<li><a id="orgbce30bc"></a>什么是 ACL？<br />
+<div class="outline-text-5" id="text-5-1-3-1">
+<pre class="example">
+ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
+ACL 主要可以针对哪些方面来控制权限呢？它主要可以针对几个项目：
+
+</pre>
+<ul class="org-ul">
+<li>使用者 (user)：可以针对使用者来配置权限；</li>
+<li>群组 (group)：针对群组为对象来配置其权限；</li>
+<li>默认属性 (mask)：还可以针对在该目录下在创建新文件/目录时，规范新数据的默认权限；</li>
+</ul>
+</div>
+</li>
+<li><a id="orgef7be91"></a>如何开启 ACL？<br />
+<div class="outline-text-5" id="text-5-1-3-2">
+<pre class="example">
+// 查看分区 ACL 权限是否开启。
+$ sudo dumpe2fs -h /dev/sdb1
+// 找到"Default mount options"，查看是否有
+
+</pre>
+
+<pre class="example">
+// 临时开启分区 ACL 权限
+$ sudo mount -o remount,acl /
+// 重新挂载跟分区，并挂载加入 acl 权限。
+// 永久开启分区 ACL 权限
+$ sudo vim /etc/fstab
+
+</pre>
+<p>
+UUID=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1
+</p>
+<pre class="example">
+// 加入acl。注意：目前多数 Linux 系统 defaults 默认已经支持 acl 开启了，所以只需要添加 defaults 选项就可以了。
+$ sudo mount -o remount /
+// 重新挂载文件系统或重启系统，使修改生效。
+
+</pre>
+</div>
+</li>
+<li><a id="orga3e0cf6"></a>设定 ACL 权限<br />
+<div class="outline-text-5" id="text-5-1-3-3">
+<ol class="org-ol">
+<li><p>
+setfacl 命令
+</p>
+<pre class="example">
+选项与参数：
+
+</pre>
+<p>
+-m ：配置后续的 acl 参数给文件使用，不可与 -x 合用；
+-x ：删除后续的 acl 参数，不可与 -m 合用；
+-b ：移除所有的 ACL 配置参数；
+-k ：移除默认的 ACL 参数，关于所谓的『默认』参数于后续范例中介绍；
+-R ：递归配置 acl ，亦即包括次目录都会被配置起来；
+-d ：配置『默认 acl 参数』的意思！只对目录有效，在该目录新建的数据会引用此默认值
+</p>
+<pre class="example">
+示例：构建听课权限组，为特定用户设定 ACL 权限
+# useradd wang
+# useradd li
+# useradd zhao
+# groupadd coursegroup
+# mkdir /project
+# chown root:coursegroup /project/
+# chmod 770 /project
+# setfacl -m u:zhao:rwx /project
+// setfacl格式：u:使用者:权限
+
+</pre></li>
+<li><p>
+getfacl 命令
+</p>
+<pre class="example">
+选项与参数：getfacl 的选项几乎与 setfacl 相同！
+格式: getfacl filename
+
+</pre></li>
+<li><p>
+针对有效权限 (effective permission)mask 的设定
+</p>
+<pre class="example">
+有效权限：使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
+配置规范：『 m:[rwx] 』，例如针对某个文件规范为仅有 rx ：
+# setfacl -m m:rx /project/testfile
+
+</pre></li>
+<li><p>
+针对默认权限的设定
+</p>
+<pre class="example">
+配置规范：『 d:[ug]:使用者列表:[rwx] 』
+# setfacl -m d:u:zhao:rx /project
+
+</pre></li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
 </div>
 <div id="outline-container-orge7e5ed5" class="outline-3">
-<h3 id="orge7e5ed5"><span class="section-number-3">5.3</span> 例行性工作排程</h3>
-<div class="outline-text-3" id="text-5-3">
+<h3 id="orge7e5ed5"><span class="section-number-3">5.2</span> 例行性工作排程</h3>
+<div class="outline-text-3" id="text-5-2">
 </div>
 <div id="outline-container-org09e5c7e" class="outline-4">
-<h4 id="org09e5c7e"><span class="section-number-4">5.3.1</span> 对于 Linux 用户</h4>
-<div class="outline-text-4" id="text-5-3-1">
+<h4 id="org09e5c7e"><span class="section-number-4">5.2.1</span> 对于 Linux 用户</h4>
+<div class="outline-text-4" id="text-5-2-1">
 <pre class="example">
 你肯定希望：
      每一天早上 8:00 钟，让电脑连接上音响，并播放音乐来唤你起床；
@@ -3641,8 +3978,8 @@ done &lt; <span style="color: #8b2252;">"$input"</span>
 </div>
 </div>
 <div id="outline-container-org8585652" class="outline-4">
-<h4 id="org8585652"><span class="section-number-4">5.3.2</span> crontab 简单介绍</h4>
-<div class="outline-text-4" id="text-5-3-2">
+<h4 id="org8585652"><span class="section-number-4">5.2.2</span> crontab 简单介绍</h4>
+<div class="outline-text-4" id="text-5-2-2">
 <pre class="example">
 crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
 1./etc/crontab 文件
@@ -3674,8 +4011,8 @@ cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还�
 </div>
 </div>
 <div id="outline-container-orga98584a" class="outline-4">
-<h4 id="orga98584a"><span class="section-number-4">5.3.3</span> crontab 基本格式</h4>
-<div class="outline-text-4" id="text-5-3-3">
+<h4 id="orga98584a"><span class="section-number-4">5.2.3</span> crontab 基本格式</h4>
+<div class="outline-text-4" id="text-5-2-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -3744,8 +4081,8 @@ cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还�
 </div>
 
 <div id="outline-container-org6f45065" class="outline-4">
-<h4 id="org6f45065"><span class="section-number-4">5.3.4</span> 实例1：实现两个周备份一次 /var/ftp 目录下的内容</h4>
-<div class="outline-text-4" id="text-5-3-4">
+<h4 id="org6f45065"><span class="section-number-4">5.2.4</span> 实例1：实现两个周备份一次 /var/ftp 目录下的内容</h4>
+<div class="outline-text-4" id="text-5-2-4">
 <pre class="example">
 具体实现方法如下:
    a.先新建一个 txt 文件，这里是 ftp-back-shell.txt，文件内容：
@@ -3763,8 +4100,8 @@ cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还�
 </div>
 </div>
 <div id="outline-container-org538f732" class="outline-4">
-<h4 id="org538f732"><span class="section-number-4">5.3.5</span> 实例2：实现定时插入数据</h4>
-<div class="outline-text-4" id="text-5-3-5">
+<h4 id="org538f732"><span class="section-number-4">5.2.5</span> 实例2：实现定时插入数据</h4>
+<div class="outline-text-4" id="text-5-2-5">
 <pre class="example">
 1.新建 crontab.sh 脚本文件
 $ vim crontab.sh
@@ -3793,8 +4130,8 @@ $ crontab -r
 </div>
 </div>
 <div id="outline-container-org630ed38" class="outline-4">
-<h4 id="org630ed38"><span class="section-number-4">5.3.6</span> 示例3：备份 mysql 数据</h4>
-<div class="outline-text-4" id="text-5-3-6">
+<h4 id="org630ed38"><span class="section-number-4">5.2.6</span> 示例3：备份 mysql 数据</h4>
+<div class="outline-text-4" id="text-5-2-6">
 <pre class="example">
 $ vim cron.sh
 
@@ -3814,8 +4151,8 @@ $rccron reload
 </div>
 </div>
 <div id="outline-container-org44ed683" class="outline-4">
-<h4 id="org44ed683"><span class="section-number-4">5.3.7</span> 一些简单示例</h4>
-<div class="outline-text-4" id="text-5-3-7">
+<h4 id="org44ed683"><span class="section-number-4">5.2.7</span> 一些简单示例</h4>
+<div class="outline-text-4" id="text-5-2-7">
 <pre class="example">
 43 21 * * * 21:43 执行
 
@@ -3833,16 +4170,16 @@ $rccron reload
 </div>
 </div>
 <div id="outline-container-org6fae1b8" class="outline-3">
-<h3 id="org6fae1b8"><span class="section-number-3">5.4</span> 软件安装</h3>
-<div class="outline-text-3" id="text-5-4">
+<h3 id="org6fae1b8"><span class="section-number-3">5.3</span> 软件安装</h3>
+<div class="outline-text-3" id="text-5-3">
 </div>
 <div id="outline-container-org63f90a6" class="outline-4">
-<h4 id="org63f90a6"><span class="section-number-4">5.4.1</span> ssh</h4>
-<div class="outline-text-4" id="text-5-4-1">
+<h4 id="org63f90a6"><span class="section-number-4">5.3.1</span> ssh</h4>
+<div class="outline-text-4" id="text-5-3-1">
 </div>
 <ol class="org-ol">
 <li><a id="org5d65c92"></a>SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL<br />
-<div class="outline-text-5" id="text-5-4-1-1">
+<div class="outline-text-5" id="text-5-3-1-1">
 <ul class="org-ul">
 <li>SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。</li>
 <li>OpenSSL，对SSL的实现。</li>
@@ -3853,7 +4190,7 @@ $rccron reload
 </div>
 </li>
 <li><a id="orga8867dd"></a>ssh 配置<br />
-<div class="outline-text-5" id="text-5-4-1-2">
+<div class="outline-text-5" id="text-5-3-1-2">
 <p>
 <b>配置持久连接</b>
 </p>
@@ -3885,7 +4222,7 @@ ServerAliveCountMax 3
 </div>
 </li>
 <li><a id="orge83a5b5"></a>使用OpenSSL生成密钥对<br />
-<div class="outline-text-5" id="text-5-4-1-3">
+<div class="outline-text-5" id="text-5-3-1-3">
 <pre class="example">
 生成私钥
 $ openssl genrsa -out rsa_private_key.pem 1024
@@ -3902,7 +4239,7 @@ $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
 </div>
 </li>
 <li><a id="orge557385"></a>修改ssh默认端口号<br />
-<div class="outline-text-5" id="text-5-4-1-4">
+<div class="outline-text-5" id="text-5-3-1-4">
 <pre class="example">
 1. 首先修改配置文件：
 $ vim /etc/ssh/sshd_config
@@ -3937,7 +4274,7 @@ $ systemctl restart sshd
 </div>
 </li>
 <li><a id="org6e2579a"></a>通过密钥登录服务器<br />
-<div class="outline-text-5" id="text-5-4-1-5">
+<div class="outline-text-5" id="text-5-3-1-5">
 <pre class="example">
 1. 生成密钥对
 $ ssh-keygen
@@ -3996,7 +4333,7 @@ $ systemctl restart sshd.service
 </div>
 </li>
 <li><a id="orgea28dbc"></a>使用scp上传或下载文件<br />
-<div class="outline-text-5" id="text-5-4-1-6">
+<div class="outline-text-5" id="text-5-3-1-6">
 <pre class="example">
 1. 从服务器上下载文件
 scp username@servername:/path/filename /var/www/local_dir（本地目录）
@@ -4025,8 +4362,8 @@ scp  -r local_dir username@servername:remote_dir
 </ol>
 </div>
 <div id="outline-container-orgbeaf1fe" class="outline-4">
-<h4 id="orgbeaf1fe"><span class="section-number-4">5.4.2</span> 在服务器上启用HTTPS</h4>
-<div class="outline-text-4" id="text-5-4-2">
+<h4 id="orgbeaf1fe"><span class="section-number-4">5.3.2</span> 在服务器上启用HTTPS</h4>
+<div class="outline-text-4" id="text-5-3-2">
 <ul class="org-ul">
 <li>创建一个 2048 位 RSA 公钥/私钥对。</li>
 <li>生成一个嵌入您的公钥的证书签名请求 (CSR)</li>
@@ -4050,12 +4387,12 @@ scp  -r local_dir username@servername:remote_dir
 </div>
 </div>
 <div id="outline-container-org0fae4fa" class="outline-4">
-<h4 id="org0fae4fa"><span class="section-number-4">5.4.3</span> iptables &amp; firewalld</h4>
-<div class="outline-text-4" id="text-5-4-3">
+<h4 id="org0fae4fa"><span class="section-number-4">5.3.3</span> iptables &amp; firewalld</h4>
+<div class="outline-text-4" id="text-5-3-3">
 </div>
 <ol class="org-ol">
 <li><a id="org63c361c"></a>防火墙管理工具<br />
-<div class="outline-text-5" id="text-5-4-3-1">
+<div class="outline-text-5" id="text-5-3-3-1">
 <pre class="example">
 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。
 在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。
@@ -4086,7 +4423,7 @@ iptables 组件是一种工具，也称为用户空间（userspace），它使�
 </div>
 </li>
 <li><a id="orgf5cc3a3"></a>iptables<br />
-<div class="outline-text-5" id="text-5-4-3-2">
+<div class="outline-text-5" id="text-5-3-3-2">
 <pre class="example">
 在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于
 各种原因而继续使用iptables。
@@ -4095,7 +4432,7 @@ iptables 组件是一种工具，也称为用户空间（userspace），它使�
 </div>
 <ol class="org-ol">
 <li><a id="org0706ac7"></a>策略与规则链<br />
-<div class="outline-text-6" id="text-5-4-3-2-1">
+<div class="outline-text-6" id="text-5-3-3-2-1">
 <pre class="example">
 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则
 之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止）。
@@ -4130,7 +4467,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 </li>
 
 <li><a id="orge7b58d9"></a>基本的命令参数<br />
-<div class="outline-text-6" id="text-5-4-3-2-2">
+<div class="outline-text-6" id="text-5-3-3-2-2">
 <ul class="org-ul">
 <li><p>
 规则功能说明
@@ -4140,7 +4477,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 11:</span> 表</caption>
+<caption class="t-above"><span class="table-number">Table 12:</span> 表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4174,7 +4511,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 12:</span> NAT</caption>
+<caption class="t-above"><span class="table-number">Table 13:</span> NAT</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4219,7 +4556,7 @@ DROP（拒绝流量通过，直接将流量丢弃不响应）。
 iptables中常用的参数以及作用
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 13:</span> iptables中常用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 14:</span> iptables中常用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4390,7 +4727,7 @@ $ service iptables save
 </ol>
 </li>
 <li><a id="orgec0a218"></a>Firewalld<br />
-<div class="outline-text-5" id="text-5-4-3-3">
+<div class="outline-text-5" id="text-5-3-3-3">
 <pre class="example">
 Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）
 和基于GUI（图形用户界面）的两种管理方式。
@@ -4408,7 +4745,7 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 14:</span> firewalld中常用的区域名称及策略规则</caption>
+<caption class="t-above"><span class="table-number">Table 15:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4471,13 +4808,13 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 </div>
 <ol class="org-ol">
 <li><a id="org22473ea"></a>终端管理工具<br />
-<div class="outline-text-6" id="text-5-4-3-3-1">
+<div class="outline-text-6" id="text-5-3-3-3-1">
 <pre class="example">
 firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
 
 </pre>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 15:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 16:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4692,7 +5029,7 @@ firewalld中的富规则表示更细致、更详细的防火墙策略配置，�
 </li>
 <li><a id="org0048efc"></a>图形化管理工具<br /></li>
 <li><a id="org2edea9d"></a>服务的访问控制列表<br />
-<div class="outline-text-6" id="text-5-4-3-3-3">
+<div class="outline-text-6" id="text-5-3-3-3-3">
 <pre class="example">
 TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，
 Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供
@@ -4708,7 +5045,7 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 16:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<caption class="t-above"><span class="table-number">Table 17:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4775,8 +5112,8 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 </li>
 </ol>
 </li>
-<li><a id="orgb2b12b3"></a>参考资料<br />
-<div class="outline-text-5" id="text-5-4-3-4">
+<li><a id="orgaf45d31"></a>参考资料<br />
+<div class="outline-text-5" id="text-5-3-3-4">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/Iptables">iptables wiki</a></li>
 <li><a href="https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin">iptables 百度百科</a></li>
@@ -4787,8 +5124,8 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 </ol>
 </div>
 <div id="outline-container-orgb4a0310" class="outline-4">
-<h4 id="orgb4a0310"><span class="section-number-4">5.4.4</span> 删除大文件的前n行</h4>
-<div class="outline-text-4" id="text-5-4-4">
+<h4 id="orgb4a0310"><span class="section-number-4">5.3.4</span> 删除大文件的前n行</h4>
+<div class="outline-text-4" id="text-5-3-4">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>示例：删除前10行</label><pre class="src src-shell">tail -n +10 old_file&gt;new_file
 mv new_file old_file
@@ -4797,12 +5134,12 @@ mv new_file old_file
 </div>
 </div>
 <div id="outline-container-org1c80762" class="outline-4">
-<h4 id="org1c80762"><span class="section-number-4">5.4.5</span> 神奇的 nc 命令</h4>
-<div class="outline-text-4" id="text-5-4-5">
+<h4 id="org1c80762"><span class="section-number-4">5.3.5</span> 神奇的 nc 命令</h4>
+<div class="outline-text-4" id="text-5-3-5">
 </div>
 <ol class="org-ol">
 <li><a id="org993dbb0"></a>介绍<br />
-<div class="outline-text-5" id="text-5-4-5-1">
+<div class="outline-text-5" id="text-5-3-5-1">
 <pre class="example">
 netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
 netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
@@ -4810,8 +5147,8 @@ netcat所做的就是在两台电脑之间建立链接并返回两个数据流�
 </pre>
 </div>
 </li>
-<li><a id="orge577bcf"></a>安装<br />
-<div class="outline-text-5" id="text-5-4-5-2">
+<li><a id="org118c115"></a>安装<br />
+<div class="outline-text-5" id="text-5-3-5-2">
 <pre class="example">
 // Redhat/CentOS/Fedora
 $ yum install nc
@@ -4824,7 +5161,7 @@ $ sudo apt-get install netcat
 <li><a id="orgc12c222"></a>常见使用<br />
 <ol class="org-ol">
 <li><a id="org02b684b"></a>端口扫描<br />
-<div class="outline-text-6" id="text-5-4-5-3-1">
+<div class="outline-text-6" id="text-5-3-5-3-1">
 <pre class="example">
 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
 $ nc -z -v -n 172.31.100.7 21-25
@@ -4841,7 +5178,7 @@ $ nc -v 172.31.100.7 21
 </div>
 </li>
 <li><a id="org330c14d"></a>聊天工具<br />
-<div class="outline-text-6" id="text-5-4-5-3-2">
+<div class="outline-text-6" id="text-5-3-5-3-2">
 <pre class="example">
 // Server
 $ nc -l 1234
@@ -4852,7 +5189,7 @@ $ nc 172.168.100.7 1234
 </div>
 </li>
 <li><a id="org1466a48"></a>文件传输<br />
-<div class="outline-text-6" id="text-5-4-5-3-3">
+<div class="outline-text-6" id="text-5-3-5-3-3">
 <pre class="example">
 // Server &gt; Client
 $ nc -l 1234 &gt; file.txt
@@ -4862,7 +5199,7 @@ $ nc 172.168.100.7 1234 &lt;file.txt
 </div>
 </li>
 <li><a id="org959e680"></a>目录传输<br />
-<div class="outline-text-6" id="text-5-4-5-3-4">
+<div class="outline-text-6" id="text-5-3-5-3-4">
 <pre class="example">
 // Server &gt; Client
 $ tar -cvf - dir_name | nc -l 1234
@@ -4879,7 +5216,7 @@ $ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
 </div>
 </li>
 <li><a id="org061867d"></a>加密网络传输数据<br />
-<div class="outline-text-6" id="text-5-4-5-3-5">
+<div class="outline-text-6" id="text-5-3-5-3-5">
 <pre class="example">
 // Server
 $ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
@@ -4890,7 +5227,7 @@ $ mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
 </div>
 </li>
 <li><a id="org6999eb7"></a>流视频<br />
-<div class="outline-text-6" id="text-5-4-5-3-6">
+<div class="outline-text-6" id="text-5-3-5-3-6">
 <pre class="example">
 // Server
 $ cat video.avi | nc -l 1234
@@ -4903,7 +5240,7 @@ $ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
 </div>
 </li>
 <li><a id="org8ee9ceb"></a>克隆一个设备<br />
-<div class="outline-text-6" id="text-5-4-5-3-7">
+<div class="outline-text-6" id="text-5-3-5-3-7">
 <pre class="example">
 已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
 假如你的系统在磁盘/dev/sda上:
@@ -4919,8 +5256,8 @@ dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定
 </li>
 </ol>
 </li>
-<li><a id="org4af3eb1"></a>参考资料<br />
-<div class="outline-text-5" id="text-5-4-5-4">
+<li><a id="org126cc54"></a>参考资料<br />
+<div class="outline-text-5" id="text-5-3-5-4">
 <pre class="example">
 https://blog.csdn.net/zhangxiao93/article/details/52705642
 
@@ -4930,8 +5267,8 @@ https://blog.csdn.net/zhangxiao93/article/details/52705642
 </ol>
 </div>
 <div id="outline-container-orgdccda1e" class="outline-4">
-<h4 id="orgdccda1e"><span class="section-number-4">5.4.6</span> 设置命令别名：alias</h4>
-<div class="outline-text-4" id="text-5-4-6">
+<h4 id="orgdccda1e"><span class="section-number-4">5.3.6</span> 设置命令别名：alias</h4>
+<div class="outline-text-4" id="text-5-3-6">
 <pre class="example">
 //利用别名代替长命令
 $ vim ~/.bashrc                                                                                                                                     
@@ -4957,12 +5294,12 @@ alias shadowsocks=<span style="color: #8b2252;">"sudo sslocal -c /etc/shadowsock
 </div>
 </div>
 <div id="outline-container-orge41915b" class="outline-4">
-<h4 id="orge41915b"><span class="section-number-4">5.4.7</span> GCC</h4>
-<div class="outline-text-4" id="text-5-4-7">
+<h4 id="orge41915b"><span class="section-number-4">5.3.7</span> GCC</h4>
+<div class="outline-text-4" id="text-5-3-7">
 </div>
 <ol class="org-ol">
 <li><a id="orgeafd3e5"></a>简单编译<br />
-<div class="outline-text-5" id="text-5-4-7-1">
+<div class="outline-text-5" id="text-5-3-7-1">
 <pre class="example">
 $ gcc test.c -o test
 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
@@ -4990,7 +5327,7 @@ $ gcc test.o -o test
 </div>
 </li>
 <li><a id="orgc2e98cd"></a>多个程序文件的编译<br />
-<div class="outline-text-5" id="text-5-4-7-2">
+<div class="outline-text-5" id="text-5-3-7-2">
 <pre class="example">
 $ gcc test1.c test2.c -o test
 
@@ -4998,7 +5335,7 @@ $ gcc test1.c test2.c -o test
 </div>
 </li>
 <li><a id="orgd61f78a"></a>检错<br />
-<div class="outline-text-5" id="text-5-4-7-3">
+<div class="outline-text-5" id="text-5-3-7-3">
 <pre class="example">
 $ gcc -pedantic test.c -o test
 //警告信息
@@ -5010,7 +5347,7 @@ $ gcc -Werror test.c -o test
 </div>
 </li>
 <li><a id="org05269d9"></a>库文件连接<br />
-<div class="outline-text-5" id="text-5-4-7-4">
+<div class="outline-text-5" id="text-5-3-7-4">
 <pre class="example">
 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
 $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
@@ -5023,7 +5360,7 @@ $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
 </div>
 </li>
 <li><a id="org13b241c"></a>其他<br />
-<div class="outline-text-5" id="text-5-4-7-5">
+<div class="outline-text-5" id="text-5-3-7-5">
 <pre class="example">
 静态库链接时搜索路径顺序：
 
@@ -5059,7 +5396,7 @@ LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 </div>
 </li>
 <li><a id="org4d2c0f6"></a>Reference<br />
-<div class="outline-text-5" id="text-5-4-7-6">
+<div class="outline-text-5" id="text-5-3-7-6">
 <pre class="example">
 http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 
@@ -5069,12 +5406,12 @@ http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 </ol>
 </div>
 <div id="outline-container-org4375bea" class="outline-4">
-<h4 id="org4375bea"><span class="section-number-4">5.4.8</span> 系统状态监视命令：top &amp; htop</h4>
-<div class="outline-text-4" id="text-5-4-8">
+<h4 id="org4375bea"><span class="section-number-4">5.3.8</span> 系统状态监视命令：top &amp; htop</h4>
+<div class="outline-text-4" id="text-5-3-8">
 </div>
 <ol class="org-ol">
-<li><a id="org21389d7"></a>top<br />
-<div class="outline-text-5" id="text-5-4-8-1">
+<li><a id="orgaca7760"></a>top<br />
+<div class="outline-text-5" id="text-5-3-8-1">
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/top.jpg" alt="top.jpg" />
@@ -5085,7 +5422,7 @@ http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
 <li><a id="orgb03f5bb"></a>htop<br />
 <ol class="org-ol">
 <li><a id="orgb99bdc1"></a>下载及安装<br />
-<div class="outline-text-6" id="text-5-4-8-2-1">
+<div class="outline-text-6" id="text-5-3-8-2-1">
 <pre class="example">
 $ git clone https://github.com/hishamhm/htop 
 $ tar zxvf htop-2.0.2.tar.gz
@@ -5097,7 +5434,7 @@ $ ./configure
 </div>
 </li>
 <li><a id="org860786c"></a>错误解决<br />
-<div class="outline-text-6" id="text-5-4-8-2-2">
+<div class="outline-text-6" id="text-5-3-8-2-2">
 <pre class="example">
 configure: error: missing libraries: libncurses
 Solving:
@@ -5111,8 +5448,8 @@ $ sudo apt-get install nucurses-dev
 </ol>
 </div>
 <div id="outline-container-orgddaca37" class="outline-4">
-<h4 id="orgddaca37"><span class="section-number-4">5.4.9</span> 网络监视命令：iftop</h4>
-<div class="outline-text-4" id="text-5-4-9">
+<h4 id="orgddaca37"><span class="section-number-4">5.3.9</span> 网络监视命令：iftop</h4>
+<div class="outline-text-4" id="text-5-3-9">
 <pre class="example">
 $ sudo apt-get install iftop
 
@@ -5121,8 +5458,8 @@ $ sudo apt-get install iftop
 </div>
 </div>
 <div id="outline-container-org3220bb3" class="outline-4">
-<h4 id="org3220bb3"><span class="section-number-4">5.4.10</span> wget vs axel</h4>
-<div class="outline-text-4" id="text-5-4-10">
+<h4 id="org3220bb3"><span class="section-number-4">5.3.10</span> wget vs axel</h4>
+<div class="outline-text-4" id="text-5-3-10">
 <pre class="example">
 官方地址: http://axel.alioth.debian.org/
 描述: 替换wget命令
@@ -5131,8 +5468,8 @@ $ sudo apt-get install iftop
 </div>
 </div>
 <div id="outline-container-orgf04f847" class="outline-4">
-<h4 id="orgf04f847"><span class="section-number-4">5.4.11</span> VIM&amp;Emacs</h4>
-<div class="outline-text-4" id="text-5-4-11">
+<h4 id="orgf04f847"><span class="section-number-4">5.3.11</span> VIM&amp;Emacs</h4>
+<div class="outline-text-4" id="text-5-3-11">
 <pre class="example">
 两个神器软件单独介绍，这里不重复叙写。
 
@@ -5140,8 +5477,8 @@ $ sudo apt-get install iftop
 </div>
 </div>
 <div id="outline-container-orgf2c68b6" class="outline-4">
-<h4 id="orgf2c68b6"><span class="section-number-4">5.4.12</span> MPlayer</h4>
-<div class="outline-text-4" id="text-5-4-12">
+<h4 id="orgf2c68b6"><span class="section-number-4">5.3.12</span> MPlayer</h4>
+<div class="outline-text-4" id="text-5-3-12">
 <pre class="example">
 // official：http://www.mplayerhq.hu/design7/news.html
 $ tar -Jxf MPlayer-1.1.1.tar.xz
@@ -5157,8 +5494,8 @@ $ sudo make &amp;&amp; make install
 </div>
 </div>
 <div id="outline-container-orge3612ab" class="outline-4">
-<h4 id="orge3612ab"><span class="section-number-4">5.4.13</span> google-chrome &amp; chromium</h4>
-<div class="outline-text-4" id="text-5-4-13">
+<h4 id="orge3612ab"><span class="section-number-4">5.3.13</span> google-chrome &amp; chromium</h4>
+<div class="outline-text-4" id="text-5-3-13">
 <pre class="example">
 1. 添加安装源
 $ sudo vim /etc/apt/sources.list
@@ -5195,12 +5532,12 @@ $ sudo apt-get install chromium chromium-l10n
 </div>
 </div>
 <div id="outline-container-orge735fd6" class="outline-4">
-<h4 id="orge735fd6"><span class="section-number-4">5.4.14</span> Scrot：截图工具</h4>
-<div class="outline-text-4" id="text-5-4-14">
+<h4 id="orge735fd6"><span class="section-number-4">5.3.14</span> Scrot：截图工具</h4>
+<div class="outline-text-4" id="text-5-3-14">
 </div>
 <ol class="org-ol">
-<li><a id="org6c6c86f"></a>安装<br />
-<div class="outline-text-5" id="text-5-4-14-1">
+<li><a id="orgf8aef83"></a>安装<br />
+<div class="outline-text-5" id="text-5-3-14-1">
 <pre class="example">
 $ sudo apt-get install scrot
 
@@ -5208,7 +5545,7 @@ $ sudo apt-get install scrot
 </div>
 </li>
 <li><a id="orgfa300c8"></a>使用方法<br />
-<div class="outline-text-5" id="text-5-4-14-2">
+<div class="outline-text-5" id="text-5-3-14-2">
 <p>
 1.整个桌面截图(Full desktop)
 </p>
@@ -5255,7 +5592,7 @@ $ scrot -e 'mv $f ~/screenshots'
 </div>
 </li>
 <li><a id="org3d255ec"></a>参考资料(References)<br />
-<div class="outline-text-5" id="text-5-4-14-3">
+<div class="outline-text-5" id="text-5-3-14-3">
 <pre class="example">
 https://linux.cn/article-3197-1.html
 
@@ -5265,8 +5602,8 @@ https://linux.cn/article-3197-1.html
 </ol>
 </div>
 <div id="outline-container-org967181f" class="outline-4">
-<h4 id="org967181f"><span class="section-number-4">5.4.15</span> rarcrack（压缩包密码破解工具）</h4>
-<div class="outline-text-4" id="text-5-4-15">
+<h4 id="org967181f"><span class="section-number-4">5.3.15</span> rarcrack（压缩包密码破解工具）</h4>
+<div class="outline-text-4" id="text-5-3-15">
 <pre class="example">
 支持格式：rar,7z,zip
 // install
@@ -5279,8 +5616,8 @@ $ rarcrack --threads 10 --type rar test.rar
 </div>
 </div>
 <div id="outline-container-org4b36baf" class="outline-4">
-<h4 id="org4b36baf"><span class="section-number-4">5.4.16</span> 宝塔面板</h4>
-<div class="outline-text-4" id="text-5-4-16">
+<h4 id="org4b36baf"><span class="section-number-4">5.3.16</span> 宝塔面板</h4>
+<div class="outline-text-4" id="text-5-3-16">
 <pre class="example">
 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
 
@@ -5288,12 +5625,12 @@ $ rarcrack --threads 10 --type rar test.rar
 </div>
 </div>
 <div id="outline-container-org5e092d4" class="outline-4">
-<h4 id="org5e092d4"><span class="section-number-4">5.4.17</span> Cisco AnyConnect VPN Client</h4>
-<div class="outline-text-4" id="text-5-4-17">
+<h4 id="org5e092d4"><span class="section-number-4">5.3.17</span> Cisco AnyConnect VPN Client</h4>
+<div class="outline-text-4" id="text-5-3-17">
 </div>
 <ol class="org-ol">
-<li><a id="org7120e90"></a>问题解决<br />
-<div class="outline-text-5" id="text-5-4-17-1">
+<li><a id="org4835b2f"></a>问题解决<br />
+<div class="outline-text-5" id="text-5-3-17-1">
 <pre class="example">
 $ sudo systemctl enable vpnagentd_init
 vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
@@ -5330,12 +5667,12 @@ update-rc.d: error: insserv rejected the script header
 </ol>
 </div>
 <div id="outline-container-org2b1bd4f" class="outline-4">
-<h4 id="org2b1bd4f"><span class="section-number-4">5.4.18</span> Bind：DNS工具</h4>
-<div class="outline-text-4" id="text-5-4-18">
+<h4 id="org2b1bd4f"><span class="section-number-4">5.3.18</span> Bind：DNS工具</h4>
+<div class="outline-text-4" id="text-5-3-18">
 </div>
 <ol class="org-ol">
-<li><a id="org67d2362"></a>安装<br />
-<div class="outline-text-5" id="text-5-4-18-1">
+<li><a id="orgb93ab7d"></a>安装<br />
+<div class="outline-text-5" id="text-5-3-18-1">
 <pre class="example">
 # yum install -y bind
 
@@ -5343,7 +5680,7 @@ update-rc.d: error: insserv rejected the script header
 </div>
 </li>
 <li><a id="org939cc0c"></a>配置<br />
-<div class="outline-text-5" id="text-5-4-18-2">
+<div class="outline-text-5" id="text-5-3-18-2">
 <pre class="example">
 1)# vim /etc/named.conf
 修改内容如下：
@@ -5422,12 +5759,12 @@ Nameserver 192.168.120.166
 </ol>
 </div>
 <div id="outline-container-org4287461" class="outline-4">
-<h4 id="org4287461"><span class="section-number-4">5.4.19</span> Composer</h4>
-<div class="outline-text-4" id="text-5-4-19">
+<h4 id="org4287461"><span class="section-number-4">5.3.19</span> Composer</h4>
+<div class="outline-text-4" id="text-5-3-19">
 </div>
 <ol class="org-ol">
-<li><a id="orge0b1939"></a>安装<br />
-<div class="outline-text-5" id="text-5-4-19-1">
+<li><a id="org1e67fbe"></a>安装<br />
+<div class="outline-text-5" id="text-5-3-19-1">
 <pre class="example">
 1.Download composer.phar file.
 2.Excute:
@@ -5440,8 +5777,8 @@ Nameserver 192.168.120.166
 </pre>
 </div>
 </li>
-<li><a id="orgd780d2f"></a>问题解决<br />
-<div class="outline-text-5" id="text-5-4-19-2">
+<li><a id="org1831375"></a>问题解决<br />
+<div class="outline-text-5" id="text-5-3-19-2">
 <pre class="example">
 error: /usr/bin/env: php: No such file or directory
  solve:Configuring php to become global variables
@@ -5452,12 +5789,12 @@ error: /usr/bin/env: php: No such file or directory
 </ol>
 </div>
 <div id="outline-container-org4a60e9d" class="outline-4">
-<h4 id="org4a60e9d"><span class="section-number-4">5.4.20</span> vsftpd</h4>
-<div class="outline-text-4" id="text-5-4-20">
+<h4 id="org4a60e9d"><span class="section-number-4">5.3.20</span> vsftpd</h4>
+<div class="outline-text-4" id="text-5-3-20">
 </div>
 <ol class="org-ol">
 <li><a id="org31beec4"></a>Download and Install<br />
-<div class="outline-text-5" id="text-5-4-20-1">
+<div class="outline-text-5" id="text-5-3-20-1">
 <pre class="example">
 https://security.appspot.com/vsftpd.html#download
 //yum
@@ -5468,7 +5805,7 @@ yum install -y vsftpd
 </li>
 
 <li><a id="orgffdfc94"></a>Change default dir<br />
-<div class="outline-text-5" id="text-5-4-20-2">
+<div class="outline-text-5" id="text-5-3-20-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#local user
 local_root=/usr/share/nginx/html
@@ -5482,7 +5819,7 @@ anon_root=/var/ftp/pub
 </li>
 
 <li><a id="org734a3b2"></a>Configuring directory of access<br />
-<div class="outline-text-5" id="text-5-4-20-3">
+<div class="outline-text-5" id="text-5-3-20-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">chroot_local_user=YES
 chroot_list_enable=NO
@@ -5505,7 +5842,7 @@ notice:
 </li>
 
 <li><a id="orgc93f3a9"></a>my vsftpd.conf<br />
-<div class="outline-text-5" id="text-5-4-20-4">
+<div class="outline-text-5" id="text-5-3-20-4">
 <p>
 //CentOS 7, /etc/vsftpd/vsftpd.conf.
 </p>
@@ -5635,8 +5972,8 @@ tcp_wrappers=YES
 </div>
 </div>
 </li>
-<li><a id="org6d6d965"></a>References<br />
-<div class="outline-text-5" id="text-5-4-20-5">
+<li><a id="orge435cdf"></a>References<br />
+<div class="outline-text-5" id="text-5-3-20-5">
 <pre class="example">
 https://security.appspot.com/vsftpd.html
 https://en.wikipedia.org/wiki/Vsftpd
@@ -5648,12 +5985,12 @@ http://baike.baidu.com/item/vsftpd
 </ol>
 </div>
 <div id="outline-container-orgdf0d7ba" class="outline-4">
-<h4 id="orgdf0d7ba"><span class="section-number-4">5.4.21</span> Cygwin：windows 下 Linux 模拟软件</h4>
-<div class="outline-text-4" id="text-5-4-21">
+<h4 id="orgdf0d7ba"><span class="section-number-4">5.3.21</span> Cygwin：windows 下 Linux 模拟软件</h4>
+<div class="outline-text-4" id="text-5-3-21">
 </div>
 <ol class="org-ol">
 <li><a id="org2d5d9d8"></a>安装Cygwin<br />
-<div class="outline-text-5" id="text-5-4-21-1">
+<div class="outline-text-5" id="text-5-3-21-1">
 <pre class="example">
 略
 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
@@ -5678,8 +6015,8 @@ http://baike.baidu.com/item/vsftpd
 </pre>
 </div>
 </li>
-<li><a id="orgc262f81"></a>参考资料<br />
-<div class="outline-text-5" id="text-5-4-21-2">
+<li><a id="org7483d7d"></a>参考资料<br />
+<div class="outline-text-5" id="text-5-3-21-2">
 <pre class="example">
 1.Cygwin-Official Site:http://cygwin.com/
 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
@@ -5692,8 +6029,8 @@ http://baike.baidu.com/item/vsftpd
 </ol>
 </div>
 <div id="outline-container-org68bf21f" class="outline-4">
-<h4 id="org68bf21f"><span class="section-number-4">5.4.22</span> Wps for Linux</h4>
-<div class="outline-text-4" id="text-5-4-22">
+<h4 id="org68bf21f"><span class="section-number-4">5.3.22</span> Wps for Linux</h4>
+<div class="outline-text-4" id="text-5-3-22">
 <pre class="example">
 1. 从官网下载安装包，网址：http://www.wps.cn/
 
@@ -5722,7 +6059,7 @@ $ sudo fc-cache
 </div>
 </div>
 <div id="outline-container-org2d2a357" class="outline-3">
-<h3 id="org2d2a357"><span class="section-number-3">5.5</span> 网络(Network)</h3>
+<h3 id="org2d2a357"><span class="section-number-3">5.4</span> 网络(Network)</h3>
 </div>
 </div>
 <div id="outline-container-orgbaf2da2" class="outline-2">
@@ -5765,8 +6102,8 @@ LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so subl
 </pre>
 </div>
 </div>
-<div id="outline-container-org36da903" class="outline-4">
-<h4 id="org36da903"><span class="section-number-4">6.1.4</span> 参考资料</h4>
+<div id="outline-container-org1f37d99" class="outline-4">
+<h4 id="org1f37d99"><span class="section-number-4">6.1.4</span> 参考资料</h4>
 <div class="outline-text-4" id="text-6-1-4">
 <pre class="example">
 http://www.jianshu.com/p/bf05fb3a4709
@@ -5979,8 +6316,8 @@ service php-fpm start/stop/restart/reload
 </pre>
 </div>
 </div>
-<div id="outline-container-orgedbd67d" class="outline-4">
-<h4 id="orgedbd67d"><span class="section-number-4">6.5.2</span> References</h4>
+<div id="outline-container-org06ec2ca" class="outline-4">
+<h4 id="org06ec2ca"><span class="section-number-4">6.5.2</span> References</h4>
 <div class="outline-text-4" id="text-6-5-2">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>

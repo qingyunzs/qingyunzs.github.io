@@ -247,6 +247,22 @@ photos:
 	 : logout
        + 实践
 ** 配置(Configure)
+*** 用户身份切换: su & sudo
+    : Linux 系统当中，作身份变换，可能有以下几个原因：
+    - 使用一般账号：系统平日操作的好习惯
+    - 用较低权限启动系统服务
+    - 软件本身的限制
+
+    : su 是最简单的身份切换命令。
+    : # su [options] [username]
+    -：单纯使用 - 如『 su - 』代表使用 login-shell 的变量文件读取方式来登陆系统；若使用者名称没有加上去，则代表切换为 root 的身份。
+    -l：与 - 类似，但后面需要加欲切换的使用者账号！也是 login-shell 的方式。
+    -m：-m 与 -p 是一样的，表示『使用目前的环境配置，而不读取新使用者的配置文件』
+    -c：仅进行一次命令，所以 -c 后面可以加上命令喔！
+
+    : 针对 su 的缺点：当我的主机是多人共管的环境时，如果大家都要使用 su 来切换成为 root 的身份，那么不就每个人都得要知道 root 的口令，
+    : 这样很不妥当，所以使用 sudo 来处理即可。
+    : 并非所有人都能够运行 sudo ， 而是仅有规范到 /etc/sudoers 内的用户才能够运行 sudo 这个命令。
 *** Wifi连接配置（configure）
     : 完成安装第一步，当然是先解决网络。
 
@@ -572,89 +588,24 @@ photos:
      : 查看命令类型(Display information about command type)
 * Linux 文件、目录与磁盘格式
 ** Linux 文件权限
-*** Linux 的安全性
-    1. /etc/passwd
-       : $ cat /etc/passwd
-       root:x:0:0:root:/root:/bin/bash
-       daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-       bin:x:2:2:bin:/bin:/usr/sbin/nologin
-       ...
-       zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
-       : /etc/passwd 文件的字段包含如下信息：
-       - 登录用户名
-       - 用户密码
-       - UID
-       - Group ID
-       - 描述
-       - HOME目录位置
-       - 默认shell
-       : /etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-       : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-    2. /etc/shadow
-       : /etc/shadow 文件的每条记录都有9个字段：
-       - 与/etc/passwd文件对应的登录名
-       - 加密后的密码
-       - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
-       - 多少天后才能更改密码
-       - 多少天后必须更改密码
-       - 密码过期前提前多少天提醒用户更改密码
-       - 密码过期后多少天禁用用户帐目
-       - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
-       - 预留字段给将来使用
-    3. 新增、删除和修改用户
-       : 新增用户
-       : $ /usr/sbin/useradd -D
-       - GROUP=100 //新用户被添加到GID为100的公共组
-       - HOME=/home //HOME目录位置
-       - INACTIVE=-1 //密码过期后不会被禁用
-       - EXPIRE= //未被设置过期日期
-       - SHELL=/bin/sh //将sh作为默认shell
-       - SKEL=/etc/skel //会将/etc/skel目录下的内容复制到用户的HOME目录下
-       - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
-       : //用默认系统参数创建一个新用户账户
-       : $ useradd test
-       : //要想在创建用户时改变默认值或默认行为，可以使用命令参数。
-       : $ man useradd
-       : //删除用户
-       : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
-       : $ userdel -r test
-       : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
-       : //修改用户
-       #+CAPTION: 用户账户修改工具
-       | 命令     | 描述                                               |
-       |----------+----------------------------------------------------|
-       | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
-       | passwd   | 修改已有用户的密码                                 |
-       | chpasswd | 从文件中读取登录名密码对，并更新密码               |
-       | chage    | 修改密码的过期时间                                 |
-       | chfn     | 修改用户账户的备注信息                             |
-       | chsh     | 修改用户账户的默认登录shell                        |
-*** 使用 Linux 组
-    1. /etc/group
-       : /etc/group文件有4个字段：
-       - 组名
-       - 组密码
-       - GID
-       - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
-    2. 创建、修改组
-       : $ /usr/sbin/groupadd shared
-       : $ /usr/sbin/groupmod -n sharing shared
 *** 理解文件权限
     1. 使用文件权限符
-       - -文件
-       - d目录
-       - l链接
-       - c字符型设备
-       - b块设备
-       - n网络设备
-       - r可读
-       - w可写
-       - x可执行
-       - 对象所属用户
-       - 对象所属组
-       - 系统其他用户
+       : $ ls -lh
+       drwxr-xr-x 3 zrg zrg 4.0K Apr 21 16:24 练手项目
+       -rw-r--r-- 1 zrg zrg 2.5M Apr 21 11:51 练手项目.rar
+       #+CAPTION: 解释
+       | d                | rwxr-xr-x                                            | 3                            | zrg    | zrg  | 4.0K                 | Apr 21 16:24     | 练手项目 |
+       |------------------+------------------------------------------------------+------------------------------+--------+------+----------------------+------------------+----------|
+       | 文件类型。       | 文件权限。                                           | 对于普通文件：链接数         | 用户名 | 组名 | 文件大小，单位：字节 | 最后修改日期时间 | 文件名   |
+       | d 目录文件       | 从左往右分别代表所有者权限、组用户权限和其他用户权限 | 对于目录文件：第一级子目录数 |        |      |                      |                  |          |
+       | - 普通文件       | r 可读                                               |                              |        |      |                      |                  |          |
+       | l 链接文件       | w 可写                                               |                              |        |      |                      |                  |          |
+       | c 字符型设备文件 | x 可执行                                             |                              |        |      |                      |                  |          |
+       | b 块设备文件     | - 无执行权限                                         |                              |        |      |                      |                  |          |
+       | n 网络设备文件   |                                                      |                              |        |      |                      |                  |          |
+       | s 套接字文件     |                                                      |                              |        |      |                      |                  |          |
     2. 默认文件权限
-       : umask命令用来设置所创建文件和目录的默认权限。
+       : umask 命令用来设置所创建文件和目录的默认权限。
 *** 共享文件
     : Linux 为每个文件和目录存储了3个额外的信息位。
     - 设置用户ID（SUID）
@@ -1703,7 +1654,157 @@ photos:
   #+END_SRC
 * Linux 进阶篇(Advanced)：系统管理
 ** Linux 帐号管理与 ACL 权限控制
-** 磁盘配额(Quota)与进阶文件系统管理 
+*** Linux 账户
+   1. /etc/passwd
+      : $ cat /etc/passwd
+      root:x:0:0:root:/root:/bin/bash
+      daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+      bin:x:2:2:bin:/bin:/usr/sbin/nologin
+      ...
+      zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+      : /etc/passwd 文件的字段包含如下信息：
+      - 登录用户名
+      - 用户密码
+      - UID
+      - Group ID
+      - 描述
+      - HOME目录位置
+      - 默认shell
+      : /etc/passwd文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+      : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+   2. /etc/shadow
+      : /etc/shadow 文件的每条记录都有9个字段：
+      - 与/etc/passwd文件对应的登录名
+      - 加密后的密码
+      - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+      - 多少天后才能更改密码
+      - 多少天后必须更改密码
+      - 密码过期前提前多少天提醒用户更改密码
+      - 密码过期后多少天禁用用户帐目
+      - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+      - 预留字段给将来使用
+   3. 用户管理文件
+      - Home 目录
+	: 超级用户：/root/
+	: 普通用户：/home/zrg/
+      - /var/spool/mail/zrg/
+	: 用户邮箱目录
+      - /etc/skel
+	: 在创建用户时，默认复制该目录下的文件到用户的家目录。
+   4. 新增、删除和修改用户
+      : //新增用户
+      : $ sudo useradd -D
+      : or
+      : $ sudo less /etc/default/useradd
+      : See below, the subsection "Changing the default values".
+      GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
+      HOME=/home //HOME目录位置
+      INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
+      EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
+      SHELL=/bin/sh //将sh作为默认shell
+      SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
+      CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+      : //用上面的默认系统参数创建一个新用户账户
+      : $ sudo useradd test
+      : //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
+      : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+
+      : //删除用户
+      : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+      : $ userdel -r test
+      : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+
+      : //修改用户
+      #+CAPTION: 用户账户修改工具
+      | 命令     | 描述                                               |
+      |----------+----------------------------------------------------|
+      | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+      | passwd   | 修改已有用户的密码                                 |
+      | chpasswd | 从文件中读取登录名密码对，并更新密码               |
+      | chage    | 修改密码的过期时间                                 |
+      | chfn     | 修改用户账户的备注信息                             |
+      | chsh     | 修改用户账户的默认登录shell                        |
+   5. 修改密码
+      : 修改用户密码的命令：passwd
+      -S 查询用户密码的状态，仅root用户可用。
+      -l 暂时锁定用户。仅root用户可用。
+      -u 解锁用户。仅root用户可用。
+      --stdin 通过管道符输出的数据作为用户的密码。
+*** Linux 群组
+    1. /etc/group
+       : /etc/group文件有4个字段：
+       - 组名
+       - 组密码
+       - GID
+       - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
+    2. /etc/gshadow
+       : /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
+       : /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
+       : 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
+       : 这时就要用到用户组密码。
+       
+       : $ sudo less /etc/gshadow
+       组名：用户组的名称，由字母或数字构成。
+       口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+       组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+       组内用户列表：如果有多个成员，用,号分割 ;
+    3. 创建、修改和删除组
+       : $ sudo groupadd shared
+       : $ sudo groupmod -n sharing shared
+       : $ sudo groupdel shared
+    4. 加入组和从组里删除
+       : $ sudo gpasswd -a test tests
+       : $ sudo gpasswd -d test tests
+*** Linux 细部权限规划：ACL 的使用
+**** 什么是 ACL？
+     : ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
+     : ACL 主要可以针对哪些方面来控制权限呢？它主要可以针对几个项目：
+     - 使用者 (user)：可以针对使用者来配置权限；
+     - 群组 (group)：针对群组为对象来配置其权限；
+     - 默认属性 (mask)：还可以针对在该目录下在创建新文件/目录时，规范新数据的默认权限；
+**** 如何开启 ACL？
+     : // 查看分区 ACL 权限是否开启。
+     : $ sudo dumpe2fs -h /dev/sdb1
+     : // 找到"Default mount options"，查看是否有
+
+     : // 临时开启分区 ACL 权限
+     : $ sudo mount -o remount,acl /
+     : // 重新挂载跟分区，并挂载加入 acl 权限。
+     : // 永久开启分区 ACL 权限
+     : $ sudo vim /etc/fstab
+     UUID=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1
+     : // 加入acl。注意：目前多数 Linux 系统 defaults 默认已经支持 acl 开启了，所以只需要添加 defaults 选项就可以了。
+     : $ sudo mount -o remount /
+     : // 重新挂载文件系统或重启系统，使修改生效。
+**** 设定 ACL 权限
+     1. setfacl 命令
+	: 选项与参数：
+	-m ：配置后续的 acl 参数给文件使用，不可与 -x 合用；
+	-x ：删除后续的 acl 参数，不可与 -m 合用；
+	-b ：移除所有的 ACL 配置参数；
+	-k ：移除默认的 ACL 参数，关于所谓的『默认』参数于后续范例中介绍；
+	-R ：递归配置 acl ，亦即包括次目录都会被配置起来；
+	-d ：配置『默认 acl 参数』的意思！只对目录有效，在该目录新建的数据会引用此默认值
+	: 示例：构建听课权限组，为特定用户设定 ACL 权限
+	: # useradd wang
+	: # useradd li
+	: # useradd zhao
+	: # groupadd coursegroup
+	: # mkdir /project
+	: # chown root:coursegroup /project/
+	: # chmod 770 /project
+	: # setfacl -m u:zhao:rwx /project
+	: // setfacl格式：u:使用者:权限
+     2. getfacl 命令
+	: 选项与参数：getfacl 的选项几乎与 setfacl 相同！
+	: 格式: getfacl filename
+     3. 针对有效权限 (effective permission)mask 的设定
+	: 有效权限：使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
+	: 配置规范：『 m:[rwx] 』，例如针对某个文件规范为仅有 rx ：
+	: # setfacl -m m:rx /project/testfile
+     4. 针对默认权限的设定
+	: 配置规范：『 d:[ug]:使用者列表:[rwx] 』
+	: # setfacl -m d:u:zhao:rx /project
 ** 例行性工作排程
 *** 对于 Linux 用户
     : 你肯定希望：

@@ -1,4 +1,4 @@
-#+TITLE:    Shadowsocks+SwitchyOmega
+#+TITLE:    Over the wall with Shadowsocks+SwitchyOmega
 #+AUTHOR:   Rengui Zhao
 #+EMAIL:    zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -16,7 +16,7 @@
 #+BEGIN_EXPORT HTML
 ---
 layout: post
-title: Shadowsocks+SwitchyOmega
+title: Over the wall with Shadowsocks+SwitchyOmega
 author: zrg
 comments: false
 description: As we all know, the walls of the continent have been very high. As a developer, "prison Break"(or "Over the wall") is necessary skill, at least of now. This article focuses on how to cross the maninland of China through shadowsocks to visit the outside world.
@@ -24,6 +24,7 @@ categories:
 - network
 - software
 tags:
+- VPN
 - Shadowsocks
 - SwitchyOmega
 photos:
@@ -31,101 +32,102 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
-: This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
-: 本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
+This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
+
+本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
 # (setq org-export-html-style nil)
 
 #+BEGIN_CENTER 
-  If you have questions, please send email to zrg1390556487@gmail.com.
+If you have questions, please send email to zrg1390556487@gmail.com.
 #+END_CENTER 
 
 * Server
-** To buy server or to register shadowsocks. 
-: "搬瓦工"
-: https://shadowsocks.com
-** Installing and Configuring
-*** Installing pip
-: #yum install python-pip
-or
-: #curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-: #python get-pip.py
-: #pip install --upgrade pip
-*** Installing shadowsocks
-: #pip install shadowsocks
-: #vim /etc/shadowsocks.json
-#+BEGIN_SRC emacs-lisp
-{
-  "server": "server_ip",//server ip address
-  "server_port": 8388,//server port
-  "local_address":"127.0.0.1",//local address
-  "local_port":1080,//local port
-  "port_password":{ //multiple port
-  	"9001":"password9001",
-  	"9002":"password9002",
-  	"9003":"password9003",
-  }
-  "password": "password",//password
-  "method": "aes-256-cfb",//encryption
-  "timeout":600 //timeout
-}
-#+END_SRC
-explanation: 
-: server:server ip address
-: server_port:server port
-: password:use 
-[[http://ucdok.com/project/generate_password.html][password tool]]
-: method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
-*** Configuring auto-start
-: #vim /etc/systemd/system/shadowsocks.service
-#+BEGIN_SRC emacs-lisp
-[Unit]
-Description=Shadowsocks
+** Buy a Cloud Host
+   - 搬瓦工
+   - [[https://www.digitalocean.com][DigitalOcean]]
+** Installing and Configuring Shadowsocks
+   1. Installing pip
+      : # yum install python-pip
+      : or
+      : # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+      : # python get-pip.py
+      : # pip install --upgrade pip
+   2. Installing shadowsocks
+      : #pip install shadowsocks
+      : #vim /etc/shadowsocks.json
+      #+BEGIN_SRC emacs-lisp
+      {
+      	"server": "server_ip",//server ip address
+	"server_port": 8388,//server port
+	"local_address":"127.0.0.1",//local address
+	"local_port":1080,//local port
+	"port_password":{ //multiple port
+  		"9001":"password9001",
+  		"9002":"password9002",
+  		"9003":"password9003",
+           },
+        "password": "password",//password
+	"method": "aes-256-cfb",//encryption
+	"timeout":600 //timeout
+	}
+      #+END_SRC
+      explanation: 
+      : server:server ip address
+      : server_port:server port
+      : password:use 
+      [[http://ucdok.com/project/generate_password.html][password tool]]
+      : method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
+   3. Configuring auto-start
+      : #vim /etc/systemd/system/shadowsocks.service
+      #+BEGIN_SRC emacs-lisp
+   [Unit]
+   Description=Shadowsocks
 
-[Service]
-TimeoutStartSec=0
-ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
+   [Service]
+   TimeoutStartSec=0
+   ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
 
-[Install]
-WantedBy=multi-user.target
-#+END_SRC
-: Start shadowsocks
-: #systemctl enable shadowsocks
-: #systemctl start shadowsocks
-: #systemctl status shadowsocks -l
-*** Install Script
-: $vim install-shadowsocks.sh, content of file from 
-[[https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh][install-shadowsocks.sh]]
-: #chmod +x install-shadowsocks.sh
-: #./install-shadowsocks.sh
+   [Install]
+   WantedBy=multi-user.target
+      #+END_SRC
+      : Start shadowsocks
+      : #systemctl enable shadowsocks
+      : #systemctl start shadowsocks
+      : #systemctl status shadowsocks -l
+   4. Auto install script
+      : $vim install-shadowsocks.sh, content of file from 
+      [[https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh][install-shadowsocks.sh]]
+      : #chmod +x install-shadowsocks.sh
+      : #./install-shadowsocks.sh
 * Client
 ** Linux
-*** Install And Use Shadowsocks Command Line Client on Linux
-1.Linux series
-: Debian/Ubuntu:
-: $sudo apt-get install python-pip
-: $sudo pip install shadowsocks
+*** Install and Use Shadowsocks Command Line Client on Linux
+1. Linux series
+    : Debian/Ubuntu:
+    : $sudo apt-get install python-pip
+    : $sudo pip install shadowsocks
 
-: Fedora/Centos:
-: $sudo yum install python-setuptools   or   sudo dnf install python-setuptools
-: $sudo easy_install pip
-: $sudo pip install shadowsocks
+    : Fedora/Centos:
+    : $sudo yum install python-setuptools   or   sudo dnf install python-setuptools
+    : $sudo easy_install pip
+    : $sudo pip install shadowsocks
 
-: OpenSUSE:
-: $sudo zypper install python-pip
-: $sudo pip install shadowsocks
+    : OpenSUSE:
+    : $sudo zypper install python-pip
+    : $sudo pip install shadowsocks
 
-: Archlinux:
-: $sudo pacman -S python-pip
-: sudo pip install shadowsocks
+    : Archlinux:
+    : $sudo pacman -S python-pip
+    : sudo pip install shadowsocks
 
-: sslocal is the client software and ssserver is the server software. On some Linux distros 
-: such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. 
-: On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command
-: to find the exact location.
-: user@debian:~$ whereis sslocal
-: sslocal: /usr/local/bin/sslocal
-2.vim /etc/shadowsocks.json
-#+BEGIN_SRC emacs-lisp 
+    : sslocal is the client software and ssserver is the server software. On some Linux distros 
+    : such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. 
+    : On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command
+    : to find the exact location.
+    : user@debian:~$ whereis sslocal
+    : sslocal: /usr/local/bin/sslocal
+2. /etc/shadowsocks.json
+    #+BEGIN_SRC emacs-lisp 
 {
 "server":"server-ip",
 "server_port":8000,
@@ -135,26 +137,27 @@ WantedBy=multi-user.target
 "timeout":600,
 "method":"aes-256-cfb"
 }
-#+END_SRC
-: $sudo sslocal -c /etc/shadowsocks.json
+    #+END_SRC
+    : $sudo sslocal -c /etc/shadowsocks.json
 
-: To run in the background
-: $sudo sslocal -c /etc/shadowsocks.json -d start
+    : To run in the background
+    : $sudo sslocal -c /etc/shadowsocks.json -d start
 
-: Auto Start the Client on System Boot
-: $sudo vi /etc/rc.local
-#+BEGIN_SRC emacs-lisp
+    : Auto Start the Client on System Boot
+3. /etc/rc.local
+    : $ sudo vim /etc/rc.local
+    #+BEGIN_SRC emacs-lisp
 sudo sslocal -c /etc/shadowsocks.json -d start
-#+END_SRC
+    #+END_SRC
 
-: Check if It Works
-: #sudo systemctl status rc-local.service
+    : Check if It Works
+    : #sudo systemctl status rc-local.service
 *** Global Proxy
-: 1. $ sudo apt install polipo
-
-: 2. $ sudo vim /etc/polipo/config
-#+NAME: config
-#+BEGIN_SRC shell
+1. Install and Configure polipo
+    : $ sudo apt install polipo
+    : $ sudo vim /etc/polipo/config
+    #+NAME: config
+    #+BEGIN_SRC shell
 logSyslog = true
 logFile = /var/log/polipo/polipo.log
 proxyAddress = "0.0.0.0"
@@ -165,84 +168,83 @@ objectHighMark = 16384
 serverMaxSlots = 64
 serverSlots = 16
 serverSlots1 = 32
-#+END_SRC
-
-: 3. $ sudo systemctl restart polipo
-
-: 4. $ export http_proxy="http://127.0.0.1:8123/"
-: $ export https_proxy="https://127.0.0.1:8123/"
-
-: 5. testing
-: $ curl www.google.com
-*** Problem
+    #+END_SRC
+2. Restart polipo
+    : $ sudo systemctl restart polipo
+3. Export http_proxy and https_proxy
+    : $ export http_proxy="http://127.0.0.1:8123/"
+    : $ export https_proxy="https://127.0.0.1:8123/"
+4. testing
+    : $ curl www.google.com
+*** Solving Problem
 **** ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
-Reason:
-: openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
-Solving:
-: $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
-#+NAME: openssl.py
-#+BEGIN_SRC python
+     [Reason]
+     : openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
+     [Solving]
+     : $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
+     #+NAME: openssl.py
+     #+BEGIN_SRC python
 VIM Command：
 :%s/cleanup/reset/
 :x
-#+END_SRC
+     #+END_SRC
 **** not support "chacha20"
-Solving:
-: $ apt install m2crypto gcc -y
-: $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
-: $ tar zxvf libsodium-1.0.8.tar.gz
-: $ cd libsodium-1.0.8
-: $ sudo ./configure
-: $ sudo make && make install
-: $ sudo echo "include ld.so.conf.d/*.conf" > /etc/ld.so.conf
-: $ sudo echo "/lib" >> /etc/ld.so.conf
-: $ sudo echo "/usr/lib64" >> /etc/ld.so.conf
-: $ sudo echo "/usr/local/lib" >> /etc/ld.so.conf
-: $ sudo ldconfig
+     [Solving]
+     : $ apt install m2crypto gcc -y
+     : $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
+     : $ tar zxvf libsodium-1.0.8.tar.gz
+     : $ cd libsodium-1.0.8
+     : $ sudo ./configure
+     : $ sudo make && make install
+     : $ sudo echo "include ld.so.conf.d/*.conf" > /etc/ld.so.conf
+     : $ sudo echo "/lib" >> /etc/ld.so.conf
+     : $ sudo echo "/usr/lib64" >> /etc/ld.so.conf
+     : $ sudo echo "/usr/local/lib" >> /etc/ld.so.conf
+     : $ sudo ldconfig
 ** Windows
-*** Dowload win-client
-[[https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks][Dowload1]]
-[[http://pan.baidu.com/s/1miLpEkS][Dowload2]] 密码：jnfr
+*** Download
+- [[https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks][Dowload1]]
+- [[http://pan.baidu.com/s/1miLpEkS][Dowload2]] 密码：jnfr
 *** Configure
-: 1.unzip
-[[file:{{site.url}}/assets/images/shadowsocks-20170123111438.png]]
-: 2.running
-[[file:{{site.url}}/assets/images/shadowsocks-20170123111902.png]]
+1. unzip
+    [[file:{{site.url}}/assets/images/shadowsocks-20170123111438.png]]
+2. running
+    [[file:{{site.url}}/assets/images/shadowsocks-20170123111902.png]]
 
-[[file:{{site.url}}/assets/images/shadowsocks-20170123111953.png]]
-: 3.proxy
-[[file:{{site.url}}/assets/images/shadowsocks-20170123112126.png]]
+    [[file:{{site.url}}/assets/images/shadowsocks-20170123111953.png]]
+3. proxy
+    [[file:{{site.url}}/assets/images/shadowsocks-20170123112126.png]]
 ** Android
-: Download
-[[http://pan.baidu.com/s/1nuXO9KX][apk]] 5n8v
-
-[[file:{{site.url}}/assets/images/shadowsocks-20170123141118.png]]
+*** Download
+   [[http://pan.baidu.com/s/1nuXO9KX][download location]] 密码：5n8v
+*** Configure
+   [[file:{{site.url}}/assets/images/shadowsocks-20170123141118.png]]
 ** IOS
-: 1.Open "App Store", To search "shadowrocket". Current price: ￥12
-: 2.Add server configure. Okay.
+1. Open "App Store", To search "shadowrocket". Current price: ￥12
+2. Add server configure. Okay.
 ** Mac OS X
-[[https://github.com/shadowsocks/ShadowsocksX-NG/releases][Download Address]]
+   [[https://github.com/shadowsocks/ShadowsocksX-NG/releases][Download Location]]
 * Browser Plugin: SwitchyOmega
-** Add SwitchyOmega plugin 
-[[https://github.com/FelisCatus/SwitchyOmega/releases/][Dowload Address]]
-** Configure SwitchyOmega
-1.setting proxy
-2.auto switch
-: Add rule.
-3.rule list setting
-: rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
-: or
-: https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+** Download
+   [[https://github.com/FelisCatus/SwitchyOmega/releases/][Dowload Location]]
+** Configure
+   1. setting proxy
+   2. auto switch
+      : Add rule.
+   3. rule list setting
+      : rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
+      : or
+      : https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
 * References
-+ https://zh.wikipedia.org/zh-hans/Shadowsocks
-+ https://shadowsocks.com
-+ http://shadowsocks.org/
-+ [[http://morning.work/page/2015-12/install-shadowsocks-on-centos-7.html][在 CentOS 7 下安装配置 shadowsocks]]
-+ [[https://www.linuxbabe.com/desktop-linux/how-to-install-and-use-shadowsocks-command-line-client][Install And Use Shadowsocks Command Line Client on Linux]]
-+ [[https://doub.io/ss-jc10/][ShadowsocksR 客户端 小白使用教程]]
-+ [[https://kionf.com/2016/12/15/errornote-ss/][ShadowSocks启动报错undefined symbol EVP_CIPHER_CTX_cleanup]]
-+ [[https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList][SwitchyOmega]]
-+ [[https://doub.io/ss-jc25/][IOS系统推荐几款支持Shadowsocks的代理软件]]
-+ [[http://www.jeyzhang.com/how-to-install-and-setup-shadowsocks-client-in-different-os.html][各种系统下Shadowsocks客户端的安装与配置]]
-+ [[https://www.jianshu.com/p/41378f4e14bc][linux 配置shadowsocks代理全局代理]]
-+ [[https://blog.csdn.net/guizaijianchic/article/details/78422811][linux ubuntu下使用ss设置全局代理,命令行也走代理]]
+  + https://zh.wikipedia.org/zh-hans/Shadowsocks
+  + https://shadowsocks.com
+  + http://shadowsocks.org/
+  + [[http://morning.work/page/2015-12/install-shadowsocks-on-centos-7.html][在 CentOS 7 下安装配置 shadowsocks]]
+  + [[https://www.linuxbabe.com/desktop-linux/how-to-install-and-use-shadowsocks-command-line-client][Install And Use Shadowsocks Command Line Client on Linux]]
+  + [[https://doub.io/ss-jc10/][ShadowsocksR 客户端 小白使用教程]]
+  + [[https://kionf.com/2016/12/15/errornote-ss/][ShadowSocks启动报错undefined symbol EVP_CIPHER_CTX_cleanup]]
+  + [[https://github.com/FelisCatus/SwitchyOmega/wiki/GFWList][SwitchyOmega]]
+  + [[https://doub.io/ss-jc25/][IOS系统推荐几款支持Shadowsocks的代理软件]]
+  + [[http://www.jeyzhang.com/how-to-install-and-setup-shadowsocks-client-in-different-os.html][各种系统下Shadowsocks客户端的安装与配置]]
+  + [[https://www.jianshu.com/p/41378f4e14bc][linux 配置shadowsocks代理全局代理]]
+  + [[https://blog.csdn.net/guizaijianchic/article/details/78422811][linux ubuntu下使用ss设置全局代理,命令行也走代理]]
