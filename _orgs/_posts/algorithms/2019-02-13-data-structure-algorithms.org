@@ -99,28 +99,6 @@ photos:
 * 堆
 * 图
 * 排序算法
-** 选择排序
-** 插入排序(InsertSort)
-*** 介绍(Instoduction)
-*** 伪代码(pseudo code)
-    #+BEGIN_SRC emacs-lisp
-for j=2 to A.length
-    key=A[j];
-    //Insert A[j] into the sorted sequence A[1..j-1]
-    i=j-1
-    while i>0 and A[i]>key
-         A[i+1]=A[i]
-         i=i-1
-    A[i+1]=key
-    #+END_SRC
-*** 实现(realization)
-    #+BEGIN_SRC
-
-    #+END_SRC 
-*** 分而治之(divideand-conquer) 
-    #+BEGIN_SRC emacs-lisp
-
-    #+END_SRC
 ** 冒泡排序(BubbleSort)
 *** 介绍(Introduction)
     *en*
@@ -137,6 +115,12 @@ for i = 1 to A.length - 1
         if A[j] < A[j-1]   
             exchange A[j] with A[j - 1]
     #+END_SRC
+*** 时间复杂度和稳定性
+    : 冒泡排序的时间复杂度是O(N2)。
+    : 假设被排序的数列中有N个数。遍历一趟的时间复杂度是O(N)，需要遍历多少次呢？N-1次！因此，冒泡排序的时间复杂度是O(N2)。
+    
+    : 冒泡排序是稳定的算法，它满足稳定算法的定义。
+    : 算法稳定性 -- 假设在数列中存在a[i]=a[j]，若在排序之前，a[i]在a[j]前面；并且排序之后，a[i]仍然在a[j]前面。则这个排序算法是稳定的！
 *** 实现(realization)
     *C*
     #+CAPTION:C
@@ -218,11 +202,55 @@ function BubbleSort($arr){
     #+END_SRC
 ** 快速排序(QuickSort)
 *** 介绍(Introduction)
+    *cn*
     : 快速排序(Quick Sort)使用分治法策略。
     : 基本思想是：选择一个基准数，通过一趟排序将要排序的数据分割成独立的两部分；其中一部分的所有数据都比另外
     : 一部分的所有数据都要小。然后，再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此
     : 达到整个数据变成有序序列。
+    
+    : 快速排序流程：
+    : (1) 从数列中挑出一个基准值。
+    : (2) 将所有比基准值小的摆放在基准前面，所有比基准值大的摆在基准的后面(相同的数可以到任一边)；在这个分区退出之后，该基准就处于数列的中间位置。
+    : (3) 递归地把"基准值前面的子数列"和"基准值后面的子数列"进行排序。
+*** 伪代码(pseudo code)
+*** 时间复杂度和稳定
+    : 快速排序的时间复杂度在最坏情况下是O(N2)，平均的时间复杂度是O(N*lgN)。 
+    : 这句话很好理解：假设被排序的数列中有N个数。遍历一次的时间复杂度是O(N)，需要遍历多少次呢？至少lg(N+1)次，最多N次。
+    : (01) 为什么最少是lg(N+1)次？快速排序是采用的分治法进行遍历的，我们将它看作一棵二叉树，它需要遍历的次数就是二叉树的深度，而根据完全二叉树的定义，它的深度至少是lg(N+1)。因此，快速排序的遍历次数最少是lg(N+1)次。
+    : (02) 为什么最多是N次？这个应该非常简单，还是将快速排序看作一棵二叉树，它的深度最大是N。因此，快读排序的遍历次数最多是N次。
 
+    : 快速排序是不稳定的算法，它不满足稳定算法的定义。
+*** 实现(realization)
+    *C*
+    #+BEGIN_SRC C
+    /**
+    * arr -- 待排序的数组
+    * left -- 数组的左边界
+    * right -- 数组的右边界
+    */
+    void quick_sort(int arr[],int left,int right){
+    	if(left < right){
+		int i,j,k;
+		i = left;
+		j = right;
+		k = arr[i];
+		while(i < j){
+			while(i < j && arr[j] > k){
+				j--; // 从右往左找一个小于 k 的数
+			}
+			if(i < j){
+				arr[i++] = arr[j];
+			}
+			while(i<j && arr[i] < k){
+				i++; // 从左往右找第一个大于 k 的数
+			}
+		}
+		arr[i] = k;
+		quick_sort(arr,left,i-1);
+		quick_sort(arr,i+1,right);
+	}
+    }
+    #+END_SRC
     *Java*
     #+BEGIN_SRC java
 
@@ -231,6 +259,28 @@ function BubbleSort($arr){
     #+BEGIN_SRC shell
     
     #+END_SRC
+** 插入排序(InsertSort)
+*** 介绍(Instoduction)
+*** 伪代码(pseudo code)
+    #+BEGIN_SRC emacs-lisp
+for j=2 to A.length
+    key=A[j];
+    //Insert A[j] into the sorted sequence A[1..j-1]
+    i=j-1
+    while i>0 and A[i]>key
+         A[i+1]=A[i]
+         i=i-1
+    A[i+1]=key
+    #+END_SRC
+*** 实现(realization)
+    #+BEGIN_SRC
+
+    #+END_SRC 
+*** 分而治之(divideand-conquer) 
+    #+BEGIN_SRC emacs-lisp
+
+    #+END_SRC
+** 选择排序
 ** 希尔排序
 ** 归并排序
 ** 基数排序
