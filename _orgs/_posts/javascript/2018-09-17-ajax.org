@@ -34,25 +34,25 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 # (setq org-export-html-style nil)
 
-* Ajax 简单介绍
+* AJAX 简介
 : 全称：Asynchronous Javascript and XML，由 Javascript+CSS+DOM+XMLHttpRequest+XSTL+XHTML+XML 七种技术组成，其中技术核心是 XMLHttpRequest。
 ** 同步和异步
 : 同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。
 : 异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。
-* XMLHttpRequest 对象
+* XMLHttpRequest
 #+CAPTION: Ajax 原生代码示例
 #+BEGIN_SRC javascript
 var ajax = {
 	get:function(url,func){
-    // XMLHttpRequest对象用于在后台与服务器交换数据   
-    var xhr = new XMLHttpRequest();            
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function() {
-      // readyState == 4说明请求已完成
-      if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) { 
-        // 从服务器获得数据 
-        fn.call(this, xhr.responseText);  
-      }
+        // XMLHttpRequest 用于在后台与服务器交换数据   
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+        // readyState == 4 说明请求已完成
+        if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) { 
+        	// 从服务器获得数据
+              fn.call(this, xhr.responseText);  
+        }
     };
     xhr.send();
   },
@@ -60,7 +60,7 @@ var ajax = {
   post: function (url, data, fn) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
-    // 添加http头，发送信息至服务器时内容编码类型
+    // 添加 http 头，发送信息至服务器时内容编码类型
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");  
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
@@ -112,6 +112,17 @@ $.ajax({
   }
 });
 #+END_SRC
+** 常见的 POST 提交数据方式
+1. application/x-www-form-urlencoded
+   : 浏览器的原生 <form> 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。
+2. multipart/form-data
+   : 一般用来上传文件
+3. application/json
+   : 该方案可以方便的提交复杂的数据结构，特别适合 RESTful 的接口。
+4. text/xml
+   : XML 结构传输。
+   : XML-RPC（XML Remote Procedure Call），它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。它的使用也很
+   : 广泛，如 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等。
 ** 提交 Form 表单(包括文件上传)
 *** 常规方法
 #+CAPTION: 一般是这样的

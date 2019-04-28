@@ -15,8 +15,8 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-org83a0527" class="outline-2">
-<h2 id="org83a0527"><span class="section-number-2">1</span> Ajax 简单介绍</h2>
+<div id="outline-container-orge60be4d" class="outline-2">
+<h2 id="orge60be4d"><span class="section-number-2">1</span> AJAX 简介</h2>
 <div class="outline-text-2" id="text-1">
 <pre class="example">
 全称：Asynchronous Javascript and XML，由 Javascript+CSS+DOM+XMLHttpRequest+XSTL+XHTML+XML 七种技术组成，其中技术核心是 XMLHttpRequest。
@@ -34,21 +34,21 @@ tags:
 </div>
 </div>
 </div>
-<div id="outline-container-org9a8bcd8" class="outline-2">
-<h2 id="org9a8bcd8"><span class="section-number-2">2</span> XMLHttpRequest 对象</h2>
+<div id="outline-container-org900aab2" class="outline-2">
+<h2 id="org900aab2"><span class="section-number-2">2</span> XMLHttpRequest</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span>Ajax 原生代码示例</label><pre class="src src-javascript"><span style="color: #a020f0;">var</span> <span style="color: #a0522d;">ajax</span> = {
         <span style="color: #0000ff;">get</span>:<span style="color: #a020f0;">function</span>(<span style="color: #a0522d;">url</span>,<span style="color: #a0522d;">func</span>){
-    <span style="color: #b22222;">// </span><span style="color: #b22222;">XMLHttpRequest&#23545;&#35937;&#29992;&#20110;&#22312;&#21518;&#21488;&#19982;&#26381;&#21153;&#22120;&#20132;&#25442;&#25968;&#25454;   </span>
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">xhr</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">XMLHttpRequest</span>();            
-    xhr.open(<span style="color: #8b2252;">'GET'</span>, url, <span style="color: #008b8b;">true</span>);
-    xhr.onreadystatechange = <span style="color: #a020f0;">function</span>() {
-      <span style="color: #b22222;">// </span><span style="color: #b22222;">readyState == 4&#35828;&#26126;&#35831;&#27714;&#24050;&#23436;&#25104;</span>
-      <span style="color: #a020f0;">if</span> (xhr.readyState == 4 &amp;&amp; xhr.status == 200 || xhr.status == 304) { 
-        <span style="color: #b22222;">// </span><span style="color: #b22222;">&#20174;&#26381;&#21153;&#22120;&#33719;&#24471;&#25968;&#25454; </span>
-        fn.call(<span style="color: #008b8b;">this</span>, xhr.responseText);  
-      }
+        <span style="color: #b22222;">// </span><span style="color: #b22222;">XMLHttpRequest &#29992;&#20110;&#22312;&#21518;&#21488;&#19982;&#26381;&#21153;&#22120;&#20132;&#25442;&#25968;&#25454;   </span>
+        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">xhr</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">XMLHttpRequest</span>();
+        xhr.open(<span style="color: #8b2252;">'GET'</span>, url, <span style="color: #008b8b;">true</span>);
+        xhr.onreadystatechange = <span style="color: #a020f0;">function</span>() {
+        <span style="color: #b22222;">// </span><span style="color: #b22222;">readyState == 4 &#35828;&#26126;&#35831;&#27714;&#24050;&#23436;&#25104;</span>
+        <span style="color: #a020f0;">if</span> (xhr.readyState == 4 &amp;&amp; xhr.status == 200 || xhr.status == 304) { 
+                <span style="color: #b22222;">// </span><span style="color: #b22222;">&#20174;&#26381;&#21153;&#22120;&#33719;&#24471;&#25968;&#25454;</span>
+              fn.call(<span style="color: #008b8b;">this</span>, xhr.responseText);  
+        }
     };
     xhr.send();
   },
@@ -56,7 +56,7 @@ tags:
   <span style="color: #0000ff;">post</span>: <span style="color: #a020f0;">function</span> (<span style="color: #a0522d;">url</span>, <span style="color: #a0522d;">data</span>, <span style="color: #a0522d;">fn</span>) {
     <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">xhr</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">XMLHttpRequest</span>();
     xhr.open(<span style="color: #8b2252;">"POST"</span>, url, <span style="color: #008b8b;">true</span>);
-    <span style="color: #b22222;">// </span><span style="color: #b22222;">&#28155;&#21152;http&#22836;&#65292;&#21457;&#36865;&#20449;&#24687;&#33267;&#26381;&#21153;&#22120;&#26102;&#20869;&#23481;&#32534;&#30721;&#31867;&#22411;</span>
+    <span style="color: #b22222;">// </span><span style="color: #b22222;">&#28155;&#21152; http &#22836;&#65292;&#21457;&#36865;&#20449;&#24687;&#33267;&#26381;&#21153;&#22120;&#26102;&#20869;&#23481;&#32534;&#30721;&#31867;&#22411;</span>
     xhr.setRequestHeader(<span style="color: #8b2252;">"Content-Type"</span>, <span style="color: #8b2252;">"application/x-www-form-urlencoded"</span>);  
     xhr.onreadystatechange = <span style="color: #a020f0;">function</span>() {
       <span style="color: #a020f0;">if</span> (xhr.readyState == 4 &amp;&amp; (xhr.status == 200 || xhr.status == 304)) {
@@ -118,13 +118,50 @@ tags:
 </div>
 </div>
 </div>
-<div id="outline-container-orge6b99d6" class="outline-3">
-<h3 id="orge6b99d6"><span class="section-number-3">3.2</span> 提交 Form 表单(包括文件上传)</h3>
+<div id="outline-container-org3fbdae6" class="outline-3">
+<h3 id="org3fbdae6"><span class="section-number-3">3.2</span> 常见的 POST 提交数据方式</h3>
 <div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li><p>
+application/x-www-form-urlencoded
+</p>
+<pre class="example">
+浏览器的原生 &lt;form&gt; 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。
+
+</pre></li>
+<li><p>
+multipart/form-data
+</p>
+<pre class="example">
+一般用来上传文件
+
+</pre></li>
+<li><p>
+application/json
+</p>
+<pre class="example">
+该方案可以方便的提交复杂的数据结构，特别适合 RESTful 的接口。
+
+</pre></li>
+<li><p>
+text/xml
+</p>
+<pre class="example">
+XML 结构传输。
+XML-RPC（XML Remote Procedure Call），它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。它的使用也很
+广泛，如 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等。
+
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge6b99d6" class="outline-3">
+<h3 id="orge6b99d6"><span class="section-number-3">3.3</span> 提交 Form 表单(包括文件上传)</h3>
+<div class="outline-text-3" id="text-3-3">
 </div>
 <div id="outline-container-org700c795" class="outline-4">
-<h4 id="org700c795"><span class="section-number-4">3.2.1</span> 常规方法</h4>
-<div class="outline-text-4" id="text-3-2-1">
+<h4 id="org700c795"><span class="section-number-4">3.3.1</span> 常规方法</h4>
+<div class="outline-text-4" id="text-3-3-1">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 3: </span>一般是这样的</label><pre class="src src-js">$.ajax({
         url:<span style="color: #8b2252;">"${pageContext.request.contextPath}/public/testupload"</span>,
@@ -151,8 +188,8 @@ tags:
 </div>
 </div>
 <div id="outline-container-org29756f7" class="outline-4">
-<h4 id="org29756f7"><span class="section-number-4">3.2.2</span> 使用 FormData 对象</h4>
-<div class="outline-text-4" id="text-3-2-2">
+<h4 id="org29756f7"><span class="section-number-4">3.3.2</span> 使用 FormData 对象</h4>
+<div class="outline-text-4" id="text-3-3-2">
 <p>
 // 下面就介绍提高开发效率的方法
 </p>
@@ -186,8 +223,8 @@ $.ajax({
 </div>
 </div>
 <div id="outline-container-org377090b" class="outline-4">
-<h4 id="org377090b"><span class="section-number-4">3.2.3</span> 使用 jQuery.form.js</h4>
-<div class="outline-text-4" id="text-3-2-3">
+<h4 id="org377090b"><span class="section-number-4">3.3.3</span> 使用 jQuery.form.js</h4>
+<div class="outline-text-4" id="text-3-3-3">
 <pre class="example">
 具体参考https://github.com/jquery-form/form
 
