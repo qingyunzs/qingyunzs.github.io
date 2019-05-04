@@ -39,8 +39,8 @@ In common with other varieties of Emacs, GNU Emacs is extensible using a Turing 
 </pre>
 </div>
 </div>
-<div id="outline-container-orgd04b386" class="outline-2">
-<h2 id="orgd04b386"><span class="section-number-2">2</span> 快捷键(Keyboard)</h2>
+<div id="outline-container-org7db7907" class="outline-2">
+<h2 id="org7db7907"><span class="section-number-2">2</span> 快捷键(Keyboard)</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 <div id="outline-container-org10ef953" class="outline-3">
@@ -1154,7 +1154,7 @@ All lines between these markers are exported literally
 <li><p>
 快捷键
 </p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
 <caption class="t-above"><span class="table-number">Table 7:</span> 整体区域</caption>
 
 <colgroup>
@@ -1273,7 +1273,7 @@ All lines between these markers are exported literally
 <caption class="t-above"><span class="table-number">Table 9:</span> 一张价格表，要求算出总额</caption>
 
 <colgroup>
-<col  class="org-right" />
+<col  class="org-left" />
 
 <col  class="org-right" />
 
@@ -1281,39 +1281,49 @@ All lines between these markers are exported literally
 </colgroup>
 <thead>
 <tr>
-<th scope="col" class="org-right">数量</th>
+<th scope="col" class="org-left">数量</th>
 <th scope="col" class="org-right">单价</th>
 <th scope="col" class="org-right">总额</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="org-right">2</td>
+<td class="org-left">2</td>
 <td class="org-right">3.45</td>
 <td class="org-right">6.9</td>
 </tr>
 
 <tr>
-<td class="org-right">4</td>
+<td class="org-left">4</td>
 <td class="org-right">4.34</td>
 <td class="org-right">17.36</td>
 </tr>
 
 <tr>
-<td class="org-right">5</td>
+<td class="org-left">5</td>
 <td class="org-right">3.44</td>
 <td class="org-right">17.2</td>
 </tr>
 
 <tr>
-<td class="org-right">5</td>
+<td class="org-left">5</td>
 <td class="org-right">5.6</td>
 <td class="org-right">28.</td>
 </tr>
 </tbody>
 </table>
 <pre class="example">
-’C-u C-c C-c’强制org mode为整个表格进行计。只希望在某一特定项上进行计算，输入：':=$1*$2′, 即在等号前再加一个冒号。
+C-u C-c C-c 强制org mode为整个表格进行计。只希望在某一特定项上进行计算，输入：':=$1*$2′, 即在等号前再加一个冒号。
+
+</pre>
+
+<pre class="example">
+&lt;5&gt; 表示指定列的宽度，超出宽度的部分会用=&gt;表示，如果想要编辑，需要按下C-c ` ，会打开另一个buffer让你编辑, 用C-c C-c提交编辑内容。
+
+</pre>
+
+<pre class="example">
+&lt;l&gt; 表示左对齐，r,c,l字符分别表示右、中和左对齐。
 
 </pre></li>
 <li></li>
@@ -2273,8 +2283,8 @@ Beta版本的活动图简化了活动图的符号定义，从 V7947 这个版本
 </li>
 </ol>
 </div>
-<div id="outline-container-org7db7907" class="outline-4">
-<h4 id="org7db7907"><span class="section-number-4">4.4.4</span> 快捷键(Keyboard)</h4>
+<div id="outline-container-org8fb6443" class="outline-4">
+<h4 id="org8fb6443"><span class="section-number-4">4.4.4</span> 快捷键(Keyboard)</h4>
 <div class="outline-text-4" id="text-4-4-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 11:</span> Default key bindings</caption>
@@ -2311,12 +2321,12 @@ Beta版本的活动图简化了活动图的符号定义，从 V7947 这个版本
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe1cb6f" class="outline-2">
-<h2 id="orgbe1cb6f"><span class="section-number-2">5</span> 问题解决</h2>
+<div id="outline-container-orgeb1561e" class="outline-2">
+<h2 id="orgeb1561e"><span class="section-number-2">5</span> 问题解决(Solving Problem)</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgf9fff1c" class="outline-3">
-<h3 id="orgf9fff1c"><span class="section-number-3">5.1</span> emacs不能输入中文</h3>
+<div id="outline-container-org918a90a" class="outline-3">
+<h3 id="org918a90a"><span class="section-number-3">5.1</span> emacs 不能输入中文(Don't input chinese character)</h3>
 <div class="outline-text-3" id="text-5-1">
 <pre class="example">
 //编辑~/.bashrc文件，加入如下内容：
@@ -2331,6 +2341,35 @@ $ sudo vim /etc/environment
 LC_CTYPE="zh_CN.utf8"
 
 </pre>
+</div>
+</div>
+<div id="outline-container-org8a313cb" class="outline-3">
+<h3 id="org8a313cb"><span class="section-number-3">5.2</span> Warning (server): Unable to start the Emacs server</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+<b>问题描述</b>
+Warning (server): Unable to start the Emacs server
+There is an existing Emacs server, named "server".
+To start the server in this Emacs process, stop the existing
+server or call ‘M-x server-force-delete’ to forcibly disconnect it.
+<b>问题解决</b>
+</p>
+<pre class="example">
+打开 init.el 或 .emacs 文件，注释以下代码：
+（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell">(server-start)
+(setq server-socket-dir <span style="color: #8b2252;">"~/.emacs.d/server"</span>)
+</pre>
+</div>
+<p>
+<b>参考资料</b>
+</p>
+<ul class="org-ul">
+<li><a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html">39 Using Emacs as a Server</a></li>
+</ul>
 </div>
 </div>
 </div>
