@@ -1,0 +1,489 @@
+#+TITLE:     加密算法
+#+AUTHOR:    Zhao Rengui
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: 加密算法
+author: zrg
+comments: false
+description: 加密算法介绍
+categories:
+- algorithms
+tags:
+- Encrypt
+- 加密
+photos:
+---
+#+END_EXPORT
+ 
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 前言
+: 加密算法是密码技术的核心，有些算法已经遭到破译，有些安全度不高，有些强度不明，有些待进—步分析，有些需要深入
+: 研究，而神秘的加密算法世界，又会有新的成员加入，期待更安全的算法诞生。
+* 对称加密算法
+** 说明
+: 在对称加密算法中，加密使用的密钥和解密使用的密钥是相同的。也就是说，加密和解密都是使用的同一个密钥。因此对称
+: 加密算法要保证安全性的话，密钥要做好保密，只能让使用的人知道，不能对外公开。
+
+: 「密钥」，一般就是一个字符串或数字，在加密或者解密时传递给加密/解密算法。
+
+: 常见的对称加密算法：DES、3DES、DESX、Blowfish、IDEA、RC4、RC5、RC6和AES
+** AES
+*** 简介
+ : AES加密算法是密码学中的高级加密标准，该加密算法采用对称分组密码体制，密钥长度的最少支持为128、192、256，
+ : 分组长度128位，算法应易于各种硬件和软件实现。这种加密算法是美国联邦政府采用的区块加密标准，这个标准用来替
+ : 代原先的DES，已经被多方分析且广为全世界所使用。
+
+ : AES加密算法被设计为支持128／192／256位（/32=nb)数据块大小（即分组长度）；支持128／192／256位（/32=nk)
+: 密码长度，在10进制里，对应34×1038、62×1057、1.1×1077个密钥。
+** DES
+*** 简介
+ : DES加密算法是一种分组密码，以64位为分组对数据加密，它的密钥长度是56位，加密解密用同一算法。
+
+ : DES加密算法是对密钥进行保密，而公开算法，包括加密和解密算法。这样，只有掌握了和发送方相同密钥的人才能解读
+ : 由DES加密算法加密的密文数据。因此，破译DES加密算法实际上就是搜索密钥的编码。
+
+ : 对于56位长度的密钥来说，如果用穷举法来进行搜索的话，其运算次数为256。随着计算机系统能力的不断发展，DES的安
+ : 全性比它刚出现时会弱得多，然而从非关键性质的实际出发，仍可以认为它是足够的。不过，DES现在仅用于旧系统的鉴
+ : 定，而更多地选择新的加密标准。
+*** C# Code
+ #+BEGIN_SRC emacs-lisp
+ #region DES加密解密
+ /// <summary>
+ /// DES加密
+ /// </summary>
+ /// <param name="data">加密数据</param>
+ /// <param name="key">8位字符的密钥字符串</param>
+ /// <param name="iv">8位字符的初始化向量字符串</param>
+ /// <returns></returns>
+ public static string DESEncrypt(string data, string key, string iv)
+ {
+     byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key);
+     byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv);
+    
+     DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
+     int i = cryptoProvider.KeySize;
+     MemoryStream ms = new MemoryStream();
+     CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateEncryptor(byKey, byIV), CryptoStreamMode.Write);
+ 
+     StreamWriter sw = new StreamWriter(cst);
+     sw.Write(data);
+     sw.Flush();
+     cst.FlushFinalBlock();
+     sw.Flush();
+     return Convert.ToBase64String(ms.GetBuffer(), 0, (int)ms.Length);
+ }
+
+ /// <summary>
+ /// DES解密
+ /// </summary>
+ /// <param name="data">解密数据</param>
+ /// <param name="key">8位字符的密钥字符串(需要和加密时相同)</param>
+ /// <param name="iv">8位字符的初始化向量字符串(需要和加密时相同)</param>
+ /// <returns></returns>
+ public static string DESDecrypt(string data, string key, string iv)
+ {
+     byte[] byKey = System.Text.ASCIIEncoding.ASCII.GetBytes(key);
+     byte[] byIV = System.Text.ASCIIEncoding.ASCII.GetBytes(iv);
+    
+     byte[] byEnc;
+     try
+     {
+         byEnc = Convert.FromBase64String(data);
+     }
+     catch
+     {
+         return null;
+     }
+    
+     DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
+     MemoryStream ms = new MemoryStream(byEnc);
+     CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateDecryptor(byKey, byIV), CryptoStreamMode.Read);
+     StreamReader sr = new StreamReader(cst);
+     return sr.ReadToEnd();
+ }
+ #endregion
+ #+END_SRC
+** 3DES
+*** C# Code
+ #+BEGIN_SRC emacs-lisp
+ #region 3DES 加密解密
+ public static string DES3Encrypt(string data, string key)
+ {
+    TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider();
+   
+    DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+    DES.Mode = CipherMode.CBC;
+    DES.Padding = PaddingMode.PKCS7;
+   
+    ICryptoTransform DESEncrypt = DES.CreateEncryptor();
+   
+    byte[] Buffer = ASCIIEncoding.ASCII.GetBytes(data);
+    return Convert.ToBase64String(DESEncrypt.TransformFinalBlock(Buffer, 0, Buffer.Length));
+ }
+
+ public static string DES3Decrypt(string data, string key)
+ {
+     TripleDESCryptoServiceProvider DES = new TripleDESCryptoServiceProvider();
+ 
+     DES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+     DES.Mode = CipherMode.CBC;
+     DES.Padding = System.Security.Cryptography.PaddingMode.PKCS7;
+    
+     ICryptoTransform DESDecrypt = DES.CreateDecryptor();
+    
+     string result = "";
+     try
+     {
+         byte[] Buffer = Convert.FromBase64String(data);
+         result = ASCIIEncoding.ASCII.GetString(DESDecrypt.TransformFinalBlock(Buffer, 0, Buffer.Length));
+     }
+     catch (Exception e)
+     {
+    
+     }
+     return result;
+ }
+ #endregion
+ #+END_SRC
+* 非对称加密算法
+** 说明
+: 非对称加密算法采用「公钥密码体制(public-key cryptography)」，公钥密码体制分为三部分公钥、私钥、加密解密算法，
+: 它的加密解密过程如下： 
+- 加密：通过加密算法和公钥对内容(或者说明文)进行加密，得到密文。加密过程需要用到公钥。 
+- 解密：通过解密算法和私钥对密文进行解密，得到明文。解密过程需要用到解密算法和私钥。注意，由公钥加密的内容，只能由私钥进行解密，也就是说，由公钥加密的内容，如果不知道私钥，是无法解密的。 
+: 公钥密码体制的公钥和算法都是公开的(这是为什么叫公钥密码体制的原因)，私钥是保密的。大家都以使用公钥进行加密，
+: 但是只有私钥的持有者才能解密。在实际的使用中，有需要的人会生成一对公钥和私钥，把公钥发布出去给别人使用，自
+: 己保留私钥。
+
+: 常见的非对称加密算法：RSA、ECC（移动设备用）、Diffie-Hellman、El Gamal、DSA（数字签名用）
+** RSA
+*** 简介
+: RSA(Rivest–Shamir–Adleman)加密算法是目前最有影响力的公钥加密算法，并且被普遍认为是目前最优秀的公钥方案之一。
+: RSA是第一个能同时用于加密和数宇签名的算法，它能够抵抗到目前为止已知的所有密码攻击，已被ISO推荐为公钥数据加密标准。
+
+: RSA加密算法基于一个十分简单的数论事实：将两个大素数相乘十分容易，但那时想要对其乘积进行因式分解却极其困难，因此可
+: 以将乘积公开作为加密密钥。
+
+: RSA密码体制是一种公钥密码体制，公钥公开，私钥保密，它的加密解密算法是公开的。 由公钥加密的内容可以并且只能由私钥
+: 进行解密，并且由私钥加密的内容可以并且只能由公钥进行解密。也就是说，RSA的这一对公钥、私钥都可以用来加密和解密，并
+: 且一方加密的内容可以由并且只能由对方进行解密。
+
+: 「签名」，签名就是在信息的后面再加上一段内容，可以证明信息没有被修改过，怎么样可以达到这个效果呢？
+: 一般是对信息做一个hash计算得到一个hash值，注意，这个过程是不可逆的，也就是说无法通过hash值得出原来的信息内容。
+: 再把信息发送出去时，把这个hash值加密后做为一个签名和信息一起发出去。 接收方在收到信息后，会重新计算信息的hash值，
+: 并和信息所附带的hash值(解密后)进行对比，如果一致，就说明信息的内容没有被修改过，因为这里hash计算可以保证不同的内
+: 容一定会得到不同的hash值，所以只要内容一被修改，根据信息内容计算的hash值就会变化。
+: 当然，不怀好意的人也可以修改信息内容的同时也修改hash值，从而让它们可以相匹配，为了防止这种情况，hash值一般都会加
+: 密后(也就是签名)再和信息一起发送，以保证这个hash值不被修改。至于如何让别人可以解密这个签名，这个过程涉及到数字证
+: 书等概念。
+
+: 举例说明：外部系统（B）调用核心系统（A）接口时，需通过非对称加密算法解决安全上的问题，如伪装调用、模拟调用等。
+: （此例通过公钥加密，私钥解密的方式） 
+1. 首先，在A端生成密钥对，得到public_key.pem，private_key.pem。（生成密钥对方法参考：https://www.cnblogs.com/taoshihan/p/6340854.html） 
+2. 在A端编写签名方法（就是使用公钥进行加密的过程），加密的数据可以是字符串或时间。如果是加密数据是时间，如'Y-m-d H:00:00'，代表当前整点（小时）内有效。
+3. 在B端获取到第1步中生成的public_key.pem，通过public_key.pem调用A端签名方法。
+4. 请求B端接口时，A端首先进行签名验证，验证通过则允许调用，不通过则提示错误信息。 
+* Hash算法
+** 说明
+: Hash算法特别的地方在于它是一种单向算法，用户可以通过Hash算法对目标信息生成一段特定长度的唯一的Hash值，却不能通
+: 过这个Hash值重新获得目标信息。因此Hash算法常用在不可还原的密码存储、信息完整性校验等。
+
+: 常见的Hash算法：MD5、HAVAL、SHA、HMAC、HMAC-MD5、HMAC-SHA1
+** MD5
+*** 简介
+: MD5为计算机安全领域广泛使用的一种散列函数，用以提供消息的完整性保护。对MD5加密算法简要的叙述可以为：MD5以512位
+: 分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将
+: 这四个32位分组级联后将生成—个128位散列值。
+
+: MD5被广泛用于各种软件的密码认证和钥匙识别上。MD5用的是哈希函数，它的典型应用是对一段信息产生信息摘要，以防止被
+: 篡改。
+
+: MD5的典型应用是对一段Message产生fingerprin指纹，以防止被“篡改”。如果再有—个第三方的认证机，用MD5还可以防止文
+: 件作者的“抵赖”，这就是所谓的数字签名应用
+
+: MD5还广泛用于操作系统的登陆认证上，如UNIX、各类BSD系统登录密码、数字签名等诸多方。
+*** C# Code
+ #+BEGIN_SRC emacs-lisp
+ #region MD5加密
+ /// <summary>
+ /// MD5加密
+ /// </summary>
+ /// <param name="input">需要加密的字符串</param>
+ /// <returns></returns>
+ public static string MD5Encrypt(string input)
+ {
+     return MD5Encrypt(input, new UTF8Encoding());
+ }
+
+ /// <summary>
+ /// MD5加密
+ /// </summary>
+ /// <param name="input">需要加密的字符串</param>
+ /// <param name="encode">字符的编码</param>
+ /// <returns></returns>
+ public static string MD5Encrypt(string input, Encoding encode)
+ {
+     MD5 md5 = new MD5CryptoServiceProvider();
+     byte[] t = md5.ComputeHash(encode.GetBytes(input));
+     StringBuilder sb = new StringBuilder(32);
+     for (int i = 0; i < t.Length; i++)
+         sb.Append(t[i].ToString("x").PadLeft(2, '0'));
+         return sb.ToString();
+     }
+    
+ /// <summary>
+ /// MD5对文件流加密
+ /// </summary>
+ /// <param name="sr"></param>
+ /// <returns></returns>
+ public static string MD5Encrypt(Stream stream)
+ {
+     MD5 md5serv = MD5CryptoServiceProvider.Create();
+     byte[] buffer = md5serv.ComputeHash(stream);
+     StringBuilder sb = new StringBuilder();
+     foreach (byte var in buffer)
+         sb.Append(var.ToString("x2"));
+     return sb.ToString();
+ }
+
+ /// <summary>
+ /// MD5加密(返回16位加密串)
+ /// </summary>
+ /// <param name="input"></param>
+ /// <param name="encode"></param>
+ /// <returns></returns>
+ public static string MD5Encrypt16(string input, Encoding encode)
+ {
+     MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+     string result = BitConverter.ToString(md5.ComputeHash(encode.GetBytes(input)), 4, 8);
+     result = result.Replace("-", "");
+     return result;
+ }
+ #endregion
+ #+END_SRC
+** SHA
+*** 简介
+: SHA(Secure Hash Algorithm)是一个密码散列函数家族，是FIPS(Federal Information Processing Standards, 
+: 联邦信息处理标准)所认证的安全散列算法。由美国国家安全局（NSA）所设计，并由美国国家标准与技术研究院（NIST）发布，
+: 是美国的政府标准。分别是SHA-0, SHA-1, SHA-2, SHA-3，具体参考
+- [[https://zh.wikipedia.org/wiki/SHA%E5%AE%B6%E6%97%8F][SHA家族]]
+- [[https://zh.wikipedia.org/wiki/SHA-3][SHA-3]]
+* 其他
+** Base64编码算法
+*** 简介
+: BASE64其实不是安全领域下的加密解密算法，只能算是一个编码算法。是网络上最常见的用于传输8bit字节代码的编码方式之一，
+: Base64编码可用于在HTTP环境下传递较长的标识信息。
+
+: 例如，在JAVAPERSISTENCE系统HIBEMATE中，采用了Base64来将一个较长的唯一标识符编码为一个字符串，用作HTTP表单和
+: HTTPGETURL中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形式。此时，
+: 采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。
+*** C# Code
+ #+BEGIN_SRC emacs-lisp
+ /// <summary>
+ /// 加密
+ /// </summary>
+ /// <param name="codeType"></param>
+ /// <param name="code"></param>
+ /// <returns></returns>
+ public static string Base64Encrypt(string codeType,string code)
+ {
+     string encode = "";
+     byte[] bytes = Encoding.GetEncoding(codeType).GetBytes(code);
+     try
+     {
+         encode = Convert.ToBase64String(bytes);
+     }
+     catch (Exception ex)
+     {
+         encode = code;
+     }
+     return encode;
+ }
+ /// <summary>
+ /// 解密
+ /// </summary>
+ /// <param name="codeType"></param>
+ /// <param name="code"></param>
+ /// <returns></returns>
+ public static string Base64Decrypt(string codeType,string code)
+ {
+     string decode = "";
+     byte[] bytes = Convert.FromBase64String(code); 
+     try
+     {
+         decode = Encoding.GetEncoding(codeType).GetString(bytes); //将指定字节数组中的一个字节序列解码为一个字符串。 
+     }
+     catch (Exception ex)
+     {
+         decode = code;
+     }
+     return decode;
+ }
+ #+END_SRC
+ //简写
+ #+BEGIN_SRC emacs-lisp
+ #region Base64加密解密
+ /// <summary>
+ /// Base64加密
+ /// </summary>
+ /// <param name="input">需要加密的字符串</param>
+ /// <returns></returns>
+ public static string Base64Encrypt(string input)
+ {
+     return Base64Encrypt(input, new UTF8Encoding());
+ }
+
+ /// <summary>
+ /// Base64加密
+ /// </summary>
+ /// <param name="input">需要加密的字符串</param>
+ /// <param name="encode">字符编码</param>
+ /// <returns></returns>
+ public static string Base64Encrypt(string input, Encoding encode)
+ {
+     return Convert.ToBase64String(encode.GetBytes(input));
+ }
+ 
+ /// <summary>
+ /// Base64解密
+ /// </summary>
+ /// <param name="input">需要解密的字符串</param>
+ /// <returns></returns>
+ public static string Base64Decrypt(string input)
+ {
+     return Base64Decrypt(input, new UTF8Encoding());
+ }
+ 
+ /// <summary>
+ /// Base64解密
+ /// </summary>
+ /// <param name="input">需要解密的字符串</param>
+ /// <param name="encode">字符的编码</param>
+ /// <returns></returns>
+ public static string Base64Decrypt(string input, Encoding encode)
+ {
+     return encode.GetString(Convert.FromBase64String(input));
+ }
+ #endregion
+ #+END_SRC
+*** JavaScript Code
+ #+BEGIN_SRC js emacs-lisp
+ // private property
+ var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+ function encodeBase64(input) {
+     var output = "";
+     var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+     var i = 0;
+     input = _utf8_encode(input);
+     while (i < input.length) {
+         chr1 = input.charCodeAt(i++);
+	 chr2 = input.charCodeAt(i++);
+	 chr3 = input.charCodeAt(i++);
+	 enc1 = chr1 >> 2;
+	 enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+	 enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+	 enc4 = chr3 & 63;
+	 if (isNaN(chr2)) {
+	     enc3 = enc4 = 64;
+         } else if (isNaN(chr3)) {
+	     enc4 = 64;
+         }
+	 output +=_keyStr.charAt(enc1);
+         output+= _keyStr.charAt(enc2);
+         output+=_keyStr.charAt(enc3);
+         output+= _keyStr.charAt(enc4);
+    }
+    return output;
+ }
+ //Base64 解密
+ function decodeBase64(input) {
+     var output = "";
+     var chr1, chr2, chr3;
+     var enc1, enc2, enc3, enc4;
+     var i = 0;
+     input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+     while (i < input.length) {
+         enc1 = _keyStr.indexOf(input.charAt(i++));
+         enc2 = _keyStr.indexOf(input.charAt(i++));
+         enc3 = _keyStr.indexOf(input.charAt(i++));
+         enc4 = _keyStr.indexOf(input.charAt(i++));
+         chr1 = (enc1 << 2) | (enc2 >> 4);
+         chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+         chr3 = ((enc3 & 3) << 6) | enc4;
+         output = output + String.fromCharCode(chr1);
+         if (enc3 != 64) {
+             output = output + String.fromCharCode(chr2);
+         }
+         if (enc4 != 64) {
+             output = output + String.fromCharCode(chr3);
+         }
+     }
+     output = _utf8_decode(output);
+     return output;
+ }
+ // private method for UTF-8 decoding
+ function _utf8_decode(utftext) {
+     var string = "";
+     var i = 0;
+     var c = c1 = c2 = 0;
+     while (i < utftext.length) {
+         c = utftext.charCodeAt(i);
+         if (c < 128) {
+             string += String.fromCharCode(c);
+             i++;
+         } else if ((c > 191) && (c < 224)) {
+             c2 = utftext.charCodeAt(i + 1);
+             string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+             i += 2;
+         } else {
+             c2 = utftext.charCodeAt(i + 1);
+             c3 = utftext.charCodeAt(i + 2);
+             string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+             i += 3;
+         }
+     }
+     return string;
+ }
+ #+END_SRC 
+** HTTPS
+: ​HTTPS（全称：Hypertext Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲
+: 是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL(SSL使用40 位关键字作为RC4流加密算法，这对于商业信息
+: 的加密是合适的。)，因此加密的详细内容就需要SSL。
+
+: https:URL表明它使用了HTTP，但HTTPS存在不同于HTTP的默认端口及一个加密/身份验证层（在HTTP与TCP之间），提供了身
+: 份验证与加密通讯方法，现在它被广泛用于万维网上安全敏感的通讯，例如交易支付方面。它的主要作用可以分为两种：一种是建
+: 立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。
+* 总结
+1. 加密算法是可逆的，用来对敏感数据进行保护。散列算法(签名算法、哈希算法)是不可逆的，主要用于身份验证。
+2. 对称加密算法使用同一个密匙加密和解密，速度快，适合给大量数据加密。对称加密客户端和服务端使用同一个密匙，存在被抓包破解的风险。
+3. 非对称加密算法使用公钥加密，私钥解密，私钥签名，公钥验签。安全性比对称加密高，但速度较慢。非对称加密使用两个密匙，服务端和客户端密匙不一样，私钥放在服务端，黑客一般是拿不到的，安全性高。
+4. Base64不是安全领域下的加解密算法，只是一个编码算法，通常用于把二进制数据编码为可写的字符形式的数据，特别适合在http，mime协议下的网络快速传输数据。UTF-8和GBK中文的Base64编码结果是不同的。采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到，但这种方式很初级，很简单。Base64可以对图片文件进行编码传输。
+5. https协议广泛用于万维网上安全敏感的通讯，例如交易支付方面。它的主要作用可以分为两种：一种是建立一个信息安全通道，来保证数据传输的安全；另一种就是确认网站的真实性。
+6. 大量数据加密建议采用对称加密算法，提高加解密速度；小量的机密数据，可以采用非对称加密算法。在实际的操作过程中，我们通常采用的方式是：采用非对称加密算法管理对称算法的密钥，然后用对称加密算法加密数据，这样我们就集成了两类加密算法的优点，既实现了加密速度快的优点，又实现了安全方便管理密钥的优点。
+7. MD5标准密钥长度128位（128位是指二进制位。二进制太长，所以一般都改写成16进制，每一位16进制数可以代替4位二进制数，所以128位二进制数写成16进制就变成了128/4=32位。16位加密就是从32位MD5散列中把中间16位提取出来）；sha1标准密钥长度160位(比MD5摘要长32位)，Base64转换后的字符串理论上将要比原来的长1/3。
+* 参考资料
+- [[https://blog.csdn.net/zuiyuezhou888/article/details/7557050][常见加密算法分类]]
+- [[https://blog.csdn.net/qq_21794823/article/details/53114819][常见加密算法分类,用途,原理以及比较]]
+- [[https://www.bbsmax.com/A/xl56xMRkzr/][JS实现base64加密解密]]
+- [[http://www.cnblogs.com/zyw-205520/p/5585014.html][几种常用加密算法比较]]
+- [[https://zh.wikipedia.org/wiki/SHA%E5%AE%B6%E6%97%8F][SHA家族]]
+- [[http://www.cnblogs.com/malaohu/p/3214136.html][C# 加密解密(DES,3DES,MD5,Base64)类]]
+- [[http://www.it610.com/article/1219677.htm][c# base64算法解密]]
+- [[https://zh.wikipedia.org/wiki/%E5%AF%86%E7%A0%81%E5%AD%A6][密码学]]
+- [[https://www.cnblogs.com/sochishun/p/7028056.html][加密算法(DES,AES,RSA,MD5,SHA1,Base64)比较和项目应用]]
