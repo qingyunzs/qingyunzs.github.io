@@ -446,40 +446,40 @@
 
 
 
-  <div id="outline-container-orgd3c4c20" class="outline-2">
-<h2 id="orgd3c4c20"><span class="section-number-2">1</span> jQuery 选择器</h2>
+  <div id="outline-container-orgecbe278" class="outline-2">
+<h2 id="orgecbe278"><span class="section-number-2">1</span> jQuery 选择器</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org45c247e" class="outline-3">
-<h3 id="org45c247e"><span class="section-number-3">1.1</span> 实例：隔行变色</h3>
+<div id="outline-container-orge646ee5" class="outline-3">
+<h3 id="orge646ee5"><span class="section-number-3">1.1</span> 实例：隔行变色</h3>
 <div class="outline-text-3" id="text-1-1">
 </div>
-<div id="outline-container-org3614654" class="outline-4">
-<h4 id="org3614654"><span class="section-number-4">1.1.1</span> 通过 JavaScript 实现：</h4>
+<div id="outline-container-orga658620" class="outline-4">
+<h4 id="orga658620"><span class="section-number-4">1.1.1</span> 通过 JavaScript 实现：</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 style:
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;style type=<span style="color: #8b2252;">"text/css"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;style type=<span style="color: #ffd866;">"text/css"</span>&gt;
 body{
-font-size: 12px<span style="color: #b22222;">;</span>
-text-align: center<span style="color: #b22222;">;</span>
+font-size: 12px<span style="color: #727072;">;</span>
+text-align: center<span style="color: #727072;">;</span>
 }
 #tbStu{
-width: 260px<span style="color: #b22222;">;</span>
-border: solid 1px #666<span style="color: #b22222;">;</span>
-background-color: #eee<span style="color: #b22222;">;</span>
+width: 260px<span style="color: #727072;">;</span>
+border: solid 1px #666<span style="color: #727072;">;</span>
+background-color: #eee<span style="color: #727072;">;</span>
 }
 #tbStu tr{
-line-height: 23px<span style="color: #b22222;">;</span>
+line-height: 23px<span style="color: #727072;">;</span>
 }
 #tbStu tr th{
-background-color: #ccc<span style="color: #b22222;">;</span>
-color: #fff<span style="color: #b22222;">;</span>
+background-color: #ccc<span style="color: #727072;">;</span>
+color: #fff<span style="color: #727072;">;</span>
 }
 #tbStu .trOdd{
-background-color: #fff<span style="color: #b22222;">;</span>
+background-color: #fff<span style="color: #727072;">;</span>
 }
 &lt;/style&gt;
 </pre>
@@ -488,7 +488,7 @@ background-color: #fff<span style="color: #b22222;">;</span>
 html:
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #8b2252;">"tbStu"</span> cellpadding=<span style="color: #8b2252;">"0"</span> cellspacing=<span style="color: #8b2252;">"0"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #ffd866;">"tbStu"</span> cellpadding=<span style="color: #ffd866;">"0"</span> cellspacing=<span style="color: #ffd866;">"0"</span>&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;th&gt;StudNo&lt;/th&gt;
@@ -522,12 +522,12 @@ html:
 js:
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #8b2252;">"text/javascript"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #ffd866;">"text/javascript"</span>&gt;
 window.onload=function(){
-var oTb=document.getElementById('tbStu')<span style="color: #b22222;">;</span>
-for (var i = 0<span style="color: #b22222;">; </span><span style="color: #b22222;">i&lt;oTb.rows.length; i++) {</span>
+var oTb=document.getElementById('tbStu')<span style="color: #727072;">;</span>
+for (var i = 0<span style="color: #727072;">; </span><span style="color: #727072; font-style: italic;">i&lt;oTb.rows.length; i++) {</span>
 if (i%2) {
-oTb.rows[i].className=<span style="color: #8b2252;">"trOdd"</span><span style="color: #b22222;">;</span>
+oTb.rows[i].className=<span style="color: #ffd866;">"trOdd"</span><span style="color: #727072;">;</span>
 }
 }
 }
@@ -537,34 +537,33 @@ oTb.rows[i].className=<span style="color: #8b2252;">"trOdd"</span><span style="c
 </div>
 </div>
 
-<div id="outline-container-org90dcb20" class="outline-4">
-<h4 id="org90dcb20"><span class="section-number-4">1.1.2</span> 通过 jQuery 实现（样式、html省略）</h4>
+<div id="outline-container-org9f274ec" class="outline-4">
+<h4 id="org9f274ec"><span class="section-number-4">1.1.2</span> 通过 jQuery 实现（样式、html省略）</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 jQuery：
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #8b2252;">"text/javascript"</span>&gt;
-$(<span style="color: #a020f0;">function</span>(){
-$(<span style="color: #8b2252;">"#tbStu tr:nth-child(even)"</span>).addClass(<span style="color: #8b2252;">"trOdd"</span>)<span style="color: #b22222;">;</span>
-})<span style="color: #b22222;">;</span>
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #ffd866;">"text/javascript"</span>&gt;
+$(<span style="color: #ff6188;">function</span>(){
+$(<span style="color: #ffd866;">"#tbStu tr:nth-child(even)"</span>).addClass(<span style="color: #ffd866;">"trOdd"</span>)<span style="color: #727072;">;</span>
+})<span style="color: #727072;">;</span>
 &lt;/script&gt;
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orga6b2cd0" class="outline-3">
-<h3 id="orga6b2cd0"><span class="section-number-3">1.2</span> 基本选择器</h3>
+<div id="outline-container-org31487cc" class="outline-3">
+<h3 id="org31487cc"><span class="section-number-3">1.2</span> 基本选择器</h3>
 <div class="outline-text-3" id="text-1-2">
 <pre class="example">
 #id,element,.class,*,selectorN
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgaced234" class="outline-3">
-<h3 id="orgaced234"><span class="section-number-3">1.3</span> 层次选择器</h3>
+<div id="outline-container-org820be27" class="outline-3">
+<h3 id="org820be27"><span class="section-number-3">1.3</span> 层次选择器</h3>
 <div class="outline-text-3" id="text-1-3">
 <pre class="example">
 ancestor descendent，匹配后代元素
@@ -573,12 +572,11 @@ prev+next(可以使用.next()代替)，匹配后面紧接的元素
 prev~sibling(可以使用nextAll()代替)，匹配后面所有元素
 
 .siblings()方法与prev~siblings()区别在于，前者获取全部的相邻元素，不分前后。而后者仅获取标记后面全部相邻元素，不能获取前面部分。
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org69239fc" class="outline-3">
-<h3 id="org69239fc"><span class="section-number-3">1.4</span> 简单过滤选择器</h3>
+<div id="outline-container-orgade7e24" class="outline-3">
+<h3 id="orgade7e24"><span class="section-number-3">1.4</span> 简单过滤选择器</h3>
 <div class="outline-text-3" id="text-1-4">
 <pre class="example">
 first() or :first
@@ -591,34 +589,31 @@ last() or :last
 :lt(index)
 :header，获取所有标题类型的元素。
 :animated，获取正在执行动画效果的元素
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc961fcc" class="outline-3">
-<h3 id="orgc961fcc"><span class="section-number-3">1.5</span> 内容过滤选择器</h3>
+<div id="outline-container-org01fdded" class="outline-3">
+<h3 id="org01fdded"><span class="section-number-3">1.5</span> 内容过滤选择器</h3>
 <div class="outline-text-3" id="text-1-5">
 <pre class="example">
 :contains(text)，获取包含给定文本的元素，如果是查找字母，则有大小写的区别。
 :empty，获取所有不包含子元素或文本为空的元素。
 :has(selector)，获取含有选择器所匹配的元素。
 :parent，获取含有子元素或文本的元素。
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org95642e0" class="outline-3">
-<h3 id="org95642e0"><span class="section-number-3">1.6</span> 可见性过滤选择器</h3>
+<div id="outline-container-org1200275" class="outline-3">
+<h3 id="org1200275"><span class="section-number-3">1.6</span> 可见性过滤选择器</h3>
 <div class="outline-text-3" id="text-1-6">
 <pre class="example">
 :hidden
 :visible，可见元素
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orga50b5a2" class="outline-3">
-<h3 id="orga50b5a2"><span class="section-number-3">1.7</span> 属性过滤选择器</h3>
+<div id="outline-container-org8cc17ed" class="outline-3">
+<h3 id="org8cc17ed"><span class="section-number-3">1.7</span> 属性过滤选择器</h3>
 <div class="outline-text-3" id="text-1-7">
 <pre class="example">
 [attribute]，获取包含给定属性的元素
@@ -628,36 +623,33 @@ last() or :last
 [attribute$=value]，获取给定的属性是以某些值结尾的元素
 [attribute*=value]，获取给定的属性是以包含某些值的元素
 [selector1][selector2][selectorN]，获取满足多个条件的复合属性的元素
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgbb93068" class="outline-3">
-<h3 id="orgbb93068"><span class="section-number-3">1.8</span> 子元素过滤选择器</h3>
+<div id="outline-container-orgcc3709a" class="outline-3">
+<h3 id="orgcc3709a"><span class="section-number-3">1.8</span> 子元素过滤选择器</h3>
 <div class="outline-text-3" id="text-1-8">
 <pre class="example">
 :nth-child(eq|even|odd|index)，获取每个父元素下的特定位置元素，索引号从1开始
 :first-child，获取每个父元素下的第一个子元素
 :last-child，获取每个父元素下的最后一个子元素
 :only-child，获取每个父元素下的仅有的一个子元素
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orge66622e" class="outline-3">
-<h3 id="orge66622e"><span class="section-number-3">1.9</span> 表单对象属性过滤选择器</h3>
+<div id="outline-container-org1f21b3d" class="outline-3">
+<h3 id="org1f21b3d"><span class="section-number-3">1.9</span> 表单对象属性过滤选择器</h3>
 <div class="outline-text-3" id="text-1-9">
 <pre class="example">
 :enabled，可用的元素
 :disabled，不可用的元素
 :checked，被选中的元素
 :selected，被选中option的元素
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orga507445" class="outline-3">
-<h3 id="orga507445"><span class="section-number-3">1.10</span> 表单选择器</h3>
+<div id="outline-container-org6aac677" class="outline-3">
+<h3 id="org6aac677"><span class="section-number-3">1.10</span> 表单选择器</h3>
 <div class="outline-text-3" id="text-1-10">
 <pre class="example">
 :input，input/texteara/select
@@ -670,21 +662,20 @@ last() or :last
 :reset
 :button
 :file
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0ed7797" class="outline-2">
-<h2 id="org0ed7797"><span class="section-number-2">2</span> jQuery操作DOM</h2>
+<div id="outline-container-orge070c50" class="outline-2">
+<h2 id="orge070c50"><span class="section-number-2">2</span> jQuery操作DOM</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgb465c55" class="outline-3">
-<h3 id="orgb465c55"><span class="section-number-3">2.1</span> 访问元素</h3>
+<div id="outline-container-orgf87e2ad" class="outline-3">
+<h3 id="orgf87e2ad"><span class="section-number-3">2.1</span> 访问元素</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orgc7c8582" class="outline-4">
-<h4 id="orgc7c8582"><span class="section-number-4">2.1.1</span> attr()，对元素属性执行获取和设置操作</h4>
+<div id="outline-container-orga8d388d" class="outline-4">
+<h4 id="orga8d388d"><span class="section-number-4">2.1.1</span> attr()，对元素属性执行获取和设置操作</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <pre class="example">
 获取元素属性格式：
@@ -693,77 +684,72 @@ last() or :last
             attr(key,value)
             attr(key,function(index))
 
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org7fb1094" class="outline-4">
-<h4 id="org7fb1094"><span class="section-number-4">2.1.2</span> removeAttr()，删除某一指定的属性</h4>
+<div id="outline-container-org71fb316" class="outline-4">
+<h4 id="org71fb316"><span class="section-number-4">2.1.2</span> removeAttr()，删除某一指定的属性</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <pre class="example">
 删除元素属性格式：
             removeAttr(name)
 
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org90df71f" class="outline-4">
-<h4 id="org90df71f"><span class="section-number-4">2.1.3</span> 元素内容操作</h4>
+<div id="outline-container-org9c267ac" class="outline-4">
+<h4 id="org9c267ac"><span class="section-number-4">2.1.3</span> 元素内容操作</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <pre class="example">
 html(),html(val),text(),text(val)
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org741675f" class="outline-4">
-<h4 id="org741675f"><span class="section-number-4">2.1.4</span> 获取或设置元素值</h4>
+<div id="outline-container-org202e387" class="outline-4">
+<h4 id="org202e387"><span class="section-number-4">2.1.4</span> 获取或设置元素值</h4>
 <div class="outline-text-4" id="text-2-1-4">
 <pre class="example">
 val(val)，如果不带参数，则是获取某元素的值；反之，则是将参数val的值赋给某元素，即设置元素的值。
 可以获取多个选项值：
     va().join(",")
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org994bf2c" class="outline-4">
-<h4 id="org994bf2c"><span class="section-number-4">2.1.5</span> 元素样式操作</h4>
+<div id="outline-container-orgc99f6b1" class="outline-4">
+<h4 id="orgc99f6b1"><span class="section-number-4">2.1.5</span> 元素样式操作</h4>
 <div class="outline-text-4" id="text-2-1-5">
 <pre class="example">
 css(name,value)
 addClass(class) or addClass(class1 class1...)
 toggleClass(class)，类别切换
 removeClass(class)
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7e58b90" class="outline-3">
-<h3 id="org7e58b90"><span class="section-number-3">2.2</span> 节点元素操作</h3>
+<div id="outline-container-orgde499cd" class="outline-3">
+<h3 id="orgde499cd"><span class="section-number-3">2.2</span> 节点元素操作</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org1f160cb" class="outline-4">
-<h4 id="org1f160cb"><span class="section-number-4">2.2.1</span> 创建节点元素</h4>
+<div id="outline-container-org0f22c3f" class="outline-4">
+<h4 id="org0f22c3f"><span class="section-number-4">2.2.1</span> 创建节点元素</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <pre class="example">
 $(html)
-
 </pre>
+
 <p>
 eg:
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">var $div=$(<span style="color: #8b2252;">"&lt;div title="</span>xxx<span style="color: #8b2252;">"&gt;Write Less Do More&lt;/div&gt;"</span>)<span style="color: #b22222;">;</span>
-$(<span style="color: #8b2252;">"body"</span>).append($div)<span style="color: #b22222;">;</span>
+<pre class="src src-emacs-lisp">var $div=$(<span style="color: #ffd866;">"&lt;div title="</span>xxx<span style="color: #ffd866;">"&gt;Write Less Do More&lt;/div&gt;"</span>)<span style="color: #727072;">;</span>
+$(<span style="color: #ffd866;">"body"</span>).append($div)<span style="color: #727072;">;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd4ec59f" class="outline-4">
-<h4 id="orgd4ec59f"><span class="section-number-4">2.2.2</span> 插入节点</h4>
+<div id="outline-container-org2ada6c7" class="outline-4">
+<h4 id="org2ada6c7"><span class="section-number-4">2.2.2</span> 插入节点</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <pre class="example">
 内部插入:
@@ -782,73 +768,67 @@ before(function)
 insertAfter(content)
 insertBefore(content)
 
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org6e23664" class="outline-4">
-<h4 id="org6e23664"><span class="section-number-4">2.2.3</span> 复制节点</h4>
+<div id="outline-container-orgdee1495" class="outline-4">
+<h4 id="orgdee1495"><span class="section-number-4">2.2.3</span> 复制节点</h4>
 <div class="outline-text-4" id="text-2-2-3">
 <pre class="example">
 clone(true)
 
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org5a0a0b1" class="outline-4">
-<h4 id="org5a0a0b1"><span class="section-number-4">2.2.4</span> 替换节点</h4>
+<div id="outline-container-orgbe02ba6" class="outline-4">
+<h4 id="orgbe02ba6"><span class="section-number-4">2.2.4</span> 替换节点</h4>
 <div class="outline-text-4" id="text-2-2-4">
 <pre class="example">
 replaceWith(content)
 replaceAll(selector)
 
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org87ac786" class="outline-4">
-<h4 id="org87ac786"><span class="section-number-4">2.2.5</span> 包裹节点</h4>
+<div id="outline-container-org9706bcf" class="outline-4">
+<h4 id="org9706bcf"><span class="section-number-4">2.2.5</span> 包裹节点</h4>
 <div class="outline-text-4" id="text-2-2-5">
 <pre class="example">
 wrap(html)
 ...
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7d6bc8c" class="outline-3">
-<h3 id="org7d6bc8c"><span class="section-number-3">2.3</span> 遍历与删除</h3>
+<div id="outline-container-org49e1732" class="outline-3">
+<h3 id="org49e1732"><span class="section-number-3">2.3</span> 遍历与删除</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-orgdefaa61" class="outline-4">
-<h4 id="orgdefaa61"><span class="section-number-4">2.3.1</span> 遍历元素</h4>
+<div id="outline-container-orgf5b2de4" class="outline-4">
+<h4 id="orgf5b2de4"><span class="section-number-4">2.3.1</span> 遍历元素</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <pre class="example">
 each(callback)
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orgfdf4c8f" class="outline-4">
-<h4 id="orgfdf4c8f"><span class="section-number-4">2.3.2</span> 删除元素</h4>
+<div id="outline-container-orgb3db267" class="outline-4">
+<h4 id="orgb3db267"><span class="section-number-4">2.3.2</span> 删除元素</h4>
 <div class="outline-text-4" id="text-2-3-2">
 <pre class="example">
 remove([expr]
 empty()
-
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org2fa2512" class="outline-2">
-<h2 id="org2fa2512"><span class="section-number-2">3</span> jQuery事件</h2>
+<div id="outline-container-org11297b5" class="outline-2">
+<h2 id="org11297b5"><span class="section-number-2">3</span> jQuery事件</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org3ad3766" class="outline-3">
-<h3 id="org3ad3766"><span class="section-number-3">3.1</span> 事件机制</h3>
+<div id="outline-container-org3729098" class="outline-3">
+<h3 id="org3729098"><span class="section-number-3">3.1</span> 事件机制</h3>
 <div class="outline-text-3" id="text-3-1">
 <pre class="example">
 冒泡现象:
@@ -857,149 +837,146 @@ empty()
 jQuery中通过stopPropagation()方法来实现。
 event.stopPropagation()
 也可以通过 return false; 实现停止事件的冒泡过程。
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org4bf9554" class="outline-3">
-<h3 id="org4bf9554"><span class="section-number-3">3.2</span> 各种事件</h3>
+<div id="outline-container-orgc215830" class="outline-3">
+<h3 id="orgc215830"><span class="section-number-3">3.2</span> 各种事件</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-org6854acd" class="outline-4">
-<h4 id="org6854acd"><span class="section-number-4">3.2.1</span> 页面载入事件</h4>
+<div id="outline-container-org3cdab69" class="outline-4">
+<h4 id="org3cdab69"><span class="section-number-4">3.2.1</span> 页面载入事件</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <pre class="example">
 ready()，类似于js中的OnLoad()方法。OnLoad()方法的执行必须是页面元素的全部加载完成才触发。
 
-
 </pre>
+
 <p>
 ready()写法：
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #ff6188;">function</span>(){
 //code
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">$(<span style="color: #ff6188;">function</span>(){
 //code
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">jQuery(document).ready(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">jQuery(document).ready(<span style="color: #ff6188;">function</span>(){
 //code
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">jQuery(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">jQuery(<span style="color: #ff6188;">function</span>(){
 //code
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd8e38c2" class="outline-4">
-<h4 id="orgd8e38c2"><span class="section-number-4">3.2.2</span> 绑定事件</h4>
+<div id="outline-container-orga4f2c55" class="outline-4">
+<h4 id="orga4f2c55"><span class="section-number-4">3.2.2</span> 绑定事件</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(<span style="color: #a020f0;">function</span>(){
- $(<span style="color: #8b2252;">"#btnShow"</span>).click(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">$(<span style="color: #ff6188;">function</span>(){
+ $(<span style="color: #ffd866;">"#btnShow"</span>).click(<span style="color: #ff6188;">function</span>(){
   //code
- })<span style="color: #b22222;">;</span>
-})<span style="color: #b22222;">;</span>
+ })<span style="color: #727072;">;</span>
+})<span style="color: #727072;">;</span>
 
 or
 
 bind(type,[data],fn)
 eg:
-$(<span style="color: #a020f0;">function</span>(){
- $(<span style="color: #8b2252;">"#btnBind"</span>).bind(<span style="color: #8b2252;">"click"</span>,function(){ //&#32465;&#23450;&#22810;&#20010;&#20107;&#20214;&#65292;&#21487;&#20351;&#29992;&#31354;&#26684;&#32780;&#38548;&#24320;
-  $(this).attr(<span style="color: #8b2252;">"disabled"</span>,<span style="color: #8b2252;">"disabled"</span>)<span style="color: #b22222;">;</span>
- })<span style="color: #b22222;">;</span>
-})<span style="color: #b22222;">;</span>
+$(<span style="color: #ff6188;">function</span>(){
+ $(<span style="color: #ffd866;">"#btnBind"</span>).bind(<span style="color: #ffd866;">"click"</span>,function(){ //&#32465;&#23450;&#22810;&#20010;&#20107;&#20214;&#65292;&#21487;&#20351;&#29992;&#31354;&#26684;&#32780;&#38548;&#24320;
+  $(this).attr(<span style="color: #ffd866;">"disabled"</span>,<span style="color: #ffd866;">"disabled"</span>)<span style="color: #727072;">;</span>
+ })<span style="color: #727072;">;</span>
+})<span style="color: #727072;">;</span>
 
 eg&#65306;&#26144;&#23556;&#26041;&#24335;&#32465;&#23450;
-$(<span style="color: #a020f0;">function</span>(){
- $(<span style="color: #8b2252;">".txt"</span>).bind({focus:function(){
-   $(<span style="color: #8b2252;">"#divTip"</span>).show()<span style="color: #b22222;">;</span><span style="color: #b22222;">$("#divTip").html("xxx");},</span>
-   change:function(){$(<span style="color: #8b2252;">"#divTip"</span>).show()<span style="color: #b22222;">;</span><span style="color: #b22222;">$("#divTip").html("xxx");}</span>
- })<span style="color: #b22222;">;</span>
-})<span style="color: #b22222;">;</span>
+$(<span style="color: #ff6188;">function</span>(){
+ $(<span style="color: #ffd866;">".txt"</span>).bind({focus:function(){
+   $(<span style="color: #ffd866;">"#divTip"</span>).show()<span style="color: #727072;">;</span><span style="color: #727072; font-style: italic;">$("#divTip").html("xxx");},</span>
+   change:function(){$(<span style="color: #ffd866;">"#divTip"</span>).show()<span style="color: #727072;">;</span><span style="color: #727072; font-style: italic;">$("#divTip").html("xxx");}</span>
+ })<span style="color: #727072;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3847ab3" class="outline-4">
-<h4 id="org3847ab3"><span class="section-number-4">3.2.3</span> 切换事件</h4>
+<div id="outline-container-org905cbbd" class="outline-4">
+<h4 id="org905cbbd"><span class="section-number-4">3.2.3</span> 切换事件</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <pre class="example">
 hover()
 toggle(fun1,fun2,[fun3,fun4,...])
-
 </pre>
 
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(<span style="color: #8b2252;">"a"</span>).hover(<span style="color: #a020f0;">function</span>(){
+<pre class="src src-emacs-lisp">$(<span style="color: #ffd866;">"a"</span>).hover(<span style="color: #ff6188;">function</span>(){
  //code1
  },function(){
  //code2
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 
 or
 
-$(<span style="color: #8b2252;">"a"</span>).mouseenter(<span style="color: #a020f0;">function</span>(){
+$(<span style="color: #ffd866;">"a"</span>).mouseenter(<span style="color: #ff6188;">function</span>(){
  //code1
-})<span style="color: #b22222;">;</span>
-$(<span style="color: #8b2252;">"a"</span>).mouseleave(<span style="color: #a020f0;">function</span>(){
+})<span style="color: #727072;">;</span>
+$(<span style="color: #ffd866;">"a"</span>).mouseleave(<span style="color: #ff6188;">function</span>(){
  //code2
-})<span style="color: #b22222;">;</span>
+})<span style="color: #727072;">;</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf323d0e" class="outline-4">
-<h4 id="orgf323d0e"><span class="section-number-4">3.2.4</span> 移除事件</h4>
+<div id="outline-container-orgc11f906" class="outline-4">
+<h4 id="orgc11f906"><span class="section-number-4">3.2.4</span> 移除事件</h4>
 <div class="outline-text-4" id="text-3-2-4">
 <pre class="example">
 unbind([type],[fun])
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org1d605fb" class="outline-4">
-<h4 id="org1d605fb"><span class="section-number-4">3.2.5</span> 其他事件</h4>
+<div id="outline-container-orge091e24" class="outline-4">
+<h4 id="orge091e24"><span class="section-number-4">3.2.5</span> 其他事件</h4>
 <div class="outline-text-4" id="text-3-2-5">
 <pre class="example">
 one(type,[data],fun)，为所选元素绑定一次触发一次的处理函数
 trigger(type,[data])，在所选的元素上触发指定类型的事件。
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org21d3354" class="outline-3">
-<h3 id="org21d3354"><span class="section-number-3">3.3</span> 表单应用</h3>
+<div id="outline-container-orgf0ed714" class="outline-3">
+<h3 id="orgf0ed714"><span class="section-number-3">3.3</span> 表单应用</h3>
 </div>
-<div id="outline-container-org5ea904a" class="outline-3">
-<h3 id="org5ea904a"><span class="section-number-3">3.4</span> 列表应用</h3>
+<div id="outline-container-orgdca0e7c" class="outline-3">
+<h3 id="orgdca0e7c"><span class="section-number-3">3.4</span> 列表应用</h3>
 </div>
-<div id="outline-container-org8ccf154" class="outline-3">
-<h3 id="org8ccf154"><span class="section-number-3">3.5</span> 网页选项卡应用</h3>
+<div id="outline-container-org4073efb" class="outline-3">
+<h3 id="org4073efb"><span class="section-number-3">3.5</span> 网页选项卡应用</h3>
 </div>
 </div>
-<div id="outline-container-org76e2444" class="outline-2">
-<h2 id="org76e2444"><span class="section-number-2">4</span> jQuery动画与特效</h2>
+<div id="outline-container-org5fe19d2" class="outline-2">
+<h2 id="org5fe19d2"><span class="section-number-2">4</span> jQuery动画与特效</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org9102f2c" class="outline-3">
-<h3 id="org9102f2c"><span class="section-number-3">4.1</span> 显示与隐藏</h3>
+<div id="outline-container-orgb24c045" class="outline-3">
+<h3 id="orgb24c045"><span class="section-number-3">4.1</span> 显示与隐藏</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 JavaScript：
@@ -1019,8 +996,8 @@ JQuery：
 </div>
 </div>
 
-<div id="outline-container-org3610596" class="outline-2">
-<h2 id="org3610596"><span class="section-number-2">5</span> Ajax与jQuery</h2>
+<div id="outline-container-org465e3e2" class="outline-2">
+<h2 id="org465e3e2"><span class="section-number-2">5</span> Ajax与jQuery</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">
@@ -1033,25 +1010,25 @@ JQuery：
 </div>
 </div>
 </div>
-<div id="outline-container-orge9cfa0a" class="outline-2">
-<h2 id="orge9cfa0a"><span class="section-number-2">6</span> jQuery插件</h2>
+<div id="outline-container-org1f7ee70" class="outline-2">
+<h2 id="org1f7ee70"><span class="section-number-2">6</span> jQuery插件</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org9465cd1" class="outline-3">
-<h3 id="org9465cd1"><span class="section-number-3">6.1</span> 常用插件</h3>
+<div id="outline-container-org2de8a29" class="outline-3">
+<h3 id="org2de8a29"><span class="section-number-3">6.1</span> 常用插件</h3>
 </div>
-<div id="outline-container-org092227a" class="outline-3">
-<h3 id="org092227a"><span class="section-number-3">6.2</span> UI插件</h3>
+<div id="outline-container-orga510a13" class="outline-3">
+<h3 id="orga510a13"><span class="section-number-3">6.2</span> UI插件</h3>
 </div>
 </div>
-<div id="outline-container-org6ee8630" class="outline-2">
-<h2 id="org6ee8630"><span class="section-number-2">7</span> jQuery实用工具函数</h2>
+<div id="outline-container-orga49416d" class="outline-2">
+<h2 id="orga49416d"><span class="section-number-2">7</span> jQuery实用工具函数</h2>
 </div>
-<div id="outline-container-org638b166" class="outline-2">
-<h2 id="org638b166"><span class="section-number-2">8</span> jQuery性能优化与最佳实践</h2>
+<div id="outline-container-org5fe973d" class="outline-2">
+<h2 id="org5fe973d"><span class="section-number-2">8</span> jQuery性能优化与最佳实践</h2>
 </div>
-<div id="outline-container-org754d18d" class="outline-2">
-<h2 id="org754d18d"><span class="section-number-2">9</span> 实例小贴士</h2>
+<div id="outline-container-org62e7cca" class="outline-2">
+<h2 id="org62e7cca"><span class="section-number-2">9</span> 实例小贴士</h2>
 <div class="outline-text-2" id="text-9">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">
@@ -1321,7 +1298,7 @@ JQuery：
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd3c4c20"> <span class="nav-text">1 jQuery 选择器</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org45c247e"> <span class="nav-text">1.1 实例：隔行变色</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3614654"> <span class="nav-text">1.1.1 通过 JavaScript 实现：</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90dcb20"> <span class="nav-text">1.1.2 通过 jQuery 实现（样式、html省略）</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga6b2cd0"> <span class="nav-text">1.2 基本选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaced234"> <span class="nav-text">1.3 层次选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org69239fc"> <span class="nav-text">1.4 简单过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc961fcc"> <span class="nav-text">1.5 内容过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org95642e0"> <span class="nav-text">1.6 可见性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga50b5a2"> <span class="nav-text">1.7 属性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbb93068"> <span class="nav-text">1.8 子元素过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge66622e"> <span class="nav-text">1.9 表单对象属性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga507445"> <span class="nav-text">1.10 表单选择器</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0ed7797"> <span class="nav-text">2 jQuery操作DOM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb465c55"> <span class="nav-text">2.1 访问元素</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc7c8582"> <span class="nav-text">2.1.1 attr()，对元素属性执行获取和设置操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7fb1094"> <span class="nav-text">2.1.2 removeAttr()，删除某一指定的属性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org90df71f"> <span class="nav-text">2.1.3 元素内容操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org741675f"> <span class="nav-text">2.1.4 获取或设置元素值</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org994bf2c"> <span class="nav-text">2.1.5 元素样式操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7e58b90"> <span class="nav-text">2.2 节点元素操作</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1f160cb"> <span class="nav-text">2.2.1 创建节点元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd4ec59f"> <span class="nav-text">2.2.2 插入节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6e23664"> <span class="nav-text">2.2.3 复制节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5a0a0b1"> <span class="nav-text">2.2.4 替换节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org87ac786"> <span class="nav-text">2.2.5 包裹节点</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7d6bc8c"> <span class="nav-text">2.3 遍历与删除</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdefaa61"> <span class="nav-text">2.3.1 遍历元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfdf4c8f"> <span class="nav-text">2.3.2 删除元素</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2fa2512"> <span class="nav-text">3 jQuery事件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3ad3766"> <span class="nav-text">3.1 事件机制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4bf9554"> <span class="nav-text">3.2 各种事件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6854acd"> <span class="nav-text">3.2.1 页面载入事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8e38c2"> <span class="nav-text">3.2.2 绑定事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3847ab3"> <span class="nav-text">3.2.3 切换事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf323d0e"> <span class="nav-text">3.2.4 移除事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1d605fb"> <span class="nav-text">3.2.5 其他事件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org21d3354"> <span class="nav-text">3.3 表单应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5ea904a"> <span class="nav-text">3.4 列表应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8ccf154"> <span class="nav-text">3.5 网页选项卡应用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org76e2444"> <span class="nav-text">4 jQuery动画与特效</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9102f2c"> <span class="nav-text">4.1 显示与隐藏</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3610596"> <span class="nav-text">5 Ajax与jQuery</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge9cfa0a"> <span class="nav-text">6 jQuery插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9465cd1"> <span class="nav-text">6.1 常用插件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org092227a"> <span class="nav-text">6.2 UI插件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6ee8630"> <span class="nav-text">7 jQuery实用工具函数</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org638b166"> <span class="nav-text">8 jQuery性能优化与最佳实践</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org754d18d"> <span class="nav-text">9 实例小贴士</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgecbe278"> <span class="nav-text">1 jQuery 选择器</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge646ee5"> <span class="nav-text">1.1 实例：隔行变色</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga658620"> <span class="nav-text">1.1.1 通过 JavaScript 实现：</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9f274ec"> <span class="nav-text">1.1.2 通过 jQuery 实现（样式、html省略）</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org31487cc"> <span class="nav-text">1.2 基本选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org820be27"> <span class="nav-text">1.3 层次选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgade7e24"> <span class="nav-text">1.4 简单过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01fdded"> <span class="nav-text">1.5 内容过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1200275"> <span class="nav-text">1.6 可见性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8cc17ed"> <span class="nav-text">1.7 属性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc3709a"> <span class="nav-text">1.8 子元素过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1f21b3d"> <span class="nav-text">1.9 表单对象属性过滤选择器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6aac677"> <span class="nav-text">1.10 表单选择器</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge070c50"> <span class="nav-text">2 jQuery操作DOM</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf87e2ad"> <span class="nav-text">2.1 访问元素</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga8d388d"> <span class="nav-text">2.1.1 attr()，对元素属性执行获取和设置操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org71fb316"> <span class="nav-text">2.1.2 removeAttr()，删除某一指定的属性</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9c267ac"> <span class="nav-text">2.1.3 元素内容操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org202e387"> <span class="nav-text">2.1.4 获取或设置元素值</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc99f6b1"> <span class="nav-text">2.1.5 元素样式操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgde499cd"> <span class="nav-text">2.2 节点元素操作</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0f22c3f"> <span class="nav-text">2.2.1 创建节点元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2ada6c7"> <span class="nav-text">2.2.2 插入节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdee1495"> <span class="nav-text">2.2.3 复制节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbe02ba6"> <span class="nav-text">2.2.4 替换节点</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9706bcf"> <span class="nav-text">2.2.5 包裹节点</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org49e1732"> <span class="nav-text">2.3 遍历与删除</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf5b2de4"> <span class="nav-text">2.3.1 遍历元素</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb3db267"> <span class="nav-text">2.3.2 删除元素</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org11297b5"> <span class="nav-text">3 jQuery事件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3729098"> <span class="nav-text">3.1 事件机制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc215830"> <span class="nav-text">3.2 各种事件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3cdab69"> <span class="nav-text">3.2.1 页面载入事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga4f2c55"> <span class="nav-text">3.2.2 绑定事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org905cbbd"> <span class="nav-text">3.2.3 切换事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc11f906"> <span class="nav-text">3.2.4 移除事件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge091e24"> <span class="nav-text">3.2.5 其他事件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf0ed714"> <span class="nav-text">3.3 表单应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdca0e7c"> <span class="nav-text">3.4 列表应用</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4073efb"> <span class="nav-text">3.5 网页选项卡应用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5fe19d2"> <span class="nav-text">4 jQuery动画与特效</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb24c045"> <span class="nav-text">4.1 显示与隐藏</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org465e3e2"> <span class="nav-text">5 Ajax与jQuery</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1f7ee70"> <span class="nav-text">6 jQuery插件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2de8a29"> <span class="nav-text">6.1 常用插件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga510a13"> <span class="nav-text">6.2 UI插件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga49416d"> <span class="nav-text">7 jQuery实用工具函数</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5fe973d"> <span class="nav-text">8 jQuery性能优化与最佳实践</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org62e7cca"> <span class="nav-text">9 实例小贴士</span> </a> </li>
     </ol>
   </div>
             
