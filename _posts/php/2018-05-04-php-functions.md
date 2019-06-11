@@ -1,7 +1,7 @@
 ---
-title: PHP 常见函数
+title: PHP 常见内置函数
 author: zrg
-description:
+description: PHP 常见内置函数
 date: 2018-05-04
 categories:
 - php
@@ -148,6 +148,7 @@ file_put_contents('20190606.json', json_encode(), FILE_APPEND, null);
 // 格式:file_get_contents ( string $filename [, bool $use_include_path = false [, resource $context [, int $offset = -1 [, int $maxlen ]]]] ) : string
 
 ```
+> file_exists — 检查文件或目录是否存在
 # 魔术方法
 > __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 > __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 

@@ -1,7 +1,7 @@
 ---
 title: PHP 程序员升级之路
 author: zrg
-description: 
+description: PHP 开发知识体系结构总结
 date: 2018-08-05
 categories:
 - php

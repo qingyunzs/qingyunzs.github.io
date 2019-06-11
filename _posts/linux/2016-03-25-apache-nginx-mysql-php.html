@@ -232,14 +232,14 @@ ServerName localhost:80
 <h4 id="orgc7785b8"><span class="section-number-4">2.7.1</span> Configure virtual host</h4>
 <div class="outline-text-4" id="text-2-7-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgb8feb1f">LoadModule vhost_alias_module modules/mod_vhost_alias.so
+<pre class="src src-emacs-lisp" id="org9b19a1e">LoadModule vhost_alias_module modules/mod_vhost_alias.so
 # Virtual hosts 
 Include conf/extra/httpd-vhosts.conf
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgbf5b46a">&lt;VirtualHost 127.0.0.1:80&gt;
+<pre class="src src-emacs-lisp" id="orge04b651">&lt;VirtualHost 127.0.0.1:80&gt;
     #directory
     DocumentRoot <span style="color: #ffd866;">"D:\phpStudy\WWW\ec-shop\gold"</span>
     ServerName local.gold
@@ -274,14 +274,14 @@ Explain:
 <h4 id="org3847413"><span class="section-number-4">2.7.2</span> Configure multiple ports and multiple sites</h4>
 <div class="outline-text-4" id="text-2-7-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org9b19a1e">Add listening port:
+<pre class="src src-emacs-lisp" id="org1e31a7c">Add listening port:
   Listen 81
   Listen 82
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orge04b651">&lt;VirtualHost *:81&gt;
+<pre class="src src-emacs-lisp" id="org798b503">&lt;VirtualHost *:81&gt;
 #    ServerAdmin webmaster@dummy-host2.example.com
      DocumentRoot <span style="color: #ffd866;">"d:\wamp\www\wp-job"</span>
      ServerName localhost
@@ -509,8 +509,8 @@ No input file specified.
 </div>
 </div>
 </div>
-<div id="outline-container-org3eaa198" class="outline-3">
-<h3 id="org3eaa198"><span class="section-number-3">3.6</span> 参考资料</h3>
+<div id="outline-container-orgbe2aa47" class="outline-3">
+<h3 id="orgbe2aa47"><span class="section-number-3">3.6</span> 参考资料</h3>
 <div class="outline-text-3" id="text-3-6">
 <pre class="example">
 http://www.nginx.cn/231.html
@@ -761,42 +761,49 @@ make libdir=/usr/lib64 <span style="color: #78dce8;">&amp;&amp;</span> make libd
 <div id="outline-container-org7b13121" class="outline-3">
 <h3 id="org7b13121"><span class="section-number-3">5.2</span> 安装php</h3>
 <div class="outline-text-3" id="text-5-2">
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">#tar zxvf php-5.4.45.tar.gz
-#cd php-5.4.45
-#./configure --prefix=/usr/local/php --with-apxs2=/usr/local/apache2/bin/apxs --with-gd
-  --with-jpeg-dir=/usr/local/jpeg6 --with-zlib-dir=/usr/local/zlib --with-png-dir=/usr/local/lib 
-  --with-freetype-dir=/usr/local/freetype --with-curl=/usr/local/curl --with-mysql --with-pdo-mysql 
-  --with-mysqli --enable-ftp --with-pcre-regex --with-mhash --enable-fpm --enable-mbstring
-  --enable-sockets --enable-sysvsem --enable-sysvshm --enable-pcntl --enable-mbregex --enable-zip
-  &#27492;&#26102;&#65292;&#20250;&#25253;&#19979;&#22270;&#38169;&#35823;&#65292;&#35299;&#20915;&#21150;&#27861;&#23601;&#26159;&#23433;&#35013;zlib-devel&#65292;# zypper in libxml2-devel -y
+<pre class="example">
+$ tar zxvf php-5.4.45.tar.gz
+$ cd php-5.4.45
+$ ./configure --prefix=/usr/local/php \
+--with-apxs2=/usr/local/apache2/bin/apxs \
+--with-gd \
+--with-jpeg-dir=/usr/local/jpeg6 \
+--with-zlib-dir=/usr/local/zlib \
+--with-png-dir=/usr/local/lib \
+--with-freetype-dir=/usr/local/freetype \
+--with-curl=/usr/local/curl \
+--with-mysql \
+--with-pdo-mysql \
+--with-mysqli 
+--enable-ftp \
+--with-pcre-regex \
+--with-mhash \
+--enable-fpm \
+--enable-mbstring \
+--enable-sockets \
+--enable-sysvsem \
+--enable-sysvshm \
+--enable-pcntl \
+--enable-mbregex \
+--enable-zip \
+--enable-fileinfo \
 </pre>
-</div>
 
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/php-14.png" alt="php-14.png" />
+<p>
+此时，会报下图错误，解决办法就是安装zlib-devel，# zypper in libxml2-devel -y
+<img src="{{site.url}}/assets/images/php-14.png" alt="php-14.png" />
+重新执行上面的配置命令。出现字样"Thank you for using PHP."，表示成功了。成功标志：
+<img src="{{site.url}}/assets/images/php-15.png" alt="php-15.png" />
+编译安装：
 </p>
-</div>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">&#37325;&#26032;&#25191;&#34892;&#19978;&#38754;&#30340;&#37197;&#32622;&#21629;&#20196;&#12290;
-&#20986;&#29616;&#23383;&#26679;<span style="color: #ffd866;">"Thank you for using PHP."</span>&#65292;&#34920;&#31034;&#25104;&#21151;&#20102;.
-&#25104;&#21151;&#26631;&#24535;&#65306;
+<pre class="example">
+# make &amp;&amp; make install
 </pre>
-</div>
 
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/php-15.png" alt="php-15.png" />
+<p>
+成功标志：
+<img src="{{site.url}}/assets/images/php-16.png" alt="php-16.png" />
 </p>
-</div>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp">&#32534;&#35793;&#23433;&#35013;&#65306;# make <span style="color: #78dce8;">&amp;&amp;</span> make install &#65292;&#25104;&#21151;&#26631;&#24535;&#65306;
-</pre>
-</div>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/php-16.png" alt="php-16.png" />
-</p>
-</div>
 </div>
 </div>
 <div id="outline-container-orgee42914" class="outline-3">
@@ -994,8 +1001,8 @@ $./configure --with-php-config=/usr/local/php7/bin/php-config \
 </div>
 </div>
 </div>
-<div id="outline-container-org99e37a6" class="outline-3">
-<h3 id="org99e37a6"><span class="section-number-3">6.3</span> 参考资料</h3>
+<div id="outline-container-org7524cb2" class="outline-3">
+<h3 id="org7524cb2"><span class="section-number-3">6.3</span> 参考资料</h3>
 <div class="outline-text-3" id="text-6-3">
 <pre class="example">
 memcache官网：http://memcache.org/
@@ -1019,8 +1026,8 @@ Memcache基础教程：http://kimi.it/259.html
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe2aa47" class="outline-2">
-<h2 id="orgbe2aa47"><span class="section-number-2">8</span> 参考资料</h2>
+<div id="outline-container-org0384201" class="outline-2">
+<h2 id="org0384201"><span class="section-number-2">8</span> 参考资料</h2>
 <div class="outline-text-2" id="text-8">
 <pre class="example">
 https://xwsoul.com/posts/684
