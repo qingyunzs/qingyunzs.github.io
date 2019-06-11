@@ -45,7 +45,8 @@ content-type: text/html
 ## HTML5 & CSS3
 ### HTML5
 1. 新变化
-	~~~ html
+
+	```html
 	<!-- 声明 -->
 	<!DOCTYPE html>
 	<!-- 编码 -->
@@ -57,8 +58,9 @@ content-type: text/html
 	<section></section>
 	<aside></aside>
 	<footer><footer>
-	~~~
+	```
 2. 高级功能：
+
 	+ 绘制图形，如签名
 	+ 本地存储和离线应用：本地存储分为 Web Storage(原 HTML 4 中扩展)和本地 DB(HTML5 新增)
 	+ 通信 API：两种方式：跨文档消息传输和 Web Sockets API。解决了同源通信和跨域通信，同时 Server 不再需要被动的等待 Client 发出请求，只要两端建立连接后，Server 端就可以主动推送数据给 Client 端。
