@@ -458,9 +458,41 @@
 
 
 
-  <div id="outline-container-org9dc1742" class="outline-2">
-<h2 id="org9dc1742"><span class="section-number-2">1</span> IIS 简介</h2>
-</div>
+  <h2 id="iis-简介">IIS 简介</h2>
+
+<h2 id="iis-常见问题及解决办法">IIS 常见问题及解决办法</h2>
+<h3 id="关闭iis或sql-server占用的80端口">关闭IIS或sql server占用的80端口</h3>
+<ol>
+  <li>打开IIS信息管理器，停止IIS服务</li>
+  <li>打开SQL Server配置管理器，停止SQL Server Reporting Services服务</li>
+</ol>
+
+<h3 id="停止iis服务">停止IIS服务</h3>
+<ol>
+  <li>停止IIS网站服务（通过鼠标）</li>
+  <li>命令行输入net stop iisadmin</li>
+  <li>命令行输入
+    <blockquote>
+      <p>netstat -ano列出端口情况 
+<br />
+tasklist|findstr “80” 查看哪个进程占用了80端口 
+<br />
+netstat -ano|findstr “80” 查看被占用的80端口对应的pid 
+<br />
+taskkill /pid 1676 根据pid终止进程<br />
+<br />
+taskkill /f /t /im httpd.exe 终止该进程</p>
+    </blockquote>
+  </li>
+  <li>windows 7:直接进入服务停止World Wide Web Publishing Service</li>
+  <li>SQL server在占用80端口，去停止相关服务。</li>
+  <li>注意：sql server中的SQL Server Reporting Service服务也会占用80端口，pid 4</li>
+</ol>
+
+<h3 id="iis-403-错误">IIS 403 错误</h3>
+<blockquote>
+  <p>可能原因为功能缺失,使用 Windows 自带添加功能引导安装功能.</p>
+</blockquote>
 
 
       
@@ -517,6 +549,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/software/web-server/2013/05/02/iis/" rel="prev" title="IIS, Internet Information Services">
+                IIS, Internet Information Services <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -593,7 +629,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -709,7 +745,7 @@
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9dc1742"> <span class="nav-text">1 IIS 简介</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#iis-简介"> <span class="nav-text">IIS 简介</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#iis-常见问题及解决办法"> <span class="nav-text">IIS 常见问题及解决办法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#关闭iis或sql-server占用的80端口"> <span class="nav-text">关闭IIS或sql server占用的80端口</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#停止iis服务"> <span class="nav-text">停止IIS服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#iis-403-错误"> <span class="nav-text">IIS 403 错误</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
