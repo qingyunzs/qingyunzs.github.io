@@ -1,14 +1,14 @@
 ---
-title: PHP 常见内置函数
+title: PHP 常见函数
 author: zrg
-description: PHP 常见内置函数
+description: PHP 常见函数
 date: 2018-05-04
 categories:
 - php
 tags:
 - PHP
 ---
-# String
+## String
 1. strlen()，获取字符串长度。 
 2. substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：substr($tempStr,0,strlen($tempStr)-3);//去除字符串后3位 。
 3. mb_substr() ，字符串截取。mb_substr(字符串变量,开始截取的位置，截取个数, 网页编码） 。
@@ -23,8 +23,9 @@ tags:
 11. json_decode()，对 JSON 格式的字符串进行解码。 
 12. json_encode()，对变量进行 JSON 编码 。 
 13. strtolower()，把所有字符转换为小写 
-14. strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写） 
-# Array
+14. strtoupper(), 把所有字符转换为大写 
+15. strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写） 
+## Array
 [PHP Array](https://www.php.net/manual/zh/ref.array.php)
 > curl_setopt_array — 为 cURL 传输会话批量设置选项 
 > array_change_key_case — 将数组中的所有键名修改为全大写或小写 
@@ -43,9 +44,9 @@ tags:
 ```php
 // 去除空元素
 <?php
-	foreach($arr as $k=>$v){
-		if(!$v) unset($arr[$k]);
-	}
+foreach($arr as $k=>$v){
+if(!$v) unset($arr[$k]);
+}
 ?>
 ```
 > array_flip — 交换数组中的键和值 
@@ -116,24 +117,31 @@ tags:
 > uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联 
 > uksort — 使用用户自定义的比较函数对数组中的键名进行排序 
 > usort — 使用用户自定义的比较函数对数组中的值进行排序 
-# Date/Datetime
+## Date/Datetime
 
-# Math
-> bcadd — 2个任意精度数字的加法计算 
-> echo bcadd($a, $b, 4);  // 6.2340 
-> bccomp — 比较两个任意精度的数字 
-> bcdiv — 2个任意精度的数字除法计算 
+## Math
+> bcadd — [加]2个任意精度数字的加法计算
+	```php
+	echo bcadd($a, $b, 4);  // 6.2340
+    ```
+> bcsub — [减]2个任意精度数字的减法
+> bcmul — [乘]2个任意精度数字乘法计算
+> bcdiv — [除]2个任意精度的数字除法计算 
 > bcmod — 对一个任意精度数字取模 
-> bcmul — 2个任意精度数字乘法计算 
+> bccomp — 比较两个任意精度的数字 
 > echo bcmul('1.34747474747', '35', 3); // 47.161 
 > bcpow — 任意精度数字的乘方 
 > bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus 
 > bcscale — 设置所有bc数学函数的默认小数点保留位数 
 > bcsqrt — 任意精度数字的二次方根 
-> bcsub — 2个任意精度数字的减法 
+ 
 > echo bcsub($a, $b, 4);  // -3.7660 
+> intval(), 直接取整
+> round(), 四舍五入
 > ceil()，向上取整。 
-# 文件
+> floor(), 向下取整
+> 
+## 文件
 > file_put_contents, 将一个字符串写入文件
 ```php
 <?php
@@ -149,6 +157,6 @@ file_put_contents('20190606.json', json_encode(), FILE_APPEND, null);
 
 ```
 > file_exists — 检查文件或目录是否存在
-# 魔术方法
+## 魔术方法
 > __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 > __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
