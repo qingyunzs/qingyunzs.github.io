@@ -1,0 +1,336 @@
+#+TITLE:     Web Server
+#+AUTHOR:    赵仁贵
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3$
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.c$
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-siz$
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Web Server
+author: zrg
+comments: false
+description: Web Server
+categories:
+- software
+- web-server
+tags:
+- Apache
+- WampServer
+- phpStudy
+- XAMPP
+- WAMP
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* Preface
+* Apache
+** Introduction
+   Apache, Apache HTTP Server. Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
+** Virtual Host
+*** 常见问题
+1. You don't have permission to access / on this server. 
+   : $ vim httpd.conf
+   注意: 2.5版本需要改Require all granted
+   #+begin_src shell
+   allow from all
+   Require all granted
+   #+end_src
+* Nginx
+** Introdution
+   Nginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。
+   \\
+   Apache和Nginx都有能力提供每秒钟庞大的请求服务，但是随着并发数量的增加，Apache的性能开始下降，然而Nginx的性能几乎不会下降。 
+   这里最好的一点是：因为Nginx是基于事件的，它不用为每个请求产生新的进程或线程，所以它的内存使用很低。
+** Nginx 的事件处理机制
+   1. 一个基本的 Web 服务器来说，事件通常有 3种类型，即网络事件、信号、定时器。 
+   2. Nginx 通过异步非阻塞机制，实现由进程循环处理多个准备好的事件，从而实现高并发和轻量级。
+** Nginx 的内部模型
+** Nginx 开启和关闭
+   : $ cd nginx 
+   : $ start nginx 
+   : $ nginx -s stop          // 停止nginx 
+   : $ nginx -s reload       // 重新加载配置文件 
+   : $ nginx -s quit          // 退出nginx
+** Nginx 配置
+   #+begin_src shell
+   #user  nobody; 
+   worker_processes  1; 
+     
+   #error_log  logs/error.log; 
+   #error_log  logs/error.log  notice; 
+   #error_log  logs/error.log  info; 
+     
+   #pid        logs/nginx.pid; 
+     
+   events { 
+       worker_connections  1024; 
+   } 
+     
+   http { 
+       include       mime.types; 
+       default_type  application/octet-stream; 
+     
+       log_format  main  '$remote_addr - $remote_user [$time_local] "$request" ' 
+                         '$status $body_bytes_sent "$http_referer" ' 
+                         '"$http_user_agent" "$http_x_forwarded_for"'; 
+     
+       access_log  logs/access.log  main; 
+     
+       sendfile        on; 
+       #tcp_nopush     on; 
+     
+       #keepalive_timeout  0; 
+       keepalive_timeout  65; 
+     
+       #gzip  on;
+       autoindex on; #开启nginx目录浏览功能 
+       autoindex_exact_size off; #文件大小从KB开始显示 
+       autoindex_localtime on; #显示文件修改时间为服务器本地时间
+       #proxy_ignore_client_abort on; # 没有解决问题，原先为了解决An error occurred. 
+  
+    server { 
+        listen       100; 
+        server_name  localhost; 
+  
+        #charset koi8-r; 
+  
+        #access_log  logs/host.access.log  main; 
+  
+        location / { 
+            root   html; 
+            index  index.html index.htm index.php; 
+        } 
+  
+charset GBK; #设置编码 
+  
+        #error_page  404              /404.html; 
+  
+        # redirect server error pages to the static page /50x.html 
+        # 
+        error_page   500 502 503 504  /50x.html; 
+        location = /50x.html { 
+            root   html; 
+        } 
+  
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80 
+        # 
+        #location ~ \.php$ { 
+        #    proxy_pass   http://127.0.0.1; 
+        #} 
+  
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 
+        #
+        location ~ \.php$ { 
+            root           D:/nginx/html; 
+            fastcgi_pass   127.0.0.1:9000; 
+            fastcgi_index  index.php; 
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name; 
+            include        fastcgi_params; 
+        } 
+  
+        # deny access to .htaccess files, if Apache's document root 
+        # concurs with nginx's one 
+        # 
+        location ~ /\.ht { 
+            deny  all; 
+        } 
+    } 
+     # another virtual host using mix of IP-, name-, and port-based configuration 
+    # 
+    #server { 
+    #    listen       8000; 
+    #    listen       somename:8080; 
+    #    server_name  somename  alias  another.alias; 
+  
+    #    location / { 
+    #        root   html; 
+    #        index  index.html index.htm; 
+    #    } 
+    #} 
+ 
+    # HTTPS server 
+    # 
+    #server { 
+    #    listen       443 ssl; 
+    #    server_name  localhost; 
+  
+    #    ssl_certificate      cert.pem; 
+    #    ssl_certificate_key  cert.key;
+    #    ssl_session_cache    shared:SSL:1m; 
+    #    ssl_session_timeout  5m; 
+  
+    #    ssl_ciphers  HIGH:!aNULL:!MD5; 
+    #    ssl_prefer_server_ciphers  on; 
+  
+    #    location / { 
+    #        root   html; 
+    #        index  index.html index.htm; 
+    #    } 
+    #} 
+} 
+   #+end_src
+* IIS(Internet Information Services)
+** IIS 常见问题及解决办法
+*** 关闭IIS或sql server占用的80端口 
+1. 打开IIS信息管理器，停止IIS服务 
+2. 打开SQL Server配置管理器，停止SQL Server Reporting Services服务 
+*** 停止IIS服务 
+1. 停止IIS网站服务（通过鼠标） 
+2. 命令行输入net stop iisadmin 
+3. 命令行输入 
+   : $ netstat -ano //列出端口情况 
+   : $ tasklist|findstr "80" //查看哪个进程占用了80端口 
+   : $ netstat -ano|findstr "80" //查看被占用的80端口对应的pid 
+   : $ taskkill /pid 1676 //根据pid终止进程  
+   : $ taskkill /f /t /im httpd.exe 终止该进程 
+4. windows 7,直接进入服务停止World Wide Web Publishing Service 
+5. SQL server在占用80端口，去停止相关服务。 
+6. 注意：sql server中的SQL Server Reporting Service服务也会占用80端口，pid 4 
+*** IIS 403 错误
+可能原因为功能缺失,使用 Windows 自带添加功能引导安装功能.
+* Tomcat
+** Indroduction
+Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。
+** 安装及配置
+*** WEB-INF 目录
+1. WEB-INF是JAVA的WEB应用的安全目录。所谓安全就是客户端无法访问，只有服务端可以访问的目录。 
+2. web.xml,项目部署文件 
+3. classes文件夹，用以放置*.class文件 
+4. lib文件夹，用于存放需要的jar包 
+*** 定时重启 Tomcat
+    : $ vim tomcat_restart.bat
+    #+begin_src shell
+    @echo restart tomcat8 service, log to C:\tomcat_restart.log 
+    @echo 1. stop tomcat8 service 
+    @echo 2. sleep 10 seconds 
+    @echo 3. start tomcat8 service 
+    echo ---------------------------------------------》 C:\tomcat_restart.log 
+    echo [%date%%time%] 准备重新启动tomcat 》C:\tomcat_restart.log 
+    echo [%date%%time%] 停止服务 》 C:\tomcat_restart.log 
+    net stop tomcat8》 C:\tomcat_restart.log 
+    @echo等待 10 seconds 
+    ping -n 10 127.0.0.1 
+    echo [%date%%time%] 重新启动 》 C:\tomcat_restart.log 
+    net start tomcat8 》 C:\tomcat_restart.log 
+    echo------------------------------------ 》C:\tomcat_restart.log 
+    #+end_src
+** 常见问题
+1. 运行startup.bat没有启动，报错：TOMCAT JAVA_HOME or JRE_HOME environment variable is not defined correctly 
+   原因分析及解决办法:
+   \\
+   分析startup.bat启动脚本：
+   \\
+   发现其调用了catalina.bat,而catalina.bat调用了setclasspath.bat；在setclasspath.bat的头部定义了JAVA_HOME和JRE_HOME的值，那么在这里手动设置JAVA_HOME变量.
+   #+begin_src shell
+   set JAVA_HOME=C:\Program Files\Java\jdk1.5.0_05 
+   set JRE_HOME=C:\Program Files\Java\jre1.5.0_05 
+   #+end_src
+* 集成 Web Server
+** wamp
+** WampServer
+*** 修改 www 目录
+1. 打开http.conf，搜索documentroot和directory，修改指定的WWW路径。 
+2. 打开wampmanager.ini，搜索Menu.Left，修改指定的WWW路径。 
+3. 重启服务，完成。
+*** 添加apache、php、mysql版本
+根据/scripts/config.inc.php中定义的全局变量和checkApacheConf函数。需要添加一个wampserver.conf文件。这样的话，才能告诉wampserver.exe，我们已经有一个有效的apache、MySQL、PHP版本了。 
+1. 添加 Apache 版本
+   下载自己需要的apache版本，解压到/bin/apache/目录下》 从wamp自带的apahce版本里找到wampserver.conf 文件》复制粘贴》退出wampserver》重新启动wampserver。
+2. 添加 PHP 版本
+   下载自己需要的php版本，解压到/bin/php/目录下》 从wamp自带的php版本里找到 wampserver.conf 文件》然后复制php.ini-development重命名为php.ini》打开php.ini,指定扩展目录和做相关配置》另存为phpForApache.ini》退出wampserver》重新启动wampserver. 
+   \\
+   注意：添加PHP7的时候，需要改动wampserver.conf内容： 
+   : $phpConf['apache']['2.4']['LoadModuleName'] = 'php7_module'; 
+   : $phpConf['apache']['2.4']['LoadModuleFile'] = 'php7apache2_4.dll'; 
+3. 添加 MySQL 版本
+   下载自己需要的mysql版本，将下载的文件解压缩到/bin/mysql/目录下》 从wamp自带的mysql版本里找到 wampserver.conf 文件》复制粘贴》退出wampserver》重新启动wampserver。 
+*** 常见问题
+1. 访问phpmyadmin时，出现You don't have permission to access /phpmyadmin/ on this server. 
+   #+begin_src shell
+   allow from all
+   # 注意2.5版本需要改:
+   Require all granted
+   #+end_src
+2. phpMyAdmin 配置文件
+   + config.default.php
+   + config.inc.php
+** xampp
+*** 下载和安装
+    #+BEGIN_SRC emacs-lisp
+ 官网地址：https://www.apachefriends.org
+ 下载时，有32位的、64位的，看你的系统支持那个就下哪个。
+ 安装：#./packgeName.run
+ 等待安装结束，期间会提示你是否执行，输入y即可。
+ 卸载：到安装目录/opt/lampp/中找到uninstall，执行即可卸载
+ 注意：在执行.run文件时无提示，原因是你软件与系统位数不对应，换成64或32位的执行就ok了
+    #+END_SRC
+**** 配置访问
+***** 相关路径
+      #+BEGIN_SRC emacs-lisp
+  /opt/lampp/主目录
+  /opt/lampp/htdocs/xampp/网站存放目录
+  /opt/lampp/etc/配置文件存放目录
+      #+END_SRC
+***** 使外部网络能正常访问
+      #+BEGIN_SRC emacs-lisp
+  #vim /opt/lampp/etc/extra/httpd-xampp.conf
+  找到修改：
+  <LocationMatch "^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))">
+  #        Require local   #注释掉
+         Order deny,allow  #添加
+         Allow from all    #添加，表示允许所有都能访问
+         ErrorDocument 403 /error/XAMPP_FORBIDDEN.html.var
+  </LocationMatch>
+      #+END_SRC
+***** 启动服务
+      : /opt/lampp/lampp start
+      : 就这么简单，用浏览器访问一下吧！
+*** 当访问时，出现权限问题
+    #+BEGIN_SRC emacs-lisp
+ Access forbidden!
+ New XAMPP security concept:
+ Access to the requested object is only available from the local network.
+ This setting can be configured in the file "httpd-xampp.conf".
+ Error 403
+ 这个原因就是上面提到的修改httpd-xampp.conf文件，改了就能正常访问了。
+    #+END_SRC
+*** 重启后不能启动xampp服务
+    #+BEGIN_SRC emacs-lisp
+ 由于断电或其他原因，重启后服务没能开启，网站不能访问了
+ a.进入 /etc/init.d 目录下，建立 lampp.sh文件
+ #vim lampp.sh
+ b.输入如下内容
+ #!/bin/sh
+ cd /opt/lampp
+ ./lampp start
+ c.更改文件权限
+ #chmod 755 lampp.sh
+ d.编辑 /etc/rc.d/rc.local ,在最后一行后面加上:
+ exec /etc/init.d/lampp.sh
+ 如此，开机就能启动xampp了。
+    #+END_SRC
+*** 有时会因为防火墙原因，导致不能访问网站
+    #+BEGIN_SRC emacs-lisp
+ 此时，我们可以关闭防火墙，并且重启后不开启
+ chkconfig iptables off 关闭防火墙
+ systemctl stop firewalled.service --Centos中使用
+ systemctl disable firewalled.service --重启后不开启防火墙
+    #+END_SRC
+
+** phpStudy
+* References
+  + [[https://baike.baidu.com/item/apache/6265][apache 百度百科]]

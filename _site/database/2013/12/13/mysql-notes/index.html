@@ -446,122 +446,139 @@
 
 
 
-  <div id="outline-container-org830bc6d" class="outline-2">
-<h2 id="org830bc6d"><span class="section-number-2">1</span> MySQL备份与还原</h2>
-<div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-orgc0c5df1" class="outline-3">
-<h3 id="orgc0c5df1"><span class="section-number-3">1.1</span> 备份</h3>
-<div class="outline-text-3" id="text-1-1">
-<pre class="example">
-$mysqldump -u username -p dbname&gt;filename.sql输入密码
-//单独备份指定表
-$mysqldump -u username -p dbname table1 table2&gt;filename.sql输入密码
-//加条件备份指定表(注意单引号和双引号问题)
-$mysqldump -u username -p dbname table1 table2 -w "id&lt;10"&gt;filename.sql
-//执行SQL语句将查到的数据导出到文件
-$mysql -u gcoin -p -Ne "use gold;select * from ecs_user" &gt; ~/outfile.txt
-</pre>
-</div>
-</div>
-<div id="outline-container-org5a0f559" class="outline-3">
-<h3 id="org5a0f559"><span class="section-number-3">1.2</span> 还原</h3>
-<div class="outline-text-3" id="text-1-2">
-</div>
-<div id="outline-container-orge50f28c" class="outline-4">
-<h4 id="orge50f28c"><span class="section-number-4">1.2.1</span> Windows</h4>
-<div class="outline-text-4" id="text-1-2-1">
-<pre class="example">
-&gt;mysql -u username -p 输入密码
-&gt;create database dbname
-&gt;use dbname
-&gt;source filename.sql
-</pre>
-</div>
-</div>
-<div id="outline-container-org80e549f" class="outline-4">
-<h4 id="org80e549f"><span class="section-number-4">1.2.2</span> Linux</h4>
-<div class="outline-text-4" id="text-1-2-2">
-<pre class="example">
-$mysql -u username -p dbname&lt;filename.sql
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org9382f8d" class="outline-3">
-<h3 id="org9382f8d"><span class="section-number-3">1.3</span> 当没有备份数据库(mysql)时,恢复数据库办法</h3>
-<div class="outline-text-3" id="text-1-3">
-</div>
-<div id="outline-container-orgfe681ac" class="outline-4">
-<h4 id="orgfe681ac"><span class="section-number-4">1.3.1</span> 描述</h4>
-<div class="outline-text-4" id="text-1-3-1">
-<pre class="example">
-一次误操作导致系统崩溃了，数据库没来得及备份，重装系统后，进入D盘发现mysql/data目录下仍然存留frm文件和ibd文件（注意：我的www目录存在了D盘，也就是非系统盘）。此时，
-你应该这样做...
-</pre>
-</div>
-</div>
-<div id="outline-container-org43494ef" class="outline-4">
-<h4 id="org43494ef"><span class="section-number-4">1.3.2</span> 具体步骤</h4>
-<div class="outline-text-4" id="text-1-3-2">
-<pre class="example">
-a.进入mysql/data目录下，将存留的frm和ibd文件拷贝。
-
-b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
-
-</pre>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-orgce374df" class="outline-2">
-<h2 id="orgce374df"><span class="section-number-2">2</span> MySQL用户与权限</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-org6b00853" class="outline-3">
-<h3 id="org6b00853"><span class="section-number-3">2.1</span> 新建用户</h3>
-<div class="outline-text-3" id="text-2-1">
-<pre class="example">
-示例：新建一个名为admin密码为123456的用户，建议方式2： 
---方法1： 
-&gt;insert into mysql.user(Host,User,Password)values("192.168.120.110","sa",password("123456")); 
-&gt;flush privileges; 
---方法2： 
-&gt; create user admin@localhost identified by 'admins_password'; 
-</pre>
-</div>
-</div>
-<div id="outline-container-org113878d" class="outline-3">
-<h3 id="org113878d"><span class="section-number-3">2.2</span> 修改指定用户的密码</h3>
-<div class="outline-text-3" id="text-2-2">
-<pre class="example">
-&gt;update mysql.user set password=password('123456') where User="admin" and Host="localhost";//适用于mysql5.7.6以前版本 
-&gt;update mysql.user set authentication_string=password('密码') where user='admin' and Host = 'localhost'; 或者 set password for 'admin'@'localhost'=password('密码');//适用于5.7.6以后版本 
-&gt;flush privileges; 
-下面是另一种方法： 
-&gt;mysqladmin -u root -p password 'root' 
-&gt;history -c //清除历史 
-</pre>
-</div>
-</div>
-<div id="outline-container-org9269b1f" class="outline-3">
-<h3 id="org9269b1f"><span class="section-number-3">2.3</span> 给用户授权</h3>
-<div class="outline-text-3" id="text-2-3">
-<pre class="example">
-示例：授予用户admin全部权限，并允许该用户通过外部访问 
-&gt;GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' identified by '123456' with grant option; 
-&gt;flush privileges;  //刷新系统权限表 
-示例：授权用户admin仅拥有数据库estep的所有权限允许本地访问： 
-&gt;GRANT ALL PRIVILEGES ON estep.* TO 'admin'@'127.0.0.1' identified by '123456' with grant option; 
-&gt;flush privileges;  //刷新系统权限表 
-示例：指定数据库estep的部分权限给用户admin： 
-&gt;grant select,update on estep.* to 'admin'@'localhost' identified by '123456'; 
-&gt;flush privileges;  //刷新系统权限表 
-</pre>
-</div>
-</div>
-</div>
+  <ul>
+  <li>
+    <dl>
+      <dt>MySQL备份与还原</dt>
+      <dt>** 备份</dt>
+      <dd>$mysqldump -u username -p dbname&gt;filename.sql输入密码</dd>
+      <dd>//单独备份指定表</dd>
+      <dd>$mysqldump -u username -p dbname table1 table2&gt;filename.sql输入密码</dd>
+      <dd>//加条件备份指定表(注意单引号和双引号问题)</dd>
+      <dd>$mysqldump -u username -p dbname table1 table2 -w “id&lt;10”&gt;filename.sql</dd>
+      <dd>//执行SQL语句将查到的数据导出到文件</dd>
+      <dd>$mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
+** 还原
+*** Windows</dd>
+      <dd>
+        <blockquote>
+          <p>mysql -u username -p 输入密码</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>create database dbname</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>use dbname</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>source filename.sql
+*** Linux</p>
+        </blockquote>
+      </dd>
+      <dd>$mysql -u username -p dbname&lt;filename.sql
+** 当没有备份数据库(mysql)时,恢复数据库办法
+*** 描述</dd>
+      <dd>一次误操作导致系统崩溃了，数据库没来得及备份，重装系统后，进入D盘发现mysql/data目录下仍然存留frm文件和ibd文件（注意：我的www目录存在了D盘，也就是非系统盘）。此时，</dd>
+      <dd>你应该这样做…
+*** 具体步骤</dd>
+      <dd>a.进入mysql/data目录下，将存留的frm和ibd文件拷贝。</dd>
+      <dd></dd>
+      <dd>b.放到同样环境的mysql/data目录下。启动msyql，查看结果。</dd>
+      <dd></dd>
+    </dl>
+  </li>
+  <li>
+    <dl>
+      <dt>MySQL用户与权限</dt>
+      <dt>** 新建用户</dt>
+      <dd>示例：新建一个名为admin密码为123456的用户，建议方式2：</dd>
+      <dd>–方法1：</dd>
+      <dd>
+        <blockquote>
+          <p>insert into mysql.user(Host,User,Password)values(“192.168.120.110”,”sa”,password(“123456”));</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>flush privileges;</p>
+        </blockquote>
+      </dd>
+      <dd>–方法2：</dd>
+      <dd>
+        <blockquote>
+          <p>create user admin@localhost identified by ‘admins_password’; 
+** 修改指定用户的密码</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>update mysql.user set password=password(‘123456’) where User=”admin” and Host=”localhost”;//适用于mysql5.7.6以前版本</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>update mysql.user set authentication_string=password(‘密码’) where user=’admin’ and Host = ‘localhost’; 或者 set password for ‘admin’@’localhost’=password(‘密码’);//适用于5.7.6以后版本</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>flush privileges;</p>
+        </blockquote>
+      </dd>
+      <dd>下面是另一种方法：</dd>
+      <dd>
+        <blockquote>
+          <p>mysqladmin -u root -p password ‘root’</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>history -c //清除历史 
+** 给用户授权</p>
+        </blockquote>
+      </dd>
+      <dd>示例：授予用户admin全部权限，并允许该用户通过外部访问</dd>
+      <dd>
+        <blockquote>
+          <p>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘admin’@’%’ identified by ‘123456’ with grant option;</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>flush privileges;  //刷新系统权限表</p>
+        </blockquote>
+      </dd>
+      <dd>示例：授权用户admin仅拥有数据库estep的所有权限允许本地访问：</dd>
+      <dd>
+        <blockquote>
+          <p>GRANT ALL PRIVILEGES ON estep.* TO ‘admin’@’127.0.0.1’ identified by ‘123456’ with grant option;</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>flush privileges;  //刷新系统权限表</p>
+        </blockquote>
+      </dd>
+      <dd>示例：指定数据库estep的部分权限给用户admin：</dd>
+      <dd>
+        <blockquote>
+          <p>grant select,update on estep.* to ‘admin’@’localhost’ identified by ‘123456’;</p>
+        </blockquote>
+      </dd>
+      <dd>
+        <blockquote>
+          <p>flush privileges;  //刷新系统权限表</p>
+        </blockquote>
+      </dd>
+    </dl>
+  </li>
+</ul>
 
 
       
@@ -619,10 +636,6 @@ b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/software/web-server/2013/05/02/iis/" rel="prev" title="IIS, Internet Information Services">
-                IIS, Internet Information Services <i class="fa fa-chevron-right"></i>
-              </a>
-            
           </div>
         </div>
       
@@ -673,17 +686,8 @@ b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -698,7 +702,7 @@ b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -720,7 +724,7 @@ b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -794,34 +798,6 @@ b.放到同样环境的mysql/data目录下。启动msyql，查看结果。
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-
-
-
-
-
-
-
-            
-              <div class="post-toc-content">
-    <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org830bc6d"> <span class="nav-text">1 MySQL备份与还原</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc0c5df1"> <span class="nav-text">1.1 备份</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5a0f559"> <span class="nav-text">1.2 还原</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge50f28c"> <span class="nav-text">1.2.1 Windows</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org80e549f"> <span class="nav-text">1.2.2 Linux</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9382f8d"> <span class="nav-text">1.3 当没有备份数据库(mysql)时,恢复数据库办法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfe681ac"> <span class="nav-text">1.3.1 描述</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org43494ef"> <span class="nav-text">1.3.2 具体步骤</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgce374df"> <span class="nav-text">2 MySQL用户与权限</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6b00853"> <span class="nav-text">2.1 新建用户</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org113878d"> <span class="nav-text">2.2 修改指定用户的密码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9269b1f"> <span class="nav-text">2.3 给用户授权</span> </a> </li> </ol> </li>
-    </ol>
-  </div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
