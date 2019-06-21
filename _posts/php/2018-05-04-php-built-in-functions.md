@@ -137,26 +137,30 @@ if(!$v) unset($arr[$k]);
 
 ## Math
 > bcadd — [加]2个任意精度数字的加法计算
-	```php
-	echo bcadd($a, $b, 4);  // 6.2340
+```php
+echo bcadd($a, $b, 4);  // 6.2340
 ```
 > bcsub — [减]2个任意精度数字的减法
 > bcmul — [乘]2个任意精度数字乘法计算
 > bcdiv — [除]2个任意精度的数字除法计算 
 > bcmod — 对一个任意精度数字取模 
 > bccomp — 比较两个任意精度的数字 
-> echo bcmul('1.34747474747', '35', 3); // 47.161 
+```php
+echo bcmul('1.34747474747', '35', 3); // 47.161
+```
 > bcpow — 任意精度数字的乘方 
 > bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus 
 > bcscale — 设置所有bc数学函数的默认小数点保留位数 
 > bcsqrt — 任意精度数字的二次方根 
-
-> echo bcsub($a, $b, 4);  // -3.7660 
+```php
+echo bcsub($a, $b, 4);  // -3.7660 
+```
 > intval(), 直接取整
 > round(), 四舍五入
 > ceil()，向上取整。 
 > floor(), 向下取整
 > 
+
 ## 文件
 > file_put_contents, 将一个字符串写入文件
 ```php
@@ -173,6 +177,7 @@ file_put_contents('20190606.json', json_encode(), FILE_APPEND, null);
 
 ```
 > file_exists — 检查文件或目录是否存在
+
 ## 魔术方法
 > __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 > __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
