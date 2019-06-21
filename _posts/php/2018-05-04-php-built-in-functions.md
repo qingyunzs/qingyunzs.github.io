@@ -10,14 +10,30 @@ tags:
 ---
 ## String
 1. strlen()，获取字符串长度。 
-2. substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：substr($tempStr,0,strlen($tempStr)-3);//去除字符串后3位 。
+
+2. substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
+
+```php
+substr($tempStr,0,strlen($tempStr)-3);//去除字符串后3位 。
+```
+
 3. mb_substr() ，字符串截取。mb_substr(字符串变量,开始截取的位置，截取个数, 网页编码） 。
+
 4. strpos()，查找字符串首次出现的位置。strpos(要处理的字符串, 要定位的字符串, 定位的起始位置[可选]) 
+```php
+// 截取某个字符之后的字符串
+substr($str,strpos($str,"_");
+```
 5. str_replace()，搜索替换字符串。str_replace(要查找的字符串, 要替换的字符串, 被搜索的字符串, 替换进行计数[可选]) 
+
 6. preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids); 
+
 7. sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str); 
+
 8. Implode()/explode()，字符串的合并（array->string）与分割（string->array）。合并:Implode(分隔符[可选], 数组);分割:explode(分隔符[可选], 字符串) 
+
 9. addslashes()，字符串转义。如I'm Zhao中的'。 
+
 10. htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。
 > htmlentities 和 htmlspecialchars 的区别:这两个函数的功能都是转换字符为 HTML 字符编码，特别是 url 和代码字符串。htmlentities 转换所有的 html 标记；htmlspecialchars 只格式化& ' " < 和 > 这几个特殊符号。 
 11. json_decode()，对 JSON 格式的字符串进行解码。 
@@ -123,7 +139,7 @@ if(!$v) unset($arr[$k]);
 > bcadd — [加]2个任意精度数字的加法计算
 	```php
 	echo bcadd($a, $b, 4);  // 6.2340
-    ```
+```
 > bcsub — [减]2个任意精度数字的减法
 > bcmul — [乘]2个任意精度数字乘法计算
 > bcdiv — [除]2个任意精度的数字除法计算 
@@ -134,7 +150,7 @@ if(!$v) unset($arr[$k]);
 > bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus 
 > bcscale — 设置所有bc数学函数的默认小数点保留位数 
 > bcsqrt — 任意精度数字的二次方根 
- 
+
 > echo bcsub($a, $b, 4);  // -3.7660 
 > intval(), 直接取整
 > round(), 四舍五入
