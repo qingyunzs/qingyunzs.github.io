@@ -8,7 +8,6 @@ categories:
 - network
 - software
 tags:
-- VPN
 - Shadowsocks
 - SwitchyOmega
 photos:
@@ -18,31 +17,31 @@ photos:
 This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
 </p>
 
-<p>
-本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
-</p>
-
 <div class="org-center">
 <p>
 If you have questions, please send email to zrg1390556487@gmail.com.
 </p>
+
+<p>
+如果您有任何问题或建议，可以发送邮件到 zrg1390556487@gmail.com
+</p>
 </div>
 
-<div id="outline-container-org37d936c" class="outline-2">
-<h2 id="org37d936c"><span class="section-number-2">1</span> Server</h2>
+<div id="outline-container-org326b4cd" class="outline-2">
+<h2 id="org326b4cd"><span class="section-number-2">1</span> Server</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org2973623" class="outline-3">
-<h3 id="org2973623"><span class="section-number-3">1.1</span> Buy a Cloud Host</h3>
+<div id="outline-container-org28892ea" class="outline-3">
+<h3 id="org28892ea"><span class="section-number-3">1.1</span> Buy a Cloud Host</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>搬瓦工</li>
 <li><a href="https://www.digitalocean.com">DigitalOcean</a></li>
+<li>AWS</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org4dbf435" class="outline-3">
-<h3 id="org4dbf435"><span class="section-number-3">1.2</span> Installing and Configuring Shadowsocks</h3>
+<div id="outline-container-orga759db5" class="outline-3">
+<h3 id="orga759db5"><span class="section-number-3">1.2</span> Installing and Configuring Shadowsocks</h3>
 <div class="outline-text-3" id="text-1-2">
 <ol class="org-ol">
 <li><p>
@@ -53,50 +52,53 @@ Installing pip
 or
 # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 # python get-pip.py
+</pre>
+
+
+<pre class="example">
+// update
 # pip install --upgrade pip
 </pre></li>
 <li><p>
 Installing shadowsocks
 </p>
 <pre class="example">
-#pip install shadowsocks
-#vim /etc/shadowsocks.json
+# pip install shadowsocks
+# vim /etc/shadowsocks.json
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">{
+<pre class="src src-shell">{
   <span style="color: #ffd866;">"server"</span>: <span style="color: #ffd866;">"server_ip"</span>,//server ip address
   <span style="color: #ffd866;">"server_port"</span>: 8388,//server port
   <span style="color: #ffd866;">"local_address"</span>:<span style="color: #ffd866;">"127.0.0.1"</span>,//local address
-  <span style="color: #ffd866;">"local_port"</span><span style="color: #ab9df2;">:1080</span>,//local port
-  <span style="color: #ffd866;">"port_password"</span><span style="color: #ab9df2;">:{</span> //multiple port
+  <span style="color: #ffd866;">"local_port"</span>:1080,//local port
+  <span style="color: #ffd866;">"port_password"</span>:{ //multiple port
           <span style="color: #ffd866;">"9001"</span>:<span style="color: #ffd866;">"password9001"</span>,
           <span style="color: #ffd866;">"9002"</span>:<span style="color: #ffd866;">"password9002"</span>,
           <span style="color: #ffd866;">"9003"</span>:<span style="color: #ffd866;">"password9003"</span>,
      },
   <span style="color: #ffd866;">"password"</span>: <span style="color: #ffd866;">"password"</span>,//password
   <span style="color: #ffd866;">"method"</span>: <span style="color: #ffd866;">"aes-256-cfb"</span>,//encryption
-  <span style="color: #ffd866;">"timeout"</span><span style="color: #ab9df2;">:600</span> //timeout
+  <span style="color: #ffd866;">"timeout"</span>:600 //timeout
   }
 </pre>
 </div>
 <p>
-explanation: 
+explanation:
 </p>
-<pre class="example">
-server:server ip address
-server_port:server port
-password:use 
-</pre>
-
-<p>
-<a href="http://ucdok.com/project/generate_password.html">password tool</a>
-</p>
-<pre class="example">
-method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
-</pre></li>
+<dl class="org-dl">
+<dt>"server": "123.123.123.123"</dt><dd>server ip address</dd>
+<dt>"server_port": 8388</dt><dd>server port</dd>
+<dt>"local_address":"127.0.0.1"</dt><dd>local ip address</dd>
+<dt>"local_port":1080,</dt><dd>local port</dd>
+<dt>"port_password"</dt><dd>port and password</dd>
+<dt>"password": "password"</dt><dd>password</dd>
+<dt>"method": "aes-256-cfb"</dt><dd>encrypt method, more detail:<a href="http://ucdok.com/project/generate_password.html">password tool</a></dd>
+<dt>"timeout":600</dt><dd>over time</dd>
+</dl></li>
 <li><p>
-Configuring auto-start
+Configuring auto-start script
 </p>
 <pre class="example">
 #vim /etc/systemd/system/shadowsocks.service
@@ -124,72 +126,76 @@ Start shadowsocks
 Auto install script
 </p>
 <pre class="example">
-$vim install-shadowsocks.sh, content of file from 
+$ vim install-shadowsocks.sh, content of file from 
 </pre>
 
 <p>
 <a href="https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh">install-shadowsocks.sh</a>
 </p>
 <pre class="example">
-#chmod +x install-shadowsocks.sh
-#./install-shadowsocks.sh
+# chmod +x install-shadowsocks.sh
+# ./install-shadowsocks.sh
 </pre></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-org691ca38" class="outline-2">
-<h2 id="org691ca38"><span class="section-number-2">2</span> Client</h2>
+<div id="outline-container-org689d343" class="outline-2">
+<h2 id="org689d343"><span class="section-number-2">2</span> Client</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org0051729" class="outline-3">
-<h3 id="org0051729"><span class="section-number-3">2.1</span> Linux</h3>
+<div id="outline-container-org887f97d" class="outline-3">
+<h3 id="org887f97d"><span class="section-number-3">2.1</span> Linux</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-org15e9243" class="outline-4">
-<h4 id="org15e9243"><span class="section-number-4">2.1.1</span> Install and Use Shadowsocks Command Line Client on Linux</h4>
+<div id="outline-container-org5e9c215" class="outline-4">
+<h4 id="org5e9c215"><span class="section-number-4">2.1.1</span> Install and Use Shadowsocks Command Line Client on Linux</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <ol class="org-ol">
 <li><p>
 Linux series
 </p>
-<pre class="example">
+<ul class="org-ul">
+<li><p>
 Debian/Ubuntu:
-$sudo apt-get install python-pip
-$sudo pip install shadowsocks
-</pre>
-
-
+</p>
 <pre class="example">
-Fedora/Centos:
-$sudo yum install python-setuptools   or   sudo dnf install python-setuptools
-$sudo easy_install pip
-$sudo pip install shadowsocks
-</pre>
-
-
-<pre class="example">
-OpenSUSE:
-$sudo zypper install python-pip
-$sudo pip install shadowsocks
-</pre>
-
-
-<pre class="example">
-Archlinux:
-$sudo pacman -S python-pip
-sudo pip install shadowsocks
-</pre>
-
-
-<pre class="example">
-sslocal is the client software and ssserver is the server software. On some Linux distros 
-such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. 
-On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command
-to find the exact location.
-user@debian:~$ whereis sslocal
-sslocal: /usr/local/bin/sslocal
+$ sudo apt-get install python-pip
+$ sudo pip install shadowsocks
 </pre></li>
+<li><p>
+Fedora/Centos:
+</p>
+<pre class="example">
+$ sudo yum install python-setuptools   or   sudo dnf install python-setuptools
+$ sudo easy_install pip
+$ sudo pip install shadowsocks
+</pre></li>
+<li><p>
+OpenSUSE:
+</p>
+<pre class="example">
+$ sudo zypper install python-pip
+$ sudo pip install shadowsocks
+</pre></li>
+<li><p>
+Archlinux:
+</p>
+<pre class="example">
+$ sudo pacman -S python-pip
+$ sudo pip install shadowsocks
+</pre></li>
+</ul>
+<p>
+sslocal is the client software and ssserver is the server software. On some Linux distros such as ubuntu, the shadowsocks client sslocal is installed under <i>usr/local/bin. On Others such as Arch sslocal is installed under /usr/bin</i>. Your can use whereis command to find the exact location.
+</p>
+<pre class="example">
+$ whereis sslocal
+</pre>
+
+<p>
+sslocal: /usr/local/bin/sslocal
+</p></li>
 <li><p>
 /etc/shadowsocks.json
 </p>
@@ -206,18 +212,14 @@ sslocal: /usr/local/bin/sslocal
 </pre>
 </div>
 <pre class="example">
-$sudo sslocal -c /etc/shadowsocks.json
+// start
+$ sudo sslocal -c /etc/shadowsocks.json
 </pre>
 
 
 <pre class="example">
-To run in the background
-$sudo sslocal -c /etc/shadowsocks.json -d start
-</pre>
-
-
-<pre class="example">
-Auto Start the Client on System Boot
+// To run in the background
+$ sudo sslocal -c /etc/shadowsocks.json -d start
 </pre></li>
 <li><p>
 /etc/rc.local
@@ -232,14 +234,14 @@ $ sudo vim /etc/rc.local
 </div>
 
 <pre class="example">
-Check if It Works
-#sudo systemctl status rc-local.service
+// Check if It Works
+# sudo systemctl status rc-local.service
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org4f3d0b1" class="outline-4">
-<h4 id="org4f3d0b1"><span class="section-number-4">2.1.2</span> Global Proxy</h4>
+<div id="outline-container-org2e28307" class="outline-4">
+<h4 id="org2e28307"><span class="section-number-4">2.1.2</span> Global Proxy</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <ol class="org-ol">
 <li><p>
@@ -251,7 +253,7 @@ $ sudo vim /etc/polipo/config
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orge6621a3">logSyslog = true
+<pre class="src src-shell" id="org78a20b8">logSyslog = true
 logFile = /var/log/polipo/polipo.log
 proxyAddress = <span style="color: #ffd866;">"0.0.0.0"</span>
 socksParentProxy = <span style="color: #ffd866;">"127.0.0.1:1080"</span>
@@ -285,14 +287,12 @@ $ curl www.google.com
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf6727f1" class="outline-4">
-<h4 id="orgf6727f1"><span class="section-number-4">2.1.3</span> Solving Problem</h4>
+<div id="outline-container-orgc74177f" class="outline-4">
+<h4 id="orgc74177f"><span class="section-number-4">2.1.3</span> Solving Problem</h4>
 <div class="outline-text-4" id="text-2-1-3">
-</div>
 <ol class="org-ol">
-<li><a id="orgdf31334"></a>ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup<br />
-<div class="outline-text-5" id="text-2-1-3-1">
-<p>
+<li><p>
+ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
 [Reason]
 </p>
 <pre class="example">
@@ -307,16 +307,13 @@ $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-python" id="org9eb22af">VIM Command&#65306;
+<pre class="src src-python" id="orgd80d67b">VIM Command&#65306;
 :%s/cleanup/reset/
 :x
 </pre>
-</div>
-</div>
-</li>
-<li><a id="orgcd8604c"></a>not support "chacha20"<br />
-<div class="outline-text-5" id="text-2-1-3-2">
-<p>
+</div></li>
+<li><p>
+not support "chacha20"
 [Solving]
 </p>
 <pre class="example">
@@ -331,61 +328,53 @@ $ sudo echo "/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/lib64" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/local/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo ldconfig
-</pre>
-</div>
-</li>
+</pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgb97df8a" class="outline-3">
-<h3 id="orgb97df8a"><span class="section-number-3">2.2</span> Windows</h3>
+</div>
+<div id="outline-container-org86f1e86" class="outline-3">
+<h3 id="org86f1e86"><span class="section-number-3">2.2</span> Windows</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org6b06815" class="outline-4">
-<h4 id="org6b06815"><span class="section-number-4">2.2.1</span> Download</h4>
+<div id="outline-container-org1e5fd7f" class="outline-4">
+<h4 id="org1e5fd7f"><span class="section-number-4">2.2.1</span> Download</h4>
 <div class="outline-text-4" id="text-2-2-1">
-<ul class="org-ul">
-<li><a href="https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks">Dowload1</a></li>
-<li><a href="http://pan.baidu.com/s/1miLpEkS">Dowload2</a> 密码：jnfr</li>
-</ul>
+<p>
+Get shadowsocks client by sending email to zrg1390556487@gmail.com
+</p>
 </div>
 </div>
-<div id="outline-container-org9724546" class="outline-4">
-<h4 id="org9724546"><span class="section-number-4">2.2.2</span> Configure</h4>
+<div id="outline-container-org93cf3ef" class="outline-4">
+<h4 id="org93cf3ef"><span class="section-number-4">2.2.2</span> Configure</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <ol class="org-ol">
 <li>unzip
 <img src="{{site.url}}/assets/images/shadowsocks-20170123111438.png" alt="shadowsocks-20170123111438.png" /></li>
-<li><p>
-running
-<img src="{{site.url}}/assets/images/shadowsocks-20170123111902.png" alt="shadowsocks-20170123111902.png" />
-</p>
-
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/shadowsocks-20170123111953.png" alt="shadowsocks-20170123111953.png" />
-</p>
-</div></li>
+<li>running
+<img src="{{site.url}}/assets/images/shadowsocks-20170123111902.png" alt="shadowsocks-20170123111902.png" /></li>
+<li>configuring
+<img src="{{site.url}}/assets/images/shadowsocks-20170123111953.png" alt="shadowsocks-20170123111953.png" /></li>
 <li>proxy
 <img src="{{site.url}}/assets/images/shadowsocks-20170123112126.png" alt="shadowsocks-20170123112126.png" /></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-org8a49a45" class="outline-3">
-<h3 id="org8a49a45"><span class="section-number-3">2.3</span> Android</h3>
+<div id="outline-container-org46ab7d2" class="outline-3">
+<h3 id="org46ab7d2"><span class="section-number-3">2.3</span> Android</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-orgcc09323" class="outline-4">
-<h4 id="orgcc09323"><span class="section-number-4">2.3.1</span> Download</h4>
+<div id="outline-container-org56a88b5" class="outline-4">
+<h4 id="org56a88b5"><span class="section-number-4">2.3.1</span> Download</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
-<a href="http://pan.baidu.com/s/1nuXO9KX">download location</a> 密码：5n8v
+Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
-<div id="outline-container-orgf029ade" class="outline-4">
-<h4 id="orgf029ade"><span class="section-number-4">2.3.2</span> Configure</h4>
+<div id="outline-container-org8b49220" class="outline-4">
+<h4 id="org8b49220"><span class="section-number-4">2.3.2</span> Configure</h4>
 <div class="outline-text-4" id="text-2-3-2">
 
 <div class="figure">
@@ -395,49 +384,47 @@ running
 </div>
 </div>
 </div>
-<div id="outline-container-orga5fc99a" class="outline-3">
-<h3 id="orga5fc99a"><span class="section-number-3">2.4</span> IOS</h3>
+<div id="outline-container-org55b9c55" class="outline-3">
+<h3 id="org55b9c55"><span class="section-number-3">2.4</span> IOS</h3>
 <div class="outline-text-3" id="text-2-4">
 <ol class="org-ol">
 <li>Open "App Store", To search "shadowrocket". Current price: ￥12</li>
-<li>Add server configure. Okay.</li>
+<li>Add server configure. Okay.
+<img src="{{site.url}}/assets/images/ios-shadowrocket-01.jpeg" alt="ios-shadowrocket-01.jpeg" />
+<img src="{{site.url}}/assets/images/ios-shadowrocket-02.jpeg" alt="ios-shadowrocket-02.jpeg" /></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org3d110c4" class="outline-3">
-<h3 id="org3d110c4"><span class="section-number-3">2.5</span> Mac OS X</h3>
+<div id="outline-container-orgeae23af" class="outline-3">
+<h3 id="orgeae23af"><span class="section-number-3">2.5</span> Mac OS X</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
-<a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases">Download Location</a>
+Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org4e17627" class="outline-2">
-<h2 id="org4e17627"><span class="section-number-2">3</span> Browser Plugin: SwitchyOmega</h2>
+<div id="outline-container-org7ba046a" class="outline-2">
+<h2 id="org7ba046a"><span class="section-number-2">3</span> Browser Plugin: SwitchyOmega</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org3c74ba2" class="outline-3">
-<h3 id="org3c74ba2"><span class="section-number-3">3.1</span> Download</h3>
+<div id="outline-container-org065882a" class="outline-3">
+<h3 id="org065882a"><span class="section-number-3">3.1</span> Download</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-<a href="https://github.com/FelisCatus/SwitchyOmega/releases/">Dowload Location</a>
+Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
-<div id="outline-container-org86c504a" class="outline-3">
-<h3 id="org86c504a"><span class="section-number-3">3.2</span> Configure</h3>
+<div id="outline-container-org78ee738" class="outline-3">
+<h3 id="org78ee738"><span class="section-number-3">3.2</span> Configure</h3>
 <div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
-<li>setting proxy</li>
+<li>set proxy
+<img src="{{site.url}}/assets/images/switchyomega-01.png" alt="switchyomega-01.png" /></li>
 <li><p>
-auto switch
-</p>
-<pre class="example">
-Add rule.
-</pre></li>
-<li><p>
-rule list setting
+set rule
+<img src="{{site.url}}/assets/images/switchyomega-02.png" alt="switchyomega-02.png" />
 </p>
 <pre class="example">
 rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
@@ -448,8 +435,8 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
 </div>
 </div>
 </div>
-<div id="outline-container-org9d8ee49" class="outline-2">
-<h2 id="org9d8ee49"><span class="section-number-2">4</span> References</h2>
+<div id="outline-container-org9c8f513" class="outline-2">
+<h2 id="org9c8f513"><span class="section-number-2">4</span> References</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="https://zh.wikipedia.org/zh-hans/Shadowsocks">https://zh.wikipedia.org/zh-hans/Shadowsocks</a></li>

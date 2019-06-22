@@ -24,7 +24,6 @@ categories:
 - network
 - software
 tags:
-- VPN
 - Shadowsocks
 - SwitchyOmega
 photos:
@@ -33,29 +32,31 @@ photos:
 
 # (setq org-export-html-use-infojs nil)
 This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
-
-本文内容仅作交流学习之用，请勿用于商业！如造成任何后果，本文作者概不负责。谢谢您的关注！
 # (setq org-export-html-style nil)
 
 #+BEGIN_CENTER 
 If you have questions, please send email to zrg1390556487@gmail.com.
+
+如果您有任何问题或建议，可以发送邮件到 zrg1390556487@gmail.com
 #+END_CENTER 
 
 * Server
 ** Buy a Cloud Host
-   - 搬瓦工
    - [[https://www.digitalocean.com][DigitalOcean]]
+   - AWS
 ** Installing and Configuring Shadowsocks
    1. Installing pip
       : # yum install python-pip
       : or
       : # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
       : # python get-pip.py
+      
+      : // update
       : # pip install --upgrade pip
    2. Installing shadowsocks
-      : #pip install shadowsocks
-      : #vim /etc/shadowsocks.json
-      #+BEGIN_SRC emacs-lisp
+      : # pip install shadowsocks
+      : # vim /etc/shadowsocks.json
+      #+BEGIN_SRC shell
       {
       	"server": "server_ip",//server ip address
 	"server_port": 8388,//server port
@@ -71,103 +72,98 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 	"timeout":600 //timeout
 	}
       #+END_SRC
-      explanation: 
-      : server:server ip address
-      : server_port:server port
-      : password:use 
-      [[http://ucdok.com/project/generate_password.html][password tool]]
-      : method:aes-128-cfb, aes-192-cfb, aes-256-cfb, bf-cfb, cast5-cfb, des-cfb, rc4-md5, chacha20, salsa20, rc4, table
-   3. Configuring auto-start
+      explanation:
+      - "server": "123.123.123.123" :: server ip address
+      - "server_port": 8388 :: server port
+      - "local_address":"127.0.0.1" :: local ip address
+      - "local_port":1080, :: local port
+      - "port_password" :: port and password
+      - "password": "password" :: password                                                                                                         
+      - "method": "aes-256-cfb" :: encrypt method, more detail:[[http://ucdok.com/project/generate_password.html][password tool]]
+      - "timeout":600 :: over time
+   3. Configuring auto-start script
       : #vim /etc/systemd/system/shadowsocks.service
       #+BEGIN_SRC emacs-lisp
-   [Unit]
-   Description=Shadowsocks
-
-   [Service]
-   TimeoutStartSec=0
-   ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
-
-   [Install]
-   WantedBy=multi-user.target
+      [Unit]
+      Description=Shadowsocks
+      
+      [Service]
+      TimeoutStartSec=0
+      ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
+      
+      [Install]
+      WantedBy=multi-user.target
       #+END_SRC
       : Start shadowsocks
       : #systemctl enable shadowsocks
       : #systemctl start shadowsocks
       : #systemctl status shadowsocks -l
    4. Auto install script
-      : $vim install-shadowsocks.sh, content of file from 
+      : $ vim install-shadowsocks.sh, content of file from 
       [[https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh][install-shadowsocks.sh]]
-      : #chmod +x install-shadowsocks.sh
-      : #./install-shadowsocks.sh
+      : # chmod +x install-shadowsocks.sh
+      : # ./install-shadowsocks.sh
 * Client
 ** Linux
 *** Install and Use Shadowsocks Command Line Client on Linux
 1. Linux series
-    : Debian/Ubuntu:
-    : $sudo apt-get install python-pip
-    : $sudo pip install shadowsocks
-
-    : Fedora/Centos:
-    : $sudo yum install python-setuptools   or   sudo dnf install python-setuptools
-    : $sudo easy_install pip
-    : $sudo pip install shadowsocks
-
-    : OpenSUSE:
-    : $sudo zypper install python-pip
-    : $sudo pip install shadowsocks
-
-    : Archlinux:
-    : $sudo pacman -S python-pip
-    : sudo pip install shadowsocks
-
-    : sslocal is the client software and ssserver is the server software. On some Linux distros 
-    : such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. 
-    : On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command
-    : to find the exact location.
-    : user@debian:~$ whereis sslocal
-    : sslocal: /usr/local/bin/sslocal
+   + Debian/Ubuntu:
+     : $ sudo apt-get install python-pip
+     : $ sudo pip install shadowsocks
+   + Fedora/Centos:
+     : $ sudo yum install python-setuptools   or   sudo dnf install python-setuptools
+     : $ sudo easy_install pip
+     : $ sudo pip install shadowsocks
+   + OpenSUSE:
+    : $ sudo zypper install python-pip
+    : $ sudo pip install shadowsocks
+   + Archlinux:
+    : $ sudo pacman -S python-pip
+    : $ sudo pip install shadowsocks
+   sslocal is the client software and ssserver is the server software. On some Linux distros such as ubuntu, the shadowsocks client sslocal is installed under /usr/local/bin. On Others such as Arch sslocal is installed under /usr/bin/. Your can use whereis command to find the exact location.
+   : $ whereis sslocal
+   sslocal: /usr/local/bin/sslocal
 2. /etc/shadowsocks.json
     #+BEGIN_SRC emacs-lisp 
-{
-"server":"server-ip",
-"server_port":8000,
-"local_address": "127.0.0.1",
-"local_port":1080,
-"password":"your-password",
-"timeout":600,
-"method":"aes-256-cfb"
-}
+    {
+    "server":"server-ip",
+    "server_port":8000,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"your-password",
+    "timeout":600,
+    "method":"aes-256-cfb"
+    }
     #+END_SRC
-    : $sudo sslocal -c /etc/shadowsocks.json
+    : // start
+    : $ sudo sslocal -c /etc/shadowsocks.json
 
-    : To run in the background
-    : $sudo sslocal -c /etc/shadowsocks.json -d start
-
-    : Auto Start the Client on System Boot
+    : // To run in the background
+    : $ sudo sslocal -c /etc/shadowsocks.json -d start
 3. /etc/rc.local
     : $ sudo vim /etc/rc.local
     #+BEGIN_SRC emacs-lisp
-sudo sslocal -c /etc/shadowsocks.json -d start
+    sudo sslocal -c /etc/shadowsocks.json -d start
     #+END_SRC
 
-    : Check if It Works
-    : #sudo systemctl status rc-local.service
+    : // Check if It Works
+    : # sudo systemctl status rc-local.service
 *** Global Proxy
 1. Install and Configure polipo
     : $ sudo apt install polipo
     : $ sudo vim /etc/polipo/config
     #+NAME: config
     #+BEGIN_SRC shell
-logSyslog = true
-logFile = /var/log/polipo/polipo.log
-proxyAddress = "0.0.0.0"
-socksParentProxy = "127.0.0.1:1080"
-socksProxyType = socks5
-chunkHighMark = 50331648
-objectHighMark = 16384
-serverMaxSlots = 64
-serverSlots = 16
-serverSlots1 = 32
+    logSyslog = true
+    logFile = /var/log/polipo/polipo.log
+    proxyAddress = "0.0.0.0"
+    socksParentProxy = "127.0.0.1:1080"
+    socksProxyType = socks5
+    chunkHighMark = 50331648
+    objectHighMark = 16384
+    serverMaxSlots = 64
+    serverSlots = 16
+    serverSlots1 = 32
     #+END_SRC
 2. Restart polipo
     : $ sudo systemctl restart polipo
@@ -177,18 +173,18 @@ serverSlots1 = 32
 4. testing
     : $ curl www.google.com
 *** Solving Problem
-**** ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
+1. ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
      [Reason]
      : openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
      [Solving]
      : $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
      #+NAME: openssl.py
      #+BEGIN_SRC python
-VIM Command：
-:%s/cleanup/reset/
-:x
+     VIM Command：
+     :%s/cleanup/reset/
+     :x
      #+END_SRC
-**** not support "chacha20"
+2. not support "chacha20"
      [Solving]
      : $ apt install m2crypto gcc -y
      : $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
@@ -203,35 +199,36 @@ VIM Command：
      : $ sudo ldconfig
 ** Windows
 *** Download
-- [[https://softs.pw/?dir=%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/PC/Shadowsocks][Dowload1]]
-- [[http://pan.baidu.com/s/1miLpEkS][Dowload2]] 密码：jnfr
+    Get shadowsocks client by sending email to zrg1390556487@gmail.com
 *** Configure
 1. unzip
     [[file:{{site.url}}/assets/images/shadowsocks-20170123111438.png]]
 2. running
     [[file:{{site.url}}/assets/images/shadowsocks-20170123111902.png]]
-
+3. configuring
     [[file:{{site.url}}/assets/images/shadowsocks-20170123111953.png]]
 3. proxy
     [[file:{{site.url}}/assets/images/shadowsocks-20170123112126.png]]
 ** Android
 *** Download
-   [[http://pan.baidu.com/s/1nuXO9KX][download location]] 密码：5n8v
+    Get shadowsocks client by sending email to zrg1390556487@gmail.com
 *** Configure
    [[file:{{site.url}}/assets/images/shadowsocks-20170123141118.png]]
 ** IOS
 1. Open "App Store", To search "shadowrocket". Current price: ￥12
 2. Add server configure. Okay.
+   [[file:{{site.url}}/assets/images/ios-shadowrocket-01.jpeg]]
+   [[file:{{site.url}}/assets/images/ios-shadowrocket-02.jpeg]]
 ** Mac OS X
-   [[https://github.com/shadowsocks/ShadowsocksX-NG/releases][Download Location]]
+    Get shadowsocks client by sending email to zrg1390556487@gmail.com
 * Browser Plugin: SwitchyOmega
 ** Download
-   [[https://github.com/FelisCatus/SwitchyOmega/releases/][Dowload Location]]
+    Get shadowsocks client by sending email to zrg1390556487@gmail.com
 ** Configure
-   1. setting proxy
-   2. auto switch
-      : Add rule.
-   3. rule list setting
+   1. set proxy
+      [[file:{{site.url}}/assets/images/switchyomega-01.png]]
+   2. set rule
+      file:{{site.url}}/assets/images/switchyomega-02.png
       : rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
       : or
       : https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
