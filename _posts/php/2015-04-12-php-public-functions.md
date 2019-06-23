@@ -12,6 +12,19 @@ photos:
 ---
 
 # 字符串(String)/数组(Array)
+### 在字符串指定位置插入字符串
+```php
+function str_insert($str,$i,$subStr){
+	for($j=0;$j<$i;$j++){
+		$startStr .=$str[$j];
+	}
+	for($j=$i;$j<strlen($str);$j++){
+		$lastStr .= $str[$j];
+	}
+	$newStr = $startStr.$subStr.$lastStr;
+    return $newStr;
+}
+```
 ### 向二位数组中添加键值对
 方法一:
 ```php
@@ -215,6 +228,16 @@ function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$resp
 + [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
 + [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
 # 其他 code
+### 获取 PHP，MySQL，Apache/Nginx 的版本信息
+```php
+// PHP Version
+echo phpversion();
+// MySQL Version
+$link = mysqli_connect('127.0.0.1','root','34917da6228cfc7a');
+echo mysqli_get_server_info($link);
+// Apache Version
+echo apache_get_version();
+```
 ### PHP 生成UUID我唯一序列
 ```php
 function uuid($prefix ='')

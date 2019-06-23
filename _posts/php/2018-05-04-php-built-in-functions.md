@@ -9,38 +9,145 @@ tags:
 - PHP
 ---
 ## String
-1. strlen()，获取字符串长度。 
-
-2. substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
-
+> addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
+> addslashes()，字符串转义，使用反斜线引用字符串。如I'm Zhao中的'。
+> bin2hex — 函数把包含数据的二进制字符串转换为十六进制值
+> chop — rtrim 的别名
+> chr — 返回指定的字符
+> chunk_split — 将字符串分割成小块
+> convert_cyr_string — 将字符由一种 Cyrillic 字符转换成另一种
+> convert_uudecode — 解码一个 uuencode 编码的字符串
+> convert_uuencode — 使用 uuencode 编码一个字符串
+> count_chars — 返回字符串所用字符的信息
+> crc32 — 计算一个字符串的 crc32 多项式
+> crypt — 单向字符串散列
+> echo — 输出一个或多个字符串
+> fprintf — 将格式化后的字符串写入到流
+> get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表
+> hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）
+> hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符
+> hex2bin — 转换十六进制字符串为二进制字符串
+> html_entity_decode — Convert HTML entities to their corresponding characters
+> htmlentities — 将字符转换为 HTML 转义字符
+> htmlspecialchars_decode — 将特殊的 HTML 实体转换回普通字符
+> htmlspecialchars — 将特殊字符转换为 HTML 实体
+~~~
+htmlentities 和 htmlspecialchars 的区别:
+	这两个函数的功能都是转换字符为 HTML 字符编码，特别是 url 和代码字符串。htmlentities 转换所有的 html 标记；htmlspecialchars 只格式化& ' " < 和 \> 这几个特殊符号。 
+~~~
+> lcfirst — 使一个字符串的第一个字符小写
+> levenshtein — 计算两个字符串之间的编辑距离
+> localeconv — Get numeric formatting information
+> ltrim — 删除字符串开头的空白字符（或其他字符）
+> md5_file — 计算指定文件的 MD5 散列值
+> md5 — 计算字符串的 MD5 散列值
+> metaphone — Calculate the metaphone key of a string
+> money_format — 将数字格式化成货币字符串
+> nl_langinfo — Query language and locale information
+> nl2br — 在字符串所有新行之前插入 HTML 换行标记
+> number_format — 以千位分隔符方式格式化一个数字
+> ord — 转换字符串第一个字节为 0-255 之间的值
+> parse_str — 将字符串解析成多个变量
+> print — 输出字符串
+> printf — 输出格式化字符串
+> quoted_printable_decode — 将 quoted-printable 字符串转换为 8-bit 字符串
+> quoted_printable_encode — 将 8-bit 字符串转换成 quoted-printable 字符串
+> quotemeta — 转义元字符集
+> rtrim — 删除字符串末端的空白字符（或者其他字符）
+> setlocale — 设置地区信息
+> sha1_file — 计算文件的 sha1 散列值
+> sha1 — 计算字符串的 sha1 散列值
+> similar_text — 计算两个字符串的相似度
+> soundex — Calculate the soundex key of a string
+> sprintf — Return a formatted string
+> sscanf — 根据指定格式解析输入的字符
+> str_getcsv — 解析 CSV 字符串为一个数组
+> str_ireplace — str_replace 的忽略大小写版本
+> str_pad — 使用另一个字符串填充字符串为指定长度
+> str_repeat — 重复一个字符串
+> str_replace — 子字符串替换
+> str_rot13 — 对字符串执行 ROT13 转换
+> str_shuffle — 随机打乱一个字符串
+> str_split — 将字符串转换为数组
+> str_word_count — 返回字符串中单词的使用情况
+> strcasecmp — 二进制安全比较字符串（不区分大小写）
+> strcmp — 二进制安全字符串比较
+> strcoll — 基于区域设置的字符串比较
+> strcspn — 获取不匹配遮罩的起始子字符串的长度
+> strip_tags — 从字符串中去除 HTML 和 PHP 标记
+> stripcslashes — 反引用一个使用 addcslashes 转义的字符串
+> strpos()，查找字符串首次出现的位置。strpos ( string $haystack , mixed $needle [, int $offset = 0 ] ) : int，如果没找到 needle，将返回 FALSE，此函数可能返回布尔值 FALSE，但也可能返回等同于 FALSE 的非布尔值。应使用 === 运算符来测试此函数的返回值。缺点：对中文支持不好
 ```php
-substr($tempStr,0,strlen($tempStr)-3);//去除字符串后3位 。
+// 判断是否包含某字符串
+$pos = strpos($str,$needle);
+if($pos !== false){
+	echo 'exist';
+}
 ```
-
-3. mb_substr() ，字符串截取。mb_substr(字符串变量,开始截取的位置，截取个数, 网页编码） 。
-
-4. strpos()，查找字符串首次出现的位置。strpos(要处理的字符串, 要定位的字符串, 定位的起始位置[可选]) 
+> stripslashes — 反引用一个引用字符串
+> strlen()，获取字符串长度。 
+> strnatcasecmp — 使用“自然顺序”算法比较字符串（不区分大小写）
+> strnatcmp — 使用自然排序算法比较字符串
+> strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
+> strncmp — 二进制安全比较字符串开头的若干个字符
+> strpbrk — 在字符串中查找一组字符的任何一个字符
+> substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
+```php
+// 去除字符串后3位
+substr($tempStr,0,strlen($tempStr)-3); 
+```
+> mb_substr() ，字符串截取。mb_substr(字符串变量,开始截取的位置，截取个数, 网页编码） 
 ```php
 // 截取某个字符之后的字符串
 substr($str,strpos($str,"_");
 ```
-5. str_replace()，搜索替换字符串。str_replace(要查找的字符串, 要替换的字符串, 被搜索的字符串, 替换进行计数[可选]) 
+> strstr()，返回字符串从查找字符串出现的位置开始到字符串结尾的字符串。
+```php
+// 判断是否包含某字符串，没有返回值，则不包含
+echo strstr($str,'@');
+```
+> stristr()，与 strstr() 的使用方法一样，区别是 stristr 不区分大小写。
+> strchr — strstr 的别名 
+> strrchr — 查找指定字符在字符串中的最后一次出现
+> strrev — 反转字符串
+> strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）
+> strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+> strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+> strstr — 查找字符串的首次出现
+> strtok — 标记分割字符串
+> strtolower — 将字符串转化为小写
+> strtoupper — 将字符串转化为大写
+> strtr — 转换指定字符
+> substr_compare — 二进制安全比较字符串（从偏移位置比较指定长度）
+> substr_count — 计算字串出现的次数
+> str_replace()，搜索替换字符串。substr_replace ( mixed $string , mixed $replacement , mixed $start [, mixed $length ] ) : mixed 
+> trim — 去除字符串首尾处的空白字符（或者其他字符）
+> ucfirst — 将字符串的首字母转换为大写
+> ucwords — 将字符串中每个单词的首字母转换为大写
+> vfprintf — 将格式化字符串写入流
+> vprintf — 输出格式化字符串
+> vsprintf — 返回格式化字符串
+> wordwrap — 打断字符串为指定数量的字串
+> preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids); 
+> sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str); 
+> Implode()，字符串的合并（array->string）。
+> explode()，字符串的分割（string->array）。
+> join — implode() 的别名
+```php
+// 判断是否包含某字符串
+$tempArr = explode(',',$str);
+if(count($tempArr) > 1){
+	return true;
+}
+```
 
-6. preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids); 
+> htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。
+> json_decode()，对 JSON 格式的字符串进行解码。 
+> json_encode()，对变量进行 JSON 编码 。 
+> strtolower()，把所有字符转换为小写 
+> strtoupper(), 把所有字符转换为大写 
+> strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写） 
 
-7. sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str); 
-
-8. Implode()/explode()，字符串的合并（array->string）与分割（string->array）。合并:Implode(分隔符[可选], 数组);分割:explode(分隔符[可选], 字符串) 
-
-9. addslashes()，字符串转义。如I'm Zhao中的'。 
-
-10. htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。
-> htmlentities 和 htmlspecialchars 的区别:这两个函数的功能都是转换字符为 HTML 字符编码，特别是 url 和代码字符串。htmlentities 转换所有的 html 标记；htmlspecialchars 只格式化& ' " < 和 > 这几个特殊符号。 
-11. json_decode()，对 JSON 格式的字符串进行解码。 
-12. json_encode()，对变量进行 JSON 编码 。 
-13. strtolower()，把所有字符转换为小写 
-14. strtoupper(), 把所有字符转换为大写 
-15. strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写） 
 ## Array
 [PHP Array](https://www.php.net/manual/zh/ref.array.php)
 > curl_setopt_array — 为 cURL 传输会话批量设置选项 
