@@ -46,6 +46,12 @@ htmlentities 和 htmlspecialchars 的区别:
 > nl_langinfo — Query language and locale information
 > nl2br — 在字符串所有新行之前插入 HTML 换行标记
 > number_format — 以千位分隔符方式格式化一个数字
+```php
+// 无论值是否为0，都保留小数点后两位
+echo number_format((float)round($a,2,PHP_ROUND_HALF_ODD),2,'.','');
+// 整数部分以千位分隔符方式分隔
+echo number_format((float)round($a,2,PHP_ROUND_HALF_ODD),2,'.',',');
+```
 > ord — 转换字符串第一个字节为 0-255 之间的值
 > parse_str — 将字符串解析成多个变量
 > print — 输出字符串
@@ -65,7 +71,6 @@ htmlentities 和 htmlspecialchars 的区别:
 > str_ireplace — str_replace 的忽略大小写版本
 > str_pad — 使用另一个字符串填充字符串为指定长度
 > str_repeat — 重复一个字符串
-> str_replace — 子字符串替换
 > str_rot13 — 对字符串执行 ROT13 转换
 > str_shuffle — 随机打乱一个字符串
 > str_split — 将字符串转换为数组
@@ -266,7 +271,19 @@ echo bcsub($a, $b, 4);  // -3.7660
 > round(), 四舍五入
 > ceil()，向上取整。 
 > floor(), 向下取整
-> 
+```php
+// intval()
+echo intval(3.14); // 3
+// round()
+// 格式：round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ) : float
+echo round(3.145,2); // 3.15
+echo round(3.142,2); // 3.14
+// ceil()
+// 格式：ceil ( float $value ) : float
+echo ceil(3.14); // 4
+// floor()
+echo floor(3.14); // 3
+```
 
 ## 文件
 > file_put_contents, 将一个字符串写入文件
@@ -284,7 +301,7 @@ file_put_contents('20190606.json', json_encode(), FILE_APPEND, null);
 
 ```
 > file_exists — 检查文件或目录是否存在
-
+> unlink()
 ## 魔术方法
 > __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 > __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
