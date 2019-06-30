@@ -97,17 +97,13 @@ if($pos !== false){
 > strncmp — 二进制安全比较字符串开头的若干个字符
 > strpbrk — 在字符串中查找一组字符的任何一个字符
 > substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
+> mb_substr() ，字符串截取。mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string
+> strstr()，返回字符串从查找字符串出现的位置开始到字符串结尾的字符串。
 ```php
 // 去除字符串后3位
 substr($tempStr,0,strlen($tempStr)-3); 
-```
-> mb_substr() ，字符串截取。mb_substr(字符串变量,开始截取的位置，截取个数, 网页编码） 
-```php
 // 截取某个字符之后的字符串
 substr($str,strpos($str,"_");
-```
-> strstr()，返回字符串从查找字符串出现的位置开始到字符串结尾的字符串。
-```php
 // 判断是否包含某字符串，没有返回值，则不包含
 echo strstr($str,'@');
 ```
@@ -249,59 +245,201 @@ if(!$v) unset($arr[$k]);
 
 ## Math
 > bcadd — [加]2个任意精度数字的加法计算
-```php
-echo bcadd($a, $b, 4);  // 6.2340
-```
 > bcsub — [减]2个任意精度数字的减法
 > bcmul — [乘]2个任意精度数字乘法计算
 > bcdiv — [除]2个任意精度的数字除法计算 
-> bcmod — 对一个任意精度数字取模 
-> bccomp — 比较两个任意精度的数字 
 ```php
+$a = '1.234';
+$b = '5';
+echo bcadd($a,$b, 4);  // 6.2340
+echo bcsub($a, $b, 4);  // -3.7660
 echo bcmul('1.34747474747', '35', 3); // 47.161
 ```
+> bcmod — 对一个任意精度数字取模 
+> bccomp — 比较两个任意精度的数字 
 > bcpow — 任意精度数字的乘方 
 > bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus 
 > bcscale — 设置所有bc数学函数的默认小数点保留位数 
-> bcsqrt — 任意精度数字的二次方根 
-```php
-echo bcsub($a, $b, 4);  // -3.7660 
-```
-> intval(), 直接取整
+> fmod — 返回除法的浮点数余数
+> intdiv — 对除法结果取整
+> bcsqrt — 任意精度数字的二次方根
+> sqrt — 平方根
+> is_finite — 判断是否为有限值
+> is_infinite — 判断是否为无限值
+> is_nan — 判断是否为合法数值
+> lcg_value — 组合线性同余发生器
+> log10 — 以 10 为底的对数
+> log1p — 返回 log(1 + number)，甚至当 number 的值接近零也能计算出准确结果
+> log — 自然对数
+> max — 找出最大值
+> min — 找出最小值
+> 
+> exp — 计算 e 的指数
+> expm1 — 返回 exp(number) - 1，甚至当 number 的值接近零也能计算出准确结果
+> pi — 得到圆周率值
+> pow— 指数表达式，pow ( number $base , number $exp ) : number
+> 
+> cos — 余弦
+> cosh — 双曲余弦
+> sin — 正弦
+> sinh — 双曲正弦
+> tan — 正切
+> tanh — 双曲正切
+> acos — 反余弦
+> acosh — 反双曲余弦
+> asin — 反正弦
+> asinh — 反双曲正弦
+> atan2 — 两个参数的反正切
+> atan — 反正切
+> atanh — 反双曲正切
+> 
+> deg2rad — 将角度转换为弧度
+> rad2deg — 将弧度数转换为相应的角度数
+> mt_getrandmax — 显示随机数的最大可能值
+> mt_rand — 生成更好的随机数
+> mt_srand — 播下一个更好的随机数发生器种子
+> rand — 产生一个随机整数
+> srand — 播下随机数发生器种子
+> 
+> intval(), 直接取整，intval ( mixed $var [, int $base = 10 ] ) : int
 > round(), 四舍五入
-> ceil()，向上取整。 
+> ceil()，向上取整
 > floor(), 向下取整
 ```php
 // intval()
 echo intval(3.14); // 3
 // round()
 // 格式：round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ) : float
-echo round(3.145,2); // 3.15
-echo round(3.142,2); // 3.14
+//  PHP_ROUND_HALF_UP、 PHP_ROUND_HALF_DOWN PHP_ROUND_HALF_EVEN 或 PHP_ROUND_HALF_ODD
+$number = 1346.21;
+var_dump(round($number, 2)); //float(1346.21)
+var_dump(round($number, 0)); //float(1346)
+var_dump(round($number, -1)); //float(1350)
+var_dump(round($number, -2)); //float(1300)
+var_dump(round(9.5, 0, PHP_ROUND_HALF_UP)); //10,四舍六入,遇5进1
+var_dump(round(9.5, 0, PHP_ROUND_HALF_DOWN)); //9,四舍六入,遇5不舍弃
+var_dump(round(9.5, 0, PHP_ROUND_HALF_EVEN)); //10,四舍六入,整数部分为奇数则进1
+var_dump(round(9.5, 0, PHP_ROUND_HALF_ODD)); //9,四舍六入,整数部分为偶数则进1
+var_dump(round(8.5, 0, PHP_ROUND_HALF_UP)); //9
+var_dump(round(8.5, 0, PHP_ROUND_HALF_DOWN)); //8
+var_dump(round(8.5, 0, PHP_ROUND_HALF_EVEN)); //8
+var_dump(round(8.5, 0, PHP_ROUND_HALF_ODD)); //9
 // ceil()
 // 格式：ceil ( float $value ) : float
 echo ceil(3.14); // 4
 // floor()
+// 格式：floor ( float $value ) : float
 echo floor(3.14); // 3
+var_dump(floor(3.157*100)/100));// 保留两位小数,不四舍五入
 ```
+> bindec — 二进制转换为十进制
+> decbin — 十进制转换为二进制
+> dechex — 十进制转换为十六进制
+> decoct — 十进制转换为八进制
+> octdec — 八进制转换为十进制
+> hexdec — 十六进制转换为十进制
+> base_convert — 在任意进制之间转换数字
+> hypot — 计算一直角三角形的斜边长度
 
 ## 文件
-> file_put_contents, 将一个字符串写入文件
+> basename — 返回路径中的文件名部分
+> chgrp — 改变文件所属的组
+> chmod — 改变文件模式
+> chown — 改变文件的所有者
+> clearstatcache — 清除文件状态缓存
+> copy — 拷贝文件
+> delete — 参见 unlink 或 unset
+> 
+> dirname — 返回路径中的目录部分
+> disk_free_space — 返回目录中的可用空间
+> disk_total_space — 返回一个目录的磁盘总大小
+> file_exists — 检查文件或目录是否存在
+> is_dir — 判断给定文件名是否是一个目录
+> mkdir — 新建目录
+> readlink — 返回符号连接指向的目标
+> realpath_cache_get — 获取真实目录缓存的详情
+> realpath_cache_size — 获取真实路径缓冲区的大小
+> realpath — 返回规范化的绝对路径名
+> rename — 重命名一个文件或目录
+> rmdir — 删除目录
+> glob — 寻找与模式匹配的文件路径
+> pathinfo — 返回文件路径的信息
+> 
+> diskfreespace — disk_free_space 的别名
+> fclose — 关闭一个已打开的文件指针
+> feof — 测试文件指针是否到了文件结束的位置
+> fflush — 将缓冲内容输出到文件
+> fgetc — 从文件指针中读取字符
+> fgetcsv — 从文件指针中读入一行并解析 CSV 字段
+> fgets — 从文件指针中读取一行
+> fgetss — 从文件指针中读取一行并过滤掉 HTML 标记
+
+> file_get_contents — 将整个文件读入一个字符串
+> file_put_contents — 将一个字符串写入文件
 ```php
 <?php
 // 格式:file_put_contents ( string $filename , mixed $data [, int $flags = 0 [, resource $context ]] ) : int
 // FILE_USE_INCLUDE_PATH	在 include 目录里搜索 filename。 更多信息可参见 include_path。
 // FILE_APPEND	如果文件 filename 已经存在，追加数据而不是覆盖。
 // LOCK_EX	在写入时获得一个独占锁。
-file_put_contents('20190606.json', json_encode(), FILE_APPEND, null);
-```
-> file_get_contents — 将整个文件读入一个字符串
-```php
+file_put_contents('../test.json', json_encode($data), FILE_APPEND, null);
+file_put_contents('../test.json', json_encode($data));
 // 格式:file_get_contents ( string $filename [, bool $use_include_path = false [, resource $context [, int $offset = -1 [, int $maxlen ]]]] ) : string
-
 ```
-> file_exists — 检查文件或目录是否存在
-> unlink()
+> file — 把整个文件读入一个数组中
+> fileatime — 取得文件的上次访问时间
+> filectime — 取得文件的 inode 修改时间
+> filegroup — 取得文件的组
+> fileinode — 取得文件的 inode
+> filemtime — 取得文件修改时间
+> fileowner — 取得文件的所有者
+> fileperms — 取得文件的权限
+> filesize — 取得文件大小
+> filetype — 取得文件类型
+> flock — 轻便的咨询文件锁定
+> fnmatch — 用模式匹配文件名
+> fopen — 打开文件或者 URL
+> fpassthru — 输出文件指针处的所有剩余数据
+> fputcsv — 将行格式化为 CSV 并写入文件指针
+> fputs — fwrite 的别名
+> fread — 读取文件（可安全用于二进制文件）
+> fscanf — 从文件中格式化输入
+> fseek — 在文件指针中定位
+> fstat — 通过已打开的文件指针取得文件信息
+> ftell — 返回文件指针读/写的位置
+> ftruncate — 将文件截断到给定的长度
+> fwrite — 写入文件（可安全用于二进制文件）
+> 
+> is_executable — 判断给定文件名是否可执行
+> is_file — 判断给定文件名是否为一个正常的文件
+> is_link — 判断给定文件名是否为一个符号连接
+> is_readable — 判断给定文件名是否可读
+> is_uploaded_file — 判断文件是否是通过 HTTP POST 上传的
+> is_writable — 判断给定的文件名是否可写
+> is_writeable — is_writable 的别名
+> lchgrp — 修改符号链接的所有组
+> lchown — 修改符号链接的所有者
+> link — 建立一个硬连接
+> linkinfo — 获取一个连接的信息
+> lstat — 给出一个文件或符号连接的信息
+
+> move_uploaded_file — 将上传的文件移动到新位置
+> parse_ini_file — 解析一个配置文件
+> parse_ini_string — 解析配置字符串
+> pclose — 关闭进程文件指针
+> popen — 打开进程文件指针
+> readfile — 输出文件
+> rewind — 倒回文件指针的位置
+
+> set_file_buffer — stream_set_write_buffer 的别名
+> stat — 给出文件的信息
+> symlink — 建立符号连接
+> tempnam — 建立一个具有唯一文件名的文件
+> tmpfile — 建立一个临时文件
+> touch — 设定文件的访问和修改时间
+> umask — 改变当前的 umask
+> unlink — 删除文件>
+
 ## 魔术方法
 > __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 > __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
