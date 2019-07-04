@@ -313,24 +313,7 @@
   
 </nav>
 
-<head>
-	<style>
-		table{
-			border-left:1px solid #000000;
-			border-top:1px solid #000000;
-			width: 100%;
-			word-wrap:break-word;
-			word-break:break-all;
-		}
-		table th{
-			text-align:center;
-		}
-		table th,td{
-			border-right:1px solid #000000;
-			border-bottom:1px solid #000000;
-		}
-	</style>
-</head>
+
 
  </div>
     </header>
@@ -468,28 +451,87 @@
   <h2 id="数字取整问题">数字取整问题</h2>
 <ol>
   <li>直接取整(不考虑小数点后的部分)
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code> <span class="c1">// 方式一: parseInt()</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"3.14"</span><span class="p">);</span> <span class="c1">//3</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"-3.14"</span><span class="p">);</span> <span class="c1">//-3</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"2019hello"</span><span class="p">);</span> <span class="c1">//2019</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span> <span class="c1">//NaN</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"0xA"</span><span class="p">);</span> <span class="c1">//10(十六进制)</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"070"</span><span class="p">);</span> <span class="c1">//56(八进制)</span>
- <span class="c1">// 方式二: 位运算</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="o">~~</span><span class="mf">3.14</span> <span class="c1">//3</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mf">3.14</span><span class="o">^</span><span class="mi">0</span> <span class="c1">//3</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mf">3.14</span><span class="o">&lt;&lt;</span><span class="mi">0</span> <span class="c1">//3</span>
- <span class="c1">// 方式三: </span>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 方式一: parseInt()</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"3.14"</span><span class="p">);</span> <span class="c1">//3</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"-3.14"</span><span class="p">);</span> <span class="c1">//-3</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"2019hello"</span><span class="p">);</span> <span class="c1">//2019</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span> <span class="c1">//NaN</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"0xA"</span><span class="p">);</span> <span class="c1">//10(十六进制)</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s2">"070"</span><span class="p">);</span> <span class="c1">//56(八进制)</span>
+<span class="c1">// 方式二: 位运算</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="o">~~</span><span class="mf">3.14</span> <span class="c1">//3</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mf">3.14</span><span class="o">^</span><span class="mi">0</span> <span class="c1">//3</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="mf">3.14</span><span class="o">&lt;&lt;</span><span class="mi">0</span> <span class="c1">//3</span>
+<span class="c1">// 方式三: </span>
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
   <li>计算后取整(四舍五入,向上取整,向下取整)
-    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code> <span class="c1">// 四舍五入</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//3</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">8.54</span><span class="p">);</span> <span class="c1">//9</span>
- <span class="c1">// 向上取整</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//4</span>
- <span class="c1">// 向下取整</span>
- <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//3</span>
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 四舍五入</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//3</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">8.54</span><span class="p">);</span> <span class="c1">//9</span>
+<span class="c1">// 向上取整</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//4</span>
+<span class="c1">// 向下取整</span>
+<span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span><span class="p">(</span><span class="mf">3.14</span><span class="p">);</span> <span class="c1">//3</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+</ol>
+
+<h2 id="数组对象操作">数组对象操作</h2>
+<ol>
+  <li>使用 Object.keys(obj) 遍历
+```javascript
+var obj = {‘0’:’a’,’1’:’b’,’2’:’c’};
+Object.keys(obj).forEach(function(key){
+ console.log(key,obj[key]);
+});
+// 注意： forEach不支持以下2种方式跳出循环，
+// 1) break; 执行报错: Uncaught SyntaxError: Illegal break statement
+// 2) return false; 只能跳出当前遍历执行</li>
+</ol>
+
+<p>// 缺失需要跳出循环，使用 try…catch…
+var obj = {‘0’:’a’,’1’:’b’,’2’:’c’};
+try {
+Object.keys(obj).forEach(function(key){
+	if(key == ‘a’){
+		console.log(key,obj[key]);
+		throw new Error(‘exist’);
+	}
+});
+} catch (ex) {
+  if(ex.message==’exist’) throw ex
+} finally {
+  console.log(‘done’)
+}</p>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6</pre></td><td class="code"><pre class="highlight"><code>2. for-in.	
+```javascript
+var obj = {'0':'a','1':'b','2':'c'};
+for(var i in obj) {
+	console.log(i,":",obj[i]);
+}
+</code></pre></td></tr></tbody></table></div></div>
+<ol>
+  <li>for-of
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// 支持数组遍历、大多数类数组对象、字符串（视为一系列的Unicode字符来进行遍历）</span>
+<span class="kd">var</span> <span class="nx">arr</span><span class="o">=</span><span class="p">[</span><span class="s2">"张三"</span><span class="p">,</span><span class="s2">"李四"</span><span class="p">,</span><span class="s2">"王五"</span><span class="p">,</span><span class="s2">"赵六"</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">value</span> <span class="k">of</span> <span class="nx">arr</span><span class="p">){</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>使用Object.getOwnPropertyNames(obj) 遍历
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'0'</span><span class="p">:</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'1'</span><span class="p">:</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'2'</span><span class="p">:</span><span class="s1">'c'</span><span class="p">};</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyNames</span><span class="p">(</span><span class="nx">obj</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">){</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="nx">obj</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+<span class="p">});</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>使用Reflect.ownKeys(obj) 遍历
+    <div class="language-javascript highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'0'</span><span class="p">:</span><span class="s1">'a'</span><span class="p">,</span><span class="s1">'1'</span><span class="p">:</span><span class="s1">'b'</span><span class="p">,</span><span class="s1">'2'</span><span class="p">:</span><span class="s1">'c'</span><span class="p">};</span>
+<span class="nb">Reflect</span><span class="p">.</span><span class="nx">ownKeys</span><span class="p">(</span><span class="nx">obj</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">){</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span><span class="nx">obj</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+<span class="p">});</span>
 </code></pre></td></tr></tbody></table></div>    </div>
   </li>
 </ol>
@@ -633,7 +675,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -655,7 +697,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -726,7 +768,6 @@
 
         
 
-
       </section>
 
       
@@ -749,7 +790,7 @@
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#数字取整问题"> <span class="nav-text">数字取整问题</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#数字取整问题"> <span class="nav-number">1</span> <span class="nav-text">数字取整问题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#数组对象操作"> <span class="nav-number">2</span> <span class="nav-text">数组对象操作</span> </a> </li>
     </ol>
   </div>
             

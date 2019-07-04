@@ -2,7 +2,7 @@
 #+AUTHOR:    赵仁贵
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3$
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.c$
@@ -39,8 +39,76 @@ photos:
 * Preface
 * Apache
 ** Introduction
-   Apache, Apache HTTP Server. Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
-** Virtual Host
+   [[https://www.apache.org/][Apache]], Apache HTTP Server. Apache 是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
+** 目录结构
++ bin，常用命令存放目录
++ cgi-bin，linux下常用命令，.sh
++ conf，配置目录
++ htdocs，站点目录
++ icons，存放图标
++ logs，存放日志
++ manual，手册
++ modules，apache模块
+** 配置 Apache
+*** httpd.conf
+   #+begin_src shell
+   # Serve 根目录
+   ServerRoot "/usr/local/apache2"
+   # 侦听端口
+   Listen 80
+   # 加载模块示例
+   # Example:
+   LoadModule foo_module modules/mod_foo.so
+   # 指定 Server 名称和端口
+   ServerName localhost:80
+   # Server 根目录访问控制
+   <Directory />
+   	AllowOverride none
+   	Require all denied
+   </Directory>
+   # 
+   DocumentRoot "/www/wwwroot"
+   <Directory "/www/wwwroot">
+   	#
+	# Possible values for the Options directive are "None", "All",
+	# or any combination of:
+	#   Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews
+	#
+	# Note that "MultiViews" must be named *explicitly* --- "Options All"
+	# doesn't give it to you.
+	#
+	# The Options directive is both complicated and important.  Please see
+	# http://httpd.apache.org/docs/2.4/mod/core.html#options
+	# for more information.
+	Options Indexes FollowSymLinks
+	# AllowOverride controls what directives may be placed in .htaccess files.
+	# It can be "All", "None", or any combination of the keywords:
+	#   AllowOverride FileInfo AuthConfig Limit
+	AllowOverride None
+	# Controls who can get stuff from this server.
+    	Require all granted
+    </Directory>
+   #+end_src
+*** httpd-vhosts.conf
+1. 在 httpd.conf 中配置支持 vhost
+   #+begin_src shell
+   # uncomment
+   LoadModule vhost_alias_module modules/mod_vhost_alias.so
+   ...
+   Include conf/extra/httpd-vhosts.conf
+   #+end_src
+2. 打开 httpd-vhosts.conf,配置一个虚拟主机
+    #+name: a virtual host
+    #+begin_src shell
+    <VirtualHost *:80>
+    	ServerAdmin webmaster@dummy-host.example.com
+	DocumentRoot "/var/www/dummy-host.example.com"
+	ServerName dummy-host.example.com
+	ServerAlias www.dummy-host.example.com
+	ErrorLog "logs/dummy-host.example.com-error_log"
+	CustomLog "logs/dummy-host.example.com-access_log" common
+    </VirtualHost>
+    #+end_src
 *** 常见问题
 1. You don't have permission to access / on this server. 
    : $ vim httpd.conf

@@ -313,24 +313,7 @@
   
 </nav>
 
-<head>
-	<style>
-		table{
-			border-left:1px solid #000000;
-			border-top:1px solid #000000;
-			width: 100%;
-			word-wrap:break-word;
-			word-break:break-all;
-		}
-		table th{
-			text-align:center;
-		}
-		table th,td{
-			border-right:1px solid #000000;
-			border-bottom:1px solid #000000;
-		}
-	</style>
-</head>
+
 
  </div>
     </header>
@@ -476,27 +459,117 @@
 
 
   <div id="outline-container-org9a647a4" class="outline-2">
-<h2 id="org9a647a4"><span class="section-number-2">1</span> Preface</h2>
+<h2 id="org9a647a4">Preface</h2>
 </div>
 <div id="outline-container-orga336f99" class="outline-2">
-<h2 id="orga336f99"><span class="section-number-2">2</span> Apache</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="orga336f99">Apache</h2>
+<div class="outline-text-2" id="text-orga336f99">
 </div>
 <div id="outline-container-orgaf18011" class="outline-3">
-<h3 id="orgaf18011"><span class="section-number-3">2.1</span> Introduction</h3>
-<div class="outline-text-3" id="text-2-1">
+<h3 id="orgaf18011">Introduction</h3>
+<div class="outline-text-3" id="text-orgaf18011">
 <p>
-Apache, Apache HTTP Server. Apache是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
+<a href="https://www.apache.org/">Apache</a>, Apache HTTP Server. Apache 是世界使用排名第一的Web服务器软件。它可以运行在几乎所有广泛使用的计算机平台上，由于其跨平台和安全性被广泛使用，是最流行的Web服务器端软件之一。它快速、可靠并且可通过简单的API扩充，将Perl/Python等解释器编译到服务器中。同时Apache音译为阿帕奇，是北美印第安人的一个部落，叫阿帕奇族，在美国的西南部。也是一个基金会的名称、一种武装直升机等等。
 </p>
 </div>
 </div>
-<div id="outline-container-org2c56c62" class="outline-3">
-<h3 id="org2c56c62"><span class="section-number-3">2.2</span> Virtual Host</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org6da3aac" class="outline-3">
+<h3 id="org6da3aac">目录结构</h3>
+<div class="outline-text-3" id="text-org6da3aac">
+<ul class="org-ul">
+<li>bin，常用命令存放目录</li>
+<li>cgi-bin，linux下常用命令，.sh</li>
+<li>conf，配置目录</li>
+<li>htdocs，站点目录</li>
+<li>icons，存放图标</li>
+<li>logs，存放日志</li>
+<li>manual，手册</li>
+<li>modules，apache模块</li>
+</ul>
 </div>
-<div id="outline-container-orgfe26bd4" class="outline-4">
-<h4 id="orgfe26bd4"><span class="section-number-4">2.2.1</span> 常见问题</h4>
-<div class="outline-text-4" id="text-2-2-1">
+</div>
+<div id="outline-container-org8a01028" class="outline-3">
+<h3 id="org8a01028">配置 Apache</h3>
+<div class="outline-text-3" id="text-org8a01028">
+</div>
+<div id="outline-container-org888c36a" class="outline-4">
+<h4 id="org888c36a">httpd.conf</h4>
+<div class="outline-text-4" id="text-org888c36a">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Serve &#26681;&#30446;&#24405;</span>
+ServerRoot <span style="color: #ffd866;">"/usr/local/apache2"</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#20390;&#21548;&#31471;&#21475;</span>
+Listen 80
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#21152;&#36733;&#27169;&#22359;&#31034;&#20363;</span>
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Example:</span>
+LoadModule foo_module modules/mod_foo.so
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#25351;&#23450; Server &#21517;&#31216;&#21644;&#31471;&#21475;</span>
+ServerName localhost:80
+<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Server &#26681;&#30446;&#24405;&#35775;&#38382;&#25511;&#21046;</span>
+&lt;Directory /&gt;
+     AllowOverride none
+     Require all denied
+&lt;/Directory&gt;
+<span style="color: #727072;"># </span>
+DocumentRoot <span style="color: #ffd866;">"/www/wwwroot"</span>
+&lt;Directory <span style="color: #ffd866;">"/www/wwwroot"</span>&gt;
+     <span style="color: #727072;">#</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Possible values for the Options directive are "None", "All",</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">or any combination of:</span>
+     <span style="color: #727072;">#   </span><span style="color: #727072; font-style: italic;">Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews</span>
+     <span style="color: #727072;">#</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Note that "MultiViews" must be named *explicitly* --- "Options All"</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">doesn't give it to you.</span>
+     <span style="color: #727072;">#</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">The Options directive is both complicated and important.  Please see</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">http://httpd.apache.org/docs/2.4/mod/core.html#options</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">for more information.</span>
+     Options Indexes FollowSymLinks
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">AllowOverride controls what directives may be placed in .htaccess files.</span>
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">It can be "All", "None", or any combination of the keywords:</span>
+     <span style="color: #727072;">#   </span><span style="color: #727072; font-style: italic;">AllowOverride FileInfo AuthConfig Limit</span>
+     AllowOverride None
+     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Controls who can get stuff from this server.</span>
+     Require all granted
+ &lt;/Directory&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6b5b36c" class="outline-4">
+<h4 id="org6b5b36c">httpd-vhosts.conf</h4>
+<div class="outline-text-4" id="text-org6b5b36c">
+<ol class="org-ol">
+<li><p>
+在 httpd.conf 中配置支持 vhost
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">uncomment</span>
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+...
+Include conf/extra/httpd-vhosts.conf
+</pre>
+</div></li>
+<li><p>
+打开 httpd-vhosts.conf,配置一个虚拟主机
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orge7964c2">&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@dummy-host.example.com
+    DocumentRoot <span style="color: #ffd866;">"/var/www/dummy-host.example.com"</span>
+    ServerName dummy-host.example.com
+    ServerAlias www.dummy-host.example.com
+    ErrorLog <span style="color: #ffd866;">"logs/dummy-host.example.com-error_log"</span>
+    CustomLog <span style="color: #ffd866;">"logs/dummy-host.example.com-access_log"</span> common
+&lt;/VirtualHost&gt;
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org195192b" class="outline-4">
+<h4 id="org195192b">常见问题</h4>
+<div class="outline-text-4" id="text-org195192b">
 <ol class="org-ol">
 <li><p>
 You don't have permission to access / on this server. 
@@ -519,12 +592,12 @@ Require all granted
 </div>
 </div>
 <div id="outline-container-org7ad8d5a" class="outline-2">
-<h2 id="org7ad8d5a"><span class="section-number-2">3</span> Nginx</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="org7ad8d5a">Nginx</h2>
+<div class="outline-text-2" id="text-org7ad8d5a">
 </div>
 <div id="outline-container-org2a8e6ed" class="outline-3">
-<h3 id="org2a8e6ed"><span class="section-number-3">3.1</span> Introdution</h3>
-<div class="outline-text-3" id="text-3-1">
+<h3 id="org2a8e6ed">Introdution</h3>
+<div class="outline-text-3" id="text-org2a8e6ed">
 <p>
 Nginx (engine x) 是一个高性能的HTTP和反向代理服务，也是一个IMAP/POP3/SMTP服务。Nginx是由伊戈尔·赛索耶夫为俄罗斯访问量第二的Rambler.ru站点（俄文：Рамблер）开发的，第一个公开版本0.1.0发布于2004年10月4日。
 <br />
@@ -534,8 +607,8 @@ Apache和Nginx都有能力提供每秒钟庞大的请求服务，但是随着并
 </div>
 </div>
 <div id="outline-container-orgeca4624" class="outline-3">
-<h3 id="orgeca4624"><span class="section-number-3">3.2</span> Nginx 的事件处理机制</h3>
-<div class="outline-text-3" id="text-3-2">
+<h3 id="orgeca4624">Nginx 的事件处理机制</h3>
+<div class="outline-text-3" id="text-orgeca4624">
 <ol class="org-ol">
 <li>一个基本的 Web 服务器来说，事件通常有 3种类型，即网络事件、信号、定时器。</li>
 <li>Nginx 通过异步非阻塞机制，实现由进程循环处理多个准备好的事件，从而实现高并发和轻量级。</li>
@@ -543,11 +616,11 @@ Apache和Nginx都有能力提供每秒钟庞大的请求服务，但是随着并
 </div>
 </div>
 <div id="outline-container-org4f65949" class="outline-3">
-<h3 id="org4f65949"><span class="section-number-3">3.3</span> Nginx 的内部模型</h3>
+<h3 id="org4f65949">Nginx 的内部模型</h3>
 </div>
 <div id="outline-container-org23c2a4c" class="outline-3">
-<h3 id="org23c2a4c"><span class="section-number-3">3.4</span> Nginx 开启和关闭</h3>
-<div class="outline-text-3" id="text-3-4">
+<h3 id="org23c2a4c">Nginx 开启和关闭</h3>
+<div class="outline-text-3" id="text-org23c2a4c">
 <pre class="example">
 $ cd nginx 
 $ start nginx 
@@ -558,8 +631,8 @@ $ nginx -s quit          // 退出nginx
 </div>
 </div>
 <div id="outline-container-org30200b0" class="outline-3">
-<h3 id="org30200b0"><span class="section-number-3">3.5</span> Nginx 配置</h3>
-<div class="outline-text-3" id="text-3-5">
+<h3 id="org30200b0">Nginx 配置</h3>
+<div class="outline-text-3" id="text-org30200b0">
 <div class="org-src-container">
 <pre class="src src-shell">   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">user&#8239; nobody; </span>
    worker_processes&#8239; 1; 
@@ -682,16 +755,16 @@ charset GBK; <span style="color: #727072;">#</span><span style="color: #727072; 
 </div>
 </div>
 <div id="outline-container-orgba1d93d" class="outline-2">
-<h2 id="orgba1d93d"><span class="section-number-2">4</span> IIS(Internet Information Services)</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="orgba1d93d">IIS(Internet Information Services)</h2>
+<div class="outline-text-2" id="text-orgba1d93d">
 </div>
 <div id="outline-container-orgfb8ef16" class="outline-3">
-<h3 id="orgfb8ef16"><span class="section-number-3">4.1</span> IIS 常见问题及解决办法</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="orgfb8ef16">IIS 常见问题及解决办法</h3>
+<div class="outline-text-3" id="text-orgfb8ef16">
 </div>
 <div id="outline-container-org6168d9c" class="outline-4">
-<h4 id="org6168d9c"><span class="section-number-4">4.1.1</span> 关闭IIS或sql server占用的80端口</h4>
-<div class="outline-text-4" id="text-4-1-1">
+<h4 id="org6168d9c">关闭IIS或sql server占用的80端口</h4>
+<div class="outline-text-4" id="text-org6168d9c">
 <ol class="org-ol">
 <li>打开IIS信息管理器，停止IIS服务</li>
 <li>打开SQL Server配置管理器，停止SQL Server Reporting Services服务</li>
@@ -699,8 +772,8 @@ charset GBK; <span style="color: #727072;">#</span><span style="color: #727072; 
 </div>
 </div>
 <div id="outline-container-org329006f" class="outline-4">
-<h4 id="org329006f"><span class="section-number-4">4.1.2</span> 停止IIS服务</h4>
-<div class="outline-text-4" id="text-4-1-2">
+<h4 id="org329006f">停止IIS服务</h4>
+<div class="outline-text-4" id="text-org329006f">
 <ol class="org-ol">
 <li>停止IIS网站服务（通过鼠标）</li>
 <li>命令行输入net stop iisadmin</li>
@@ -721,8 +794,8 @@ $ taskkill /f /t /im httpd.exe 终止该进程
 </div>
 </div>
 <div id="outline-container-org3995135" class="outline-4">
-<h4 id="org3995135"><span class="section-number-4">4.1.3</span> IIS 403 错误</h4>
-<div class="outline-text-4" id="text-4-1-3">
+<h4 id="org3995135">IIS 403 错误</h4>
+<div class="outline-text-4" id="text-org3995135">
 <p>
 可能原因为功能缺失,使用 Windows 自带添加功能引导安装功能.
 </p>
@@ -731,24 +804,24 @@ $ taskkill /f /t /im httpd.exe 终止该进程
 </div>
 </div>
 <div id="outline-container-orgbb182ec" class="outline-2">
-<h2 id="orgbb182ec"><span class="section-number-2">5</span> Tomcat</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="orgbb182ec">Tomcat</h2>
+<div class="outline-text-2" id="text-orgbb182ec">
 </div>
 <div id="outline-container-org11f69a3" class="outline-3">
-<h3 id="org11f69a3"><span class="section-number-3">5.1</span> Indroduction</h3>
-<div class="outline-text-3" id="text-5-1">
+<h3 id="org11f69a3">Indroduction</h3>
+<div class="outline-text-3" id="text-org11f69a3">
 <p>
 Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目中的一个核心项目，由Apache、Sun 和其他一些公司及个人共同开发而成。
 </p>
 </div>
 </div>
 <div id="outline-container-orgfd75263" class="outline-3">
-<h3 id="orgfd75263"><span class="section-number-3">5.2</span> 安装及配置</h3>
-<div class="outline-text-3" id="text-5-2">
+<h3 id="orgfd75263">安装及配置</h3>
+<div class="outline-text-3" id="text-orgfd75263">
 </div>
 <div id="outline-container-org545e4c6" class="outline-4">
-<h4 id="org545e4c6"><span class="section-number-4">5.2.1</span> WEB-INF 目录</h4>
-<div class="outline-text-4" id="text-5-2-1">
+<h4 id="org545e4c6">WEB-INF 目录</h4>
+<div class="outline-text-4" id="text-org545e4c6">
 <ol class="org-ol">
 <li>WEB-INF是JAVA的WEB应用的安全目录。所谓安全就是客户端无法访问，只有服务端可以访问的目录。</li>
 <li>web.xml,项目部署文件</li>
@@ -758,8 +831,8 @@ Tomcat是Apache 软件基金会（Apache Software Foundation）的Jakarta 项目
 </div>
 </div>
 <div id="outline-container-orge16cad9" class="outline-4">
-<h4 id="orge16cad9"><span class="section-number-4">5.2.2</span> 定时重启 Tomcat</h4>
-<div class="outline-text-4" id="text-5-2-2">
+<h4 id="orge16cad9">定时重启 Tomcat</h4>
+<div class="outline-text-4" id="text-orge16cad9">
 <pre class="example">
 $ vim tomcat_restart.bat
 </pre>
@@ -783,9 +856,9 @@ echo------------------------------------ &#12299;C:\tomcat_restart.log
 </div>
 </div>
 </div>
-<div id="outline-container-orgb7bad4f" class="outline-3">
-<h3 id="orgb7bad4f"><span class="section-number-3">5.3</span> 常见问题</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org32f9f91" class="outline-3">
+<h3 id="org32f9f91">常见问题</h3>
+<div class="outline-text-3" id="text-org32f9f91">
 <ol class="org-ol">
 <li><p>
 运行startup.bat没有启动，报错：TOMCAT JAVA_HOME or JRE_HOME environment variable is not defined correctly 
@@ -805,19 +878,19 @@ echo------------------------------------ &#12299;C:\tomcat_restart.log
 </div>
 </div>
 <div id="outline-container-orgf231475" class="outline-2">
-<h2 id="orgf231475"><span class="section-number-2">6</span> 集成 Web Server</h2>
-<div class="outline-text-2" id="text-6">
+<h2 id="orgf231475">集成 Web Server</h2>
+<div class="outline-text-2" id="text-orgf231475">
 </div>
 <div id="outline-container-org6d14e14" class="outline-3">
-<h3 id="org6d14e14"><span class="section-number-3">6.1</span> wamp</h3>
+<h3 id="org6d14e14">wamp</h3>
 </div>
 <div id="outline-container-org7862e0d" class="outline-3">
-<h3 id="org7862e0d"><span class="section-number-3">6.2</span> WampServer</h3>
-<div class="outline-text-3" id="text-6-2">
+<h3 id="org7862e0d">WampServer</h3>
+<div class="outline-text-3" id="text-org7862e0d">
 </div>
 <div id="outline-container-org7b5c3f7" class="outline-4">
-<h4 id="org7b5c3f7"><span class="section-number-4">6.2.1</span> 修改 www 目录</h4>
-<div class="outline-text-4" id="text-6-2-1">
+<h4 id="org7b5c3f7">修改 www 目录</h4>
+<div class="outline-text-4" id="text-org7b5c3f7">
 <ol class="org-ol">
 <li>打开http.conf，搜索documentroot和directory，修改指定的WWW路径。</li>
 <li>打开wampmanager.ini，搜索Menu.Left，修改指定的WWW路径。</li>
@@ -826,8 +899,8 @@ echo------------------------------------ &#12299;C:\tomcat_restart.log
 </div>
 </div>
 <div id="outline-container-orgee1a322" class="outline-4">
-<h4 id="orgee1a322"><span class="section-number-4">6.2.2</span> 添加apache、php、mysql版本</h4>
-<div class="outline-text-4" id="text-6-2-2">
+<h4 id="orgee1a322">添加apache、php、mysql版本</h4>
+<div class="outline-text-4" id="text-orgee1a322">
 <p>
 根据/scripts/config.inc.php中定义的全局变量和checkApacheConf函数。需要添加一个wampserver.conf文件。这样的话，才能告诉wampserver.exe，我们已经有一个有效的apache、MySQL、PHP版本了。 
 </p>
@@ -849,9 +922,9 @@ $phpConf['apache']['2.4']['LoadModuleFile'] = 'php7apache2_4.dll';
 </ol>
 </div>
 </div>
-<div id="outline-container-orgcd958d8" class="outline-4">
-<h4 id="orgcd958d8"><span class="section-number-4">6.2.3</span> 常见问题</h4>
-<div class="outline-text-4" id="text-6-2-3">
+<div id="outline-container-org7cef874" class="outline-4">
+<h4 id="org7cef874">常见问题</h4>
+<div class="outline-text-4" id="text-org7cef874">
 <ol class="org-ol">
 <li><p>
 访问phpmyadmin时，出现You don't have permission to access <i>phpmyadmin</i> on this server. 
@@ -872,12 +945,12 @@ Require all granted
 </div>
 </div>
 <div id="outline-container-orgb561475" class="outline-3">
-<h3 id="orgb561475"><span class="section-number-3">6.3</span> xampp</h3>
-<div class="outline-text-3" id="text-6-3">
+<h3 id="orgb561475">xampp</h3>
+<div class="outline-text-3" id="text-orgb561475">
 </div>
 <div id="outline-container-orgf5159ba" class="outline-4">
-<h4 id="orgf5159ba"><span class="section-number-4">6.3.1</span> 下载和安装</h4>
-<div class="outline-text-4" id="text-6-3-1">
+<h4 id="orgf5159ba">下载和安装</h4>
+<div class="outline-text-4" id="text-orgf5159ba">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">     &#23448;&#32593;&#22320;&#22336;&#65306;https://www.apachefriends.org
      &#19979;&#36733;&#26102;&#65292;&#26377;32&#20301;&#30340;&#12289;64&#20301;&#30340;&#65292;&#30475;&#20320;&#30340;&#31995;&#32479;&#25903;&#25345;&#37027;&#20010;&#23601;&#19979;&#21738;&#20010;&#12290;
@@ -888,11 +961,11 @@ Require all granted
 </pre>
 </div>
 </div>
-<ol class="org-ol">
+<ul class="org-ul">
 <li><a id="org07c2eaf"></a>配置访问<br />
-<ol class="org-ol">
+<ul class="org-ul">
 <li><a id="orge97afad"></a>相关路径<br />
-<div class="outline-text-6" id="text-6-3-1-1-1">
+<div class="outline-text-6" id="text-orge97afad">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">/opt/lampp/&#20027;&#30446;&#24405;
 /opt/lampp/htdocs/xampp/&#32593;&#31449;&#23384;&#25918;&#30446;&#24405;
@@ -902,7 +975,7 @@ Require all granted
 </div>
 </li>
 <li><a id="org9c2ca31"></a>使外部网络能正常访问<br />
-<div class="outline-text-6" id="text-6-3-1-1-2">
+<div class="outline-text-6" id="text-org9c2ca31">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#vim /opt/lampp/etc/extra/httpd-xampp.conf
 &#25214;&#21040;&#20462;&#25913;&#65306;
@@ -917,20 +990,20 @@ Require all granted
 </div>
 </li>
 <li><a id="orgad9848e"></a>启动服务<br />
-<div class="outline-text-6" id="text-6-3-1-1-3">
+<div class="outline-text-6" id="text-orgad9848e">
 <pre class="example">
 /opt/lampp/lampp start
 就这么简单，用浏览器访问一下吧！
 </pre>
 </div>
 </li>
-</ol>
+</ul>
 </li>
-</ol>
+</ul>
 </div>
 <div id="outline-container-orgd449a5d" class="outline-4">
-<h4 id="orgd449a5d"><span class="section-number-4">6.3.2</span> 当访问时，出现权限问题</h4>
-<div class="outline-text-4" id="text-6-3-2">
+<h4 id="orgd449a5d">当访问时，出现权限问题</h4>
+<div class="outline-text-4" id="text-orgd449a5d">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">Access forbidden!
 New XAMPP security concept:
@@ -943,8 +1016,8 @@ Error 403
 </div>
 </div>
 <div id="outline-container-org84de770" class="outline-4">
-<h4 id="org84de770"><span class="section-number-4">6.3.3</span> 重启后不能启动xampp服务</h4>
-<div class="outline-text-4" id="text-6-3-3">
+<h4 id="org84de770">重启后不能启动xampp服务</h4>
+<div class="outline-text-4" id="text-org84de770">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">&#30001;&#20110;&#26029;&#30005;&#25110;&#20854;&#20182;&#21407;&#22240;&#65292;&#37325;&#21551;&#21518;&#26381;&#21153;&#27809;&#33021;&#24320;&#21551;&#65292;&#32593;&#31449;&#19981;&#33021;&#35775;&#38382;&#20102;
 a.&#36827;&#20837; /etc/init.d &#30446;&#24405;&#19979;&#65292;&#24314;&#31435; lampp.sh&#25991;&#20214;
@@ -963,8 +1036,8 @@ exec /etc/init.d/lampp.sh
 </div>
 </div>
 <div id="outline-container-org737fc69" class="outline-4">
-<h4 id="org737fc69"><span class="section-number-4">6.3.4</span> 有时会因为防火墙原因，导致不能访问网站</h4>
-<div class="outline-text-4" id="text-6-3-4">
+<h4 id="org737fc69">有时会因为防火墙原因，导致不能访问网站</h4>
+<div class="outline-text-4" id="text-org737fc69">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">&#27492;&#26102;&#65292;&#25105;&#20204;&#21487;&#20197;&#20851;&#38381;&#38450;&#28779;&#22681;&#65292;&#24182;&#19988;&#37325;&#21551;&#21518;&#19981;&#24320;&#21551;
 chkconfig iptables off &#20851;&#38381;&#38450;&#28779;&#22681;
@@ -977,12 +1050,12 @@ systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&
 </div>
 
 <div id="outline-container-orgaad2a3a" class="outline-3">
-<h3 id="orgaad2a3a"><span class="section-number-3">6.4</span> phpStudy</h3>
+<h3 id="orgaad2a3a">phpStudy</h3>
 </div>
 </div>
 <div id="outline-container-orga035017" class="outline-2">
-<h2 id="orga035017"><span class="section-number-2">7</span> References</h2>
-<div class="outline-text-2" id="text-7">
+<h2 id="orga035017">References</h2>
+<div class="outline-text-2" id="text-orga035017">
 <ul class="org-ul">
 <li><a href="https://baike.baidu.com/item/apache/6265">apache 百度百科</a></li>
 </ul>
@@ -1136,7 +1209,7 @@ systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1158,7 +1231,7 @@ systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1229,7 +1302,6 @@ systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&
 
         
 
-
       </section>
 
       
@@ -1252,7 +1324,7 @@ systemctl disable firewalled.service --&#37325;&#21551;&#21518;&#19981;&#24320;&
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9a647a4"> <span class="nav-text">1 Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga336f99"> <span class="nav-text">2 Apache</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaf18011"> <span class="nav-text">2.1 Introduction</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2c56c62"> <span class="nav-text">2.2 Virtual Host</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfe26bd4"> <span class="nav-text">2.2.1 常见问题</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7ad8d5a"> <span class="nav-text">3 Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2a8e6ed"> <span class="nav-text">3.1 Introdution</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeca4624"> <span class="nav-text">3.2 Nginx 的事件处理机制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4f65949"> <span class="nav-text">3.3 Nginx 的内部模型</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org23c2a4c"> <span class="nav-text">3.4 Nginx 开启和关闭</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org30200b0"> <span class="nav-text">3.5 Nginx 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgba1d93d"> <span class="nav-text">4 IIS(Internet Information Services)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfb8ef16"> <span class="nav-text">4.1 IIS 常见问题及解决办法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6168d9c"> <span class="nav-text">4.1.1 关闭IIS或sql server占用的80端口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org329006f"> <span class="nav-text">4.1.2 停止IIS服务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3995135"> <span class="nav-text">4.1.3 IIS 403 错误</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbb182ec"> <span class="nav-text">5 Tomcat</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11f69a3"> <span class="nav-text">5.1 Indroduction</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd75263"> <span class="nav-text">5.2 安装及配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org545e4c6"> <span class="nav-text">5.2.1 WEB-INF 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge16cad9"> <span class="nav-text">5.2.2 定时重启 Tomcat</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb7bad4f"> <span class="nav-text">5.3 常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf231475"> <span class="nav-text">6 集成 Web Server</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6d14e14"> <span class="nav-text">6.1 wamp</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7862e0d"> <span class="nav-text">6.2 WampServer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7b5c3f7"> <span class="nav-text">6.2.1 修改 www 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgee1a322"> <span class="nav-text">6.2.2 添加apache、php、mysql版本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcd958d8"> <span class="nav-text">6.2.3 常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb561475"> <span class="nav-text">6.3 xampp</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf5159ba"> <span class="nav-text">6.3.1 下载和安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd449a5d"> <span class="nav-text">6.3.2 当访问时，出现权限问题</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org84de770"> <span class="nav-text">6.3.3 重启后不能启动xampp服务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org737fc69"> <span class="nav-text">6.3.4 有时会因为防火墙原因，导致不能访问网站</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaad2a3a"> <span class="nav-text">6.4 phpStudy</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga035017"> <span class="nav-text">7 References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9a647a4"> <span class="nav-number">1</span> <span class="nav-text">Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga336f99"> <span class="nav-number">2</span> <span class="nav-text">Apache</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaf18011"> <span class="nav-number">2.1</span> <span class="nav-text">Introduction</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6da3aac"> <span class="nav-number">2.2</span> <span class="nav-text">目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8a01028"> <span class="nav-number">2.3</span> <span class="nav-text">配置 Apache</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org888c36a"> <span class="nav-number">2.3.1</span> <span class="nav-text">httpd.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6b5b36c"> <span class="nav-number">2.3.2</span> <span class="nav-text">httpd-vhosts.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org195192b"> <span class="nav-number">2.3.3</span> <span class="nav-text">常见问题</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7ad8d5a"> <span class="nav-number">3</span> <span class="nav-text">Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2a8e6ed"> <span class="nav-number">3.1</span> <span class="nav-text">Introdution</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeca4624"> <span class="nav-number">3.2</span> <span class="nav-text">Nginx 的事件处理机制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4f65949"> <span class="nav-number">3.3</span> <span class="nav-text">Nginx 的内部模型</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org23c2a4c"> <span class="nav-number">3.4</span> <span class="nav-text">Nginx 开启和关闭</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org30200b0"> <span class="nav-number">3.5</span> <span class="nav-text">Nginx 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgba1d93d"> <span class="nav-number">4</span> <span class="nav-text">IIS(Internet Information Services)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfb8ef16"> <span class="nav-number">4.1</span> <span class="nav-text">IIS 常见问题及解决办法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6168d9c"> <span class="nav-number">4.1.1</span> <span class="nav-text">关闭IIS或sql server占用的80端口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org329006f"> <span class="nav-number">4.1.2</span> <span class="nav-text">停止IIS服务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3995135"> <span class="nav-number">4.1.3</span> <span class="nav-text">IIS 403 错误</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbb182ec"> <span class="nav-number">5</span> <span class="nav-text">Tomcat</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11f69a3"> <span class="nav-number">5.1</span> <span class="nav-text">Indroduction</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd75263"> <span class="nav-number">5.2</span> <span class="nav-text">安装及配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org545e4c6"> <span class="nav-number">5.2.1</span> <span class="nav-text">WEB-INF 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge16cad9"> <span class="nav-number">5.2.2</span> <span class="nav-text">定时重启 Tomcat</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org32f9f91"> <span class="nav-number">5.3</span> <span class="nav-text">常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf231475"> <span class="nav-number">6</span> <span class="nav-text">集成 Web Server</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6d14e14"> <span class="nav-number">6.1</span> <span class="nav-text">wamp</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7862e0d"> <span class="nav-number">6.2</span> <span class="nav-text">WampServer</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7b5c3f7"> <span class="nav-number">6.2.1</span> <span class="nav-text">修改 www 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgee1a322"> <span class="nav-number">6.2.2</span> <span class="nav-text">添加apache、php、mysql版本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7cef874"> <span class="nav-number">6.2.3</span> <span class="nav-text">常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb561475"> <span class="nav-number">6.3</span> <span class="nav-text">xampp</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf5159ba"> <span class="nav-number">6.3.1</span> <span class="nav-text">下载和安装</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd449a5d"> <span class="nav-number">6.3.2</span> <span class="nav-text">当访问时，出现权限问题</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org84de770"> <span class="nav-number">6.3.3</span> <span class="nav-text">重启后不能启动xampp服务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org737fc69"> <span class="nav-number">6.3.4</span> <span class="nav-text">有时会因为防火墙原因，导致不能访问网站</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaad2a3a"> <span class="nav-number">6.4</span> <span class="nav-text">phpStudy</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga035017"> <span class="nav-number">7</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             

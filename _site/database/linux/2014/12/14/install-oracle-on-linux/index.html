@@ -313,24 +313,7 @@
   
 </nav>
 
-<head>
-	<style>
-		table{
-			border-left:1px solid #000000;
-			border-top:1px solid #000000;
-			width: 100%;
-			word-wrap:break-word;
-			word-break:break-all;
-		}
-		table th{
-			text-align:center;
-		}
-		table th,td{
-			border-right:1px solid #000000;
-			border-bottom:1px solid #000000;
-		}
-	</style>
-</head>
+
 
  </div>
     </header>
@@ -482,20 +465,20 @@ Don't forget to answer the sum up questions in your email message!
 </div>
 
 <div id="outline-container-orgda4ee45" class="outline-2">
-<h2 id="orgda4ee45"><span class="section-number-2">1</span> Preface</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="orgda4ee45">Preface</h2>
+<div class="outline-text-2" id="text-orgda4ee45">
 <pre class="example">
 In this tutorial, we will show you how to Install Oracle Database 12c On CentOS 7.
 </pre>
 </div>
 </div>
 <div id="outline-container-org816a51a" class="outline-2">
-<h2 id="org816a51a"><span class="section-number-2">2</span> Environment</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="org816a51a">Environment</h2>
+<div class="outline-text-2" id="text-org816a51a">
 </div>
 <div id="outline-container-orgc644d1c" class="outline-3">
-<h3 id="orgc644d1c"><span class="section-number-3">2.1</span> OS information</h3>
-<div class="outline-text-3" id="text-2-1">
+<h3 id="orgc644d1c">OS information</h3>
+<div class="outline-text-3" id="text-orgc644d1c">
 <pre class="example">
 [root@1 ~]# cat /etc/centos-release
 CentOS Linux release 7.1.1503 (Core)
@@ -503,16 +486,16 @@ CentOS Linux release 7.1.1503 (Core)
 </div>
 </div>
 <div id="outline-container-org276cc1b" class="outline-3">
-<h3 id="org276cc1b"><span class="section-number-3">2.2</span> Linux Kernel Version</h3>
-<div class="outline-text-3" id="text-2-2">
+<h3 id="org276cc1b">Linux Kernel Version</h3>
+<div class="outline-text-3" id="text-org276cc1b">
 <pre class="example">
 Linux  3.10.0
 </pre>
 </div>
 </div>
 <div id="outline-container-org0c88e4d" class="outline-3">
-<h3 id="org0c88e4d"><span class="section-number-3">2.3</span> Software Version</h3>
-<div class="outline-text-3" id="text-2-3">
+<h3 id="org0c88e4d">Software Version</h3>
+<div class="outline-text-3" id="text-org0c88e4d">
 <pre class="example">
 Oracle 12.1.0‘
 </pre>
@@ -520,12 +503,12 @@ Oracle 12.1.0‘
 </div>
 </div>
 <div id="outline-container-orgc9570e8" class="outline-2">
-<h2 id="orgc9570e8"><span class="section-number-2">3</span> Prepare</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="orgc9570e8">Prepare</h2>
+<div class="outline-text-2" id="text-orgc9570e8">
 </div>
 <div id="outline-container-orgfab7406" class="outline-3">
-<h3 id="orgfab7406"><span class="section-number-3">3.1</span> Login as root and add required groups</h3>
-<div class="outline-text-3" id="text-3-1">
+<h3 id="orgfab7406">Login as root and add required groups</h3>
+<div class="outline-text-3" id="text-orgfab7406">
 <pre class="example">
 /usr/sbin/groupadd -g 501 oinstall
 /usr/sbin/groupadd -g 502 dba
@@ -534,24 +517,24 @@ Oracle 12.1.0‘
 </div>
 </div>
 <div id="outline-container-org7e94af3" class="outline-3">
-<h3 id="org7e94af3"><span class="section-number-3">3.2</span> Add user oracle</h3>
-<div class="outline-text-3" id="text-3-2">
+<h3 id="org7e94af3">Add user oracle</h3>
+<div class="outline-text-3" id="text-org7e94af3">
 <pre class="example">
 /usr/sbin/useradd -u 502 -g oinstall -G dba,oper oracle
 </pre>
 </div>
 </div>
 <div id="outline-container-orgbd8eb15" class="outline-3">
-<h3 id="orgbd8eb15"><span class="section-number-3">3.3</span> Change password of user:</h3>
-<div class="outline-text-3" id="text-3-3">
+<h3 id="orgbd8eb15">Change password of user:</h3>
+<div class="outline-text-3" id="text-orgbd8eb15">
 <pre class="example">
 passwd oracle
 </pre>
 </div>
 </div>
 <div id="outline-container-orge3c32ea" class="outline-3">
-<h3 id="orge3c32ea"><span class="section-number-3">3.4</span> Add kernel parameters to /etc/sysctl.conf</h3>
-<div class="outline-text-3" id="text-3-4">
+<h3 id="orge3c32ea">Add kernel parameters to /etc/sysctl.conf</h3>
+<div class="outline-text-3" id="text-orge3c32ea">
 <pre class="example">
 kernel.shmmni = 4096
 kernel.shmmax = 4398046511104
@@ -568,16 +551,16 @@ net.core.wmem_max = 1048586
 </div>
 </div>
 <div id="outline-container-orgda49858" class="outline-3">
-<h3 id="orgda49858"><span class="section-number-3">3.5</span> Apply kernel parameters</h3>
-<div class="outline-text-3" id="text-3-5">
+<h3 id="orgda49858">Apply kernel parameters</h3>
+<div class="outline-text-3" id="text-orgda49858">
 <pre class="example">
 /sbin/sysctl -p
 </pre>
 </div>
 </div>
 <div id="outline-container-orgf24940e" class="outline-3">
-<h3 id="orgf24940e"><span class="section-number-3">3.6</span> Add following lines to set shell limits for user oracle in file /etc/security/limits.conf</h3>
-<div class="outline-text-3" id="text-3-6">
+<h3 id="orgf24940e">Add following lines to set shell limits for user oracle in file /etc/security/limits.conf</h3>
+<div class="outline-text-3" id="text-orgf24940e">
 <pre class="example">
 oracle   soft   nproc    131072
 oracle   hard   nproc    131072
@@ -591,8 +574,8 @@ oracle   hard   memlock  50000000
 </div>
 </div>
 <div id="outline-container-org11a388f" class="outline-3">
-<h3 id="org11a388f"><span class="section-number-3">3.7</span> Edit /etc/hosts file:</h3>
-<div class="outline-text-3" id="text-3-7">
+<h3 id="org11a388f">Edit /etc/hosts file:</h3>
+<div class="outline-text-3" id="text-org11a388f">
 <pre class="example">
 [root@1 ~]# cat /etc/hosts
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -602,16 +585,16 @@ oracle   hard   memlock  50000000
 </div>
 </div>
 <div id="outline-container-org85dcfba" class="outline-3">
-<h3 id="org85dcfba"><span class="section-number-3">3.8</span> Verify your network setting:</h3>
-<div class="outline-text-3" id="text-3-8">
+<h3 id="org85dcfba">Verify your network setting:</h3>
+<div class="outline-text-3" id="text-org85dcfba">
 <pre class="example">
 ping -c 1 ora-c7.zhao.local
 </pre>
 </div>
 </div>
 <div id="outline-container-org742323f" class="outline-3">
-<h3 id="org742323f"><span class="section-number-3">3.9</span> Modify .bash_profile for user oracle in his home directory add at the end file <i>home/oralce</i>.bash_profile.</h3>
-<div class="outline-text-3" id="text-3-9">
+<h3 id="org742323f">Modify .bash_profile for user oracle in his home directory add at the end file <i>home/oralce</i>.bash_profile.</h3>
+<div class="outline-text-3" id="text-org742323f">
 <pre class="example">
 # Oracle Settings
 #Oracle Settings
@@ -639,8 +622,8 @@ export CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
 </div>
 </div>
 <div id="outline-container-org882d1c6" class="outline-3">
-<h3 id="org882d1c6"><span class="section-number-3">3.10</span> Check which packages are installed and which are missing.as root copy this and excute this:</h3>
-<div class="outline-text-3" id="text-3-10">
+<h3 id="org882d1c6">Check which packages are installed and which are missing.as root copy this and excute this:</h3>
+<div class="outline-text-3" id="text-org882d1c6">
 <pre class="example">
 yum groupinstall "GNOME Desktop" -y
 yum groupinstall "Development Tools" -y
@@ -686,8 +669,8 @@ yum install zlib-devel -y
 </div>
 </div>
 <div id="outline-container-org4ed157a" class="outline-3">
-<h3 id="org4ed157a"><span class="section-number-3">3.11</span> Create directory strucrure</h3>
-<div class="outline-text-3" id="text-3-11">
+<h3 id="org4ed157a">Create directory strucrure</h3>
+<div class="outline-text-3" id="text-org4ed157a">
 <pre class="example">
 mkdir -p   /u01/app/oracle/product/12.1.0
 chown  -R oracle:oinstall /u01/
@@ -696,8 +679,8 @@ chmod  775 /u01/app
 </div>
 </div>
 <div id="outline-container-orge65021f" class="outline-3">
-<h3 id="orge65021f"><span class="section-number-3">3.12</span> Disable selinux  by editing the “/etc/selinux/config” file</h3>
-<div class="outline-text-3" id="text-3-12">
+<h3 id="orge65021f">Disable selinux  by editing the “/etc/selinux/config” file</h3>
+<div class="outline-text-3" id="text-orge65021f">
 <pre class="example">
 SELINUX=permissive
 or SELINUX=disabled
@@ -706,20 +689,20 @@ or SELINUX=disabled
 </div>
 </div>
 <div id="outline-container-orga6730f4" class="outline-2">
-<h2 id="orga6730f4"><span class="section-number-2">4</span> Start Install database</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="orga6730f4">Start Install database</h2>
+<div class="outline-text-2" id="text-orga6730f4">
 </div>
 <div id="outline-container-orga078820" class="outline-3">
-<h3 id="orga078820"><span class="section-number-3">4.1</span> Let’s start with database software installation as oracle user.</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="orga078820">Let’s start with database software installation as oracle user.</h3>
+<div class="outline-text-3" id="text-orga078820">
 <pre class="example">
 su - oracle
 </pre>
 </div>
 </div>
 <div id="outline-container-org2d5cd5a" class="outline-3">
-<h3 id="org2d5cd5a"><span class="section-number-3">4.2</span> Unzip the database install files:</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org2d5cd5a">Unzip the database install files:</h3>
+<div class="outline-text-3" id="text-org2d5cd5a">
 <pre class="example">
 unzip linuxamd64_12c_database_1of2.zip
 unzip linuxamd64_12c_database_2of2.zip 
@@ -728,8 +711,8 @@ unzip linuxamd64_12c_database_2of2.zip
 </div>
 </div>
 <div id="outline-container-orga270a4f" class="outline-3">
-<h3 id="orga270a4f"><span class="section-number-3">4.3</span> Install</h3>
-<div class="outline-text-3" id="text-4-3">
+<h3 id="orga270a4f">Install</h3>
+<div class="outline-text-3" id="text-orga270a4f">
 <pre class="example">
 ./runInstaller
 
@@ -743,12 +726,12 @@ This does not show the graphical interface for the installation.
 </div>
 </div>
 <div id="outline-container-orgba476f4" class="outline-2">
-<h2 id="orgba476f4"><span class="section-number-2">5</span> Problem Solving</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="orgba476f4">Problem Solving</h2>
+<div class="outline-text-2" id="text-orgba476f4">
 </div>
 <div id="outline-container-orgd0eb7c9" class="outline-3">
-<h3 id="orgd0eb7c9"><span class="section-number-3">5.1</span> Error in invoking target '&#x2026;' of makefile '<i>u01</i>&#x2026;'</h3>
-<div class="outline-text-3" id="text-5-1">
+<h3 id="orgd0eb7c9">Error in invoking target '&#x2026;' of makefile '<i>u01</i>&#x2026;'</h3>
+<div class="outline-text-3" id="text-orgd0eb7c9">
 <pre class="example">
 Solving method:
 
@@ -756,8 +739,8 @@ Solving method:
 </div>
 </div>
 <div id="outline-container-org22f3a33" class="outline-3">
-<h3 id="org22f3a33"><span class="section-number-3">5.2</span> Oracle Net Configure Assistant failed</h3>
-<div class="outline-text-3" id="text-5-2">
+<h3 id="org22f3a33">Oracle Net Configure Assistant failed</h3>
+<div class="outline-text-3" id="text-org22f3a33">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">Solving method&#65306;
 to: http://linux.linuxidc.com/,user and password is www.linuxidc.com
@@ -780,8 +763,8 @@ opatch apply //&#22312;8670579&#19979;&#25191;&#34892;
 </div>
 </div>
 <div id="outline-container-orgd2140cf" class="outline-3">
-<h3 id="orgd2140cf"><span class="section-number-3">5.3</span> Oracle Database Configure Assistant failed</h3>
-<div class="outline-text-3" id="text-5-3">
+<h3 id="orgd2140cf">Oracle Database Configure Assistant failed</h3>
+<div class="outline-text-3" id="text-orgd2140cf">
 <pre class="example">
 
 
@@ -794,8 +777,8 @@ opatch apply //&#22312;8670579&#19979;&#25191;&#34892;
 </div>
 </div>
 <div id="outline-container-orgf14556f" class="outline-2">
-<h2 id="orgf14556f"><span class="section-number-2">6</span> Reference material</h2>
-<div class="outline-text-2" id="text-6">
+<h2 id="orgf14556f">Reference material</h2>
+<div class="outline-text-2" id="text-orgf14556f">
 <pre class="example">
 http://www.tecmint.com/oracle-12c-installation-in-centos-6/
 http://www.unixmen.com/install-oracle-database-12c-centos-7/
@@ -943,7 +926,7 @@ http://blog.itpub.net/25851087/viewspace-1419440/
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -965,7 +948,7 @@ http://blog.itpub.net/25851087/viewspace-1419440/
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">83</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1036,7 +1019,6 @@ http://blog.itpub.net/25851087/viewspace-1419440/
 
         
 
-
       </section>
 
       
@@ -1059,7 +1041,7 @@ http://blog.itpub.net/25851087/viewspace-1419440/
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgda4ee45"> <span class="nav-text">1 Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org816a51a"> <span class="nav-text">2 Environment</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc644d1c"> <span class="nav-text">2.1 OS information</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org276cc1b"> <span class="nav-text">2.2 Linux Kernel Version</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c88e4d"> <span class="nav-text">2.3 Software Version</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc9570e8"> <span class="nav-text">3 Prepare</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfab7406"> <span class="nav-text">3.1 Login as root and add required groups</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7e94af3"> <span class="nav-text">3.2 Add user oracle</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbd8eb15"> <span class="nav-text">3.3 Change password of user:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge3c32ea"> <span class="nav-text">3.4 Add kernel parameters to /etc/sysctl.conf</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda49858"> <span class="nav-text">3.5 Apply kernel parameters</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf24940e"> <span class="nav-text">3.6 Add following lines to set shell limits for user oracle in file /etc/security/limits.conf</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11a388f"> <span class="nav-text">3.7 Edit /etc/hosts file:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org85dcfba"> <span class="nav-text">3.8 Verify your network setting:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org742323f"> <span class="nav-text">3.9 Modify .bash_profile for user oracle in his home directory add at the end file home/oralce.bash_profile.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org882d1c6"> <span class="nav-text">3.10 Check which packages are installed and which are missing.as root copy this and excute this:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4ed157a"> <span class="nav-text">3.11 Create directory strucrure</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge65021f"> <span class="nav-text">3.12 Disable selinux by editing the “/etc/selinux/config” file</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga6730f4"> <span class="nav-text">4 Start Install database</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga078820"> <span class="nav-text">4.1 Let’s start with database software installation as oracle user.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2d5cd5a"> <span class="nav-text">4.2 Unzip the database install files:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga270a4f"> <span class="nav-text">4.3 Install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgba476f4"> <span class="nav-text">5 Problem Solving</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd0eb7c9"> <span class="nav-text">5.1 Error in invoking target '&#x2026;' of makefile 'u01&#x2026;'</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org22f3a33"> <span class="nav-text">5.2 Oracle Net Configure Assistant failed</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2140cf"> <span class="nav-text">5.3 Oracle Database Configure Assistant failed</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf14556f"> <span class="nav-text">6 Reference material</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgda4ee45"> <span class="nav-number">1</span> <span class="nav-text">Preface</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org816a51a"> <span class="nav-number">2</span> <span class="nav-text">Environment</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc644d1c"> <span class="nav-number">2.1</span> <span class="nav-text">OS information</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org276cc1b"> <span class="nav-number">2.2</span> <span class="nav-text">Linux Kernel Version</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c88e4d"> <span class="nav-number">2.3</span> <span class="nav-text">Software Version</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgc9570e8"> <span class="nav-number">3</span> <span class="nav-text">Prepare</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfab7406"> <span class="nav-number">3.1</span> <span class="nav-text">Login as root and add required groups</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7e94af3"> <span class="nav-number">3.2</span> <span class="nav-text">Add user oracle</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbd8eb15"> <span class="nav-number">3.3</span> <span class="nav-text">Change password of user:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge3c32ea"> <span class="nav-number">3.4</span> <span class="nav-text">Add kernel parameters to /etc/sysctl.conf</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda49858"> <span class="nav-number">3.5</span> <span class="nav-text">Apply kernel parameters</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf24940e"> <span class="nav-number">3.6</span> <span class="nav-text">Add following lines to set shell limits for user oracle in file /etc/security/limits.conf</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11a388f"> <span class="nav-number">3.7</span> <span class="nav-text">Edit /etc/hosts file:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org85dcfba"> <span class="nav-number">3.8</span> <span class="nav-text">Verify your network setting:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org742323f"> <span class="nav-number">3.9</span> <span class="nav-text">Modify .bash_profile for user oracle in his home directory add at the end file home/oralce.bash_profile.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org882d1c6"> <span class="nav-number">3.10</span> <span class="nav-text">Check which packages are installed and which are missing.as root copy this and excute this:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4ed157a"> <span class="nav-number">3.11</span> <span class="nav-text">Create directory strucrure</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge65021f"> <span class="nav-number">3.12</span> <span class="nav-text">Disable selinux by editing the “/etc/selinux/config” file</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga6730f4"> <span class="nav-number">4</span> <span class="nav-text">Start Install database</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga078820"> <span class="nav-number">4.1</span> <span class="nav-text">Let’s start with database software installation as oracle user.</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2d5cd5a"> <span class="nav-number">4.2</span> <span class="nav-text">Unzip the database install files:</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga270a4f"> <span class="nav-number">4.3</span> <span class="nav-text">Install</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgba476f4"> <span class="nav-number">5</span> <span class="nav-text">Problem Solving</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd0eb7c9"> <span class="nav-number">5.1</span> <span class="nav-text">Error in invoking target '&#x2026;' of makefile 'u01&#x2026;'</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org22f3a33"> <span class="nav-number">5.2</span> <span class="nav-text">Oracle Net Configure Assistant failed</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd2140cf"> <span class="nav-number">5.3</span> <span class="nav-text">Oracle Database Configure Assistant failed</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf14556f"> <span class="nav-number">6</span> <span class="nav-text">Reference material</span> </a> </li>
     </ol>
   </div>
             
