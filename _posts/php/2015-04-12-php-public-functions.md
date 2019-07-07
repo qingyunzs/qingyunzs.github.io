@@ -246,3 +246,6 @@ function uuid($prefix ='')
 > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32); 
 
 ```
+
+# PHP 学习导图
+![PHP学习导图]({{site.url}}/assets/images/php-learning.jpg)
