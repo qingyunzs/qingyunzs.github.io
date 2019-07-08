@@ -562,233 +562,158 @@ photos:
 
        : M-x customize-variable <RET>
        : plantuml-jar-path <RET>
-*** PlantUML 使用
+*** 使用 PlantUML 绘制顺序图、用例图、类图和流程图
 1. 顺序图(Sequence Diagram)
    + 简单示例
      \\
      顺序图用 -> , -->, <-, <-- 来绘制参与者（Participants）之 间的消息（Message）。
+     #+NAME: Example code
      #+BEGIN_SRC emacs-lisp
-      #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
-      Alice -> Bob: Authentication Request
-      Bob --> Alice: Authentication Response
-      
-      Alice -> Bob: Another atuhentication Request
-      Alice <-- Bob: Another authentication Response
-      #+END_SRC
+     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
+     Alice -> Bob: Authentication Request
+     Bob --> Alice: Authentication Response
+     ' 这是注释，使用了“'” 进行单行或多行注释
+     Alice -> Bob: Another atuhentication Request
+     Alice <-- Bob: Another authentication Response
+     #+END_SRC
 
      #+NAME:PlantUML Quick Start
      #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
       Alice -> Bob: Authentication Request
       Bob --> Alice: Authentication Response
-
+      ' This is comment.
       Alice -> Bob: Another atuhentication Request
       Alice <-- Bob: Another authentication Response
       #+END_SRC
 
       #+RESULTS: PlantUML Quick Start
       [[file:{{site.url}}/assets/images/plantuml-quickstart-s1.png]]
-   + 注释
+   + 应用举例1
      \\
-     使用  ' 进行单行/多行注释
-   + 申明参与者
+     标题、参与者、别名、注释、箭头、图形图例位置、消息序号、颜色、分割图形
+     
      \\
-     使用 participant 关键词，也可以使用下面的参与者 分类关键词来申明参与者：
-     - actor
-     - boundary
-     - control
-     - entity
-     - database
+     *参与者*
+     \\
+     使用 participant 关键词，也可以使用下面的参与者分类关键词来申明参与者：
+     - actor 参与者
+     - boundary 边界
+     - control 控制
+     - entity 实体
+     - database 数据库
 
-     不同的参与者类型，其图标也是不一样的：
-     #+NAME: 不同的参与者
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s2.png
-     actor Foo1
-     boundary Foo2
-     control Foo3
-     entity Foo4
-     database Foo5
-     Foo1 -> Foo2 : To boundary
-     Foo1 -> Foo3 : To control
-     Foo1 -> Foo4 : To entity
-     Foo1 -> Foo5 : To database
-     #+END_SRC
+     \\
+     *箭头样式*
+     - 使用 \ 或 / 来替换 < 或 > 可以让箭头只显示上半部分或下半 部分。
+     - 重复输入箭头或斜杠（ >> // ），用来绘制空心箭头。
+     - 使用双横线 -- 替代 - 可以用来绘制点线。
+     - 在箭头后面加个 o 可以在箭头前绘制一个圆圈。
+     - 使用 <-> 可用来绘制双向箭头。
 
-     #+RESULTS: 不同的参与者
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s2.png]]
+     \\
+     *图形图例(Legend the diagram)*
+     \\
+     使用 legend 和 end legend 关键词可以设置图例为左对齐、右对齐和居中对齐。
 
-     使用 as 关键词可以为参与者起一个别名(显示申明)
-     #+NAME: as 关键字
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s3.png
-     actor Bob #red
-     ' The only defference between actor
-     ' and participant is the drawing
+     \\
+     *分割图形(Splitting diagrams)*
+     \\
+     关键词 newpage 是用来把图形分割成几个图片的。每一个被分割出来的 图片可以看作是一个新的页面（ new page ），如果要给新的页面添加一 个标题，可以紧跟在关键词 newpage 之后来设置。
+     #+name: example1
+     #+begin_src emacs-lisp
+     ' 要给图形加一个标题可以用 title 关键词来设置。
+     title Simple Comunication example
+     actor Bob
+     boundary Lily #red
+     control Linus #blue
+     entity Michael
+     database "Edward's"
+     ' The only defference between actor and participant is the drawing
      participant Alice
      participant "I have a really\nlong name" as L #99ff99
      /' You can also declare:
      participant L as "I have a really\nlong name" #99ff99
      '/
 
-     Alice -> Bob: Authentication Request
-     Bob -> Alice: Authentication Response
-     Bob -> L: Log transaction
-     #+END_SRC
-
-     #+RESULTS: as 关键字
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s3.png]]
-
-     采用引号来申明参与者(隐示申明)
-     #+NAME: 使用引号
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s4.png
-     Alice -> "Bob()" : Hello
-     "Bob()" -> "This is very\nlong" as Long
-     ' You can also declare:
-     ' "Bob()" -> Long as "This is very\nlong"
-     Long --> "Bob()" : ok
-     #+END_SRC
-
-     #+RESULTS:  使用引号
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s4.png]]
-   + 发送消息给自己(Message to Self)
-     \\
-     一个参与者可以给自己发送消息，消息名如果需要有多行文本，可以用 \n 来表示换行。
-     #+NAME:发送消息给自己
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s5.png
-     Alice -> Alice: This is a signal to self.\nIt also demonstrates\nmultiline \ntext
-     #+END_SRC
-
-     #+RESULTS: 发送消息给自己
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s5.png]]
-   + 改变箭头(Arrow)
-     \\
-     *样式(Style)*
-     \\
-     在用例图里可以通过以下方式来改变箭头的样式：
-     - 使用 \ 或 / 来替换 < 或 > 可以让箭头只显示上半部分或下半 部分。
-     - 重复输入箭头或斜杠（ >> // ），用来绘制空心箭头。
-     - 使用双横线 -- 替代 - 可以用来绘制点线。
-     - 在箭头后面加个 o 可以在箭头前绘制一个圆圈。
-     - 使用 <-> 可用来绘制双向箭头。
-     #+NAME: 改变箭头的样式
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s6.png
-     Bob -> Alice
-     Bob ->> Alice
-     Bob -\ Alice
+     ' 消息序号(Message sequence numbering)：
+     ' 使用 autonumber 给消息添加序号
+     autonumber
+     ' 如果需要指定一个起始号码，可以直接在 autonumber 后面加个数字就行 了，如果要设置自增量，再在后面加一个数字就行了(autonumber start increment)
+     ' autonumber 15
+     ' autonumber 40 10
+     ' 也可以为序号指定数字格式，这个格式化的过程实际上是Java类 DecimalFormat 来执行的（ 0 表示数字， # 缺省补零位数）。同样的，也可以使用一些HTML标签来控制数字的样式。
+     ' autonumber "<b>[000]"
+     ' autonumber 15 "<b>(<u>##</u>)"
+     ' autonumber 40 10 "<font color=red>Message 0  "
+     Bob -[#red]-> Lily : To boundary
+     Bob -[#0000FF]->> Linus : To control
+     Bob -\ Michael : To entity
+     Bob //-- Edward : To database
      Bob \\- Alice
-     Bob //-- Alice
-
      Bob ->o Alice
-     Bob o\\-- Alice
-
+     Linus -> Alice : Authentication Request
+     Alice -> Linus : Authentication Response
+     Linus -> Linus : This is a signal to self.\nIt also demonstrates\nmultiline \ntext
+     Bob \\-Alice
      Bob <-> Alice
      Bob <<-\\o Alice
-     #+END_SRC
-
-     #+RESULTS: 改变箭头的样式
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s6.png]]
-   + 颜色(Color)
-     \\
-     要改变箭头的颜色，可以使用HTML颜色符号
-     #+NAME:改变箭头颜色
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s7.png
-     Bob -[#red]> Alice : hello
-     Alice -[#0000FF]->Bob : ok
-     #+END_SRC
-
-     #+RESULTS: 改变箭头颜色
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s7.png]]
-   + 消息序号(Message sequence numbering)
-     \\
-     使用关键词 autonumber 给消息添加上序号。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s8.png
-     autonumber
-     Bob -> Alice : Authentication Request
-     Bob <- Alice : Authentication Response
-     #+END_SRC
-
-     #+RESULTS:
-     [[file:{{site.url}}/assets/images/plantuml-quickstart-s8.png]]
-     如果需要指定一个起始号码，可以直接在 autonumber 后面加个数字就行 了，如果要设置自增量，再在后面加一个数字就行了（ autonumber start increment ）。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s9.png
-     autonumber
-     Bob -> Alice : Authentication Request
-     Bob <- Alice : Authentication Response
-
-     autonumber 15
-     Bob -> Alice : Another authentication Request
-     Bob <- Alice : Another authentication Response
-
-     autonumber 40 10
-     Bob -> Alice : Yet another authentication Request
-     Bob <- Alice : Yet another authentication Response
-     #+END_SRC
-
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s9.png]]
-     也可以为序号指定数字格式，这个格式化的过程实际上是Java类 DecimalFormat 来执行的（ 0 表示数字， # 缺省补零位数）。同样的，也可以使用一些HTML标签来控制数字的样式。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s10.png
-     autonumber "<b>[000]"
-     Bob -> Alice : Authentication Request
-     Bob <- Alice : Authentication Response
-
-     autonumber 15 "<b>(<u>##</u>)"
-     Bob -> Alice : Another authentication Request
-     Bob <- Alice : Another authentication Response
-
-     autonumber 40 10 "<font color=red>Message 0  "
-     Bob -> Alice : Yet another authentication Request
-     Bob <- Alice : Yet another authentication Response
-     #+END_SRC
-
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s10.png]]
-   + 标题(Title)
-     \\
-     要给图形加一个标题可以用 title 关键词来设置。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s11.png
+     newpage A title for the\nlast page
+     legend right
+     Short
+     legend
+     endlegend
+     #+end_src
+     
+     #+NAME: example 1
+     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s2.png
+     ' 要给图形加一个标题可以用 title 关键词来设置。
      title Simple Comunication example
+     actor Bob
+     boundary Lily #red
+     control Linus #blue
+     entity Michael
+     database "Edward's"
+     ' The only defference between actor and participant is the drawing
+     participant Alice
+     participant "I have a really\nlong name" as L #99ff99
+     /' You can also declare:
+     participant L as "I have a really\nlong name" #99ff99
+     '/
 
-     Alice -> Bob : Authentication Request
-     Bob --> Alice : Authentication Response
-     #+END_SRC
-
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s11.png]]
-   + 图形图例(Legend the diagram)
-     \\
-     使用 legend 和 end legend 关键词可以设置图形的图例。图例可以设 为左对齐、右对齐和居中对齐。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s12.png
-     Alice -> Bob : Hello
+     ' 消息序号(Message sequence numbering)：
+     ' 使用 autonumber 给消息添加序号
+     autonumber
+     ' 如果需要指定一个起始号码，可以直接在 autonumber 后面加个数字就行 了，如果要设置自增量，再在后面加一个数字就行了(autonumber start increment)
+     ' autonumber 15
+     ' autonumber 40 10
+     ' 也可以为序号指定数字格式，这个格式化的过程实际上是Java类 DecimalFormat 来执行的（ 0 表示数字， # 缺省补零位数）。同样的，也可以使用一些HTML标签来控制数字的样式。
+     ' autonumber "<b>[000]"
+     ' autonumber 15 "<b>(<u>##</u>)"
+     ' autonumber 40 10 "<font color=red>Message 0  "
+     Bob -[#red]-> Lily : To boundary
+     Bob -[#0000FF]->> Linus : To control
+     Bob -\ Michael : To entity
+     Bob //-- Edward : To database
+     Bob \\- Alice
+     Bob ->o Alice
+     Linus -> Alice : Authentication Request
+     Alice -> Linus : Authentication Response
+     Linus -> Linus : This is a signal to self.\nIt also demonstrates\nmultiline \ntext
+     Bob \\-Alice
+     Bob <-> Alice
+     Bob <<-\\o Alice
+     newpage A title for the\nlast page
      legend right
      Short
      legend
      endlegend
      #+END_SRC
 
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s12.png]]
-   + 分割图形(Splitting diagrams)
+     #+RESULTS: example 1
+     [[file:{{site.url}}/assets/images/plantuml-quickstart-s2.png]]
+   + 应用举例2：消息(Message)
      \\
-     关键词 newpage 是用来把图形分割成几个图片的。每一个被分割出来的 图片可以看作是一个新的页面（ new page ），如果要给新的页面添加一 个标题，可以紧跟在关键词 newpage 之后来设置。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s13.png
-     Bliss -> Tia : I love you
-     Bliss -> Tia : I miss you
-
-     newpage
-
-     Bliss -> Tia : Let's go home
-     Bliss -> Tia : Quick
-
-     newpage A title for the\nlast page
-
-     Tia -> Bliss : Give me money
-     Tia -> Bliss : No money No love
-     #+END_SRC
-
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s13.png]]
-   + 消息(Message)
-     \\
-     *分组(Grouping)*
+     *消息分组(Grouping)*
      \\
      可以使用下面的关键词来实现：
      + alt/else
@@ -799,10 +724,21 @@ photos:
      + critical
      + group, 这个关键词后面的文字会作为组名显示在图形上
 
-     上面的关键词后可以添加一些文本用来显示在头部（注： group 除外，因 为它后面的文本用来显示在组名称的位置）。在组嵌套组的结构里可以用关 键词 end 来关闭组或者说是表示一个组符号的结束符（类似 if/endif ）。
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s14.png
+     \\
+     上面的关键词后可以添加一些文本用来显示在头部（注： group 除外，因为它后面的文本用来显示在组名称的位置）。在组嵌套组的结构里可以用关键词 end 来关闭组或者说是表示一个组符号的结束符（类似 if/endif ）。
+     \\
+     *消息注解(Notes)*
+     \\
+     使用 note left 或 note right 关键词
+     \\
+     *其他的注解方式(Some other notes)*
+     \\
+     通过使用关键词 note left of ， note right of 或 note over，可以把注解放置在与之相关的参与者的左边或右边，或下方。如果要使用多行注解，可以使用关键词 end note 来表示注解的结束。
+     
+     #+name: Message
+     #+begin_src emacs-lisp
      Alice -> Bob: Authentication Request
-
+     note left: this is a first note
      alt successful case
      Bob -> Alice: Authentication Accepted
      else some kind of failure
@@ -816,56 +752,58 @@ photos:
      end
      else Another type of failue
      Bob -> Alice: Please repeat
+     note right of Alice: This is displayed right of Alice.
+     note over Bob, Alice
+     This is yet another
+     example of
+     a long note.
+     end note
      end
-     #+END_SRC
 
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s14.png]]
-     *注解(Notes)*
-     使用 note left 或 note right 关键词
-     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s15.png
-     Alice -> Bob : hello
+     Log -> Log
+     note right
+     a note
+     can also be defined
+     on several lines
+     end note
+     #+end_src
+     
+     #+NAME: message
+     #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s14.png
+     Alice -> Bob: Authentication Request
      note left: this is a first note
+     alt successful case
+     Bob -> Alice: Authentication Accepted
+     else some kind of failure
+     Bob -> Alice: Atuhentication Failue
+     group My own label
+     Alice -> Log : Log attack start
+     loop 1000 times
+     Alice -> Bob: DNS Attack
+     end
+     Alice -> Log : Loag alice end
+     end
+     else Another type of failue
+     Bob -> Alice: Please repeat
+     note right of Alice: This is displayed right of Alice.
+     note over Bob, Alice
+     This is yet another
+     example of
+     a long note.
+     end note
+     end
 
-     Bob -> Alice : ok
-     note right: this is anther note
-
-     Bob -> Bob : I am thinking
-     note left
+     Log -> Log
+     note right
      a note
      can also be defined
      on several lines
      end note
      #+END_SRC
 
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s15.png]]
-     *一些其他的注解方式(Some other notes)*
-     通过使用关键词 note left of ， note right of 或 note over，可以把注解放置在与之相关的参与者的左边或右边，或下方。如果要使用多行注解，可以使用关键词 end note 来表示注解的结束。
-       #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s16.png
-       participant Alice
-       participant Bob
-       note left of Alice #aqua
-       This is displayed
-       left of Alice.
-       end note
-
-       note right of Alice: This is displayed right of Alice.
-
-       note over Alice: This displayed over Alice.
-
-       note over Alice, Bob #FFAAAA: This is displayed\n over Bob and Alice.
-
-       note over Bob, Alice
-       This is yet another
-       example of
-       a long note.
-       end note
-       #+END_SRC
-
-       #+RESULTS:
-       [[file:../../_assets/plantuml-quickstart-s16.png]]
-   + 使用HTML进行格式化(Formatting using HTML)
+     #+RESULTS: message
+     [[file:{{site.url}}/assets/images/plantuml-quickstart-s14.png]]
+   + 应用举例3：使用HTML进行格式化(Formatting using HTML)
      \\
      可以使用少量的HTML标签来格式化文本：
      - <b> 加粗文本
@@ -878,6 +816,27 @@ photos:
      - <size:nn> 设置字体大小
      - <img src="file"> 或 <img:file> 用来添加图片，图片文件必须 是可以访问得到才行。
      - <img src="http://url"> 或 <img:http://url> 用来添加一个互 联网图片，同样的图片地址必须是可用的才行。
+
+     #+name: Formartting using HTML
+     #+begin_src emacs-lisp
+     participant Alice
+     participant "The <b>Famous</b> Bob" as Bob
+
+     Alice -> Bob : A <i>well formated</i> message
+     note right of Alice
+     This is <back:cadetblue><size:18>displayed</size></back>
+     <u>left of</u> Alice.
+     end note
+     note left of Bob
+     <u:red>This</u> is <color #118888>displayed</color>
+     <b><color purple>left of</color> <s:red>Alice</strike> Bob</b>
+     end note
+     note over Alice, Bob
+     <w:#FF33FF>This is hosted</w> by <img ../img/code.png>
+     end note
+     #+end_src
+
+     #+NAME: Using HTML
      #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s17.png
      participant Alice
      participant "The <b>Famous</b> Bob" as Bob
@@ -896,8 +855,8 @@ photos:
      end note
      #+END_SRC
 
-     #+RESULTS:
-     [[file:../../_assets/plantuml-quickstart-s17.png]]
+     #+RESULTS: Using HTML
+     [[file:{{site.url}}/assets/images/plantuml-quickstart-s17.png]]
 2. 用例图(Use Case Diagram)
    + 用例(Usecase)
      : 用例可以用一对小括号括起来表示，也可以使用 usecase 关键词来定义。
@@ -1011,7 +970,7 @@ photos:
 
      #+RESULTS:
      [[file:{{site.url}}/assets/images/plantuml-quickstart-a4.png]]
-
+     
    + 多分支(More on Branches)
      #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-a5.png
     (*) --> if "Some Test" then

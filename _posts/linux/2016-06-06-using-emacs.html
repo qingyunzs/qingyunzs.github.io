@@ -28,9 +28,9 @@ Emacs 使用 Emacs Lisp，这种有着极强扩展性的编程语言，从而实
 </p>
 </div>
 </div>
-<div id="outline-container-org0cb462f" class="outline-2">
-<h2 id="org0cb462f">快捷键(Keyboard)</h2>
-<div class="outline-text-2" id="text-org0cb462f">
+<div id="outline-container-orga43e837" class="outline-2">
+<h2 id="orga43e837">快捷键(Keyboard)</h2>
+<div class="outline-text-2" id="text-orga43e837">
 </div>
 <div id="outline-container-orgcca2d96" class="outline-3">
 <h3 id="orgcca2d96">Open Emacs on command line.</h3>
@@ -1731,9 +1731,9 @@ plantuml-jar-path &lt;RET&gt;
 </ol>
 </div>
 </div>
-<div id="outline-container-org2444597" class="outline-4">
-<h4 id="org2444597">PlantUML 使用</h4>
-<div class="outline-text-4" id="text-org2444597">
+<div id="outline-container-orge5c2df7" class="outline-4">
+<h4 id="orge5c2df7">使用 PlantUML 绘制顺序图、用例图、类图和流程图</h4>
+<div class="outline-text-4" id="text-orge5c2df7">
 <ol class="org-ol">
 <li>顺序图(Sequence Diagram)
 <ul class="org-ul">
@@ -1743,10 +1743,10 @@ plantuml-jar-path &lt;RET&gt;
 顺序图用 -&gt; , &#x2013;&gt;, &lt;-, &lt;&#x2013; 来绘制参与者（Participants）之 间的消息（Message）。
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> {{site.url}}/assets/images/plantuml-quickstart-s1.png
+<pre class="src src-emacs-lisp" id="org3ba923e">#+BEGIN_SRC plantuml <span style="color: #483d8b;">:file</span> {{site.url}}/assets/images/plantuml-quickstart-s1.png
 Alice -&gt; Bob: Authentication Request
 Bob --&gt; Alice: Authentication Response
-
+' &#36825;&#26159;&#27880;&#37322;&#65292;&#20351;&#29992;&#20102;&#8220;'&#8221; &#36827;&#34892;&#21333;&#34892;&#25110;&#22810;&#34892;&#27880;&#37322;
 Alice -&gt; Bob: Another atuhentication Request
 Alice &lt;-- Bob: Another authentication Response
 </pre>
@@ -1757,64 +1757,29 @@ Alice &lt;-- Bob: Another authentication Response
 <p><img src="{{site.url}}/assets/images/plantuml-quickstart-s1.png" alt="plantuml-quickstart-s1.png" />
 </p>
 </div></li>
-<li>注释
-<br />
-使用  ' 进行单行/多行注释</li>
 <li><p>
-申明参与者
+应用举例1
 <br />
-使用 participant 关键词，也可以使用下面的参与者 分类关键词来申明参与者：
+标题、参与者、别名、注释、箭头、图形图例位置、消息序号、颜色、分割图形
+</p>
+
+<p>
+<br />
+<b>参与者</b>
+<br />
+使用 participant 关键词，也可以使用下面的参与者分类关键词来申明参与者：
 </p>
 <ul class="org-ul">
-<li>actor</li>
-<li>boundary</li>
-<li>control</li>
-<li>entity</li>
-<li>database</li>
+<li>actor 参与者</li>
+<li>boundary 边界</li>
+<li>control 控制</li>
+<li>entity 实体</li>
+<li>database 数据库</li>
 </ul>
 
 <p>
-不同的参与者类型，其图标也是不一样的：
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s2.png" alt="plantuml-quickstart-s2.png" />
-</p>
-</div>
-
-<p>
-使用 as 关键词可以为参与者起一个别名(显示申明)
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s3.png" alt="plantuml-quickstart-s3.png" />
-</p>
-</div>
-
-<p>
-采用引号来申明参与者(隐示申明)
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s4.png" alt="plantuml-quickstart-s4.png" />
-</p>
-</div></li>
-<li><p>
-发送消息给自己(Message to Self)
 <br />
-一个参与者可以给自己发送消息，消息名如果需要有多行文本，可以用 \n 来表示换行。
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s5.png" alt="plantuml-quickstart-s5.png" />
-</p>
-</div></li>
-<li><p>
-改变箭头(Arrow)
-<br />
-<b>样式(Style)</b>
-<br />
-在用例图里可以通过以下方式来改变箭头的样式：
+<b>箭头样式</b>
 </p>
 <ul class="org-ul">
 <li>使用 \ 或 / 来替换 &lt; 或 &gt; 可以让箭头只显示上半部分或下半 部分。</li>
@@ -1824,72 +1789,73 @@ Alice &lt;-- Bob: Another authentication Response
 <li>使用 &lt;-&gt; 可用来绘制双向箭头。</li>
 </ul>
 
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s6.png" alt="plantuml-quickstart-s6.png" />
-</p>
-</div></li>
-<li><p>
-颜色(Color)
-<br />
-要改变箭头的颜色，可以使用HTML颜色符号
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s7.png" alt="plantuml-quickstart-s7.png" />
-</p>
-</div></li>
-<li><p>
-消息序号(Message sequence numbering)
-<br />
-使用关键词 autonumber 给消息添加上序号。
-</p>
 <p>
-<img src="{{site.url}}/assets/images/plantuml-quickstart-s8.png" alt="plantuml-quickstart-s8.png" />
-如果需要指定一个起始号码，可以直接在 autonumber 后面加个数字就行 了，如果要设置自增量，再在后面加一个数字就行了（ autonumber start increment ）。
+<br />
+<b>图形图例(Legend the diagram)</b>
+<br />
+使用 legend 和 end legend 关键词可以设置图例为左对齐、右对齐和居中对齐。
 </p>
+
 <p>
-<img src="{{site.url}}/assets/images/plantuml-quickstart-s9.png" alt="plantuml-quickstart-s9.png" />
-也可以为序号指定数字格式，这个格式化的过程实际上是Java类 DecimalFormat 来执行的（ 0 表示数字， # 缺省补零位数）。同样的，也可以使用一些HTML标签来控制数字的样式。
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s10.png" alt="plantuml-quickstart-s10.png" />
-</p>
-</div></li>
-<li><p>
-标题(Title)
 <br />
-要给图形加一个标题可以用 title 关键词来设置。
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s11.png" alt="plantuml-quickstart-s11.png" />
-</p>
-</div></li>
-<li><p>
-图形图例(Legend the diagram)
-<br />
-使用 legend 和 end legend 关键词可以设置图形的图例。图例可以设 为左对齐、右对齐和居中对齐。
-</p>
-
-<div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s12.png" alt="plantuml-quickstart-s12.png" />
-</p>
-</div></li>
-<li><p>
-分割图形(Splitting diagrams)
+<b>分割图形(Splitting diagrams)</b>
 <br />
 关键词 newpage 是用来把图形分割成几个图片的。每一个被分割出来的 图片可以看作是一个新的页面（ new page ），如果要给新的页面添加一 个标题，可以紧跟在关键词 newpage 之后来设置。
 </p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org4120ba9">' &#35201;&#32473;&#22270;&#24418;&#21152;&#19968;&#20010;&#26631;&#39064;&#21487;&#20197;&#29992; title &#20851;&#38190;&#35789;&#26469;&#35774;&#32622;&#12290;
+title Simple Comunication example
+actor Bob
+boundary Lily #red
+control Linus #blue
+entity Michael
+database <span style="color: #8b2252;">"Edward's"</span>
+' The only defference between actor and participant is the drawing
+participant Alice
+participant <span style="color: #8b2252;">"I have a really\nlong name"</span> as L #99ff99
+/' You can also declare:
+participant L as <span style="color: #8b2252;">"I have a really\nlong name"</span> #99ff99
+'/
+
+' &#28040;&#24687;&#24207;&#21495;(Message sequence numbering)&#65306;
+' &#20351;&#29992; autonumber &#32473;&#28040;&#24687;&#28155;&#21152;&#24207;&#21495;
+autonumber
+' &#22914;&#26524;&#38656;&#35201;&#25351;&#23450;&#19968;&#20010;&#36215;&#22987;&#21495;&#30721;&#65292;&#21487;&#20197;&#30452;&#25509;&#22312; autonumber &#21518;&#38754;&#21152;&#20010;&#25968;&#23383;&#23601;&#34892; &#20102;&#65292;&#22914;&#26524;&#35201;&#35774;&#32622;&#33258;&#22686;&#37327;&#65292;&#20877;&#22312;&#21518;&#38754;&#21152;&#19968;&#20010;&#25968;&#23383;&#23601;&#34892;&#20102;(autonumber start increment)
+' autonumber 15
+' autonumber 40 10
+' &#20063;&#21487;&#20197;&#20026;&#24207;&#21495;&#25351;&#23450;&#25968;&#23383;&#26684;&#24335;&#65292;&#36825;&#20010;&#26684;&#24335;&#21270;&#30340;&#36807;&#31243;&#23454;&#38469;&#19978;&#26159;Java&#31867; DecimalFormat &#26469;&#25191;&#34892;&#30340;&#65288; 0 &#34920;&#31034;&#25968;&#23383;&#65292; # &#32570;&#30465;&#34917;&#38646;&#20301;&#25968;&#65289;&#12290;&#21516;&#26679;&#30340;&#65292;&#20063;&#21487;&#20197;&#20351;&#29992;&#19968;&#20123;HTML&#26631;&#31614;&#26469;&#25511;&#21046;&#25968;&#23383;&#30340;&#26679;&#24335;&#12290;
+' autonumber <span style="color: #8b2252;">"&lt;b&gt;[000]"</span>
+' autonumber 15 <span style="color: #8b2252;">"&lt;b&gt;(&lt;u&gt;##&lt;/u&gt;)"</span>
+' autonumber 40 10 <span style="color: #8b2252;">"&lt;font color=red&gt;Message 0  "</span>
+Bob -[#red]-&gt; Lily : To boundary
+Bob -[#0000FF]-&gt;&gt; Linus : To control
+Bob -\ Michael : To entity
+Bob //-- Edward : To database
+Bob \\- Alice
+Bob -&gt;o Alice
+Linus -&gt; Alice : Authentication Request
+Alice -&gt; Linus : Authentication Response
+Linus -&gt; Linus : This is a signal to self.\nIt also demonstrates\nmultiline \ntext
+Bob \\-Alice
+Bob &lt;-&gt; Alice
+Bob &lt;&lt;-\\o Alice
+newpage A title for the\nlast page
+legend right
+Short
+legend
+endlegend
+</pre>
+</div>
+
 
 <div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s13.png" alt="plantuml-quickstart-s13.png" />
+<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s2.png" alt="plantuml-quickstart-s2.png" />
 </p>
 </div></li>
 <li><p>
-消息(Message)
+应用举例2：消息(Message)
 <br />
-<b>分组(Grouping)</b>
+<b>消息分组(Grouping)</b>
 <br />
 可以使用下面的关键词来实现：
 </p>
@@ -1904,25 +1870,59 @@ Alice &lt;-- Bob: Another authentication Response
 </ul>
 
 <p>
-上面的关键词后可以添加一些文本用来显示在头部（注： group 除外，因 为它后面的文本用来显示在组名称的位置）。在组嵌套组的结构里可以用关 键词 end 来关闭组或者说是表示一个组符号的结束符（类似 if/endif ）。
-</p>
-<p>
-<img src="{{site.url}}/assets/images/plantuml-quickstart-s14.png" alt="plantuml-quickstart-s14.png" />
-<b>注解(Notes)</b>
+<br />
+上面的关键词后可以添加一些文本用来显示在头部（注： group 除外，因为它后面的文本用来显示在组名称的位置）。在组嵌套组的结构里可以用关键词 end 来关闭组或者说是表示一个组符号的结束符（类似 if/endif ）。
+<br />
+<b>消息注解(Notes)</b>
+<br />
 使用 note left 或 note right 关键词
-</p>
-<p>
-<img src="{{site.url}}/assets/images/plantuml-quickstart-s15.png" alt="plantuml-quickstart-s15.png" />
-<b>一些其他的注解方式(Some other notes)</b>
+<br />
+<b>其他的注解方式(Some other notes)</b>
+<br />
 通过使用关键词 note left of ， note right of 或 note over，可以把注解放置在与之相关的参与者的左边或右边，或下方。如果要使用多行注解，可以使用关键词 end note 来表示注解的结束。
 </p>
 
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf112433">Alice -&gt; Bob: Authentication Request
+note left: this is a first note
+alt successful case
+Bob -&gt; Alice: Authentication Accepted
+else some kind of failure
+Bob -&gt; Alice: Atuhentication Failue
+group My own label
+Alice -&gt; Log : Log attack start
+loop 1000 times
+Alice -&gt; Bob: DNS Attack
+end
+Alice -&gt; Log : Loag alice end
+end
+else Another type of failue
+Bob -&gt; Alice: Please repeat
+note right of Alice: This is displayed right of Alice.
+note over Bob, Alice
+This is yet another
+example of
+a long note.
+end note
+end
+
+Log -&gt; Log
+note right
+a note
+can also be defined
+on several lines
+end note
+</pre>
+</div>
+
+
 <div class="figure">
-<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s16.png" alt="plantuml-quickstart-s16.png" />
+<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s14.png" alt="plantuml-quickstart-s14.png" />
 </p>
 </div></li>
+
 <li><p>
-使用HTML进行格式化(Formatting using HTML)
+应用举例3：使用HTML进行格式化(Formatting using HTML)
 <br />
 可以使用少量的HTML标签来格式化文本：
 </p>
@@ -1938,6 +1938,26 @@ Alice &lt;-- Bob: Another authentication Response
 <li>&lt;img src="file"&gt; 或 &lt;img:file&gt; 用来添加图片，图片文件必须 是可以访问得到才行。</li>
 <li>&lt;img src="<a href="http://url">http://url</a>"&gt; 或 &lt;img:<a href="http://url">http://url</a>&gt; 用来添加一个互 联网图片，同样的图片地址必须是可用的才行。</li>
 </ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgbcdb877">participant Alice
+participant <span style="color: #8b2252;">"The &lt;b&gt;Famous&lt;/b&gt; Bob"</span> as Bob
+
+Alice -&gt; Bob : A &lt;i&gt;well formated&lt;/i&gt; message
+note right of Alice
+This is &lt;back:cadetblue&gt;&lt;size:18&gt;displayed&lt;/size&gt;&lt;/back&gt;
+&lt;u&gt;left of&lt;/u&gt; Alice.
+end note
+note left of Bob
+&lt;u:red&gt;This&lt;/u&gt; is &lt;color #118888&gt;displayed&lt;/color&gt;
+&lt;b&gt;&lt;color purple&gt;left of&lt;/color&gt; &lt;s:red&gt;Alice&lt;/strike&gt; Bob&lt;/b&gt;
+end note
+note over Alice, Bob
+&lt;w:#FF33FF&gt;This is hosted&lt;/w&gt; by &lt;img ../img/code.png&gt;
+end note
+</pre>
+</div>
+
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/plantuml-quickstart-s17.png" alt="plantuml-quickstart-s17.png" />
@@ -2154,9 +2174,9 @@ Beta版本的活动图简化了活动图的符号定义，从 V7947 这个版本
 </ol>
 </div>
 </div>
-<div id="outline-container-orgf39752c" class="outline-4">
-<h4 id="orgf39752c">快捷键(Keyboard)</h4>
-<div class="outline-text-4" id="text-orgf39752c">
+<div id="outline-container-orgb2db047" class="outline-4">
+<h4 id="orgb2db047">快捷键(Keyboard)</h4>
+<div class="outline-text-4" id="text-orgb2db047">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 19:</span> Default key bindings</caption>
 
