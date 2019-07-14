@@ -157,38 +157,56 @@ if(count($tempArr) > 1){
 + array_column — 返回数组中指定的一列
 + array_combine — 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
 + array_count_values — 统计数组中所有的值
+
 + array_diff_assoc — 带索引检查计算数组的差集
 + array_diff_key — 使用键名比较计算数组的差集
 + array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
 + array_diff_ukey — 用回调函数对键名比较计算数组的差集
 + array_diff — 计算数组的差集
-+ array_fill_keys — 使用指定的键和值填充数组
-+ array_fill — 用给定的值填充数组
-+ array_filter — 用回调函数过滤数组中的单元。相当于如下代码块：
 ```php
-// 去除空元素
-<?php
-foreach($arr as $k=>$v){
-if(!$v) unset($arr[$k]);
-}
-?>
+// array_diff_assoc ( array $array1 , array $array2 [, array $... ] ) : array
+//  返回一个数组，该数组包括了所有在 array1 中但是不在任何其它参数数组中的值。键名也用于比较。
+
+// array_diff_key ( array $array1 , array $array2 [, array $... ] ) : array
+// 使用键名比较计算数组的差集
+
+// array_diff_uassoc ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) : array
+// 用用户提供的回调函数做索引检查来计算数组的差集
+
+// array_diff_ukey ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) : array
+//  返回一个数组，该数组包括了所有出现在 array1 中但是未出现在任何其它参数数组中的键名的值。
+
+// array_diff ( array $array1 , array $array2 [, array $... ] ) : array
+// 返回在 array1 中但是不在其他 array 里的值。
+
 ```
 + array_intersect_assoc — 带索引检查计算数组的交集
 + array_intersect_key — 使用键名比较计算数组的交集
 + array_intersect_uassoc — 带索引检查计算数组的交集，用回调函数比较索引
 + array_intersect_ukey — 用回调函数比较键名来计算数组的交集
 + array_intersect — 计算数组的交集
+```php
 
+// 去除空元素
+foreach($arr as $k=>$v){
+	if(!$v) unset($arr[$k]);
+}
+```
++ array_fill — 用给定的值填充数组
++ array_fill_keys — 使用指定的键和值填充数组
++ array_filter — 用回调函数过滤数组中的单元。
+```php
+// array_filter ( array $array [, callable $callback [, int $flag = 0 ]] ) : array
+
+```
 + array_flip — 交换数组中的键和值
 + array_key_exists — 检查数组里是否有指定的键名或索引
 + array_key_first — Gets the first key of an array
 + array_key_last — Gets the last key of an array
 + array_keys — 返回数组中部分的或所有的键名
-
 + array_map — 为数组的每个元素应用回调函数
 + array_walk_recursive — 对数组中的每个成员递归地应用用户函数
 + array_walk — 使用用户自定义函数对数组中的每个元素做回调处理
-
 + array_merge_recursive — 递归地合并一个或多个数组
 + array_merge — 合并一个或多个数组
 + array_multisort — 对多个数组或多维数组进行排序
@@ -215,7 +233,6 @@ if(!$v) unset($arr[$k]);
 + array_shift — 将数组开头的单元移出数组
 + array_unshift — 在数组开头插入一个或多个单元
 + array_values — 返回数组中所有的值
-
 + array — 新建一个数组
 + arsort — 对数组进行逆向排序并保持索引关系
 + asort — 对数组进行排序并保持索引关系
@@ -401,6 +418,14 @@ var_dump(floor(3.157*100)/100));// 保留两位小数,不四舍五入
 + fgetcsv — 从文件指针中读入一行并解析 CSV 字段
 + fgets — 从文件指针中读取一行
 + fgetss — 从文件指针中读取一行并过滤掉 HTML 标记
++ fputcsv — 将行格式化为 CSV 并写入文件指针
++ fputs — fwrite 的别名
+```php
+// fputcsv ( resource $handle , array $fields [, string $delimiter = ',' [, string $enclosure = '"' ]] ) : int
+
+// fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = ',' [, string $enclosure = '"' [, string $escape = '\\' ]]]] ) : array
+
+```
 
 + file_get_contents — 将整个文件读入一个字符串
 + file_put_contents — 将一个字符串写入文件
@@ -428,8 +453,7 @@ file_put_contents('../test.json', json_encode($data));
 + fnmatch — 用模式匹配文件名
 + fopen — 打开文件或者 URL
 + fpassthru — 输出文件指针处的所有剩余数据
-+ fputcsv — 将行格式化为 CSV 并写入文件指针
-+ fputs — fwrite 的别名
+
 + fread — 读取文件（可安全用于二进制文件）
 + fscanf — 从文件中格式化输入
 + fseek — 在文件指针中定位
@@ -530,6 +554,31 @@ file_put_contents('../test.json', json_encode($data));
 ## 魔术方法
 + __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 + __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
+```php
+// public __call ( string $name , array $arguments ) : mixed
+// public static __callStatic ( string $name , array $arguments ) : mixed
+// 当调用当前环境下未定义或不可见的类属性或方法时，重载方法会被调用。
+
+```
+## 函数处理 函数
++ call_user_func_array — 调用回调函数，并把一个数组参数作为回调函数的参数
++ call_user_func — 把第一个参数作为回调函数调用
+```php
+// call_user_func_array ( callable $callback , array $param_arr ) : mixed
+// call_user_func ( callable $callback [, mixed $parameter [, mixed $... ]] ) : mixed
+```
++ create_function — Create an anonymous (lambda-style) function
++ forward_static_call_array — Call a static method and pass the arguments as array
++ forward_static_call — Call a static method
++ func_get_arg — 返回参数列表的某一项
++ func_get_args — 返回一个包含函数参数列表的数组
++ func_num_args — Returns the number of arguments passed to the function
++ function_exists — 如果给定的函数已经被定义就返回 TRUE
++ get_defined_functions — 返回所有已定义函数的数组
++ register_shutdown_function — 注册一个会在php中止时执行的函数
++ register_tick_function — Register a function for execution on each tick
++ unregister_tick_function — De-register a function for execution on each tick
+
 ## 其他
 + connection_aborted — 检查客户端是否已经断开
 + connection_status — 返回连接的状态位

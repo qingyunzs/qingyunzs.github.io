@@ -4,6 +4,7 @@ title: MySQL 使用笔记
 author: zrg
 comments: false
 description: MySQL 笔记
+date: 2017-12-14
 categories:
 - database
 tags:
@@ -70,3 +71,51 @@ Linux
 : 示例：指定数据库estep的部分权限给用户admin： 
 : >grant select,update on estep.* to 'admin'@'localhost' identified by '123456'; 
 : >flush privileges;  //刷新系统权限表 
+
+## MySQL 函数(Functions)
+### String Functions
++ ASCII，returns the ASCII value for the specific character.
++ char_length，return the length of a string (in characters).
++ char
++ concat，多个字段拼接
++ concat_ws，代表 concat with separator，是concat()的特殊形式。
+```sql
+-- Syntax: ASCII(character)
+SELECT ASCII(CustomerName) AS NumCodeOfFirstChar FROM Customers;
+-- Syntax: CHAR_LENGTH(string)
+SELECT CHAR_LENGTH(CustomerName) AS LengthOfName FROM Customers;
+-- Syntax: CHARACTER_LENGTH(string)
+SELECT CHARACTER_LENGTH(CustomerName) AS LengthOfName FROM Customers;
+-- Syntax: CONCAT(expression1, expression2, expression3,...)
+-- Syntax: CONCAT(expression1, expression2, expression3,...)
+-- Syntax: CONCAT(expression1, expression2, expression3,...)
+SELECT CONCAT("SQL ", "Tutorial ", "is ", "fun!") AS ConcatenatedString;
+SELECT CONCAT(Address, " ", PostalCode, " ", City) AS Address FROM Customers;
+-- Syntax: CONCAT_WS(separator, expression1, expression2, expression3,...)
+-- 第一个参数是其它参数的分隔符。
+SELECT CONCAT_WS(" ", Address, PostalCode, City) AS Address FROM Customers;
+```
+> https://dev.mysql.com/doc/refman/8.0/en/string-functions.html
+
+### Numeric Functions
+
+### Date Functions
+
+### Advanced Functions
++ case
+```sql
+SELECT OrderID, Quantity,
+CASE
+    WHEN Quantity > 30 THEN "The quantity is greater than 30"
+    WHEN Quantity = 30 THEN "The quantity is 30"
+    ELSE "The quantity is under 30"
+END
+FROM OrderDetails;
+```
++ cast
+```sql
+--  converts a value (of any type) into the specified datatype.
+-- syntax: CAST(value AS datatype)
+SELECT CAST("14:06:10" AS TIME);
+SELECT CAST(150 AS CHAR);
+```
