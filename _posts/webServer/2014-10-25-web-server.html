@@ -50,44 +50,44 @@ photos:
 <h3 id="org8a01028">配置 Apache</h3>
 <div class="outline-text-3" id="text-org8a01028">
 </div>
-<div id="outline-container-orgf87fc9c" class="outline-4">
-<h4 id="orgf87fc9c">httpd.conf</h4>
-<div class="outline-text-4" id="text-orgf87fc9c">
+<div id="outline-container-orgb3173f8" class="outline-4">
+<h4 id="orgb3173f8">httpd.conf</h4>
+<div class="outline-text-4" id="text-orgb3173f8">
 <div class="org-src-container">
-<pre class="src src-shell" id="org888c36a"><span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Serve &#26681;&#30446;&#24405;</span>
-ServerRoot <span style="color: #ffd866;">"/usr/local/apache2"</span>
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#20390;&#21548;&#31471;&#21475;</span>
+<pre class="src src-shell" id="orgf87fc9c"><span style="color: #b22222;"># </span><span style="color: #b22222;">Serve &#26681;&#30446;&#24405;</span>
+ServerRoot <span style="color: #8b2252;">"/usr/local/apache2"</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">&#20390;&#21548;&#31471;&#21475;</span>
 Listen 80
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#21152;&#36733;&#27169;&#22359;&#31034;&#20363;</span>
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Example:</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">&#21152;&#36733;&#27169;&#22359;&#31034;&#20363;</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Example:</span>
 LoadModule foo_module modules/mod_foo.so
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#25351;&#23450; Server &#21517;&#31216;&#21644;&#31471;&#21475;</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">&#25351;&#23450; Server &#21517;&#31216;&#21644;&#31471;&#21475;</span>
 ServerName localhost:80
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Server &#26681;&#30446;&#24405;&#35775;&#38382;&#25511;&#21046;</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Server &#26681;&#30446;&#24405;&#35775;&#38382;&#25511;&#21046;</span>
 &lt;Directory /&gt;
      AllowOverride none
      Require all denied
 &lt;/Directory&gt;
-<span style="color: #727072;"># </span>
-DocumentRoot <span style="color: #ffd866;">"/www/wwwroot"</span>
-&lt;Directory <span style="color: #ffd866;">"/www/wwwroot"</span>&gt;
-     <span style="color: #727072;">#</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Possible values for the Options directive are "None", "All",</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">or any combination of:</span>
-     <span style="color: #727072;">#   </span><span style="color: #727072; font-style: italic;">Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews</span>
-     <span style="color: #727072;">#</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Note that "MultiViews" must be named *explicitly* --- "Options All"</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">doesn't give it to you.</span>
-     <span style="color: #727072;">#</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">The Options directive is both complicated and important.  Please see</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">http://httpd.apache.org/docs/2.4/mod/core.html#options</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">for more information.</span>
+<span style="color: #b22222;"># </span>
+DocumentRoot <span style="color: #8b2252;">"/www/wwwroot"</span>
+&lt;Directory <span style="color: #8b2252;">"/www/wwwroot"</span>&gt;
+     <span style="color: #b22222;">#</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">Possible values for the Options directive are "None", "All",</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">or any combination of:</span>
+     <span style="color: #b22222;">#   </span><span style="color: #b22222;">Indexes Includes FollowSymLinks SymLinksifOwnerMatch ExecCGI MultiViews</span>
+     <span style="color: #b22222;">#</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">Note that "MultiViews" must be named *explicitly* --- "Options All"</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">doesn't give it to you.</span>
+     <span style="color: #b22222;">#</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">The Options directive is both complicated and important.  Please see</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">http://httpd.apache.org/docs/2.4/mod/core.html#options</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">for more information.</span>
      Options Indexes FollowSymLinks
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">AllowOverride controls what directives may be placed in .htaccess files.</span>
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">It can be "All", "None", or any combination of the keywords:</span>
-     <span style="color: #727072;">#   </span><span style="color: #727072; font-style: italic;">AllowOverride FileInfo AuthConfig Limit</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">AllowOverride controls what directives may be placed in .htaccess files.</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">It can be "All", "None", or any combination of the keywords:</span>
+     <span style="color: #b22222;">#   </span><span style="color: #b22222;">AllowOverride FileInfo AuthConfig Limit</span>
      AllowOverride None
-     <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">Controls who can get stuff from this server.</span>
+     <span style="color: #b22222;"># </span><span style="color: #b22222;">Controls who can get stuff from this server.</span>
      Require all granted
  &lt;/Directory&gt;
 </pre>
@@ -102,7 +102,7 @@ DocumentRoot <span style="color: #ffd866;">"/www/wwwroot"</span>
 在 httpd.conf 中配置支持 vhost
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">uncomment</span>
+<pre class="src src-shell"><span style="color: #b22222;"># </span><span style="color: #b22222;">uncomment</span>
 LoadModule vhost_alias_module modules/mod_vhost_alias.so
 ...
 Include conf/extra/httpd-vhosts.conf
@@ -114,20 +114,20 @@ Include conf/extra/httpd-vhosts.conf
 <div class="org-src-container">
 <pre class="src src-shell" id="orge7964c2">&lt;VirtualHost *:80&gt;
     ServerAdmin webmaster@dummy-host.example.com
-    DocumentRoot <span style="color: #ffd866;">"/var/www/dummy-host.example.com"</span>
+    DocumentRoot <span style="color: #8b2252;">"/var/www/dummy-host.example.com"</span>
     ServerName dummy-host.example.com
     ServerAlias www.dummy-host.example.com
-    ErrorLog <span style="color: #ffd866;">"logs/dummy-host.example.com-error_log"</span>
-    CustomLog <span style="color: #ffd866;">"logs/dummy-host.example.com-access_log"</span> common
+    ErrorLog <span style="color: #8b2252;">"logs/dummy-host.example.com-error_log"</span>
+    CustomLog <span style="color: #8b2252;">"logs/dummy-host.example.com-access_log"</span> common
 &lt;/VirtualHost&gt;
 </pre>
 </div></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org7cef874" class="outline-4">
-<h4 id="org7cef874">常见问题</h4>
-<div class="outline-text-4" id="text-org7cef874">
+<div id="outline-container-org0bfeec2" class="outline-4">
+<h4 id="org0bfeec2">常见问题</h4>
+<div class="outline-text-4" id="text-org0bfeec2">
 <ol class="org-ol">
 <li><p>
 You don't have permission to access / on this server. 
@@ -197,14 +197,14 @@ $ nginx -s quit          // 退出nginx
 <h3 id="org30200b0">Nginx 配置</h3>
 <div class="outline-text-3" id="text-org30200b0">
 <div class="org-src-container">
-<pre class="src src-shell">   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">user&#8239; nobody; </span>
+<pre class="src src-shell">   <span style="color: #b22222;">#</span><span style="color: #b22222;">user&#8239; nobody; </span>
    worker_processes&#8239; 1; 
    &#8239; 
-   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">error_log&#8239; logs/error.log; </span>
-   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">error_log&#8239; logs/error.log&#8239; notice; </span>
-   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">error_log&#8239; logs/error.log&#8239; info; </span>
+   <span style="color: #b22222;">#</span><span style="color: #b22222;">error_log&#8239; logs/error.log; </span>
+   <span style="color: #b22222;">#</span><span style="color: #b22222;">error_log&#8239; logs/error.log&#8239; notice; </span>
+   <span style="color: #b22222;">#</span><span style="color: #b22222;">error_log&#8239; logs/error.log&#8239; info; </span>
    &#8239; 
-   <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">pid&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; logs/nginx.pid; </span>
+   <span style="color: #b22222;">#</span><span style="color: #b22222;">pid&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; logs/nginx.pid; </span>
    &#8239; 
    events { 
    &#8239;&#8239;&#8239; worker_connections&#8239; 1024; 
@@ -214,103 +214,103 @@ $ nginx -s quit          // 退出nginx
    &#8239;&#8239;&#8239; include&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; mime.types; 
    &#8239;&#8239;&#8239; default_type&#8239; application/octet-stream; 
    &#8239; 
-   &#8239;&#8239;&#8239; log_format&#8239; main&#8239; <span style="color: #ffd866;">'$remote_addr - $remote_user [$time_local] "$request" '</span> 
-   &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #ffd866;">'$status $body_bytes_sent "$http_referer" '</span> 
-   &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #ffd866;">'"$http_user_agent" "$http_x_forwarded_for"'</span>; 
+   &#8239;&#8239;&#8239; log_format&#8239; main&#8239; <span style="color: #8b2252;">'$remote_addr - $remote_user [$time_local] "$request" '</span> 
+   &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #8b2252;">'$status $body_bytes_sent "$http_referer" '</span> 
+   &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #8b2252;">'"$http_user_agent" "$http_x_forwarded_for"'</span>; 
    &#8239; 
    &#8239;&#8239;&#8239; access_log&#8239; logs/access.log&#8239; main; 
    &#8239; 
    &#8239;&#8239;&#8239; sendfile&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; on; 
-   &#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">tcp_nopush&#8239;&#8239;&#8239;&#8239; on; </span>
+   &#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">tcp_nopush&#8239;&#8239;&#8239;&#8239; on; </span>
    &#8239; 
-   &#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">keepalive_timeout&#8239; 0; </span>
+   &#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">keepalive_timeout&#8239; 0; </span>
    &#8239;&#8239;&#8239; keepalive_timeout&#8239; 65; 
    &#8239; 
-   &#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">gzip&#8239; on;</span>
-       autoindex on; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#24320;&#21551;nginx&#30446;&#24405;&#27983;&#35272;&#21151;&#33021; </span>
-       autoindex_exact_size off; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#25991;&#20214;&#22823;&#23567;&#20174;KB&#24320;&#22987;&#26174;&#31034; </span>
-       autoindex_localtime on; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#26174;&#31034;&#25991;&#20214;&#20462;&#25913;&#26102;&#38388;&#20026;&#26381;&#21153;&#22120;&#26412;&#22320;&#26102;&#38388;</span>
-       <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">proxy_ignore_client_abort on; # &#27809;&#26377;&#35299;&#20915;&#38382;&#39064;&#65292;&#21407;&#20808;&#20026;&#20102;&#35299;&#20915;An error occurred. </span>
+   &#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">gzip&#8239; on;</span>
+       autoindex on; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#24320;&#21551;nginx&#30446;&#24405;&#27983;&#35272;&#21151;&#33021; </span>
+       autoindex_exact_size off; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#25991;&#20214;&#22823;&#23567;&#20174;KB&#24320;&#22987;&#26174;&#31034; </span>
+       autoindex_localtime on; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#26174;&#31034;&#25991;&#20214;&#20462;&#25913;&#26102;&#38388;&#20026;&#26381;&#21153;&#22120;&#26412;&#22320;&#26102;&#38388;</span>
+       <span style="color: #b22222;">#</span><span style="color: #b22222;">proxy_ignore_client_abort on; # &#27809;&#26377;&#35299;&#20915;&#38382;&#39064;&#65292;&#21407;&#20808;&#20026;&#20102;&#35299;&#20915;An error occurred. </span>
 &#8239; 
 &#8239;&#8239;&#8239; server { 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; 100; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; server_name&#8239; localhost; 
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">charset koi8-r; </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">charset koi8-r; </span>
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">access_log&#8239; logs/host.access.log&#8239; main; </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">access_log&#8239; logs/host.access.log&#8239; main; </span>
 &#8239; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; location / { 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; index&#8239; index.html index.htm index.php; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; } 
 &#8239; 
-charset GBK; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#35774;&#32622;&#32534;&#30721; </span>
+charset GBK; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#35774;&#32622;&#32534;&#30721; </span>
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">error_page&#8239; 404&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; /404.html; </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">error_page&#8239; 404&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; /404.html; </span>
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">redirect server error pages to the static page /50x.html </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">redirect server error pages to the static page /50x.html </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span>
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; error_page&#8239;&#8239; 500 502 503 504&#8239; /50x.html; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; location = /50x.html { 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; } 
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">proxy the PHP scripts to Apache listening on 127.0.0.1:80 </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">location ~ \.php$ { </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; proxy_pass&#8239;&#8239; http://127.0.0.1; </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">} </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">proxy the PHP scripts to Apache listening on 127.0.0.1:80 </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">location ~ \.php$ { </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; proxy_pass&#8239;&#8239; http://127.0.0.1; </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">} </span>
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;">#</span>
-        location ~ <span style="color: #ffd866;">\.</span>php$ { 
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000 </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span>
+        location ~ <span style="color: #8b2252;">\.</span>php$ { 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; D:/nginx/html; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; fastcgi_pass&#8239;&#8239; 127.0.0.1:9000; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; fastcgi_index&#8239; index.php; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; fastcgi_param&#8239; SCRIPT_FILENAME&#8239; $<span style="color: #fcfcfa;">document_root</span>$<span style="color: #fcfcfa;">fastcgi_script_name</span>; 
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; fastcgi_param&#8239; SCRIPT_FILENAME&#8239; $<span style="color: #a0522d;">document_root</span>$<span style="color: #a0522d;">fastcgi_script_name</span>; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; include&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; fastcgi_params; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; } 
 &#8239; 
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">deny access to .htaccess files, if Apache's document root </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">concurs with nginx's one </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span>
-&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; location ~ /<span style="color: #ffd866;">\.</span>ht { 
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">deny access to .htaccess files, if Apache's document root </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">concurs with nginx's one </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span>
+&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; location ~ /<span style="color: #8b2252;">\.</span>ht { 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; deny&#8239; all; 
 &#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; } 
 &#8239;&#8239;&#8239; } 
-&#8239;&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">another virtual host using mix of IP-, name-, and port-based configuration </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;"># </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">server { </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; 8000; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; somename:8080; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; server_name&#8239; somename&#8239; alias&#8239; another.alias; </span>
+&#8239;&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">another virtual host using mix of IP-, name-, and port-based configuration </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">server { </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; 8000; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; somename:8080; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; server_name&#8239; somename&#8239; alias&#8239; another.alias; </span>
 &#8239; 
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; location / { </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; index&#8239; index.html index.htm; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; } </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">} </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; location / { </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; index&#8239; index.html index.htm; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; } </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">} </span>
 
-&#8239;&#8239;&#8239; <span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">HTTPS server </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;"># </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">server { </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; 443 ssl; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; server_name&#8239; localhost; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span><span style="color: #b22222;">HTTPS server </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;"># </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">server { </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; listen&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; 443 ssl; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; server_name&#8239; localhost; </span>
 &#8239; 
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_certificate&#8239;&#8239;&#8239;&#8239;&#8239; cert.pem; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_certificate_key&#8239; cert.key;</span>
-    <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_session_cache&#8239;&#8239;&#8239; shared:SSL:1m; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_session_timeout&#8239; 5m; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_certificate&#8239;&#8239;&#8239;&#8239;&#8239; cert.pem; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_certificate_key&#8239; cert.key;</span>
+    <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_session_cache&#8239;&#8239;&#8239; shared:SSL:1m; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_session_timeout&#8239; 5m; </span>
 &#8239; 
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_ciphers&#8239; HIGH:!aNULL:!MD5; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; ssl_prefer_server_ciphers&#8239; on; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_ciphers&#8239; HIGH:!aNULL:!MD5; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; ssl_prefer_server_ciphers&#8239; on; </span>
 &#8239; 
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; location / { </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; index&#8239; index.html index.htm; </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">&#8239;&#8239;&#8239; } </span>
-&#8239;&#8239;&#8239; <span style="color: #727072;">#</span><span style="color: #727072; font-style: italic;">} </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; location / { </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; root&#8239;&#8239; html; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239;&#8239;&#8239;&#8239;&#8239; index&#8239; index.html index.htm; </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">&#8239;&#8239;&#8239; } </span>
+&#8239;&#8239;&#8239; <span style="color: #b22222;">#</span><span style="color: #b22222;">} </span>
 } 
 </pre>
 </div>
@@ -405,13 +405,13 @@ $ vim tomcat_restart.bat
 @echo 1. stop tomcat8 service 
 @echo 2. sleep 10 seconds 
 @echo 3. start tomcat8 service 
-<span style="color: #ab9df2;">echo</span> ---------------------------------------------&#12299; C:\tomcat_restart.log 
-<span style="color: #ab9df2;">echo</span> [%date%%time%] &#20934;&#22791;&#37325;&#26032;&#21551;&#21160;tomcat &#12299;C:\tomcat_restart.log 
-<span style="color: #ab9df2;">echo</span> [%date%%time%] &#20572;&#27490;&#26381;&#21153; &#12299; C:\tomcat_restart.log 
+<span style="color: #483d8b;">echo</span> ---------------------------------------------&#12299; C:\tomcat_restart.log 
+<span style="color: #483d8b;">echo</span> [%date%%time%] &#20934;&#22791;&#37325;&#26032;&#21551;&#21160;tomcat &#12299;C:\tomcat_restart.log 
+<span style="color: #483d8b;">echo</span> [%date%%time%] &#20572;&#27490;&#26381;&#21153; &#12299; C:\tomcat_restart.log 
 net stop tomcat8&#12299; C:\tomcat_restart.log 
 @echo&#31561;&#24453; 10 seconds 
 ping -n 10 127.0.0.1 
-<span style="color: #ab9df2;">echo</span> [%date%%time%] &#37325;&#26032;&#21551;&#21160; &#12299; C:\tomcat_restart.log 
+<span style="color: #483d8b;">echo</span> [%date%%time%] &#37325;&#26032;&#21551;&#21160; &#12299; C:\tomcat_restart.log 
 net start tomcat8 &#12299; C:\tomcat_restart.log 
 echo------------------------------------ &#12299;C:\tomcat_restart.log 
 </pre>
@@ -419,9 +419,9 @@ echo------------------------------------ &#12299;C:\tomcat_restart.log
 </div>
 </div>
 </div>
-<div id="outline-container-org8d3f602" class="outline-3">
-<h3 id="org8d3f602">常见问题</h3>
-<div class="outline-text-3" id="text-org8d3f602">
+<div id="outline-container-orgc7d0f7f" class="outline-3">
+<h3 id="orgc7d0f7f">常见问题</h3>
+<div class="outline-text-3" id="text-orgc7d0f7f">
 <ol class="org-ol">
 <li><p>
 运行startup.bat没有启动，报错：TOMCAT JAVA_HOME or JRE_HOME environment variable is not defined correctly 
@@ -432,8 +432,8 @@ echo------------------------------------ &#12299;C:\tomcat_restart.log
 发现其调用了catalina.bat,而catalina.bat调用了setclasspath.bat；在setclasspath.bat的头部定义了JAVA_HOME和JRE_HOME的值，那么在这里手动设置JAVA_HOME变量.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #ab9df2;">set</span> <span style="color: #fcfcfa;">JAVA_HOME</span>=C:\Program Files\Java\jdk1.5.0_05 
-<span style="color: #ab9df2;">set</span> <span style="color: #fcfcfa;">JRE_HOME</span>=C:\Program Files\Java\jre1.5.0_05 
+<pre class="src src-shell"><span style="color: #483d8b;">set</span> <span style="color: #a0522d;">JAVA_HOME</span>=C:\Program Files\Java\jdk1.5.0_05 
+<span style="color: #483d8b;">set</span> <span style="color: #a0522d;">JRE_HOME</span>=C:\Program Files\Java\jre1.5.0_05 
 </pre>
 </div></li>
 </ol>
@@ -485,16 +485,16 @@ $phpConf['apache']['2.4']['LoadModuleFile'] = 'php7apache2_4.dll';
 </ol>
 </div>
 </div>
-<div id="outline-container-org0bfeec2" class="outline-4">
-<h4 id="org0bfeec2">常见问题</h4>
-<div class="outline-text-4" id="text-org0bfeec2">
+<div id="outline-container-orgd15fffd" class="outline-4">
+<h4 id="orgd15fffd">常见问题</h4>
+<div class="outline-text-4" id="text-orgd15fffd">
 <ol class="org-ol">
 <li><p>
 访问phpmyadmin时，出现You don't have permission to access <i>phpmyadmin</i> on this server. 
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">allow from all
-<span style="color: #727072;"># </span><span style="color: #727072; font-style: italic;">&#27880;&#24847;2.5&#29256;&#26412;&#38656;&#35201;&#25913;:</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">&#27880;&#24847;2.5&#29256;&#26412;&#38656;&#35201;&#25913;:</span>
 Require all granted
 </pre>
 </div></li>
@@ -542,7 +542,7 @@ Require all granted
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">#vim /opt/lampp/etc/extra/httpd-xampp.conf
 &#25214;&#21040;&#20462;&#25913;&#65306;
-&lt;LocationMatch <span style="color: #ffd866;">"^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))"</span>&gt;
+&lt;LocationMatch <span style="color: #8b2252;">"^/(?i:(?:xampp|security|licenses|phpmyadmin|webalizer|server-status|server-info))"</span>&gt;
 #        Require local   #&#27880;&#37322;&#25481;
        Order deny,allow  #&#28155;&#21152;
        Allow from all    #&#28155;&#21152;&#65292;&#34920;&#31034;&#20801;&#35768;&#25152;&#26377;&#37117;&#33021;&#35775;&#38382;
@@ -571,7 +571,7 @@ Require all granted
 <pre class="src src-emacs-lisp">Access forbidden!
 New XAMPP security concept:
 Access to the requested object is only available from the local network.
-This setting can be configured in the file <span style="color: #ffd866;">"httpd-xampp.conf"</span>.
+This setting can be configured in the file <span style="color: #8b2252;">"httpd-xampp.conf"</span>.
 Error 403
 &#36825;&#20010;&#21407;&#22240;&#23601;&#26159;&#19978;&#38754;&#25552;&#21040;&#30340;&#20462;&#25913;httpd-xampp.conf&#25991;&#20214;&#65292;&#25913;&#20102;&#23601;&#33021;&#27491;&#24120;&#35775;&#38382;&#20102;&#12290;
 </pre>
