@@ -499,7 +499,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  855
+                  1242
                 </span>
               
 
@@ -652,9 +652,8 @@ echo "hello world"
   </tbody>
 </table>
 
-<h2 id="时序图流程图甘特图">时序图/流程图/甘特图</h2>
-<h3 id="sequence">sequence</h3>
-<p>注意: GitHub 暂不支持,或者说作者没有找到可用的第三方组件提供支持.</p>
+<h2 id="使用-sequence-画时序图">使用 sequence 画时序图</h2>
+<p>注意: GitHub 暂不支持，或者说作者没有找到可用的第三方组件提供支持，所以在这你是看不到效果啦！</p>
 <pre><code class="language-sequence">title: 时序图例子
 A-&gt;B: 实线实箭头 
 B--&gt;C: 虚线实箭头 
@@ -664,8 +663,8 @@ note over B,C:横跨通知
 C-&gt;A:长通知 
 note left of A:左通知
 </code></pre>
-<h3 id="flow">flow</h3>
-<p>注意: GitHub 暂不支持,或者说作者没有找到可用的第三方组件提供支持.</p>
+<h2 id="使用-flow-画流程图">使用 flow 画流程图</h2>
+<p>注意: GitHub 暂不支持，或者说作者没有找到可用的第三方组件提供支持，所以在这你是看不到效果啦！</p>
 <pre><code class="language-flow">start=&gt;start: 开始
 isLogin=&gt;condition: 是否登录
 login=&gt;operation: 登录
@@ -678,47 +677,19 @@ isLogin(yes)-&gt;view
 view-&gt;end
 </code></pre>
 
-<h3 id="mermaid">mermaid</h3>
-<ol>
-  <li>简介
-    <blockquote>
-      <p>Mermaid 是一个用于画流程图、状态图、时序图、甘特图的库，使用 JS 进行本地渲染，广泛集成于许多 Markdown 编辑器中。
+<h2 id="mermaid">mermaid</h2>
+<h3 id="简介">简介</h3>
+<p>Mermaid 是一个用于画流程图、状态图、时序图、甘特图的库，使用 JS 进行本地渲染，广泛集成于许多 Markdown 编辑器中。
 Mermaid 作为一个使用 JS 渲染的库，生成的不是一个“图片”，而是一段 HTML 代码</p>
-    </blockquote>
-  </li>
-  <li>图表方向</li>
-</ol>
+<h3 id="图表方向">图表方向</h3>
 
-<table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>TB</td>
-      <td>从上到下</td>
-    </tr>
-    <tr>
-      <td>BT</td>
-      <td>从下到上</td>
-    </tr>
-    <tr>
-      <td>RL</td>
-      <td>从右到左</td>
-    </tr>
-    <tr>
-      <td>LR</td>
-      <td>从左到右</td>
-    </tr>
-  </tbody>
-</table>
-
-<ol>
-  <li>节点定义</li>
-</ol>
+<p>| name | description |
+|——|————-|
+| TB   | 从上到下    |
+| BT   | 从下到上    |
+| RL   | 从右到左    |
+| LR   | 从左到右    |</p>
+<h3 id="节点定义">节点定义</h3>
 
 <table>
   <thead>
@@ -751,9 +722,7 @@ Mermaid 作为一个使用 JS 渲染的库，生成的不是一个“图片”�
   </tbody>
 </table>
 
-<ol>
-  <li>节点之间的连接线</li>
-</ol>
+<h3 id="节点之间的连接线">节点之间的连接线</h3>
 
 <table>
   <thead>
@@ -822,46 +791,94 @@ Mermaid 作为一个使用 JS 渲染的库，生成的不是一个“图片”�
   </tbody>
 </table>
 
-<ol>
-  <li>子图表
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>subgraph 子图表名称
- 子图表中的描述语句...
+<h3 id="mermaid-流程图">mermaid: 流程图</h3>
+<div class="language-shell highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code>graph TB
+A<span class="o">(</span>开始<span class="o">)</span> <span class="nt">--</span><span class="o">&gt;</span> B[Round edge]
+B <span class="nt">--</span><span class="o">&gt;</span> C<span class="o">{</span>Decision<span class="o">}</span>
+C <span class="nt">--</span><span class="o">&gt;</span>|Y| D[Result one]
+C <span class="nt">--</span><span class="o">&gt;</span>|N| E[Result two]
+E <span class="nt">--</span><span class="o">&gt;</span>F
+subgraph 子图表名称
+F <span class="nt">--</span> This is the text <span class="nt">---</span><span class="o">&gt;</span> H
+H <span class="nt">--</span><span class="o">&gt;</span> I<span class="o">((</span>H-I<span class="o">))</span>
+I <span class="nt">--</span><span class="o">&gt;</span> J&gt;I-J]
 end
-</code></pre></td></tr></tbody></table></div>    </div>
-  </li>
-  <li>mermaid: 流程图
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code>graph TB
+H <span class="nt">--</span><span class="o">&gt;</span> Z<span class="o">(</span>结束<span class="o">)</span>
+D <span class="nt">--</span><span class="o">&gt;</span> Z
+</code></pre></td></tr></tbody></table></div></div>
+<pre><code class="language-mermaid">graph TB;
 A(开始) --&gt;B[Round edge]
 B --&gt; C{Decision}
 C --&gt;|Y| D[Result one]
 C --&gt;|N| E[Result two]
-D --&gt;F
-E --&gt;F[结束]
-</code></pre></td></tr></tbody></table></div>    </div>
-    <pre><code class="language-mermaid">graph TB
-A(开始) --&gt;B[Round edge]
-B --&gt; C{Decision}
-C --&gt;|Y| D[Result one]
-C --&gt;|N| E[Result two]
-subgraph chidren
- E1[subgraph] --&gt; E2[subgraph2]
+E --&gt;F
+subgraph 子图表名称
+	F --&gt; H
+	H --&gt; I((H-I))
+	I --&gt; J&gt;I-J]
 end
-E2 --&gt; E
-D --&gt;F
-E --&gt;F[结束]
+H --&gt; Z(结束)
+D --&gt; Z
 </code></pre>
-  </li>
-  <li>mermaid: 序列图
-    <div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code>sequenceDiagram
- [参与者1][消息线][参与者2]:消息体
- ...
-</code></pre></td></tr></tbody></table></div>    </div>
-    <pre><code class="language-mermaid">sequenceDiagram
- 张三-&gt;&gt;李四: 吃了吗？
- 李四-&gt;&gt;张三: 吃了
+<h3 id="mermaid-序列图">mermaid: 序列图</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11</pre></td><td class="code"><pre class="highlight"><code>sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &lt;br/&gt;prevail...
+    John--&gt;Alice: Great!
+    John-&gt;Bob: How about you?
+    Bob--&gt;John: Jolly good!
+</code></pre></td></tr></tbody></table></div></div>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &lt;br/&gt;prevail...
+    John--&gt;Alice: Great!
+    John-&gt;Bob: How about you?
+    Bob--&gt;John: Jolly good!
 </code></pre>
-  </li>
-</ol>
+
+<h3 id="mermaid-甘特图">mermaid: 甘特图</h3>
+<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>gantt
+        dateFormat  YYYY-MM-DD
+        title Adding GANTT diagram functionality to mermaid
+        section A section
+        Completed task            :done,    des1, 2014-01-06,2014-01-08
+        Active task               :active,  des2, 2014-01-09, 3d
+        Future task               :         des3, after des2, 5d
+        Future task2               :         des4, after des3, 5d
+        section Critical tasks
+        Completed task in the critical line :crit, done, 2014-01-06,24h
+        Implement parser and jison          :crit, done, after des1, 2d
+        Create tests for parser             :crit, active, 3d
+        Future task in critical line        :crit, 5d
+        Create tests for renderer           :2d
+        Add to mermaid                      :1d
+</code></pre></td></tr></tbody></table></div></div>
+<pre><code class="language-mermaid">gantt
+	dateFormat  YYYY-MM-DD
+	title Adding GANTT diagram functionality to mermaid
+	section A section
+	Completed task            :done,    des1, 2014-01-06,2014-01-08
+	Active task               :active,  des2, 2014-01-09, 3d
+	Future task               :         des3, after des2, 5d
+	Future task2               :         des4, after des3, 5d
+	section Critical tasks
+	Completed task in the critical line :crit, done, 2014-01-06,24h
+	Implement parser and jison          :crit, done, after des1, 2d
+	Create tests for parser             :crit, active, 3d
+	Future task in critical line        :crit, 5d
+	Create tests for renderer           :2d
+	Add to mermaid                      :1d
+</code></pre>
 
 
       
@@ -1013,7 +1030,7 @@ E --&gt;F[结束]
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1117,7 +1134,7 @@ E --&gt;F[结束]
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#标题"> <span class="nav-number">1</span> <span class="nav-text">标题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#列表"> <span class="nav-number">2</span> <span class="nav-text">列表</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#引用"> <span class="nav-number">3</span> <span class="nav-text">引用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#图片"> <span class="nav-number">4</span> <span class="nav-text">图片</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#链接"> <span class="nav-number">5</span> <span class="nav-text">链接</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#分割线"> <span class="nav-number">6</span> <span class="nav-text">分割线</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#粗体斜体"> <span class="nav-number">7</span> <span class="nav-text">粗体/斜体</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#代码"> <span class="nav-number">8</span> <span class="nav-text">代码</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#区块标识"> <span class="nav-number">9</span> <span class="nav-text">区块标识</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#表格"> <span class="nav-number">10</span> <span class="nav-text">表格</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#时序图流程图甘特图"> <span class="nav-number">11</span> <span class="nav-text">时序图/流程图/甘特图</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#sequence"> <span class="nav-number">11.1</span> <span class="nav-text">sequence</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#flow"> <span class="nav-number">11.2</span> <span class="nav-text">flow</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mermaid"> <span class="nav-number">11.3</span> <span class="nav-text">mermaid</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#标题"> <span class="nav-number">1</span> <span class="nav-text">标题</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#列表"> <span class="nav-number">2</span> <span class="nav-text">列表</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#引用"> <span class="nav-number">3</span> <span class="nav-text">引用</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#图片"> <span class="nav-number">4</span> <span class="nav-text">图片</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#链接"> <span class="nav-number">5</span> <span class="nav-text">链接</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#分割线"> <span class="nav-number">6</span> <span class="nav-text">分割线</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#粗体斜体"> <span class="nav-number">7</span> <span class="nav-text">粗体/斜体</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#代码"> <span class="nav-number">8</span> <span class="nav-text">代码</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#区块标识"> <span class="nav-number">9</span> <span class="nav-text">区块标识</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#表格"> <span class="nav-number">10</span> <span class="nav-text">表格</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用-sequence-画时序图"> <span class="nav-number">11</span> <span class="nav-text">使用 sequence 画时序图</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#使用-flow-画流程图"> <span class="nav-number">12</span> <span class="nav-text">使用 flow 画流程图</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mermaid"> <span class="nav-number">13</span> <span class="nav-text">mermaid</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#简介"> <span class="nav-number">13.1</span> <span class="nav-text">简介</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#图表方向"> <span class="nav-number">13.2</span> <span class="nav-text">图表方向</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#节点定义"> <span class="nav-number">13.3</span> <span class="nav-text">节点定义</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#节点之间的连接线"> <span class="nav-number">13.4</span> <span class="nav-text">节点之间的连接线</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mermaid-流程图"> <span class="nav-number">13.5</span> <span class="nav-text">mermaid: 流程图</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mermaid-序列图"> <span class="nav-number">13.6</span> <span class="nav-text">mermaid: 序列图</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#mermaid-甘特图"> <span class="nav-number">13.7</span> <span class="nav-text">mermaid: 甘特图</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
