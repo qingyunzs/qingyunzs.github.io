@@ -83,7 +83,7 @@
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Yii2," />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -111,17 +111,17 @@
 
 
 
-<meta name="description" content="Yii2">
-<meta name="keywords" content="Yii2">
+<meta name="description" content="MySQL 笔记">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Yii2">
-<meta property="og:url" content="http://localhost:4000/php/2018/12/14/yii2/">
+<meta property="og:title" content="MySQL 使用笔记">
+<meta property="og:url" content="http://localhost:4000/database/2017/12/14/mysql-notes/">
 <meta property="og:site_name" content="Rengui's Notes">
-<meta property="og:description" content="Yii2">
+<meta property="og:description" content="MySQL 笔记">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yii2">
-<meta name="twitter:description" content="Yii2">
+<meta name="twitter:title" content="MySQL 使用笔记">
+<meta name="twitter:description" content="MySQL 笔记">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Yii2 | Rengui's Notes</title>
+  <title>MySQL 使用笔记 | Rengui's Notes</title>
   
 
 
@@ -335,7 +335,7 @@
   
 
   <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://localhost:4000/php/2018/12/14/yii2/">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/database/2017/12/14/mysql-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zhao Rengui">
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            Yii2
+            MySQL 使用笔记
           
         </h1>
         
@@ -369,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-14T00:00:00+08:00">
-                2018-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T00:00:00+08:00">
+                2017-12-14
               </time>
             
 
@@ -405,8 +405,8 @@
               
                 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/category/#/php" itemprop="url" rel="index">
-                    <span itemprop="name">php</span>
+                  <a href="/category/#/database" itemprop="url" rel="index">
+                    <span itemprop="name">database</span>
                   </a>
                 </span>
 
@@ -416,8 +416,6 @@
             </span>
           
 
-          
-            
           
 
           
@@ -466,7 +464,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  3
+                  904
                 </span>
               
 
@@ -479,7 +477,7 @@
           
             
                 <div class="post-description">
-                    Yii2
+                    MySQL 笔记
                 </div>
             
           
@@ -509,7 +507,183 @@
 
 
 
-  <p>##</p>
+  <h2 id="mysql-数据类型">MySQL 数据类型</h2>
+<h3 id="char-vs-varchar-vs-text">Char vs Varchar vs Text</h3>
+<p>TEXT的最大长度:
+|type|size(bytes)|size(MB)|
+|:—|:—|:—|
+|TINYTEXT|256 bytes|/|
+|TEXT|65,535 bytes|~64KB|
+|MEDIMUMTEXT|16,777,215 bytes|~16MB|
+|LONGTEXT|4,294,967,295 bytes|~4GB|</p>
+
+<h2 id="mysql备份与还原">MySQL备份与还原</h2>
+<blockquote>
+  <p>$ mysqldump -u username -p dbname&gt;filename.sql输入密码
+//单独备份指定表
+$ mysqldump -u username -p dbname table1 table2&gt;filename.sql输入密码
+//加条件备份指定表(注意单引号和双引号问题)
+$ mysqldump -u username -p dbname table1 table2 -w “id&lt;10”&gt;filename.sql
+//执行SQL语句将查到的数据导出到文件
+$ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt</p>
+</blockquote>
+
+<p>windows</p>
+<blockquote>
+  <p>$ mysql -u username -p 输入密码
+&gt;create database dbname
+&gt;use dbname
+&gt;source filename.sql</p>
+</blockquote>
+
+<p>Linux</p>
+<blockquote>
+  <p>$mysql -u username -p dbname&lt;filename.sql</p>
+</blockquote>
+
+<h3 id="当没有备份数据库mysql时恢复数据库办法">当没有备份数据库(mysql)时,恢复数据库办法</h3>
+<p>描述: 
+	一次误操作导致系统崩溃了，数据库没来得及备份，重装系统后，进入D盘发现mysql/data目录下仍然存留frm文件和ibd文件（注意：我的www目录存在了D盘，也就是非系统盘）。
+具体步骤:
+	a. 进入mysql/data目录下，将存留的frm和ibd文件拷贝。
+	b. 放到同样环境的mysql/data目录下。启动msyql，查看结果。</p>
+<h2 id="mysql-用户与权限">MySQL 用户与权限</h2>
+<dl>
+  <dt>** 新建用户</dt>
+  <dd>示例：新建一个名为admin密码为123456的用户，建议方式2：</dd>
+  <dd>–方法1：</dd>
+  <dd>
+    <blockquote>
+      <p>insert into mysql.user(Host,User,Password)values(“192.168.120.110”,”sa”,password(“123456”));</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>flush privileges;</p>
+    </blockquote>
+  </dd>
+  <dd>–方法2：</dd>
+  <dd>
+    <blockquote>
+      <p>create user admin@localhost identified by ‘admins_password’; 
+** 修改指定用户的密码</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>update mysql.user set password=password(‘123456’) where User=”admin” and Host=”localhost”;//适用于mysql5.7.6以前版本</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>update mysql.user set authentication_string=password(‘密码’) where user=’admin’ and Host = ‘localhost’; 或者 set password for ‘admin’@’localhost’=password(‘密码’);//适用于5.7.6以后版本</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>flush privileges;</p>
+    </blockquote>
+  </dd>
+  <dd>下面是另一种方法：</dd>
+  <dd>
+    <blockquote>
+      <p>mysqladmin -u root -p password ‘root’</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>history -c //清除历史 
+** 给用户授权</p>
+    </blockquote>
+  </dd>
+  <dd>示例：授予用户admin全部权限，并允许该用户通过外部访问</dd>
+  <dd>
+    <blockquote>
+      <p>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘admin’@’%’ identified by ‘123456’ with grant option;</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>flush privileges;  //刷新系统权限表</p>
+    </blockquote>
+  </dd>
+  <dd>示例：授权用户admin仅拥有数据库estep的所有权限允许本地访问：</dd>
+  <dd>
+    <blockquote>
+      <p>GRANT ALL PRIVILEGES ON estep.* TO ‘admin’@’127.0.0.1’ identified by ‘123456’ with grant option;</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>flush privileges;  //刷新系统权限表</p>
+    </blockquote>
+  </dd>
+  <dd>示例：指定数据库estep的部分权限给用户admin：</dd>
+  <dd>
+    <blockquote>
+      <p>grant select,update on estep.* to ‘admin’@’localhost’ identified by ‘123456’;</p>
+    </blockquote>
+  </dd>
+  <dd>
+    <blockquote>
+      <p>flush privileges;  //刷新系统权限表</p>
+    </blockquote>
+  </dd>
+</dl>
+
+<h2 id="mysql-函数functions">MySQL 函数(Functions)</h2>
+<h3 id="string-functions">String Functions</h3>
+<ul>
+  <li>ASCII，returns the ASCII value for the specific character.</li>
+  <li>char_length，return the length of a string (in characters).</li>
+  <li>char</li>
+  <li>concat，多个字段拼接</li>
+  <li>concat_ws，代表 concat with separator，是concat()的特殊形式。
+    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="c1">-- Syntax: ASCII(character)</span>
+<span class="k">SELECT</span> <span class="n">ASCII</span><span class="p">(</span><span class="n">CustomerName</span><span class="p">)</span> <span class="k">AS</span> <span class="n">NumCodeOfFirstChar</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
+<span class="c1">-- Syntax: CHAR_LENGTH(string)</span>
+<span class="k">SELECT</span> <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="n">CustomerName</span><span class="p">)</span> <span class="k">AS</span> <span class="n">LengthOfName</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
+<span class="c1">-- Syntax: CHARACTER_LENGTH(string)</span>
+<span class="k">SELECT</span> <span class="k">CHARACTER_LENGTH</span><span class="p">(</span><span class="n">CustomerName</span><span class="p">)</span> <span class="k">AS</span> <span class="n">LengthOfName</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
+<span class="c1">-- Syntax: CONCAT(expression1, expression2, expression3,...)</span>
+<span class="c1">-- Syntax: CONCAT(expression1, expression2, expression3,...)</span>
+<span class="c1">-- Syntax: CONCAT(expression1, expression2, expression3,...)</span>
+<span class="k">SELECT</span> <span class="n">CONCAT</span><span class="p">(</span><span class="nv">"SQL "</span><span class="p">,</span> <span class="nv">"Tutorial "</span><span class="p">,</span> <span class="nv">"is "</span><span class="p">,</span> <span class="nv">"fun!"</span><span class="p">)</span> <span class="k">AS</span> <span class="n">ConcatenatedString</span><span class="p">;</span>
+<span class="k">SELECT</span> <span class="n">CONCAT</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="nv">" "</span><span class="p">,</span> <span class="n">PostalCode</span><span class="p">,</span> <span class="nv">" "</span><span class="p">,</span> <span class="n">City</span><span class="p">)</span> <span class="k">AS</span> <span class="n">Address</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
+<span class="c1">-- Syntax: CONCAT_WS(separator, expression1, expression2, expression3,...)</span>
+<span class="c1">-- 第一个参数是其它参数的分隔符。</span>
+<span class="k">SELECT</span> <span class="n">CONCAT_WS</span><span class="p">(</span><span class="nv">" "</span><span class="p">,</span> <span class="n">Address</span><span class="p">,</span> <span class="n">PostalCode</span><span class="p">,</span> <span class="n">City</span><span class="p">)</span> <span class="k">AS</span> <span class="n">Address</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+    <blockquote>
+      <p>https://dev.mysql.com/doc/refman/8.0/en/string-functions.html</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h3 id="numeric-functions">Numeric Functions</h3>
+
+<h3 id="date-functions">Date Functions</h3>
+
+<h3 id="advanced-functions">Advanced Functions</h3>
+<ul>
+  <li>case
+    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">OrderID</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">,</span>
+<span class="k">CASE</span>
+  <span class="k">WHEN</span> <span class="n">Quantity</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="k">THEN</span> <span class="nv">"The quantity is greater than 30"</span>
+  <span class="k">WHEN</span> <span class="n">Quantity</span> <span class="o">=</span> <span class="mi">30</span> <span class="k">THEN</span> <span class="nv">"The quantity is 30"</span>
+  <span class="k">ELSE</span> <span class="nv">"The quantity is under 30"</span>
+<span class="k">END</span>
+<span class="k">FROM</span> <span class="n">OrderDetails</span><span class="p">;</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+  <li>cast
+    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="c1">--  converts a value (of any type) into the specified datatype.</span>
+<span class="c1">-- syntax: CAST(value AS datatype)</span>
+<span class="k">SELECT</span> <span class="k">CAST</span><span class="p">(</span><span class="nv">"14:06:10"</span> <span class="k">AS</span> <span class="n">TIME</span><span class="p">);</span>
+<span class="k">SELECT</span> <span class="k">CAST</span><span class="p">(</span><span class="mi">150</span> <span class="k">AS</span> <span class="n">CHAR</span><span class="p">);</span>
+</code></pre></td></tr></tbody></table></div>    </div>
+  </li>
+</ul>
 
 
       
@@ -541,7 +715,7 @@
         <div class="post-tags">
           
             
-            <a href="/tag/#/Yii2" rel="tag"># Yii2</a>
+            <a href="/tag/#/MySQL" rel="tag"># MySQL</a>
           
         </div>
       
@@ -557,8 +731,8 @@
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux/2018/12/27/xmr%E6%81%B6%E6%84%8F%E6%8C%96%E7%9F%BF%E8%84%9A%E6%9C%AC%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" rel="next" title="XMR 恶意挖矿脚本处理笔记">
-                <i class="fa fa-chevron-left"></i> XMR 恶意挖矿脚本处理笔记
+              <a href="/network/2018/01/03/ccna-7th/" rel="next" title="CCNA">
+                <i class="fa fa-chevron-left"></i> CCNA
               </a>
             
           </div>
@@ -567,8 +741,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/php/2018/09/19/php-sina-short-url/" rel="prev" title="PHP 调用新浪API生成短链接">
-                PHP 调用新浪API生成短链接 <i class="fa fa-chevron-right"></i>
+              <a href="/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/2017/06/15/how-to-solve-it/" rel="prev" title="How to Solve It?">
+                How to Solve It? <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -591,10 +765,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -625,8 +795,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/assets/images/avatar.gif"
@@ -641,7 +820,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -663,7 +842,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -736,6 +915,34 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-数据类型"> <span class="nav-number">1</span> <span class="nav-text">MySQL 数据类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#char-vs-varchar-vs-text"> <span class="nav-number">1.1</span> <span class="nav-text">Char vs Varchar vs Text</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql备份与还原"> <span class="nav-number">2</span> <span class="nav-text">MySQL备份与还原</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#当没有备份数据库mysql时恢复数据库办法"> <span class="nav-number">2.1</span> <span class="nav-text">当没有备份数据库(mysql)时,恢复数据库办法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-用户与权限"> <span class="nav-number">3</span> <span class="nav-text">MySQL 用户与权限</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-函数functions"> <span class="nav-number">4</span> <span class="nav-text">MySQL 函数(Functions)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#string-functions"> <span class="nav-number">4.1</span> <span class="nav-text">String Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#numeric-functions"> <span class="nav-number">4.2</span> <span class="nav-text">Numeric Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#date-functions"> <span class="nav-number">4.3</span> <span class="nav-text">Date Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#advanced-functions"> <span class="nav-number">4.4</span> <span class="nav-text">Advanced Functions</span> </a> </li> </ol> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
