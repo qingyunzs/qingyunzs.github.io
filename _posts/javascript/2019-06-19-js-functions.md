@@ -37,7 +37,7 @@ var n = Math.ceil(3.14); //4
 var n = Math.ceil(3.14); //3
 ```
 
-## 数组对象操作
+## 数组对象遍历操作
 1. 使用 Object.keys(obj) 遍历
 ```javascript
 var obj = {'0':'a','1':'b','2':'c'};

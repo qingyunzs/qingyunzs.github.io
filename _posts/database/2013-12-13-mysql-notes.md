@@ -13,8 +13,16 @@ photos:
 ---
 
 ## MySQL 数据类型
+### 数据字段属性
++ UNSIGNED
++ ZEROFILL
++ AUTO_INCREMENT
++ NULL & NOT NULL
++ DEFAULT
++ 
 ### Char vs Varchar vs Text
 TEXT的最大长度:
+
 |type|size(bytes)|size(MB)|
 |:---|:---|:---|
 |TINYTEXT|256 bytes|/|
