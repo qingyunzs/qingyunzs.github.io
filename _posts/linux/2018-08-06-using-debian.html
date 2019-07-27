@@ -251,7 +251,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orga2c1edf">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org8cefc1e">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #b22222;">#</span><span style="color: #b22222;">Notice:</span>
 <span style="color: #b22222;"># </span><span style="color: #b22222;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #b22222;">#</span><span style="color: #b22222;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -2879,6 +2879,18 @@ $ mytest[2] = seven
 $ unset mytest[2]
 $ unset mytest
 </pre></li>
+<li>环境变量配置文件
+<ul class="org-ul">
+<li>/etc/profile</li>
+<li>/etc/profile.d/*.sh</li>
+<li>~/.bash_profile</li>
+<li>~/.bashrc</li>
+<li>/etc/bashrc</li>
+<li>~/.bash_logout</li>
+<li>~/.bash_history</li>
+<li id="/etc/issue">本地终端欢迎信息</li>
+<li id="/etc/motd">登录后的欢迎信息</li>
+</ul></li>
 </ol>
 </div>
 </div>
@@ -2939,6 +2951,10 @@ $ unset mytest
 <div id="outline-container-orgc97cddd" class="outline-4">
 <h4 id="orgc97cddd">预定义变量</h4>
 <div class="outline-text-4" id="text-orgc97cddd">
+<ol class="org-ol">
+<li><p>
+常见的预定义变量
+</p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 17:</span> 常见的预定义变量</caption>
 
@@ -2984,95 +3000,602 @@ $ unset mytest
 <td class="org-left">用于保存脚本的参数个数</td>
 </tr>
 </tbody>
-</table>
-</div>
-</div>
-<div id="outline-container-org883b45e" class="outline-4">
-<h4 id="org883b45e">执行数学运算</h4>
-<div class="outline-text-4" id="text-org883b45e">
-<pre class="example">
-$ var1=$(1+5)
-$ var2=$[$var1 * 2]
-// 使用$和[]将数学表达式围起来
-注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+</table></li>
+<li>从键盘输入
+<ul class="org-ul">
+<li>read 命令
+<ul class="org-ul">
+<li>选项
+<dl class="org-dl">
+<dt>-p</dt><dd>等待输入时的提示信息</dd>
+<dt>-t</dt><dd>等待秒数</dd>
+<dt>-n</dt><dd>允许输入的字符数</dd>
+<dt>-s</dt><dd>隐藏输入的数据，适用于机密信息的输入</dd>
+</dl></li>
+<li><p>
+示例
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org6778046"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Date: 2019/07/27</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Author: zrg</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Enter a variable name</span>
+<span style="color: #483d8b;">read</span> -p <span style="color: #8b2252;">"Please enter a variable name:"</span> -t 15 varName
+<span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"\n"</span>
+<span style="color: #483d8b;">echo</span> $<span style="color: #a0522d;">varName</span>
 </pre>
-
-
+</div></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga78ab7d" class="outline-4">
+<h4 id="orga78ab7d">执行数学运算和运算符</h4>
+<div class="outline-text-4" id="text-orga78ab7d">
+<ol class="org-ol">
+<li><p>
+方法1：declare
+</p>
 <pre class="example">
-浮点解决方案
-1.用内建的bash计算器：bc
-$ bc
+$ declare -i c=$a+$b
+$ echo $c
+</pre></li>
+<li><p>
+方法2：expr 或 let 运算工具
+</p>
+<pre class="example">
+$ c=$(expr $a +$b)
+$ echo c
+</pre></li>
+<li><p>
+方法3：$((表达式)) 或 $[表达式]
+</p>
+<pre class="example">
+$ var1=$((1+5))
+$ var2=$[$var1*2]
+// 使用 $ 和 [] 将数学表达式围起来
 </pre>
 
 <p>
+注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+</p></li>
+<li><p>
+浮点运算解决方案
+</p>
+<pre class="example">
+使用内建的bash计算器：bc
+$ bc
 3.44 / 5
 0
-scale = 4 浮点运算由scale控制，默认值为0
-</p>
-<pre class="example">
-// -q选项可以不显示冗长的欢迎信息
-$ bc -q 
+scale = 4 // 浮点运算由scale控制，默认值为0
 </pre>
+
 
 <p>
-var1 = 10
-var1 * 4
-40
-var2 = var1 / 5
-print var2
-2
-quit
+注意：-q 选项可以不显示冗长的欢迎信息
 </p>
 <pre class="example">
-$
+$ bc -q
 </pre>
 
-
-<pre class="example">
-2. 在脚本中使用bc
-</pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org6533cd0"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<pre class="src src-shell" id="org99b033a"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 var1 = $(<span style="color: #ff00ff;">echo</span> <span style="color: #8b2252;">"scale=4;3.44 / 5"</span> | bc)
 <span style="color: #483d8b;">echo</span> The answer is $<span style="color: #a0522d;">var1</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgc8d23e3">    <span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/bash</span>
-
-    var1 = 10.46
-    var2 = 43.67
-var3 = 33.2
-var4 = 71
-
-var5 = $(<span style="color: #ff00ff;">bc</span> &lt;&lt; EOF
-<span style="color: #ffa54f;">scale =4</span>
-<span style="color: #ffa54f;">a1 = ($var1*$var2)</span>
-<span style="color: #ffa54f;">a2 = ($var3*var4)</span>
+<pre class="src src-shell" id="orgc8d23e3"><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<span style="color: #a0522d;">var1</span>= 10.46
+<span style="color: #a0522d;">var2</span>= 43.67
+<span style="color: #a0522d;">var3</span>= 33.2
+<span style="color: #a0522d;">var4</span>= 71
+<span style="color: #a0522d;">var5</span>= $(<span style="color: #ff00ff;">bc</span> &lt;&lt; EOF
+<span style="color: #ffa54f;">scale= 4</span>
+<span style="color: #ffa54f;">a1= ($var1*$var2)</span>
+<span style="color: #ffa54f;">a2= ($var3*var4)</span>
 <span style="color: #ffa54f;">a1+b1</span>
 <span style="color: #ffa54f;">EOF</span>
 )
-
 <span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">"The final answer for this mess is $var5"</span>
 </pre>
+</div></li>
+<li>运算符
+<ul class="org-ul">
+<li><p>
+算术运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 18:</span> 算术运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">加法</td>
+<td class="org-left">`expr $a + $b` 结果为 30。</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">减法</td>
+<td class="org-left">`expr $a - $b` 结果为 -10。</td>
+</tr>
+
+<tr>
+<td class="org-left">&lowast;</td>
+<td class="org-left">乘法</td>
+<td class="org-left">`expr $a \* $b` 结果为  200。</td>
+</tr>
+
+<tr>
+<td class="org-left">/</td>
+<td class="org-left">除法</td>
+<td class="org-left">`expr $b / $a` 结果为 2。</td>
+</tr>
+
+<tr>
+<td class="org-left">%</td>
+<td class="org-left">取余</td>
+<td class="org-left">`expr $b % $a` 结果为 0。</td>
+</tr>
+
+<tr>
+<td class="org-left">=</td>
+<td class="org-left">赋值</td>
+<td class="org-left">a=$b 将把变量 b 的值赋给 a。</td>
+</tr>
+
+<tr>
+<td class="org-left">==</td>
+<td class="org-left">相等。用于比较两个数字，相同则返回 true。</td>
+<td class="org-left">[ $a == $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">!=</td>
+<td class="org-left">不相等。用于比较两个数字，不相同则返回 true。</td>
+<td class="org-left">[ $a != $b ] 返回 true。</td>
+</tr>
+</tbody>
+</table>
+<p>
+注意：条件表达式要放在方括号之间，并且要有空格，例如: [$a==$b] 是错误的，必须写成 [ $a == $b ]。
+</p></li>
+<li><p>
+关系运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 19:</span> 关系运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-eq</td>
+<td class="org-left">检测两个数是否相等，相等返回 true。</td>
+<td class="org-left">[ $a -eq $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-ne</td>
+<td class="org-left">检测两个数是否不相等，不相等返回 true。</td>
+<td class="org-left">[ $a -ne $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-gt</td>
+<td class="org-left">检测左边的数是否大于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -gt $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-lt</td>
+<td class="org-left">检测左边的数是否小于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -lt $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-ge</td>
+<td class="org-left">检测左边的数是否大于等于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -ge $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-le</td>
+<td class="org-left">检测左边的数是否小于等于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -le $b ] 返回 true。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+布尔运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 20:</span> 布尔运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">\!</td>
+<td class="org-left">非运算，表达式为 true 则返回 false，否则返回 true。</td>
+<td class="org-left">[ ! false ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-o</td>
+<td class="org-left">或运算，有一个表达式为 true 则返回 true。</td>
+<td class="org-left">[ $a -lt 20 -o $b -gt 100 ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-a</td>
+<td class="org-left">与运算，两个表达式都为 true 才返回 true。</td>
+<td class="org-left">[ $a -lt 20 -a $b -gt 100 ] 返回 false。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+逻辑运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 21:</span> 逻辑运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&amp;&amp;</td>
+<td class="org-left">逻辑的 AND</td>
+<td class="org-left">[ $a -lt 100 &amp;&amp; $b -gt 100 ] 返回 false</td>
+</tr>
+
+<tr>
+<td class="org-left">&vert;&vert;</td>
+<td class="org-left">逻辑的 OR</td>
+<td class="org-left">[ $a -lt 100 &vert;&vert; $b -gt 100 ] 返回 true</td>
+</tr>
+</tbody>
+</table>
+<p>
+注意：&vert; 表示“|”，可通过 M-x org-entities-help &lt;RET&gt; 查看，Other &gt; Misc
+</p></li>
+<li><p>
+字符串运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 22:</span> 字符串运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">=</td>
+<td class="org-left">检测两个字符串是否相等，相等返回 true。</td>
+<td class="org-left">[ $a = $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">!=</td>
+<td class="org-left">检测两个字符串是否相等，不相等返回 true。</td>
+<td class="org-left">[ $a != $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-z</td>
+<td class="org-left">检测字符串长度是否为0，为0返回 true。</td>
+<td class="org-left">[ -z $a ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-n</td>
+<td class="org-left">检测字符串长度是否为0，不为0返回 true。</td>
+<td class="org-left">[ -n "$a" ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">$</td>
+<td class="org-left">检测字符串是否为空，不为空返回 true。</td>
+<td class="org-left">[ $a ] 返回 true。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+文件测试运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 23:</span> 文件测试运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">操作符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-b file</td>
+<td class="org-left">检测文件是否是块设备文件，如果是，则返回 true。</td>
+<td class="org-left">[ -b $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-c file</td>
+<td class="org-left">检测文件是否是字符设备文件，如果是，则返回 true。</td>
+<td class="org-left">[ -c $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-d file</td>
+<td class="org-left">检测文件是否是目录，如果是，则返回 true。</td>
+<td class="org-left">[ -d $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-f file</td>
+<td class="org-left">检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。</td>
+<td class="org-left">[ -f $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-g file</td>
+<td class="org-left">检测文件是否设置了 SGID 位，如果是，则返回 true。</td>
+<td class="org-left">[ -g $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-k file</td>
+<td class="org-left">检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。</td>
+<td class="org-left">[ -k $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-p file</td>
+<td class="org-left">检测文件是否是有名管道，如果是，则返回 true。</td>
+<td class="org-left">[ -p $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-u file</td>
+<td class="org-left">检测文件是否设置了 SUID 位，如果是，则返回 true。</td>
+<td class="org-left">[ -u $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-r file</td>
+<td class="org-left">检测文件是否可读，如果是，则返回 true。</td>
+<td class="org-left">[ -r $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-w file</td>
+<td class="org-left">检测文件是否可写，如果是，则返回 true。</td>
+<td class="org-left">[ -w $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-x file</td>
+<td class="org-left">检测文件是否可执行，如果是，则返回 true。</td>
+<td class="org-left">[ -x $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-s file</td>
+<td class="org-left">检测文件是否为空（文件大小是否大于0），不为空返回 true。</td>
+<td class="org-left">[ -s $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-e file</td>
+<td class="org-left">检测文件（包括目录）是否存在，如果是，则返回 true。</td>
+<td class="org-left">[ -e $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-S</td>
+<td class="org-left">判断某文件是否 socket。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">-L</td>
+<td class="org-left">检测文件是否存在并且是一个符号链接。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ol>
 </div>
+</div>
+<div id="outline-container-orge1ccc6f" class="outline-4">
+<h4 id="orge1ccc6f">变量测试</h4>
+<div class="outline-text-4" id="text-orge1ccc6f">
+<p>
+变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 24:</span> 变量测试表</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">变量置换方式</th>
+<th scope="col" class="org-left">y 没有设置</th>
+<th scope="col" class="org-left">y 为空</th>
+<th scope="col" class="org-left">y 设置值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">x=${y-变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:-变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y+变量}</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:-变量}</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=newValue</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y=变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y值不变</td>
+<td class="org-left">y值不变</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:=变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y值不变</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y?变量}</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:?变量}</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">x=$y</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+x=${y-4}
+// 表示如果y不存在，那么x=4；如果y为空值，那么x为空值；如果y有值，那么x被赋y的值。
+</pre>
 </div>
 </div>
 <div id="outline-container-org966c1e9" class="outline-4">
 <h4 id="org966c1e9">退出脚本</h4>
 <div class="outline-text-4" id="text-org966c1e9">
-<pre class="example">
-1. 退出状态码（exit status）
-$ echo $?
-</pre>
-
-<p>
-0
+<ol class="org-ol">
+<li><p>
+退出状态码       
 </p>
-<table id="org2aa7110" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 25:</span> 退出状态码</caption>
 
 <colgroup>
 <col  class="org-right" />
@@ -3133,29 +3656,25 @@ $ echo $?
 </tbody>
 </table>
 <pre class="example">
-2. exit命令
-exit命令允许在脚本结束时指定一个退出状态码
-</pre>
-
+$ echo $?
+0
+</pre></li>
+<li><p>
+exit
+</p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org511b686"><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">'Hello, World'</span>
+<pre class="src src-shell" id="org13d62a3"><span style="color: #483d8b;">echo</span> <span style="color: #8b2252;">'Hello, World'</span>
 <span style="color: #a020f0;">exit</span> 5 
 </pre>
 </div>
+
 <pre class="example">
 $ ./test 
-</pre>
-
-<p>
 Hello, World
-</p>
-<pre class="example">
 $ echo $?
-</pre>
-
-<p>
 5
-</p>
+</pre></li>
+</ol>
 </div>
 </div>
 </div>
@@ -3634,7 +4153,7 @@ done
 <li><a id="org6b16ba7"></a>break 命令<br />
 <div class="outline-text-6" id="text-org6b16ba7">
 <div class="org-src-container">
-<pre class="src src-shell" id="org9945601"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
+<pre class="src src-shell" id="orga692a79"><span class="linenr"> 1: </span><span style="color: #b22222;">#</span><span style="color: #b22222;">!/bin/</span><span style="color: #a020f0;">bash</span>
 <span class="linenr"> 2: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">--------------------------------</span>
 <span class="linenr"> 3: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
 <span class="linenr"> 4: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.breaking out of a for loop</span>
@@ -3695,7 +4214,7 @@ done
 <li><a id="orga433c96"></a>continue 命令<br />
 <div class="outline-text-6" id="text-orga433c96">
 <div class="org-src-container">
-<pre class="src src-shell" id="orga692a79"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.using the continue command</span>
+<pre class="src src-shell" id="orga02731d"><span class="linenr"> 1: </span><span style="color: #b22222;"># </span><span style="color: #b22222;">1.using the continue command</span>
 <span class="linenr"> 2: </span><span style="color: #a020f0;">for</span>((var1 = 1; var1&lt;15; var1++))
 <span class="linenr"> 3: </span><span style="color: #a020f0;">do</span>
 <span class="linenr"> 4: </span>        <span style="color: #a020f0;">if</span> [$<span style="color: #a0522d;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #a0522d;">var1</span> -lt 10]
@@ -3734,14 +4253,14 @@ done
 </div>
 </div>
 </li>
-<li><a id="orga8dd904"></a>处理循环的输出<br />
-<div class="outline-text-6" id="text-orga8dd904">
+<li><a id="orga6091e7"></a>处理循环的输出<br />
+<div class="outline-text-6" id="text-orga6091e7">
 <pre class="example">
 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgba1c24a">for file in /home/zrg/*
+<pre class="src src-emacs-lisp" id="orga8dd904">for file in /home/zrg/*
 do
 ...
 done &gt; output.txt
@@ -3983,7 +4502,7 @@ $ userdel -r test
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 18:</span> 用户账户修改工具</caption>
+<caption class="t-above"><span class="table-number">Table 26:</span> 用户账户修改工具</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4144,7 +4663,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org8cefc1e"><span style="color: #a0522d;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="orgb9c9006"><span style="color: #a0522d;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -4403,7 +4922,7 @@ crontab 文件格式如下：
 crontab 基本格式
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 19:</span> 格式</caption>
+<caption class="t-above"><span class="table-number">Table 27:</span> 格式</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4798,7 +5317,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 20:</span> 表</caption>
+<caption class="t-above"><span class="table-number">Table 28:</span> 表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4832,7 +5351,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 21:</span> NAT</caption>
+<caption class="t-above"><span class="table-number">Table 29:</span> NAT</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4877,7 +5396,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 iptables中常用的参数以及作用
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 22:</span> iptables中常用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 30:</span> iptables中常用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5044,7 +5563,7 @@ Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火�
 firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 23:</span> firewalld中常用的区域名称及策略规则</caption>
+<caption class="t-above"><span class="table-number">Table 31:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5110,7 +5629,7 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 24:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 32:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5314,7 +5833,7 @@ TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能�
 TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 25:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<caption class="t-above"><span class="table-number">Table 33:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col  class="org-left" />
