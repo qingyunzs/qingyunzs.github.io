@@ -778,63 +778,63 @@ photos:
     : $ mkfs -t ext3 -c /dev/sda7
 ** ～～～
 *** 网络命令
-+ write
-     + 描述
-       : 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
-       : 格式: write user [tty]
-     + 实践
-+ wall
-     + 描述
-       : 发送广播信息(write a message to all users)
-       : 格式: wall [-n] [-t timeout] [message | file]
-     + 实践
-+ ping
-     + 描述
-       : 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
-     + 实践
-       - 指定ping次数
-	 : $ ping -c 4 baidu.com
-+ ifconfig
-     + 描述
-       : configure a network interface
-     + 实践
-+ mail
-     + 描述
-       : 查看/发送电子邮件
-     + 实践
-+ last & lastlog
-     + 描述
-       : 列出目前/过去登入系统的用户信息
-       : last, lastb - show a listing of last logged in users
-       : last [options] [username...] [tty...]
-       : lastb [options] [username...] [tty...]
+    + write
+      + 描述
+	: 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
+	: 格式: write user [tty]
+      + 实践
+    + wall
+      + 描述
+	: 发送广播信息(write a message to all users)
+	: 格式: wall [-n] [-t timeout] [message | file]
+      + 实践
+    + ping
+      + 描述
+	: 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
+      + 实践
+	- 指定ping次数
+	  : $ ping -c 4 baidu.com
+    + ifconfig
+      + 描述
+	: configure a network interface
+      + 实践
+    + mail
+      + 描述
+	: 查看/发送电子邮件
+      + 实践
+    + last & lastlog
+      + 描述
+	: 列出目前/过去登入系统的用户信息
+	: last, lastb - show a listing of last logged in users
+	: last [options] [username...] [tty...]
+	: lastb [options] [username...] [tty...]
 
-       : 列出用户最后一次登录系统的信息
-       : lastlog - reports the most recent login of all users or of a given user
-       : lastlog [options]
-     + 实践
-+ traceroute
-     + 描述
-       : 追踪数据包到主机间的路径
-       : traceroute - print the route packets trace to network host
-     + 实践
-+ netstat
-     + 描述
-       : 显示网络相关信息
-       : netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
-     + 实践
-       - 查看主机对外开放端口
-	 : $ netstat -ntlp
-       - 查看本机监听的端口
-	 : $ netstat -tlun
-       - 查看本机所有的网络连接
-	 : $ netstat -ano
-       - 查看本机路由表
-	 : $ netstat -rn
-+ setup
-     + 描述
-       : 配置网络
-     + 实践
+	: 列出用户最后一次登录系统的信息
+	: lastlog - reports the most recent login of all users or of a given user
+	: lastlog [options]
+      + 实践
+    + traceroute
+      + 描述
+	: 追踪数据包到主机间的路径
+	: traceroute - print the route packets trace to network host
+      + 实践
+    + netstat
+      + 描述
+	: 显示网络相关信息
+	: netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+      + 实践
+	- 查看主机对外开放端口
+	  : $ netstat -ntlp
+	- 查看本机监听的端口
+	  : $ netstat -tlun
+	- 查看本机所有的网络连接
+	  : $ netstat -ano
+	- 查看本机路由表
+	  : $ netstat -rn
+    + setup
+      + 描述
+	: 配置网络
+      + 实践
 * Shell Scripts
 ** 学习 Shell 准备
 *** 学习 Shell 的疑惑
@@ -1100,7 +1100,7 @@ photos:
 
        #+RESULTS:
        [[file:{{site.url}}/assets/images/shell-analysis-process.png]]
-*** Linux 环境变量
+*** 环境变量
     1. 概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
     2. 全局环境变量和局部环境变量:
        : // 查看全局变量
@@ -1126,8 +1126,32 @@ photos:
        : // 删除环境变量
        : $ unset my_variable
        注意：如果要用到变量，使用$；如果要操作变量，不使用$。
-    4. 设置 PATH 环境变量
+    4. PATH、PS1 环境变量
+       : // 全局环境变量
        : $ PATH=$PATH:/opt/test/scripts
+       
+       : // 自定义用户命令行的字符显示
+       PS1 默认提示符变量，如动态显示当前目录：
+       : $ export PS1="[\u@\h \w]"
+       #+CAPTION: PS1 变量可使用的参数值
+       | \d | 代表日期，格式为weekday month date，例如："Mon Aug 1"                    |
+       | \H | 完整的主机名称。例如：我的机器名称为：fc4.linux，则这个名称就是fc4.linux |
+       | \h | 仅取主机的第一个名字，如上例，则为fc4，.linux则被省略                    |
+       | \t | 显示时间为24小时格式，如：HH：MM：SS                                     |
+       | \T | 显示时间为12小时格式                                                     |
+       | \A | 显示时间为24小时格式：HH：MM                                             |
+       | \u | 当前用户的账号名称                                                       |
+       | \v | BASH的版本信息                                                           |
+       | \w | 完整的工作目录名称。家目录会以 ~代替                                     |
+       | \W | 利用basename取得工作目录名称，所以只会列出最后一个目录                   |
+       | \# | 下达的第几个命令                                                         |
+       | \$ | 提示字符，如果是root时，提示符为：# ，普通用户则为：$                    |
+       | \[ | 字符"["                                                                  |
+       | \] | 字符"]"                                                                  |
+       | \! | 命令行动态统计历史命令次数                                               |
+       PS2 是副提示符变量，默认值是''> ''。PS2一般使用于命令行里较长命令的换行提示信息。可自定义设置如下：
+       : $ export PS2="PS2 => "
+       另外，还有 PS3 和 PS4，因为这两个环境变量可能用得不多，所以在这就不介绍了，感兴趣的小伙伴可自行研究。
     5. 定位系统环境变量
        - 登录时作为默认登录 shell
 	 \\
@@ -1146,13 +1170,13 @@ photos:
          系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
 	 \\
 	 在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。
-    7. 数组变量
+    6. 数组变量
        : // 环境变量作为数组使用
        : $ mytest=(one two three four five)
        : $ echo ${mytest[2]}
-       three
+       : three
        : $ echo ${mytest[*]}
-       one two three four five
+       : one two three four five
        
        : //改变某个索引的值
        : $ mytest[2] = seven
@@ -1160,16 +1184,33 @@ photos:
        : //删除某个索引的值和删除整个数组
        : $ unset mytest[2]
        : $ unset mytest
-*** 位置参数
-    位置参数(positional parameter)变量是标准的数字：$0是程序名，$1是第一个参数，$2是第二个参数，依次类推，直到第九个参数$9
-    #+NAME:读取参数
+    7. 环境变量配置文件
+       + /etc/profile
+       + /etc/profile.d/*.sh
+       + ~/.bash_profile
+       + ~/.bashrc
+       + /etc/bashrc
+       + ~/.bash_logout
+       + ~/.bash_history
+       + /etc/issue :: 本地终端欢迎信息
+       + /etc/motd :: 登录后的欢迎信息
+*** 位置参数(positional parameter)
+    #+CAPTION: 位置参数
+    | 位置参数变量 | 说明                                                                                                                                                                                               |
+    |--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | <l15>        | <l50>                                                                                                                                                                                              |
+    | $n           | n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。 |
+    | $*           | 这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。                                                                                  |
+    | $@           | 这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。                                                                                |
+    | $#           | 这个变量代表命令行中所有参数的个数（不包括$0）。                                                                                                                                                   |
+    #+NAME: 读取参数
     #+BEGIN_SRC shell
     #!/bin/bash
     # using one command line parameter
     #
-   factorial=1
-   for ((number=1; number<=$1; number++))
-   do
+    factorial=1
+    for ((number=1; number<=$1; number++))
+    do
     factorial=$[$factorial * $number]
     done
     echo "The factorial of $1 is $factorial"
@@ -1177,85 +1218,233 @@ photos:
 
     #+RESULTS: 读取参数
     : The factorial of  is 1
-*** 执行数学运算
-    : $ var1=$(1+5)
-    : $ var2=$[$var1 * 2]
-    : // 使用$和[]将数学表达式围起来
-    : 注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
 
-    : 浮点解决方案
-    : 1.用内建的bash计算器：bc
-    : $ bc
-    3.44 / 5
-    0
-    scale = 4 浮点运算由scale控制，默认值为0
-    : // -q选项可以不显示冗长的欢迎信息
-    : $ bc -q 
-    var1 = 10
-    var1 * 4
-    40
-    var2 = var1 / 5
-    print var2
-    2
-    quit
-    : $
+*** 预定义变量
+    1. 常见的预定义变量
+       #+CAPTION: 常见的预定义变量
+       | 预定义常量 | 作用                                                                                                   |
+       |------------+--------------------------------------------------------------------------------------------------------|
+       |            | <l50>                                                                                                  |
+       | 0          | 存当前程序或脚本的名称                                                                                 |
+       | $*         | 保存传递给脚本或进程的所有参数                                                                         |
+       | $$         | 当前进程给脚本的PID号                                                                                  |
+       | $!         | 后台运行的最后一个进程的PID号                                                                          |
+       | $?         | 用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。 |
+       | $#         | 用于保存脚本的参数个数                                                                                 |
+    2. 从键盘输入
+       + read 命令
+	 + 选项
+	   + -p :: 等待输入时的提示信息
+	   + -t :: 等待秒数
+	   + -n :: 允许输入的字符数
+	   + -s :: 隐藏输入的数据，适用于机密信息的输入
+	 + 示例
+	   #+name: 从键盘输入
+	   #+begin_src shell
+	   #!/bin/bash
+	   # Date: 2019/07/27
+	   # Author: zrg
+	   #
+	   # Enter a variable name
+	   read -p "Please enter a variable name:" -t 15 varName
+	   echo "\n"
+	   echo $varName
+	   #+end_src
 
-    : 2. 在脚本中使用bc
-    #+NAME: 简单示例
-    #+BEGIN_SRC shell
+	   #+RESULTS: 从键盘输入
+	   : n
+*** 执行数学运算和运算符
+    1. 方法1：declare
+       : $ declare -i c=$a+$b
+       : $ echo $c
+    2. 方法2：expr 或 let 运算工具
+       : $ c=$(expr $a +$b)
+       : $ echo c
+    3. 方法3：$((表达式)) 或 $[表达式]
+       : $ var1=$((1+5))
+       : $ var2=$[$var1*2]
+       : // 使用 $ 和 [] 将数学表达式围起来
+       注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+    4. 浮点运算解决方案
+       : 使用内建的bash计算器：bc
+       : $ bc
+       : 3.44 / 5
+       : 0
+       : scale = 4 // 浮点运算由scale控制，默认值为0
+
+       注意：-q 选项可以不显示冗长的欢迎信息
+       : $ bc -q
+
+       #+NAME: 在脚本中使用bc
+       #+BEGIN_SRC shell
        #!/bin/bash
        var1 = $(echo "scale=4;3.44 / 5" | bc)
        echo The answer is $var1
-    #+END_SRC 
+       #+END_SRC 
 
-    #+NAME:使用内联重定向，允许直接在命令行中重定向数据
-    #+BEGIN_SRC shell
+       #+RESULTS: 在脚本中使用bc
+       : The answer is
+
+       #+NAME:使用内联重定向，允许直接在命令行中重定向数据
+       #+BEGIN_SRC shell
        #!/bin/bash
-       
-       var1 = 10.46
-       var2 = 43.67
-   var3 = 33.2
-   var4 = 71
+       var1= 10.46
+       var2= 43.67
+       var3= 33.2
+       var4= 71
+       var5= $(bc << EOF
+       scale= 4
+       a1= ($var1*$var2)
+       a2= ($var3*var4)
+       a1+b1
+       EOF
+       )
+       echo "The final answer for this mess is $var5"
+       #+END_SRC
 
-   var5 = $(bc << EOF
-   scale =4
-   a1 = ($var1*$var2)
-   a2 = ($var3*var4)
-   a1+b1
-   EOF
-   )
-
-   echo "The final answer for this mess is $var5"
-    #+END_SRC
+       #+RESULTS: 使用内联重定向，允许直接在命令行中重定向数据
+       : The final answer for this mess is
+    5. 运算符
+       + 算术运算符
+         #+CAPTION:算术运算符
+         | 运算符       | 说明                                          | 举例                          |
+         |--------------+-----------------------------------------------+-------------------------------|
+         | +            | 加法                                          | `expr $a + $b` 结果为 30。    |
+         | -            | 减法                                          | `expr $a - $b` 结果为 -10。   |
+         | \ast         | 乘法                                          | `expr $a \* $b` 结果为  200。 |
+         | \slash       | 除法                                          | `expr $b / $a` 结果为 2。     |
+         | %            | 取余                                          | `expr $b % $a` 结果为 0。     |
+         | \equal       | 赋值                                          | a=$b 将把变量 b 的值赋给 a。  |
+         | \equal\equal | 相等。用于比较两个数字，相同则返回 true。     | [ $a == $b ] 返回 false。     |
+         | !=           | 不相等。用于比较两个数字，不相同则返回 true。 | [ $a != $b ] 返回 true。      |
+         注意：条件表达式要放在方括号之间，并且要有空格，例如: [$a==$b] 是错误的，必须写成 [ $a == $b ]。
+       + 关系运算符
+	 #+CAPTION:关系运算符
+         | 运算符 | 说明                                                  | 举例                       |
+         |--------+-------------------------------------------------------+----------------------------|
+         | -eq    | 检测两个数是否相等，相等返回 true。                   | [ $a -eq $b ] 返回 false。 |
+         | -ne    | 检测两个数是否不相等，不相等返回 true。               | [ $a -ne $b ] 返回 true。  |
+         | -gt    | 检测左边的数是否大于右边的，如果是，则返回 true。     | [ $a -gt $b ] 返回 false。 |
+         | -lt    | 检测左边的数是否小于右边的，如果是，则返回 true。     | [ $a -lt $b ] 返回 true。  |
+         | -ge    | 检测左边的数是否大于等于右边的，如果是，则返回 true。 | [ $a -ge $b ] 返回 false。 |
+         | -le    | 检测左边的数是否小于等于右边的，如果是，则返回 true。 | [ $a -le $b ] 返回 true。  |
+       + 布尔运算符
+	 #+CAPTION:布尔运算符
+         | 运算符 | 说明                                                | 举例                                     |
+         |--------+-----------------------------------------------------+------------------------------------------|
+         | \!     | 非运算，表达式为 true 则返回 false，否则返回 true。 | [ ! false ] 返回 true。                  |
+         | -o     | 或运算，有一个表达式为 true 则返回 true。           | [ $a -lt 20 -o $b -gt 100 ] 返回 true。  |
+         | -a     | 与运算，两个表达式都为 true 才返回 true。           | [ $a -lt 20 -a $b -gt 100 ] 返回 false。 |
+       + 逻辑运算符
+	 #+CAPTION:逻辑运算符
+	 | 运算符     | 说明       | 举例                                          |
+	 |------------+------------+-----------------------------------------------|
+	 | &&         | 逻辑的 AND | [ $a -lt 100 && $b -gt 100 ] 返回 false       |
+	 | \vert\vert | 逻辑的 OR  | [ $a -lt 100 \vert\vert $b -gt 100 ] 返回 true |
+	 注意：\vert 表示“|”，可通过 M-x org-entities-help <RET> 查看，Other > Misc
+       + 字符串运算符
+	 #+CAPTION:字符串运算符
+	 | 运算符  | 说明                                      | 举例                     |
+	 |---------+-------------------------------------------+--------------------------|
+	 | \equal  | 检测两个字符串是否相等，相等返回 true。   | [ $a = $b ] 返回 false。 |
+	 | !=      | 检测两个字符串是否相等，不相等返回 true。 | [ $a != $b ] 返回 true。 |
+	 | -z      | 检测字符串长度是否为0，为0返回 true。     | [ -z $a ] 返回 false。   |
+	 | -n      | 检测字符串长度是否为0，不为0返回 true。   | [ -n "$a" ] 返回 true。  |
+	 | \dollar | 检测字符串是否为空，不为空返回 true。     | [ $a ] 返回 true。       |
+       + 文件测试运算符
+	 #+CAPTION:文件测试运算符
+         | 操作符  | 说明                                                                        | 举例                      |
+         |---------+-----------------------------------------------------------------------------+---------------------------|
+         | -b file | 检测文件是否是块设备文件，如果是，则返回 true。                             | [ -b $file ] 返回 false。 |
+         | -c file | 检测文件是否是字符设备文件，如果是，则返回 true。                           | [ -c $file ] 返回 false。 |
+         | -d file | 检测文件是否是目录，如果是，则返回 true。                                   | [ -d $file ] 返回 false。 |
+         | -f file | 检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。 | [ -f $file ] 返回 true。  |
+         | -g file | 检测文件是否设置了 SGID 位，如果是，则返回 true。                           | [ -g $file ] 返回 false。 |
+         | -k file | 检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。                 | [ -k $file ] 返回 false。 |
+         | -p file | 检测文件是否是有名管道，如果是，则返回 true。                               | [ -p $file ] 返回 false。 |
+         | -u file | 检测文件是否设置了 SUID 位，如果是，则返回 true。                           | [ -u $file ] 返回 false。 |
+         | -r file | 检测文件是否可读，如果是，则返回 true。                                     | [ -r $file ] 返回 true。  |
+         | -w file | 检测文件是否可写，如果是，则返回 true。                                     | [ -w $file ] 返回 true。  |
+         | -x file | 检测文件是否可执行，如果是，则返回 true。                                   | [ -x $file ] 返回 true。  |
+         | -s file | 检测文件是否为空（文件大小是否大于0），不为空返回 true。                    | [ -s $file ] 返回 true。  |
+         | -e file | 检测文件（包括目录）是否存在，如果是，则返回 true。                         | [ -e $file ] 返回 true。  |
+         | -S      | 判断某文件是否 socket。                                                     |                           |
+         | -L      | 检测文件是否存在并且是一个符号链接。                                        |                           |
+*** 变量测试
+    变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
+    #+CAPTION:变量测试表
+    | 变量置换方式 | y 没有设置                  | y 为空                      | y 设置值   |
+    |--------------+-----------------------------+-----------------------------+------------|
+    | x=${y-变量}  | x=newValue                  | x为空                       | x=$y       |
+    | x=${y:-变量} | x=newValue                  | x=newValue                  | x=$y       |
+    | x=${y+变量}  | x为空                       | x=newValue                  | x=newValue |
+    | x=${y:-变量} | x为空                       | x为空                       | x=newValue |
+    | x=${y=变量}  | x=newValue                  | x为空                       | x=$y       |
+    |              | y=newValue                  | y值不变                     | y值不变    |
+    | x=${y:=变量} | x=newValue                  | x=newValue                  | x=$y       |
+    |              | y=newValue                  | y=newValue                  | y值不变    |
+    | x=${y?变量}  | newValue 输出到标准错误输出 | x为空                       | x=$y       |
+    | x=${y:?变量} | newValue 输出到标准错误输出 | newValue 输出到标准错误输出 | x=$y       |
+    
+    : x=${y-4}
+    : // 表示如果y不存在，那么x=4；如果y为空值，那么x为空值；如果y有值，那么x被赋y的值。
 *** 退出脚本
-    : 1. 退出状态码（exit status）
-    : $ echo $?
-    0
-    #+NAME: 退出状态码
-    | 状态码 | 描述                       |
-    |--------+----------------------------|
-    |      0 | 命令成功结束               |
-    |      1 | 一般性未知错误             |
-    |      2 | 不适合的shell命令          |
-    |    126 | 命令不可执行               |
-    |    127 | 没找到命令                 |
-    |    128 | 无效的退出参数             |
-    |  128+x | 与Linux信号x相关的严重错误 |
-    |    130 | 通过Ctrl+C终止的命令       |
-    |    255 | 正常范围之外的退出状态码   |
-    : 2. exit命令
-    : exit命令允许在脚本结束时指定一个退出状态码
-    #+NAME: test文件
-    #+BEGIN_SRC shell
-echo 'Hello, World'
-exit 5 
-    #+END_SRC
-    : $ ./test 
-    Hello, World
-    : $ echo $?
-    5
+    1. 退出状态码       
+       #+CAPTION: 退出状态码
+       | 状态码 | 描述                       |
+       |--------+----------------------------|
+       |      0 | 命令成功结束               |
+       |      1 | 一般性未知错误             |
+       |      2 | 不适合的shell命令          |
+       |    126 | 命令不可执行               |
+       |    127 | 没找到命令                 |
+       |    128 | 无效的退出参数             |
+       |  128+x | 与Linux信号x相关的严重错误 |
+       |    130 | 通过Ctrl+C终止的命令       |
+       |    255 | 正常范围之外的退出状态码   |
+       : $ echo $?
+       : 0
+    2. exit
+       #+NAME: exit 命令允许在脚本结束时指定一个退出状态码
+       #+BEGIN_SRC shell
+       echo 'Hello, World'
+       exit 5 
+       #+END_SRC
+
+       #+RESULTS: exit 命令允许在脚本结束时指定一个退出状态码
+
+       : $ ./test 
+       : Hello, World
+       : $ echo $?
+       : 5
 ** Shell 编程(Programming)
 *** 正则表达式
+*** 字符操作
+    1. sed
+       \\
+       一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
+       : // 查看文件的第2行
+       : $ sed -n '2p' test.txt
+
+       : // 删除从第2行到第4行的数据
+       : $ sed '2,4d' test.txt
+
+       : // 在第2行追加hello
+       : $ sed '2a hello' test.txt
+
+       : // 在第2行前插入两行数据
+       : $ sed '2i hello \
+       : wold' test.txt
+
+       : // 数据替换
+       : $ sed '2c No such person' test.txt
+       *字符串替换*
+       : $ sed 's/oldStr/newStr/g' fileName
+       : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
+       : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
+    2. awk
+    3. sort
+    4. wc
 *** 结构化命令
     1. if-then
        #+NAME: if-then
@@ -1697,7 +1886,6 @@ exit 5
 	 useradd -c "$name" -m $userid
  done < "$input"
       #+END_SRC
-*** sed 和 gawk
 *** 控制脚本
 *** 创建函数
 *** 使用其他 shell
@@ -1954,20 +2142,20 @@ exit 5
 ** Linux 服务管理
 ** Linux 系统管理
 *** 进程管理
-1. 常见进程管理命令
- + top
- + ps ::
-	 list the processes running on the system
-         : // 查看
-	 : $ ps -ef
- + kill & killall ::
-		     send a signal to one or more processes (usually to "kill" a process)
- + jobs ::
-	   an alternate way of listing your own processes
- + bg ::
-         put a process in the background
- + fg ::
-	 put a process in the forground
+    1. 常见进程管理命令
+       + top
+       + ps ::
+	       list the processes running on the system
+	       : // 查看
+	       : $ ps -ef
+       + kill & killall ::
+			   send a signal to one or more processes (usually to "kill" a process)
+       + jobs ::
+		 an alternate way of listing your own processes
+       + bg ::
+	       put a process in the background
+       + fg ::
+	       put a process in the forground
 *** 系统资源监控
 *** 例行性工作排程：系统定时任务
     1. 对于 Linux 用户
