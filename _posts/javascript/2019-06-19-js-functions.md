@@ -11,34 +11,9 @@ tags:
 - LTS
 photos:
 ---
-## 数字取整问题
-1. 直接取整(不考虑小数点后的部分)
-```javascript
-// 方式一: parseInt()
-var n = parseInt("3.14"); //3
-var n = parseInt("-3.14"); //-3
-var n = parseInt("2019hello"); //2019
-var n = parseInt(""); //NaN
-var n = parseInt("0xA"); //10(十六进制)
-var n = parseInt("070"); //56(八进制)
-// 方式二: 位运算
-var n = ~~3.14 //3
-var n = 3.14^0 //3
-var n = 3.14<<0 //3
-// 方式三: 
-```
-2. 计算后取整(四舍五入,向上取整,向下取整)
-```javascript
-// 四舍五入
-var n = Math.round(3.14); //3
-var n = Math.ceil(8.54); //9
-// 向上取整
-var n = Math.ceil(3.14); //4
-// 向下取整
-var n = Math.ceil(3.14); //3
-```
-
-## 数组对象遍历操作
+## MySQL Functions
+## Array
+### 数组对象遍历操作
 1. 使用 Object.keys(obj) 遍历
 ```javascript
 var obj = {'0':'a','1':'b','2':'c'};
@@ -101,9 +76,44 @@ Reflect.ownKeys(obj).forEach(function(key){
 	console.log(key,obj[key]);
 });
 ```
+## Date
+## Math & Number
++ random()，默认返回 0 ~ 1 之间的随机数。
+```javascript
+// 取得介于 1 到 10 之间的一个随机数：
+Math.floor((Math.random()*10)+1);
+// 返回 min（包含）～ max（包含）之间的数字：
+function getRndInteger(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+```
 
-## MySQL Functions
-### String
++ 直接取整(不考虑小数点后的部分)
+```javascript
+// 方式一: parseInt()
+var n = parseInt("3.14"); //3
+var n = parseInt("-3.14"); //-3
+var n = parseInt("2019hello"); //2019
+var n = parseInt(""); //NaN
+var n = parseInt("0xA"); //10(十六进制)
+var n = parseInt("070"); //56(八进制)
+// 方式二: 位运算
+var n = ~~3.14 //3
+var n = 3.14^0 //3
+var n = 3.14<<0 //3
+// 方式三: 
+```
++ 计算后取整(四舍五入,向上取整,向下取整)
+```javascript
+// 四舍五入
+var n = Math.round(3.14); //3
+var n = Math.ceil(8.54); //9
+// 向上取整
+var n = Math.ceil(3.14); //4
+// 向下取整
+var n = Math.ceil(3.14); //3
+```
+## String
 + concat(str1,str2)，字符串拼接
 + left(str, length)，
 + right(str, length)，
