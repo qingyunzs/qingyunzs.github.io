@@ -7,6 +7,7 @@ categories:
 - php
 tags:
 - PHP
+- LTS
 ---
 ## String
 + addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
@@ -186,6 +187,7 @@ if(count($tempArr) > 1){
 + array_intersect_ukey — 用回调函数比较键名来计算数组的交集
 + array_intersect — 计算数组的交集
 ```php
+// array_intersect ( array $array1 , array $array2 [, array $... ] ) : array
 
 // 去除空元素
 foreach($arr as $k=>$v){
@@ -204,9 +206,19 @@ foreach($arr as $k=>$v){
 + array_key_first — Gets the first key of an array
 + array_key_last — Gets the last key of an array
 + array_keys — 返回数组中部分的或所有的键名
+```php
+// array_flip ( array $array ) : array
+
+//
+```
 + array_map — 为数组的每个元素应用回调函数
 + array_walk_recursive — 对数组中的每个成员递归地应用用户函数
 + array_walk — 使用用户自定义函数对数组中的每个元素做回调处理
+```php
+// array_map ( callable $callback , array $array1 [, array $... ] ) : array
+
+//
+```
 + array_merge_recursive — 递归地合并一个或多个数组
 + array_merge — 合并一个或多个数组
 + array_multisort — 对多个数组或多维数组进行排序
@@ -302,6 +314,8 @@ PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10
 3. 结论
 永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数。
 ~~~
++ floatval(), 转换为浮点型
++ intval(),转换为整型
 + fmod — 返回除法的浮点数余数
 + intdiv — 对除法结果取整
 + bcsqrt — 任意精度数字的二次方根
@@ -438,6 +452,7 @@ var_dump(floor(3.157*100)/100));// 保留两位小数,不四舍五入
 file_put_contents('../test.json', json_encode($data), FILE_APPEND, null);
 file_put_contents('../test.json', json_encode($data));
 // 格式:file_get_contents ( string $filename [, bool $use_include_path = false [, resource $context [, int $offset = -1 [, int $maxlen ]]]] ) : string
+
 ```
 + file — 把整个文件读入一个数组中
 + fileatime — 取得文件的上次访问时间

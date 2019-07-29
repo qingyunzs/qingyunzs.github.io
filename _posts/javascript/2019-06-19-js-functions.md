@@ -3,11 +3,12 @@ layout: post
 title: JavaScript Functions
 author: zrg
 comments: true
-description: JS  函数
+description: JavaScript  Notes
 categories:
-- php
+- javascript
 tags:
-- PHP
+- JavaScript
+- LTS
 photos:
 ---
 ## 数字取整问题
@@ -47,6 +48,14 @@ Object.keys(obj).forEach(function(key){
 // 注意： forEach不支持以下2种方式跳出循环，
 // 1) break; 执行报错: Uncaught SyntaxError: Illegal break statement
 // 2) return false; 只能跳出当前遍历执行
+
+// 返回指定格式数组
+var obj = {"1":5,"2":7,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0}
+var result = Object.keys(obj).map(function(key) {
+  return [Number(key), obj[key]];
+});
+console.log(result);// [[1,5],[2,7],[3,0],[4,0]...].
+
 
 // 缺失需要跳出循环，使用 try...catch...
 var obj = {'0':'a','1':'b','2':'c'};
@@ -92,3 +101,13 @@ Reflect.ownKeys(obj).forEach(function(key){
 	console.log(key,obj[key]);
 });
 ```
+
+## MySQL Functions
+### String
++ concat(str1,str2)，字符串拼接
++ left(str, length)，
++ right(str, length)，
++ substring(str, pos, length[optional])，pos：从第几位开始截取
++ mid()，
++ substr()，
++ substring_index(str, delim, count)，delim：关键字，count：关键字出现的次数

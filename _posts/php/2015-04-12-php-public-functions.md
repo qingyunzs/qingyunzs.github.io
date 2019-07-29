@@ -8,6 +8,7 @@ categories:
 - php
 tags:
 - PHP
+- LTS
 photos:
 ---
 
@@ -60,6 +61,24 @@ function array_is_null($arr = null){
 		return false; 
 	}
 }
+```
+# 数值(金额相关)
+### 去除无效的0
+```php
+/** 
+ * 去除多余的0 
+ */  
+function del0($s)  
+{  
+    $s = trim(strval($s));  
+    if (preg_match('#^-?\d+?\.0+$#', $s)) {  
+        return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);  
+    }   
+    if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {  
+        return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);  
+    }  
+    return $s;  
+}  
 ```
 # 日期(Date)/时间(Time)
 ### 获取上个月第一天及最后一天
