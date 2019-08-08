@@ -24,6 +24,15 @@ tags:
 + crypt — 单向字符串散列
 + echo — 输出一个或多个字符串
 + fprintf — 将格式化后的字符串写入到流
++ print_r — 以易于理解的格式打印变量。
++ var_dump — 打印变量的相关信息
++ var_export — 输出或返回一个变量的字符串表示
+```php
+// print_r ( mixed $expression [, bool $return = FALSE ] ) : mixed
+// var_dump ( mixed $expression [, mixed $... ] ) : void
+// var_export ( mixed $expression [, bool $return ] ) : mixed
+
+```
 + get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表
 + hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）
 + hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符
@@ -220,60 +229,121 @@ foreach($arr as $k=>$v){
 //
 ```
 + array_merge_recursive — 递归地合并一个或多个数组
+
 + array_merge — 合并一个或多个数组
+
 + array_multisort — 对多个数组或多维数组进行排序
+
 + array_reverse — 返回单元顺序相反的数组
+
 + array_pad — 以指定长度将一个值填充进数组
+
 + array_pop — 弹出数组最后一个单元（出栈）
+
 + array_product — 计算数组中所有值的乘积
+
 + array_push — 将一个或多个单元压入数组的末尾（入栈）
+
 + array_rand — 从数组中随机取出一个或多个单元
+
 + array_reduce — 用回调函数迭代地将数组简化为单一的值
+
 + array_replace_recursive — 使用传递的数组递归替换第一个数组的元素
+
 + array_replace — 使用传递的数组替换第一个数组的元素
+
 + array_search — 在数组中搜索给定的值，如果成功则返回首个相应的键名
+
 + array_slice — 从数组中取出一段
+
 + array_splice — 去掉数组中的某一部分并用其它值取代
+
 + array_sum — 对数组中所有值求和
+
 + array_udiff_assoc — 带索引检查计算数组的差集，用回调函数比较数据
+
 + array_udiff_uassoc — 带索引检查计算数组的差集，用回调函数比较数据和索引
+
 + array_udiff — 用回调函数比较数据来计算数组的差集
+
 + array_uintersect_assoc — 带索引检查计算数组的交集，用回调函数比较数据
+
 + array_uintersect_uassoc — 带索引检查计算数组的交集，用单独的回调函数比较数据和索引
+
 + array_uintersect — 计算数组的交集，用回调函数比较数据
+
 + array_unique — 移除数组中重复的值
+
 + array_shift — 将数组开头的单元移出数组
+
 + array_unshift — 在数组开头插入一个或多个单元
+
 + array_values — 返回数组中所有的值
+
 + array — 新建一个数组
+
 + arsort — 对数组进行逆向排序并保持索引关系
+
 + asort — 对数组进行排序并保持索引关系
+
 + compact — 建立一个数组，包括变量名和它们的值
+
 + count — 计算数组中的单元数目，或对象中的属性个数
+
 + current — 返回数组中的当前单元
+
 + each — 返回数组中当前的键／值对并将数组指针向前移动一步
+
 + end — 将数组的内部指针指向最后一个单元
+
 + extract — 从数组中将变量导入到当前的符号表
+
 + in_array — 检查数组中是否存在某个值
+
 + key_exists — 别名 array_key_exists
+
 + key — 从关联数组中取得键名
+
 + krsort — 对数组按照键名逆向排序
+
 + ksort — 对数组按照键名排序
+
 + list — 把数组中的值赋给一组变量
+
 + natcasesort — 用“自然排序”算法对数组进行不区分大小写字母的排序
+
 + natsort — 用“自然排序”算法对数组排序
+
 + next — 将数组中的内部指针向前移动一位
+
 + pos — current 的别名
+
 + prev — 将数组的内部指针倒回一位
+
 + range — 根据范围创建数组，包含指定的元素
+
 + reset — 将数组的内部指针指向第一个单元
+
 + rsort — 对数组逆向排序
+
 + shuffle — 打乱数组
+
 + sizeof — count 的别名
+
 + sort — 对数组排序
 + uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
 + uksort — 使用用户自定义的比较函数对数组中的键名进行排序
 + usort — 使用用户自定义的比较函数对数组中的值进行排序
+```php
+// uksort ( array &$array , callable $key_compare_func ) : bool
+uksort(&$arr, function ($a, $b) use ($seq) {
+	$seq = array_flip($seq);
+	$idx1 = $seq[$a] ?? -1;
+	$idx2 = $seq[$b] ?? -1;
+	return $idx1 - $idx2;
+});
+```
+
 ## Date/Datetime
 
 ## Math
