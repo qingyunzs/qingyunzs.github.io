@@ -11,7 +11,7 @@ tags:
 - LTS
 photos:
 ---
-
+	
 # 字符串(String)/数组(Array)
 ### 在字符串指定位置插入字符串
 ```php
@@ -247,7 +247,7 @@ function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$resp
 + [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
 + [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
 # 其他 code
-### 获取 PHP，MySQL，Apache/Nginx 的版本信息
+## 获取 PHP，MySQL，Apache/Nginx 的版本信息
 ```php
 // PHP Version
 echo phpversion();
@@ -257,13 +257,35 @@ echo mysqli_get_server_info($link);
 // Apache Version
 echo apache_get_version();
 ```
-### PHP 生成UUID我唯一序列
+## PHP 生成UUID我唯一序列
+
 ```php
 function uuid($prefix ='')
-{                                                                                                                                                            $chars = md5(uniqid(mt_rand(), true));                                                                                                               $uuid = substr($chars,0,8) . '-';                                                                                                                    $uuid .= substr($chars,8,4) . '-';                                                                                                                   $uuid .= substr($chars,12,4) . '-';                                                                                                                  $uuid .= substr($chars,16,4) . '-';                                                                                                                  $uuid .= substr($chars,20,12);                                                                                                                       return $prefix . $uuid;                                                                                                                      }                                                                                                                                                    ```
-也可以使用SQL语句生成：
+{
+	$chars = md5(uniqid(mt_rand(), true));
+    $uuid = substr($chars,0,8) . '-';
+    $uuid .= substr($chars,8,4) . '-';
+    $uuid .= substr($chars,12,4) . '-';
+    $uuid .= substr($chars,16,4) . '-';
+    $uuid .= substr($chars,20,12);
+    return $prefix . $uuid;
+}
+
+// 也可以使用SQL语句生成：
 > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32); 
 
+```
+
+## require vs include vs require_once vs include_once
+
+```php
+// require vs include
+// 处理失败的方式不同：include 产生一个 Warning，继续运行；而 require 导致一个 Fatal Error。
+
+// require vs require_once or include vs include_once
+// 后者会判断是否已经引用过指定文件，如果引用过就不再引用。这样做的好处是节省资源和避免重复定义的错误。
+
+// 注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
 ```
 
 # PHP 学习导图
