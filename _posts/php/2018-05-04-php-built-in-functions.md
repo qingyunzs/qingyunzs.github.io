@@ -159,6 +159,7 @@ if(count($tempArr) > 1){
 + strtoupper(), 把所有字符转换为大写
 + strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写）
 
+
 ## Array
 [PHP Array](https://www.php.net/manual/zh/ref.array.php)
 + curl_setopt_array — 为 cURL 传输会话批量设置选项
@@ -233,6 +234,7 @@ $array = array_diff_key($array, [0 => "xy", "2" => "xy"]);
 + array_key_first — Gets the first key of an array
 + array_key_last — Gets the last key of an array
 + array_keys — 返回数组中部分的或所有的键名
+
 ```php
 // array_flip ( array $array ) : array
 
@@ -241,10 +243,10 @@ $array = array_diff_key($array, [0 => "xy", "2" => "xy"]);
 + array_map — 为数组的每个元素应用回调函数
 + array_walk_recursive — 对数组中的每个成员递归地应用用户函数
 + array_walk — 使用用户自定义函数对数组中的每个元素做回调处理
+
 ```php
 // array_map ( callable $callback , array $array1 [, array $... ] ) : array
 
-//
 ```
 + array_merge_recursive — 递归地合并一个或多个数组
 
@@ -352,6 +354,7 @@ $array = array_diff_key($array, [0 => "xy", "2" => "xy"]);
 + uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
 + uksort — 使用用户自定义的比较函数对数组中的键名进行排序
 + usort — 使用用户自定义的比较函数对数组中的值进行排序
+
 ```php
 // uksort ( array &$array , callable $key_compare_func ) : bool
 uksort(&$arr, function ($a, $b) use ($seq) {
@@ -369,6 +372,7 @@ uksort(&$arr, function ($a, $b) use ($seq) {
 + bcsub — [减]2个任意精度数字的减法
 + bcmul — [乘]2个任意精度数字乘法计算
 + bcdiv — [除]2个任意精度的数字除法计算 
+
 ```php
 $a = '1.234';
 $b = '5';
@@ -376,13 +380,15 @@ echo bcadd($a,$b, 4);  // 6.2340
 echo bcsub($a, $b, 4);  // -3.7660
 echo bcmul('1.34747474747', '35', 3); // 47.161
 ```
+
 + bcmod — 对一个任意精度数字取模 
 + bccomp — 比较两个任意精度的数字 
 + bcpow — 任意精度数字的乘方 
 + bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus 
 + bcscale — 设置所有bc数学函数的默认小数点保留位数 
+
+**PHP 高精度计算问题**
 ~~~
-*扩展PHP高精度计算问题*
 1. 引入
 javascript
 0.1 + 0.2 //为啥不等于 0.3 ? （正确结果：0.30000000000000004）
@@ -401,6 +407,7 @@ var_dump(intval(0.58 * 100)); // 正确结果是 57，而不是 58
 PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999...。
 3. 结论
 永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数。
+浮点数精确位数取决于 PHP 配置参数 precision，默认 14 位，计算方式：从左第一个非0数就是精度的开始。
 ~~~
 + floatval(), 转换为浮点型
 + intval(),转换为整型
@@ -417,12 +424,10 @@ PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10
 + log — 自然对数
 + max — 找出最大值
 + min — 找出最小值
-
 + exp — 计算 e 的指数
 + expm1 — 返回 exp(number) - 1，甚至当 number 的值接近零也能计算出准确结果
 + pi — 得到圆周率值
 + pow— 指数表达式，pow ( number $base , number $exp ) : number
-
 + cos — 余弦
 + cosh — 双曲余弦
 + sin — 正弦
@@ -436,7 +441,6 @@ PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10
 + atan2 — 两个参数的反正切
 + atan — 反正切
 + atanh — 反双曲正切
-
 + deg2rad — 将角度转换为弧度
 + rad2deg — 将弧度数转换为相应的角度数
 + mt_getrandmax — 显示随机数的最大可能值
@@ -444,11 +448,11 @@ PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10
 + mt_srand — 播下一个更好的随机数发生器种子
 + rand — 产生一个随机整数
 + srand — 播下随机数发生器种子
-
 + intval(), 直接取整，intval ( mixed $var [, int $base = 10 ] ) : int
 + round(), 四舍五入
 + ceil()，向上取整
 + floor(), 向下取整
+
 ```php
 // intval()
 echo intval(3.14); // 3
@@ -476,6 +480,7 @@ echo ceil(3.14); // 4
 echo floor(3.14); // 3
 var_dump(floor(3.157*100)/100));// 保留两位小数,不四舍五入
 ```
+
 + bindec — 二进制转换为十进制
 + decbin — 十进制转换为二进制
 + dechex — 十进制转换为十六进制
@@ -487,6 +492,7 @@ var_dump(floor(3.157*100)/100));// 保留两位小数,不四舍五入
 // decbin ( int $number ) : string
 ```
 + hypot — 计算一直角三角形的斜边长度
+
 
 ## 文件
 + basename — 返回路径中的文件名部分
@@ -595,6 +601,7 @@ file_put_contents('../test.json', json_encode($data));
 + umask — 改变当前的 umask
 + unlink — 删除文件>
 
+
 ## PHP Options/Info
 + assert_options — 设置/获取断言的各种标志
 + assert — 检查一个断言是否为 FALSE
@@ -654,6 +661,7 @@ file_put_contents('../test.json', json_encode($data));
 + zend_logo_guid — 获取 Zend guid
 + zend_thread_id — 返回当前线程的唯一识别符
 + zend_version — 获取当前 Zend 引擎的版本
+
 ## 魔术方法
 + __call() ，在一个对象的上下文中，如果调用的方法不能访问，它将被触发。 
 + __callStatic() ，在一个静态的上下文中，如果调 用的方法不能访问，它将被触发。 
@@ -663,7 +671,8 @@ file_put_contents('../test.json', json_encode($data));
 // 当调用当前环境下未定义或不可见的类属性或方法时，重载方法会被调用。
 
 ```
-## 函数处理 函数
+
+## 函数处理-函数
 + call_user_func_array — 调用回调函数，并把一个数组参数作为回调函数的参数
 + call_user_func — 把第一个参数作为回调函数调用
 ```php
@@ -681,6 +690,7 @@ file_put_contents('../test.json', json_encode($data));
 + register_shutdown_function — 注册一个会在php中止时执行的函数
 + register_tick_function — Register a function for execution on each tick
 + unregister_tick_function — De-register a function for execution on each tick
+
 
 ## 其他
 + connection_aborted — 检查客户端是否已经断开
@@ -713,3 +723,4 @@ file_put_contents('../test.json', json_encode($data));
 + uniqid — 生成一个唯一ID
 + unpack — Unpack data from binary string
 + usleep — 以指定的微秒数延迟执行
++ instanceof 判断是否变量是某个类型或对象
