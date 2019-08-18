@@ -202,6 +202,24 @@ if(count($tempArr) > 1){
 foreach($arr as $k=>$v){
 	if(!$v) unset($arr[$k]);
 }
+### 扩展学习：PHP从数组中删除元素的四种方法实例
+$array = array(0 => "a", 1 => "b", 2 => "c");
+// 1. 删除一个元素，且保持原有索引不变
+unset($array[1]);
+        //↑ 你想删除的key
+// 重排索引
+// 使用 array_values 函数：
+$array = array_values($array);
+// 2. 删除一个元素，不保持索引
+array_splice($array, 1, 1);
+            //↑ 你想删除的元素的Offset
+// 3. 按值删除多个元素，保持索引
+$array = array_diff($array, ["a", "c"]);
+               //└────────┘→ 你想删除的数组元素值values
+// 4. 按键删除多个元素，保持索引
+$array = array_diff_key($array, [0 => "xy", "2" => "xy"]);
+                  //↑      ↑ 你想删除的数组键keys
+
 ```
 + array_fill — 用给定的值填充数组
 + array_fill_keys — 使用指定的键和值填充数组
