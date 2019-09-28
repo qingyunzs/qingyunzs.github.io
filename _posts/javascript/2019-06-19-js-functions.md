@@ -13,6 +13,13 @@ photos:
 ---
 ## MySQL Functions
 ## Array
+### 判断一个元素是否存在数组中
+```javascript
+var arr = ['a,','b','c','d','e'];
+if(arr.indexOf('a') >= 0) // indexOf 如果元素存在于数组中，会返回数组下标，否则返回 -1
+if($.inArray('a',arr) >=0) // 使用 jQuery 的 inArray 方法，与 indexOf 一样，如果元素存在于数组中，会返回数组下标，否则返回 -1
+```
+### 判断某个 value 是否存在对象中
 ### 数组对象遍历操作
 1. 使用 Object.keys(obj) 遍历
 ```javascript

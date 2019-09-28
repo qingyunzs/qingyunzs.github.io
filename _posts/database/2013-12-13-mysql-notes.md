@@ -30,7 +30,22 @@ TEXT的最大长度:
 |MEDIMUMTEXT|16,777,215 bytes|~16MB|
 |LONGTEXT|4,294,967,295 bytes|~4GB|
 
-## MySQL备份与还原
+## MySQL 默认字符集
+1. MySQL的字符集支持(Character Set Support)有两个方面： 字符集(Character set)和排序方式(Collation)。 
+2. 对于字符集的支持细化到四个层次: 服务器(server)，数据库(database)，数据表(table)和连接(connection)。**相当于一个优先级，7最高，1最低**
+    (1)编译MySQL 时，指定了一个MySQL默认的字符集，这个字符集是 latin1； 
+    (2)安装MySQL 时，可以在配置文件 (my.ini) 中指定一个默认的的字符集，如果没指定，这个值继承自编译时指定的； 
+    (3)启动mysql 时，可以在命令行参数中指定一个默认的的字符集，如果没指定，这个值继承自配置文件中的配置,此时 character_set_server 被设定为这个默认的字符集；
+    (4)当创建一个新的数据库时，除非明确指定，这个数据库的字符集被缺省设定为character_set_server； 
+    (5)当选定了一个数据库时，character_set_database 被设定为这个数据库默认的字符集； 
+    (6)在这个数据库里创建一张表时，表默认的字符集被设定为 character_set_database，也就是这个数据库默认的字符集；
+    (7)当在表内设置一栏时，除非明确指定，否则此栏缺省的字符集就是表默认的字符集。
+3. 查看系统的字符集和排序方式
+```shell
+mysql> show variables like 'character%'
+mysql> show variables like 'collation_%'
+```
+## MySQL 备份与还原
 > $ mysqldump -u username -p dbname>filename.sql输入密码
 > //单独备份指定表
 > $ mysqldump -u username -p dbname table1 table2>filename.sql输入密码
