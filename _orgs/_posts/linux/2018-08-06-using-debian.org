@@ -28,7 +28,6 @@ photos:
 - https://www.debian.org/Pics/openlogo-50.png
 ---
 #+END_EXPORT
-
 # (setq org-export-html-use-infojs nil)
 本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linu”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
 # (setq org-export-html-style nil)
@@ -979,6 +978,17 @@ photos:
     alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"
     #+END_SRC 
 *** 重定向输入和输出
+    #+CAPTION: 重定向字符
+    | 0         | 标准输入                                     |
+    | 1         | 标准输出                                     |
+    | 2         | 标准错误输出                                 |
+    |-----------+----------------------------------------------|
+    | >         | 默认为标准输出重定向，与 >1 相同             |
+    | 2>&1      | 把标准输出重定向到标准输出                   |
+    | 
+    | &>file    | 把标准输出和标准错误输出都重定向到 file 中   |
+    | /dev/null | 是一个特殊文件，所有重定向到它的东西都丢弃掉 |
+
     1. 输出重定向
        : // 标准输出重定向
        : $ date > test
