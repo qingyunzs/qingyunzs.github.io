@@ -2,7 +2,7 @@
 #+AUTHOR:    zrg
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -638,7 +638,9 @@ photos:
    [[file:{{site.url}}/assets/images/cs2.png]]
 ** Linux 文件搜索
 *** find 命令
-    1. 根据文件名查找
+    : find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
+    *示例*
+    + 根据文件名查找
        : 格式：find [搜索范围][匹配条件]
 
        : // 默认在当前目录下搜索
@@ -674,63 +676,63 @@ photos:
        : $ sudo find /etc -name initab -exec ls -l {} \;
        : 注意：{} 将会被当前文件名取代。
        : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
-    2. 文件大小查找
-       : // 格式：+n 大于；-n 小于；n 等于
-       : // 在 root 目录下查找大于100MB的文件
-       : $ sudo find / -size +204800
-       : 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
+    + 文件大小查找
+      : // 格式：+n 大于；-n 小于；n 等于
+      : // 在 root 目录下查找大于100MB的文件
+      : $ sudo find / -size +204800
+      : 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
 
-       : // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
-       : $ sudo find /etc -size +163840 -a size -204800
-       : -a 表示两个条件同时满足
-       : -o 表示两个条件满足一个即可
+      : // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
+      : $ sudo find /etc -size +163840 -a size -204800
+      : -a 表示两个条件同时满足
+      : -o 表示两个条件满足一个即可
 
-       : //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
-       : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
-       : //查找 5个最小的文件
-       : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
-       : //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
-       : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
+      : //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
+      : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
+      : //查找 5个最小的文件
+      : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
+      : //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
+      : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
 
-       : //查找并删除大于 100M 的 *.zip 文件。
-       : $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
-       : 注意：{} 和 \ 之间是有空格的！
-    3. 根据文件变动情况查找
-       : // 在/etc目录下查找5分钟内被修改过属性的文件和目录
-       : $ sudo /etc -cmin -5
+      : //查找并删除大于 100M 的 *.zip 文件。
+      : $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
+      : 注意：{} 和 \ 之间是有空格的！
+    + 根据文件变动情况查找
+      : // 在/etc目录下查找5分钟内被修改过属性的文件和目录
+      : $ sudo /etc -cmin -5
 
-       : -amin 访问时间 access
-       : -cmin 文件属性 change
-       : -mmin 文件内容 modify
+      : -amin 访问时间 access
+      : -cmin 文件属性 change
+      : -mmin 文件内容 modify
 
-       : // 显示所有的在 ordinary_file 之后创建修改的文件。
-       : $ ls -lrt
-       : $ find -newer ordinary_file
-    4. 根据文件类型查找
-       : f 文件，d 目录，l 软链接，s socket文件
-       : //查找所有的一般文件
-       : $ find ./ -type f
-       : //查找所有的隐藏文件和目录
-       : $ find ./ -type f -name ".*"
-       : $ find ./ -type d -name ".*"
-    5. 根据文件权限、所属关系查找
-       : $ find /home -user zrg
-       : $ find /home -group zrg
+      : // 显示所有的在 ordinary_file 之后创建修改的文件。
+      : $ ls -lrt
+      : $ find -newer ordinary_file
+    + 根据文件类型查找
+      : f 文件，d 目录，l 软链接，s socket文件
+      : //查找所有的一般文件
+      : $ find ./ -type f
+      : //查找所有的隐藏文件和目录
+      : $ find ./ -type f -name ".*"
+      : $ find ./ -type d -name ".*"
+    + 根据文件权限、所属关系查找
+      : $ find /home -user zrg
+      : $ find /home -group zrg
 
-       : // 查到当前目录下对同组用户具有读权限的文件
-       : $ find ./ -perm -g=r -type f -exec ls -l {} \;
-       : // 找到对组用户具有只读权限的文件。
-       : $find ./ -perm g=r -type f -exec ls -l {} \;  
-       : // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
-       : $ find ./ -perm 040 -type f -exec ls -l {} \;
-    6. 使用 inode 编号查找
-       : //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
-       : //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
-       : $ ls -i1 test*
-       : 16187429 test-file-name
-       : 16187430 test-file-name
-       : //使用 inode 编号来删除那些具有特殊符号的文件名。
-       : $ find -inum 16187430 -exec rm {} \;
+      : // 查到当前目录下对同组用户具有读权限的文件
+      : $ find ./ -perm -g=r -type f -exec ls -l {} \;
+      : // 找到对组用户具有只读权限的文件。
+      : $find ./ -perm g=r -type f -exec ls -l {} \;  
+      : // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
+      : $ find ./ -perm 040 -type f -exec ls -l {} \;
+    + 使用 inode 编号查找
+      : //任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+      : //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
+      : $ ls -i1 test*
+      : 16187429 test-file-name
+      : 16187430 test-file-name
+      : //使用 inode 编号来删除那些具有特殊符号的文件名。
+      : $ find -inum 16187430 -exec rm {} \;
 *** locate 命令
     该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
     : // 安装：

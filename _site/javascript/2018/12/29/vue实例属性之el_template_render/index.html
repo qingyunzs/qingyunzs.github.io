@@ -47,7 +47,7 @@
 
   
   
-  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -78,7 +78,7 @@
 
 
 
-<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
@@ -495,27 +495,13 @@
 
       
         
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
   <p>
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-orgfe9c9ce" class="outline-2">
-<h2 id="orgfe9c9ce">优先级</h2>
-<div class="outline-text-2" id="text-orgfe9c9ce">
+<div id="outline-container-org48782d4" class="outline-2">
+<h2 id="org48782d4">优先级</h2>
+<div class="outline-text-2" id="text-org48782d4">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/vue-level.png" alt="vue-level.png" />
@@ -523,18 +509,18 @@
 </div>
 </div>
 
-<div id="outline-container-org9eebc63" class="outline-3">
-<h3 id="org9eebc63">优先级-示例</h3>
-<div class="outline-text-3" id="text-org9eebc63">
+<div id="outline-container-orga7440ed" class="outline-3">
+<h3 id="orga7440ed">优先级-示例</h3>
+<div class="outline-text-3" id="text-orga7440ed">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org921b2d9">&lt;div class=<span style="color: #8b2252;">"vapp-1"</span>&gt;&lt;/div&gt;
+<pre class="src src-emacs-lisp" id="org3700076">&lt;div class=<span style="color: #8b2252;">"vapp-1"</span>&gt;&lt;/div&gt;
 &lt;div class=<span style="color: #8b2252;">"vapp-2"</span>&gt;&lt;/div&gt;
 &lt;div class=<span style="color: #8b2252;">"vapp-3"</span>&gt;&lt;/div&gt;
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-javascript" id="orgd6e0594"><span style="color: #a020f0;">new</span> <span style="color: #228b22;">Vue</span>({
+<pre class="src src-javascript" id="org495df33"><span style="color: #a020f0;">new</span> <span style="color: #228b22;">Vue</span>({
   el: <span style="color: #8b2252;">'.vapp-1'</span>,
   data: {
     info: <span style="color: #8b2252;">'&#36825;&#26159;&#36890;&#36807;el&#23646;&#24615;&#33719;&#21462;&#25346;&#36733;&#20803;&#32032;&#30340;outerHTML&#26041;&#24335;&#28210;&#26579;&#12290;'</span>
@@ -562,35 +548,35 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org6ceca91" class="outline-2">
-<h2 id="org6ceca91">独立构建和运行时构建</h2>
-<div class="outline-text-2" id="text-org6ceca91">
+<div id="outline-container-org085be91" class="outline-2">
+<h2 id="org085be91">独立构建和运行时构建</h2>
+<div class="outline-text-2" id="text-org085be91">
 <pre class="example">
 ue.js 1.0，编译器需要依赖浏览器的DOM，所以无法将编译器和运行时分开。因此在Vue.js 1.0分发包中，编译器和运行时是打包在一起，都在浏览器端执行。
 Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不能依赖浏览器的DOM，所以必须将编译器和运行时分开。于是形成了独立构建（编译器 + 运行时）和运行时构建（仅运行时）。显而易见，运行时构建体积要小于独立构建。
-</pre>
 
+</pre>
 
 <pre class="example">
 1. 模板编译器
 模板编译器的职责是将模板字符串编译为纯JavaScript的渲染函数，即将&lt;template&gt;编译成render函数。
-</pre>
 
+</pre>
 
 <pre class="example">
 2. Vue.js的执行过程
 包含编译过程和运行过程，在编译过程，编译器将字符串模板(template)编译为渲染函数(render)，在运行过程，调用渲染函数。
-</pre>
 
+</pre>
 
 <pre class="example">
 3. 运行时构建
 运行时构建指不能进行模板编译的Vue库。运行时构建不包含模板编译器，即不支持template选项，如果使用vue-loader和vueify预编译模板，只需要打包运行时，而不需要打包编译器。
 运行时构建，可以用render选项，但它只在单文件组件中起作用，因为单文件组件的模板是在构建时预编译到render函数中，运行时构建只有独立构建大小的30%，只有16Kb min+gzip大小。
-</pre>
 
+</pre>
 <div class="org-src-container">
-<pre class="src src-javascript" id="orgf06216b"><span style="color: #b22222;">// </span><span style="color: #b22222;">&#19981;&#38656;&#35201;&#32534;&#35793;&#22120;</span>
+<pre class="src src-javascript" id="org00bd67c"><span style="color: #b22222;">// </span><span style="color: #b22222;">&#19981;&#38656;&#35201;&#32534;&#35793;&#22120;</span>
 <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Vue</span>({
   render (h) {
     <span style="color: #a020f0;">return</span> h(<span style="color: #8b2252;">'div'</span>, <span style="color: #008b8b;">this</span>.hello)
@@ -602,10 +588,10 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
 <pre class="example">
 4. 独立构建
 独立构建指能够将template模板或者从el挂载元素提取的模板编译成渲染函数的Vue库，独立构建包含模板编译器，可以用template选项实时编译模板。
-</pre>
 
+</pre>
 <div class="org-src-container">
-<pre class="src src-javascript" id="org8c352d2"><span style="color: #b22222;">// </span><span style="color: #b22222;">&#38656;&#35201;&#32534;&#35793;&#22120;</span>
+<pre class="src src-javascript" id="orge95ff83"><span style="color: #b22222;">// </span><span style="color: #b22222;">&#38656;&#35201;&#32534;&#35793;&#22120;</span>
 <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Vue</span>({
   template: <span style="color: #8b2252;">'&lt;div&gt;&lt;/div&gt;'</span>
 })
@@ -613,12 +599,13 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
 </div>
 <pre class="example">
 使用vue-cli生成项目时，会提醒使用哪种构建方式，npm包默认导出的是运行时构建，即runtime版本vue.runtime.common.js，如果想使用独立构建，需要在webpack.config.js中配置alias。
+
 </pre>
 </div>
 </div>
-<div id="outline-container-org1417eb4" class="outline-2">
-<h2 id="org1417eb4">References</h2>
-<div class="outline-text-2" id="text-org1417eb4">
+<div id="outline-container-org9e19c55" class="outline-2">
+<h2 id="org9e19c55">References</h2>
+<div class="outline-text-2" id="text-org9e19c55">
 <ul class="org-ul">
 <li><a href="https://www.cnblogs.com/camille666/p/vue_instance_prop_el_template_render.html">el，template，render属性优先性</a></li>
 </ul>
@@ -671,8 +658,8 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/%E8%81%8C%E4%B8%9A%E7%94%9F%E6%B6%AF/2019/01/17/%E6%80%BB%E7%BB%932018-%E5%B1%95%E6%9C%9B2019/" rel="next" title="总结2018，展望2019">
-                <i class="fa fa-chevron-left"></i> 总结2018，展望2019
+              <a href="/software/2019/06/05/markdown/" rel="next" title="Learning Markdown">
+                <i class="fa fa-chevron-left"></i> Learning Markdown
               </a>
             
           </div>
@@ -681,8 +668,8 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/linux/2018/12/27/xmr%E6%81%B6%E6%84%8F%E6%8C%96%E7%9F%BF%E8%84%9A%E6%9C%AC%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" rel="prev" title="XMR 恶意挖矿脚本处理笔记">
-                XMR 恶意挖矿脚本处理笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/php/2018/09/19/php-sina-short-url/" rel="prev" title="PHP 调用新浪API生成短链接">
+                PHP 调用新浪API生成短链接 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -760,7 +747,7 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -771,7 +758,7 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -782,7 +769,7 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -875,7 +862,7 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfe9c9ce"> <span class="nav-number">1</span> <span class="nav-text">优先级</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9eebc63"> <span class="nav-number">1.1</span> <span class="nav-text">优先级-示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6ceca91"> <span class="nav-number">2</span> <span class="nav-text">独立构建和运行时构建</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1417eb4"> <span class="nav-number">3</span> <span class="nav-text">References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org48782d4"> <span class="nav-number">1</span> <span class="nav-text">优先级</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga7440ed"> <span class="nav-number">1.1</span> <span class="nav-text">优先级-示例</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org085be91"> <span class="nav-number">2</span> <span class="nav-text">独立构建和运行时构建</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9e19c55"> <span class="nav-number">3</span> <span class="nav-text">References</span> </a> </li>
     </ol>
   </div>
             
@@ -970,42 +957,42 @@ Vue.js 2.0，为了支持服务端渲染(server-side rendering)，编译器不�
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 
 
   

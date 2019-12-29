@@ -2,7 +2,7 @@
 #+AUTHOR:   Rengui Zhao
 #+EMAIL:    zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -51,17 +51,12 @@ photos:
       或者:
       : # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
       : # python get-pip.py
-      更新:
-      : # pip install --upgrade pip
    2. 安装及配置 shadowsocks
       : // 使用 pip 安装 shadowsocks
       : # pip install shadowsocks
       
-      *自动安装脚本*
-      : $ vim install-shadowsocks.sh, content of file from 
+      : // 也可以选择自动安装脚本
       [[https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh][install-shadowsocks.sh]]
-      : # chmod +x install-shadowsocks.sh
-      : # ./install-shadowsocks.sh
    
       : // 配置 shadowsocks
       : # vim /etc/shadowsocks.json
@@ -74,13 +69,14 @@ photos:
 	"port_password":{
   		"9001":"password9001",
   		"9002":"password9002",
-  		"9003":"password9003",
+  		"9003":"password9003"
            },
         "password": "password",
 	"method": "aes-256-cfb",
 	"timeout":600
-	}
+      }
       #+END_SRC
+      #+BEGIN_SRC txt
       解释: 
       - "server": "123.123.123.123" :: 服务器 IP 地址
       - "server_port": 8388 :: 服务器端口号
@@ -90,6 +86,8 @@ photos:
       - "password": "password" :: 密码
       - "method": "aes-256-cfb" :: 加密方式，详细可参考 [[http://ucdok.com/project/generate_password.html][password tool]]
       - "timeout":600 :: 超时时间
+      #+END_SRC
+      
    3. 配置自启动脚本
       : # vim /etc/systemd/system/shadowsocks.service
       #+BEGIN_SRC shell

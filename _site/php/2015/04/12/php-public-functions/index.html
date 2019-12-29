@@ -47,7 +47,7 @@
 
   
   
-  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -78,7 +78,7 @@
 
 
 
-<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
@@ -119,11 +119,9 @@
 <meta property="og:site_name" content="Rengui's Notes">
 <meta property="og:description" content="PHP 公共方法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://localhost:4000/assets/images/php-learning.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP 公共方法">
 <meta name="twitter:description" content="PHP 公共方法">
-<meta name="twitter:image" content="http://localhost:4000/assets/images/php-learning.jpg">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -468,7 +466,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2147
+                  2142
                 </span>
               
 
@@ -497,23 +495,9 @@
 
       
         
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
   <h1 id="字符串string数组array">字符串(String)/数组(Array)</h1>
 <h3 id="在字符串指定位置插入字符串">在字符串指定位置插入字符串</h3>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10</pre></td><td class="code"><pre class="highlight"><code><span class="k">function</span> <span class="nf">str_insert</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span><span class="nv">$i</span><span class="p">,</span><span class="nv">$subStr</span><span class="p">){</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">str_insert</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span><span class="nv">$i</span><span class="p">,</span><span class="nv">$subStr</span><span class="p">){</span>
 	<span class="k">for</span><span class="p">(</span><span class="nv">$j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$j</span><span class="o">&lt;</span><span class="nv">$i</span><span class="p">;</span><span class="nv">$j</span><span class="o">++</span><span class="p">){</span>
 		<span class="nv">$startStr</span> <span class="o">.=</span><span class="nv">$str</span><span class="p">[</span><span class="nv">$j</span><span class="p">];</span>
 	<span class="p">}</span>
@@ -523,22 +507,22 @@
 	<span class="nv">$newStr</span> <span class="o">=</span> <span class="nv">$startStr</span><span class="o">.</span><span class="nv">$subStr</span><span class="o">.</span><span class="nv">$lastStr</span><span class="p">;</span>
     <span class="k">return</span> <span class="nv">$newStr</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <h3 id="向二位数组中添加键值对">向二位数组中添加键值对</h3>
 <p>方法一:</p>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="nv">$tempArr</span><span class="o">=</span><span class="k">array</span><span class="p">();</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$tempArr</span><span class="o">=</span><span class="k">array</span><span class="p">();</span>
 <span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
 	<span class="nv">$value</span><span class="p">[</span><span class="s1">'new_key'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">[</span><span class="s1">'old_key1'</span><span class="p">]</span><span class="o">+</span><span class="nv">$value</span><span class="p">[</span><span class="s1">'old_key2'</span><span class="p">];</span>
 	<span class="nv">$tempArr</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <p>方法二:</p>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
 	<span class="nv">$arr</span><span class="p">[</span><span class="nv">$key</span><span class="p">][</span><span class="s1">'new_key'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$value</span><span class="p">[</span><span class="s1">'old_key1'</span><span class="p">]</span><span class="o">+</span><span class="nv">$value</span><span class="p">[</span><span class="s1">'old_key2'</span><span class="p">];</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <h3 id="判断二维数组是否为空">判断二维数组是否为空</h3>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code><span class="k">function</span> <span class="nf">array_is_null</span><span class="p">(</span><span class="nv">$arr</span> <span class="o">=</span> <span class="kc">null</span><span class="p">){</span> 
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">array_is_null</span><span class="p">(</span><span class="nv">$arr</span> <span class="o">=</span> <span class="kc">null</span><span class="p">){</span> 
 	<span class="k">if</span><span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$arr</span><span class="p">)){</span> 
 		<span class="k">foreach</span><span class="p">(</span><span class="nv">$arr</span> <span class="k">as</span> <span class="nv">$k</span><span class="o">=&gt;</span><span class="nv">$v</span><span class="p">){</span> 
 			<span class="k">if</span><span class="p">(</span><span class="nv">$v</span><span class="o">&amp;&amp;!</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$v</span><span class="p">)){</span> 
@@ -556,10 +540,10 @@
 		<span class="k">return</span> <span class="kc">false</span><span class="p">;</span> 
 	<span class="p">}</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <h1 id="数值金额相关">数值(金额相关)</h1>
 <h3 id="去除无效的0">去除无效的0</h3>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="sd">/** 
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sd">/** 
  * 去除多余的0 
  */</span>  
 <span class="k">function</span> <span class="nf">del0</span><span class="p">(</span><span class="nv">$s</span><span class="p">)</span>  
@@ -573,33 +557,33 @@
     <span class="p">}</span>  
     <span class="k">return</span> <span class="nv">$s</span><span class="p">;</span>  
 <span class="p">}</span>  
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <h1 id="日期date时间time">日期(Date)/时间(Time)</h1>
 <h3 id="获取上个月第一天及最后一天">获取上个月第一天及最后一天</h3>
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-01'</span><span class="p">,</span> <span class="nb">strtotime</span><span class="p">(</span><span class="s1">'-1 month'</span><span class="p">));</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-01'</span><span class="p">,</span> <span class="nb">strtotime</span><span class="p">(</span><span class="s1">'-1 month'</span><span class="p">));</span>
 <span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-t'</span><span class="p">,</span> <span class="nb">strtotime</span><span class="p">(</span><span class="s1">'-1 month'</span><span class="p">));</span>
 
 <span class="c1">//上个月第一天:
 </span><span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d'</span><span class="p">,</span> <span class="nb">strtotime</span><span class="p">(</span><span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-01'</span><span class="p">)</span> <span class="o">.</span> <span class="s1">' -1 month'</span><span class="p">));</span> <span class="c1">// 计算出本月第一天再减一个月
 //上个月最后一天:
 </span><span class="k">echo</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d'</span><span class="p">,</span> <span class="nb">strtotime</span><span class="p">(</span><span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-01'</span><span class="p">)</span> <span class="o">.</span> <span class="s1">' -1 day'</span><span class="p">));</span> <span class="c1">// 计算出本月第一天再减一天
-</span></code></pre></td></tr></tbody></table></div></div>
+</span></code></pre></div></div>
 <h3 id="获取当月第一天及最后一天">获取当月第一天及最后一天</h3>
 <blockquote>
   <p>$BeginDate=date(‘Y-m-01’, strtotime(date(“Y-m-d”)));
 echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
   <h3 id="获取当前年份月份日天数">获取当前年份、月份、日、天数</h3>
-  <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="k">echo</span> <span class="s2">" 本月共有:"</span><span class="o">.</span><span class="nb">date</span><span class="p">(</span><span class="s2">"t"</span><span class="p">)</span><span class="o">.</span><span class="s2">"天"</span><span class="p">;</span>
+  <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">echo</span> <span class="s2">" 本月共有:"</span><span class="o">.</span><span class="nb">date</span><span class="p">(</span><span class="s2">"t"</span><span class="p">)</span><span class="o">.</span><span class="s2">"天"</span><span class="p">;</span>
 <span class="k">echo</span> <span class="s2">" 当前年份"</span><span class="o">.</span><span class="nb">date</span><span class="p">(</span><span class="s1">'Y'</span><span class="p">);</span>
 <span class="k">echo</span> <span class="s2">" 当前月份"</span><span class="o">.</span><span class="nb">date</span><span class="p">(</span><span class="s1">'m'</span><span class="p">);</span>
 <span class="k">echo</span> <span class="s2">" 当前几号"</span><span class="o">.</span><span class="nb">date</span><span class="p">(</span><span class="s1">'d'</span><span class="p">);</span>
-</code></pre></td></tr></tbody></table></div>  </div>
+</code></pre></div>  </div>
   <h3 id="日期转时间戳时间戳转日期">日期转时间戳，时间戳转日期</h3>
-  <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="nb">strtotime</span><span class="p">(</span><span class="s1">'2010-03-24 08:15:42'</span><span class="p">);</span>
+  <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">strtotime</span><span class="p">(</span><span class="s1">'2010-03-24 08:15:42'</span><span class="p">);</span>
 <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">,</span> <span class="mi">1156219870</span><span class="p">);</span>
-</code></pre></td></tr></tbody></table></div>  </div>
+</code></pre></div>  </div>
   <h3 id="计算已成为会员多少天或距离某活动还剩余多少天">计算已成为会员多少天或距离某活动还剩余多少天?</h3>
-  <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13</pre></td><td class="code"><pre class="highlight"><code><span class="k">function</span> <span class="nf">get_days_calc</span><span class="p">(</span><span class="nv">$calcTime</span><span class="p">,</span> <span class="nv">$currentTime</span><span class="p">,</span> <span class="nv">$differOrSurplus</span><span class="p">){</span>
+  <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">get_days_calc</span><span class="p">(</span><span class="nv">$calcTime</span><span class="p">,</span> <span class="nv">$currentTime</span><span class="p">,</span> <span class="nv">$differOrSurplus</span><span class="p">){</span>
 	<span class="k">switch</span> <span class="p">(</span><span class="nv">$differOrSurplus</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
 		<span class="k">return</span> <span class="nb">round</span><span class="p">((</span><span class="nv">$currentTime</span><span class="o">-</span><span class="nv">$calcTime</span><span class="p">)</span><span class="o">/</span><span class="mi">3600</span><span class="o">/</span><span class="mi">24</span><span class="p">);</span>
@@ -612,10 +596,10 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 		<span class="k">break</span><span class="p">;</span>
 	<span class="p">}</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div>  </div>
+</code></pre></div>  </div>
   <h1 id="url">URL</h1>
   <h3 id="获取当前url">获取当前URL</h3>
-  <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18</pre></td><td class="code"><pre class="highlight"><code><span class="k">function</span> <span class="nf">getCurrentPageURL</span><span class="p">()</span>
+  <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">getCurrentPageURL</span><span class="p">()</span>
 <span class="p">{</span>
 	<span class="nv">$pageURL</span> <span class="o">=</span> <span class="s1">'http'</span><span class="p">;</span>
 	<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s2">"HTTPS"</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s2">"HTTPS"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"on"</span><span class="p">)</span>
@@ -633,7 +617,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nv">$pageURL</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div>  </div>
+</code></pre></div>  </div>
   <h3 id="请求处理">请求处理</h3>
   <pre><code class="language-`php">function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$response_header = false,$exec_time = 5,$connect_time = 5 )
 {
@@ -691,7 +675,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 </code></pre>
   <h1 id="文件file">文件(File)</h1>
   <h3 id="下载文件">下载文件</h3>
-  <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code>   <span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type:text/html;charset=utf-8"</span><span class="p">);</span>
+  <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nb">header</span><span class="p">(</span><span class="s2">"Content-type:text/html;charset=utf-8"</span><span class="p">);</span>
    <span class="sd">/**
    * 文件下载
    * @param  [type] $file_url [绝对路径，如:$_SERVER['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]
@@ -720,7 +704,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 </span>        <span class="k">echo</span> <span class="nb">fread</span><span class="p">(</span><span class="nv">$file_type</span><span class="p">,</span><span class="nb">filesize</span><span class="p">(</span><span class="nv">$file_url</span><span class="p">));</span>
 	<span class="nb">fclose</span><span class="p">(</span><span class="nv">$file_type</span><span class="p">);</span>
    <span class="p">}</span>
-</code></pre></td></tr></tbody></table></div>  </div>
+</code></pre></div>  </div>
   <p>几点注意事项：</p>
   <ol>
     <li>header(“Content-type:text/html;charset=utf-8”)的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。</li>
@@ -738,14 +722,14 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
         <li>[[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
           <h1 id="其他-code">其他 code</h1>
           <h2 id="获取-phpmysqlapachenginx-的版本信息">获取 PHP，MySQL，Apache/Nginx 的版本信息</h2>
-          <div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// PHP Version
+          <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// PHP Version
 </span><span class="k">echo</span> <span class="nb">phpversion</span><span class="p">();</span>
 <span class="c1">// MySQL Version
 </span><span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysqli_connect</span><span class="p">(</span><span class="s1">'127.0.0.1'</span><span class="p">,</span><span class="s1">'root'</span><span class="p">,</span><span class="s1">'34917da6228cfc7a'</span><span class="p">);</span>
 <span class="k">echo</span> <span class="nx">mysqli_get_server_info</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
 <span class="c1">// Apache Version
 </span><span class="k">echo</span> <span class="nb">apache_get_version</span><span class="p">();</span>
-</code></pre></td></tr></tbody></table></div>          </div>
+</code></pre></div>          </div>
           <h2 id="php-生成uuid我唯一序列">PHP 生成UUID我唯一序列</h2>
         </li>
       </ul>
@@ -753,7 +737,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
   </ol>
 </blockquote>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="k">function</span> <span class="nf">uuid</span><span class="p">(</span><span class="nv">$prefix</span> <span class="o">=</span><span class="s1">''</span><span class="p">)</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="nf">uuid</span><span class="p">(</span><span class="nv">$prefix</span> <span class="o">=</span><span class="s1">''</span><span class="p">)</span>
 <span class="p">{</span>
 	<span class="nv">$chars</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="nb">uniqid</span><span class="p">(</span><span class="nb">mt_rand</span><span class="p">(),</span> <span class="kc">true</span><span class="p">));</span>
     <span class="nv">$uuid</span> <span class="o">=</span> <span class="nb">substr</span><span class="p">(</span><span class="nv">$chars</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'-'</span><span class="p">;</span>
@@ -767,21 +751,18 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 <span class="c1">// 也可以使用SQL语句生成：
 </span><span class="o">&gt;</span> <span class="nx">insert</span> <span class="nx">into</span> <span class="nx">Price</span><span class="p">(</span> <span class="nx">Name</span><span class="p">,</span> <span class="nx">UUID</span><span class="p">,</span> <span class="nx">Price</span><span class="p">)</span> <span class="nx">values</span><span class="p">(</span><span class="s1">'FEIFEI_TEST'</span><span class="p">,</span> <span class="nx">uuid</span><span class="p">(),</span> <span class="mi">32</span><span class="p">);</span> 
 
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 
 <h2 id="require-vs-include-vs-require_once-vs-include_once">require vs include vs require_once vs include_once</h2>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="c1">// require vs include
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// require vs include
 // 处理失败的方式不同：include 产生一个 Warning，继续运行；而 require 导致一个 Fatal Error。
 </span>
 <span class="c1">// require vs require_once or include vs include_once
 // 后者会判断是否已经引用过指定文件，如果引用过就不再引用。这样做的好处是节省资源和避免重复定义的错误。
 </span>
 <span class="c1">// 注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
-</span></code></pre></td></tr></tbody></table></div></div>
-
-<h1 id="php-学习导图">PHP 学习导图</h1>
-<p><img src="http://localhost:4000/assets/images/php-learning.jpg" alt="PHP学习导图" /></p>
+</span></code></pre></div></div>
 
 
       
@@ -832,8 +813,8 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/algorithms/2015/05/12/project-euler/" rel="next" title="Project Euler">
-                <i class="fa fa-chevron-left"></i> Project Euler
+              <a href="/php/2015/04/12/php-page/" rel="next" title="PHP 简单分页实现">
+                <i class="fa fa-chevron-left"></i> PHP 简单分页实现
               </a>
             
           </div>
@@ -842,8 +823,8 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/php/2015/04/12/php-page/" rel="prev" title="PHP 简单分页实现">
-                PHP 简单分页实现 <i class="fa fa-chevron-right"></i>
+              <a href="/javascript/2015/03/26/professional-javascript/" rel="prev" title="《JavaScript 高级程序设计》读书笔记">
+                《JavaScript 高级程序设计》读书笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -925,7 +906,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -936,7 +917,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -947,7 +928,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1040,7 +1021,7 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-1"> <a class="nav-link" href="#字符串string数组array"> <span class="nav-number">1</span> <span class="nav-text">字符串(String)/数组(Array)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#在字符串指定位置插入字符串"> <span class="nav-number">1.1</span> <span class="nav-text">在字符串指定位置插入字符串</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#向二位数组中添加键值对"> <span class="nav-number">1.2</span> <span class="nav-text">向二位数组中添加键值对</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#判断二维数组是否为空"> <span class="nav-number">1.3</span> <span class="nav-text">判断二维数组是否为空</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#数值金额相关"> <span class="nav-number">2</span> <span class="nav-text">数值(金额相关)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#去除无效的0"> <span class="nav-number">2.1</span> <span class="nav-text">去除无效的0</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#日期date时间time"> <span class="nav-number">3</span> <span class="nav-text">日期(Date)/时间(Time)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取上个月第一天及最后一天"> <span class="nav-number">3.1</span> <span class="nav-text">获取上个月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当月第一天及最后一天"> <span class="nav-number">3.2</span> <span class="nav-text">获取当月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当前年份月份日天数"> <span class="nav-number">3.3</span> <span class="nav-text">获取当前年份、月份、日、天数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#日期转时间戳时间戳转日期"> <span class="nav-number">3.4</span> <span class="nav-text">日期转时间戳，时间戳转日期</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#计算已成为会员多少天或距离某活动还剩余多少天"> <span class="nav-number">3.5</span> <span class="nav-text">计算已成为会员多少天或距离某活动还剩余多少天?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#url"> <span class="nav-number">4</span> <span class="nav-text">URL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当前url"> <span class="nav-number">4.1</span> <span class="nav-text">获取当前URL</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#请求处理"> <span class="nav-number">4.2</span> <span class="nav-text">请求处理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#文件file"> <span class="nav-number">5</span> <span class="nav-text">文件(File)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#下载文件"> <span class="nav-number">5.1</span> <span class="nav-text">下载文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#参考资料"> <span class="nav-number">5.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#其他-code"> <span class="nav-number">6</span> <span class="nav-text">其他 code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#获取-phpmysqlapachenginx-的版本信息"> <span class="nav-number">6.1</span> <span class="nav-text">获取 PHP，MySQL，Apache/Nginx 的版本信息</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#php-生成uuid我唯一序列"> <span class="nav-number">6.2</span> <span class="nav-text">PHP 生成UUID我唯一序列</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#require-vs-include-vs-require_once-vs-include_once"> <span class="nav-number">6.3</span> <span class="nav-text">require vs include vs require_once vs include_once</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#php-学习导图"> <span class="nav-number">7</span> <span class="nav-text">PHP 学习导图</span> </a> </li>
+      <li class="nav-item nav-level-1"> <a class="nav-link" href="#字符串string数组array"> <span class="nav-number">1</span> <span class="nav-text">字符串(String)/数组(Array)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#在字符串指定位置插入字符串"> <span class="nav-number">1.1</span> <span class="nav-text">在字符串指定位置插入字符串</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#向二位数组中添加键值对"> <span class="nav-number">1.2</span> <span class="nav-text">向二位数组中添加键值对</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#判断二维数组是否为空"> <span class="nav-number">1.3</span> <span class="nav-text">判断二维数组是否为空</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#数值金额相关"> <span class="nav-number">2</span> <span class="nav-text">数值(金额相关)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#去除无效的0"> <span class="nav-number">2.1</span> <span class="nav-text">去除无效的0</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#日期date时间time"> <span class="nav-number">3</span> <span class="nav-text">日期(Date)/时间(Time)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取上个月第一天及最后一天"> <span class="nav-number">3.1</span> <span class="nav-text">获取上个月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当月第一天及最后一天"> <span class="nav-number">3.2</span> <span class="nav-text">获取当月第一天及最后一天</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当前年份月份日天数"> <span class="nav-number">3.3</span> <span class="nav-text">获取当前年份、月份、日、天数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#日期转时间戳时间戳转日期"> <span class="nav-number">3.4</span> <span class="nav-text">日期转时间戳，时间戳转日期</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#计算已成为会员多少天或距离某活动还剩余多少天"> <span class="nav-number">3.5</span> <span class="nav-text">计算已成为会员多少天或距离某活动还剩余多少天?</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#url"> <span class="nav-number">4</span> <span class="nav-text">URL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#获取当前url"> <span class="nav-number">4.1</span> <span class="nav-text">获取当前URL</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#请求处理"> <span class="nav-number">4.2</span> <span class="nav-text">请求处理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#文件file"> <span class="nav-number">5</span> <span class="nav-text">文件(File)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#下载文件"> <span class="nav-number">5.1</span> <span class="nav-text">下载文件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#参考资料"> <span class="nav-number">5.2</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-1"> <a class="nav-link" href="#其他-code"> <span class="nav-number">6</span> <span class="nav-text">其他 code</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-2"> <a class="nav-link" href="#获取-phpmysqlapachenginx-的版本信息"> <span class="nav-number">6.1</span> <span class="nav-text">获取 PHP，MySQL，Apache/Nginx 的版本信息</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#php-生成uuid我唯一序列"> <span class="nav-number">6.2</span> <span class="nav-text">PHP 生成UUID我唯一序列</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#require-vs-include-vs-require_once-vs-include_once"> <span class="nav-number">6.3</span> <span class="nav-text">require vs include vs require_once vs include_once</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
@@ -1135,42 +1116,42 @@ echo date(‘Y-m-d’, strtotime(“$BeginDate +1 month -1 day”));</p>
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 
 
   

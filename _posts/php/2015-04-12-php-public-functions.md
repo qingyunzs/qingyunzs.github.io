@@ -287,6 +287,3 @@ function uuid($prefix ='')
 
 // 注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
 ```
-
-# PHP 学习导图
-![PHP学习导图]({{site.url}}/assets/images/php-learning.jpg)

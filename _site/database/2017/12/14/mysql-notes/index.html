@@ -47,7 +47,7 @@
 
   
   
-  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -78,7 +78,7 @@
 
 
 
-<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
@@ -464,7 +464,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  914
+                  1295
                 </span>
               
 
@@ -493,20 +493,6 @@
 
       
         
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
   <h2 id="mysql-数据类型">MySQL 数据类型</h2>
 <h3 id="数据字段属性">数据字段属性</h3>
 <ul>
@@ -553,16 +539,33 @@
   </tbody>
 </table>
 
-<h2 id="mysql备份与还原">MySQL备份与还原</h2>
-<blockquote>
-  <p>$ mysqldump -u username -p dbname&gt;filename.sql输入密码
+<h2 id="mysql-默认字符集">MySQL 默认字符集</h2>
+<ol>
+  <li>MySQL的字符集支持(Character Set Support)有两个方面： 字符集(Character set)和排序方式(Collation)。</li>
+  <li>对于字符集的支持细化到四个层次: 服务器(server)，数据库(database)，数据表(table)和连接(connection)。<strong>相当于一个优先级，7最高，1最低</strong>
+ (1)编译MySQL 时，指定了一个MySQL默认的字符集，这个字符集是 latin1； 
+ (2)安装MySQL 时，可以在配置文件 (my.ini) 中指定一个默认的的字符集，如果没指定，这个值继承自编译时指定的； 
+ (3)启动mysql 时，可以在命令行参数中指定一个默认的的字符集，如果没指定，这个值继承自配置文件中的配置,此时 character_set_server 被设定为这个默认的字符集；
+ (4)当创建一个新的数据库时，除非明确指定，这个数据库的字符集被缺省设定为character_set_server； 
+ (5)当选定了一个数据库时，character_set_database 被设定为这个数据库默认的字符集； 
+ (6)在这个数据库里创建一张表时，表默认的字符集被设定为 character_set_database，也就是这个数据库默认的字符集；
+ (7)当在表内设置一栏时，除非明确指定，否则此栏缺省的字符集就是表默认的字符集。</li>
+  <li>查看系统的字符集和排序方式
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like <span class="s1">'character%'</span>
+mysql&gt; show variables like <span class="s1">'collation_%'</span>
+</code></pre></div>    </div>
+    <h2 id="mysql-备份与还原">MySQL 备份与还原</h2>
+    <blockquote>
+      <p>$ mysqldump -u username -p dbname&gt;filename.sql输入密码
 //单独备份指定表
 $ mysqldump -u username -p dbname table1 table2&gt;filename.sql输入密码
 //加条件备份指定表(注意单引号和双引号问题)
 $ mysqldump -u username -p dbname table1 table2 -w “id&lt;10”&gt;filename.sql
 //执行SQL语句将查到的数据导出到文件
 $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt</p>
-</blockquote>
+    </blockquote>
+  </li>
+</ol>
 
 <p>windows</p>
 <blockquote>
@@ -675,7 +678,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
   <li>char</li>
   <li>concat，多个字段拼接</li>
   <li>concat_ws，代表 concat with separator，是concat()的特殊形式。
-    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="c1">-- Syntax: ASCII(character)</span>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Syntax: ASCII(character)</span>
 <span class="k">SELECT</span> <span class="n">ASCII</span><span class="p">(</span><span class="n">CustomerName</span><span class="p">)</span> <span class="k">AS</span> <span class="n">NumCodeOfFirstChar</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
 <span class="c1">-- Syntax: CHAR_LENGTH(string)</span>
 <span class="k">SELECT</span> <span class="k">CHAR_LENGTH</span><span class="p">(</span><span class="n">CustomerName</span><span class="p">)</span> <span class="k">AS</span> <span class="n">LengthOfName</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
@@ -689,7 +692,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
 <span class="c1">-- Syntax: CONCAT_WS(separator, expression1, expression2, expression3,...)</span>
 <span class="c1">-- 第一个参数是其它参数的分隔符。</span>
 <span class="k">SELECT</span> <span class="n">CONCAT_WS</span><span class="p">(</span><span class="nv">" "</span><span class="p">,</span> <span class="n">Address</span><span class="p">,</span> <span class="n">PostalCode</span><span class="p">,</span> <span class="n">City</span><span class="p">)</span> <span class="k">AS</span> <span class="n">Address</span> <span class="k">FROM</span> <span class="n">Customers</span><span class="p">;</span>
-</code></pre></td></tr></tbody></table></div>    </div>
+</code></pre></div>    </div>
     <blockquote>
       <p>https://dev.mysql.com/doc/refman/8.0/en/string-functions.html</p>
     </blockquote>
@@ -703,21 +706,21 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
 <h3 id="advanced-functions">Advanced Functions</h3>
 <ul>
   <li>case
-    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">OrderID</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">,</span>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">OrderID</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">,</span>
 <span class="k">CASE</span>
   <span class="k">WHEN</span> <span class="n">Quantity</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="k">THEN</span> <span class="nv">"The quantity is greater than 30"</span>
   <span class="k">WHEN</span> <span class="n">Quantity</span> <span class="o">=</span> <span class="mi">30</span> <span class="k">THEN</span> <span class="nv">"The quantity is 30"</span>
   <span class="k">ELSE</span> <span class="nv">"The quantity is under 30"</span>
 <span class="k">END</span>
 <span class="k">FROM</span> <span class="n">OrderDetails</span><span class="p">;</span>
-</code></pre></td></tr></tbody></table></div>    </div>
+</code></pre></div>    </div>
   </li>
   <li>cast
-    <div class="language-sql highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code><span class="c1">--  converts a value (of any type) into the specified datatype.</span>
+    <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--  converts a value (of any type) into the specified datatype.</span>
 <span class="c1">-- syntax: CAST(value AS datatype)</span>
 <span class="k">SELECT</span> <span class="k">CAST</span><span class="p">(</span><span class="nv">"14:06:10"</span> <span class="k">AS</span> <span class="n">TIME</span><span class="p">);</span>
 <span class="k">SELECT</span> <span class="k">CAST</span><span class="p">(</span><span class="mi">150</span> <span class="k">AS</span> <span class="n">CHAR</span><span class="p">);</span>
-</code></pre></td></tr></tbody></table></div>    </div>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -767,8 +770,8 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/network/2018/01/03/ccna-7th/" rel="next" title="CCNA">
-                <i class="fa fa-chevron-left"></i> CCNA
+              <a href="/php/2018/05/04/php-built-in-functions/" rel="next" title="PHP 常见函数">
+                <i class="fa fa-chevron-left"></i> PHP 常见函数
               </a>
             
           </div>
@@ -777,8 +780,8 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/2017/06/15/how-to-solve-it/" rel="prev" title="How to Solve It?">
-                How to Solve It? <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/13/browsers/" rel="prev" title="Mainstream Browsers">
+                Mainstream Browsers <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -856,7 +859,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -867,7 +870,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -878,7 +881,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -971,7 +974,7 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-数据类型"> <span class="nav-number">1</span> <span class="nav-text">MySQL 数据类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#数据字段属性"> <span class="nav-number">1.1</span> <span class="nav-text">数据字段属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#char-vs-varchar-vs-text"> <span class="nav-number">1.2</span> <span class="nav-text">Char vs Varchar vs Text</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql备份与还原"> <span class="nav-number">2</span> <span class="nav-text">MySQL备份与还原</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#当没有备份数据库mysql时恢复数据库办法"> <span class="nav-number">2.1</span> <span class="nav-text">当没有备份数据库(mysql)时,恢复数据库办法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-用户与权限"> <span class="nav-number">3</span> <span class="nav-text">MySQL 用户与权限</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-函数functions"> <span class="nav-number">4</span> <span class="nav-text">MySQL 函数(Functions)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#string-functions"> <span class="nav-number">4.1</span> <span class="nav-text">String Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#numeric-functions"> <span class="nav-number">4.2</span> <span class="nav-text">Numeric Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#date-functions"> <span class="nav-number">4.3</span> <span class="nav-text">Date Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#advanced-functions"> <span class="nav-number">4.4</span> <span class="nav-text">Advanced Functions</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-数据类型"> <span class="nav-number">1</span> <span class="nav-text">MySQL 数据类型</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#数据字段属性"> <span class="nav-number">1.1</span> <span class="nav-text">数据字段属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#char-vs-varchar-vs-text"> <span class="nav-number">1.2</span> <span class="nav-text">Char vs Varchar vs Text</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-默认字符集"> <span class="nav-number">2</span> <span class="nav-text">MySQL 默认字符集</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-备份与还原"> <span class="nav-number">3</span> <span class="nav-text">MySQL 备份与还原</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#当没有备份数据库mysql时恢复数据库办法"> <span class="nav-number">3.1</span> <span class="nav-text">当没有备份数据库(mysql)时,恢复数据库办法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-用户与权限"> <span class="nav-number">4</span> <span class="nav-text">MySQL 用户与权限</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mysql-函数functions"> <span class="nav-number">5</span> <span class="nav-text">MySQL 函数(Functions)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#string-functions"> <span class="nav-number">5.1</span> <span class="nav-text">String Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#numeric-functions"> <span class="nav-number">5.2</span> <span class="nav-text">Numeric Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#date-functions"> <span class="nav-number">5.3</span> <span class="nav-text">Date Functions</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#advanced-functions"> <span class="nav-number">5.4</span> <span class="nav-text">Advanced Functions</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
@@ -1066,42 +1069,42 @@ $ mysql -u gcoin -p -Ne “use gold;select * from ecs_user” &gt; ~/outfile.txt
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 
 
   

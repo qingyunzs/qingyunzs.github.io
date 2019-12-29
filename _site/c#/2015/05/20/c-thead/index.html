@@ -47,7 +47,7 @@
 
   
   
-  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -78,7 +78,7 @@
 
 
 
-<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
@@ -495,27 +495,13 @@
 
       
         
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  <div id="outline-container-orgeb01528" class="outline-2">
-<h2 id="orgeb01528">线程入门</h2>
-<div class="outline-text-2" id="text-orgeb01528">
+  <div id="outline-container-orgae943ad" class="outline-2">
+<h2 id="orgae943ad">线程入门</h2>
+<div class="outline-text-2" id="text-orgae943ad">
 </div>
-<div id="outline-container-orgb579eda" class="outline-3">
-<h3 id="orgb579eda">创建线程</h3>
-<div class="outline-text-3" id="text-orgb579eda">
+<div id="outline-container-org1c050f9" class="outline-3">
+<h3 id="org1c050f9">创建线程</h3>
+<div class="outline-text-3" id="text-org1c050f9">
 <pre class="example">
 using system;
 using system.Threading;
@@ -533,13 +519,13 @@ static void CalcSum()
 </pre>
 </div>
 </div>
-<div id="outline-container-org27f879e" class="outline-3">
-<h3 id="org27f879e">Thread类几个重要方法</h3>
-<div class="outline-text-3" id="text-org27f879e">
+<div id="outline-container-org0db5049" class="outline-3">
+<h3 id="org0db5049">Thread类几个重要方法</h3>
+<div class="outline-text-3" id="text-org0db5049">
 <pre class="example">
 Thread类用于创建线程，ThreadPool类用于管理线程池。
-</pre>
 
+</pre>
 
 <pre class="example">
 Thread类中几个重要的方法：
@@ -548,13 +534,14 @@ Thread类中几个重要的方法：
 3. Abort()：通常使用该方法来终止一个线程；
 4. Suspend()：该方法并不终止未完成的线程，它仅仅挂起线程，以后还可恢复；
 5. Resume()：恢复被Suspend()方法挂起的线程的执行。
+
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org24a8dd8" class="outline-3">
-<h3 id="org24a8dd8">Thread.ThreadState属性</h3>
-<div class="outline-text-3" id="text-org24a8dd8">
+<div id="outline-container-orgda640a4" class="outline-3">
+<h3 id="orgda640a4">Thread.ThreadState属性</h3>
+<div class="outline-text-3" id="text-orgda640a4">
 <pre class="example">
 Thread.ThreadState 在各种情况下的取值如下：
 1. Aborted：线程已停止
@@ -567,39 +554,42 @@ Thread.ThreadState 在各种情况下的取值如下：
 8. SuspendRequested：线程正在要求被挂起，但是未来得及响应
 9. Unstarted：未调用Thread.Start()开始线程的运行
 10. WaitSleepJoin：线程因为调用了Wait(),Sleep()或Join()等方法处于封锁状态 
+
 </pre>
 </div>
 </div>
-<div id="outline-container-org91f9179" class="outline-3">
-<h3 id="org91f9179">设定线程优先级</h3>
-<div class="outline-text-3" id="text-org91f9179">
+<div id="outline-container-org1c3b960" class="outline-3">
+<h3 id="org1c3b960">设定线程优先级</h3>
+<div class="outline-text-3" id="text-org1c3b960">
 <pre class="example">
 优先级由高到低分别是Highest，AboveNormal，Normal，BelowNormal，Lowest。默认为ThreadPriority.Normal。
-</pre>
 
+</pre>
 
 <pre class="example">
 //示例：设定优先级为最低
 myThread.Priority=ThreadPriority.Lowest;
+
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org04a14a3" class="outline-2">
-<h2 id="org04a14a3">线程的同步和通讯——生产者和消费者</h2>
-<div class="outline-text-2" id="text-org04a14a3">
+<div id="outline-container-org39c0d35" class="outline-2">
+<h2 id="org39c0d35">线程的同步和通讯——生产者和消费者</h2>
+<div class="outline-text-2" id="text-org39c0d35">
 <pre class="example">
 假设这样一种情况，两个线程同时维护一个队列，如果一个线程对队列中添加元素，而另外一个线程从队列中取用元素，那么我们称添加元素的线程为生产者，称取用元素的线程为消费者。
+
 </pre>
 </div>
-<div id="outline-container-orgaca51ad" class="outline-3">
-<h3 id="orgaca51ad">lock关键字</h3>
-<div class="outline-text-3" id="text-orgaca51ad">
+<div id="outline-container-org51af398" class="outline-3">
+<h3 id="org51af398">lock关键字</h3>
+<div class="outline-text-3" id="text-org51af398">
 <pre class="example">
 lock 关键字解决多个线程同时执行一个函数，导致数据的混乱，产生不可预料的结果的问题。
 lock 关键字将一段代码定义为互斥段（critical section）。互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。
-</pre>
 
+</pre>
 <pre class="example">
 //定义如下：
 lock(expression) statement_block
@@ -609,14 +599,14 @@ lock(expression) statement_block
 </pre>
 </div>
 </div>
-<div id="outline-container-org7a8ad2e" class="outline-3">
-<h3 id="org7a8ad2e">Monitor类(System.Threading)</h3>
-<div class="outline-text-3" id="text-org7a8ad2e">
+<div id="outline-container-org8d28bc2" class="outline-3">
+<h3 id="org8d28bc2">Monitor类(System.Threading)</h3>
+<div class="outline-text-3" id="text-org8d28bc2">
 <pre class="example">
 Monitor提供了使线程共享资源的方案。
 Monitor类可以锁定一个对象，一个线程只有得到这把锁才可以对该对象进行操作。
-</pre>
 
+</pre>
 <pre class="example">
 ......
 Queue oQueue=new Queue();
@@ -629,26 +619,27 @@ Monitor.Exit(oQueue);//释放锁
 //当拥有对象锁的线程准备释放锁时，它使用Monitor.Pulse()方法通知等待队列中的第一个线程。
 </pre>
 </div>
-<div id="outline-container-org75baba4" class="outline-4">
-<h4 id="org75baba4">Monitor.Wait()和Monitor.Pulse()</h4>
-<div class="outline-text-4" id="text-org75baba4">
+<div id="outline-container-orgd6cd66c" class="outline-4">
+<h4 id="orgd6cd66c">Monitor.Wait()和Monitor.Pulse()</h4>
+<div class="outline-text-4" id="text-orgd6cd66c">
 <pre class="example">
 1. Wait()就是交出锁的使用权，使线程处于阻塞状态，直到再次获得锁的使用权。
 2. 当前线程调用Pulse()向队列中的下一个线程发出锁的信号。接收到脉冲后，等待线程就被移动到就绪队列中。
 在调用 Pulse 的线程释放锁后，就绪队列中的下一个线程（不一定是接收到脉冲的线程）将获得该锁。pulse()并不会使当前线程释放锁。
+
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd554567" class="outline-2">
-<h2 id="orgd554567">实例：开辟一线程实现异步导出Excel</h2>
-<div class="outline-text-2" id="text-orgd554567">
+<div id="outline-container-orga3b7876" class="outline-2">
+<h2 id="orga3b7876">实例：开辟一线程实现异步导出Excel</h2>
+<div class="outline-text-2" id="text-orga3b7876">
 </div>
-<div id="outline-container-org2e9d0c7" class="outline-3">
-<h3 id="org2e9d0c7">环境介绍及实例简述</h3>
-<div class="outline-text-3" id="text-org2e9d0c7">
+<div id="outline-container-orgb847623" class="outline-3">
+<h3 id="orgb847623">环境介绍及实例简述</h3>
+<div class="outline-text-3" id="text-orgb847623">
 <pre class="example">
 环境介绍：
 开发语言》C#;
@@ -656,40 +647,42 @@ Monitor.Exit(oQueue);//释放锁
 Asp.Net MVC Version》5.2.3;
 .Net Version》6.1.3;
 NIPO version》2.2.1;
-</pre>
 
+</pre>
 
 <pre class="example">
 实例简述：
 由于导出的Excel文件比较大，非常耗时，为了不影响对界面的其他操作，需要采用异步的方式进行导出。
 具体实现方法就是后台开辟一个线程将Excel导出到指定目录，然后提供下载。
+
 </pre>
 </div>
 </div>
-<div id="outline-container-org5a46c29" class="outline-3">
-<h3 id="org5a46c29">实现思路及准备工作</h3>
-<div class="outline-text-3" id="text-org5a46c29">
+<div id="outline-container-org7cd6bef" class="outline-3">
+<h3 id="org7cd6bef">实现思路及准备工作</h3>
+<div class="outline-text-3" id="text-org7cd6bef">
 <pre class="example">
 思路：
 通过线程实现异步导出操作；
 通过NIPO组件将数据存到Excel文件中。
-</pre>
 
+</pre>
 
 <pre class="example">
 准备工作：
 1.下载NPOI组件，http://npoi.codeplex.com/
 2.orcleHelper.dll
+
 </pre>
 </div>
 </div>
-<div id="outline-container-org1cef316" class="outline-3">
-<h3 id="org1cef316">实例代码</h3>
-<div class="outline-text-3" id="text-org1cef316">
+<div id="outline-container-orgebd18e0" class="outline-3">
+<h3 id="orgebd18e0">实例代码</h3>
+<div class="outline-text-3" id="text-orgebd18e0">
 </div>
-<div id="outline-container-orgfcdf400" class="outline-4">
-<h4 id="orgfcdf400">UserController.cs</h4>
-<div class="outline-text-4" id="text-orgfcdf400">
+<div id="outline-container-org30a1c28" class="outline-4">
+<h4 id="org30a1c28">UserController.cs</h4>
+<div class="outline-text-4" id="text-org30a1c28">
 <div class="org-src-container">
 <pre class="src src-emacs">using Project.BLL;
 using Project.Class;
@@ -853,9 +846,9 @@ namespace Project.UI
 </div>
 </div>
 </div>
-<div id="outline-container-org86e469e" class="outline-4">
-<h4 id="org86e469e">Global.asax.cs</h4>
-<div class="outline-text-4" id="text-org86e469e">
+<div id="outline-container-org4e93eca" class="outline-4">
+<h4 id="org4e93eca">Global.asax.cs</h4>
+<div class="outline-text-4" id="text-org4e93eca">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -920,9 +913,9 @@ namespace GpsProject.UI
 </div>
 </div>
 </div>
-<div id="outline-container-org69eb04a" class="outline-4">
-<h4 id="org69eb04a">DataExportPara.cs</h4>
-<div class="outline-text-4" id="text-org69eb04a">
+<div id="outline-container-org4614c17" class="outline-4">
+<h4 id="org4614c17">DataExportPara.cs</h4>
+<div class="outline-text-4" id="text-org4614c17">
 <div class="org-src-container">
 <pre class="src src-emacs">using System.Collections;
 using System.Collections.Generic;
@@ -956,9 +949,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org261fb7d" class="outline-4">
-<h4 id="org261fb7d">DataExport.cs</h4>
-<div class="outline-text-4" id="text-org261fb7d">
+<div id="outline-container-org2db0c90" class="outline-4">
+<h4 id="org2db0c90">DataExport.cs</h4>
+<div class="outline-text-4" id="text-org2db0c90">
 <div class="org-src-container">
 <pre class="src src-emacs">using GpsProject.Class;
 using System.Collections;
@@ -995,9 +988,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org53913cc" class="outline-4">
-<h4 id="org53913cc">NPOIExcelHelper.cs</h4>
-<div class="outline-text-4" id="text-org53913cc">
+<div id="outline-container-org794f782" class="outline-4">
+<h4 id="org794f782">NPOIExcelHelper.cs</h4>
+<div class="outline-text-4" id="text-org794f782">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -1150,25 +1143,26 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-orgad1fe43" class="outline-3">
-<h3 id="orgad1fe43">小结</h3>
-<div class="outline-text-3" id="text-orgad1fe43">
+<div id="outline-container-org9986c35" class="outline-3">
+<h3 id="org9986c35">小结</h3>
+<div class="outline-text-3" id="text-org9986c35">
 <pre class="example">
 在阅读别人的文章时，认真。
+
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3d544bc" class="outline-2">
-<h2 id="org3d544bc">实例：利用线程监听模拟车辆进出智能化停车场</h2>
-<div class="outline-text-2" id="text-org3d544bc">
+<div id="outline-container-org006f9b1" class="outline-2">
+<h2 id="org006f9b1">实例：利用线程监听模拟车辆进出智能化停车场</h2>
+<div class="outline-text-2" id="text-org006f9b1">
 </div>
-<div id="outline-container-orgbfc00e8" class="outline-3">
-<h3 id="orgbfc00e8">实例简述</h3>
+<div id="outline-container-org4376b79" class="outline-3">
+<h3 id="org4376b79">实例简述</h3>
 </div>
-<div id="outline-container-org9c1e672" class="outline-3">
-<h3 id="org9c1e672">实现效果</h3>
-<div class="outline-text-3" id="text-org9c1e672">
+<div id="outline-container-orgdccd6d6" class="outline-3">
+<h3 id="orgdccd6d6">实现效果</h3>
+<div class="outline-text-3" id="text-orgdccd6d6">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/thread_20170616.png" alt="thread_20170616.png" />
@@ -1176,13 +1170,13 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-org5e6cf46" class="outline-3">
-<h3 id="org5e6cf46">主要代码</h3>
-<div class="outline-text-3" id="text-org5e6cf46">
+<div id="outline-container-orgce75d96" class="outline-3">
+<h3 id="orgce75d96">主要代码</h3>
+<div class="outline-text-3" id="text-orgce75d96">
 </div>
-<div id="outline-container-org950f5ce" class="outline-4">
-<h4 id="org950f5ce">Main.cs</h4>
-<div class="outline-text-4" id="text-org950f5ce">
+<div id="outline-container-org581897a" class="outline-4">
+<h4 id="org581897a">Main.cs</h4>
+<div class="outline-text-4" id="text-org581897a">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private void Main_Load(object sender, EventArgs e)
 {
@@ -1220,9 +1214,9 @@ private void ApplyChanged_Click(object sender, EventArgs e)
 </div>
 </div>
 </div>
-<div id="outline-container-org6c8965f" class="outline-4">
-<h4 id="org6c8965f">VehicleIO.cs</h4>
-<div class="outline-text-4" id="text-org6c8965f">
+<div id="outline-container-org0ec1cf1" class="outline-4">
+<h4 id="org0ec1cf1">VehicleIO.cs</h4>
+<div class="outline-text-4" id="text-org0ec1cf1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private string InStartRunTime=<span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
 private string InEndRunTime = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
@@ -1343,9 +1337,9 @@ private void working()
 </div>
 </div>
 </div>
-<div id="outline-container-org9b03e47" class="outline-4">
-<h4 id="org9b03e47">其他</h4>
-<div class="outline-text-4" id="text-org9b03e47">
+<div id="outline-container-org6d1114e" class="outline-4">
+<h4 id="org6d1114e">其他</h4>
+<div class="outline-text-4" id="text-org6d1114e">
 <p>
 //显示实时时间
 </p>
@@ -1404,12 +1398,13 @@ private string getRandom(int min_value, int max_value, int number)
 </div>
 </div>
 </div>
-<div id="outline-container-org64c0348" class="outline-2">
-<h2 id="org64c0348">参考资料</h2>
-<div class="outline-text-2" id="text-org64c0348">
+<div id="outline-container-org01f977a" class="outline-2">
+<h2 id="org01f977a">参考资料</h2>
+<div class="outline-text-2" id="text-org01f977a">
 <pre class="example">
 http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
   
+
 </pre>
 </div>
 </div>
@@ -1473,8 +1468,8 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/algorithms/2015/05/12/project-euler/" rel="prev" title="Project Euler">
-                Project Euler <i class="fa fa-chevron-right"></i>
+              <a href="/php/2015/04/12/php-page/" rel="prev" title="PHP 简单分页实现">
+                PHP 简单分页实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1552,7 +1547,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1563,7 +1558,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1574,7 +1569,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1667,7 +1662,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgeb01528"> <span class="nav-number">1</span> <span class="nav-text">线程入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb579eda"> <span class="nav-number">1.1</span> <span class="nav-text">创建线程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org27f879e"> <span class="nav-number">1.2</span> <span class="nav-text">Thread类几个重要方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org24a8dd8"> <span class="nav-number">1.3</span> <span class="nav-text">Thread.ThreadState属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org91f9179"> <span class="nav-number">1.4</span> <span class="nav-text">设定线程优先级</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org04a14a3"> <span class="nav-number">2</span> <span class="nav-text">线程的同步和通讯——生产者和消费者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaca51ad"> <span class="nav-number">2.1</span> <span class="nav-text">lock关键字</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7a8ad2e"> <span class="nav-number">2.2</span> <span class="nav-text">Monitor类(System.Threading)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org75baba4"> <span class="nav-number">2.2.1</span> <span class="nav-text">Monitor.Wait()和Monitor.Pulse()</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd554567"> <span class="nav-number">3</span> <span class="nav-text">实例：开辟一线程实现异步导出Excel</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2e9d0c7"> <span class="nav-number">3.1</span> <span class="nav-text">环境介绍及实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5a46c29"> <span class="nav-number">3.2</span> <span class="nav-text">实现思路及准备工作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1cef316"> <span class="nav-number">3.3</span> <span class="nav-text">实例代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfcdf400"> <span class="nav-number">3.3.1</span> <span class="nav-text">UserController.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86e469e"> <span class="nav-number">3.3.2</span> <span class="nav-text">Global.asax.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org69eb04a"> <span class="nav-number">3.3.3</span> <span class="nav-text">DataExportPara.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org261fb7d"> <span class="nav-number">3.3.4</span> <span class="nav-text">DataExport.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org53913cc"> <span class="nav-number">3.3.5</span> <span class="nav-text">NPOIExcelHelper.cs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgad1fe43"> <span class="nav-number">3.4</span> <span class="nav-text">小结</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3d544bc"> <span class="nav-number">4</span> <span class="nav-text">实例：利用线程监听模拟车辆进出智能化停车场</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbfc00e8"> <span class="nav-number">4.1</span> <span class="nav-text">实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9c1e672"> <span class="nav-number">4.2</span> <span class="nav-text">实现效果</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5e6cf46"> <span class="nav-number">4.3</span> <span class="nav-text">主要代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org950f5ce"> <span class="nav-number">4.3.1</span> <span class="nav-text">Main.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6c8965f"> <span class="nav-number">4.3.2</span> <span class="nav-text">VehicleIO.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9b03e47"> <span class="nav-number">4.3.3</span> <span class="nav-text">其他</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org64c0348"> <span class="nav-number">5</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgae943ad"> <span class="nav-number">1</span> <span class="nav-text">线程入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c050f9"> <span class="nav-number">1.1</span> <span class="nav-text">创建线程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0db5049"> <span class="nav-number">1.2</span> <span class="nav-text">Thread类几个重要方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda640a4"> <span class="nav-number">1.3</span> <span class="nav-text">Thread.ThreadState属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c3b960"> <span class="nav-number">1.4</span> <span class="nav-text">设定线程优先级</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org39c0d35"> <span class="nav-number">2</span> <span class="nav-text">线程的同步和通讯——生产者和消费者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org51af398"> <span class="nav-number">2.1</span> <span class="nav-text">lock关键字</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d28bc2"> <span class="nav-number">2.2</span> <span class="nav-text">Monitor类(System.Threading)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd6cd66c"> <span class="nav-number">2.2.1</span> <span class="nav-text">Monitor.Wait()和Monitor.Pulse()</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga3b7876"> <span class="nav-number">3</span> <span class="nav-text">实例：开辟一线程实现异步导出Excel</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb847623"> <span class="nav-number">3.1</span> <span class="nav-text">环境介绍及实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7cd6bef"> <span class="nav-number">3.2</span> <span class="nav-text">实现思路及准备工作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgebd18e0"> <span class="nav-number">3.3</span> <span class="nav-text">实例代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org30a1c28"> <span class="nav-number">3.3.1</span> <span class="nav-text">UserController.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e93eca"> <span class="nav-number">3.3.2</span> <span class="nav-text">Global.asax.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4614c17"> <span class="nav-number">3.3.3</span> <span class="nav-text">DataExportPara.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2db0c90"> <span class="nav-number">3.3.4</span> <span class="nav-text">DataExport.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org794f782"> <span class="nav-number">3.3.5</span> <span class="nav-text">NPOIExcelHelper.cs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9986c35"> <span class="nav-number">3.4</span> <span class="nav-text">小结</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org006f9b1"> <span class="nav-number">4</span> <span class="nav-text">实例：利用线程监听模拟车辆进出智能化停车场</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4376b79"> <span class="nav-number">4.1</span> <span class="nav-text">实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdccd6d6"> <span class="nav-number">4.2</span> <span class="nav-text">实现效果</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgce75d96"> <span class="nav-number">4.3</span> <span class="nav-text">主要代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org581897a"> <span class="nav-number">4.3.1</span> <span class="nav-text">Main.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ec1cf1"> <span class="nav-number">4.3.2</span> <span class="nav-text">VehicleIO.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6d1114e"> <span class="nav-number">4.3.3</span> <span class="nav-text">其他</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org01f977a"> <span class="nav-number">5</span> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             
@@ -1762,42 +1757,42 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 
 
   

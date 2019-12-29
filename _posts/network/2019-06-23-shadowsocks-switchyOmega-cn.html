@@ -23,13 +23,13 @@ photos:
 </p>
 </div>
 
-<div id="outline-container-orgf1f036e" class="outline-2">
-<h2 id="orgf1f036e">服务端</h2>
-<div class="outline-text-2" id="text-orgf1f036e">
+<div id="outline-container-org6cebaac" class="outline-2">
+<h2 id="org6cebaac"><span class="section-number-2">1</span> 服务端</h2>
+<div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org913bfed" class="outline-3">
-<h3 id="org913bfed">服务部署第一步</h3>
-<div class="outline-text-3" id="text-org913bfed">
+<div id="outline-container-orgdae77d7" class="outline-3">
+<h3 id="orgdae77d7"><span class="section-number-3">1.1</span> 服务部署第一步</h3>
+<div class="outline-text-3" id="text-1-1">
 <p>
 首先，购买一台境外云服务器
 </p>
@@ -40,9 +40,9 @@ photos:
 </ul>
 </div>
 </div>
-<div id="outline-container-org32d2614" class="outline-3">
-<h3 id="org32d2614">安装和配置 Shadowsocks</h3>
-<div class="outline-text-3" id="text-org32d2614">
+<div id="outline-container-orgd3325fa" class="outline-3">
+<h3 id="orgd3325fa"><span class="section-number-3">1.2</span> 安装和配置 Shadowsocks</h3>
+<div class="outline-text-3" id="text-1-2">
 <ol class="org-ol">
 <li><p>
 安装 pip
@@ -50,21 +50,15 @@ photos:
 <pre class="example">
 // CentOS
 # yum install python-pip
-</pre>
 
+</pre>
 <p>
 或者:
 </p>
 <pre class="example">
 # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 # python get-pip.py
-</pre>
 
-<p>
-更新:
-</p>
-<pre class="example">
-# pip install --upgrade pip
 </pre></li>
 <li><p>
 安装及配置 shadowsocks
@@ -72,30 +66,22 @@ photos:
 <pre class="example">
 // 使用 pip 安装 shadowsocks
 # pip install shadowsocks
+
 </pre>
 
-
-<p>
-<b>自动安装脚本</b>
-</p>
 <pre class="example">
-$ vim install-shadowsocks.sh, content of file from 
-</pre>
+// 也可以选择自动安装脚本
 
+</pre>
 <p>
 <a href="https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh">install-shadowsocks.sh</a>
 </p>
-<pre class="example">
-# chmod +x install-shadowsocks.sh
-# ./install-shadowsocks.sh
-</pre>
-
 
 <pre class="example">
 // 配置 shadowsocks
 # vim /etc/shadowsocks.json
-</pre>
 
+</pre>
 <div class="org-src-container">
 <pre class="src src-shell">{
   <span style="color: #8b2252;">"server"</span>: <span style="color: #8b2252;">"123.123.123.123"</span>,
@@ -105,34 +91,34 @@ $ vim install-shadowsocks.sh, content of file from
   <span style="color: #8b2252;">"port_password"</span>:{
           <span style="color: #8b2252;">"9001"</span>:<span style="color: #8b2252;">"password9001"</span>,
           <span style="color: #8b2252;">"9002"</span>:<span style="color: #8b2252;">"password9002"</span>,
-          <span style="color: #8b2252;">"9003"</span>:<span style="color: #8b2252;">"password9003"</span>,
+          <span style="color: #8b2252;">"9003"</span>:<span style="color: #8b2252;">"password9003"</span>
      },
   <span style="color: #8b2252;">"password"</span>: <span style="color: #8b2252;">"password"</span>,
   <span style="color: #8b2252;">"method"</span>: <span style="color: #8b2252;">"aes-256-cfb"</span>,
   <span style="color: #8b2252;">"timeout"</span>:600
-  }
+}
 </pre>
 </div>
-<p>
-解释: 
-</p>
-<dl class="org-dl">
-<dt>"server": "123.123.123.123"</dt><dd>服务器 IP 地址</dd>
-<dt>"server_port": 8388</dt><dd>服务器端口号</dd>
-<dt>"local_address":"127.0.0.1"</dt><dd>本地回环地址</dd>
-<dt>"local_port":1080,</dt><dd>本地端口号</dd>
-<dt>"port_password"</dt><dd>映射端口和密码</dd>
-<dt>"password": "password"</dt><dd>密码</dd>
-<dt>"method": "aes-256-cfb"</dt><dd>加密方式，详细可参考 <a href="http://ucdok.com/project/generate_password.html">password tool</a></dd>
-<dt>"timeout":600</dt><dd>超时时间</dd>
-</dl></li>
+<div class="org-src-container">
+<pre class="src src-txt">解释: 
+- "server": "123.123.123.123" :: 服务器 IP 地址
+- "server_port": 8388 :: 服务器端口号
+- "local_address":"127.0.0.1" :: 本地回环地址
+- "local_port":1080, :: 本地端口号
+- "port_password" :: 映射端口和密码
+- "password": "password" :: 密码
+- "method": "aes-256-cfb" :: 加密方式，详细可参考 [[http://ucdok.com/project/generate_password.html][password tool]]
+- "timeout":600 :: 超时时间
+</pre>
+</div></li>
+
 <li><p>
 配置自启动脚本
 </p>
 <pre class="example">
 # vim /etc/systemd/system/shadowsocks.service
-</pre>
 
+</pre>
 <div class="org-src-container">
 <pre class="src src-shell">[Unit]
 <span style="color: #a0522d;">Description</span>=Shadowsocks
@@ -152,14 +138,15 @@ $ vim install-shadowsocks.sh, content of file from
 # systemctl enable shadowsocks
 # systemctl start shadowsocks
 # systemctl status shadowsocks -l
+
 </pre></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-org13d8788" class="outline-2">
-<h2 id="org13d8788">客户端</h2>
-<div class="outline-text-2" id="text-org13d8788">
+<div id="outline-container-org7679133" class="outline-2">
+<h2 id="org7679133"><span class="section-number-2">2</span> 客户端</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 目前支持以下客户端进行连接：
 </p>
@@ -171,13 +158,13 @@ $ vim install-shadowsocks.sh, content of file from
 <li>IOS</li>
 </ul>
 </div>
-<div id="outline-container-orgb1026b0" class="outline-3">
-<h3 id="orgb1026b0">Linux</h3>
-<div class="outline-text-3" id="text-orgb1026b0">
+<div id="outline-container-org2cd4d24" class="outline-3">
+<h3 id="org2cd4d24"><span class="section-number-3">2.1</span> Linux</h3>
+<div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orga469c39" class="outline-4">
-<h4 id="orga469c39">安装、配置和使用 Linux Shadowsocks 客户端</h4>
-<div class="outline-text-4" id="text-orga469c39">
+<div id="outline-container-org4897bb9" class="outline-4">
+<h4 id="org4897bb9"><span class="section-number-4">2.1.1</span> 安装、配置和使用 Linux Shadowsocks 客户端</h4>
+<div class="outline-text-4" id="text-2-1-1">
 <ol class="org-ol">
 <li><p>
 Linux 系列
@@ -189,14 +176,15 @@ Debian/Ubuntu:
 <pre class="example">
 $ sudo apt-get install python-pip
 $ sudo pip install shadowsocks
+
 </pre></li>
 <li><p>
 Fedora/Centos:
 </p>
 <pre class="example">
 $ sudo yum install python-setuptools
-</pre>
 
+</pre>
 <p>
 or
 </p>
@@ -204,6 +192,7 @@ or
 $ sudo dnf install python-setuptools
 $ sudo easy_install pip
 $ sudo pip install shadowsocks
+
 </pre></li>
 <li><p>
 OpenSUSE:
@@ -211,6 +200,7 @@ OpenSUSE:
 <pre class="example">
 $ sudo zypper install python-pip
 $ sudo pip install shadowsocks
+
 </pre></li>
 <li><p>
 Archlinux:
@@ -218,6 +208,7 @@ Archlinux:
 <pre class="example">
 $ sudo pacman -S python-pip
 sudo pip install shadowsocks
+
 </pre></li>
 </ul>
 <p>
@@ -225,8 +216,8 @@ sslocal 是客户端软件，ssserver 是服务端软件，常见于 Linux 发�
 </p>
 <pre class="example">
 $ whereis sslocal
-</pre>
 
+</pre>
 <p>
 sslocal: /usr/local/bin/sslocal
 </p></li>
@@ -248,20 +239,21 @@ sslocal: /usr/local/bin/sslocal
 <pre class="example">
 // 启动
 $ sudo sslocal -c /etc/shadowsocks.json
-</pre>
 
+</pre>
 
 <pre class="example">
 // 后台运行
 $ sudo sslocal -c /etc/shadowsocks.json -d start
+
 </pre></li>
 <li><p>
 /etc/rc.local
 </p>
 <pre class="example">
 $ sudo vim /etc/rc.local
-</pre>
 
+</pre>
 <div class="org-src-container">
 <pre class="src src-shell">sudo sslocal -c /etc/shadowsocks.json -d start
 </pre>
@@ -270,13 +262,14 @@ $ sudo vim /etc/rc.local
 <pre class="example">
 // 检查是否正常工作
 # sudo systemctl status rc-local.service
+
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgffd06a9" class="outline-4">
-<h4 id="orgffd06a9">开启全局代理</h4>
-<div class="outline-text-4" id="text-orgffd06a9">
+<div id="outline-container-org8d0ac85" class="outline-4">
+<h4 id="org8d0ac85"><span class="section-number-4">2.1.2</span> 开启全局代理</h4>
+<div class="outline-text-4" id="text-2-1-2">
 <ol class="org-ol">
 <li><p>
 安装及配置 polipo
@@ -284,19 +277,19 @@ $ sudo vim /etc/rc.local
 <pre class="example">
 $ sudo apt install polipo
 $ sudo vim /etc/polipo/config
-</pre>
 
+</pre>
 <div class="org-src-container">
-<pre class="src src-shell" id="orged33c5c">logSyslog = true
-logFile = /var/log/polipo/polipo.log
-proxyAddress = <span style="color: #8b2252;">"0.0.0.0"</span>
-socksParentProxy = <span style="color: #8b2252;">"127.0.0.1:1080"</span>
-socksProxyType = socks5
-chunkHighMark = 50331648
-objectHighMark = 16384
-serverMaxSlots = 64
-serverSlots = 16
-serverSlots1 = 32
+<pre class="src src-shell" id="org4104971"><span style="color: #a0522d;">logSyslog</span> = true
+<span style="color: #a0522d;">logFile</span> = /var/log/polipo/polipo.log
+<span style="color: #a0522d;">proxyAddress</span> = <span style="color: #8b2252;">"0.0.0.0"</span>
+<span style="color: #a0522d;">socksParentProxy</span> = <span style="color: #8b2252;">"127.0.0.1:1080"</span>
+<span style="color: #a0522d;">socksProxyType</span> = socks5
+<span style="color: #a0522d;">chunkHighMark</span> = 50331648
+<span style="color: #a0522d;">objectHighMark</span> = 16384
+<span style="color: #a0522d;">serverMaxSlots</span> = 64
+<span style="color: #a0522d;">serverSlots</span> = 16
+<span style="color: #a0522d;">serverSlots1</span> = 32
 </pre>
 </div></li>
 <li><p>
@@ -304,6 +297,7 @@ serverSlots1 = 32
 </p>
 <pre class="example">
 $ sudo systemctl restart polipo
+
 </pre></li>
 <li><p>
 设置全局变量 http_proxy and https_proxy
@@ -311,19 +305,21 @@ $ sudo systemctl restart polipo
 <pre class="example">
 $ export http_proxy="http://127.0.0.1:8123/"
 $ export https_proxy="https://127.0.0.1:8123/"
+
 </pre></li>
 <li><p>
 测试
 </p>
 <pre class="example">
 $ curl www.google.com
+
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orgd9b524f" class="outline-4">
-<h4 id="orgd9b524f">问题解决</h4>
-<div class="outline-text-4" id="text-orgd9b524f">
+<div id="outline-container-orgfb11996" class="outline-4">
+<h4 id="orgfb11996"><span class="section-number-4">2.1.3</span> 问题解决</h4>
+<div class="outline-text-4" id="text-2-1-3">
 <ol class="org-ol">
 <li><p>
 ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
@@ -331,17 +327,17 @@ ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
 </p>
 <pre class="example">
 openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
-</pre>
 
+</pre>
 <p>
 [解决办法]
 </p>
 <pre class="example">
 $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
-</pre>
 
+</pre>
 <div class="org-src-container">
-<pre class="src src-python" id="orgaa0b293">VIM Command&#65306;
+<pre class="src src-python" id="org8170318">VIM Command&#65306;
 :%s/cleanup/reset/
 :x
 </pre>
@@ -362,26 +358,27 @@ $ sudo echo "/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/lib64" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/local/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo ldconfig
+
 </pre></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-org56deb45" class="outline-3">
-<h3 id="org56deb45">Windows</h3>
-<div class="outline-text-3" id="text-org56deb45">
+<div id="outline-container-orga1498ee" class="outline-3">
+<h3 id="orga1498ee"><span class="section-number-3">2.2</span> Windows</h3>
+<div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org8ec7fd6" class="outline-4">
-<h4 id="org8ec7fd6">下载</h4>
-<div class="outline-text-4" id="text-org8ec7fd6">
+<div id="outline-container-org51eb322" class="outline-4">
+<h4 id="org51eb322"><span class="section-number-4">2.2.1</span> 下载</h4>
+<div class="outline-text-4" id="text-2-2-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Windows Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-org63bce0c" class="outline-4">
-<h4 id="org63bce0c">配置</h4>
-<div class="outline-text-4" id="text-org63bce0c">
+<div id="outline-container-org2c698ec" class="outline-4">
+<h4 id="org2c698ec"><span class="section-number-4">2.2.2</span> 配置</h4>
+<div class="outline-text-4" id="text-2-2-2">
 <ol class="org-ol">
 <li>解压
 <img src="{{site.url}}/assets/images/shadowsocks-20170123111438.png" alt="shadowsocks-20170123111438.png" /></li>
@@ -395,21 +392,21 @@ $ sudo ldconfig
 </div>
 </div>
 </div>
-<div id="outline-container-org9c4c187" class="outline-3">
-<h3 id="org9c4c187">Android</h3>
-<div class="outline-text-3" id="text-org9c4c187">
+<div id="outline-container-orgaaad34a" class="outline-3">
+<h3 id="orgaaad34a"><span class="section-number-3">2.3</span> Android</h3>
+<div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-orgb35f1d2" class="outline-4">
-<h4 id="orgb35f1d2">下载</h4>
-<div class="outline-text-4" id="text-orgb35f1d2">
+<div id="outline-container-orge859a7b" class="outline-4">
+<h4 id="orge859a7b"><span class="section-number-4">2.3.1</span> 下载</h4>
+<div class="outline-text-4" id="text-2-3-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Android Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-orga08b5d9" class="outline-4">
-<h4 id="orga08b5d9">配置</h4>
-<div class="outline-text-4" id="text-orga08b5d9">
+<div id="outline-container-org3d30a45" class="outline-4">
+<h4 id="org3d30a45"><span class="section-number-4">2.3.2</span> 配置</h4>
+<div class="outline-text-4" id="text-2-3-2">
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/shadowsocks-20170123141118.png" alt="shadowsocks-20170123141118.png" />
@@ -418,9 +415,9 @@ $ sudo ldconfig
 </div>
 </div>
 </div>
-<div id="outline-container-orgf0c354a" class="outline-3">
-<h3 id="orgf0c354a">IOS</h3>
-<div class="outline-text-3" id="text-orgf0c354a">
+<div id="outline-container-org0c77f22" class="outline-3">
+<h3 id="org0c77f22"><span class="section-number-3">2.4</span> IOS</h3>
+<div class="outline-text-3" id="text-2-4">
 <ol class="org-ol">
 <li>打开 Apple 应用市场, 搜索 "shadowrocket"。我记得不错的话，标价应该是：￥12</li>
 <li>配置
@@ -429,33 +426,33 @@ $ sudo ldconfig
 </ol>
 </div>
 </div>
-<div id="outline-container-org5f09ee3" class="outline-3">
-<h3 id="org5f09ee3">Mac OS X</h3>
-<div class="outline-text-3" id="text-org5f09ee3">
+<div id="outline-container-org2d93777" class="outline-3">
+<h3 id="org2d93777"><span class="section-number-3">2.5</span> Mac OS X</h3>
+<div class="outline-text-3" id="text-2-5">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Mac OS X Shadowsocks 客户端。
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb46938a" class="outline-2">
-<h2 id="orgb46938a">浏览器插件：SwitchyOmega</h2>
-<div class="outline-text-2" id="text-orgb46938a">
+<div id="outline-container-orgbcd70d5" class="outline-2">
+<h2 id="orgbcd70d5"><span class="section-number-2">3</span> 浏览器插件：SwitchyOmega</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 该插件用于调节代理，方便快速切换代理上网模式。根据目前使用经验，Linux 必装，Windows 可选。
 </p>
 </div>
-<div id="outline-container-orgccec4af" class="outline-3">
-<h3 id="orgccec4af">下载</h3>
-<div class="outline-text-3" id="text-orgccec4af">
+<div id="outline-container-org26e2bb0" class="outline-3">
+<h3 id="org26e2bb0"><span class="section-number-3">3.1</span> 下载</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Mac OS X Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-org2a9768e" class="outline-3">
-<h3 id="org2a9768e">配置</h3>
-<div class="outline-text-3" id="text-org2a9768e">
+<div id="outline-container-orgd3a294f" class="outline-3">
+<h3 id="orgd3a294f"><span class="section-number-3">3.2</span> 配置</h3>
+<div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
 <li>设置代理
 <img src="{{site.url}}/assets/images/switchyomega-01.png" alt="switchyomega-01.png" /></li>
@@ -466,21 +463,22 @@ $ sudo ldconfig
 </p>
 <pre class="example">
 rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
-</pre>
 
+</pre>
 <p>
 or
 </p>
 <pre class="example">
 https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+
 </pre></li>
 </ol>
 </div>
 </div>
 </div>
-<div id="outline-container-orge224820" class="outline-2">
-<h2 id="orge224820">参考资料</h2>
-<div class="outline-text-2" id="text-orge224820">
+<div id="outline-container-orgdd59930" class="outline-2">
+<h2 id="orgdd59930"><span class="section-number-2">4</span> 参考资料</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="https://zh.wikipedia.org/zh-hans/Shadowsocks">https://zh.wikipedia.org/zh-hans/Shadowsocks</a></li>
 <li><a href="https://shadowsocks.com">https://shadowsocks.com</a></li>

@@ -47,7 +47,7 @@
 
   
   
-  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -78,7 +78,7 @@
 
 
 
-<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
 <link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
@@ -495,20 +495,6 @@
 
       
         
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-
   <h1 id="docker简介">Docker简介</h1>
 <h2 id="什么是-docker">什么是 Docker？</h2>
 <p>Docker 是个划时代的开源项目，它彻底释放了计算虚拟化的威力，极大提高了应用的维护效率，降低了云计算应用开发的成本！使用 Docker，可以让应用的部署、测试和分发都变得前所未有的高效和轻松！
@@ -683,7 +669,7 @@ $ sudo rm -rf /var/lib/docker</li>
   <li>Create an empty directory on your local machine. Change directories (cd) into the new directory, create a file called Dockerfile
     <blockquote>
       <p>$ vim Dockerfile</p>
-      <div class="language-shell highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14</pre></td><td class="code"><pre class="highlight"><code><span class="c"># Use an official Python runtime as a parent image</span>
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Use an official Python runtime as a parent image</span>
 FROM python:3.7-slim
 <span class="c"># Set the working directory to /app</span>
 WORKDIR /app
@@ -697,15 +683,15 @@ EXPOSE 80
 ENV NAME World
 <span class="c"># Run app.py when the container launches</span>
 CMD <span class="o">[</span><span class="s2">"python"</span>, <span class="s2">"app.py"</span><span class="o">]</span>
-</code></pre></td></tr></tbody></table></div>      </div>
+</code></pre></div>      </div>
     </blockquote>
   </li>
   <li>Create two more files, requirements.txt and app.py
     <blockquote>
       <p>$ vim requirements.txt</p>
-      <div class="language-shell highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code>Flask
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask
 Redis
-</code></pre></td></tr></tbody></table></div>      </div>
+</code></pre></div>      </div>
       <p>$ vim app.py
 ```shell
 from flask import Flask
@@ -728,15 +714,15 @@ def hello():
     except RedisError:
         visits = “<i>cannot connect to Redis, counter disabled</i>”</p>
 
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4</pre></td><td class="code"><pre class="highlight"><code>html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
        "&lt;b&gt;Hostname:&lt;/b&gt; {hostname}&lt;br/&gt;" \
        "&lt;b&gt;Visits:&lt;/b&gt; {visits}"
 return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 
 <p>if <strong>name</strong> == “<strong>main</strong>”:
     app.run(host=’0.0.0.0’, port=80)</p>
-<div class="highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>3. Installs the Flask and Redis libraries for Python
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3. Installs the Flask and Redis libraries for Python
 &gt; $ sudo pip install -r requirements.txt
 4. Build the app
 &gt; $ ls
@@ -751,15 +737,15 @@ return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(
 # Set proxy server, replace host:port with values for your servers
 ENV http_proxy host:port
 ENV https_proxy host:port
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 <ol>
   <li>DNS settings
-    <div class="language-shell highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="c"># DNS settings</span>
+    <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># DNS settings</span>
 <span class="c"># DNS misconfigurations can generate problems with pip. You need to set your own DNS server address to make pip work properly. You might want to change the DNS settings of the Docker daemon. You can edit (or create) the configuration file at /etc/docker/daemon.json with the dns key, as following:</span>
 <span class="o">{</span>
   <span class="s2">"dns"</span>: <span class="o">[</span><span class="s2">"your_dns_address"</span>, <span class="s2">"8.8.8.8"</span><span class="o">]</span>
 <span class="o">}</span>
-</code></pre></td></tr></tbody></table></div>    </div>
+</code></pre></div>    </div>
   </li>
   <li>Before proceeding, save daemon.json and restart the docker service.
     <blockquote>
@@ -807,7 +793,7 @@ $ sudo docker run -p 4000:80 gordon/get-started:part2</p>
 </ol>
 
 <h3 id="recap-and-cheat-sheetoptional">Recap and cheat sheet(optional)</h3>
-<div class="language-shell highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15</pre></td><td class="code"><pre class="highlight"><code>docker build <span class="nt">-t</span> friendlyhello <span class="nb">.</span>  <span class="c"># Create image using this directory's Dockerfile</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> friendlyhello <span class="nb">.</span>  <span class="c"># Create image using this directory's Dockerfile</span>
 docker run <span class="nt">-p</span> 4000:80 friendlyhello  <span class="c"># Run "friendlyhello" mapping port 4000 to 80</span>
 docker run <span class="nt">-d</span> <span class="nt">-p</span> 4000:80 friendlyhello         <span class="c"># Same thing, but in detached mode</span>
 docker container <span class="nb">ls</span>                                <span class="c"># List all running containers</span>
@@ -822,7 +808,7 @@ docker image rm <span class="k">$(</span>docker image <span class="nb">ls</span>
 docker login             <span class="c"># Log in this CLI session using your Docker credentials</span>
 docker tag &lt;image&gt; username/repository:tag  <span class="c"># Tag &lt;image&gt; for upload to registry</span>
 docker run username/repository:tag                   <span class="c"># Run image from a registry</span>
-</code></pre></td></tr></tbody></table></div></div>
+</code></pre></div></div>
 
 <h1 id="references">References</h1>
 <ul>
@@ -965,7 +951,7 @@ docker run username/repository:tag                   <span class="c"># Run image
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -976,7 +962,7 @@ docker run username/repository:tag                   <span class="c"># Run image
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -987,7 +973,7 @@ docker run username/repository:tag                   <span class="c"># Run image
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1175,42 +1161,42 @@ docker run username/repository:tag                   <span class="c"># Run image
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
   
   
   
   
   
-  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 
 
   
