@@ -32,7 +32,7 @@ photos:
 本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linu”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
 # (setq org-export-html-style nil)
 
-* 前言(Preface)
+* Preface
   欢迎阅读本册子，和其他大全图书不一样，本册子以实践的方式介绍 Linux 基础、Linux 服务架构和 Linux 实用技巧，涵盖了详尽的动手教程和实践信息，还提供了与内容相关的参考资料。本册子可以作为 Linux 的操作参考工具书。作者会持续更新与完善内容，血不流干，死不休战。
 ** 读者对象
    - Linux 系统管理员 ::
@@ -77,7 +77,7 @@ photos:
    关于这个问题，可以参考一下两个链接，或许能让你收获点什么！
    - [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
    - [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]] 
-* 开始(Get Started)
+* Get Started
 ** 安装(Installation)
 *** 安装过程
     1. 安装准备
@@ -587,8 +587,8 @@ photos:
     9. type
        \\
        查看命令类型(Display information about command type)
-* Linux 文件、目录与磁盘格式
-** Linux 文件权限
+* Linux File, Directory, and Disk format
+** Linux File Permission
 *** 理解文件权限
     1. 使用文件权限符
        : $ ls -lh
@@ -609,7 +609,7 @@ photos:
     2. 默认文件权限
        \\
        umask 命令用来设置所创建文件和目录的默认权限。
-*** 共享文件
+*** Share File
     Linux 为每个文件和目录存储了3个额外的信息位。
     - 设置用户ID（SUID）
     - 设置组ID（GID）
@@ -632,11 +632,11 @@ photos:
     : $ umask 002
     : $ cd testdir
     : $ touch testfile
-** Linux 目录结构
-   #+CAPTION:Linux 目录结构
+** Linux Directory
+   #+CAPTION:Linux Directory
    #+ALTR_HTML: :alt cat/spider image :align center
    [[file:{{site.url}}/assets/images/cs2.png]]
-** Linux 文件搜索
+** Linux File Search
 *** find 命令
     : find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
     *示例*
@@ -758,8 +758,8 @@ photos:
 
     : // 去掉# 注释行
     : $ grep -v ^# config.txt
-** Linux 文件压缩与打包
-   #+CAPTION: 文件解压缩大全
+** Linux Compression and Packaging
+   #+CAPTION: File unzip
    #+ALTR_HTML: :alt cat/spider image :title :align center
    [[file:{{site.url}}/assets/images/tar.png]]
 
@@ -773,7 +773,7 @@ photos:
    : //解压到指定目录
    
    : $ unzip name.zip -d ./dir
-** Linux 磁盘与文件系统
+** Linux Disk and File System
 *** 格式化分区命令
     将 /dev/sda7 硬盘格式化为 ext3 格式。
     : $ mkfs -t ext3 -c /dev/sda7
@@ -836,8 +836,8 @@ photos:
       + 描述
 	: 配置网络
       + 实践
-* Shell Scripts
-** 学习 Shell 准备
+* Shell Scripts Programming
+** Learning Shell
 *** 学习 Shell 的疑惑
     - 如何启动命令行以及接下来做什么？
     - 如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？
@@ -925,7 +925,7 @@ photos:
 	       : $ type -a pwd
 	       : pwd is a shell builtin
 	       : pwd is /bin/pwd 
-** Shell 基础
+** Shell Basic
 *** 第一个 shell 程序：Hello World!
     1. 首先，新建并编辑一个名为 hello.sh 的文件
        : $ vim hello.sh
@@ -1429,7 +1429,7 @@ photos:
        : Hello, World
        : $ echo $?
        : 5
-** Shell 编程(Programming)
+** Shell Programming
 *** 正则表达式
     #+CAPTION: 正则表达式的基本组成部分
     | 正则表达式 | 描述                                          | 示例                                                        |
@@ -1955,9 +1955,9 @@ photos:
     tail -n +10 old_file>new_file
     mv new_file old_file
     #+END_SRC
-* Linux 进阶篇
-** Linux 帐号管理
-*** Linux 账户
+* Linux Advanced
+** Linux User
+*** Linux User
     1. /etc/passwd
        : $ cat /etc/passwd
        #+NAME:/etc/passwd
@@ -2036,7 +2036,7 @@ photos:
        + -l 暂时锁定用户。仅root用户可用。
        + -u 解锁用户。仅root用户可用。
        + --stdin 通过管道符输出的数据作为用户的密码。
-*** Linux 群组
+*** Linux Group
     1. /etc/group
        : /etc/group文件有4个字段：
        - 组名
@@ -2061,7 +2061,7 @@ photos:
     4. 加入组和从组里删除
        : $ sudo gpasswd -a test tests
        : $ sudo gpasswd -d test tests
-** Linux 权限管理
+** Linux Access Control
 *** Linux 细部权限规划：ACL 权限控制
     1. 什么是 ACL？
        \\
@@ -2171,8 +2171,8 @@ photos:
        + 选项
 	 + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
 	 + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
-** Linux 服务管理
-** Linux 系统管理
+** Linux Server
+** Linux System Resource
 *** 进程管理
     1. 常见进程管理命令
        + top
@@ -2589,10 +2589,10 @@ photos:
        + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
        + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
        + [[https://wiki.debian.org/iptables][iptables debian wiki]]
-** Linux 日志管理
-** Linux 启动管理
-** Linux 备份与恢复
-** Linux 软件安装
+** Linux Logs
+** Linux Start
+** Linux Backup and Restore
+** Linux Software
 *** 在服务器上启用HTTPS
     - 创建一个 2048 位 RSA 公钥/私钥对。
     - 生成一个嵌入您的公钥的证书签名请求 (CSR)
@@ -3101,7 +3101,7 @@ photos:
        : Shift+Prt Scrn to take a screenshot of an area you select.
     2. 参考资料(References)
        + [[https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en][Screenshots and screencasts]]
-* 常见问题(Problem)
+* Problem
 ** 命令行下不能输入中文标点符号
    : 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
 ** 不能在 Sublime 编辑器（Editor）中输入中文

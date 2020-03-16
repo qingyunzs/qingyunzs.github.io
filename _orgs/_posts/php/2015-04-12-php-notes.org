@@ -1,0 +1,1316 @@
+#+TITLE:     PHP Notes
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: PHP Notes
+author: zrg
+comments: false
+description: PHP
+categories:
+- php
+tags:
+- PHP-Pages
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+如果你有任何问题或疑问，请发送Email至zrg1390556487@gmail.com！
+# (setq org-export-html-style nil)
+
+* PHP 入门
+** PHP 概述
+** PHP 环境搭建和开发工具
+** PHP 语言基础
+*** 格式风格
+*** 注释
+*** 数据类型
+*** 常量
+*** 变量
+*** 运算符
+*** 表达式
+*** 函数
+*** 编码规范
+*** 流程控制语句
+** PHP 基础知识点
+*** require vs include vs require_once vs include_once
+ 1. require vs include 处理失败的方式不同：include 产生一个 Warning，继续运行；而 require 导致一个 Fatal Error。
+ 2. require vs require_once or include vs include_once 后者会判断是否已经引用过指定文件，如果引用过就不再引用。这样做的好处是节省资源和避免重复定义的错误。
+ 注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
+* 字符串操作
+** 在字符串指定位置插入字符串
+   #+BEGIN_SRC php
+     function str_insert($str,$i,$subStr){
+	 for($j=0;$j<$i;$j++){
+	 $startStr .=$str[$j];
+	 }
+	 for($j=$i;$j<strlen($str);$j++){
+	 $lastStr .= $str[$j];
+	 }
+	 $newStr = $startStr.$subStr.$lastStr;
+	 return $newStr;
+     }
+   #+END_SRC
+** 数值中去除无效的0
+   #+BEGIN_SRC php
+     /**
+      ,* 去除多余的0
+      ,*/
+     function del0($s)
+     {
+	 $s = trim(strval($s));
+	 if (preg_match('#^-?\d+?\.0+$#', $s)) {
+	     return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);
+	 }
+	 if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
+	     return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);
+	 }
+	 return $s;
+     }
+   #+END_SRC
+** PHP 生成UUID我唯一序列
+   #+BEGIN_SRC php
+     function uuid($prefix ='')
+     {
+	 $chars = md5(uniqid(mt_rand(), true));
+	 $uuid = substr($chars,0,8) . '-';
+	 $uuid .= substr($chars,8,4) . '-';
+	 $uuid .= substr($chars,12,4) . '-';
+	 $uuid .= substr($chars,16,4) . '-';
+	 $uuid .= substr($chars,20,12);
+	 return $prefix . $uuid;
+     }
+
+     // 也可以使用SQL语句生成：
+     > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
+
+   #+END_SRC
+* 正则表达式
+* 数组操作
+** 向二位数组中添加键值对
+   #+BEGIN_SRC php
+     // 方法一
+     $tempArr=array();
+     foreach($arr as $key => $value){
+	 $value['new_key'] = $value['old_key1']+$value['old_key2'];
+	 $tempArr[] = $value;
+     }
+     // 方法二
+     foreach($arr as $key => $value){
+	 $arr[$key]['new_key'] = $value['old_key1']+$value['old_key2'];
+     }
+   #+END_SRC
+** 判断二维数组是否为空
+   #+BEGIN_SRC php
+     function array_is_null($arr = null){
+	 if(is_array($arr)){
+	     foreach($arr as $k=>$v){
+		 if($v&&!is_array($v)){
+		     return false;
+		 }
+		 $t = self::array_is_null($v);
+		 if(!$t){
+		     return false;
+		 }
+	     }
+	     return true;
+	 }elseif(!$arr){
+	     return true;
+	 }else{
+	     return false;
+	 }
+     }
+   #+END_SRC
+* 日期时间操作
+** 获取上个月第一天及最后一天
+   #+BEGIN_SRC php
+     echo date('Y-m-01', strtotime('-1 month'));
+     echo date('Y-m-t', strtotime('-1 month'));
+     // 上个月第一天,  计算出本月第一天再减一个月
+     echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
+     // 上个月最后一天,// 计算出本月第一天再减一天
+     echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 day'));
+   #+END_SRC
+** 获取当月第一天及最后一天
+   #+BEGIN_SRC php
+     $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+     echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
+   #+END_SRC
+** 获取当前年份、月份、日、天数
+   #+BEGIN_SRC php
+     echo " 本月共有:".date("t")."天";
+     echo " 当前年份".date('Y');
+     echo " 当前月份".date('m');
+     echo " 当前几号".date('d');
+   #+END_SRC
+** 日期转时间戳，时间戳转日期
+   #+BEGIN_SRC php
+     strtotime('2010-03-24 08:15:42');
+     date('Y-m-d H:i:s', 1156219870);
+   #+END_SRC
+** 计算已成为会员多少天或距离某活动还剩余多少天
+   #+BEGIN_SRC php
+     function get_days_calc($calcTime, $currentTime, $differOrSurplus){
+	 switch ($differOrSurplus) {
+	 case 1:
+	     return round(($currentTime-$calcTime)/3600/24);
+	     break;
+	 case 2:
+	     return round(($calcTime-$currentTime)/3600/24);
+	     break;
+	 default:
+	     return round(($currentTime-$calcTime)/3600/24);
+	     break;
+	 }
+     }
+   #+END_SRC
+* 文件操作
+** 下载文件
+   #+BEGIN_SRC php
+     header("Content-type:text/html;charset=utf-8");
+     /**
+      ,* 文件下载
+      ,* @param  [type] $file_url [绝对路径，如:$_SERVER['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]
+      ,* @param  [type] $new_name [指定文件名称]
+      ,* @return [type] [description]
+      ,*/
+     function downloadFile($file_url,$new_name=''){
+	 if(!isset($file_url)||trim($file_url) == ''){
+	 echo '500';
+	 }
+	 //检查文件是否存在
+	 if(!file_exists($file_url)){
+	 echo '404';
+	 }
+	 $file_name=basename($file_url);
+	 $file_type=explode('.',$file_url);
+	 $file_type=$file_type[count($file_type)-1];
+	 $file_name=trim($new_name=='')?$file_name:urlencode($new_name);
+	 $file_type=fopen($file_url,'r'); //打开文件
+	 //输入文件标签
+	 header("Content-type: application/octet-stream");
+	 header("Accept-Ranges: bytes");
+	 header("Accept-Length: ".filesize($file_url));
+	 header("Content-Disposition: attachment; filename=".$file_name);
+	 //输出文件内容
+	 echo fread($file_type,filesize($file_url));
+	 fclose($file_type);
+     }
+   #+END_SRC
+   *几点注意事项*
+  + header("Content-type:text/html;charset=utf-8")的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。
+  + 关于file_exists()函数不支持中文路径的问题:因为php函数比较早，不支持中文，所以如果被下载的文件名是中文的话，需要对其进行字符编码转换，否则file_exists()函数不能识别，可以使用iconv()函数进行编码转换。
+  + $file_sub_path() 我使用的是绝对路径，执行效率要比相对路径高。
+  + Header("Content-type: application/octet-stream")的作用：通过这句代码客户端浏览器就能知道服务端返回的文件形式。
+  + Header("Accept-Ranges: bytes")的作用：告诉客户端浏览器返回的文件大小是按照字节进行计算的。
+  + Header("Accept-Length:".$file_size)的作用：告诉浏览器返回的文件大小。
+  + Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。
+  + 以上四个Header()是必需的。
+  + fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区
+** 参考资料
+   [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
+   [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
+* 图形图像处理技术
+* PHP 加密技术
+* PHP 面向对象
+* 其他
+** 获取当前URL
+   #+BEGIN_SRC php
+     function getCurrentPageURL()
+     {
+	 $pageURL = 'http';
+	 if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
+	 {
+	     $pageURL .= "s";
+	 }
+	 $pageURL .= "://";
+	 if ($_SERVER["SERVER_PORT"] != "80")
+	 {
+	     $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+	 }
+	 else
+	 {
+	     $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+	 }
+	 return $pageURL;
+     }
+   #+END_SRC
+** curl 请求处理
+   #+BEGIN_SRC php
+     function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$response_header = false,$exec_time = 5,$connect_time = 5 )
+     {
+	 $method = strtoupper( $method );
+	 $ch = curl_init();
+	 // 设置请求url
+	 curl_setopt( $ch,CURLOPT_URL,$url );
+	 // 设置请求方法,默认执行GET请求，无需设置
+	 if( 'POST' == $method ){
+	     curl_setopt( $ch, CURLOPT_POST,1 );
+	 }elseif( 'GET' != $method ){
+	     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST,$method );
+	 }
+	 // 设置请求头
+	 if( null != $header && is_array($header) ){
+	     curl_setopt( $ch,CURLOPT_HTTPHEADER,array_map(function($field,$value){
+		 return $field . ':' . $value;
+	     }, array_keys($header), $header) );
+	 }
+	 // 设置请请求数据
+	 if( null != $req_data && 'GET' != $method ){
+	     if ( is_array($req_data) && !isset($req_data['isfile']) ){
+		 $req_data = http_build_query($req_data);
+	     }
+	     curl_setopt( $ch,CURLOPT_POSTFIELDS,$req_data );
+	 }
+	 //设置输出数据中包含http header
+	 curl_setopt( $ch, CURLOPT_HEADER,$response_header );
+	 // 将curl_exec()获取的信息以字符串返回，而不是直接输出
+	 curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true );
+	 // 允许 cURL 函数执行的最长秒数。
+	 curl_setopt( $ch,CURLOPT_TIMEOUT,$exec_time );
+	 //在尝试连接时等待的秒数。设置为0，则无限等待
+	 curl_setopt( $ch,CURLOPT_CONNECTTIMEOUT,$connect_time );
+	 // 执行curl请求
+	 $response = curl_exec($ch);
+	 //获取状态码
+	 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	 //关闭curl回话并释放资源
+	 curl_close($ch);
+	 //分离header与body
+	 if( $response_header ){
+	     $tmp         = explode("\r\n\r\n", $response);
+	     $resp_header = $tmp[0];
+	     $data        = $tmp[1];
+	 } else {
+	     $resp_header = null;
+	     $data        = $response;
+	 }
+	 $result['errcode'] = $status;
+	 $result['header']  = $resp_header;
+	 $result['data']    = $data;
+	 return $result;
+     }
+   #+END_SRC
+* PHP 交互
+** JavaScript 语言
+*** 了解 JavaScript
+*** JavaScript 语言基础
+** Cookie 与 Session
+** 同步和异步加载数据
+*** 同步
+   #+NAME: config.php
+   #+BEGIN_SRC emacs-lisp
+<?php
+$host="localhost";
+$db_user="root";
+$db_pass="root";
+$db_name="test";
+$timezone="Asia/Shanghai";
+
+$link=mysqli_connect($host,$db_user,$db_pass,$db_name);
+// mysql_select_db($db_name,$link);
+mysqli_query($link,"SET names UTF8");
+
+header("Content-Type: text/html; charset=utf-8");
+?>
+   #+END_SRC
+
+   #+NAME: index.php
+   #+BEGIN_SRC emacs-lisp
+<?php
+include_once("config.php");
+require_once('page.class.php'); //分页类
+
+$showrow = 10; //一页显示的行数
+$curpage = empty($_GET['page']) ? 1 : $_GET['page']; //当前的页,还应该处理非数字的情况
+$url = "?page={page}"; //分页地址，如果有检索条件 ="?page={page}&q=".$_GET['q']
+//省略了链接mysql的代码，测试时自行添加
+$sql = "SELECT id,content,addtime FROM wishing_wall";
+$total = mysqli_num_rows(mysqli_query($link,$sql)); //记录总条数
+if (!empty($_GET['page']) && $total != 0 && $curpage > ceil($total / $showrow))
+    $curpage = ceil($total_rows / $showrow); //当前页数大于最后页数，取最后一页
+//获取数据
+$sql .= " LIMIT " . ($curpage - 1) * $showrow . ",$showrow;";
+$query = mysqli_query($link,$sql);
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>演示：PHP简单漂亮的分页类</title>
+        <link rel="stylesheet" type="text/css" href="http://www.sucaihuo.com/jquery/css/common.css" />
+        <style type="text/css">
+            p{margin:0}
+            #page{
+                height:40px;
+                padding:20px 0px;
+            }
+            #page a{
+                display:block;
+                float:left;
+                margin-right:10px;
+                padding:2px 12px;
+                height:24px;
+                border:1px #cccccc solid;
+                background:#fff;
+                text-decoration:none;
+                color:#808080;
+                font-size:12px;
+                line-height:24px;
+            }
+            #page a:hover{
+                color:#077ee3;
+                border:1px #077ee3 solid;
+            }
+            #page a.cur{
+                border:none;
+                background:#077ee3;
+                color:#fff;
+            }
+            #page p{
+                float:left;
+                padding:2px 12px;
+                font-size:12px;
+                height:24px;
+                line-height:24px;
+                color:#bbb;
+                border:1px #ccc solid;
+                background:#fcfcfc;
+                margin-right:8px;
+
+            }
+            #page p.pageRemark{
+                border-style:none;
+                background:none;
+                margin-right:0px;
+                padding:4px 0px;
+                color:#666;
+            }
+            #page p.pageRemark b{
+                color:red;
+            }
+            #page p.pageEllipsis{
+                border-style:none;
+                background:none;
+                padding:4px 0px;
+                color:#808080;
+            }
+            .dates li {font-size: 14px;margin:20px 0}
+            .dates li span{float:right}
+        </style>
+    </head>
+    <body>
+        <div class="head">
+            <div class="head_inner clearfix">
+                <ul id="nav">
+                    <li><a href="http://www.sucaihuo.com">首 页</a></li>
+                    <li><a href="http://www.sucaihuo.com/templates">网站模板</a></li>
+                    <li><a href="http://www.sucaihuo.com/js">网页特效</a></li>
+                    <li><a href="http://www.sucaihuo.com/php">PHP</a></li>
+                    <li><a href="http://www.sucaihuo.com/site">精选网址</a></li>
+                </ul>
+                <a class="logo" href="http://www.sucaihuo.com"><img src="http://www.sucaihuo.com/Public/images/logo.jpg" alt="素材火logo" /></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="demo">
+                <div class="showData">
+
+                    <ul class="dates">
+                        <?php while ($row = mysqli_fetch_array($query)) { ?>
+                            <li>
+                                <span><?php echo $row['addtime'] ?></span>
+                                <a target="_blank" href="http://www.sucaihuo.com/js"><?php echo $row['content'] ?></a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                    <!--显示数据区-->
+                </div>
+                <div class="showPage">
+                    <?php
+                    if ($total > $showrow) {//总记录数大于每页显示数，显示分页
+                        $page = new page($total, $showrow, $curpage, $url, 2);
+                        echo $page->myde_write();
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+   #+END_SRC
+
+   #+NAME: page.class.php
+   #+BEGIN_SRC emacs-lisp
+<?php
+
+/* * *********************************************
+ * @类名:   page
+ * @参数:   $myde_total - 总记录数
+ *          $myde_size - 一页显示的记录数
+ *          $myde_page - 当前页
+ *          $myde_url - 获取当前的url
+ * @功能:   分页实现
+ * @作者:   宋海阁
+ */
+
+class page {
+
+    private $myde_total;          //总记录数
+    private $myde_size;           //一页显示的记录数
+    private $myde_page;           //当前页
+    private $myde_page_count;     //总页数
+    private $myde_i;              //起头页数
+    private $myde_en;             //结尾页数
+    private $myde_url;            //获取当前的url
+    /*
+     * $show_pages
+     * 页面显示的格式，显示链接的页数为2*$show_pages+1。
+     * 如$show_pages=2那么页面上显示就是[首页] [上页] 1 2 3 4 5 [下页] [尾页]
+     */
+    private $show_pages;
+
+    public function __construct($myde_total = 1, $myde_size = 1, $myde_page = 1, $myde_url, $show_pages = 2) {
+        $this->myde_total = $this->numeric($myde_total);
+        $this->myde_size = $this->numeric($myde_size);
+        $this->myde_page = $this->numeric($myde_page);
+        $this->myde_page_count = ceil($this->myde_total / $this->myde_size);
+        $this->myde_url = $myde_url;
+        if ($this->myde_total < 0)
+            $this->myde_total = 0;
+        if ($this->myde_page < 1)
+            $this->myde_page = 1;
+        if ($this->myde_page_count < 1)
+            $this->myde_page_count = 1;
+        if ($this->myde_page > $this->myde_page_count)
+            $this->myde_page = $this->myde_page_count;
+        $this->limit = ($this->myde_page - 1) * $this->myde_size;
+        $this->myde_i = $this->myde_page - $show_pages;
+        $this->myde_en = $this->myde_page + $show_pages;
+        if ($this->myde_i < 1) {
+            $this->myde_en = $this->myde_en + (1 - $this->myde_i);
+            $this->myde_i = 1;
+        }
+        if ($this->myde_en > $this->myde_page_count) {
+            $this->myde_i = $this->myde_i - ($this->myde_en - $this->myde_page_count);
+            $this->myde_en = $this->myde_page_count;
+        }
+        if ($this->myde_i < 1)
+            $this->myde_i = 1;
+    }
+
+    //检测是否为数字
+    private function numeric($num) {
+        if (strlen($num)) {
+            if (!preg_match("/^[0-9]+$/", $num)) {
+                $num = 1;
+            } else {
+                $num = substr($num, 0, 11);
+            }
+        } else {
+            $num = 1;
+        }
+        return $num;
+    }
+
+    //地址替换
+    private function page_replace($page) {
+        return str_replace("{page}", $page, $this->myde_url);
+    }
+
+    //首页
+    private function myde_home() {
+        if ($this->myde_page != 1) {
+            return "<a href='" . $this->page_replace(1) . "' title='首页'>首页</a>";
+        } else {
+            return "<p>首页</p>";
+        }
+    }
+
+    //上一页
+    private function myde_prev() {
+        if ($this->myde_page != 1) {
+            return "<a href='" . $this->page_replace($this->myde_page - 1) . "' title='上一页'>上一页</a>";
+        } else {
+            return "<p>上一页</p>";
+        }
+    }
+
+    //下一页
+    private function myde_next() {
+        if ($this->myde_page != $this->myde_page_count) {
+            return "<a href='" . $this->page_replace($this->myde_page + 1) . "' title='下一页'>下一页</a>";
+        } else {
+            return"<p>下一页</p>";
+        }
+    }
+
+    //尾页
+    private function myde_last() {
+        if ($this->myde_page != $this->myde_page_count) {
+            return "<a href='" . $this->page_replace($this->myde_page_count) . "' title='尾页'>尾页</a>";
+        } else {
+            return "<p>尾页</p>";
+        }
+    }
+
+    //输出
+    public function myde_write($id = 'page') {
+        $str = "<div id=" . $id . ">";
+        $str.=$this->myde_home();
+        $str.=$this->myde_prev();
+        if ($this->myde_i > 1) {
+            $str.="<p class='pageEllipsis'>...</p>";
+        }
+        for ($i = $this->myde_i; $i <= $this->myde_en; $i++) {
+            if ($i == $this->myde_page) {
+                $str.="<a href='" . $this->page_replace($i) . "' title='第" . $i . "页' class='cur'>$i</a>";
+            } else {
+                $str.="<a href='" . $this->page_replace($i) . "' title='第" . $i . "页'>$i</a>";
+            }
+        }
+        if ($this->myde_en < $this->myde_page_count) {
+            $str.="<p class='pageEllipsis'>...</p>";
+        }
+        $str.=$this->myde_next();
+        $str.=$this->myde_last();
+        $str.="<p class='pageRemark'>共<b>" . $this->myde_page_count .
+                "</b>页<b>" . $this->myde_total . "</b>条数据</p>";
+        $str.="</div>";
+        return $str;
+    }
+
+}
+   #+END_SRC
+   ?>
+*** 异步处理
+    #+BEGIN_SRC sql
+      CREATE TABLE IF NOT EXISTS `food` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`title` varchar(100) NOT NULL,
+	`pic` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`)
+      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+    #+END_SRC
+
+    #+BEGIN_SRC html
+ <div id="list">
+     <ul></ul>
+ </div>
+ <div id="pagecount"></div>
+    #+END_SRC
+
+    #+BEGIN_SRC js
+ var curPage = 1; //当前页码
+ var total,pageSize,totalPage; //总记录数，每页显示数，总页数
+ //获取数据
+ function getData(page){
+	 $.ajax({
+		 type: 'POST',
+		 url: 'pages.php',
+		 data: {'pageNum':page-1},
+		 dataType:'json',
+		 beforeSend:function(){
+			 $("#list ul").append("<li id='loading'>loading...</li>");//显示加载动画
+		 },
+		 success:function(json){
+			 $("#list ul").empty();//清空数据区
+			 total = json.total; //总记录数
+			 pageSize = json.pageSize; //每页显示条数
+			 curPage = page; //当前页
+			 totalPage = json.totalPage; //总页数
+			 var li = "";
+			 var list = json.list;
+			 $.each(list,function(index,array){ //遍历json数据列
+				 li += "<li><a href='#'><img src='"+array['pic']+"'>"+array['title']
+                 +"</a></li>";
+			 });
+			 $("#list ul").append(li);
+		 },
+		 complete:function(){ //生成分页条
+			 getPageBar();
+		 },
+		 error:function(){
+			 alert("数据加载失败");
+		 }
+	 });
+ }
+ //获取分页条
+ function getPageBar(){
+	 //页码大于最大页数
+	 if(curPage>totalPage) curPage=totalPage;
+	 //页码小于1
+	 if(curPage<1) curPage=1;
+	 pageStr = "<span>共"+total+"条</span><span>"+curPage
+     +"/"+totalPage+"</span>";
+
+	 //如果是第一页
+	 if(curPage==1){
+		 pageStr += "<span>首页</span><span>上一页</span>";
+	 }else{
+		 pageStr += "<span><a href='javascript:void(0)' rel='1'>首页</a></span>
+         <span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>上一页</a></span>";
+	 }
+
+	 //如果是最后页
+	 if(curPage>=totalPage){
+		 pageStr += "<span>下一页</span><span>尾页</span>";
+	 }else{
+		 pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>
+         下一页</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>尾页</a>
+         </span>";
+	 }
+
+	 $("#pagecount").html(pageStr);
+ }
+ $(function(){
+	 getData(1);
+	 $("#pagecount span a").live('click',function(){
+		 var rel = $(this).attr("rel");
+		 if(rel){
+			 getData(rel);
+		 }
+	 });
+ });
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+ include_once('connect.php'); //连接数据库，略过，具体请下载源码查看
+
+ $page = intval($_POST['pageNum']); //当前页
+
+ $result = mysql_query("select id from food");
+ $total = mysql_num_rows($result);//总记录数
+ $pageSize = 6; //每页显示数
+ $totalPage = ceil($total/$pageSize); //总页数
+
+ $startPage = $page*$pageSize; //开始记录
+ //构造数组
+ $arr['total'] = $total;
+ $arr['pageSize'] = $pageSize;
+ $arr['totalPage'] = $totalPage;
+ $query = mysql_query("select id,title,pic from food order by id asc limit
+ $startPage,$pageSize"); //查询分页数据
+ while($row=mysql_fetch_array($query)){
+	  $arr['list'][] = array(
+	 	 'id' => $row['id'],
+		 'title' => $row['title'],
+		 'pic' => $row['pic'],
+	  );
+ }
+ echo json_encode($arr); //输出JSON数据
+    #+END_SRC
+*** 跨域请求问题处理
+**** 问题概述
+**** 问题处理
+#+CAPTION: 客户端请求代码
+#+BEGIN_SRC php
+  // 客户端请求代码
+  // 上传文件
+  function upload_idcard_file(_this,type){
+	  var formData = new FormData();
+	  formData.append('type',type);
+	  formData.append('file',_this.files[0]);
+	  $.ajax({
+		  url: '{$upload_file_url}',
+		  type: 'POST',
+		  dataType: 'json',
+		  data: formData,
+		  cache: false,
+		  contentType : false,
+		  processData : false,
+		  headers : {"access_token" : "{$access_token}"},
+		  success:function(d){
+			  var img_url = d.data;
+			  img_url = 'http:'+img_url;
+			  load_img(_this.id,img_url);
+		  },
+		  error:function(err){
+			  console.log(err);
+		  }
+	  });
+  }
+#+END_SRC
+
+#+CAPTION: 服务端处理：粗糙解决方式
+#+BEGIN_SRC php
+  // 服务端处理：粗糙解决方式
+  // 允许所有跨域请求
+  header('Access-Control-Allow-Origin: *');
+
+  // 只允许 http://www.baidu.com 发来的跨域请求
+  // header('Access-Control-Allow-Origin: http://www.baidu.com');
+
+  // 设置支持的 http 请求方式
+  header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+
+  // 允许的响应头字段，请按照自己需求添加
+  header('Access-Control-Allow-Headers:access_token');
+#+END_SRC
+
+#+CAPTION: 服务端处理：动态判断处理跨域问题
+#+BEGIN_SRC php
+  if(isset($_SERVER['HTTP_ORIGIN'])){
+	  // 请求方法
+	  $request_method = $_SERVER['REQUEST_METHOD'];
+	  // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
+	  $allow_origin = array(
+	  'baidu.com',
+	  'bing.com'
+	  );
+	  // 判断是否有origin请求头
+	  if(in_array($request_method, $allow_origin)
+	  {
+		  header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+		  // 客户端携带证书式访问。出于安全考虑，该项设置为true时，Access-Control-Allow-Origin 的值不允许为「*」
+		  header('Access-Control-Allow-Credentials: true'); 
+		  header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+		  header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token');
+	  }
+      }
+  }
+#+END_SRC
+**** Session 跨域问题
+#+BEGIN_SRC php
+  ini_set('session.cookie_domain', '.a.com');
+  header('Access-Control-Allow-Credentials: true');
+#+END_SRC
+*** References
+    + [[https://blog.csdn.net/z69183787/article/details/78954325][跨域Ajax请求时是否带Cookie的设置]]
+** 分页
+*** 介绍
+    : 分页（英语：Paging），是一种操作系统里存储器管理的一种技术，可以使计算机的主存可以使用存储在辅助存储器中的数据。……
+*** 前端分页与后端分页
+    : 前端分页一般用于数据量较小的情况，一次请求把数据全部从后端请求回来。
+    : 后端分页适用于数据量偏大时的情况，减小请求传输压力。前端需要将每页条数和当前页传给后端，后端根据条件查询出数据再传给前端，包括总条数、当前页、每页多少条数据等。
+** PHP 与 XML 技术
+** References
+   + https://www.helloweba.net/javascript/195.html
+   + https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81
+   + https://www.zhihu.com/question/26421527
+* 附录一：PHP 常见函数
+** String
+   + addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
+   + addslashes()，字符串转义，使用反斜线引用字符串。如I’m Zhao中的’
+   + bin2hex — 函数把包含数据的二进制字符串转换为十六进制值
+   + chop — rtrim 的别名
+   + chr — 返回指定的字符
+   + chunk_split — 将字符串分割成小块
+   + convert_cyr_string — 将字符由一种 Cyrillic 字符转换成另一种
+   + convert_uudecode — 解码一个 uuencode 编码的字符串
+   + convert_uuencode — 使用 uuencode 编码一个字符串
+   + count_chars — 返回字符串所用字符的信息
+   + crc32 — 计算一个字符串的 crc32 多项式
+   + crypt — 单向字符串散列
+   + echo — 输出一个或多个字符串
+   + fprintf — 将格式化后的字符串写入到流
+   + print_r — 以易于理解的格式打印变量。
+   + var_dump — 打印变量的相关信息
+   + var_export — 输出或返回一个变量的字符串表示
+     #+BEGIN_SRC php
+       print_r ( mixed $expression [, bool $return = FALSE ] ) : mixed
+	   var_dump ( mixed $expression [, mixed $... ] ) : void
+	       var_export ( mixed $expression [, bool $return ] ) : mixed
+     #+END_SRC
+   + get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表
+   + hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）
+   + hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符
+   + hex2bin — 转换十六进制字符串为二进制字符串
+   + html_entity_decode — Convert HTML entities to their corresponding characters
+   + htmlentities — 将字符转换为 HTML 转义字符
+   + htmlspecialchars_decode — 将特殊的 HTML 实体转换回普通字符
+   + htmlspecialchars — 将特殊字符转换为 HTML 实体
+     htmlentities 和 htmlspecialchars 的区别:
+     这两个函数的功能都是转换字符为 HTML 字符编码，特别是 url 和代码字符串。htmlentities 转换所有的 html 标记；htmlspecialchars 只格式化& ' " < 和 \> 这几个特殊符号。
+   + lcfirst — 使一个字符串的第一个字符小写
+   + levenshtein — 计算两个字符串之间的编辑距离
+   + localeconv — Get numeric formatting information
+   + ltrim — 删除字符串开头的空白字符（或其他字符）
+   + md5_file — 计算指定文件的 MD5 散列值
+   + md5 — 计算字符串的 MD5 散列值
+   + metaphone — Calculate the metaphone key of a string
+   + money_format — 将数字格式化成货币字符串
+   + nl_langinfo — Query language and locale information
+   + nl2br — 在字符串所有新行之前插入 HTML 换行标记
+   + number_format — 以千位分隔符方式格式化一个数字
+     #+BEGIN_SRC php
+     // 无论值是否为0，都保留小数点后两位
+     echo number_format((float)round($a,2,PHP_ROUND_HALF_ODD),2,'.','');
+     // 整数部分以千位分隔符方式分隔
+     echo number_format((float)round($a,2,PHP_ROUND_HALF_ODD),2,'.',',');
+     #+END_SRC
+   + ord — 转换字符串第一个字节为 0-255 之间的值
+   + parse_str — 将字符串解析成多个变量
+   + print — 输出字符串
+   + printf — 输出格式化字符串
+   + quoted_printable_decode — 将 quoted-printable 字符串转换为 8-bit 字符串
+   + quoted_printable_encode — 将 8-bit 字符串转换成 quoted-printable 字符串
+   + quotemeta — 转义元字符集
+   + rtrim — 删除字符串末端的空白字符（或者其他字符）
+   + setlocale — 设置地区信息
+   + sha1_file — 计算文件的 sha1 散列值
+   + sha1 — 计算字符串的 sha1 散列值
+   + similar_text — 计算两个字符串的相似度
+   + soundex — Calculate the soundex key of a string
+   + sprintf — Return a formatted string
+   + sscanf — 根据指定格式解析输入的字符
+   + str_getcsv — 解析 CSV 字符串为一个数组
+   + str_ireplace — str_replace 的忽略大小写版本
+   + str_pad — 使用另一个字符串填充字符串为指定长度
+   + str_repeat — 重复一个字符串
+   + str_rot13 — 对字符串执行 ROT13 转换
+   + str_shuffle — 随机打乱一个字符串
+   + str_split — 将字符串转换为数组
+   + str_word_count — 返回字符串中单词的使用情况
+   + strcasecmp — 二进制安全比较字符串（不区分大小写）
+   + strcmp — 二进制安全字符串比较
+   + strcoll — 基于区域设置的字符串比较
+   + strcspn — 获取不匹配遮罩的起始子字符串的长度
+   + strip_tags — 从字符串中去除 HTML 和 PHP 标记
+   + stripcslashes — 反引用一个使用 addcslashes 转义的字符串
+   + strpos()，查找字符串首次出现的位置。strpos ( string $haystack , mixed $needle [, int $offset = 0 ] ) : int，如果没找到 needle，将返回 FALSE，此函数可能返回布尔值 FALSE，但也可能返回等同于 FALSE 的非布尔值。应使用 === 运算符来测试此函数的返回值。缺点：对中文支持不好
+     #+BEGIN_SRC php
+       // 判断是否包含某字符串
+       $pos = strpos($str,$needle);
+       if($pos !== false){
+	     echo 'exist';
+       }
+     #+END_SRC
+   + stripslashes — 反引用一个引用字符串
+   + strlen()，获取字符串长度。
+   + strnatcasecmp — 使用“自然顺序”算法比较字符串（不区分大小写）
+   + strnatcmp — 使用自然排序算法比较字符串
+   + strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
+   + strncmp — 二进制安全比较字符串开头的若干个字符
+   + strpbrk — 在字符串中查找一组字符的任何一个字符
+   + substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
+   + mb_substr() ，字符串截取。mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string
+   + strstr()，返回字符串从查找字符串出现的位置开始到字符串结尾的字符串
+     #+BEGIN_SRC php
+       // 去除字符串后3位
+       substr($tempStr,0,strlen($tempStr)-3);                                                   // 截取某个字符之后的字符串
+       substr($str,strpos($str,"_");
+       // 判断是否包含某字符串，没有返回值，则不包含
+       echo strstr($str,'@');
+     #+END_SRC
+   + stristr()，与 strstr() 的使用方法一样，区别是 stristr 不区分大小写。
+   + strchr — strstr 的别名
+   + strrchr — 查找指定字符在字符串中的最后一次出现
+   + strrev — 反转字符串
+   + strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）
+   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+   + strstr — 查找字符串的首次出现
+   + strtok — 标记分割字符串
+   + strtolower — 将字符串转化为小写
+   + strtoupper — 将字符串转化为大写
+   + strtr — 转换指定字符
+   + substr_compare — 二进制安全比较字符串（从偏移位置比较指定长度）
+   + substr_count — 计算字串出现的次数
+   + str_replace()，搜索替换字符串。substr_replace ( mixed $string , mixed $replacement , mixed $start [, mixed $length ] ) : mixed
+   + trim — 去除字符串首尾处的空白字符（或者其他字符）
+   + ucfirst — 将字符串的首字母转换为大写
+   + ucwords — 将字符串中每个单词的首字母转换为大写
+   + vfprintf — 将格式化字符串写入流
+   + vprintf — 输出格式化字符串
+   + vsprintf — 返回格式化字符串
+   + wordwrap — 打断字符串为指定数量的字串
+   + preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids);
+   + sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str);
+   + Implode()，字符串的合并（array->string）。
+   + explode()，字符串的分割（string->array）。
+   + join — implode() 的别名
+     #+BEGIN_SRC php
+       // 判断是否包含某字符串
+       $tempArr = explode(',',$str);
+       if(count($tempArr) > 1){
+	   return true;
+       }
+     #+END_SRC
+   + htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。
+   + json_decode()，对 JSON 格式的字符串进行解码。
+   + json_encode()，对变量进行 JSON 编码 。
+   + strtolower()，把所有字符转换为小写
+   + strtoupper(), 把所有字符转换为大写
+   + strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写）
+** Array
+   + curl_setopt_array — 为 cURL 传输会话批量设置选项
+   + array_change_key_case — 将数组中的所有键名修改为全大写或小写
+   + array_chunk — 将一个数组分割成多个
+   + array_column — 返回数组中指定的一列
+   + array_combine — 创建一个数组，用一个数组的值作为其键名，另一个数组的值作为其值
+   + array_count_values — 统计数组中所有的值
+   + array_diff_assoc — 带索引检查计算数组的差集
+   + array_diff_key — 使用键名比较计算数组的差集
+   + array_diff_uassoc — 用用户提供的回调函数做索引检查来计算数组的差集
+   + array_diff_ukey — 用回调函数对键名比较计算数组的差集
+   + array_diff — 计算数组的差集
+   + array_intersect_assoc — 带索引检查计算数组的交集
+   + array_intersect_key — 使用键名比较计算数组的交集
+   + array_intersect_uassoc — 带索引检查计算数组的交集，用回调函数比较索引
+   + array_intersect_ukey — 用回调函数比较键名来计算数组的交集
+   + array_intersect — 计算数组的交集
+     #+BEGIN_SRC php
+	 // array_intersect ( array $array1 , array $array2 [, array $... ] ) : array
+       // 去除空元素
+       foreach($arr as $k=>$v){
+	   if(!$v) unset($arr[$k]);
+       }
+       ### 扩展学习：PHP从数组中删除元素的四种方法实例
+       $array = array(0 => "a", 1 => "b", 2 => "c");
+       // 1. 删除一个元素，且保持原有索引不变
+       unset($array[1]);
+       // 你想删除的key
+       // 重排索引
+       // 使用 array_values 函数：
+       $array = array_values($array);
+       // 2. 删除一个元素，不保持索引
+       array_splice($array, 1, 1);
+       // 你想删除的元素的Offset
+       // 3. 按值删除多个元素，保持索引
+       $array = array_diff($array, ["a", "c"]);
+		      //└────────┘→ 你想删除的数组元素值values
+       // 4. 按键删除多个元素，保持索引
+       $array = array_diff_key($array, [0 => "xy", "2" => "xy"]);
+       // 你想删除的数组键keys
+     #+END_SRC
+   + array_fill — 用给定的值填充数组
+   + array_fill_keys — 使用指定的键和值填充数组
+   + array_filter — 用回调函数过滤数组中的单元
+     #+BEGIN_SRC php
+     // array_filter ( array $array [, callable $callback [, int $flag = 0 ]] ) : array
+     #+END_SRC
+   + array_flip — 交换数组中的键和值
+   + array_key_exists — 检查数组里是否有指定的键名或索引
+   + array_key_first — Gets the first key of an array
+   + array_key_last — Gets the last key of an array
+   + array_keys — 返回数组中部分的或所有的键名
+     #+BEGIN_SRC php
+       // array_flip ( array $array ) : array
+     #+END_SRC
+   + array_map — 为数组的每个元素应用回调函数
+   + array_walk_recursive — 对数组中的每个成员递归地应用用户函数
+   + array_walk — 使用用户自定义函数对数组中的每个元素做回调处理
+     #+BEGIN_SRC php
+       // array_map ( callable $callback , array $array1 [, array $... ] ) : array
+     #+END_SRC
+   + array_merge_recursive — 递归地合并一个或多个数组
+   + array_merge — 合并一个或多个数组
+   + array_multisort — 对多个数组或多维数组进行排序
+   + array_reverse — 返回单元顺序相反的数组
+   + array_pad — 以指定长度将一个值填充进数组
+   + array_pop — 弹出数组最后一个单元（出栈）
+   + array_product — 计算数组中所有值的乘积
+   + array_push — 将一个或多个单元压入数组的末尾（入栈）
+   + array_rand — 从数组中随机取出一个或多个单元
+   + array_reduce — 用回调函数迭代地将数组简化为单一的值
+   + array_replace_recursive — 使用传递的数组递归替换第一个数组的元素
+   + array_replace — 使用传递的数组替换第一个数组的元素
+   + array_search — 在数组中搜索给定的值，如果成功则返回首个相应的键名
+   + array_slice — 从数组中取出一段
+   + array_splice — 去掉数组中的某一部分并用其它值取代
+   + array_sum — 对数组中所有值求和
+   + array_udiff_assoc — 带索引检查计算数组的差集，用回调函数比较数据
+   + array_udiff_uassoc — 带索引检查计算数组的差集，用回调函数比较数据和索引
+   + array_udiff — 用回调函数比较数据来计算数组的差集
+   + array_uintersect_assoc — 带索引检查计算数组的交集，用回调函数比较数据
+   + array_uintersect_uassoc — 带索引检查计算数组的交集，用单独的回调函数比较数据和索引
+   + array_uintersect — 计算数组的交集，用回调函数比较数据
+   + array_unique — 移除数组中重复的值
+   + array_shift — 将数组开头的单元移出数组
+   + array_unshift — 在数组开头插入一个或多个单元
+   + array_values — 返回数组中所有的值
+   + array — 新建一个数组
+   + arsort — 对数组进行逆向排序并保持索引关系
+   + asort — 对数组进行排序并保持索引关系
+   + compact — 建立一个数组，包括变量名和它们的值
+   + count — 计算数组中的单元数目，或对象中的属性个数
+   + current — 返回数组中的当前单元
+   + each — 返回数组中当前的键／值对并将数组指针向前移动一步
+   + end — 将数组的内部指针指向最后一个单元
+   + extract — 从数组中将变量导入到当前的符号表
+   + in_array — 检查数组中是否存在某个值
+   + key_exists — 别名 array_key_exists
+   + key — 从关联数组中取得键名
+   + krsort — 对数组按照键名逆向排序
+   + ksort — 对数组按照键名排序
+   + list — 把数组中的值赋给一组变量
+   + natcasesort — 用“自然排序”算法对数组进行不区分大小写字母的排序
+   + natsort — 用“自然排序”算法对数组排序
+   + next — 将数组中的内部指针向前移动一位
+   + pos — current 的别名
+   + prev — 将数组的内部指针倒回一位
+   + range — 根据范围创建数组，包含指定的元素
+   + reset — 将数组的内部指针指向第一个单元
+   + rsort — 对数组逆向排序
+   + shuffle — 打乱数组
+   + sizeof — count 的别名
+   + sort — 对数组排序
+   + uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
+   + uksort — 使用用户自定义的比较函数对数组中的键名进行排序
+   + usort — 使用用户自定义的比较函数对数组中的值进行排序
+     #+BEGIN_SRC php
+	   // uksort ( array &$array , callable $key_compare_func ) : bool
+       uksort(&$arr, function ($a, $b) use ($seq) {
+	   $seq = array_flip($seq);
+	   $idx1 = $seq[$a] ?? -1;
+	   $idx2 = $seq[$b] ?? -1;
+	   return $idx1 - $idx2;
+       });
+     #+END_SRC
+** Math
+   + bcadd — [加]2个任意精度数字的加法计算
+   + bcsub — [减]2个任意精度数字的减法
+   + bcmul — [乘]2个任意精度数字乘法计算
+   + bcdiv — [除]2个任意精度的数字除法计算
+     #+BEGIN_SRC php
+     $a = '1.234';
+     $b = '5';
+     echo bcadd($a,$b, 4);  // 6.2340
+     echo bcsub($a, $b, 4);  // -3.7660
+     echo bcmul('1.34747474747', '35', 3); // 47.161
+     #+END_SRC
+
+     #+BEGIN_SRC php
+     /*
+     **PHP 高精度计算问题**
+       1. 引入
+       javascript
+       //为啥不等于 0.3 ? （正确结果：0.30000000000000004）
+       0.1 + 0.2
+       //为啥不等于 5.6 ? （正确结果：5.6000000000000005）
+       0.8 * 7
+       php
+       // 正确结果是 57，而不是 58
+       var_dump(intval(0.58 * 100));
+       2. 原因分析
+       浮点运算惹的祸，并非语言的 bug，但和语言的实现原理有关，不管什么语言，只要涉及浮点运算，都是存在类似的问题，使用时一定要注意。
+       浮点数的表示(IEEE 754)：浮点数, 以64位的长度(双精度)为例, 会采用1位符号位(E), 11指数位(Q), 52位尾数(M)表示(一共64位)。
+       符号位：最高位表示数据的正负，0表示正数，1表示负数。
+       指数位：表示数据以2为底的幂，指数采用偏移码表示。
+       尾数：表示数据小数点后的有效数字。
+       0.58的二进制表示是: 0.10010100011110101110000101000111101011100001010001111
+       0.57的二进制表示是: 0.1001000111101011100001010001111010111000010100011111
+       如果只是通过这52位计算的话,分别是:0.58 -> 0.57999999999999996，0.57 -> 0.5699999999999999。
+       PHP浮点型在进行+-*%/存在不准确的问题，例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999...。
+       3. 结论
+       永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数。
+       浮点数精确位数取决于 PHP 配置参数 precision，默认 14 位，计算方式：从左第一个非0数就是精度的开始。
+     */
+     #+END_SRC
+   + bcmod — 对一个任意精度数字取模
+   + bccomp — 比较两个任意精度的数字
+   + bcpow — 任意精度数字的乘方
+   + bcpowmod — Raise an arbitrary precision number to another, reduced by a specified modulus
+   + bcscale — 设置所有bc数学函数的默认小数点保留位数
+   + floatval(), 转换为浮点型
+   + intval(),转换为整型
+   + fmod — 返回除法的浮点数余数
+   + intdiv — 对除法结果取整
+   + bcsqrt — 任意精度数字的二次方根
+   + sqrt — 平方根
+   + is_finite — 判断是否为有限值
+   + is_infinite — 判断是否为无限值
+   + is_nan — 判断是否为合法数值
+   + lcg_value — 组合线性同余发生器
+   + log10 — 以 10 为底的对数
+   + log1p — 返回 log(1 + number)，甚至当 number 的值接近零也能计算出准确结果
+   + log — 自然对数
+   + max — 找出最大值
+   + min — 找出最小值
+   + exp — 计算 e 的指数
+   + expm1 — 返回 exp(number) - 1，甚至当 number 的值接近零也能计算出准确结果
+   + pi — 得到圆周率值
+   + pow— 指数表达式，pow ( number $base , number $exp ) : number
+   + cos — 余弦
+   + cosh — 双曲余弦
+   + sin — 正弦
+   + sinh — 双曲正弦
+   + tan — 正切
+   + tanh — 双曲正切
+   + acos — 反余弦
+   + acosh — 反双曲余弦
+   + asin — 反正弦
+   + asinh — 反双曲正弦
+   + atan2 — 两个参数的反正切
+   + atan — 反正切
+   + atanh — 反双曲正切
+   + deg2rad — 将角度转换为弧度
+   + rad2deg — 将弧度数转换为相应的角度数
+   + mt_getrandmax — 显示随机数的最大可能值
+   + mt_rand — 生成更好的随机数
+   + mt_srand — 播下一个更好的随机数发生器种子
+   + rand — 产生一个随机整数
+   + srand — 播下随机数发生器种子
+   + intval(), 直接取整，intval ( mixed $var [, int $base = 10 ] ) : int
+   + round(), 四舍五入
+   + ceil()，向上取整
+   + floor(), 向下取整
+     #+BEGIN_SRC php
+	 // intval()
+	 // 3
+       echo intval(3.14);
+       // round()
+       // 格式：round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ) : float
+       //  PHP_ROUND_HALF_UP、 PHP_ROUND_HALF_DOWN PHP_ROUND_HALF_EVEN 或 PHP_ROUND_HALF_ODD
+       $number = 1346.21;
+        //float(1346.21)
+       var_dump(round($number, 2));
+       //float(1346)
+       var_dump(round($number, 0));
+       //float(1350)
+       var_dump(round($number, -1));
+       //float(1300)
+       var_dump(round($number, -2));
+        //10,四舍六入,遇5进1
+       var_dump(round(9.5, 0, PHP_ROUND_HALF_UP));
+       //9,四舍六入,遇5不舍弃
+       var_dump(round(9.5, 0, PHP_ROUND_HALF_DOWN));
+       //10,四舍六入,整数部分为奇数则进1
+       var_dump(round(9.5, 0, PHP_ROUND_HALF_EVEN));
+       //9,四舍六入,整数部分为偶数则进1
+       var_dump(round(9.5, 0, PHP_ROUND_HALF_ODD));
+       //9
+       var_dump(round(8.5, 0, PHP_ROUND_HALF_UP));
+       //8
+       var_dump(round(8.5, 0, PHP_ROUND_HALF_DOWN));
+       //8
+       var_dump(round(8.5, 0, PHP_ROUND_HALF_EVEN));
+       //9
+       var_dump(round(8.5, 0, PHP_ROUND_HALF_ODD));
+       // ceil()
+       // 格式：ceil ( float $value ) : float
+       // 4
+       echo ceil(3.14);
+       // floor()
+       // 格式：floor ( float $value ) : float
+       // 3
+       echo floor(3.14);
+       // 保留两位小数,不四舍五入
+       var_dump(floor(3.157*100)/100));
+     #+END_SRC
+   + bindec — 二进制转换为十进制
+   + decbin — 十进制转换为二进制
+   + dechex — 十进制转换为十六进制
+   + decoct — 十进制转换为八进制
+   + octdec — 八进制转换为十进制
+   + hexdec — 十六进制转换为十进制
+   + base_convert — 在任意进制之间转换数字
+     #+BEGIN_SRC php
+       // decbin ( int $number ) : string
+     #+END_SRC
+   + hypot — 计算一直角三角形的斜边长度
+** File
+   + basename — 返回路径中的文件名部分
+   + chgrp — 改变文件所属的组
+   + chmod — 改变文件模式
+   + chown — 改变文件的所有者
+   + clearstatcache — 清除文件状态缓存
+   + copy — 拷贝文件
+   + delete — 参见 unlink 或 unset
+
+   + dirname — 返回路径中的目录部分
+   + disk_free_space — 返回目录中的可用空间
+   + disk_total_space — 返回一个目录的磁盘总大小
+   + file_exists — 检查文件或目录是否存在
+   + is_dir — 判断给定文件名是否是一个目录
+   + mkdir — 新建目录
+   + readlink — 返回符号连接指向的目标
+   + realpath_cache_get — 获取真实目录缓存的详情
+   + realpath_cache_size — 获取真实路径缓冲区的大小
+   + realpath — 返回规范化的绝对路径名
+   + rename — 重命名一个文件或目录
+   + rmdir — 删除目录
+   + glob — 寻找与模式匹配的文件路径
+   + pathinfo — 返回文件路径的信息
+   + diskfreespace — disk_free_space 的别名
+   + fclose — 关闭一个已打开的文件指针
+   + feof — 测试文件指针是否到了文件结束的位置
+   + fflush — 将缓冲内容输出到文件
+   + fgetc — 从文件指针中读取字符
+   + fgetcsv — 从文件指针中读入一行并解析 CSV 字段
+   + fgets — 从文件指针中读取一行
+   + fgetss — 从文件指针中读取一行并过滤掉 HTML 标记
+   + fputcsv — 将行格式化为 CSV 并写入文件指针
+   + fputs — fwrite 的别名
+     #+BEGIN_SRC php
+       // fputcsv ( resource $handle , array $fields [, string $delimiter = ',' [, string $enclosure = '"' ]] ) : int
+       // fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = ',' [, string $enclosure = '"' [, string $escape = '\\' ]]]] ) : array
+     #+END_SRC
+* 附录二：PHP 命名规范
+** 类
+*** 类名称
++ 使用大写字母作为词的分割，其他的字母均使用小写。
++ 名字的首字母使用大写。
++ *不要使用下划线('_')。*
+: 如：Name、SuperMan、BigClassObject。
+*** 类属性
++ 属性名命名采用驼峰命名法（首字母小写，后续单词首字母大写），私有属性使用'_'开始。如：$tablePrefix，$_tablePrefix
+*** 类方法
++ 方法的作用都是执行一个动作，达到一个目的。所以名称应该说明方法是做什么的。一般名称的前缀都是有第一规律的，如is（判断）、get（得到），set（设置）。
++ 方法的的命名采用驼峰命名法（首字母小写，后续单词首字母大写）， 如：getUserName()\ parseLayout()
+*** 方法中参数
++ 参数命名采用驼峰命名法（首字母小写，后续单词首字母大写）。如：
+  #+BEGIN_SRC php
+    class EchoAnyWord{
+	function echoWord($firstWord, $secondWord){
+	    ...
+	}
+    }
+  #+END_SRC
+** 变量和常量
++ 所有字母都使用小写。
++ 使用‘_’作为每个词的分界。
+
+: 如：$msg_error、$chk_pwd等
+*** 引用变量
++ 引用变量要带有‘r’(recommend)前缀。如：
+  #+BEGIN_SRC php
+    class Example{
+	$mExam = "";
+	funciton SetExam(&$rExam){
+	    ...
+	}
+	function $rGetExam(){
+	    ...
+	}
+    }
+  #+END_SRC
+*** 全局变量
++ 全局变量应该带有前缀‘g’。如：global = $gTest、global = $g。
+*** 常量
++ 常量、全局常量，应该全部使用大写字母，单词之间用‘_’来分割。如
+  #+BEGIN_SRC php
+    define('DEFAULT_NUM_AVE',90);
+    define('DEFAULT_NUM_SUM',500);
+  #+END_SRC
+*** 全局常量
++ 静态变量应该带有前缀‘s’。如：
+  #+BEGIN_SRC php
+    station $sStatus = 1;
+  #+END_SRC
+*** 静态变量
++ *所有的名称都使用小写字母，多个单词使用‘_’来分割。如：*
+  #+BEGIN_SRC php
+    function this_good_idear(){
+	...
+    }
+  #+END_SRC
+** 函数
+** 参考资料
++ 《PHP从入门到精通》

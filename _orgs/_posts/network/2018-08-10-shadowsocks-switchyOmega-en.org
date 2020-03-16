@@ -2,7 +2,7 @@
 #+AUTHOR:   Rengui Zhao
 #+EMAIL:    zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -31,20 +31,19 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
-This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
+If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
 # (setq org-export-html-style nil)
 
 #+BEGIN_CENTER 
-If you have questions, please send email to zrg1390556487@gmail.com.
-
-如果您有任何问题或建议，可以发送邮件到 zrg1390556487@gmail.com
+This article is for communication only, please do not use for business! The author of this article is not responsible for any consequences. thanks for your attention!
 #+END_CENTER 
 
 * Server
 ** Buy a Cloud Host
    - [[https://www.digitalocean.com][DigitalOcean]]
    - AWS
-** Installing and Configuring Shadowsocks
+   - [[https://www.vultr.com/][Vultr]]
+** Solution 1: Using Original Shadowsocks
    1. Installing pip
       : # yum install python-pip
       : or
@@ -73,6 +72,7 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 	}
       #+END_SRC
       explanation:
+      #+BEGIN_SRC txt
       - "server": "123.123.123.123" :: server ip address
       - "server_port": 8388 :: server port
       - "local_address":"127.0.0.1" :: local ip address
@@ -81,6 +81,7 @@ If you have questions, please send email to zrg1390556487@gmail.com.
       - "password": "password" :: password                                                                                                         
       - "method": "aes-256-cfb" :: encrypt method, more detail:[[http://ucdok.com/project/generate_password.html][password tool]]
       - "timeout":600 :: over time
+      #+END_SRC
    3. Configuring auto-start script
       : #vim /etc/systemd/system/shadowsocks.service
       #+BEGIN_SRC emacs-lisp
@@ -103,9 +104,16 @@ If you have questions, please send email to zrg1390556487@gmail.com.
       [[https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh][install-shadowsocks.sh]]
       : # chmod +x install-shadowsocks.sh
       : # ./install-shadowsocks.sh
+** Solution 2: Using docker
+   1. Installing docker
+      : # yum install docker
+      : # systemctl enable docker
+      : # systemctl start docker
+   2. Deploy shadowsocks
+      : # docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
 * Client
 ** Linux
-*** Install and Use Shadowsocks Command Line Client on Linux
+*** Command Line Client on Linux
 1. Linux series
    + Debian/Ubuntu:
      : $ sudo apt-get install python-pip
@@ -220,7 +228,7 @@ If you have questions, please send email to zrg1390556487@gmail.com.
    [[file:{{site.url}}/assets/images/ios-shadowrocket-01.jpeg]]
    [[file:{{site.url}}/assets/images/ios-shadowrocket-02.jpeg]]
 ** Mac OS X
-    Get shadowsocks client by sending email to zrg1390556487@gmail.com
+   https://github.com/shadowsocks/ShadowsocksX-NG
 * Browser Plugin: SwitchyOmega
 ** Download
     Get shadowsocks client by sending email to zrg1390556487@gmail.com

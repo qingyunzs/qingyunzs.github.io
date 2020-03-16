@@ -1,8 +1,8 @@
-#+TITLE: 版本控制软件(Version Control)
+#+TITLE: Revision Control：Git
 #+AUTHOR: Rengui Zhao
 #+EMAIL: zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -19,7 +19,7 @@ layout: post
 title: Subversion、Git和GitHub
 author: zrg
 comments: false
-description: Subversion，Git，Github
+description: 本文主要对版本控制软件 git 做一些理解说明，以供日常运用提供参考。
 categories: 
 - software
 tags:
@@ -31,18 +31,9 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
-如果你有任何问题，可以发邮件到zrg1390556487@gmail.com。
+If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
 # (setq org-export-html-style nil)
 
-* Subversion
-  : //官网地址
-  : http://subversion.apache.org/
-  : https://tortoisesvn.net/
-** 使用小技巧
-  + TortoiseSVN进行增量发布
-    : 1.右键》选择TortoiseSVN->Show Log（显示日志）
-    : 2.选中更新版本段》右键选择Compare revisions（版本比较）
-    : 3.全选》右键选择Export selection to…（导出所选文件到…）
 * Git
 ** Git vs SVN
    + Git是分布式的，SVN不是；
@@ -51,40 +42,31 @@ photos:
    + Git没有一个全局的版本号，而SVN有；
    + Git的内容完整性要优于SVN：Git内容存储使用的是SHA-1算法。。
 ** Installation
-   + Ubuntu 10.10(maverick) 及以上版本，Debian(squeeze) 及以上版本：
-     : $ sudo aptitude install git
-     : $ sudo aptitude install git-doc git-svn git-email gitk
-   + Ubuntu 10.04(lucid) 及之前版本，Debian(lenny) 及之前版本：
-     : $ sudo aptitude install git-core
-     : $ sudo aptitude install git-doc git-svn git-email gitk
-   + RHEL、Fedora、CentOS:
+   + Ubuntu/Debian
+     : $ sudo apt-get install git
+     : $ sudo apt-get install git-doc git-svn git-email gitk
+   + RHEL/Fedora/CentOS
      : $ yum install git
      : $ yum install git-svn git-email gitk
-   + 安装完后，查看版本
-     : $ git --version
+   + MacOS
+     : $ brew install git
 ** Configuration
-   + 设置 username 和 email
-     : $ git config --global user.name "your name" //配置用户名
-     : $ git config --global user.email "your_email@youremail.com" //配置邮箱
-   + 中文支持
-     : //中文支持UTF-8：
+   + Set username and email
+     : $ git config --global user.name "your name"
+     : $ git config --global user.email "your_email@youremail.com"
+   + Support chinese
+     : //UTF-8：
      : $ git config --global core.quotepath false
-     : //中文支持GBK：
+     : //GBK：
      : $ git config --global i18n.logOutputEncoding gbk
      : //录入提交说明的字符集：
      : $ git config --global i18n.commitEncoding gbk
-   + 查看配置信息
+   + Show config list
      : $ git config -l
-   + 删除配置
+   + Delete configuration
      : $ git config --unset --global user.name
      : $ git config --unset --global user.email
-** Add file: .gitignore
-   : 以斜杠“/”开头表示目录；
-   : 以星号“*”通配多个字符；
-   : 以问号“?”通配单个字符
-   : 以方括号“[]”包含单个字符的匹配列表；
-   : 以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
-** 仓库(Repository)操作
+** Getting and Creating Repository
    1. 首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：
       : $ git init
    2. 检出仓库
@@ -105,7 +87,7 @@ photos:
       : $ rm test.php
       : // 从Git仓库中删除文件
       : $ git rm test.php
-** 提交过程
+** Commit process
    \\
    本地仓库由 git 维护的三棵“树”组成。第一个是你的工作目录，它持有实际文；第二个是 缓存区（Index），它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。
    #+CAPTION: 提交流程1
@@ -156,7 +138,7 @@ photos:
       丢弃本地的所有改动与提交，可以到服务器上获取最新的版本历史，并将你本地主分支指向它：
       : $ git fetch origin
       : $ git reset --hard origin/master
-** 分支
+** Branching and Merging
 *** 理解分支
     #+CAPTION: 理解分支
     [[file:{{site.url}}/assets/images/branches.png]]
@@ -490,7 +472,7 @@ photos:
       #+NAME:
       [[file:{{site.url}}/assets/images/git-branch21.png]]
       注意：这些分支全部都是本地分支，这一点很重要。当你在使用分支及合并的时候，一切都是在你自己的 Git 仓库中进行的 — 完全不涉及与服务器的交互。
-*** 远程分支
+*** remote branch
     \\
     一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
     #+CAPTION: Git克隆
@@ -521,7 +503,7 @@ photos:
 
     : //拉取远程仓库最新改动到本地仓库，执行：
     : $ git pull
-** 标签
+*** tag
    + 查看标签
      : //显示所有标签
      : $ git tag
@@ -544,8 +526,7 @@ photos:
      : $ git tag -d tagName
    + 推送tag到远程仓库
      : $ git push origin --tags
-** 日志、差别对比
-*** 日志
+*** log
     + 基本使用
       - log
 	: //查看提交日志，不带参数，按提交时间列出所有的更新，最近的更新排在最上面
@@ -593,7 +574,7 @@ photos:
 	: 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
       - --relative-date
 	: 使用较短的相对时间显示（比如，“2 weeks ago”）。
-*** 差别对比
+*** diff
     : //查看更改前后的差别
     : $git diff 
 
@@ -620,7 +601,13 @@ photos:
    : $ git push --delete origin oldName // 删除远程分支
    : $ git push origin newName // 上传新命名的本地分支
    : $ git branch --set-upstream-to=origin/newName
-** 问题处理
+** .gitignore
+   : 以斜杠“/”开头表示目录；
+   : 以星号“*”通配多个字符；
+   : 以问号“?”通配单个字符
+   : 以方括号“[]”包含单个字符的匹配列表；
+   : 以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
+** Problems
 *** git: fatal: I don't handle protocol 'https'
     + [[https://stackoverflow.com/questions/42193572/fatal-i-dont-handle-protocol-https/42194024][fatal：I don't handle protocol 'https']]
 *** error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received
@@ -691,7 +678,7 @@ photos:
       : $ git fetch upstream // 从源仓库同步代码
       : $ git merge upstream/master //合并到本地分支
       : $ git push
-** 使用Github Pages搭建网站
+** Github Pages
 *** 新建仓库搭建
     1. 创建个人站点，新建仓库。（注：仓库名必须为【用户名.github.io】）
     2. 在新建的仓库下，新建index.html文件即可。

@@ -33,8 +33,7 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 # (setq org-export-html-style nil)
 
 * Preface
-  : I have always been fascinated website development. So, management and back up of code is very important. 
-  : Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today.
+  I have always been fascinated website development. So, management and back up of code is very important. Last night, installed successfully SVN on linux. In fack,I have tried before,but did not write a decent note.Summarized today.
 * Installing
 ** environment
    : Linux kernel version: 3.10.0 
@@ -43,70 +42,75 @@ If you have questions, please send email to zrg1390556487@gmail.com.
 ** First Method: installing by source package
 *** Download and decompression
     : Official Site: https://www.visualsvn.com
+    
     : Dowload:
-    :         1. wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz
-    :         2. wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz
+    : $ wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz
+    : $ wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz
+    
     : Decompression command:
-    :         tar zxvf subversion-1.6.1.tar.gz
-    :         tar zxvf subversion-deps-1.6.1.tar.gz
+    : $ tar zxvf subversion-1.6.1.tar.gz
+    : $ tar zxvf subversion-deps-1.6.1.tar.gz
 *** Compile and install
     : Command:
-    :         ./configure --prefix=/usr/local/svn/
-    :         make && make install
+    : $ ./configure --prefix=/usr/local/svn/
+    : $ make && make install
 *** Add command of svn to path
     : Comand:
-    :        echo "export PATH=$PATH:/usr/local/svn/bin/" >> /etc/profile
-    :        source /etc/profile
-    :
+    : $ echo "export PATH=$PATH:/usr/local/svn/bin/" >> /etc/profile
+    : $ source /etc/profile
 ** Second Method: yum install
-   : yum install subversion mod_dav_svn
+   : $ yum install subversion mod_dav_svn
 * Build warehouse of test
 ** Build
    : Build root directory of svn
-   : mkdir -p /opt/svn
+   : $ mkdir -p /opt/svn
 
    : Build warehoust of test
-   : mkdir -p /opt/svn/svntest/
-   : svnadmin create /opt/svn/svntest/
+   : $ mkdir -p /opt/svn/svntest/
+   : $ svnadmin create /opt/svn/svntest/
 ** Configure
    : 1.To directory of configure,There are three file here.
-   :    cd /opt/svn/svntest/conf/
+   : $ cd /opt/svn/svntest/conf/
    : authz: Configure file about setting permissions of users.
    : passwd:  Configure file about setting username and password.
    : svnserve.conf: Configure file about svn.
+   
    : 2.svnserve.conf
-   : vim svnserve.conf
+   : $ vim svnserve.conf
    : edit:
    :      [general]
    :      anon-access = none
    :      auth-access = write
    :      password-db = passwd
    :      authz-db = authz
+   
    : 3.authz
    : add:
    :     [svntest:/]
    :     92csz.com = rw # add a user(92csz.com),read and write.
+   
    : 4.passwd
    : edit:
    :     92csz.com = 123456 # password is 123456
    : 
 * Start
 ** Start service of SVN
-   : svnserve -d -r /opt/svn/
+   : $ svnserve -d -r /opt/svn/
 ** Check service
-   : netstat -aux |grep svn
+   : $ netstat -aux |grep svn
    : restult:
    :         tcp 000.0.0.0:3690.0.0.0:*  LISTEN  8646/svnserve
    : 
 ** Change permission of user
    : Command:
-   :         chmod -R 775 /opt/svn/
-   :  or     chmod -R o+rw /opt/svn
+   : $ chmod -R 775 /opt/svn/
+   :  or
+   : $ chmod -R o+rw /opt/svn
    :
 ** Test by client
    : Open svn client(right),Enter IP address of svn server and warehouse name
    : exmple:
-   :        svn://192.168.120.166/svntest
+   : $ svn://192.168.120.166/svntest
    : 
 * Apache and Subversion
 ** Add this config file to apache
