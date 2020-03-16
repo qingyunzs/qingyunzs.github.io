@@ -486,7 +486,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1251
+                  1293
                 </span>
               
 
@@ -539,6 +539,7 @@
 <li>搬瓦工</li>
 <li><a href="https://www.digitalocean.com">DigitalOcean</a></li>
 <li>AWS</li>
+<li><a href="https://www.vultr.com">Vultr</a></li>
 </ul>
 </div>
 </div>
@@ -586,18 +587,18 @@
 </pre>
 <div class="org-src-container">
 <pre class="src src-shell">{
-  <span style="color: #8b2252;">"server"</span>: <span style="color: #8b2252;">"123.123.123.123"</span>,
-  <span style="color: #8b2252;">"server_port"</span>: 8388,
-  <span style="color: #8b2252;">"local_address"</span>:<span style="color: #8b2252;">"127.0.0.1"</span>,
-  <span style="color: #8b2252;">"local_port"</span>:1080,
-  <span style="color: #8b2252;">"port_password"</span>:{
-          <span style="color: #8b2252;">"9001"</span>:<span style="color: #8b2252;">"password9001"</span>,
-          <span style="color: #8b2252;">"9002"</span>:<span style="color: #8b2252;">"password9002"</span>,
-          <span style="color: #8b2252;">"9003"</span>:<span style="color: #8b2252;">"password9003"</span>
+  <span style="color: #CDC673;">"server"</span>: <span style="color: #CDC673;">"123.123.123.123"</span>,
+  <span style="color: #CDC673;">"server_port"</span>: 8388,
+  <span style="color: #CDC673;">"local_address"</span>:<span style="color: #CDC673;">"127.0.0.1"</span>,
+  <span style="color: #CDC673;">"local_port"</span>:1080,
+  <span style="color: #CDC673;">"port_password"</span>:{
+          <span style="color: #CDC673;">"9001"</span>:<span style="color: #CDC673;">"password9001"</span>,
+          <span style="color: #CDC673;">"9002"</span>:<span style="color: #CDC673;">"password9002"</span>,
+          <span style="color: #CDC673;">"9003"</span>:<span style="color: #CDC673;">"password9003"</span>
      },
-  <span style="color: #8b2252;">"password"</span>: <span style="color: #8b2252;">"password"</span>,
-  <span style="color: #8b2252;">"method"</span>: <span style="color: #8b2252;">"aes-256-cfb"</span>,
-  <span style="color: #8b2252;">"timeout"</span>:600
+  <span style="color: #CDC673;">"password"</span>: <span style="color: #CDC673;">"password"</span>,
+  <span style="color: #CDC673;">"method"</span>: <span style="color: #CDC673;">"aes-256-cfb"</span>,
+  <span style="color: #CDC673;">"timeout"</span>:600
 }
 </pre>
 </div>
@@ -623,14 +624,14 @@
 </pre>
 <div class="org-src-container">
 <pre class="src src-shell">[Unit]
-<span style="color: #a0522d;">Description</span>=Shadowsocks
+<span style="color: #FF8C00;">Description</span>=Shadowsocks
 
 [Service]
-<span style="color: #a0522d;">TimeoutStartSec</span>=0
-<span style="color: #a0522d;">ExecStart</span>=/usr/bin/ssserver -c /etc/shadowsocks.json
+<span style="color: #FF8C00;">TimeoutStartSec</span>=0
+<span style="color: #FF8C00;">ExecStart</span>=/usr/bin/ssserver -c /etc/shadowsocks.json
 
 [Install]
-<span style="color: #a0522d;">WantedBy</span>=multi-user.target
+<span style="color: #FF8C00;">WantedBy</span>=multi-user.target
 </pre>
 </div>
 <p>
@@ -640,6 +641,29 @@
 # systemctl enable shadowsocks
 # systemctl start shadowsocks
 # systemctl status shadowsocks -l
+
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org5bb723e" class="outline-3">
+<h3 id="org5bb723e"><span class="section-number-3">1.3</span> 使用 Docker 安装 Shadowsocks</h3>
+<div class="outline-text-3" id="text-1-3">
+<ol class="org-ol">
+<li><p>
+安装 docker
+</p>
+<pre class="example">
+# yum install docker
+# systemctl enable docker
+# systemctl start docker
+
+</pre></li>
+<li><p>
+部署 Shadowsocks
+</p>
+<pre class="example">
+# docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
 
 </pre></li>
 </ol>
@@ -728,13 +752,13 @@ sslocal: /usr/local/bin/sslocal
 </p>
 <div class="org-src-container">
 <pre class="src src-shell">{
-<span style="color: #8b2252;">"server"</span>:<span style="color: #8b2252;">"server-ip"</span>,
-<span style="color: #8b2252;">"server_port"</span>:8000,
-<span style="color: #8b2252;">"local_address"</span>: <span style="color: #8b2252;">"127.0.0.1"</span>,
-<span style="color: #8b2252;">"local_port"</span>:1080,
-<span style="color: #8b2252;">"password"</span>:<span style="color: #8b2252;">"your-password"</span>,
-<span style="color: #8b2252;">"timeout"</span>:600,
-<span style="color: #8b2252;">"method"</span>:<span style="color: #8b2252;">"aes-256-cfb"</span>
+<span style="color: #CDC673;">"server"</span>:<span style="color: #CDC673;">"server-ip"</span>,
+<span style="color: #CDC673;">"server_port"</span>:8000,
+<span style="color: #CDC673;">"local_address"</span>: <span style="color: #CDC673;">"127.0.0.1"</span>,
+<span style="color: #CDC673;">"local_port"</span>:1080,
+<span style="color: #CDC673;">"password"</span>:<span style="color: #CDC673;">"your-password"</span>,
+<span style="color: #CDC673;">"timeout"</span>:600,
+<span style="color: #CDC673;">"method"</span>:<span style="color: #CDC673;">"aes-256-cfb"</span>
 }
 </pre>
 </div>
@@ -782,16 +806,16 @@ $ sudo vim /etc/polipo/config
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-shell" id="org4104971"><span style="color: #a0522d;">logSyslog</span> = true
-<span style="color: #a0522d;">logFile</span> = /var/log/polipo/polipo.log
-<span style="color: #a0522d;">proxyAddress</span> = <span style="color: #8b2252;">"0.0.0.0"</span>
-<span style="color: #a0522d;">socksParentProxy</span> = <span style="color: #8b2252;">"127.0.0.1:1080"</span>
-<span style="color: #a0522d;">socksProxyType</span> = socks5
-<span style="color: #a0522d;">chunkHighMark</span> = 50331648
-<span style="color: #a0522d;">objectHighMark</span> = 16384
-<span style="color: #a0522d;">serverMaxSlots</span> = 64
-<span style="color: #a0522d;">serverSlots</span> = 16
-<span style="color: #a0522d;">serverSlots1</span> = 32
+<pre class="src src-shell" id="org4104971"><span style="color: #FF8C00;">logSyslog</span> = true
+<span style="color: #FF8C00;">logFile</span> = /var/log/polipo/polipo.log
+<span style="color: #FF8C00;">proxyAddress</span> = <span style="color: #CDC673;">"0.0.0.0"</span>
+<span style="color: #FF8C00;">socksParentProxy</span> = <span style="color: #CDC673;">"127.0.0.1:1080"</span>
+<span style="color: #FF8C00;">socksProxyType</span> = socks5
+<span style="color: #FF8C00;">chunkHighMark</span> = 50331648
+<span style="color: #FF8C00;">objectHighMark</span> = 16384
+<span style="color: #FF8C00;">serverMaxSlots</span> = 64
+<span style="color: #FF8C00;">serverSlots</span> = 16
+<span style="color: #FF8C00;">serverSlots1</span> = 32
 </pre>
 </div></li>
 <li><p>
@@ -870,16 +894,16 @@ $ sudo ldconfig
 <h3 id="orga1498ee"><span class="section-number-3">2.2</span> Windows</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-org26e2bb0" class="outline-4">
-<h4 id="org26e2bb0"><span class="section-number-4">2.2.1</span> 下载</h4>
+<div id="outline-container-org52fcfc2" class="outline-4">
+<h4 id="org52fcfc2"><span class="section-number-4">2.2.1</span> 下载</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Windows Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-orgd3a294f" class="outline-4">
-<h4 id="orgd3a294f"><span class="section-number-4">2.2.2</span> 配置</h4>
+<div id="outline-container-org4abfc24" class="outline-4">
+<h4 id="org4abfc24"><span class="section-number-4">2.2.2</span> 配置</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <ol class="org-ol">
 <li>解压
@@ -898,16 +922,16 @@ $ sudo ldconfig
 <h3 id="orgaaad34a"><span class="section-number-3">2.3</span> Android</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-org9ace5d3" class="outline-4">
-<h4 id="org9ace5d3"><span class="section-number-4">2.3.1</span> 下载</h4>
+<div id="outline-container-org5004807" class="outline-4">
+<h4 id="org5004807"><span class="section-number-4">2.3.1</span> 下载</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Android Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-org565aff2" class="outline-4">
-<h4 id="org565aff2"><span class="section-number-4">2.3.2</span> 配置</h4>
+<div id="outline-container-org7a95870" class="outline-4">
+<h4 id="org7a95870"><span class="section-number-4">2.3.2</span> 配置</h4>
 <div class="outline-text-4" id="text-2-3-2">
 
 <div class="figure">
@@ -932,7 +956,7 @@ $ sudo ldconfig
 <h3 id="org2d93777"><span class="section-number-3">2.5</span> Mac OS X</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
-发送邮件至 zrg1390556487@gmail.com，索取 Mac OS X Shadowsocks 客户端。
+<a href="https://github.com/shadowsocks/ShadowsocksX-NG">https://github.com/shadowsocks/ShadowsocksX-NG</a>
 </p>
 </div>
 </div>
@@ -944,16 +968,16 @@ $ sudo ldconfig
 该插件用于调节代理，方便快速切换代理上网模式。根据目前使用经验，Linux 必装，Windows 可选。
 </p>
 </div>
-<div id="outline-container-orgb6789a4" class="outline-3">
-<h3 id="orgb6789a4"><span class="section-number-3">3.1</span> 下载</h3>
+<div id="outline-container-org9a04e1c" class="outline-3">
+<h3 id="org9a04e1c"><span class="section-number-3">3.1</span> 下载</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 发送邮件至 zrg1390556487@gmail.com，索取 Mac OS X Shadowsocks 客户端。
 </p>
 </div>
 </div>
-<div id="outline-container-org6af3be2" class="outline-3">
-<h3 id="org6af3be2"><span class="section-number-3">3.2</span> 配置</h3>
+<div id="outline-container-org073df95" class="outline-3">
+<h3 id="org073df95"><span class="section-number-3">3.2</span> 配置</h3>
 <div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
 <li>设置代理
@@ -1057,8 +1081,8 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/javascript/2019/06/19/js-functions/" rel="prev" title="JavaScript Functions">
-                JavaScript Functions <i class="fa fa-chevron-right"></i>
+              <a href="/software/2019/06/05/markdown/" rel="prev" title="Learning Markdown">
+                Learning Markdown <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1136,7 +1160,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1147,7 +1171,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1158,7 +1182,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1251,7 +1275,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6cebaac"> <span class="nav-number">1</span> <span class="nav-text">1 服务端</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdae77d7"> <span class="nav-number">1.1</span> <span class="nav-text">1.1 服务部署第一步</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd3325fa"> <span class="nav-number">1.2</span> <span class="nav-text">1.2 安装和配置 Shadowsocks</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7679133"> <span class="nav-number">2</span> <span class="nav-text">2 客户端</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2cd4d24"> <span class="nav-number">2.1</span> <span class="nav-text">2.1 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4897bb9"> <span class="nav-number">2.1.1</span> <span class="nav-text">2.1.1 安装、配置和使用 Linux Shadowsocks 客户端</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d0ac85"> <span class="nav-number">2.1.2</span> <span class="nav-text">2.1.2 开启全局代理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfb11996"> <span class="nav-number">2.1.3</span> <span class="nav-text">2.1.3 问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga1498ee"> <span class="nav-number">2.2</span> <span class="nav-text">2.2 Windows</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org26e2bb0"> <span class="nav-number">2.2.1</span> <span class="nav-text">2.2.1 下载</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd3a294f"> <span class="nav-number">2.2.2</span> <span class="nav-text">2.2.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaaad34a"> <span class="nav-number">2.3</span> <span class="nav-text">2.3 Android</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ace5d3"> <span class="nav-number">2.3.1</span> <span class="nav-text">2.3.1 下载</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org565aff2"> <span class="nav-number">2.3.2</span> <span class="nav-text">2.3.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c77f22"> <span class="nav-number">2.4</span> <span class="nav-text">2.4 IOS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2d93777"> <span class="nav-number">2.5</span> <span class="nav-text">2.5 Mac OS X</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbcd70d5"> <span class="nav-number">3</span> <span class="nav-text">3 浏览器插件：SwitchyOmega</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb6789a4"> <span class="nav-number">3.1</span> <span class="nav-text">3.1 下载</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6af3be2"> <span class="nav-number">3.2</span> <span class="nav-text">3.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdd59930"> <span class="nav-number">4</span> <span class="nav-text">4 参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6cebaac"> <span class="nav-text">1 服务端</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdae77d7"> <span class="nav-text">1.1 服务部署第一步</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd3325fa"> <span class="nav-text">1.2 安装和配置 Shadowsocks</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5bb723e"> <span class="nav-text">1.3 使用 Docker 安装 Shadowsocks</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7679133"> <span class="nav-text">2 客户端</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2cd4d24"> <span class="nav-text">2.1 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4897bb9"> <span class="nav-text">2.1.1 安装、配置和使用 Linux Shadowsocks 客户端</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d0ac85"> <span class="nav-text">2.1.2 开启全局代理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfb11996"> <span class="nav-text">2.1.3 问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga1498ee"> <span class="nav-text">2.2 Windows</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org52fcfc2"> <span class="nav-text">2.2.1 下载</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4abfc24"> <span class="nav-text">2.2.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaaad34a"> <span class="nav-text">2.3 Android</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5004807"> <span class="nav-text">2.3.1 下载</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7a95870"> <span class="nav-text">2.3.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c77f22"> <span class="nav-text">2.4 IOS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2d93777"> <span class="nav-text">2.5 Mac OS X</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbcd70d5"> <span class="nav-text">3 浏览器插件：SwitchyOmega</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9a04e1c"> <span class="nav-text">3.1 下载</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org073df95"> <span class="nav-text">3.2 配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdd59930"> <span class="nav-text">4 参考资料</span> </a> </li>
     </ol>
   </div>
             

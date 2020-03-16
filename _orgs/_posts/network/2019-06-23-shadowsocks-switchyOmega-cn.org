@@ -44,6 +44,7 @@ photos:
    - 搬瓦工
    - [[https://www.digitalocean.com][DigitalOcean]]
    - AWS
+   - [[https://www.vultr.com][Vultr]]
 ** 安装和配置 Shadowsocks
    1. 安装 pip
       : // CentOS
@@ -105,6 +106,13 @@ photos:
       : # systemctl enable shadowsocks
       : # systemctl start shadowsocks
       : # systemctl status shadowsocks -l
+** 使用 Docker 安装 Shadowsocks
+   1. 安装 docker
+      : # yum install docker
+      : # systemctl enable docker
+      : # systemctl start docker
+   2. 部署 Shadowsocks
+      : # docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
 * 客户端
   目前支持以下客户端进行连接：
   - Linux
@@ -230,7 +238,7 @@ photos:
       [[file:{{site.url}}/assets/images/ios-shadowrocket-01.jpeg]]
       [[file:{{site.url}}/assets/images/ios-shadowrocket-02.jpeg]]
 ** Mac OS X
-   发送邮件至 zrg1390556487@gmail.com，索取 Mac OS X Shadowsocks 客户端。
+   https://github.com/shadowsocks/ShadowsocksX-NG
 * 浏览器插件：SwitchyOmega
   该插件用于调节代理，方便快速切换代理上网模式。根据目前使用经验，Linux 必装，Windows 可选。
 ** 下载

@@ -114,13 +114,13 @@
 <meta name="description" content="JavaScript">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript 原生开发">
+<meta property="og:title" content="JavaScript 公共文件">
 <meta property="og:url" content="http://localhost:4000/javascript/2015/10/15/apply-javascript/">
 <meta property="og:site_name" content="Rengui's Notes">
 <meta property="og:description" content="JavaScript">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript 原生开发">
+<meta name="twitter:title" content="JavaScript 公共文件">
 <meta name="twitter:description" content="JavaScript">
 
 
@@ -154,7 +154,7 @@
 
 
 
-  <title>JavaScript 原生开发 | Rengui's Notes</title>
+  <title>JavaScript 公共文件 | Rengui's Notes</title>
   
 
 
@@ -355,7 +355,7 @@
           <h1 class="post-title" itemprop="name headline">
           
           
-            JavaScript 原生开发
+            JavaScript 公共文件
           
         </h1>
         
@@ -464,7 +464,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  11669
+                  11367
                 </span>
               
 
@@ -493,228 +493,199 @@
 
       
         
-  <div id="outline-container-orga5d04f9" class="outline-2">
-<h2 id="orga5d04f9"><span class="section-number-2">1</span> 写在前面</h2>
+  <div id="outline-container-org5094588" class="outline-2">
+<h2 id="org5094588"><span class="section-number-2">1</span> Date/Time</h2>
 <div class="outline-text-2" id="text-1">
-<pre class="example">
-web 开发可能会用到的javascript代码片段沉淀。
-
-</pre>
 </div>
-<div id="outline-container-orgc42519e" class="outline-4">
-<h4 id="orgc42519e"><span class="section-number-4">1.0.1</span> JavaScript没有块级作用域</h4>
+<div id="outline-container-orgdeeb7a5" class="outline-4">
+<h4 id="orgdeeb7a5"><span class="section-number-4">1.0.1</span> 转换UTC时间</h4>
 <div class="outline-text-4" id="text-1-0-1">
-<pre class="example">
-在其他类C的语言中，由{}封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。                                           
-
-</pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">if(true){                                                                                                                                             
-    var color=<span style="color: #8b2252;">"blue"</span><span style="color: #b22222;">;                                                                                                                                 </span>
-}                                                                                                                                                     
-alert(color)<span style="color: #b22222;">; </span><span style="color: #b22222;">//"blue"                                                                                                                                </span>
-</pre>
-</div>
-<pre class="example">
-内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
-
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org2d08fd3" class="outline-2">
-<h2 id="org2d08fd3"><span class="section-number-2">2</span> 日期/时间</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-orga15530d" class="outline-4">
-<h4 id="orga15530d"><span class="section-number-4">2.0.1</span> 转换UTC时间</h4>
-<div class="outline-text-4" id="text-2-0-1">
-<div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">ConvertUtcTime</span>(<span style="color: #a0522d;">utctime</span>, <span style="color: #a0522d;">style</span>) {
-    <span style="color: #a020f0;">if</span> (utctime == <span style="color: #008b8b;">null</span> || utctime == <span style="color: #8b2252;">""</span>) {
-        <span style="color: #a020f0;">return</span> <span style="color: #8b2252;">""</span>;
-    }<span style="color: #a020f0;">else</span> {
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">d</span> = utctime.substring(6, utctime.length - 1);
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">newdate</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>(parseInt(d));
-        <span style="color: #a020f0;">if</span> (style == <span style="color: #008b8b;">null</span> || style == <span style="color: #8b2252;">""</span>) style = <span style="color: #8b2252;">"yyyy-MM-dd hh:mm:ss"</span>;
-        <span style="color: #a020f0;">return</span> newdate.format(style);
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">ConvertUtcTime</span>(<span style="color: #FD971F;">utctime</span>, <span style="color: #FD971F;">style</span>) {
+    <span style="color: #F92672;">if</span> (utctime == <span style="color: #AE81FF;">null</span> || utctime == <span style="color: #E6DB74;">""</span>) {
+        <span style="color: #F92672;">return</span> <span style="color: #E6DB74;">""</span>;
+    }<span style="color: #F92672;">else</span> {
+        <span style="color: #F92672;">var</span> <span style="color: #FD971F;">d</span> = utctime.substring(6, utctime.length - 1);
+        <span style="color: #F92672;">var</span> <span style="color: #FD971F;">newdate</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>(parseInt(d));
+        <span style="color: #F92672;">if</span> (style == <span style="color: #AE81FF;">null</span> || style == <span style="color: #E6DB74;">""</span>) style = <span style="color: #E6DB74;">"yyyy-MM-dd hh:mm:ss"</span>;
+        <span style="color: #F92672;">return</span> newdate.format(style);
     }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org870c9f7" class="outline-4">
-<h4 id="org870c9f7"><span class="section-number-4">2.0.2</span> 将日期转换为yyyymmddhhssmm格式</h4>
-<div class="outline-text-4" id="text-2-0-2">
+<div id="outline-container-org91c584b" class="outline-4">
+<h4 id="org91c584b"><span class="section-number-4">1.0.2</span> 将日期转换为yyyymmddhhssmm格式</h4>
+<div class="outline-text-4" id="text-1-0-2">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getDate</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">year</span> = date.getFullYear();
+<pre class="src src-js"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getDate</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">year</span> = date.getFullYear();
 
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">month</span> = date.getMonth() + 1;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">date1</span> = date.getDate();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">day</span> = date.getDay();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">month</span> = date.getMonth() + 1;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">date1</span> = date.getDate();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">day</span> = date.getDay();
 
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">hours</span> = date.getHours();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">hours</span> = date.getHours();
 
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">minutes</span> = date.getMinutes();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">seconds</span> = date.getSeconds();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">ms</span> = date.getMilliseconds();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">curDateTime</span> = year;
-    <span style="color: #a020f0;">if</span> (month &gt; 9) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">minutes</span> = date.getMinutes();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">seconds</span> = date.getSeconds();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">ms</span> = date.getMilliseconds();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">curDateTime</span> = year;
+    <span style="color: #F92672;">if</span> (month &gt; 9) {
         curDateTime = curDateTime + month;
-    } <span style="color: #a020f0;">else</span> {
-        curDateTime = curDateTime + <span style="color: #8b2252;">"0"</span> + month;
+    } <span style="color: #F92672;">else</span> {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">"0"</span> + month;
     }
-    <span style="color: #a020f0;">if</span> (day &gt; 9) {
+    <span style="color: #F92672;">if</span> (day &gt; 9) {
         curDateTime = curDateTime + day;
-    } <span style="color: #a020f0;">else</span> {
-        curDateTime = curDateTime + <span style="color: #8b2252;">"0"</span> + day;
+    } <span style="color: #F92672;">else</span> {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">"0"</span> + day;
     }
-    <span style="color: #a020f0;">if</span> (hours &gt; 9) {
-        curDateTime = curDateTime + <span style="color: #8b2252;">""</span> + hours;
-    } <span style="color: #a020f0;">else</span> {
-        curDateTime = curDateTime + <span style="color: #8b2252;">"0"</span> + hours;
+    <span style="color: #F92672;">if</span> (hours &gt; 9) {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">""</span> + hours;
+    } <span style="color: #F92672;">else</span> {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">"0"</span> + hours;
     }
-    <span style="color: #a020f0;">if</span> (minutes &gt; 9) {
+    <span style="color: #F92672;">if</span> (minutes &gt; 9) {
         curDateTime = curDateTime + minutes;
-    } <span style="color: #a020f0;">else</span> {
-        curDateTime = curDateTime + <span style="color: #8b2252;">"0"</span> + minutes;
+    } <span style="color: #F92672;">else</span> {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">"0"</span> + minutes;
     }
-    <span style="color: #a020f0;">if</span> (seconds &gt; 9) {
+    <span style="color: #F92672;">if</span> (seconds &gt; 9) {
         curDateTime = curDateTime + seconds;
-    } <span style="color: #a020f0;">else</span> {
-        curDateTime = curDateTime + <span style="color: #8b2252;">"0"</span> + seconds;
+    } <span style="color: #F92672;">else</span> {
+        curDateTime = curDateTime + <span style="color: #E6DB74;">"0"</span> + seconds;
     }
-    <span style="color: #a020f0;">return</span> curDateTime;
+    <span style="color: #F92672;">return</span> curDateTime;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgceb02bc" class="outline-4">
-<h4 id="orgceb02bc"><span class="section-number-4">2.0.3</span> 格式化日期</h4>
-<div class="outline-text-4" id="text-2-0-3">
+<div id="outline-container-orgaeb0b25" class="outline-4">
+<h4 id="orgaeb0b25"><span class="section-number-4">1.0.3</span> 格式化日期</h4>
+<div class="outline-text-4" id="text-1-0-3">
 <div class="org-src-container">
-<pre class="src src-js">Date.<span style="color: #008b8b;">prototype</span>.format = <span style="color: #a020f0;">function</span> (<span style="color: #a0522d;">format</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">o</span> =
-    {
-        <span style="color: #8b2252;">"M+"</span>: <span style="color: #008b8b;">this</span>.getMonth() + 1, <span style="color: #b22222;">//</span><span style="color: #b22222;">month</span>
-        <span style="color: #8b2252;">"d+"</span>: <span style="color: #008b8b;">this</span>.getDate(),    <span style="color: #b22222;">//</span><span style="color: #b22222;">day</span>
-        <span style="color: #8b2252;">"h+"</span>: <span style="color: #008b8b;">this</span>.getHours(),   <span style="color: #b22222;">//</span><span style="color: #b22222;">hour</span>
-        <span style="color: #8b2252;">"m+"</span>: <span style="color: #008b8b;">this</span>.getMinutes(), <span style="color: #b22222;">//</span><span style="color: #b22222;">minute</span>
-        <span style="color: #8b2252;">"s+"</span>: <span style="color: #008b8b;">this</span>.getSeconds(), <span style="color: #b22222;">//</span><span style="color: #b22222;">second</span>
-        <span style="color: #8b2252;">"q+"</span>: Math.floor((<span style="color: #008b8b;">this</span>.getMonth() + 3) / 3),  <span style="color: #b22222;">//</span><span style="color: #b22222;">quarter</span>
-        <span style="color: #8b2252;">"S"</span>: <span style="color: #008b8b;">this</span>.getMilliseconds() <span style="color: #b22222;">//</span><span style="color: #b22222;">millisecond</span>
-    }
-    <span style="color: #a020f0;">if</span> (<span style="color: #8b2252;">/(y+)/</span>.test(format))
-        format = format.replace(RegExp.$1, (<span style="color: #008b8b;">this</span>.getFullYear() + <span style="color: #8b2252;">""</span>).substr(4 - RegExp.$1.length));
-    <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">k</span> <span style="color: #a020f0;">in</span> o)
-        <span style="color: #a020f0;">if</span> (<span style="color: #a020f0;">new</span> <span style="color: #228b22;">RegExp</span>(<span style="color: #8b2252;">"("</span> + k + <span style="color: #8b2252;">")"</span>).test(format))
-            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : (<span style="color: #8b2252;">"00"</span> + o[k]).substr((<span style="color: #8b2252;">""</span> + o[k]).length));
-    <span style="color: #a020f0;">return</span> format;
+<pre class="src src-javascript">Date.<span style="color: #AE81FF;">prototype</span>.format = <span style="color: #F92672;">function</span> (<span style="color: #FD971F;">format</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">o</span> =
+        {
+            <span style="color: #E6DB74;">"M+"</span>: <span style="color: #AE81FF;">this</span>.getMonth() + 1, <span style="color: #75715E;">//</span><span style="color: #75715E;">month</span>
+            <span style="color: #E6DB74;">"d+"</span>: <span style="color: #AE81FF;">this</span>.getDate(),    <span style="color: #75715E;">//</span><span style="color: #75715E;">day</span>
+            <span style="color: #E6DB74;">"h+"</span>: <span style="color: #AE81FF;">this</span>.getHours(),   <span style="color: #75715E;">//</span><span style="color: #75715E;">hour</span>
+            <span style="color: #E6DB74;">"m+"</span>: <span style="color: #AE81FF;">this</span>.getMinutes(), <span style="color: #75715E;">//</span><span style="color: #75715E;">minute</span>
+            <span style="color: #E6DB74;">"s+"</span>: <span style="color: #AE81FF;">this</span>.getSeconds(), <span style="color: #75715E;">//</span><span style="color: #75715E;">second</span>
+            <span style="color: #E6DB74;">"q+"</span>: Math.floor((<span style="color: #AE81FF;">this</span>.getMonth() + 3) / 3),  <span style="color: #75715E;">//</span><span style="color: #75715E;">quarter</span>
+            <span style="color: #E6DB74;">"S"</span>: <span style="color: #AE81FF;">this</span>.getMilliseconds() <span style="color: #75715E;">//</span><span style="color: #75715E;">millisecond</span>
+        }
+    <span style="color: #F92672;">if</span> (<span style="color: #E6DB74;">/(y+)/</span>.test(format))
+        format = format.replace(RegExp.$1, (<span style="color: #AE81FF;">this</span>.getFullYear() + <span style="color: #E6DB74;">""</span>).substr(4 - RegExp.$1.length));
+    <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">k</span> <span style="color: #F92672;">in</span> o)
+        <span style="color: #F92672;">if</span> (<span style="color: #F92672;">new</span> <span style="color: #66D9EF;">RegExp</span>(<span style="color: #E6DB74;">"("</span> + k + <span style="color: #E6DB74;">")"</span>).test(format))
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : (<span style="color: #E6DB74;">"00"</span> + o[k]).substr((<span style="color: #E6DB74;">""</span> + o[k]).length));
+    <span style="color: #F92672;">return</span> format;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge66707c" class="outline-4">
-<h4 id="orge66707c"><span class="section-number-4">2.0.4</span> 日期加减</h4>
-<div class="outline-text-4" id="text-2-0-4">
+<div id="outline-container-org048c304" class="outline-4">
+<h4 id="org048c304"><span class="section-number-4">1.0.4</span> 日期加减</h4>
+<div class="outline-text-4" id="text-1-0-4">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">DateAdd</span>(<span style="color: #a0522d;">dateObj</span>, <span style="color: #a0522d;">days</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">tempDate</span> = dateObj.valueOf();
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">DateAdd</span>(<span style="color: #FD971F;">dateObj</span>, <span style="color: #FD971F;">days</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">tempDate</span> = dateObj.valueOf();
     tempDate = tempDate + days * 24 * 60 * 60 * 1000
-    tempDate = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>(tempDate)
-    <span style="color: #a020f0;">return</span> tempDate;
+    tempDate = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>(tempDate)
+    <span style="color: #F92672;">return</span> tempDate;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org36a89ad" class="outline-4">
-<h4 id="org36a89ad"><span class="section-number-4">2.0.5</span> 获取指定日期</h4>
-<div class="outline-text-4" id="text-2-0-5">
+<div id="outline-container-org3bff0bc" class="outline-4">
+<h4 id="org3bff0bc"><span class="section-number-4">1.0.5</span> 获取指定日期</h4>
+<div class="outline-text-4" id="text-1-0-5">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#24320;&#22987;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getTodayStart</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">y</span> = date.getFullYear();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">m</span> = date.getMonth() + 1;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">d</span> = date.getDate();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time</span> = y + <span style="color: #8b2252;">'-'</span> + (m &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + m) : m) + <span style="color: #8b2252;">'-'</span> + (d &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + d) : d) + <span style="color: #8b2252;">" 00:00:00"</span>;
-    <span style="color: #a020f0;">return</span> time;
+<pre class="src src-javascript"><span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#24320;&#22987;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getTodayStart</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">y</span> = date.getFullYear();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">m</span> = date.getMonth() + 1;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">d</span> = date.getDate();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time</span> = y + <span style="color: #E6DB74;">'-'</span> + (m &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + m) : m) + <span style="color: #E6DB74;">'-'</span> + (d &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + d) : d) + <span style="color: #E6DB74;">" 00:00:00"</span>;
+    <span style="color: #F92672;">return</span> time;
 }
 
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#32467;&#26463;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getTodayEnd</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">y</span> = date.getFullYear();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">m</span> = date.getMonth() + 1;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">d</span> = date.getDate();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time</span> = y + <span style="color: #8b2252;">'-'</span> + (m &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + m) : m) + <span style="color: #8b2252;">'-'</span> + (d &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + d) : d) + <span style="color: #8b2252;">" 23:59:59"</span>;
-    <span style="color: #a020f0;">return</span> time;
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;&#25351;&#23450;&#26085;&#26399;&#32467;&#26463;&#26102;&#38388;&#65288;00&#65306;00&#65306;00&#65289;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getTodayEnd</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">y</span> = date.getFullYear();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">m</span> = date.getMonth() + 1;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">d</span> = date.getDate();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time</span> = y + <span style="color: #E6DB74;">'-'</span> + (m &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + m) : m) + <span style="color: #E6DB74;">'-'</span> + (d &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + d) : d) + <span style="color: #E6DB74;">" 23:59:59"</span>;
+    <span style="color: #F92672;">return</span> time;
 }
 
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;&#25351;&#23450;&#24403;&#26376;&#31532;&#19968;&#22825;&#26085;&#26399;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getMonthStart</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">y</span> = date.getFullYear();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">m</span> = date.getMonth() + 1;
-    <span style="color: #b22222;">//</span><span style="color: #b22222;">var d = date.getDate();</span>
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time</span> = y + <span style="color: #8b2252;">'-'</span> + (m &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + m) : m) + <span style="color: #8b2252;">'-'</span> + 1;
-    <span style="color: #a020f0;">return</span> time;
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;&#25351;&#23450;&#24403;&#26376;&#31532;&#19968;&#22825;&#26085;&#26399;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getMonthStart</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">y</span> = date.getFullYear();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">m</span> = date.getMonth() + 1;
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">var d = date.getDate();</span>
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time</span> = y + <span style="color: #E6DB74;">'-'</span> + (m &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + m) : m) + <span style="color: #E6DB74;">'-'</span> + 1;
+    <span style="color: #F92672;">return</span> time;
 }
 
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;&#25351;&#23450;&#24403;&#22825;&#26085;&#26399;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getMonthEnd</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">y</span> = date.getFullYear();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">m</span> = date.getMonth() + 1;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">d</span> = date.getDate();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time</span> = y + <span style="color: #8b2252;">'-'</span> + (m &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + m) : m) + <span style="color: #8b2252;">'-'</span> + (d &lt; 10 ? (<span style="color: #8b2252;">'0'</span> + d) : d);
-    <span style="color: #a020f0;">return</span> time;
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;&#25351;&#23450;&#24403;&#22825;&#26085;&#26399;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getMonthEnd</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">y</span> = date.getFullYear();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">m</span> = date.getMonth() + 1;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">d</span> = date.getDate();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time</span> = y + <span style="color: #E6DB74;">'-'</span> + (m &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + m) : m) + <span style="color: #E6DB74;">'-'</span> + (d &lt; 10 ? (<span style="color: #E6DB74;">'0'</span> + d) : d);
+    <span style="color: #F92672;">return</span> time;
 }
 
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;&#26376;&#20221;&#26368;&#21518;&#19968;&#22825;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getCurrentMonthLast</span>(<span style="color: #a0522d;">date</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">currentMonth</span> = date.getMonth();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">nextMonth</span> = ++currentMonth;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">nextMonthFirstDay</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>(date.getFullYear(), nextMonth, 1);
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">oneDay</span> = 1000 * 60 * 60 * 24;
-    <span style="color: #a020f0;">return</span> <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>(nextMonthFirstDay - oneDay);
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;&#26376;&#20221;&#26368;&#21518;&#19968;&#22825;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getCurrentMonthLast</span>(<span style="color: #FD971F;">date</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">currentMonth</span> = date.getMonth();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">nextMonth</span> = ++currentMonth;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">nextMonthFirstDay</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>(date.getFullYear(), nextMonth, 1);
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">oneDay</span> = 1000 * 60 * 60 * 24;
+    <span style="color: #F92672;">return</span> <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>(nextMonthFirstDay - oneDay);
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4939cb9" class="outline-4">
-<h4 id="org4939cb9"><span class="section-number-4">2.0.6</span> 计算日期差</h4>
-<div class="outline-text-4" id="text-2-0-6">
+<div id="outline-container-org9b14d3f" class="outline-4">
+<h4 id="org9b14d3f"><span class="section-number-4">1.0.6</span> 计算日期差</h4>
+<div class="outline-text-4" id="text-1-0-6">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getDateDiff</span>(<span style="color: #a0522d;">date1</span>, <span style="color: #a0522d;">date2</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">times</span> = date2 - date1;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">days</span> = Math.floor(times / (1000 * 60 * 60 * 24));
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getDateDiff</span>(<span style="color: #FD971F;">date1</span>, <span style="color: #FD971F;">date2</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">times</span> = date2 - date1;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">days</span> = Math.floor(times / (1000 * 60 * 60 * 24));
     times = times - days * 1000 * 60 * 60 * 24;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">hours</span> = Math.floor(times / (1000 * 60 * 60));
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">hours</span> = Math.floor(times / (1000 * 60 * 60));
     times = times - hours * 1000 * 60 * 60;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">minus</span> = Math.floor(times / 60000);
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">minus</span> = Math.floor(times / 60000);
     times = times - minus * 60000;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">secs</span> = Math.floor(times / 6000);
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">secs</span> = Math.floor(times / 6000);
 
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">ret</span> = <span style="color: #8b2252;">""</span>;
-    <span style="color: #a020f0;">if</span> (days &gt; 0) {
-        ret = days + <span style="color: #8b2252;">"&#22825;"</span> + hours + <span style="color: #8b2252;">"&#26102;"</span> + minus + <span style="color: #8b2252;">"&#20998;"</span> + secs + <span style="color: #8b2252;">"&#31186;"</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">ret</span> = <span style="color: #E6DB74;">""</span>;
+    <span style="color: #F92672;">if</span> (days &gt; 0) {
+        ret = days + <span style="color: #E6DB74;">"&#22825;"</span> + hours + <span style="color: #E6DB74;">"&#26102;"</span> + minus + <span style="color: #E6DB74;">"&#20998;"</span> + secs + <span style="color: #E6DB74;">"&#31186;"</span>;
     }
-    <span style="color: #a020f0;">else</span> {
-        <span style="color: #a020f0;">if</span> (hours &gt; 0) ret = hours + <span style="color: #8b2252;">"&#26102;"</span>;
-        ret = ret + minus + <span style="color: #8b2252;">"&#20998;"</span> + secs + <span style="color: #8b2252;">"&#31186;"</span>;
+    <span style="color: #F92672;">else</span> {
+        <span style="color: #F92672;">if</span> (hours &gt; 0) ret = hours + <span style="color: #E6DB74;">"&#26102;"</span>;
+        ret = ret + minus + <span style="color: #E6DB74;">"&#20998;"</span> + secs + <span style="color: #E6DB74;">"&#31186;"</span>;
     }
-    <span style="color: #a020f0;">return</span> ret;
+    <span style="color: #F92672;">return</span> ret;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgeab01fe" class="outline-4">
-<h4 id="orgeab01fe"><span class="section-number-4">2.0.7</span> 倒计时</h4>
-<div class="outline-text-4" id="text-2-0-7">
+<div id="outline-container-orgfba8335" class="outline-4">
+<h4 id="orgfba8335"><span class="section-number-4">1.0.7</span> 倒计时</h4>
+<div class="outline-text-4" id="text-1-0-7">
 <div class="HTML">
 <p>
 &lt;strong&gt;剩余时间：&lt;/strong&gt;&lt;span id="timer"&gt;&lt;/span&gt;
@@ -722,33 +693,33 @@ alert(color)<span style="color: #b22222;">; </span><span style="color: #b22222;"
 
 </div>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20498;&#35745;&#26102; start</span>
-<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time_end</span>,<span style="color: #a0522d;">time_now_server</span>,<span style="color: #a0522d;">time_now_client</span>,<span style="color: #a0522d;">time_end</span>,<span style="color: #a0522d;">time_server_client</span>,<span style="color: #a0522d;">timerID</span>;
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#25130;&#27490;&#26102;&#38388;</span>
-time_end = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>(<span style="color: #8b2252;">'{$appraisal_points.stop_time|date="Y-m-d H:i:s",###}'</span>);
+<pre class="src src-javascript"><span style="color: #75715E;">//</span><span style="color: #75715E;">&#20498;&#35745;&#26102; start</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">time_end</span>,<span style="color: #FD971F;">time_now_server</span>,<span style="color: #FD971F;">time_now_client</span>,<span style="color: #FD971F;">time_end</span>,<span style="color: #FD971F;">time_server_client</span>,<span style="color: #FD971F;">timerID</span>;
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#25130;&#27490;&#26102;&#38388;</span>
+time_end = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>(<span style="color: #E6DB74;">'{$appraisal_points.stop_time|date="Y-m-d H:i:s",###}'</span>);
 time_end=time_end.getTime();
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#24403;&#21069;&#26102;&#38388;</span>
-time_now_server=<span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>();
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#24403;&#21069;&#26102;&#38388;</span>
+time_now_server=<span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>();
 time_now_server=time_now_server.getTime();
-time_now_client=<span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>();
+time_now_client=<span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>();
 time_now_client=time_now_client.getTime();
 time_server_client=time_now_server-time_now_client;
-setTimeout(<span style="color: #8b2252;">"show_time()"</span>,1000);
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#26174;&#31034;&#26102;&#38388;&#20989;&#25968;</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">show_time</span>()
+setTimeout(<span style="color: #E6DB74;">"show_time()"</span>,1000);
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#26174;&#31034;&#26102;&#38388;&#20989;&#25968;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">show_time</span>()
 {
-    Var timer = document.getElementById(<span style="color: #8b2252;">"timer"</span>);
-    <span style="color: #a020f0;">if</span>(!timer){
-        <span style="color: #a020f0;">return</span> ;
+    Var timer = document.getElementById(<span style="color: #E6DB74;">"timer"</span>);
+    <span style="color: #F92672;">if</span>(!timer){
+        <span style="color: #F92672;">return</span> ;
     }
     timer.innerHTML =time_server_client;
 
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time_now</span>,<span style="color: #a0522d;">time_distance</span>,<span style="color: #a0522d;">str_time</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">int_day</span>,<span style="color: #a0522d;">int_hour</span>,<span style="color: #a0522d;">int_minute</span>,<span style="color: #a0522d;">int_second</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">time_now</span>=<span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time_now</span>,<span style="color: #FD971F;">time_distance</span>,<span style="color: #FD971F;">str_time</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">int_day</span>,<span style="color: #FD971F;">int_hour</span>,<span style="color: #FD971F;">int_minute</span>,<span style="color: #FD971F;">int_second</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">time_now</span>=<span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>();
     time_now=time_now.getTime()+time_server_client;
     time_distance=time_end-time_now;
-    <span style="color: #a020f0;">if</span>(time_distance&gt;0)
+    <span style="color: #F92672;">if</span>(time_distance&gt;0)
     {
         int_day=Math.floor(time_distance/86400000);
         time_distance-=int_day*86400000;
@@ -758,451 +729,641 @@ setTimeout(<span style="color: #8b2252;">"show_time()"</span>,1000);
         time_distance-=int_minute*60000;
         int_second=Math.floor(time_distance/1000);
 
-        <span style="color: #a020f0;">if</span>(int_hour&lt;10){
-            int_hour=<span style="color: #8b2252;">"0"</span>+int_hour;
+        <span style="color: #F92672;">if</span>(int_hour&lt;10){
+            int_hour=<span style="color: #E6DB74;">"0"</span>+int_hour;
         }
-        <span style="color: #a020f0;">if</span>(int_minute&lt;10){
-            int_minute=<span style="color: #8b2252;">"0"</span>+int_minute;
+        <span style="color: #F92672;">if</span>(int_minute&lt;10){
+            int_minute=<span style="color: #E6DB74;">"0"</span>+int_minute;
         }
-        <span style="color: #a020f0;">if</span>(int_second&lt;10){
-            int_second=<span style="color: #8b2252;">"0"</span>+int_second;
+        <span style="color: #F92672;">if</span>(int_second&lt;10){
+            int_second=<span style="color: #E6DB74;">"0"</span>+int_second;
         }
-        <span style="color: #a020f0;">if</span> (int_day&gt;0) {
-            str_time=<span style="color: #8b2252;">"&lt;b style='color:#46be8a;'&gt;"</span>+int_day+<span style="color: #8b2252;">"&lt;/b style='color:#46be8a;'&gt;&#22825;&lt;b style='color:#46be8a;'&gt;"</span>+int_hour+<span style="color: #8b2252;">"&lt;/b style='color:#46be8a;'&gt;&#23567;&#26102;&lt;b style='color:#46be8a;'&gt;"</span>+int_minute+<span style="color: #8b2252;">"&lt;/b style='color:#46be8a;'&gt;&#20998;&#38047;&lt;b style='color:#46be8a;'&gt;"</span>+int_second+<span style="color: #8b2252;">"&lt;/b style='color:#46be8a;'&gt;&#31186;"</span>;
-        }<span style="color: #a020f0;">else</span> <span style="color: #a020f0;">if</span>(int_day == 0 &amp;&amp; int_hour&gt;=12){
-            str_time=<span style="color: #8b2252;">"&lt;b style='color:#f5a751;'&gt;"</span>+int_day+<span style="color: #8b2252;">"&lt;/b style='color:#f5a751;'&gt;&#22825;&lt;b style='color:#f5a751;'&gt;"</span>+int_hour+<span style="color: #8b2252;">"&lt;/b style='color:#f5a751;'&gt;&#23567;&#26102;&lt;b style='color:#f5a751;'&gt;"</span>+int_minute+<span style="color: #8b2252;">"&lt;/b style='color:#f5a751;'&gt;&#20998;&#38047;&lt;b style='color:#f5a751;'&gt;"</span>+int_second+<span style="color: #8b2252;">"&lt;/b style='color:#f5a751;'&gt;&#31186;"</span>;
-        }<span style="color: #a020f0;">else</span> <span style="color: #a020f0;">if</span>(int_day == 0 &amp;&amp; int_hour&lt;=5){
-            str_time=<span style="color: #8b2252;">"&lt;b style='color:#fc6167;'&gt;"</span>+int_day+<span style="color: #8b2252;">"&lt;/b style='color:#fc6167;'&gt;&#22825;&lt;b style='color:#fc6167;'&gt;"</span>+int_hour+<span style="color: #8b2252;">"&lt;/b style='color:#fc6167;'&gt;&#23567;&#26102;&lt;b style='color:#fc6167;'&gt;"</span>+int_minute+<span style="color: #8b2252;">"&lt;/b style='color:#fc6167;'&gt;&#20998;&#38047;&lt;b style='color:#fc6167;'&gt;"</span>+int_second+<span style="color: #8b2252;">"&lt;/b style='color:#fc6167;'&gt;&#31186;"</span>;
+        <span style="color: #F92672;">if</span> (int_day&gt;0) {
+            str_time=<span style="color: #E6DB74;">"&lt;b style='color:#46be8a;'&gt;"</span>+int_day+<span style="color: #E6DB74;">"&lt;/b style='color:#46be8a;'&gt;&#22825;&lt;b style='color:#46be8a;'&gt;"</span>+int_hour+<span style="color: #E6DB74;">"&lt;/b style='color:#46be8a;'&gt;&#23567;&#26102;&lt;b style='color:#46be8a;'&gt;"</span>+int_minute+<span style="color: #E6DB74;">"&lt;/b style='color:#46be8a;'&gt;&#20998;&#38047;&lt;b style='color:#46be8a;'&gt;"</span>+int_second+<span style="color: #E6DB74;">"&lt;/b style='color:#46be8a;'&gt;&#31186;"</span>;
+        }<span style="color: #F92672;">else</span> <span style="color: #F92672;">if</span>(int_day == 0 &amp;&amp; int_hour&gt;=12){
+            str_time=<span style="color: #E6DB74;">"&lt;b style='color:#f5a751;'&gt;"</span>+int_day+<span style="color: #E6DB74;">"&lt;/b style='color:#f5a751;'&gt;&#22825;&lt;b style='color:#f5a751;'&gt;"</span>+int_hour+<span style="color: #E6DB74;">"&lt;/b style='color:#f5a751;'&gt;&#23567;&#26102;&lt;b style='color:#f5a751;'&gt;"</span>+int_minute+<span style="color: #E6DB74;">"&lt;/b style='color:#f5a751;'&gt;&#20998;&#38047;&lt;b style='color:#f5a751;'&gt;"</span>+int_second+<span style="color: #E6DB74;">"&lt;/b style='color:#f5a751;'&gt;&#31186;"</span>;
+        }<span style="color: #F92672;">else</span> <span style="color: #F92672;">if</span>(int_day == 0 &amp;&amp; int_hour&lt;=5){
+            str_time=<span style="color: #E6DB74;">"&lt;b style='color:#fc6167;'&gt;"</span>+int_day+<span style="color: #E6DB74;">"&lt;/b style='color:#fc6167;'&gt;&#22825;&lt;b style='color:#fc6167;'&gt;"</span>+int_hour+<span style="color: #E6DB74;">"&lt;/b style='color:#fc6167;'&gt;&#23567;&#26102;&lt;b style='color:#fc6167;'&gt;"</span>+int_minute+<span style="color: #E6DB74;">"&lt;/b style='color:#fc6167;'&gt;&#20998;&#38047;&lt;b style='color:#fc6167;'&gt;"</span>+int_second+<span style="color: #E6DB74;">"&lt;/b style='color:#fc6167;'&gt;&#31186;"</span>;
         }
         timer.innerHTML=str_time;
-        setTimeout(<span style="color: #8b2252;">"show_time()"</span>,1000);
+        setTimeout(<span style="color: #E6DB74;">"show_time()"</span>,1000);
     }
-    <span style="color: #a020f0;">else</span>
+    <span style="color: #F92672;">else</span>
     {
         timer.innerHTML =timer.innerHTML;
         clearTimeout(timerID);
-        <span style="color: #b22222;">// </span><span style="color: #b22222;">window.location.href="http://www.baidu.com";</span>
+        <span style="color: #75715E;">// </span><span style="color: #75715E;">window.location.href="http://www.baidu.com";</span>
     }
 }
-<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20498;&#35745;&#26102; end</span>
+<span style="color: #75715E;">//</span><span style="color: #75715E;">&#20498;&#35745;&#26102; end</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgae5d2b8" class="outline-4">
-<h4 id="orgae5d2b8"><span class="section-number-4">2.0.8</span> 指定睡眠时间</h4>
-<div class="outline-text-4" id="text-2-0-8">
+<div id="outline-container-orgcec4626" class="outline-4">
+<h4 id="orgcec4626"><span class="section-number-4">1.0.8</span> 指定睡眠时间</h4>
+<div class="outline-text-4" id="text-1-0-8">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #8b2252;">/**</span>
-<span style="color: #8b2252;"> * js&#25351;&#23450;&#30561;&#30496;&#26102;&#38271;</span>
-<span style="color: #8b2252;"> * @param  {[type]} numberMillis [description]</span>
-<span style="color: #8b2252;"> * @return {[type]}              [description]</span>
-<span style="color: #8b2252;"> */</span>
- <span style="color: #a020f0;">function</span> <span style="color: #0000ff;">sleep</span>(<span style="color: #a0522d;">numberMillis</span>) {
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">now</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>();
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">exitTime</span> = now.getTime() + numberMillis;
-        <span style="color: #a020f0;">while</span> (<span style="color: #008b8b;">true</span>) {
-                now = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Date</span>();
-                <span style="color: #a020f0;">if</span> (now.getTime() &gt; exitTime)
-                        <span style="color: #a020f0;">return</span>;
-        }
+<pre class="src src-javascript"><span style="color: #E6DB74;">/**</span>
+<span style="color: #E6DB74;"> * js&#25351;&#23450;&#30561;&#30496;&#26102;&#38271;</span>
+<span style="color: #E6DB74;"> * @param  {[type]} numberMillis [description]</span>
+<span style="color: #E6DB74;"> * @return {[type]}              [description]</span>
+<span style="color: #E6DB74;"> */</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">sleep</span>(<span style="color: #FD971F;">numberMillis</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">now</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">exitTime</span> = now.getTime() + numberMillis;
+    <span style="color: #F92672;">while</span> (<span style="color: #AE81FF;">true</span>) {
+        now = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Date</span>();
+        <span style="color: #F92672;">if</span> (now.getTime() &gt; exitTime)
+            <span style="color: #F92672;">return</span>;
+    }
 }
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaee1e54" class="outline-2">
-<h2 id="orgaee1e54"><span class="section-number-2">3</span> 字符串</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orga8a2b6c" class="outline-2">
+<h2 id="orga8a2b6c"><span class="section-number-2">2</span> String</h2>
+<div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org819b4a9" class="outline-3">
-<h3 id="org819b4a9"><span class="section-number-3">3.1</span> 生成随机验证码</h3>
-<div class="outline-text-3" id="text-3-1">
+<div id="outline-container-org136c318" class="outline-4">
+<h4 id="org136c318"><span class="section-number-4">2.0.1</span> 生成随机验证码</h4>
+<div class="outline-text-4" id="text-2-0-1">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">CreateCode</span>() {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">code</span> = <span style="color: #8b2252;">''</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">codeLength</span> = 6;<span style="color: #b22222;">//</span><span style="color: #b22222;">&#39564;&#35777;&#30721;&#30340;&#38271;&#24230;</span>
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">selectChar</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Array</span>(<span style="color: #8b2252;">'1'</span>, <span style="color: #8b2252;">'2'</span>, <span style="color: #8b2252;">'3'</span>, <span style="color: #8b2252;">'4'</span>, <span style="color: #8b2252;">'5'</span>, <span style="color: #8b2252;">'6'</span>, <span style="color: #8b2252;">'7'</span>, <span style="color: #8b2252;">'8'</span>, <span style="color: #8b2252;">'9'</span>, <span style="color: #8b2252;">'A'</span>, <span style="color: #8b2252;">'B'</span>, <span style="color: #8b2252;">'C'</span>, <span style="color: #8b2252;">'D'</span>, <span style="color: #8b2252;">'E'</span>, <span style="color: #8b2252;">'F'</span>, <span style="color: #8b2252;">'G'</span>, <span style="color: #8b2252;">'H'</span>, <span style="color: #8b2252;">'J'</span>, <span style="color: #8b2252;">'K'</span>, <span style="color: #8b2252;">'L'</span>, <span style="color: #8b2252;">'M'</span>, <span style="color: #8b2252;">'N'</span>, <span style="color: #8b2252;">'P'</span>, <span style="color: #8b2252;">'Q'</span>, <span style="color: #8b2252;">'R'</span>, <span style="color: #8b2252;">'S'</span>, <span style="color: #8b2252;">'T'</span>, <span style="color: #8b2252;">'U'</span>, <span style="color: #8b2252;">'V'</span>, <span style="color: #8b2252;">'W'</span>, <span style="color: #8b2252;">'X'</span>, <span style="color: #8b2252;">'Y'</span>, <span style="color: #8b2252;">'Z'</span>);
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">CreateCode</span>() {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">code</span> = <span style="color: #E6DB74;">''</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">codeLength</span> = 6;<span style="color: #75715E;">//</span><span style="color: #75715E;">&#39564;&#35777;&#30721;&#30340;&#38271;&#24230;</span>
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">selectChar</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Array</span>(<span style="color: #E6DB74;">'1'</span>, <span style="color: #E6DB74;">'2'</span>, <span style="color: #E6DB74;">'3'</span>, <span style="color: #E6DB74;">'4'</span>, <span style="color: #E6DB74;">'5'</span>, <span style="color: #E6DB74;">'6'</span>, <span style="color: #E6DB74;">'7'</span>, <span style="color: #E6DB74;">'8'</span>, <span style="color: #E6DB74;">'9'</span>, <span style="color: #E6DB74;">'A'</span>, <span style="color: #E6DB74;">'B'</span>, <span style="color: #E6DB74;">'C'</span>, <span style="color: #E6DB74;">'D'</span>, <span style="color: #E6DB74;">'E'</span>, <span style="color: #E6DB74;">'F'</span>, <span style="color: #E6DB74;">'G'</span>, <span style="color: #E6DB74;">'H'</span>, <span style="color: #E6DB74;">'J'</span>, <span style="color: #E6DB74;">'K'</span>, <span style="color: #E6DB74;">'L'</span>, <span style="color: #E6DB74;">'M'</span>, <span style="color: #E6DB74;">'N'</span>, <span style="color: #E6DB74;">'P'</span>, <span style="color: #E6DB74;">'Q'</span>, <span style="color: #E6DB74;">'R'</span>, <span style="color: #E6DB74;">'S'</span>, <span style="color: #E6DB74;">'T'</span>, <span style="color: #E6DB74;">'U'</span>, <span style="color: #E6DB74;">'V'</span>, <span style="color: #E6DB74;">'W'</span>, <span style="color: #E6DB74;">'X'</span>, <span style="color: #E6DB74;">'Y'</span>, <span style="color: #E6DB74;">'Z'</span>);
 
-    <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">i</span> = 0; i &lt; codeLength; i++) {
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">charIndex</span> = Math.floor(Math.random() * 32);
+    <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">i</span> = 0; i &lt; codeLength; i++) {
+        <span style="color: #F92672;">var</span> <span style="color: #FD971F;">charIndex</span> = Math.floor(Math.random() * 32);
         code += selectChar[charIndex];
     }
-    <span style="color: #a020f0;">return</span> code;
+    <span style="color: #F92672;">return</span> code;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org704abb1" class="outline-3">
-<h3 id="org704abb1"><span class="section-number-3">3.2</span> 截取字符串包含中文处理</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-org25f4e15" class="outline-4">
+<h4 id="org25f4e15"><span class="section-number-4">2.0.2</span> 截取字符串包含中文处理</h4>
+<div class="outline-text-4" id="text-2-0-2">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #b22222;">//</span><span style="color: #b22222;">(&#20018;,&#38271;&#24230;,&#22686;&#21152;...) </span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">subString</span>(<span style="color: #a0522d;">str</span>, <span style="color: #a0522d;">len</span>, <span style="color: #a0522d;">hasDot</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">newLength</span> = 0;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">newStr</span> = <span style="color: #8b2252;">""</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">chineseRegex</span> = <span style="color: #8b2252;">/[^\x00-\xff]/</span>g;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">singleChar</span> = <span style="color: #8b2252;">""</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">strLength</span> = str.replace(chineseRegex, <span style="color: #8b2252;">"**"</span>).length;
-    <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">i</span> = 0; i &lt; strLength; i++) {
+<pre class="src src-javascript"><span style="color: #75715E;">//</span><span style="color: #75715E;">(&#20018;,&#38271;&#24230;,&#22686;&#21152;...) </span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">subString</span>(<span style="color: #FD971F;">str</span>, <span style="color: #FD971F;">len</span>, <span style="color: #FD971F;">hasDot</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">newLength</span> = 0;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">newStr</span> = <span style="color: #E6DB74;">""</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">chineseRegex</span> = <span style="color: #E6DB74;">/[^\x00-\xff]/</span>g;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">singleChar</span> = <span style="color: #E6DB74;">""</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">strLength</span> = str.replace(chineseRegex, <span style="color: #E6DB74;">"**"</span>).length;
+    <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">i</span> = 0; i &lt; strLength; i++) {
         singleChar = str.charAt(i).toString();
-        <span style="color: #a020f0;">if</span> (singleChar.match(chineseRegex) != <span style="color: #008b8b;">null</span>) {
+        <span style="color: #F92672;">if</span> (singleChar.match(chineseRegex) != <span style="color: #AE81FF;">null</span>) {
             newLength += 2;
         }
-        <span style="color: #a020f0;">else</span> {
+        <span style="color: #F92672;">else</span> {
             newLength++;
         }
-        <span style="color: #a020f0;">if</span> (newLength &gt; len) {
-            <span style="color: #a020f0;">break</span>;
+        <span style="color: #F92672;">if</span> (newLength &gt; len) {
+            <span style="color: #F92672;">break</span>;
         }
         newStr += singleChar;
     }
 
-    <span style="color: #a020f0;">if</span> (hasDot &amp;&amp; strLength &gt; len) {
-        newStr += <span style="color: #8b2252;">"..."</span>;
+    <span style="color: #F92672;">if</span> (hasDot &amp;&amp; strLength &gt; len) {
+        newStr += <span style="color: #E6DB74;">"..."</span>;
     }
-    <span style="color: #a020f0;">return</span> newStr;
+    <span style="color: #F92672;">return</span> newStr;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9a945bc" class="outline-3">
-<h3 id="org9a945bc"><span class="section-number-3">3.3</span> 获取url参数</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-org241fbb5" class="outline-4">
+<h4 id="org241fbb5"><span class="section-number-4">2.0.3</span> 获取 url 参数</h4>
+<div class="outline-text-4" id="text-2-0-3">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">GetRequest</span>() {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">url</span> = location.search; <span style="color: #b22222;">//</span><span style="color: #b22222;">&#33719;&#21462;url&#20013;"?"&#31526;&#21518;&#30340;&#23383;&#20018;</span>
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">theRequest</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Object</span>();
-    <span style="color: #a020f0;">if</span> (url.indexOf(<span style="color: #8b2252;">"?"</span>) != -1) {
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">str</span> = url.substr(1);
-        strs = str.split(<span style="color: #8b2252;">"&amp;"</span>);
-        <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">i</span> = 0; i &lt; strs.length; i++) {
-            theRequest[strs[i].split(<span style="color: #8b2252;">"="</span>)[0]] = unescape(strs[i].split(<span style="color: #8b2252;">"="</span>)[1]);
+<pre class="src src-js"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">GetRequest</span>() {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">url</span> = location.search; <span style="color: #75715E;">//</span><span style="color: #75715E;">&#33719;&#21462;url&#20013;"?"&#31526;&#21518;&#30340;&#23383;&#20018;</span>
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">theRequest</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Object</span>();
+    <span style="color: #F92672;">if</span> (url.indexOf(<span style="color: #E6DB74;">"?"</span>) != -1) {
+        <span style="color: #F92672;">var</span> <span style="color: #FD971F;">str</span> = url.substr(1);
+        strs = str.split(<span style="color: #E6DB74;">"&amp;"</span>);
+        <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">i</span> = 0; i &lt; strs.length; i++) {
+            theRequest[strs[i].split(<span style="color: #E6DB74;">"="</span>)[0]] = unescape(strs[i].split(<span style="color: #E6DB74;">"="</span>)[1]);
         }
     }
-    <span style="color: #a020f0;">return</span> theRequest;
+    <span style="color: #F92672;">return</span> theRequest;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3fc2bcd" class="outline-3">
-<h3 id="org3fc2bcd"><span class="section-number-3">3.4</span> 数字显示千分位</h3>
-<div class="outline-text-3" id="text-3-4">
+<div id="outline-container-org74adc6d" class="outline-4">
+<h4 id="org74adc6d"><span class="section-number-4">2.0.4</span> 数字显示千分位</h4>
+<div class="outline-text-4" id="text-2-0-4">
 <div class="org-src-container">
-<pre class="src src-javasciprt">
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#25968;&#23383;&#36716;&#25442;&#20026;&#21315;&#20998;&#20301;&#26174;&#31034;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">numberToThousands</span>(<span style="color: #FD971F;">number</span>){
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">reg</span> = <span style="color: #E6DB74;">/\d{1,3}(?=(\d{3})+$)/</span>g;
+    <span style="color: #F92672;">return</span> number.toString().replace(reg, <span style="color: #F92672;">function</span>(<span style="color: #FD971F;">str</span>){
+        <span style="color: #F92672;">return</span> str + <span style="color: #E6DB74;">','</span>;
+    });
+}
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#21315;&#20998;&#20301;&#36716;&#25442;&#20026;&#25968;&#23383;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">thousandsToNumber</span>(<span style="color: #FD971F;">numberThousand</span>){
+    <span style="color: #F92672;">return</span> parseInt(numberThousand.toString().split(<span style="color: #E6DB74;">','</span>).join(<span style="color: #E6DB74;">''</span>));
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgab2c5cc" class="outline-3">
+<h3 id="orgab2c5cc"><span class="section-number-3">2.1</span> 常用内置函数</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-javascript">concat(str1,str2)&#65292;&#23383;&#31526;&#20018;&#25340;&#25509;
+left(str, length)&#65292;
+right(str, length)&#65292;
+substring(str, pos, length[optional])&#65292;pos&#65306;&#20174;&#31532;&#20960;&#20301;&#24320;&#22987;&#25130;&#21462;
+mid()&#65292;
+substr()&#65292;
+substring_index(str, delim, count)&#65292;delim&#65306;&#20851;&#38190;&#23383;&#65292;count&#65306;&#20851;&#38190;&#23383;&#20986;&#29616;&#30340;&#27425;&#25968;
 </pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd4002e" class="outline-2">
-<h2 id="orgfd4002e"><span class="section-number-2">4</span> 数组</h2>
+<div id="outline-container-org4391a7c" class="outline-2">
+<h2 id="org4391a7c"><span class="section-number-2">3</span> Math/Number</h2>
+<div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org9ef2cfb" class="outline-2">
-<h2 id="org9ef2cfb"><span class="section-number-2">5</span> 对象</h2>
+<div id="outline-container-orgaa12de8" class="outline-4">
+<h4 id="orgaa12de8"><span class="section-number-4">3.0.1</span> 默认返回 0 ~ 1 之间的随机数</h4>
+<div class="outline-text-4" id="text-3-0-1">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#21462;&#24471;&#20171;&#20110; 1 &#21040; 10 &#20043;&#38388;&#30340;&#19968;&#20010;&#38543;&#26426;&#25968;&#65306;</span>
+Math.floor((Math.random()*10)+1);
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#36820;&#22238; min&#65288;&#21253;&#21547;&#65289;&#65374; max&#65288;&#21253;&#21547;&#65289;&#20043;&#38388;&#30340;&#25968;&#23383;&#65306;</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getRndInteger</span>(<span style="color: #FD971F;">min</span>, <span style="color: #FD971F;">max</span>) {
+    <span style="color: #F92672;">return</span> Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2ee6160" class="outline-4">
+<h4 id="org2ee6160"><span class="section-number-4">3.0.2</span> 直接取整(不考虑小数点后的部分)</h4>
+<div class="outline-text-4" id="text-3-0-2">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#26041;&#24335;&#19968;: parseInt()</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">"3.14"</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">"-3.14"</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">-3</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">"2019hello"</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">2019</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">""</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">NaN</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">"0xA"</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">10(&#21313;&#20845;&#36827;&#21046;)</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = parseInt(<span style="color: #E6DB74;">"070"</span>); <span style="color: #75715E;">//</span><span style="color: #75715E;">56(&#20843;&#36827;&#21046;)</span>
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#26041;&#24335;&#20108;: &#20301;&#36816;&#31639;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = ~~3.14 <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = 3.14^0 <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = 3.14&lt;&lt;0 <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7f1a2ca" class="outline-4">
+<h4 id="org7f1a2ca"><span class="section-number-4">3.0.3</span> 计算后取整(四舍五入,向上取整,向下取整)</h4>
+<div class="outline-text-4" id="text-3-0-3">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#22235;&#33293;&#20116;&#20837;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = Math.round(3.14); <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = Math.ceil(8.54); <span style="color: #75715E;">//</span><span style="color: #75715E;">9</span>
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#21521;&#19978;&#21462;&#25972;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = Math.ceil(3.14); <span style="color: #75715E;">//</span><span style="color: #75715E;">4</span>
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#21521;&#19979;&#21462;&#25972;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">n</span> = Math.ceil(3.14); <span style="color: #75715E;">//</span><span style="color: #75715E;">3</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7635c2b" class="outline-2">
+<h2 id="org7635c2b"><span class="section-number-2">4</span> Array</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgd513fe1" class="outline-4">
+<h4 id="orgd513fe1"><span class="section-number-4">4.0.1</span> 判断某元素是否存在数组中</h4>
+<div class="outline-text-4" id="text-4-0-1">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">var</span> <span style="color: #FD971F;">arr</span> = [<span style="color: #E6DB74;">'a,'</span>,<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'c'</span>,<span style="color: #E6DB74;">'d'</span>,<span style="color: #E6DB74;">'e'</span>];
+<span style="color: #F92672;">if</span>(arr.indexOf(<span style="color: #E6DB74;">'a'</span>) &gt;= 0) <span style="color: #75715E;">// </span><span style="color: #75715E;">indexOf &#22914;&#26524;&#20803;&#32032;&#23384;&#22312;&#20110;&#25968;&#32452;&#20013;&#65292;&#20250;&#36820;&#22238;&#25968;&#32452;&#19979;&#26631;&#65292;&#21542;&#21017;&#36820;&#22238; -1</span>
+<span style="color: #F92672;">if</span>($.inArray(<span style="color: #E6DB74;">'a'</span>,arr) &gt;=0) <span style="color: #75715E;">// </span><span style="color: #75715E;">&#20351;&#29992; jQuery &#30340; inArray &#26041;&#27861;&#65292;&#19982; indexOf &#19968;&#26679;&#65292;&#22914;&#26524;&#20803;&#32032;&#23384;&#22312;&#20110;&#25968;&#32452;&#20013;&#65292;&#20250;&#36820;&#22238;&#25968;&#32452;&#19979;&#26631;&#65292;&#21542;&#21017;&#36820;&#22238; -1</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6dc72da" class="outline-2">
+<h2 id="org6dc72da"><span class="section-number-2">5</span> Object</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgc7d3bfa" class="outline-3">
-<h3 id="orgc7d3bfa"><span class="section-number-3">5.1</span> 对象(Object) ⇋ 字符串(String)</h3>
-<div class="outline-text-3" id="text-5-1">
+<div id="outline-container-org4ff4036" class="outline-4">
+<h4 id="org4ff4036"><span class="section-number-4">5.0.1</span> 对象(Object) ⇋ 字符串(String)</h4>
+<div class="outline-text-4" id="text-5-0-1">
 <div class="org-src-container">
-<pre class="src src-javascript"><span style="color: #b22222;">// </span><span style="color: #b22222;">Object to String</span>
-<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">str</span>=JSON.stringify(obj);
-<span style="color: #b22222;">// </span><span style="color: #b22222;">JSON String to Object</span>
-<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">obj</span> = JSON.parse(str);
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">Object to String</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">str</span>=JSON.stringify(obj);
+<span style="color: #75715E;">// </span><span style="color: #75715E;">JSON String to Object</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = JSON.parse(str);
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org461ca12" class="outline-3">
-<h3 id="org461ca12"><span class="section-number-3">5.2</span> 判断对象/数组中key是否存在</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-org529f3f4" class="outline-4">
+<h4 id="org529f3f4"><span class="section-number-4">5.0.2</span> 判断对象/数组中key是否存在</h4>
+<div class="outline-text-4" id="text-5-0-2">
 <div class="org-src-container">
-<pre class="src src-javascript"><span style="color: #a020f0;">if</span>(obj.hasOwnProperty(key)){...}
+<pre class="src src-javascript"><span style="color: #F92672;">if</span>(obj.hasOwnProperty(key)){...}
 </pre>
 </div>
 </div>
 </div>
+<div id="outline-container-org7f9afe1" class="outline-4">
+<h4 id="org7f9afe1"><span class="section-number-4">5.0.3</span> 数组对象遍历操作</h4>
+<div class="outline-text-4" id="text-5-0-3">
+<ol class="org-ol">
+<li><p>
+使用 Object.keys(obj) 遍历
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">'0'</span>:<span style="color: #E6DB74;">'a'</span>,<span style="color: #E6DB74;">'1'</span>:<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'2'</span>:<span style="color: #E6DB74;">'c'</span>};
+Object.keys(obj).forEach(<span style="color: #F92672;">function</span>(<span style="color: #FD971F;">key</span>){
+console.log(key,obj[key]);
+});
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#27880;&#24847;&#65306; forEach&#19981;&#25903;&#25345;&#20197;&#19979;2&#31181;&#26041;&#24335;&#36339;&#20986;&#24490;&#29615;&#65292;</span>
+<span style="color: #75715E;">// </span><span style="color: #75715E;">1) break; &#25191;&#34892;&#25253;&#38169;: Uncaught SyntaxError: Illegal break statement</span>
+<span style="color: #75715E;">// </span><span style="color: #75715E;">2) return false; &#21482;&#33021;&#36339;&#20986;&#24403;&#21069;&#36941;&#21382;&#25191;&#34892;</span>
+
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#36820;&#22238;&#25351;&#23450;&#26684;&#24335;&#25968;&#32452;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">"1"</span>:5,<span style="color: #E6DB74;">"2"</span>:7,<span style="color: #E6DB74;">"3"</span>:0,<span style="color: #E6DB74;">"4"</span>:0,<span style="color: #E6DB74;">"5"</span>:0,<span style="color: #E6DB74;">"6"</span>:0,<span style="color: #E6DB74;">"7"</span>:0,<span style="color: #E6DB74;">"8"</span>:0};
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">result</span> = Object.keys(obj).map(<span style="color: #F92672;">function</span>(<span style="color: #FD971F;">key</span>) {
+<span style="color: #F92672;">return</span> [Number(key), obj[key]];
+});
+console.log(result);
+<span style="color: #75715E;">// </span><span style="color: #75715E;">[[1,5],[2,7],[3,0],[4,0]&#8230;].</span>
+
+<span style="color: #75715E;">// </span><span style="color: #75715E;">&#32570;&#22833;&#38656;&#35201;&#36339;&#20986;&#24490;&#29615;&#65292;&#20351;&#29992; try&#8230;catch&#8230;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">'0'</span>:<span style="color: #E6DB74;">'a'</span>,<span style="color: #E6DB74;">'1'</span>:<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'2'</span>:<span style="color: #E6DB74;">'c'</span>};
+<span style="color: #F92672;">try</span> {
+Object.keys(obj).forEach(<span style="color: #F92672;">function</span>(<span style="color: #FD971F;">key</span>){
+<span style="color: #F92672;">if</span>(key == <span style="color: #E6DB74;">'a'</span>){
+console.log(key,obj[key]);
+<span style="color: #F92672;">throw</span> <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Error</span>(<span style="color: #E6DB74;">'exist'</span>);
+}
+});
+} <span style="color: #F92672;">catch</span> (ex) {
+<span style="color: #F92672;">if</span>(ex.message==<span style="color: #E6DB74;">'exist'</span>) <span style="color: #F92672;">throw</span> ex
+} <span style="color: #F92672;">finally</span> { 
+console.log(<span style="color: #E6DB74;">'done'</span>);
+}
+</pre>
+</div></li>
+<li><p>
+for-in
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">'0'</span>:<span style="color: #E6DB74;">'a'</span>,<span style="color: #E6DB74;">'1'</span>:<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'2'</span>:<span style="color: #E6DB74;">'c'</span>};
+<span style="color: #F92672;">for</span>(<span style="color: #F92672;">var</span> <span style="color: #FD971F;">i</span> <span style="color: #F92672;">in</span> obj) {
+    console.log(i,<span style="color: #E6DB74;">":"</span>,obj[i]);
+}
+</pre>
+</div></li>
+<li><p>
+for-of
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#25903;&#25345;&#25968;&#32452;&#36941;&#21382;&#12289;&#22823;&#22810;&#25968;&#31867;&#25968;&#32452;&#23545;&#35937;&#12289;&#23383;&#31526;&#20018;&#65288;&#35270;&#20026;&#19968;&#31995;&#21015;&#30340;Unicode&#23383;&#31526;&#26469;&#36827;&#34892;&#36941;&#21382;&#65289;</span>
+<span style="color: #F92672;">var</span> <span style="color: #FD971F;">arr</span>=[<span style="color: #E6DB74;">"&#24352;&#19977;"</span>,<span style="color: #E6DB74;">"&#26446;&#22235;"</span>,<span style="color: #E6DB74;">"&#29579;&#20116;"</span>,<span style="color: #E6DB74;">"&#36213;&#20845;"</span>];
+<span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">value</span> of arr){
+    console.log(value);
+}
+</pre>
+</div></li>
+<li><p>
+使用Object.getOwnPropertyNames(obj) 遍历
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">'0'</span>:<span style="color: #E6DB74;">'a'</span>,<span style="color: #E6DB74;">'1'</span>:<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'2'</span>:<span style="color: #E6DB74;">'c'</span>};
+Object.getOwnPropertyNames(obj).forEach(<span style="color: #F92672;">function</span>(<span style="color: #FD971F;">key</span>){
+    console.log(key,obj[key]);
+});
+</pre>
+</div></li>
+<li><p>
+使用Reflect.ownKeys(obj) 遍历
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = {<span style="color: #E6DB74;">'0'</span>:<span style="color: #E6DB74;">'a'</span>,<span style="color: #E6DB74;">'1'</span>:<span style="color: #E6DB74;">'b'</span>,<span style="color: #E6DB74;">'2'</span>:<span style="color: #E6DB74;">'c'</span>};
+Reflect.ownKeys(obj).forEach(<span style="color: #F92672;">function</span>(<span style="color: #FD971F;">key</span>){
+    console.log(key,obj[key]);
+});
+</pre>
+</div></li>
+</ol>
 </div>
-<div id="outline-container-org0e0f85c" class="outline-2">
-<h2 id="org0e0f85c"><span class="section-number-2">6</span> 校验</h2>
+</div>
+</div>
+<div id="outline-container-orgcd693b1" class="outline-2">
+<h2 id="orgcd693b1"><span class="section-number-2">6</span> 校验</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-org60ea19f" class="outline-3">
-<h3 id="org60ea19f"><span class="section-number-3">6.1</span> 检查对象是否为空对象</h3>
+<div id="outline-container-org76c4408" class="outline-3">
+<h3 id="org76c4408"><span class="section-number-3">6.1</span> 检查对象是否为空对象</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #b22222;">/* </span>
-<span style="color: #b22222;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; //&#22914;&#20320;&#19978;&#38754;&#30340;&#37027;&#20010;&#23545;&#35937;&#23601;&#26159;&#19981;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;</span>
-<span style="color: #b22222;"> * &#26041;&#27861;&#21482;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#19981;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;&#12290; </span>
-<span style="color: #b22222;"> */</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">isOwnEmpty</span>(<span style="color: #a0522d;">obj</span>) {
-    <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">name</span> <span style="color: #a020f0;">in</span> obj) {
-        <span style="color: #a020f0;">if</span> (obj.hasOwnProperty(name)) {
-            <span style="color: #a020f0;">return</span> <span style="color: #008b8b;">false</span>;
+<pre class="src src-js"><span style="color: #75715E;">/* </span>
+<span style="color: #75715E;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; //&#22914;&#20320;&#19978;&#38754;&#30340;&#37027;&#20010;&#23545;&#35937;&#23601;&#26159;&#19981;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;</span>
+<span style="color: #75715E;"> * &#26041;&#27861;&#21482;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#19981;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;&#12290; </span>
+<span style="color: #75715E;"> */</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">isOwnEmpty</span>(<span style="color: #FD971F;">obj</span>) {
+    <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">name</span> <span style="color: #F92672;">in</span> obj) {
+        <span style="color: #F92672;">if</span> (obj.hasOwnProperty(name)) {
+            <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">false</span>;
         }
     }
-    <span style="color: #a020f0;">return</span> <span style="color: #008b8b;">true</span>;
+    <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">true</span>;
 }
-<span style="color: #b22222;">/* </span>
-<span style="color: #b22222;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; </span>
-<span style="color: #b22222;"> * &#26041;&#27861;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#20063;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;(&#22240;&#27492;&#27809;&#26377;&#20351;hasOwnProperty)&#12290; </span>
-<span style="color: #b22222;"> */</span>
-<span style="color: #a020f0;">function</span> <span style="color: #0000ff;">isEmpty</span>(<span style="color: #a0522d;">obj</span>) {
-    <span style="color: #a020f0;">for</span> (<span style="color: #a020f0;">var</span> <span style="color: #a0522d;">name</span> <span style="color: #a020f0;">in</span> obj) {
-        <span style="color: #a020f0;">return</span> <span style="color: #008b8b;">false</span>;
+<span style="color: #75715E;">/* </span>
+<span style="color: #75715E;"> * &#26816;&#27979;&#23545;&#35937;&#26159;&#21542;&#26159;&#31354;&#23545;&#35937;(&#19981;&#21253;&#21547;&#20219;&#20309;&#21487;&#35835;&#23646;&#24615;)&#12290; </span>
+<span style="color: #75715E;"> * &#26041;&#27861;&#26082;&#26816;&#27979;&#23545;&#35937;&#26412;&#36523;&#30340;&#23646;&#24615;&#65292;&#20063;&#26816;&#27979;&#20174;&#21407;&#22411;&#32487;&#25215;&#30340;&#23646;&#24615;(&#22240;&#27492;&#27809;&#26377;&#20351;hasOwnProperty)&#12290; </span>
+<span style="color: #75715E;"> */</span>
+<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">isEmpty</span>(<span style="color: #FD971F;">obj</span>) {
+    <span style="color: #F92672;">for</span> (<span style="color: #F92672;">var</span> <span style="color: #FD971F;">name</span> <span style="color: #F92672;">in</span> obj) {
+        <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">false</span>;
     }
-    <span style="color: #a020f0;">return</span> <span style="color: #008b8b;">true</span>;
+    <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">true</span>;
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbcad89e" class="outline-3">
-<h3 id="orgbcad89e"><span class="section-number-3">6.2</span> 身份证号校验</h3>
+<div id="outline-container-orgf564316" class="outline-3">
+<h3 id="orgf564316"><span class="section-number-3">6.2</span> 身份证号校验</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 //检验身份证号码
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">checkIdcard</span>(<span style="color: #a0522d;">idcard</span>) {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">Msgs</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Array</span>(
-        <span style="color: #8b2252;">"&#39564;&#35777;&#36890;&#36807;"</span>,
-        <span style="color: #8b2252;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#20301;&#25968;&#19981;&#23545;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
-        <span style="color: #8b2252;">"&#26657;&#39564;&#20986;&#29983;&#26085;&#26399;&#26080;&#25928;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
-        <span style="color: #8b2252;">"&#26816;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
-        <span style="color: #8b2252;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#30465;&#20221;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
-<span style="color: #8b2252;">"&#36523;&#20221;&#35777;&#21495;&#30721;&#19981;&#20801;&#35768;&#20026;&#31354;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">checkIdcard</span>(<span style="color: #FD971F;">idcard</span>) {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">Msgs</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Array</span>(
+        <span style="color: #E6DB74;">"&#39564;&#35777;&#36890;&#36807;"</span>,
+        <span style="color: #E6DB74;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#20301;&#25968;&#19981;&#23545;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #E6DB74;">"&#26657;&#39564;&#20986;&#29983;&#26085;&#26399;&#26080;&#25928;&#65292;&#35831;&#27491;&#30830;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #E6DB74;">"&#26816;&#39564;&#36523;&#20221;&#35777;&#21495;&#30721;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #E6DB74;">"&#26657;&#39564;&#36523;&#20221;&#35777;&#30465;&#20221;&#38169;&#35823;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>,
+        <span style="color: #E6DB74;">"&#36523;&#20221;&#35777;&#21495;&#30721;&#19981;&#20801;&#35768;&#20026;&#31354;&#65292;&#35831;&#36755;&#20837;&#30495;&#23454;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;"</span>
     );
 
     idcard = idcard.toUpperCase();
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">area</span> = { 11: <span style="color: #8b2252;">"&#21271;&#20140;"</span>, 12: <span style="color: #8b2252;">"&#22825;&#27941;"</span>, 13: <span style="color: #8b2252;">"&#27827;&#21271;"</span>, 14: <span style="color: #8b2252;">"&#23665;&#35199;"</span>, 15: <span style="color: #8b2252;">"&#20869;&#33945;&#21476;"</span>, 21: <span style="color: #8b2252;">"&#36797;&#23425;"</span>, 22: <span style="color: #8b2252;">"&#21513;&#26519;"</span>, 23: <span style="color: #8b2252;">"&#40657;&#40857;&#27743;"</span>, 31: <span style="color: #8b2252;">"&#19978;&#28023;"</span>, 32: <span style="color: #8b2252;">"&#27743;&#33487;"</span>, 33: <span style="color: #8b2252;">"&#27993;&#27743;"</span>, 34: <span style="color: #8b2252;">"&#23433;&#24509;"</span>, 35: <span style="color: #8b2252;">"&#31119;&#24314;"</span>, 36: <span style="color: #8b2252;">"&#27743;&#35199;"</span>, 37: <span style="color: #8b2252;">"&#23665;&#19996;"</span>, 41: <span style="color: #8b2252;">"&#27827;&#21335;"</span>, 42: <span style="color: #8b2252;">"&#28246;&#21271;"</span>, 43: <span style="color: #8b2252;">"&#28246;&#21335;"</span>, 44: <span style="color: #8b2252;">"&#24191;&#19996;"</span>, 45: <span style="color: #8b2252;">"&#24191;&#35199;"</span>, 46: <span style="color: #8b2252;">"&#28023;&#21335;"</span>, 50: <span style="color: #8b2252;">"&#37325;&#24198;"</span>, 51: <span style="color: #8b2252;">"&#22235;&#24029;"</span>, 52: <span style="color: #8b2252;">"&#36149;&#24030;"</span>, 53: <span style="color: #8b2252;">"&#20113;&#21335;"</span>, 54: <span style="color: #8b2252;">"&#35199;&#34255;"</span>, 61: <span style="color: #8b2252;">"&#38485;&#35199;"</span>, 62: <span style="color: #8b2252;">"&#29976;&#32899;"</span>, 63: <span style="color: #8b2252;">"&#38738;&#28023;"</span>, 64: <span style="color: #8b2252;">"&#23425;&#22799;"</span>, 65: <span style="color: #8b2252;">"&#26032;&#30086;"</span>, 71: <span style="color: #8b2252;">"&#21488;&#28286;"</span>, 81: <span style="color: #8b2252;">"&#39321;&#28207;"</span>, 82: <span style="color: #8b2252;">"&#28595;&#38376;"</span>, 91: <span style="color: #8b2252;">"&#22269;&#22806;"</span> }
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">idcard</span>, <span style="color: #a0522d;">Y</span>, <span style="color: #a0522d;">JYM</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">S</span>, <span style="color: #a0522d;">M</span>;
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">idcard_array</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Array</span>();
-    idcard_array = idcard.split(<span style="color: #8b2252;">""</span>);
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">area</span> = { 11: <span style="color: #E6DB74;">"&#21271;&#20140;"</span>, 12: <span style="color: #E6DB74;">"&#22825;&#27941;"</span>, 13: <span style="color: #E6DB74;">"&#27827;&#21271;"</span>, 14: <span style="color: #E6DB74;">"&#23665;&#35199;"</span>, 15: <span style="color: #E6DB74;">"&#20869;&#33945;&#21476;"</span>, 21: <span style="color: #E6DB74;">"&#36797;&#23425;"</span>, 22: <span style="color: #E6DB74;">"&#21513;&#26519;"</span>, 23: <span style="color: #E6DB74;">"&#40657;&#40857;&#27743;"</span>, 31: <span style="color: #E6DB74;">"&#19978;&#28023;"</span>, 32: <span style="color: #E6DB74;">"&#27743;&#33487;"</span>, 33: <span style="color: #E6DB74;">"&#27993;&#27743;"</span>, 34: <span style="color: #E6DB74;">"&#23433;&#24509;"</span>, 35: <span style="color: #E6DB74;">"&#31119;&#24314;"</span>, 36: <span style="color: #E6DB74;">"&#27743;&#35199;"</span>, 37: <span style="color: #E6DB74;">"&#23665;&#19996;"</span>, 41: <span style="color: #E6DB74;">"&#27827;&#21335;"</span>, 42: <span style="color: #E6DB74;">"&#28246;&#21271;"</span>, 43: <span style="color: #E6DB74;">"&#28246;&#21335;"</span>, 44: <span style="color: #E6DB74;">"&#24191;&#19996;"</span>, 45: <span style="color: #E6DB74;">"&#24191;&#35199;"</span>, 46: <span style="color: #E6DB74;">"&#28023;&#21335;"</span>, 50: <span style="color: #E6DB74;">"&#37325;&#24198;"</span>, 51: <span style="color: #E6DB74;">"&#22235;&#24029;"</span>, 52: <span style="color: #E6DB74;">"&#36149;&#24030;"</span>, 53: <span style="color: #E6DB74;">"&#20113;&#21335;"</span>, 54: <span style="color: #E6DB74;">"&#35199;&#34255;"</span>, 61: <span style="color: #E6DB74;">"&#38485;&#35199;"</span>, 62: <span style="color: #E6DB74;">"&#29976;&#32899;"</span>, 63: <span style="color: #E6DB74;">"&#38738;&#28023;"</span>, 64: <span style="color: #E6DB74;">"&#23425;&#22799;"</span>, 65: <span style="color: #E6DB74;">"&#26032;&#30086;"</span>, 71: <span style="color: #E6DB74;">"&#21488;&#28286;"</span>, 81: <span style="color: #E6DB74;">"&#39321;&#28207;"</span>, 82: <span style="color: #E6DB74;">"&#28595;&#38376;"</span>, 91: <span style="color: #E6DB74;">"&#22269;&#22806;"</span> }
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">idcard</span>, <span style="color: #FD971F;">Y</span>, <span style="color: #FD971F;">JYM</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">S</span>, <span style="color: #FD971F;">M</span>;
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">idcard_array</span> = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Array</span>();
+    idcard_array = idcard.split(<span style="color: #E6DB74;">""</span>);
 
-    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#39564;&#35777;&#26159;&#21542;&#20026;&#31354;</span>
-    <span style="color: #a020f0;">if</span> (idcard.length &lt;= 0) {
-        <span style="color: #a020f0;">return</span> Msgs[5];
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#39564;&#35777;&#26159;&#21542;&#20026;&#31354;</span>
+    <span style="color: #F92672;">if</span> (idcard.length &lt;= 0) {
+        <span style="color: #F92672;">return</span> Msgs[5];
     }
 
-    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#39564;&#35777;&#21495;&#30721;&#20301;&#25968;</span>
-    <span style="color: #a020f0;">if</span> (idcard.length != 15 &amp;&amp; idcard.length != 18) {
-        <span style="color: #a020f0;">return</span> Msgs[1];
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#39564;&#35777;&#21495;&#30721;&#20301;&#25968;</span>
+    <span style="color: #F92672;">if</span> (idcard.length != 15 &amp;&amp; idcard.length != 18) {
+        <span style="color: #F92672;">return</span> Msgs[1];
     }
 
-    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#22320;&#21306;&#26816;&#39564;</span>
-    <span style="color: #a020f0;">if</span> (area[parseInt(idcard.substr(0, 2))] == <span style="color: #008b8b;">null</span>) {
-        <span style="color: #a020f0;">return</span> Msgs[4];
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#22320;&#21306;&#26816;&#39564;</span>
+    <span style="color: #F92672;">if</span> (area[parseInt(idcard.substr(0, 2))] == <span style="color: #AE81FF;">null</span>) {
+        <span style="color: #F92672;">return</span> Msgs[4];
     }
 
 
-    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#36523;&#20221;&#21495;&#30721;&#20301;&#25968;&#21450;&#26684;&#24335;&#26816;&#39564;</span>
-    <span style="color: #a020f0;">switch</span> (idcard.length) {
-        <span style="color: #a020f0;">case</span> 15:
-            <span style="color: #a020f0;">if</span> ((parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0 || ((parseInt(idcard.substr(6, 2)) + 1900) % 100 == 0 &amp;&amp; (parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0)) {
-                ereg = <span style="color: #8b2252;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$/</span>;<span style="color: #b22222;">//</span><span style="color: #b22222;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
-            } <span style="color: #a020f0;">else</span> {
-                ereg = <span style="color: #8b2252;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}$/</span>;<span style="color: #b22222;">//</span><span style="color: #b22222;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#36523;&#20221;&#21495;&#30721;&#20301;&#25968;&#21450;&#26684;&#24335;&#26816;&#39564;</span>
+    <span style="color: #F92672;">switch</span> (idcard.length) {
+    <span style="color: #F92672;">case</span> 15:
+        <span style="color: #F92672;">if</span> ((parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0 || ((parseInt(idcard.substr(6, 2)) + 1900) % 100 == 0 &amp;&amp; (parseInt(idcard.substr(6, 2)) + 1900) % 4 == 0)) {
+            ereg = <span style="color: #E6DB74;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$/</span>;<span style="color: #75715E;">//</span><span style="color: #75715E;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+        } <span style="color: #F92672;">else</span> {
+            ereg = <span style="color: #E6DB74;">/^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}$/</span>;<span style="color: #75715E;">//</span><span style="color: #75715E;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+        }
+        <span style="color: #F92672;">if</span> (ereg.test(idcard))
+            <span style="color: #F92672;">return</span> Msgs[0];
+        <span style="color: #F92672;">else</span> {
+            <span style="color: #F92672;">return</span> Msgs[3];
+        }
+        <span style="color: #F92672;">break</span>;
+    <span style="color: #F92672;">case</span> 18:
+        <span style="color: #75715E;">//</span><span style="color: #75715E;">18&#20301;&#36523;&#20221;&#21495;&#30721;&#26816;&#27979;</span>
+        <span style="color: #75715E;">//</span><span style="color: #75715E;">&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#26816;&#26597; </span>
+        <span style="color: #75715E;">//</span><span style="color: #75715E;">&#38384;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))</span>
+        <span style="color: #75715E;">//</span><span style="color: #75715E;">&#24179;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))</span>
+        <span style="color: #F92672;">if</span> (parseInt(idcard.substr(6, 4)) % 4 == 0 || (parseInt(idcard.substr(6, 4)) % 100 == 0 &amp;&amp; parseInt(idcard.substr(6, 4)) % 4 == 0)) {
+            ereg = <span style="color: #E6DB74;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #75715E;">//</span><span style="color: #75715E;">&#38384;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
+        } <span style="color: #F92672;">else</span> {
+            ereg = <span style="color: #E6DB74;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #75715E;">//</span><span style="color: #75715E;">&#24179;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
+        }
+        <span style="color: #F92672;">if</span> (ereg.test(idcard)) {<span style="color: #75715E;">//</span><span style="color: #75715E;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
+            <span style="color: #75715E;">//</span><span style="color: #75715E;">&#35745;&#31639;&#26657;&#39564;&#20301;</span>
+            S = (parseInt(idcard_array[0]) + parseInt(idcard_array[10])) * 7
+                + (parseInt(idcard_array[1]) + parseInt(idcard_array[11])) * 9
+                + (parseInt(idcard_array[2]) + parseInt(idcard_array[12])) * 10
+                + (parseInt(idcard_array[3]) + parseInt(idcard_array[13])) * 5
+                + (parseInt(idcard_array[4]) + parseInt(idcard_array[14])) * 8
+                + (parseInt(idcard_array[5]) + parseInt(idcard_array[15])) * 4
+                + (parseInt(idcard_array[6]) + parseInt(idcard_array[16])) * 2
+                + parseInt(idcard_array[7]) * 1
+                + parseInt(idcard_array[8]) * 6
+                + parseInt(idcard_array[9]) * 3;
+            Y = S % 11;
+            M = <span style="color: #E6DB74;">"F"</span>;
+            JYM = <span style="color: #E6DB74;">"10X98765432"</span>;
+            M = JYM.substr(Y, 1);<span style="color: #75715E;">//</span><span style="color: #75715E;">&#21028;&#26029;&#26657;&#39564;&#20301;</span>
+            <span style="color: #F92672;">if</span> (M == idcard_array[17])
+                <span style="color: #F92672;">return</span> Msgs[0];
+            <span style="color: #F92672;">else</span> {
+                <span style="color: #F92672;">return</span> Msgs[3];
             }
-            <span style="color: #a020f0;">if</span> (ereg.test(idcard))
-                <span style="color: #a020f0;">return</span> Msgs[0];
-            <span style="color: #a020f0;">else</span> {
-                <span style="color: #a020f0;">return</span> Msgs[3];
-            }
-            <span style="color: #a020f0;">break</span>;
-        <span style="color: #a020f0;">case</span> 18:
-            <span style="color: #b22222;">//</span><span style="color: #b22222;">18&#20301;&#36523;&#20221;&#21495;&#30721;&#26816;&#27979;</span>
-            <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#26816;&#26597; </span>
-            <span style="color: #b22222;">//</span><span style="color: #b22222;">&#38384;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))</span>
-            <span style="color: #b22222;">//</span><span style="color: #b22222;">&#24179;&#24180;&#26376;&#26085;:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))</span>
-            <span style="color: #a020f0;">if</span> (parseInt(idcard.substr(6, 4)) % 4 == 0 || (parseInt(idcard.substr(6, 4)) % 100 == 0 &amp;&amp; parseInt(idcard.substr(6, 4)) % 4 == 0)) {
-                ereg = <span style="color: #8b2252;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #b22222;">//</span><span style="color: #b22222;">&#38384;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
-            } <span style="color: #a020f0;">else</span> {
-                ereg = <span style="color: #8b2252;">/^[1-9][0-9]{5}(19|20)[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))[0-9]{3}[0-9Xx]$/</span>;<span style="color: #b22222;">//</span><span style="color: #b22222;">&#24179;&#24180;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;&#27491;&#21017;&#34920;&#36798;&#24335;</span>
-            }
-            <span style="color: #a020f0;">if</span> (ereg.test(idcard)) {<span style="color: #b22222;">//</span><span style="color: #b22222;">&#27979;&#35797;&#20986;&#29983;&#26085;&#26399;&#30340;&#21512;&#27861;&#24615;</span>
-                <span style="color: #b22222;">//</span><span style="color: #b22222;">&#35745;&#31639;&#26657;&#39564;&#20301;</span>
-                S = (parseInt(idcard_array[0]) + parseInt(idcard_array[10])) * 7
-+ (parseInt(idcard_array[1]) + parseInt(idcard_array[11])) * 9
-+ (parseInt(idcard_array[2]) + parseInt(idcard_array[12])) * 10
-+ (parseInt(idcard_array[3]) + parseInt(idcard_array[13])) * 5
-+ (parseInt(idcard_array[4]) + parseInt(idcard_array[14])) * 8
-+ (parseInt(idcard_array[5]) + parseInt(idcard_array[15])) * 4
-+ (parseInt(idcard_array[6]) + parseInt(idcard_array[16])) * 2
-+ parseInt(idcard_array[7]) * 1
-+ parseInt(idcard_array[8]) * 6
-+ parseInt(idcard_array[9]) * 3;
-                Y = S % 11;
-                M = <span style="color: #8b2252;">"F"</span>;
-                JYM = <span style="color: #8b2252;">"10X98765432"</span>;
-                M = JYM.substr(Y, 1);<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21028;&#26029;&#26657;&#39564;&#20301;</span>
-                <span style="color: #a020f0;">if</span> (M == idcard_array[17])
-                    <span style="color: #a020f0;">return</span> Msgs[0];
-                <span style="color: #a020f0;">else</span> {
-                    <span style="color: #a020f0;">return</span> Msgs[3];
-                }
-            }
-            <span style="color: #a020f0;">else</span> {
-                <span style="color: #a020f0;">return</span> Msgs[2];
-            }
-            <span style="color: #a020f0;">break</span>;
-        <span style="color: #a020f0;">default</span>:
-            <span style="color: #a020f0;">return</span> Msgs[1];
-            <span style="color: #a020f0;">break</span>;
+        }
+        <span style="color: #F92672;">else</span> {
+            <span style="color: #F92672;">return</span> Msgs[2];
+        }
+        <span style="color: #F92672;">break</span>;
+    <span style="color: #F92672;">default</span>:
+        <span style="color: #F92672;">return</span> Msgs[1];
+        <span style="color: #F92672;">break</span>;
     }
 }
 </pre>
 </div>
+
 <p>
 //身份证号码验证算法
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #b22222;">//</span><span style="color: #b22222;">--&#26681;&#25454;17&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#33719;&#21462;&#26368;&#21518;&#19968;&#20301;&#26657;&#39564;&#30721;&#31243;&#24207;</span>
-<span style="color: #a020f0;">public</span> <span style="color: #a020f0;">class</span> Id18 {
-    <span style="color: #228b22;">int</span>[] weight={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#26435;&#37325;</span>
-    <span style="color: #228b22;">char</span>[] validate={ <span style="color: #8b2252;">'1'</span>,<span style="color: #8b2252;">'0'</span>,<span style="color: #8b2252;">'X'</span>,<span style="color: #8b2252;">'9'</span>,<span style="color: #8b2252;">'8'</span>,<span style="color: #8b2252;">'7'</span>,<span style="color: #8b2252;">'6'</span>,<span style="color: #8b2252;">'5'</span>,<span style="color: #8b2252;">'4'</span>,<span style="color: #8b2252;">'3'</span>,<span style="color: #8b2252;">'2'</span>};    <span style="color: #b22222;">//</span><span style="color: #b22222;">mod11,&#23545;&#24212;&#26657;&#39564;&#30721;&#23383;&#31526;&#20540;    </span>
+<pre class="src src-javascript"><span style="color: #75715E;">//</span><span style="color: #75715E;">--&#26681;&#25454;17&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#33719;&#21462;&#26368;&#21518;&#19968;&#20301;&#26657;&#39564;&#30721;&#31243;&#24207;</span>
+<span style="color: #F92672;">public</span> <span style="color: #F92672;">class</span> Id18 {
+    <span style="color: #66D9EF;">int</span>[] weight={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#26435;&#37325;</span>
+    <span style="color: #66D9EF;">char</span>[] validate={ <span style="color: #E6DB74;">'1'</span>,<span style="color: #E6DB74;">'0'</span>,<span style="color: #E6DB74;">'X'</span>,<span style="color: #E6DB74;">'9'</span>,<span style="color: #E6DB74;">'8'</span>,<span style="color: #E6DB74;">'7'</span>,<span style="color: #E6DB74;">'6'</span>,<span style="color: #E6DB74;">'5'</span>,<span style="color: #E6DB74;">'4'</span>,<span style="color: #E6DB74;">'3'</span>,<span style="color: #E6DB74;">'2'</span>};    <span style="color: #75715E;">//</span><span style="color: #75715E;">mod11,&#23545;&#24212;&#26657;&#39564;&#30721;&#23383;&#31526;&#20540;    </span>
 
-    <span style="color: #a020f0;">public</span> <span style="color: #228b22;">char</span> <span style="color: #a0522d;">getValidateCode</span>(String id17){
-        <span style="color: #228b22;">int</span> <span style="color: #a0522d;">sum</span> = 0;
-        <span style="color: #228b22;">int</span> <span style="color: #a0522d;">mode</span> = 0;
-        <span style="color: #a020f0;">for</span>(<span style="color: #228b22;">int</span> <span style="color: #a0522d;">i</span> = 0; i &lt; id17.length(); i++){
+    <span style="color: #F92672;">public</span> <span style="color: #66D9EF;">char</span> <span style="color: #FD971F;">getValidateCode</span>(String id17){
+        <span style="color: #66D9EF;">int</span> <span style="color: #FD971F;">sum</span> = 0;
+        <span style="color: #66D9EF;">int</span> <span style="color: #FD971F;">mode</span> = 0;
+        <span style="color: #F92672;">for</span>(<span style="color: #66D9EF;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; id17.length(); i++){
             sum=sum+Integer.parseInt(String.valueOf(id17.charAt(i)))*weight[i];
         }
         mode = sum % 11;
-        <span style="color: #a020f0;">return</span> validate[mode];
+        <span style="color: #F92672;">return</span> validate[mode];
     }
 
-    <span style="color: #a020f0;">public</span> <span style="color: #a020f0;">static</span> <span style="color: #a020f0;">void</span> <span style="color: #a0522d;">main</span>(String[] args){
-        Id18 tes t= <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Id18</span>();
-        System.out.println(<span style="color: #8b2252;">"&#35813;&#36523;&#20221;&#35777;&#39564;&#35777;&#30721;&#65306;"</span>+test.getValidateCode(<span style="color: #8b2252;">"14230219700101101"</span>));    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#35813;&#36523;&#20221;&#35777;&#26657;&#39564;&#30721;&#65306;3</span>
+    <span style="color: #F92672;">public</span> <span style="color: #F92672;">static</span> <span style="color: #F92672;">void</span> <span style="color: #FD971F;">main</span>(String[] args){
+        Id18 tes t= <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">Id18</span>();
+        System.out.println(<span style="color: #E6DB74;">"&#35813;&#36523;&#20221;&#35777;&#39564;&#35777;&#30721;&#65306;"</span>+test.getValidateCode(<span style="color: #E6DB74;">"14230219700101101"</span>));    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#35813;&#36523;&#20221;&#35777;&#26657;&#39564;&#30721;&#65306;3</span>
     }
 }
---&#20844;&#27665;&#36523;&#20221;&#21495;&#30721;&#26159;&#29305;&#24449;&#32452;&#21512;&#30721;&#65292;&#30001;&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#21644;&#19968;&#20301;&#26657;&#39564;&#30721;&#32452;&#25104;&#12290;
-&#25490;&#21015;&#39034;&#24207;&#20174;&#24038;&#33267;&#21491;&#20381;&#27425;&#20026;&#65306;&#20845;&#20301;&#25968;&#23383;&#22320;&#22336;&#30721;&#65292;&#20843;&#20301;&#25968;&#23383;&#20986;&#29983;&#26085;&#26399;&#30721;&#65292;&#19977;&#20301;&#25968;&#23383;&#39034;&#24207;&#30721;&#21644;&#19968;&#20301;&#26657;&#39564;&#30721;&#12290;
-1&#12289;&#22320;&#22336;&#30721;
-&#34920;&#31034;&#32534;&#30721;&#23545;&#35937;&#24120;&#20303;&#25143;&#21475;&#25152;&#22312;&#21439;(&#24066;&#12289;&#26071;&#12289;&#21306;)&#30340;&#34892;&#25919;&#21306;&#22495;&#21010;&#20998;&#20195;&#30721;&#65292;&#25353;GB/T2260&#30340;&#35268;&#23450;&#25191;&#34892;&#12290;
-
-2&#12289;&#20986;&#29983;&#26085;&#26399;&#30721;
-&#34920;&#31034;&#32534;&#30721;&#23545;&#35937;&#20986;&#29983;&#30340;&#24180;&#12289;&#26376;&#12289;&#26085;&#65292;&#25353;GB/T7408&#30340;&#35268;&#23450;&#25191;&#34892;&#65292;&#24180;&#12289;&#26376;&#12289;&#26085;&#20195;&#30721;&#20043;&#38388;&#19981;&#29992;&#20998;&#38548;&#31526;&#12290;
-
-3&#12289;&#39034;&#24207;&#30721;
-&#34920;&#31034;&#22312;&#21516;&#19968;&#22320;&#22336;&#30721;&#25152;&#26631;&#35782;&#30340;&#21306;&#22495;&#33539;&#22260;&#20869;&#65292;&#23545;&#21516;&#24180;&#12289;&#21516;&#26376;&#12289;&#21516;&#26085;&#20986;&#29983;&#30340;&#20154;&#32534;&#23450;&#30340;&#39034;&#24207;&#21495;&#65292;&#39034;&#24207;&#30721;&#30340;&#22855;&#25968;&#20998;&#37197;&#32473;&#30007;&#24615;&#65292;&#20598;&#25968;&#20998;&#37197;&#32473;&#22899;&#24615;&#12290;
-
-4&#12289;&#26657;&#39564;&#30721;&#35745;&#31639;&#27493;&#39588;
-(1)&#21313;&#19971;&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#21152;&#26435;&#27714;&#21644;&#20844;&#24335;
-S = Sum(Ai * Wi), i = 0, &#8230; , 16 &#65292;&#20808;&#23545;&#21069; 17 &#20301;&#25968;&#23383;&#30340;&#26435;&#27714;&#21644;
-Ai&#65306;&#34920;&#31034;&#31532;i&#20301;&#32622;&#19978;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#25968;&#23383;&#20540;(0~9)
-Wi&#65306;7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 &#65288;&#34920;&#31034;&#31532; i &#20301;&#32622;&#19978;&#30340;&#21152;&#26435;&#22240;&#23376;&#65289;
-(2)&#35745;&#31639;&#27169;
-Y = mod(S, 11)
-(3)&#26681;&#25454;&#27169;&#65292;&#26597;&#25214;&#24471;&#21040;&#23545;&#24212;&#30340;&#26657;&#39564;&#30721;
-Y: 0 1 2 3 4 5 6 7 8 9 10
-&#26657;&#39564;&#30721;: 1 0 X 9 8 7 6 5 4 3 2
---&#35828;&#26126;&#65306;
-1.&#31243;&#24207;&#21487;&#20197;&#26681;&#25454;&#24050;&#26377;&#30340;17&#20301;&#25968;&#23383;&#26412;&#20307;&#30721;&#65292;&#33719;&#21462;&#23545;&#24212;&#30340;&#39564;&#35777;&#30721;&#12290;
-2.&#35813;&#31243;&#24207;&#21487;&#20197;&#21076;&#38500;&#39564;&#35777;&#30721;&#19981;&#27491;&#30830;&#30340;&#36523;&#20221;&#35777;&#21495;&#30721;&#12290;
-3.15&#20301;&#30340;&#36523;&#20221;&#35777;&#20986;&#29983;&#24180;&#20221;&#37319;&#29992;&#24180;&#20221;&#21518;2&#20301;&#65292;&#27809;&#26377;&#26368;&#21518;1&#20301;&#26657;&#39564;&#30721;&#12290;
-4.&#23436;&#25972;&#30340;&#36523;&#20221;&#35777;18&#20301;&#65292;&#26368;&#21518;&#19968;&#20301;&#26657;&#39564;&#20301;&#21487;&#33021;&#26159;&#38750;&#25968;&#23383;&#12290;&#25105;&#20204;&#30340;&#19968;&#20010;&#39033;&#30446;&#65292;&#25968;&#25454;&#24211;&#20445;&#23384;&#21069;17&#20301;&#25968;&#23383;&#65292;&#36825;&#26679;&#23545;&#24212;&#19968;&#20123;SQL&#35821;&#21477;&#65288;&#27604;&#22914;inner join&#65289;&#26377;&#21152;&#36895;&#20316;&#29992;&#30340;&#65281;&#65281;&#65281;
 </pre>
 </div>
+<p>
+<b>公民身份号码是特征组合码，由十七位数字本体码和一位校验码组成。</b>
+<br />
+排列顺序从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位校验码。
+<br />
+</p>
+<ol class="org-ol">
+<li>地址码
+<br />
+表示编码对象常住户口所在县(市、旗、区)的行政区域划分代码，按GB/T2260的规定执行。</li>
+<li>出生日期码
+<br />
+表示编码对象出生的年、月、日，按GB/T7408的规定执行，年、月、日代码之间不用分隔符。</li>
+<li>顺序码
+<br />
+表示在同一地址码所标识的区域范围内，对同年、同月、同日出生的人编定的顺序号，顺序码的奇数分配给男性，偶数分配给女性。</li>
+<li>校验码计算步骤
+<br />
+(1)十七位数字本体码加权求和公式
+<br />
+S = Sum(Ai * Wi), i = 0, … , 16 ，先对前 17 位数字的权求和
+<br />
+Ai：表示第i位置上的身份证号码数字值(0~9)
+<br />
+Wi：7 9 10 5 8 4 2 1 6 3 7 9 10 5 8 4 2 （表示第 i 位置上的加权因子）
+<br />
+(2)计算模
+<br />
+Y = mod(S, 11)
+<br />
+(3)根据模，查找得到对应的校验码
+<br />
+Y: 0 1 2 3 4 5 6 7 8 9 10
+<br />
+校验码: 1 0 X 9 8 7 6 5 4 3 2
+<br /></li>
+<li>说明：
+<ul class="org-ul">
+<li>程序可以根据已有的17位数字本体码，获取对应的验证码。</li>
+<li>该程序可以剔除验证码不正确的身份证号码。</li>
+<li>15位的身份证出生年份采用年份后2位，没有最后1位校验码。</li>
+<li>完整的身份证18位，最后一位校验位可能是非数字。我们的一个项目，数据库保存前17位数字，这样对应一些SQL语句（比如inner join）有加速作用的！！！</li>
+</ul></li>
+</ol>
 </div>
 </div>
-<div id="outline-container-org89052dc" class="outline-3">
-<h3 id="org89052dc"><span class="section-number-3">6.3</span> 电话号码校验</h3>
+<div id="outline-container-org01da854" class="outline-3">
+<h3 id="org01da854"><span class="section-number-3">6.3</span> 电话号码校验</h3>
 <div class="outline-text-3" id="text-6-3">
 <div class="org-src-container">
-<pre class="src src-js">
+<pre class="src src-javascript">
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5bf7d52" class="outline-3">
-<h3 id="org5bf7d52"><span class="section-number-3">6.4</span> Email校验</h3>
+<div id="outline-container-orge3a2878" class="outline-3">
+<h3 id="orge3a2878"><span class="section-number-3">6.4</span> Email校验</h3>
 <div class="outline-text-3" id="text-6-4">
 <div class="org-src-container">
-<pre class="src src-js">
+<pre class="src src-javascript">
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org05b678b" class="outline-3">
-<h3 id="org05b678b"><span class="section-number-3">6.5</span> IP地址校验</h3>
+<div id="outline-container-orgce5d82f" class="outline-3">
+<h3 id="orgce5d82f"><span class="section-number-3">6.5</span> IP地址校验</h3>
 <div class="outline-text-3" id="text-6-5">
 <div class="org-src-container">
-<pre class="src src-js">
+<pre class="src src-javascript">
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org764198d" class="outline-3">
-<h3 id="org764198d"><span class="section-number-3">6.6</span> 其他校验</h3>
+<div id="outline-container-org991d75c" class="outline-3">
+<h3 id="org991d75c"><span class="section-number-3">6.6</span> 其他校验</h3>
 <div class="outline-text-3" id="text-6-6">
 </div>
-<div id="outline-container-org8780d6a" class="outline-4">
-<h4 id="org8780d6a"><span class="section-number-4">6.6.1</span> 检查QQ号码</h4>
+<div id="outline-container-org910137c" class="outline-4">
+<h4 id="org910137c"><span class="section-number-4">6.6.1</span> 检查QQ号码</h4>
 <div class="outline-text-4" id="text-6-6-1">
-<p>
-#+BEGIN_SRC emacs-lisp                                                                                                                                
-function checkqq()  //检查QQ号码                                                                                                                      
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">checkqq</span>()  <span style="color: #75715E;">//</span><span style="color: #75715E;">&#26816;&#26597;QQ&#21495;&#30721;                                                                                                                      </span>
 {                                                                                                                                                     
-        var qq=document.getElementById("qq").value;                                                                                                   
-        var divqq=document.getElementById("qq");                                                                                                      
-        if(qq!="")                                                                                                                                    
-        {                                                                                                                                             
-                if(qq.match(<i>\D</i>)!=null)                                                                                                              
-                {                                                                                                                                     
-                        divqq.innerHTML="&lt;font color='red'&gt;QQ号码只能输入数字！&lt;/font&gt;";                                                              
-                        return false;                                                                                                                 
-                }                                                                                                                                     
-                else                                                                                                                                  
-                {                                                                                                                                    
-                        divqq.innerHTML="&lt;font color='red'&gt;√&lt;/font&gt;";                                                                                
-                        return true;                                                                                                                  
-                }                                                                                                                                     
-        }                                                                                                                                             
-        else                                                                                                                                          
-        {                                                                                                                                            
-                divqq.innerHTML="&lt;font color='green'&gt;√&lt;/font&gt;";                                                                                      
-                return true;                                                                                                                          
-        }                                                                                                                                             
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">qq</span>=document.getElementById(<span style="color: #E6DB74;">"qq"</span>).value;                                                                                                   
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">divqq</span>=document.getElementById(<span style="color: #E6DB74;">"qq"</span>);                                                                                                      
+    <span style="color: #F92672;">if</span>(qq!=<span style="color: #E6DB74;">""</span>)                                                                                                                                    
+    {                                                                                                                                             
+        <span style="color: #F92672;">if</span>(qq.match(<span style="color: #E6DB74;">/\D/</span>)!=<span style="color: #AE81FF;">null</span>)                                                                                                              
+        {                                                                                                                                     
+            divqq.innerHTML=<span style="color: #E6DB74;">"&lt;font color='red'&gt;QQ&#21495;&#30721;&#21482;&#33021;&#36755;&#20837;&#25968;&#23383;&#65281;&lt;/font&gt;"</span>;                                                              
+            <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">false</span>;                                                                                                                 
+        }                                                                                                                                     
+        <span style="color: #F92672;">else</span>                                                                                                                                  
+        {                                                                                                                                    
+            divqq.innerHTML=<span style="color: #E6DB74;">"&lt;font color='red'&gt;&#8730;&lt;/font&gt;"</span>;                                                                                
+            <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">true</span>;                                                                                                                  
+        }                                                                                                                                     
+    }                                                                                                                                             
+    <span style="color: #F92672;">else</span>                                                                                                                                          
+    {                                                                                                                                            
+        divqq.innerHTML=<span style="color: #E6DB74;">"&lt;font color='green'&gt;&#8730;&lt;/font&gt;"</span>;                                                                                      
+        <span style="color: #F92672;">return</span> <span style="color: #AE81FF;">true</span>;                                                                                                                          
+    }                                                                                                                                             
 }                                                                                                                                                     
-#END_SRC
-</p>
-</div>
-</div>
-<div id="outline-container-org071a006" class="outline-4">
-<h4 id="org071a006"><span class="section-number-4">6.6.2</span> </h4>
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa36c8b" class="outline-2">
-<h2 id="orgaa36c8b"><span class="section-number-2">7</span> 其他</h2>
+</div>
+</div>
+<div id="outline-container-org5058ab8" class="outline-2">
+<h2 id="org5058ab8"><span class="section-number-2">7</span> 其他</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org0d8b2f7" class="outline-3">
-<h3 id="org0d8b2f7"><span class="section-number-3">7.1</span> 滚动到页面顶部</h3>
+<div id="outline-container-orgbd3d3ec" class="outline-3">
+<h3 id="orgbd3d3ec"><span class="section-number-3">7.1</span> 滚动到页面顶部</h3>
 <div class="outline-text-3" id="text-7-1">
 <div class="org-src-container">
-<pre class="src src-javascript"><span style="color: #a020f0;">function</span> <span style="color: #0000ff;">goTopEx</span>() {
-    <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">obj</span> = document.getElementById(<span style="color: #8b2252;">"goTopBtn"</span>);
-    <span style="color: #a020f0;">function</span> <span style="color: #0000ff;">getScrollTop</span>() {
-        <span style="color: #a020f0;">return</span> document.documentElement.scrollTop;
+<pre class="src src-javascript"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">goTopEx</span>() {
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">obj</span> = document.getElementById(<span style="color: #E6DB74;">"goTopBtn"</span>);
+    <span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getScrollTop</span>() {
+        <span style="color: #F92672;">return</span> document.documentElement.scrollTop;
     }
-    <span style="color: #a020f0;">function</span> <span style="color: #0000ff;">setScrollTop</span>(<span style="color: #a0522d;">value</span>) {
+    <span style="color: #F92672;">function</span> <span style="color: #A6E22E;">setScrollTop</span>(<span style="color: #FD971F;">value</span>) {
         document.documentElement.scrollTop = value;
     }
-    window.onscroll = <span style="color: #a020f0;">function</span> () { getScrollTop() &gt; 0 ? obj.style.display = <span style="color: #8b2252;">""</span> : obj.style.display = <span style="color: #8b2252;">"none"</span>; }
-    obj.onclick = <span style="color: #a020f0;">function</span> () {
-        <span style="color: #a020f0;">var</span> <span style="color: #a0522d;">goTop</span> = setInterval(scrollMove, 10);
-        <span style="color: #a020f0;">function</span> <span style="color: #0000ff;">scrollMove</span>() {
+    window.onscroll = <span style="color: #F92672;">function</span> () { getScrollTop() &gt; 0 ? obj.style.display = <span style="color: #E6DB74;">""</span> : obj.style.display = <span style="color: #E6DB74;">"none"</span>; }
+    obj.onclick = <span style="color: #F92672;">function</span> () {
+        <span style="color: #F92672;">var</span> <span style="color: #FD971F;">goTop</span> = setInterval(scrollMove, 10);
+        <span style="color: #F92672;">function</span> <span style="color: #A6E22E;">scrollMove</span>() {
             setScrollTop(getScrollTop() / 1.1);
-            <span style="color: #a020f0;">if</span> (getScrollTop() &lt; 1) clearInterval(goTop);
+            <span style="color: #F92672;">if</span> (getScrollTop() &lt; 1) clearInterval(goTop);
         }
     }
 }
@@ -1211,59 +1372,75 @@ function checkqq()  //检查QQ号码
 </div>
 </div>
 </div>
-<div id="outline-container-org0e98cde" class="outline-2">
-<h2 id="org0e98cde"><span class="section-number-2">8</span> 页面操作</h2>
+<div id="outline-container-orgb42ed81" class="outline-2">
+<h2 id="orgb42ed81"><span class="section-number-2">8</span> 页面操作</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-org6c249bd" class="outline-3">
-<h3 id="org6c249bd"><span class="section-number-3">8.1</span> 根据网页实际大小来设置iframe显示区域大小</h3>
+<div id="outline-container-orgff37f42" class="outline-3">
+<h3 id="orgff37f42"><span class="section-number-3">8.1</span> 根据网页实际大小来设置iframe显示区域大小</h3>
 <div class="outline-text-3" id="text-8-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$('#iframe_i').load(<span style="color: #a020f0;">function</span> () {                                                                                                                    
- // &#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;                                                                                     
- var width = $(this).contents().find('#ref_page').outerWidth()<span style="color: #b22222;">;                                                                                      </span>
- var height = $(this).contents().find('#ref_page').outerHeight()<span style="color: #b22222;">;                                                                                    </span>
- // &#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;                                                                                                                         
- $(this).width(width)<span style="color: #b22222;">;                                                                                                                               </span>
- $(this).height(height)<span style="color: #b22222;">;                                                                                                                             </span>
-)}<span style="color: #b22222;">;                                                                                                                                                  </span>
+<pre class="src src-javascript">$(<span style="color: #E6DB74;">'#iframe_i'</span>).load(<span style="color: #F92672;">function</span> () {
+    <span style="color: #75715E;">// </span><span style="color: #75715E;">&#8220;ref_page&#8221;&#20026;&#24341;&#29992;&#39029;&#38754;DIV&#30340;ID&#65292;&#33719;&#21462;DIV&#30340;&#22806;&#37096;&#23485;&#24230;&#12289;&#22806;&#37096;&#39640;&#24230;&#12290;</span>
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">width</span> = $(<span style="color: #AE81FF;">this</span>).contents().find(<span style="color: #E6DB74;">'#ref_page'</span>).outerWidth();
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">height</span> = $(<span style="color: #AE81FF;">this</span>).contents().find(<span style="color: #E6DB74;">'#ref_page'</span>).outerHeight();
+    <span style="color: #75715E;">// </span><span style="color: #75715E;">&#35774;&#32622;iframe&#30340;&#23485;&#24230;&#12289;&#39640;&#24230;&#12290;</span>
+    $(<span style="color: #AE81FF;">this</span>).width(width);
+    $(<span style="color: #AE81FF;">this</span>).height(height);
+)};
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga775fd5" class="outline-3">
-<h3 id="orga775fd5"><span class="section-number-3">8.2</span> 动态显示收缩列表</h3>
+<div id="outline-container-org2f85f8e" class="outline-3">
+<h3 id="org2f85f8e"><span class="section-number-3">8.2</span> 动态显示收缩列表</h3>
 <div class="outline-text-3" id="text-8-2">
-<p>
-Method 1:
-</p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(document).ready(<span style="color: #a020f0;">function</span>(){                                                                                                                        
- //&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;                                                                                                  
- $(<span style="color: #8b2252;">"#user_manage"</span>).click(<span style="color: #a020f0;">function</span>(){                                                                                                                 
-  // $(<span style="color: #8b2252;">"#user_about"</span>).fadeToggle()<span style="color: #b22222;">;                                                                                                                  </span>
-  $(<span style="color: #8b2252;">"#user_manage"</span>).addClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                              </span>
-  $(<span style="color: #8b2252;">"#node_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
-  $(<span style="color: #8b2252;">"#role_manage"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                           </span>
-  $(<span style="color: #8b2252;">"#setting"</span>).removeClass(<span style="color: #8b2252;">"active"</span>)<span style="color: #b22222;">;                                                                                                               </span>
-
-  $(<span style="color: #8b2252;">"#user_about"</span>).slideToggle()<span style="color: #b22222;">;                                                                                                                    </span>
-  $(<span style="color: #8b2252;">"#node_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
-  $(<span style="color: #8b2252;">"#role_about"</span>).slideUp()<span style="color: #b22222;">;                                                                                                                        </span>
-     /*$(<span style="color: #8b2252;">"#div2"</span>).fadeToggle(<span style="color: #8b2252;">"slow"</span>)<span style="color: #b22222;">;                                                                                                                </span>
-         $(<span style="color: #8b2252;">"#div3"</span>).fadeToggle(3000)<span style="color: #b22222;">;</span><span style="color: #b22222;">*/                                                                                                              </span>
- })<span style="color: #b22222;">;                                                                                                                                                 </span>
-})<span style="color: #b22222;">;                                                                                                                                                  </span>
+<pre class="src src-javascript" id="orga24bdea">$(document).ready(<span style="color: #F92672;">function</span>(){
+    <span style="color: #75715E;">//</span><span style="color: #75715E;">&#24403;&#28857;&#20987;&#26576;&#19968;&#21015;&#34920;&#39033;&#26102;&#65292;&#28369;&#20986;&#19979;&#32423;&#33756;&#21333;&#24182;&#25910;&#36215;&#20854;&#20182;&#21015;&#34920;&#39033;</span>
+    $(<span style="color: #E6DB74;">"#user_manage"</span>).click(<span style="color: #F92672;">function</span>(){
+        <span style="color: #75715E;">// </span><span style="color: #75715E;">$("#user_about").fadeToggle();</span>
+        $(<span style="color: #E6DB74;">"#user_manage"</span>).addClass(<span style="color: #E6DB74;">"active"</span>);
+        $(<span style="color: #E6DB74;">"#node_manage"</span>).removeClass(<span style="color: #E6DB74;">"active"</span>);
+        $(<span style="color: #E6DB74;">"#role_manage"</span>).removeClass(<span style="color: #E6DB74;">"active"</span>);
+        $(<span style="color: #E6DB74;">"#setting"</span>).removeClass(<span style="color: #E6DB74;">"active"</span>);
+        $(<span style="color: #E6DB74;">"#user_about"</span>).slideToggle();
+        $(<span style="color: #E6DB74;">"#node_about"</span>).slideUp();
+        $(<span style="color: #E6DB74;">"#role_about"</span>).slideUp();
+        <span style="color: #75715E;">/*</span><span style="color: #75715E;">$("#div2").fadeToggle("slow");</span>
+<span style="color: #75715E;">          $("#div3").fadeToggle(3000);*/</span>
+    });
+});
 </pre>
 </div>
 
-<p>
-Method 2:
-</p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">http://jqueryui.com/accordion/                                                                                                                        
+<pre class="src src-javascript" id="orge9a573d">https:<span style="color: #75715E;">//</span><span style="color: #75715E;">jqueryui.com/accordion/</span>
 </pre>
 </div>
+</div>
+</div>
+</div>
+<div id="outline-container-org38caf56" class="outline-2">
+<h2 id="org38caf56"><span class="section-number-2">9</span> 注意事项</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org2284d12" class="outline-4">
+<h4 id="org2284d12"><span class="section-number-4">9.0.1</span> JavaScript没有块级作用域</h4>
+<div class="outline-text-4" id="text-9-0-1">
+<p>
+在其他类C的语言中，由 {} 封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #F92672;">if</span>(<span style="color: #AE81FF;">true</span>){
+    <span style="color: #F92672;">var</span> <span style="color: #FD971F;">color</span>=<span style="color: #E6DB74;">"blue"</span>;
+}
+alert(color); <span style="color: #75715E;">//</span><span style="color: #75715E;">"blue"</span>
+</pre>
+</div>
+<p>
+内容源于：《JavaScript高级程序设计》第3版 [美] Nicholas C.Zakas，p76.
+</p>
 </div>
 </div>
 </div>
@@ -1314,8 +1491,8 @@ Method 2:
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/python/2016/05/23/selenium-with-python/" rel="next" title="To Learn Python from Selenium">
-                <i class="fa fa-chevron-left"></i> To Learn Python from Selenium
+              <a href="/software/2015/11/06/using-vim/" rel="next" title="Vim Notes">
+                <i class="fa fa-chevron-left"></i> Vim Notes
               </a>
             
           </div>
@@ -1324,8 +1501,8 @@ Method 2:
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/javascript/2015/10/15/apply-javascript/" rel="prev" title="JavaScript 原生开发">
-                JavaScript 原生开发 <i class="fa fa-chevron-right"></i>
+              <a href="/php/2015/08/20/php-import-export/" rel="prev" title="PHP 导入导出">
+                PHP 导入导出 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1403,7 +1580,7 @@ Method 2:
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1414,7 +1591,7 @@ Method 2:
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1425,7 +1602,7 @@ Method 2:
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1518,7 +1695,7 @@ Method 2:
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga5d04f9"> <span class="nav-number">1</span> <span class="nav-text">1 写在前面</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc42519e"> <span class="nav-number">1.1</span> <span class="nav-text">1.0.1 JavaScript没有块级作用域</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2d08fd3"> <span class="nav-number">2</span> <span class="nav-text">2 日期/时间</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga15530d"> <span class="nav-number">2.1</span> <span class="nav-text">2.0.1 转换UTC时间</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org870c9f7"> <span class="nav-number">2.2</span> <span class="nav-text">2.0.2 将日期转换为yyyymmddhhssmm格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgceb02bc"> <span class="nav-number">2.3</span> <span class="nav-text">2.0.3 格式化日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge66707c"> <span class="nav-number">2.4</span> <span class="nav-text">2.0.4 日期加减</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org36a89ad"> <span class="nav-number">2.5</span> <span class="nav-text">2.0.5 获取指定日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4939cb9"> <span class="nav-number">2.6</span> <span class="nav-text">2.0.6 计算日期差</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgeab01fe"> <span class="nav-number">2.7</span> <span class="nav-text">2.0.7 倒计时</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgae5d2b8"> <span class="nav-number">2.8</span> <span class="nav-text">2.0.8 指定睡眠时间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgaee1e54"> <span class="nav-number">3</span> <span class="nav-text">3 字符串</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org819b4a9"> <span class="nav-number">3.1</span> <span class="nav-text">3.1 生成随机验证码</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org704abb1"> <span class="nav-number">3.2</span> <span class="nav-text">3.2 截取字符串包含中文处理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9a945bc"> <span class="nav-number">3.3</span> <span class="nav-text">3.3 获取url参数</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3fc2bcd"> <span class="nav-number">3.4</span> <span class="nav-text">3.4 数字显示千分位</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfd4002e"> <span class="nav-number">4</span> <span class="nav-text">4 数组</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org9ef2cfb"> <span class="nav-number">5</span> <span class="nav-text">5 对象</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc7d3bfa"> <span class="nav-number">5.1</span> <span class="nav-text">5.1 对象(Object) ⇋ 字符串(String)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org461ca12"> <span class="nav-number">5.2</span> <span class="nav-text">5.2 判断对象/数组中key是否存在</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0e0f85c"> <span class="nav-number">6</span> <span class="nav-text">6 校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org60ea19f"> <span class="nav-number">6.1</span> <span class="nav-text">6.1 检查对象是否为空对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbcad89e"> <span class="nav-number">6.2</span> <span class="nav-text">6.2 身份证号校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org89052dc"> <span class="nav-number">6.3</span> <span class="nav-text">6.3 电话号码校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5bf7d52"> <span class="nav-number">6.4</span> <span class="nav-text">6.4 Email校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org05b678b"> <span class="nav-number">6.5</span> <span class="nav-text">6.5 IP地址校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org764198d"> <span class="nav-number">6.6</span> <span class="nav-text">6.6 其他校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8780d6a"> <span class="nav-number">6.6.1</span> <span class="nav-text">6.6.1 检查QQ号码</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org071a006"> <span class="nav-number">6.6.2</span> <span class="nav-text">6.6.2</span</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgaa36c8b"> <span class="nav-number">7</span> <span class="nav-text">7 其他</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0d8b2f7"> <span class="nav-number">7.1</span> <span class="nav-text">7.1 滚动到页面顶部</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0e98cde"> <span class="nav-number">8</span> <span class="nav-text">8 页面操作</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6c249bd"> <span class="nav-number">8.1</span> <span class="nav-text">8.1 根据网页实际大小来设置iframe显示区域大小</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga775fd5"> <span class="nav-number">8.2</span> <span class="nav-text">8.2 动态显示收缩列表</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5094588"> <span class="nav-text">1 Date/Time</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdeeb7a5"> <span class="nav-text">1.0.1 转换UTC时间</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org91c584b"> <span class="nav-text">1.0.2 将日期转换为yyyymmddhhssmm格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaeb0b25"> <span class="nav-text">1.0.3 格式化日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org048c304"> <span class="nav-text">1.0.4 日期加减</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3bff0bc"> <span class="nav-text">1.0.5 获取指定日期</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9b14d3f"> <span class="nav-text">1.0.6 计算日期差</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfba8335"> <span class="nav-text">1.0.7 倒计时</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcec4626"> <span class="nav-text">1.0.8 指定睡眠时间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga8a2b6c"> <span class="nav-text">2 String</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgab2c5cc"> <span class="nav-text">2.1 常用内置函数</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4391a7c"> <span class="nav-text">3 Math/Number</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa12de8"> <span class="nav-text">3.0.1 默认返回 0 ~ 1 之间的随机数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2ee6160"> <span class="nav-text">3.0.2 直接取整(不考虑小数点后的部分)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7f1a2ca"> <span class="nav-text">3.0.3 计算后取整(四舍五入,向上取整,向下取整)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7635c2b"> <span class="nav-text">4 Array</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd513fe1"> <span class="nav-text">4.0.1 判断某元素是否存在数组中</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6dc72da"> <span class="nav-text">5 Object</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4ff4036"> <span class="nav-text">5.0.1 对象(Object) ⇋ 字符串(String)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org529f3f4"> <span class="nav-text">5.0.2 判断对象/数组中key是否存在</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7f9afe1"> <span class="nav-text">5.0.3 数组对象遍历操作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgcd693b1"> <span class="nav-text">6 校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76c4408"> <span class="nav-text">6.1 检查对象是否为空对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf564316"> <span class="nav-text">6.2 身份证号校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01da854"> <span class="nav-text">6.3 电话号码校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge3a2878"> <span class="nav-text">6.4 Email校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgce5d82f"> <span class="nav-text">6.5 IP地址校验</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org991d75c"> <span class="nav-text">6.6 其他校验</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org910137c"> <span class="nav-text">6.6.1 检查QQ号码</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5058ab8"> <span class="nav-text">7 其他</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbd3d3ec"> <span class="nav-text">7.1 滚动到页面顶部</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb42ed81"> <span class="nav-text">8 页面操作</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgff37f42"> <span class="nav-text">8.1 根据网页实际大小来设置iframe显示区域大小</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2f85f8e"> <span class="nav-text">8.2 动态显示收缩列表</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org38caf56"> <span class="nav-text">9 注意事项</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2284d12"> <span class="nav-text">9.0.1 JavaScript没有块级作用域</span> </a> </li> </ol> </li>
     </ol>
   </div>
             

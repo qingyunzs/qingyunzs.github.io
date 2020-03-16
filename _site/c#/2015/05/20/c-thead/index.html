@@ -495,13 +495,13 @@
 
       
         
-  <div id="outline-container-orgae943ad" class="outline-2">
-<h2 id="orgae943ad">线程入门</h2>
-<div class="outline-text-2" id="text-orgae943ad">
+  <div id="outline-container-orgf0b9399" class="outline-2">
+<h2 id="orgf0b9399">线程入门</h2>
+<div class="outline-text-2" id="text-orgf0b9399">
 </div>
-<div id="outline-container-org1c050f9" class="outline-3">
-<h3 id="org1c050f9">创建线程</h3>
-<div class="outline-text-3" id="text-org1c050f9">
+<div id="outline-container-org0b4058f" class="outline-3">
+<h3 id="org0b4058f">创建线程</h3>
+<div class="outline-text-3" id="text-org0b4058f">
 <pre class="example">
 using system;
 using system.Threading;
@@ -519,9 +519,9 @@ static void CalcSum()
 </pre>
 </div>
 </div>
-<div id="outline-container-org0db5049" class="outline-3">
-<h3 id="org0db5049">Thread类几个重要方法</h3>
-<div class="outline-text-3" id="text-org0db5049">
+<div id="outline-container-org646e18c" class="outline-3">
+<h3 id="org646e18c">Thread类几个重要方法</h3>
+<div class="outline-text-3" id="text-org646e18c">
 <pre class="example">
 Thread类用于创建线程，ThreadPool类用于管理线程池。
 
@@ -539,9 +539,9 @@ Thread类中几个重要的方法：
 </div>
 </div>
 
-<div id="outline-container-orgda640a4" class="outline-3">
-<h3 id="orgda640a4">Thread.ThreadState属性</h3>
-<div class="outline-text-3" id="text-orgda640a4">
+<div id="outline-container-orgbb6924f" class="outline-3">
+<h3 id="orgbb6924f">Thread.ThreadState属性</h3>
+<div class="outline-text-3" id="text-orgbb6924f">
 <pre class="example">
 Thread.ThreadState 在各种情况下的取值如下：
 1. Aborted：线程已停止
@@ -558,9 +558,9 @@ Thread.ThreadState 在各种情况下的取值如下：
 </pre>
 </div>
 </div>
-<div id="outline-container-org1c3b960" class="outline-3">
-<h3 id="org1c3b960">设定线程优先级</h3>
-<div class="outline-text-3" id="text-org1c3b960">
+<div id="outline-container-org53bba8d" class="outline-3">
+<h3 id="org53bba8d">设定线程优先级</h3>
+<div class="outline-text-3" id="text-org53bba8d">
 <pre class="example">
 优先级由高到低分别是Highest，AboveNormal，Normal，BelowNormal，Lowest。默认为ThreadPriority.Normal。
 
@@ -574,17 +574,17 @@ myThread.Priority=ThreadPriority.Lowest;
 </div>
 </div>
 </div>
-<div id="outline-container-org39c0d35" class="outline-2">
-<h2 id="org39c0d35">线程的同步和通讯——生产者和消费者</h2>
-<div class="outline-text-2" id="text-org39c0d35">
+<div id="outline-container-orge57e0cb" class="outline-2">
+<h2 id="orge57e0cb">线程的同步和通讯——生产者和消费者</h2>
+<div class="outline-text-2" id="text-orge57e0cb">
 <pre class="example">
 假设这样一种情况，两个线程同时维护一个队列，如果一个线程对队列中添加元素，而另外一个线程从队列中取用元素，那么我们称添加元素的线程为生产者，称取用元素的线程为消费者。
 
 </pre>
 </div>
-<div id="outline-container-org51af398" class="outline-3">
-<h3 id="org51af398">lock关键字</h3>
-<div class="outline-text-3" id="text-org51af398">
+<div id="outline-container-org6d73873" class="outline-3">
+<h3 id="org6d73873">lock关键字</h3>
+<div class="outline-text-3" id="text-org6d73873">
 <pre class="example">
 lock 关键字解决多个线程同时执行一个函数，导致数据的混乱，产生不可预料的结果的问题。
 lock 关键字将一段代码定义为互斥段（critical section）。互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。
@@ -599,9 +599,9 @@ lock(expression) statement_block
 </pre>
 </div>
 </div>
-<div id="outline-container-org8d28bc2" class="outline-3">
-<h3 id="org8d28bc2">Monitor类(System.Threading)</h3>
-<div class="outline-text-3" id="text-org8d28bc2">
+<div id="outline-container-orgf54dbd6" class="outline-3">
+<h3 id="orgf54dbd6">Monitor类(System.Threading)</h3>
+<div class="outline-text-3" id="text-orgf54dbd6">
 <pre class="example">
 Monitor提供了使线程共享资源的方案。
 Monitor类可以锁定一个对象，一个线程只有得到这把锁才可以对该对象进行操作。
@@ -619,9 +619,9 @@ Monitor.Exit(oQueue);//释放锁
 //当拥有对象锁的线程准备释放锁时，它使用Monitor.Pulse()方法通知等待队列中的第一个线程。
 </pre>
 </div>
-<div id="outline-container-orgd6cd66c" class="outline-4">
-<h4 id="orgd6cd66c">Monitor.Wait()和Monitor.Pulse()</h4>
-<div class="outline-text-4" id="text-orgd6cd66c">
+<div id="outline-container-org4dad15e" class="outline-4">
+<h4 id="org4dad15e">Monitor.Wait()和Monitor.Pulse()</h4>
+<div class="outline-text-4" id="text-org4dad15e">
 <pre class="example">
 1. Wait()就是交出锁的使用权，使线程处于阻塞状态，直到再次获得锁的使用权。
 2. 当前线程调用Pulse()向队列中的下一个线程发出锁的信号。接收到脉冲后，等待线程就被移动到就绪队列中。
@@ -633,13 +633,13 @@ Monitor.Exit(oQueue);//释放锁
 </div>
 </div>
 
-<div id="outline-container-orga3b7876" class="outline-2">
-<h2 id="orga3b7876">实例：开辟一线程实现异步导出Excel</h2>
-<div class="outline-text-2" id="text-orga3b7876">
+<div id="outline-container-orga390799" class="outline-2">
+<h2 id="orga390799">实例：开辟一线程实现异步导出Excel</h2>
+<div class="outline-text-2" id="text-orga390799">
 </div>
-<div id="outline-container-orgb847623" class="outline-3">
-<h3 id="orgb847623">环境介绍及实例简述</h3>
-<div class="outline-text-3" id="text-orgb847623">
+<div id="outline-container-org0655e16" class="outline-3">
+<h3 id="org0655e16">环境介绍及实例简述</h3>
+<div class="outline-text-3" id="text-org0655e16">
 <pre class="example">
 环境介绍：
 开发语言》C#;
@@ -658,9 +658,9 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-org7cd6bef" class="outline-3">
-<h3 id="org7cd6bef">实现思路及准备工作</h3>
-<div class="outline-text-3" id="text-org7cd6bef">
+<div id="outline-container-org4d87105" class="outline-3">
+<h3 id="org4d87105">实现思路及准备工作</h3>
+<div class="outline-text-3" id="text-org4d87105">
 <pre class="example">
 思路：
 通过线程实现异步导出操作；
@@ -676,13 +676,13 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-orgebd18e0" class="outline-3">
-<h3 id="orgebd18e0">实例代码</h3>
-<div class="outline-text-3" id="text-orgebd18e0">
+<div id="outline-container-org0813e5a" class="outline-3">
+<h3 id="org0813e5a">实例代码</h3>
+<div class="outline-text-3" id="text-org0813e5a">
 </div>
-<div id="outline-container-org30a1c28" class="outline-4">
-<h4 id="org30a1c28">UserController.cs</h4>
-<div class="outline-text-4" id="text-org30a1c28">
+<div id="outline-container-org0841943" class="outline-4">
+<h4 id="org0841943">UserController.cs</h4>
+<div class="outline-text-4" id="text-org0841943">
 <div class="org-src-container">
 <pre class="src src-emacs">using Project.BLL;
 using Project.Class;
@@ -846,9 +846,9 @@ namespace Project.UI
 </div>
 </div>
 </div>
-<div id="outline-container-org4e93eca" class="outline-4">
-<h4 id="org4e93eca">Global.asax.cs</h4>
-<div class="outline-text-4" id="text-org4e93eca">
+<div id="outline-container-org59fd7e9" class="outline-4">
+<h4 id="org59fd7e9">Global.asax.cs</h4>
+<div class="outline-text-4" id="text-org59fd7e9">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -913,9 +913,9 @@ namespace GpsProject.UI
 </div>
 </div>
 </div>
-<div id="outline-container-org4614c17" class="outline-4">
-<h4 id="org4614c17">DataExportPara.cs</h4>
-<div class="outline-text-4" id="text-org4614c17">
+<div id="outline-container-org34f6e77" class="outline-4">
+<h4 id="org34f6e77">DataExportPara.cs</h4>
+<div class="outline-text-4" id="text-org34f6e77">
 <div class="org-src-container">
 <pre class="src src-emacs">using System.Collections;
 using System.Collections.Generic;
@@ -949,9 +949,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org2db0c90" class="outline-4">
-<h4 id="org2db0c90">DataExport.cs</h4>
-<div class="outline-text-4" id="text-org2db0c90">
+<div id="outline-container-org9c65934" class="outline-4">
+<h4 id="org9c65934">DataExport.cs</h4>
+<div class="outline-text-4" id="text-org9c65934">
 <div class="org-src-container">
 <pre class="src src-emacs">using GpsProject.Class;
 using System.Collections;
@@ -988,9 +988,9 @@ namespace Project.Classes
 </div>
 </div>
 </div>
-<div id="outline-container-org794f782" class="outline-4">
-<h4 id="org794f782">NPOIExcelHelper.cs</h4>
-<div class="outline-text-4" id="text-org794f782">
+<div id="outline-container-org00f1a79" class="outline-4">
+<h4 id="org00f1a79">NPOIExcelHelper.cs</h4>
+<div class="outline-text-4" id="text-org00f1a79">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -1143,9 +1143,9 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-org9986c35" class="outline-3">
-<h3 id="org9986c35">小结</h3>
-<div class="outline-text-3" id="text-org9986c35">
+<div id="outline-container-orgeffadcd" class="outline-3">
+<h3 id="orgeffadcd">小结</h3>
+<div class="outline-text-3" id="text-orgeffadcd">
 <pre class="example">
 在阅读别人的文章时，认真。
 
@@ -1153,16 +1153,16 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-org006f9b1" class="outline-2">
-<h2 id="org006f9b1">实例：利用线程监听模拟车辆进出智能化停车场</h2>
-<div class="outline-text-2" id="text-org006f9b1">
+<div id="outline-container-org4050152" class="outline-2">
+<h2 id="org4050152">实例：利用线程监听模拟车辆进出智能化停车场</h2>
+<div class="outline-text-2" id="text-org4050152">
 </div>
-<div id="outline-container-org4376b79" class="outline-3">
-<h3 id="org4376b79">实例简述</h3>
+<div id="outline-container-orgc1ba055" class="outline-3">
+<h3 id="orgc1ba055">实例简述</h3>
 </div>
-<div id="outline-container-orgdccd6d6" class="outline-3">
-<h3 id="orgdccd6d6">实现效果</h3>
-<div class="outline-text-3" id="text-orgdccd6d6">
+<div id="outline-container-orge1644a7" class="outline-3">
+<h3 id="orge1644a7">实现效果</h3>
+<div class="outline-text-3" id="text-orge1644a7">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/thread_20170616.png" alt="thread_20170616.png" />
@@ -1170,87 +1170,87 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-orgce75d96" class="outline-3">
-<h3 id="orgce75d96">主要代码</h3>
-<div class="outline-text-3" id="text-orgce75d96">
+<div id="outline-container-org380217b" class="outline-3">
+<h3 id="org380217b">主要代码</h3>
+<div class="outline-text-3" id="text-org380217b">
 </div>
-<div id="outline-container-org581897a" class="outline-4">
-<h4 id="org581897a">Main.cs</h4>
-<div class="outline-text-4" id="text-org581897a">
+<div id="outline-container-org4def9ec" class="outline-4">
+<h4 id="org4def9ec">Main.cs</h4>
+<div class="outline-text-4" id="text-org4def9ec">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private void Main_Load(object sender, EventArgs e)
 {
-    MessagePrint.UpdateEventInfo += new MessagePrint.ShowEventInfoHandler(UpdateRuntimeInfo)<span style="color: #b22222;">;</span>
+    MessagePrint.UpdateEventInfo += new MessagePrint.ShowEventInfoHandler(UpdateRuntimeInfo)<span style="color: #75715E;">;</span>
     //&#35774;&#32622;&#24320;&#22987;&#12289;&#32467;&#26463;&#26102;&#38388;&#20026;00:00:00
-    dateTimePicker_InStart.Text = ConfigInfoHelper.InStartRunTime<span style="color: #b22222;">;</span>
-    dateTimePicker_InEnd.Text = ConfigInfoHelper.InEndRunTime<span style="color: #b22222;">;</span>
-    dateTimePicker_OutStart.Text = ConfigInfoHelper.OutStartRunTime<span style="color: #b22222;">;</span>
-    dateTimePicker_OutEnd.Text = ConfigInfoHelper.OutEndRunTime<span style="color: #b22222;">;</span>
+    dateTimePicker_InStart.Text = ConfigInfoHelper.InStartRunTime<span style="color: #75715E;">;</span>
+    dateTimePicker_InEnd.Text = ConfigInfoHelper.InEndRunTime<span style="color: #75715E;">;</span>
+    dateTimePicker_OutStart.Text = ConfigInfoHelper.OutStartRunTime<span style="color: #75715E;">;</span>
+    dateTimePicker_OutEnd.Text = ConfigInfoHelper.OutEndRunTime<span style="color: #75715E;">;</span>
     //&#33719;&#21462;&#40664;&#35748;&#26102;&#38388;
-    BTModel.InStartRunTime = ConfigInfoHelper.InStartRunTime<span style="color: #b22222;">;</span>
-    BTModel.InEndRunTime = ConfigInfoHelper.InEndRunTime<span style="color: #b22222;">;</span>
-    BTModel.OutStartRunTime = ConfigInfoHelper.OutStartRunTime<span style="color: #b22222;">;</span>
-    BTModel.OutEndRunTime = ConfigInfoHelper.OutEndRunTime<span style="color: #b22222;">;</span>
-    vehicleio = new VehicleIO(BTModel)<span style="color: #b22222;">;</span>
-    vehicleio.StartServer()<span style="color: #b22222;">;</span>
+    BTModel.InStartRunTime = ConfigInfoHelper.InStartRunTime<span style="color: #75715E;">;</span>
+    BTModel.InEndRunTime = ConfigInfoHelper.InEndRunTime<span style="color: #75715E;">;</span>
+    BTModel.OutStartRunTime = ConfigInfoHelper.OutStartRunTime<span style="color: #75715E;">;</span>
+    BTModel.OutEndRunTime = ConfigInfoHelper.OutEndRunTime<span style="color: #75715E;">;</span>
+    vehicleio = new VehicleIO(BTModel)<span style="color: #75715E;">;</span>
+    vehicleio.StartServer()<span style="color: #75715E;">;</span>
 }
 /// &lt;summary&gt;
 /// &#24212;&#29992;&#26356;&#25913;
 /// &lt;/summary&gt;
-/// &lt;param name=<span style="color: #8b2252;">"sender"</span>&gt;&lt;/param&gt;
-/// &lt;param name=<span style="color: #8b2252;">"e"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #E6DB74;">"sender"</span>&gt;&lt;/param&gt;
+/// &lt;param name=<span style="color: #E6DB74;">"e"</span>&gt;&lt;/param&gt;
 private void ApplyChanged_Click(object sender, EventArgs e)
 {
     //&#20808;&#20572;&#27490;&#30417;&#21548;&#32447;&#31243;
-    vehicleio.StopServer()<span style="color: #b22222;">;</span>
-    BTModel.InStartRunTime = dateTimePicker_InStart.Text<span style="color: #b22222;">;</span>
-    BTModel.InEndRunTime = dateTimePicker_InEnd.Text<span style="color: #b22222;">;</span>
-    BTModel.OutStartRunTime = dateTimePicker_OutStart.Text<span style="color: #b22222;">;</span>
-    BTModel.OutEndRunTime = dateTimePicker_OutEnd.Text<span style="color: #b22222;">;</span>
-    vehicleio = new VehicleIO(BTModel)<span style="color: #b22222;">;</span>
-    vehicleio.StartServer()<span style="color: #b22222;">;</span>
+    vehicleio.StopServer()<span style="color: #75715E;">;</span>
+    BTModel.InStartRunTime = dateTimePicker_InStart.Text<span style="color: #75715E;">;</span>
+    BTModel.InEndRunTime = dateTimePicker_InEnd.Text<span style="color: #75715E;">;</span>
+    BTModel.OutStartRunTime = dateTimePicker_OutStart.Text<span style="color: #75715E;">;</span>
+    BTModel.OutEndRunTime = dateTimePicker_OutEnd.Text<span style="color: #75715E;">;</span>
+    vehicleio = new VehicleIO(BTModel)<span style="color: #75715E;">;</span>
+    vehicleio.StartServer()<span style="color: #75715E;">;</span>
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0ec1cf1" class="outline-4">
-<h4 id="org0ec1cf1">VehicleIO.cs</h4>
-<div class="outline-text-4" id="text-org0ec1cf1">
+<div id="outline-container-org7766adf" class="outline-4">
+<h4 id="org7766adf">VehicleIO.cs</h4>
+<div class="outline-text-4" id="text-org7766adf">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">private string InStartRunTime=<span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
-private string InEndRunTime = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#36827;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
-private string OutStartRunTime = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#20986;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
-private string OutEndRunTime = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span><span style="color: #b22222;">//&#22253;&#21306;&#20986;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
+<pre class="src src-emacs-lisp">private string InStartRunTime=<span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span><span style="color: #75715E;">//&#22253;&#21306;&#36827;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
+private string InEndRunTime = <span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span><span style="color: #75715E;">//&#22253;&#21306;&#36827;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
+private string OutStartRunTime = <span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span><span style="color: #75715E;">//&#22253;&#21306;&#20986;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
+private string OutEndRunTime = <span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span><span style="color: #75715E;">//&#22253;&#21306;&#20986;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
 public VehicleIO(RunTimeModel btModel)
 {
-    InStartRunTime = btModel.InStartRunTime<span style="color: #b22222;">;</span>
-    InEndRunTime = btModel.InEndRunTime<span style="color: #b22222;">;</span>
-    OutStartRunTime = btModel.OutStartRunTime<span style="color: #b22222;">;</span>
-    OutEndRunTime = btModel.OutEndRunTime<span style="color: #b22222;">;</span>
+    InStartRunTime = btModel.InStartRunTime<span style="color: #75715E;">;</span>
+    InEndRunTime = btModel.InEndRunTime<span style="color: #75715E;">;</span>
+    OutStartRunTime = btModel.OutStartRunTime<span style="color: #75715E;">;</span>
+    OutEndRunTime = btModel.OutEndRunTime<span style="color: #75715E;">;</span>
 }
-private Thread thread = null<span style="color: #b22222;">;</span>
+private Thread thread = null<span style="color: #75715E;">;</span>
 //&#21021;&#22987;&#20540;
-private int sendLocationInterval = 3<span style="color: #b22222;">;</span>
+private int sendLocationInterval = 3<span style="color: #75715E;">;</span>
 //new &#36710;&#36742;&#36827;&#20986;&#22253;&#21306;&#25968;&#25454;&#27169;&#22411;
-private VehicleIOModel iomodel = new VehicleIOModel()<span style="color: #b22222;">;</span>
+private VehicleIOModel iomodel = new VehicleIOModel()<span style="color: #75715E;">;</span>
 /// &lt;summary&gt;
 /// &#24320;&#22987;&#26381;&#21153;
 /// &lt;/summary&gt;
 public void StartServer()
 {
-    ThreadStart iothread = new ThreadStart(working)<span style="color: #b22222;">;</span>
-    thread = new Thread(iothread)<span style="color: #b22222;">;</span>
-    thread.Start()<span style="color: #b22222;">;</span>
+    ThreadStart iothread = new ThreadStart(working)<span style="color: #75715E;">;</span>
+    thread = new Thread(iothread)<span style="color: #75715E;">;</span>
+    thread.Start()<span style="color: #75715E;">;</span>
 }
 /// &lt;summary&gt;
 /// &#20572;&#27490;&#26381;&#21153;
 /// &lt;/summary&gt;
 public void StopServer()
 {
-    if (thread != null <span style="color: #228b22;">&amp;&amp;</span> thread.IsAlive)
+    if (thread != null <span style="color: #66D9EF;">&amp;&amp;</span> thread.IsAlive)
     {
-        thread.Abort()<span style="color: #b22222;">;</span>
+        thread.Abort()<span style="color: #75715E;">;</span>
     }
 }
 /// &lt;summary&gt;
@@ -1260,7 +1260,7 @@ public void SuspendServer()
 {
     if (thread.ThreadState == ThreadState.Running)
     {
-        thread.Suspend()<span style="color: #b22222;">;</span>
+        thread.Suspend()<span style="color: #75715E;">;</span>
     }
 }
 /// &lt;summary&gt;
@@ -1270,7 +1270,7 @@ public void ResumeServer()
 {
     if (thread.ThreadState == ThreadState.Suspended)
     {
-        thread.Resume()<span style="color: #b22222;">;</span>
+        thread.Resume()<span style="color: #75715E;">;</span>
     }
 }
 </pre>
@@ -1281,50 +1281,50 @@ public void ResumeServer()
 /// &lt;/summary&gt;
 private void working()
 {
-    MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#22253;&#21306;&#36827;&#20986;&#22330;&#31995;&#32479;&#24320;&#21551;!"</span>)<span style="color: #b22222;">;</span>
+    MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#22253;&#21306;&#36827;&#20986;&#22330;&#31995;&#32479;&#24320;&#21551;!"</span>)<span style="color: #75715E;">;</span>
     while (true)
     {
         #region &#36827;&#22253;&#21306;
         if (DateTime.Now.ToLongTimeString().Equals(InStartRunTime))
         {
-            MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#22253;&#21306;&#20837;&#22330;&#36947;&#21475;&#24320;&#21551;&#65292;&#36710;&#36742;&#24320;&#22987;&#36827;&#20837;&#22253;&#21306;&#65281;"</span>)<span style="color: #b22222;">;</span>
-            DataTable dtVehicleInInfo = null<span style="color: #b22222;">;</span>
+            MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#22253;&#21306;&#20837;&#22330;&#36947;&#21475;&#24320;&#21551;&#65292;&#36710;&#36742;&#24320;&#22987;&#36827;&#20837;&#22253;&#21306;&#65281;"</span>)<span style="color: #75715E;">;</span>
+            DataTable dtVehicleInInfo = null<span style="color: #75715E;">;</span>
             try
             {
                 //&#33719;&#21462;&#26410;&#20837;&#22330;&#30340;&#21345;&#21495;
-                dtVehicleInInfo = VehicleIODal.GetInstance().GetVehicleCardInInfo()<span style="color: #b22222;">;</span>
+                dtVehicleInInfo = VehicleIODal.GetInstance().GetVehicleCardInInfo()<span style="color: #75715E;">;</span>
             }
             catch (Exception exc)
             {
-                MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#26410;&#33021;&#26597;&#35810;&#21040;&#25968;&#25454;&#65292;&#35831;&#26816;&#26597;&#25968;&#25454;&#24211;&#36830;&#25509;&#20018;"</span> + exc)<span style="color: #b22222;">;</span>
+                MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#26410;&#33021;&#26597;&#35810;&#21040;&#25968;&#25454;&#65292;&#35831;&#26816;&#26597;&#25968;&#25454;&#24211;&#36830;&#25509;&#20018;"</span> + exc)<span style="color: #75715E;">;</span>
             }
             if (dtVehicleInInfo.Rows.Count &gt; 0)
             {
-                MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#24050;&#26597;&#35810;&#21040;&#25152;&#26377;&#21487;&#20197;&#36827;&#20837;&#22253;&#21306;&#30340;&#36710;&#36742;&#25968;&#25454;&#65292;&#27491;&#22312;&#20934;&#22791;&#36827;&#20837;&#22253;&#21306;&#8230;&#8230;"</span>)<span style="color: #b22222;">;</span>
-                for (int i = 0<span style="color: #b22222;">; </span><span style="color: #b22222;">i &lt; dtVehicleInInfo.Rows.Count; i++)</span>
+                MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#24050;&#26597;&#35810;&#21040;&#25152;&#26377;&#21487;&#20197;&#36827;&#20837;&#22253;&#21306;&#30340;&#36710;&#36742;&#25968;&#25454;&#65292;&#27491;&#22312;&#20934;&#22791;&#36827;&#20837;&#22253;&#21306;&#8230;&#8230;"</span>)<span style="color: #75715E;">;</span>
+                for (int i = 0<span style="color: #75715E;">; </span><span style="color: #75715E;">i &lt; dtVehicleInInfo.Rows.Count; i++)</span>
                 {
-                    string cardNo = dtVehicleInInfo.Rows[i][<span style="color: #8b2252;">"card_no"</span>].ToString()<span style="color: #b22222;">;</span>
-                    MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#21345;&#21495;&#20026;&#8220;"</span> + cardNo + <span style="color: #8b2252;">"&#8221;&#30340;&#36710;&#36742;&#65292;&#27491;&#22312;&#36827;&#20837;&#22253;&#21306;&#8230;&#8230;"</span>)<span style="color: #b22222;">;</span>
+                    string cardNo = dtVehicleInInfo.Rows[i][<span style="color: #E6DB74;">"card_no"</span>].ToString()<span style="color: #75715E;">;</span>
+                    MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#21345;&#21495;&#20026;&#8220;"</span> + cardNo + <span style="color: #E6DB74;">"&#8221;&#30340;&#36710;&#36742;&#65292;&#27491;&#22312;&#36827;&#20837;&#22253;&#21306;&#8230;&#8230;"</span>)<span style="color: #75715E;">;</span>
                     //&#36825;&#37324;&#35760;&#24405;&#36827;&#20837;&#20449;&#24687;...&#30053;
                     //
                     //&#33719;&#21462;&#19968;&#20010;&#38543;&#26426;&#25968;(min 20,max 200,number 1)
-                    int rand = Convert.ToInt32(getRandom(20, 150, 1))<span style="color: #b22222;">;</span>
-                    MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#19979;&#19968;&#36742;&#36710;&#36742;&#23558;&#22312;"</span> + sendLocationInterval * rand / 60 + <span style="color: #8b2252;">"&#20998;&#38047;&#21518;&#25269;&#36798;&#22253;&#21306;"</span>)<span style="color: #b22222;">;</span>
+                    int rand = Convert.ToInt32(getRandom(20, 150, 1))<span style="color: #75715E;">;</span>
+                    MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#19979;&#19968;&#36742;&#36710;&#36742;&#23558;&#22312;"</span> + sendLocationInterval * rand / 60 + <span style="color: #E6DB74;">"&#20998;&#38047;&#21518;&#25269;&#36798;&#22253;&#21306;"</span>)<span style="color: #75715E;">;</span>
                     if (DateTime.Now.ToLongTimeString().Equals(InEndRunTime) || DateTime.Now.ToLongTimeString().CompareTo(InEndRunTime) &gt; 0)
                     {
-                        MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#22253;&#21306;&#20837;&#22330;&#36947;&#21475;&#20851;&#38381;&#65292;&#20572;&#27490;&#36710;&#36742;&#20837;&#22330;&#65281;&#20837;&#22330;&#36947;&#21475;&#23558;&#20250;&#22312; "</span> + InStartRunTime + <span style="color: #8b2252;">" &#20877;&#27425;&#24320;&#21551;&#65281;"</span>)<span style="color: #b22222;">;</span>
-                        break<span style="color: #b22222;">;</span>
+                        MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#22253;&#21306;&#20837;&#22330;&#36947;&#21475;&#20851;&#38381;&#65292;&#20572;&#27490;&#36710;&#36742;&#20837;&#22330;&#65281;&#20837;&#22330;&#36947;&#21475;&#23558;&#20250;&#22312; "</span> + InStartRunTime + <span style="color: #E6DB74;">" &#20877;&#27425;&#24320;&#21551;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                        break<span style="color: #75715E;">;</span>
                     }
                     else
                     {
-                        Thread.Sleep(sendLocationInterval * 1000 * rand)<span style="color: #b22222;">;</span>
+                        Thread.Sleep(sendLocationInterval * 1000 * rand)<span style="color: #75715E;">;</span>
                     }
                 }
-                MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#27880;&#24847;&#65306;&#36710;&#36742;&#36827;&#20837;&#22253;&#21306;&#25805;&#20316;&#23436;&#25104;&#65281;"</span>)<span style="color: #b22222;">;</span>
+                MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#27880;&#24847;&#65306;&#36710;&#36742;&#36827;&#20837;&#22253;&#21306;&#25805;&#20316;&#23436;&#25104;&#65281;"</span>)<span style="color: #75715E;">;</span>
             }
             else
             {
-                MessagePrint.SendEventInfo(1, true, <span style="color: #8b2252;">"&#30446;&#21069;&#27809;&#26377;&#26597;&#35810;&#21040;&#35201;&#36827;&#20837;&#22253;&#21306;&#30340;&#36710;&#36742;&#12290;"</span>)<span style="color: #b22222;">;</span>
+                MessagePrint.SendEventInfo(1, true, <span style="color: #E6DB74;">"&#30446;&#21069;&#27809;&#26377;&#26597;&#35810;&#21040;&#35201;&#36827;&#20837;&#22253;&#21306;&#30340;&#36710;&#36742;&#12290;"</span>)<span style="color: #75715E;">;</span>
             }
         }
         #endregion
@@ -1337,9 +1337,9 @@ private void working()
 </div>
 </div>
 </div>
-<div id="outline-container-org6d1114e" class="outline-4">
-<h4 id="org6d1114e">其他</h4>
-<div class="outline-text-4" id="text-org6d1114e">
+<div id="outline-container-org6da3e7a" class="outline-4">
+<h4 id="org6da3e7a">其他</h4>
+<div class="outline-text-4" id="text-org6da3e7a">
 <p>
 //显示实时时间
 </p>
@@ -1351,16 +1351,16 @@ new Thread(() =&gt;
     {
         try
         {
-            labelTime.BeginInvoke(new MethodInvoker(() =&gt; labelTime.Text = DateTime.Now.ToString()))<span style="color: #b22222;">;</span>
+            labelTime.BeginInvoke(new MethodInvoker(() =&gt; labelTime.Text = DateTime.Now.ToString()))<span style="color: #75715E;">;</span>
         }
         catch (Exception)
         {
 
         }
-        Thread.Sleep(1000)<span style="color: #b22222;">;</span>
+        Thread.Sleep(1000)<span style="color: #75715E;">;</span>
     }
 })
-{ IsBackground = true }.Start()<span style="color: #b22222;">;</span>
+{ IsBackground = true }.Start()<span style="color: #75715E;">;</span>
 #endregion
 </pre>
 </div>
@@ -1371,26 +1371,26 @@ new Thread(() =&gt;
 <pre class="src src-emacs-lisp">/// &lt;summary&gt;
 /// &#33719;&#21462;&#35268;&#23450;&#33539;&#22260;&#20869;&#30340;n&#20010;&#38543;&#26426;&#25968;
 /// &lt;/summary&gt;
-/// &lt;param name=<span style="color: #8b2252;">"min_value"</span>&gt;&#38543;&#26426;&#25968;&#19979;&#38480;&lt;/param&gt;
-/// &lt;param name=<span style="color: #8b2252;">"max_value"</span>&gt;&#38543;&#26426;&#25968;&#19978;&#38480;&lt;/param&gt;
-/// &lt;param name=<span style="color: #8b2252;">"number"</span>&gt;&#38543;&#26426;&#25968;&#37327;&lt;/param&gt;
+/// &lt;param name=<span style="color: #E6DB74;">"min_value"</span>&gt;&#38543;&#26426;&#25968;&#19979;&#38480;&lt;/param&gt;
+/// &lt;param name=<span style="color: #E6DB74;">"max_value"</span>&gt;&#38543;&#26426;&#25968;&#19978;&#38480;&lt;/param&gt;
+/// &lt;param name=<span style="color: #E6DB74;">"number"</span>&gt;&#38543;&#26426;&#25968;&#37327;&lt;/param&gt;
 /// &lt;returns&gt;&lt;/returns&gt;
 private string getRandom(int min_value, int max_value, int number)
 {
-    Random random = new Random()<span style="color: #b22222;">;</span>
-    ArrayList arr = new ArrayList()<span style="color: #b22222;">;</span>
-    int temp = 0<span style="color: #b22222;">;</span>
-    for (int i = 0<span style="color: #b22222;">; </span><span style="color: #b22222;">i &lt; number; i++)</span>
+    Random random = new Random()<span style="color: #75715E;">;</span>
+    ArrayList arr = new ArrayList()<span style="color: #75715E;">;</span>
+    int temp = 0<span style="color: #75715E;">;</span>
+    for (int i = 0<span style="color: #75715E;">; </span><span style="color: #75715E;">i &lt; number; i++)</span>
     {
-        temp = random.Next(min_value, max_value)<span style="color: #b22222;">; </span><span style="color: #b22222;">//&#38543;&#26426;&#21462;&#25968;</span>
-        arr.Add(temp)<span style="color: #b22222;">;</span>
+        temp = random.Next(min_value, max_value)<span style="color: #75715E;">; </span><span style="color: #75715E;">//&#38543;&#26426;&#21462;&#25968;</span>
+        arr.Add(temp)<span style="color: #75715E;">;</span>
     }
-    string str = <span style="color: #8b2252;">""</span><span style="color: #b22222;">;</span>
-    for (int j = 0<span style="color: #b22222;">; </span><span style="color: #b22222;">j &lt; arr.Count; j++)</span>
+    string str = <span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span>
+    for (int j = 0<span style="color: #75715E;">; </span><span style="color: #75715E;">j &lt; arr.Count; j++)</span>
     {
-        str += arr[j].ToString() + <span style="color: #8b2252;">","</span><span style="color: #b22222;">;</span>
+        str += arr[j].ToString() + <span style="color: #E6DB74;">","</span><span style="color: #75715E;">;</span>
     }
-    return str.Substring(0, str.LastIndexOf(<span style="color: #8b2252;">","</span>))<span style="color: #b22222;">;</span>
+    return str.Substring(0, str.LastIndexOf(<span style="color: #E6DB74;">","</span>))<span style="color: #75715E;">;</span>
 }
 </pre>
 </div>
@@ -1398,9 +1398,9 @@ private string getRandom(int min_value, int max_value, int number)
 </div>
 </div>
 </div>
-<div id="outline-container-org01f977a" class="outline-2">
-<h2 id="org01f977a">参考资料</h2>
-<div class="outline-text-2" id="text-org01f977a">
+<div id="outline-container-orgf3a6f95" class="outline-2">
+<h2 id="orgf3a6f95">参考资料</h2>
+<div class="outline-text-2" id="text-orgf3a6f95">
 <pre class="example">
 http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
   
@@ -1458,8 +1458,8 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/php/2015/08/20/php-import-export/" rel="next" title="PHP 导入导出">
-                <i class="fa fa-chevron-left"></i> PHP 导入导出
+              <a href="/php/2015/08/15/php-public/" rel="next" title="PHP 公共方法">
+                <i class="fa fa-chevron-left"></i> PHP 公共方法
               </a>
             
           </div>
@@ -1468,8 +1468,8 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/php/2015/04/12/php-page/" rel="prev" title="PHP 简单分页实现">
-                PHP 简单分页实现 <i class="fa fa-chevron-right"></i>
+              <a href="/php/2015/04/12/php-page/" rel="prev" title="PHP 笔记">
+                PHP 笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1547,7 +1547,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1558,7 +1558,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1569,7 +1569,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1662,7 +1662,7 @@ http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgae943ad"> <span class="nav-number">1</span> <span class="nav-text">线程入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c050f9"> <span class="nav-number">1.1</span> <span class="nav-text">创建线程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0db5049"> <span class="nav-number">1.2</span> <span class="nav-text">Thread类几个重要方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda640a4"> <span class="nav-number">1.3</span> <span class="nav-text">Thread.ThreadState属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c3b960"> <span class="nav-number">1.4</span> <span class="nav-text">设定线程优先级</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org39c0d35"> <span class="nav-number">2</span> <span class="nav-text">线程的同步和通讯——生产者和消费者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org51af398"> <span class="nav-number">2.1</span> <span class="nav-text">lock关键字</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d28bc2"> <span class="nav-number">2.2</span> <span class="nav-text">Monitor类(System.Threading)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd6cd66c"> <span class="nav-number">2.2.1</span> <span class="nav-text">Monitor.Wait()和Monitor.Pulse()</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga3b7876"> <span class="nav-number">3</span> <span class="nav-text">实例：开辟一线程实现异步导出Excel</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb847623"> <span class="nav-number">3.1</span> <span class="nav-text">环境介绍及实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7cd6bef"> <span class="nav-number">3.2</span> <span class="nav-text">实现思路及准备工作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgebd18e0"> <span class="nav-number">3.3</span> <span class="nav-text">实例代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org30a1c28"> <span class="nav-number">3.3.1</span> <span class="nav-text">UserController.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e93eca"> <span class="nav-number">3.3.2</span> <span class="nav-text">Global.asax.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4614c17"> <span class="nav-number">3.3.3</span> <span class="nav-text">DataExportPara.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2db0c90"> <span class="nav-number">3.3.4</span> <span class="nav-text">DataExport.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org794f782"> <span class="nav-number">3.3.5</span> <span class="nav-text">NPOIExcelHelper.cs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9986c35"> <span class="nav-number">3.4</span> <span class="nav-text">小结</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org006f9b1"> <span class="nav-number">4</span> <span class="nav-text">实例：利用线程监听模拟车辆进出智能化停车场</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4376b79"> <span class="nav-number">4.1</span> <span class="nav-text">实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdccd6d6"> <span class="nav-number">4.2</span> <span class="nav-text">实现效果</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgce75d96"> <span class="nav-number">4.3</span> <span class="nav-text">主要代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org581897a"> <span class="nav-number">4.3.1</span> <span class="nav-text">Main.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0ec1cf1"> <span class="nav-number">4.3.2</span> <span class="nav-text">VehicleIO.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6d1114e"> <span class="nav-number">4.3.3</span> <span class="nav-text">其他</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org01f977a"> <span class="nav-number">5</span> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf0b9399"> <span class="nav-text">线程入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0b4058f"> <span class="nav-text">创建线程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org646e18c"> <span class="nav-text">Thread类几个重要方法</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbb6924f"> <span class="nav-text">Thread.ThreadState属性</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org53bba8d"> <span class="nav-text">设定线程优先级</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge57e0cb"> <span class="nav-text">线程的同步和通讯——生产者和消费者</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6d73873"> <span class="nav-text">lock关键字</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf54dbd6"> <span class="nav-text">Monitor类(System.Threading)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4dad15e"> <span class="nav-text">Monitor.Wait()和Monitor.Pulse()</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga390799"> <span class="nav-text">实例：开辟一线程实现异步导出Excel</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0655e16"> <span class="nav-text">环境介绍及实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4d87105"> <span class="nav-text">实现思路及准备工作</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0813e5a"> <span class="nav-text">实例代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0841943"> <span class="nav-text">UserController.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org59fd7e9"> <span class="nav-text">Global.asax.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org34f6e77"> <span class="nav-text">DataExportPara.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9c65934"> <span class="nav-text">DataExport.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org00f1a79"> <span class="nav-text">NPOIExcelHelper.cs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeffadcd"> <span class="nav-text">小结</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4050152"> <span class="nav-text">实例：利用线程监听模拟车辆进出智能化停车场</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1ba055"> <span class="nav-text">实例简述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge1644a7"> <span class="nav-text">实现效果</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org380217b"> <span class="nav-text">主要代码</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4def9ec"> <span class="nav-text">Main.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7766adf"> <span class="nav-text">VehicleIO.cs</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6da3e7a"> <span class="nav-text">其他</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf3a6f95"> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             

@@ -1,0 +1,404 @@
+---
+layout: post
+title: PHP 公共方法 
+author: zrg
+description: PHP   
+excerpt: 
+comments: false
+categories: 
+- php
+tags:
+- PHP
+---
+
+<p>
+If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
+</p>
+
+<div id="outline-container-org6a8d3fb" class="outline-2">
+<h2 id="org6a8d3fb"><span class="section-number-2">1</span> String/Array</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orga0df957" class="outline-4">
+<h4 id="orga0df957"><span class="section-number-4">1.0.1</span> 在字符串指定位置插入字符串</h4>
+<div class="outline-text-4" id="text-1-0-1">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">str_insert</span>($<span style="color: #FF8C00;">str</span>,$<span style="color: #FF8C00;">i</span>,$<span style="color: #FF8C00;">subStr</span>){
+    <span style="color: #FF1493;">for</span>($<span style="color: #FF8C00;">j</span>=0;$<span style="color: #FF8C00;">j</span>&lt;$<span style="color: #FF8C00;">i</span>;$<span style="color: #FF8C00;">j</span>++){
+    $<span style="color: #FF8C00;">startStr</span> .=$<span style="color: #FF8C00;">str</span>[$<span style="color: #FF8C00;">j</span>];
+    }
+    <span style="color: #FF1493;">for</span>($<span style="color: #FF8C00;">j</span>=$<span style="color: #FF8C00;">i</span>;$<span style="color: #FF8C00;">j</span>&lt;strlen($<span style="color: #FF8C00;">str</span>);$<span style="color: #FF8C00;">j</span>++){
+    $<span style="color: #FF8C00;">lastStr</span> .= $<span style="color: #FF8C00;">str</span>[$<span style="color: #FF8C00;">j</span>];
+    }
+    $<span style="color: #FF8C00;">newStr</span> = $<span style="color: #FF8C00;">startStr</span>.$<span style="color: #FF8C00;">subStr</span>.$<span style="color: #FF8C00;">lastStr</span>;
+    <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">newStr</span>;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc190986" class="outline-4">
+<h4 id="orgc190986"><span class="section-number-4">1.0.2</span> 向二位数组中添加键值对</h4>
+<div class="outline-text-4" id="text-1-0-2">
+<p>
+方法一:
+</p>
+<div class="org-src-container">
+<pre class="src src-php">$<span style="color: #FF8C00;">tempArr</span>=<span style="color: #FF1493;">array</span>();
+<span style="color: #FF1493;">foreach</span>($<span style="color: #FF8C00;">arr</span> <span style="color: #FF1493;">as</span> $<span style="color: #FF8C00;">key</span> =&gt; $<span style="color: #FF8C00;">value</span>){
+    $<span style="color: #FF8C00;">value</span>[<span style="color: #CDC673;">'new_key'</span>] = $<span style="color: #FF8C00;">value</span>[<span style="color: #CDC673;">'old_key1'</span>]+$<span style="color: #FF8C00;">value</span>[<span style="color: #CDC673;">'old_key2'</span>];
+    $<span style="color: #FF8C00;">tempArr</span>[] = $<span style="color: #FF8C00;">value</span>;
+}
+</pre>
+</div>
+<p>
+方法二:
+</p>
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">foreach</span>($<span style="color: #FF8C00;">arr</span> <span style="color: #FF1493;">as</span> $<span style="color: #FF8C00;">key</span> =&gt; $<span style="color: #FF8C00;">value</span>){
+    $<span style="color: #FF8C00;">arr</span>[$<span style="color: #FF8C00;">key</span>][<span style="color: #CDC673;">'new_key'</span>] = $<span style="color: #FF8C00;">value</span>[<span style="color: #CDC673;">'old_key1'</span>]+$<span style="color: #FF8C00;">value</span>[<span style="color: #CDC673;">'old_key2'</span>];
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97d8416" class="outline-4">
+<h4 id="org97d8416"><span class="section-number-4">1.0.3</span> 判断二维数组是否为空</h4>
+<div class="outline-text-4" id="text-1-0-3">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">array_is_null</span>($<span style="color: #FF8C00;">arr</span> = <span style="color: #AF87FF;">null</span>){
+    <span style="color: #FF1493;">if</span>(is_array($<span style="color: #FF8C00;">arr</span>)){
+        <span style="color: #FF1493;">foreach</span>($<span style="color: #FF8C00;">arr</span> <span style="color: #FF1493;">as</span> $<span style="color: #FF8C00;">k</span>=&gt;$<span style="color: #FF8C00;">v</span>){
+            <span style="color: #FF1493;">if</span>($<span style="color: #FF8C00;">v</span>&amp;&amp;!is_array($<span style="color: #FF8C00;">v</span>)){
+                <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>;
+            }
+            $<span style="color: #FF8C00;">t</span> = <span style="color: #FF1493;">self</span>::array_is_null($<span style="color: #FF8C00;">v</span>);
+            <span style="color: #FF1493;">if</span>(!$<span style="color: #FF8C00;">t</span>){
+                <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>;
+            } 
+        }
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">true</span>; 
+    }<span style="color: #FF1493;">elseif</span>(!$<span style="color: #FF8C00;">arr</span>){ 
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">true</span>; 
+    }<span style="color: #FF1493;">else</span>{ 
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>; 
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org01a542e" class="outline-2">
+<h2 id="org01a542e"><span class="section-number-2">2</span> 数值(金额相关)</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org9e89bb0" class="outline-4">
+<h4 id="org9e89bb0"><span class="section-number-4">2.0.1</span> 去除无效的0</h4>
+<div class="outline-text-4" id="text-2-0-1">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #CDC673;">/** </span>
+<span style="color: #CDC673;"> * &#21435;&#38500;&#22810;&#20313;&#30340;0 </span>
+<span style="color: #CDC673;"> */</span>  
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">del0</span>($<span style="color: #FF8C00;">s</span>)  
+{  
+    $<span style="color: #FF8C00;">s</span> = trim(strval($<span style="color: #FF8C00;">s</span>));  
+    <span style="color: #FF1493;">if</span> (preg_match(<span style="color: #CDC673;">'#^-?\d+?\.0+$#'</span>, $<span style="color: #FF8C00;">s</span>)) {  
+    <span style="color: #FF1493;">return</span> preg_replace(<span style="color: #CDC673;">'#^(-?\d+?)\.0+$#'</span>,<span style="color: #CDC673;">'$1'</span>,$<span style="color: #FF8C00;">s</span>);  
+    }   
+    <span style="color: #FF1493;">if</span> (preg_match(<span style="color: #CDC673;">'#^-?\d+?\.[0-9]+?0+$#'</span>, $<span style="color: #FF8C00;">s</span>)) {  
+    <span style="color: #FF1493;">return</span> preg_replace(<span style="color: #CDC673;">'#^(-?\d+\.[0-9]+?)0+$#'</span>,<span style="color: #CDC673;">'$1'</span>,$<span style="color: #FF8C00;">s</span>);  
+    }  
+    <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">s</span>;  
+}  
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdaa84d3" class="outline-2">
+<h2 id="orgdaa84d3"><span class="section-number-2">3</span> Date/Time</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org761c74c" class="outline-4">
+<h4 id="org761c74c"><span class="section-number-4">3.0.1</span> 获取上个月第一天及最后一天</h4>
+<div class="outline-text-4" id="text-3-0-1">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">echo</span> date(<span style="color: #CDC673;">'Y-m-01'</span>, strtotime(<span style="color: #CDC673;">'-1 month'</span>));
+<span style="color: #FF1493;">echo</span> date(<span style="color: #CDC673;">'Y-m-t'</span>, strtotime(<span style="color: #CDC673;">'-1 month'</span>));
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#19978;&#20010;&#26376;&#31532;&#19968;&#22825;,  &#35745;&#31639;&#20986;&#26412;&#26376;&#31532;&#19968;&#22825;&#20877;&#20943;&#19968;&#20010;&#26376;</span>
+<span style="color: #FF1493;">echo</span> date(<span style="color: #CDC673;">'Y-m-d'</span>, strtotime(date(<span style="color: #CDC673;">'Y-m-01'</span>) . <span style="color: #CDC673;">' -1 month'</span>));
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#19978;&#20010;&#26376;&#26368;&#21518;&#19968;&#22825;,// &#35745;&#31639;&#20986;&#26412;&#26376;&#31532;&#19968;&#22825;&#20877;&#20943;&#19968;&#22825;</span>
+<span style="color: #FF1493;">echo</span> date(<span style="color: #CDC673;">'Y-m-d'</span>, strtotime(date(<span style="color: #CDC673;">'Y-m-01'</span>) . <span style="color: #CDC673;">' -1 day'</span>));
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8227f82" class="outline-4">
+<h4 id="org8227f82"><span class="section-number-4">3.0.2</span> 获取当月第一天及最后一天</h4>
+<div class="outline-text-4" id="text-3-0-2">
+<div class="org-src-container">
+<pre class="src src-php">$<span style="color: #FF8C00;">BeginDate</span>=date(<span style="color: #CDC673;">'Y-m-01'</span>, strtotime(date(<span style="color: #CDC673;">"Y-m-d"</span>)));
+<span style="color: #FF1493;">echo</span> date(<span style="color: #CDC673;">'Y-m-d'</span>, strtotime(<span style="color: #CDC673;">"</span><span style="color: #FF8C00;">$BeginDate</span><span style="color: #CDC673;"> +1 month -1 day"</span>));
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd736db0" class="outline-4">
+<h4 id="orgd736db0"><span class="section-number-4">3.0.3</span> 获取当前年份、月份、日、天数</h4>
+<div class="outline-text-4" id="text-3-0-3">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">" &#26412;&#26376;&#20849;&#26377;:"</span>.date(<span style="color: #CDC673;">"t"</span>).<span style="color: #CDC673;">"&#22825;"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">" &#24403;&#21069;&#24180;&#20221;"</span>.date(<span style="color: #CDC673;">'Y'</span>);
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">" &#24403;&#21069;&#26376;&#20221;"</span>.date(<span style="color: #CDC673;">'m'</span>);
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">" &#24403;&#21069;&#20960;&#21495;"</span>.date(<span style="color: #CDC673;">'d'</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c51553" class="outline-4">
+<h4 id="org2c51553"><span class="section-number-4">3.0.4</span> 日期转时间戳，时间戳转日期</h4>
+<div class="outline-text-4" id="text-3-0-4">
+<div class="org-src-container">
+<pre class="src src-php">strtotime(<span style="color: #CDC673;">'2010-03-24 08:15:42'</span>);
+date(<span style="color: #CDC673;">'Y-m-d H:i:s'</span>, 1156219870);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga6a9f83" class="outline-4">
+<h4 id="orga6a9f83"><span class="section-number-4">3.0.5</span> 计算已成为会员多少天或距离某活动还剩余多少天</h4>
+<div class="outline-text-4" id="text-3-0-5">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">get_days_calc</span>($<span style="color: #FF8C00;">calcTime</span>, $<span style="color: #FF8C00;">currentTime</span>, $<span style="color: #FF8C00;">differOrSurplus</span>){
+    <span style="color: #FF1493;">switch</span> ($<span style="color: #FF8C00;">differOrSurplus</span>) {
+    <span style="color: #FF1493;">case</span> 1:
+        <span style="color: #FF1493;">return</span> round(($<span style="color: #FF8C00;">currentTime</span>-$<span style="color: #FF8C00;">calcTime</span>)/3600/24);
+        <span style="color: #FF1493;">break</span>;
+    <span style="color: #FF1493;">case</span> 2:
+        <span style="color: #FF1493;">return</span> round(($<span style="color: #FF8C00;">calcTime</span>-$<span style="color: #FF8C00;">currentTime</span>)/3600/24);
+        <span style="color: #FF1493;">break</span>;
+    <span style="color: #FF1493;">default</span>:
+        <span style="color: #FF1493;">return</span> round(($<span style="color: #FF8C00;">currentTime</span>-$<span style="color: #FF8C00;">calcTime</span>)/3600/24);
+        <span style="color: #FF1493;">break</span>;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeaa081a" class="outline-2">
+<h2 id="orgeaa081a"><span class="section-number-2">4</span> URL</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org9efa41d" class="outline-4">
+<h4 id="org9efa41d"><span class="section-number-4">4.0.1</span> 获取当前URL</h4>
+<div class="outline-text-4" id="text-4-0-1">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">getCurrentPageURL</span>()
+{
+    $<span style="color: #FF8C00;">pageURL</span> = <span style="color: #CDC673;">'http'</span>;
+    <span style="color: #FF1493;">if</span> (<span style="color: #FF1493;">isset</span>($<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"HTTPS"</span>]) &amp;&amp; $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"HTTPS"</span>] == <span style="color: #CDC673;">"on"</span>)
+    {
+        $<span style="color: #FF8C00;">pageURL</span> .= <span style="color: #CDC673;">"s"</span>;
+    }
+    $<span style="color: #FF8C00;">pageURL</span> .= <span style="color: #CDC673;">"://"</span>;
+    <span style="color: #FF1493;">if</span> ($<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"SERVER_PORT"</span>] != <span style="color: #CDC673;">"80"</span>)
+    {
+        $<span style="color: #FF8C00;">pageURL</span> .= $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"SERVER_NAME"</span>] . <span style="color: #CDC673;">":"</span> . $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"SERVER_PORT"</span>] . $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"REQUEST_URI"</span>];
+    }
+    <span style="color: #FF1493;">else</span>
+    {
+        $<span style="color: #FF8C00;">pageURL</span> .= $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"SERVER_NAME"</span>] . $<span style="color: #FF8C00;">_SERVER</span>[<span style="color: #CDC673;">"REQUEST_URI"</span>];
+    }
+    <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">pageURL</span>;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf173f3d" class="outline-4">
+<h4 id="orgf173f3d"><span class="section-number-4">4.0.2</span> 请求处理</h4>
+<div class="outline-text-4" id="text-4-0-2">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">curl</span>( $<span style="color: #FF8C00;">url</span> = <span style="color: #CDC673;">''</span>,$<span style="color: #FF8C00;">method</span> = <span style="color: #CDC673;">'GET'</span>,$<span style="color: #FF8C00;">req_data</span> = <span style="color: #AF87FF;">false</span>,$<span style="color: #FF8C00;">header</span> = <span style="color: #AF87FF;">false</span>,$<span style="color: #FF8C00;">response_header</span> = <span style="color: #AF87FF;">false</span>,$<span style="color: #FF8C00;">exec_time</span> = 5,$<span style="color: #FF8C00;">connect_time</span> = 5 )
+{
+    $<span style="color: #FF8C00;">method</span> = strtoupper( $<span style="color: #FF8C00;">method</span> );
+    $<span style="color: #FF8C00;">ch</span> = curl_init();
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#35831;&#27714;url</span>
+    curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_URL</span>,$<span style="color: #FF8C00;">url</span> );
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#35831;&#27714;&#26041;&#27861;,&#40664;&#35748;&#25191;&#34892;GET&#35831;&#27714;&#65292;&#26080;&#38656;&#35774;&#32622;</span>
+    <span style="color: #FF1493;">if</span>( <span style="color: #CDC673;">'POST'</span> == $<span style="color: #FF8C00;">method</span> ){
+        curl_setopt( $<span style="color: #FF8C00;">ch</span>, <span style="color: #AF87FF;">CURLOPT_POST</span>,1 );
+    }<span style="color: #FF1493;">elseif</span>( <span style="color: #CDC673;">'GET'</span> != $<span style="color: #FF8C00;">method</span> ){
+        curl_setopt( $<span style="color: #FF8C00;">ch</span>, <span style="color: #AF87FF;">CURLOPT_CUSTOMREQUEST</span>,$<span style="color: #FF8C00;">method</span> );
+    }
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#35831;&#27714;&#22836;</span>
+    <span style="color: #FF1493;">if</span>( <span style="color: #AF87FF;">null</span> != $<span style="color: #FF8C00;">header</span> &amp;&amp; is_array($<span style="color: #FF8C00;">header</span>) ){
+        curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_HTTPHEADER</span>,array_map(<span style="color: #FF1493;">function</span>($<span style="color: #FF8C00;">field</span>,$<span style="color: #FF8C00;">value</span>){
+            <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">field</span> . <span style="color: #CDC673;">':'</span> . $<span style="color: #FF8C00;">value</span>;
+        }, array_keys($<span style="color: #FF8C00;">header</span>), $<span style="color: #FF8C00;">header</span>) );
+    }
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#35831;&#35831;&#27714;&#25968;&#25454;</span>
+    <span style="color: #FF1493;">if</span>( <span style="color: #AF87FF;">null</span> != $<span style="color: #FF8C00;">req_data</span> &amp;&amp; <span style="color: #CDC673;">'GET'</span> != $<span style="color: #FF8C00;">method</span> ){
+        <span style="color: #FF1493;">if</span> ( is_array($<span style="color: #FF8C00;">req_data</span>) &amp;&amp; !isset($<span style="color: #FF8C00;">req_data</span>[<span style="color: #CDC673;">'isfile'</span>]) ){
+            $<span style="color: #FF8C00;">req_data</span> = http_build_query($<span style="color: #FF8C00;">req_data</span>);
+        }
+        curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_POSTFIELDS</span>,$<span style="color: #FF8C00;">req_data</span> );
+    }
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#35774;&#32622;&#36755;&#20986;&#25968;&#25454;&#20013;&#21253;&#21547;http header</span>
+    curl_setopt( $<span style="color: #FF8C00;">ch</span>, <span style="color: #AF87FF;">CURLOPT_HEADER</span>,$<span style="color: #FF8C00;">response_header</span> );
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23558;curl_exec()&#33719;&#21462;&#30340;&#20449;&#24687;&#20197;&#23383;&#31526;&#20018;&#36820;&#22238;&#65292;&#32780;&#19981;&#26159;&#30452;&#25509;&#36755;&#20986;</span>
+    curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_RETURNTRANSFER</span>,<span style="color: #AF87FF;">true</span> );
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20801;&#35768; cURL &#20989;&#25968;&#25191;&#34892;&#30340;&#26368;&#38271;&#31186;&#25968;&#12290;</span>
+    curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_TIMEOUT</span>,$<span style="color: #FF8C00;">exec_time</span> );
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#22312;&#23581;&#35797;&#36830;&#25509;&#26102;&#31561;&#24453;&#30340;&#31186;&#25968;&#12290;&#35774;&#32622;&#20026;0&#65292;&#21017;&#26080;&#38480;&#31561;&#24453;</span>
+    curl_setopt( $<span style="color: #FF8C00;">ch</span>,<span style="color: #AF87FF;">CURLOPT_CONNECTTIMEOUT</span>,$<span style="color: #FF8C00;">connect_time</span> );
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25191;&#34892;curl&#35831;&#27714;</span>
+    $<span style="color: #FF8C00;">response</span> = curl_exec($<span style="color: #FF8C00;">ch</span>);
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#33719;&#21462;&#29366;&#24577;&#30721;</span>
+    $<span style="color: #FF8C00;">status</span> = curl_getinfo($<span style="color: #FF8C00;">ch</span>, <span style="color: #AF87FF;">CURLINFO_HTTP_CODE</span>);
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#20851;&#38381;curl&#22238;&#35805;&#24182;&#37322;&#25918;&#36164;&#28304;</span>
+    curl_close($<span style="color: #FF8C00;">ch</span>);
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#20998;&#31163;header&#19982;body</span>
+    <span style="color: #FF1493;">if</span>( $<span style="color: #FF8C00;">response_header</span> ){
+        $<span style="color: #FF8C00;">tmp</span>         = explode(<span style="color: #CDC673;">"\r\n\r\n"</span>, $<span style="color: #FF8C00;">response</span>);
+        $<span style="color: #FF8C00;">resp_header</span> = $<span style="color: #FF8C00;">tmp</span>[0];
+        $<span style="color: #FF8C00;">data</span>        = $<span style="color: #FF8C00;">tmp</span>[1];
+    } <span style="color: #FF1493;">else</span> {
+        $<span style="color: #FF8C00;">resp_header</span> = <span style="color: #AF87FF;">null</span>;
+        $<span style="color: #FF8C00;">data</span>        = $<span style="color: #FF8C00;">response</span>;
+    }
+    $<span style="color: #FF8C00;">result</span>[<span style="color: #CDC673;">'errcode'</span>] = $<span style="color: #FF8C00;">status</span>;
+    $<span style="color: #FF8C00;">result</span>[<span style="color: #CDC673;">'header'</span>]  = $<span style="color: #FF8C00;">resp_header</span>;
+    $<span style="color: #FF8C00;">result</span>[<span style="color: #CDC673;">'data'</span>]    = $<span style="color: #FF8C00;">data</span>;
+    <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">result</span>;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb948689" class="outline-2">
+<h2 id="orgb948689"><span class="section-number-2">5</span> File</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgb2ab13a" class="outline-4">
+<h4 id="orgb2ab13a"><span class="section-number-4">5.0.1</span> 下载文件</h4>
+<div class="outline-text-4" id="text-5-0-1">
+<div class="org-src-container">
+<pre class="src src-php">header(<span style="color: #CDC673;">"Content-type:text/html;charset=utf-8"</span>);
+<span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#25991;&#20214;&#19979;&#36733;</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@param</span><span style="color: #CDC673;">  [type] </span><span style="color: #FF8C00;">$</span><span style="color: #FF8C00;">file_url</span><span style="color: #CDC673;"> [&#32477;&#23545;&#36335;&#24452;&#65292;&#22914;:</span><span style="color: #FF8C00;">$</span><span style="color: #FF8C00;">_SERVER</span><span style="color: #CDC673;">['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@param</span><span style="color: #CDC673;">  [type] </span><span style="color: #FF8C00;">$</span><span style="color: #FF8C00;">new_name</span><span style="color: #CDC673;"> [&#25351;&#23450;&#25991;&#20214;&#21517;&#31216;]</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@return</span><span style="color: #CDC673;"> [type] [description]</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">downloadFile</span>($<span style="color: #FF8C00;">file_url</span>,$<span style="color: #FF8C00;">new_name</span>=<span style="color: #CDC673;">''</span>){
+    <span style="color: #FF1493;">if</span>(!isset($<span style="color: #FF8C00;">file_url</span>)||trim($<span style="color: #FF8C00;">file_url</span>) == <span style="color: #CDC673;">''</span>){
+    <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">'500'</span>;
+    }
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#26816;&#26597;&#25991;&#20214;&#26159;&#21542;&#23384;&#22312;</span>
+    <span style="color: #FF1493;">if</span>(!file_exists($<span style="color: #FF8C00;">file_url</span>)){
+    <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">'404'</span>;
+    }
+    $<span style="color: #FF8C00;">file_name</span>=basename($<span style="color: #FF8C00;">file_url</span>);
+    $<span style="color: #FF8C00;">file_type</span>=explode(<span style="color: #CDC673;">'.'</span>,$<span style="color: #FF8C00;">file_url</span>);
+    $<span style="color: #FF8C00;">file_type</span>=$<span style="color: #FF8C00;">file_type</span>[count($<span style="color: #FF8C00;">file_type</span>)-1];
+    $<span style="color: #FF8C00;">file_name</span>=trim($<span style="color: #FF8C00;">new_name</span>==<span style="color: #CDC673;">''</span>)?$<span style="color: #FF8C00;">file_name</span>:urlencode($<span style="color: #FF8C00;">new_name</span>);
+    $<span style="color: #FF8C00;">file_type</span>=fopen($<span style="color: #FF8C00;">file_url</span>,<span style="color: #CDC673;">'r'</span>); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#25171;&#24320;&#25991;&#20214;</span>
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#36755;&#20837;&#25991;&#20214;&#26631;&#31614;</span>
+    header(<span style="color: #CDC673;">"Content-type: application/octet-stream"</span>);  
+    header(<span style="color: #CDC673;">"Accept-Ranges: bytes"</span>);  
+    header(<span style="color: #CDC673;">"Accept-Length: "</span>.filesize($<span style="color: #FF8C00;">file_url</span>));  
+    header(<span style="color: #CDC673;">"Content-Disposition: attachment; filename="</span>.$<span style="color: #FF8C00;">file_name</span>);  
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#36755;&#20986;&#25991;&#20214;&#20869;&#23481;  </span>
+    <span style="color: #FF1493;">echo</span> fread($<span style="color: #FF8C00;">file_type</span>,filesize($<span style="color: #FF8C00;">file_url</span>));
+    fclose($<span style="color: #FF8C00;">file_type</span>);
+}
+</pre>
+</div>
+<p>
+<b>几点注意事项</b>
+</p>
+<ul class="org-ul">
+<li>header("Content-type:text/html;charset=utf-8")的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。</li>
+<li>关于file_exists()函数不支持中文路径的问题:因为php函数比较早，不支持中文，所以如果被下载的文件名是中文的话，需要对其进行字符编码转换，否则file_exists()函数不能识别，可以使用iconv()函数进行编码转换。</li>
+<li>$file_sub_path() 我使用的是绝对路径，执行效率要比相对路径高。</li>
+<li>Header("Content-type: application/octet-stream")的作用：通过这句代码客户端浏览器就能知道服务端返回的文件形式。</li>
+<li>Header("Accept-Ranges: bytes")的作用：告诉客户端浏览器返回的文件大小是按照字节进行计算的。</li>
+<li>Header("Accept-Length:".$file_size)的作用：告诉浏览器返回的文件大小。</li>
+<li>Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。</li>
+<li>以上四个Header()是必需的。</li>
+<li>fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgff0f494" class="outline-4">
+<h4 id="orgff0f494"><span class="section-number-4">5.0.2</span> 参考资料</h4>
+<div class="outline-text-4" id="text-5-0-2">
+<ul class="org-ul">
+<li><a href="http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html">Php如何实现下载功能超详细流程分析</a></li>
+<li><a href="https://blog.csdn.net/hj960511/article/details/51837990">php实现当前页面点击下载文件实例</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org304c99a" class="outline-2">
+<h2 id="org304c99a"><span class="section-number-2">6</span> 其他 code</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org350d37c" class="outline-3">
+<h3 id="org350d37c"><span class="section-number-3">6.1</span> 获取 PHP，MySQL，Apache/Nginx 的版本信息</h3>
+<div class="outline-text-3" id="text-6-1">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">PHP Version</span>
+<span style="color: #FF1493;">echo</span> phpversion();
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">MySQL Version</span>
+$<span style="color: #FF8C00;">link</span> = mysqli_connect(<span style="color: #CDC673;">'127.0.0.1'</span>,<span style="color: #CDC673;">'root'</span>,<span style="color: #CDC673;">'34917da6228cfc7a'</span>);
+<span style="color: #FF1493;">echo</span> mysqli_get_server_info($<span style="color: #FF8C00;">link</span>);
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Apache Version</span>
+<span style="color: #FF1493;">echo</span> apache_get_version();
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbe23206" class="outline-3">
+<h3 id="orgbe23206"><span class="section-number-3">6.2</span> PHP 生成UUID我唯一序列</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #FF1493;">function</span> <span style="color: #87D700;">uuid</span>($<span style="color: #FF8C00;">prefix</span> =<span style="color: #CDC673;">''</span>)
+{
+    $<span style="color: #FF8C00;">chars</span> = md5(uniqid(mt_rand(), <span style="color: #AF87FF;">true</span>));
+    $<span style="color: #FF8C00;">uuid</span> = substr($<span style="color: #FF8C00;">chars</span>,0,8) . <span style="color: #CDC673;">'-'</span>;
+    $<span style="color: #FF8C00;">uuid</span> .= substr($<span style="color: #FF8C00;">chars</span>,8,4) . <span style="color: #CDC673;">'-'</span>;
+    $<span style="color: #FF8C00;">uuid</span> .= substr($<span style="color: #FF8C00;">chars</span>,12,4) . <span style="color: #CDC673;">'-'</span>;
+    $<span style="color: #FF8C00;">uuid</span> .= substr($<span style="color: #FF8C00;">chars</span>,16,4) . <span style="color: #CDC673;">'-'</span>;
+    $<span style="color: #FF8C00;">uuid</span> .= substr($<span style="color: #FF8C00;">chars</span>,20,12);
+    <span style="color: #FF1493;">return</span> $<span style="color: #FF8C00;">prefix</span> . $<span style="color: #FF8C00;">uuid</span>;
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20063;&#21487;&#20197;&#20351;&#29992;SQL&#35821;&#21477;&#29983;&#25104;&#65306;</span>
+&gt; insert into Price( Name, <span style="color: #AF87FF;">UUID</span>, Price) values(<span style="color: #CDC673;">'FEIFEI_TEST'</span>, uuid(), 32); 
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgea07e81" class="outline-3">
+<h3 id="orgea07e81"><span class="section-number-3">6.3</span> require vs include vs require_once vs include_once</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+<b>require vs include</b>
+处理失败的方式不同：include 产生一个 Warning，继续运行；而 require 导致一个 Fatal Error。
+<br />
+<b>require vs require_once or include vs include_once</b>
+后者会判断是否已经引用过指定文件，如果引用过就不再引用。这样做的好处是节省资源和避免重复定义的错误。
+<br />
+注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
+</p>
+</div>
+</div>
+</div>

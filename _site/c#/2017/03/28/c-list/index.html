@@ -497,11 +497,11 @@
 如果您遇到任何问题，请发送邮件至zrg1390556487@gmail.com。
 </p>
 
-<div id="outline-container-orgb25e80a" class="outline-2">
-<h2 id="orgb25e80a">Model 处理类</h2>
-<div class="outline-text-2" id="text-orgb25e80a">
+<div id="outline-container-org89a9215" class="outline-2">
+<h2 id="org89a9215">Model 处理类</h2>
+<div class="outline-text-2" id="text-org89a9215">
 <div class="org-src-container">
-<pre class="src src-org" id="orga39970e">using System;
+<pre class="src src-org" id="org15bb117">using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -514,12 +514,12 @@ namespace ZCKJ.Common
 {
     public class ModelHandler
     {
-        <span style="text-decoration: underline;">///</span> &lt;summary&gt;
-        <span style="text-decoration: underline;">///</span>     &#20174; reader &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
-        <span style="text-decoration: underline;">///</span> &lt;/summary&gt;
-        <span style="text-decoration: underline;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
-        <span style="text-decoration: underline;">///</span> &lt;param name="reader"&gt;&#23454;&#29616; IDataReader &#25509;&#21475;&#30340;&#23545;&#35937;&#12290;&lt;/param&gt;
-        <span style="text-decoration: underline;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
+        <span style="font-style: italic;">///</span> &lt;summary&gt;
+        <span style="font-style: italic;">///</span>     &#20174; reader &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
+        <span style="font-style: italic;">///</span> &lt;/summary&gt;
+        <span style="font-style: italic;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
+        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;&#23454;&#29616; IDataReader &#25509;&#21475;&#30340;&#23545;&#35937;&#12290;&lt;/param&gt;
+        <span style="font-style: italic;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
         public static List&lt;T&gt; ConvertToObject&lt;T&gt;(IDataReader reader)
             where T : class
         {
@@ -547,26 +547,26 @@ namespace ZCKJ.Common
             return list;
         }
 
-        <span style="text-decoration: underline;">///</span> &lt;summary&gt;
-        <span style="text-decoration: underline;">///</span>     &#20174; DataTale &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
-        <span style="text-decoration: underline;">///</span> &lt;/summary&gt;
-        <span style="text-decoration: underline;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
-        <span style="text-decoration: underline;">///</span> &lt;param name="reader"&gt;DataTale &#23545;&#35937;&#12290;&lt;/param&gt;
-        <span style="text-decoration: underline;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
+        <span style="font-style: italic;">///</span> &lt;summary&gt;
+        <span style="font-style: italic;">///</span>     &#20174; DataTale &#23545;&#35937;&#20013;&#36880;&#34892;&#35835;&#21462;&#35760;&#24405;&#24182;&#23558;&#35760;&#24405;&#36716;&#21270;&#20026; T &#31867;&#22411;&#30340;&#38598;&#21512;
+        <span style="font-style: italic;">///</span> &lt;/summary&gt;
+        <span style="font-style: italic;">///</span> &lt;typeparam name="T"&gt;&#30446;&#26631;&#31867;&#22411;&#21442;&#25968;&lt;/typeparam&gt;
+        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;DataTale &#23545;&#35937;&#12290;&lt;/param&gt;
+        <span style="font-style: italic;">///</span> &lt;returns&gt;&#25351;&#23450;&#31867;&#22411;&#30340;&#23545;&#35937;&#38598;&#21512;&#12290;&lt;/returns&gt;
         public static List&lt;T&gt; ConvertToObject&lt;T&gt;(DataTable table)
             where T : class
         {
             return table == null
                 ? new List&lt;T&gt;()
-                <span style="color: #7f7f7f;">: ModelHandler.ConvertToObject&lt;T&gt;(table.CreateDataReader() as IDataReader);</span>
+                <span style="color: #75715E;">: ModelHandler.ConvertToObject&lt;T&gt;(table.CreateDataReader() as IDataReader);</span>
         }
 
-        <span style="text-decoration: underline;">///</span> &lt;summary&gt;
-        <span style="text-decoration: underline;">///</span>     &#23558;&#25968;&#25454;&#36716;&#21270;&#20026; type &#31867;&#22411;
-        <span style="text-decoration: underline;">///</span> &lt;/summary&gt;
-        <span style="text-decoration: underline;">///</span> &lt;param name="value"&gt;&#35201;&#36716;&#21270;&#30340;&#20540;&lt;/param&gt;
-        <span style="text-decoration: underline;">///</span> &lt;param name="type"&gt;&#30446;&#26631;&#31867;&#22411;&lt;/param&gt;
-        <span style="text-decoration: underline;">///</span> &lt;returns&gt;&#36716;&#21270;&#20026;&#30446;&#26631;&#31867;&#22411;&#30340; Object &#23545;&#35937;&lt;/returns&gt;
+        <span style="font-style: italic;">///</span> &lt;summary&gt;
+        <span style="font-style: italic;">///</span>     &#23558;&#25968;&#25454;&#36716;&#21270;&#20026; type &#31867;&#22411;
+        <span style="font-style: italic;">///</span> &lt;/summary&gt;
+        <span style="font-style: italic;">///</span> &lt;param name="value"&gt;&#35201;&#36716;&#21270;&#30340;&#20540;&lt;/param&gt;
+        <span style="font-style: italic;">///</span> &lt;param name="type"&gt;&#30446;&#26631;&#31867;&#22411;&lt;/param&gt;
+        <span style="font-style: italic;">///</span> &lt;returns&gt;&#36716;&#21270;&#20026;&#30446;&#26631;&#31867;&#22411;&#30340; Object &#23545;&#35937;&lt;/returns&gt;
         private static object ChangeType(object value, Type type)
         {
             if (type.FullName == typeof(string).FullName)
@@ -594,15 +594,15 @@ namespace ZCKJ.Common
             return value;
         }
 
-        <span style="text-decoration: underline;">///</span> &lt;summary&gt;
-        <span style="text-decoration: underline;">///</span>     &#33719;&#21462;reader&#23384;&#22312;&#24182;&#19988;&#22312; T &#31867;&#20013;&#21253;&#21547;&#21516;&#21517;&#21487;&#20889;&#23646;&#24615;&#30340;&#38598;&#21512;
-        <span style="text-decoration: underline;">///</span> &lt;/summary&gt;
-        <span style="text-decoration: underline;">///</span> &lt;param name="reader"&gt;
-        <span style="text-decoration: underline;">///</span>     &#21487;&#20889;&#22495;&#30340;&#38598;&#21512;
-        <span style="text-decoration: underline;">///</span> &lt;/param&gt;
-        <span style="text-decoration: underline;">///</span> &lt;returns&gt;
-        <span style="text-decoration: underline;">///</span>     &#20197;&#23646;&#24615;&#21517;&#20026;&#38190;&#65292;PropertyInfo &#20026;&#20540;&#24471;&#23383;&#20856;&#23545;&#35937;
-        <span style="text-decoration: underline;">///</span> &lt;/returns&gt;
+        <span style="font-style: italic;">///</span> &lt;summary&gt;
+        <span style="font-style: italic;">///</span>     &#33719;&#21462;reader&#23384;&#22312;&#24182;&#19988;&#22312; T &#31867;&#20013;&#21253;&#21547;&#21516;&#21517;&#21487;&#20889;&#23646;&#24615;&#30340;&#38598;&#21512;
+        <span style="font-style: italic;">///</span> &lt;/summary&gt;
+        <span style="font-style: italic;">///</span> &lt;param name="reader"&gt;
+        <span style="font-style: italic;">///</span>     &#21487;&#20889;&#22495;&#30340;&#38598;&#21512;
+        <span style="font-style: italic;">///</span> &lt;/param&gt;
+        <span style="font-style: italic;">///</span> &lt;returns&gt;
+        <span style="font-style: italic;">///</span>     &#20197;&#23646;&#24615;&#21517;&#20026;&#38190;&#65292;PropertyInfo &#20026;&#20540;&#24471;&#23383;&#20856;&#23545;&#35937;
+        <span style="font-style: italic;">///</span> &lt;/returns&gt;
         private static Dictionary&lt;string, PropertyInfo&gt; GetFields&lt;T&gt;(IDataReader reader)
         {
             Dictionary&lt;string, PropertyInfo&gt; result = new Dictionary&lt;string, PropertyInfo&gt;();
@@ -617,10 +617,10 @@ namespace ZCKJ.Common
                 {
                     readerFields.Add(reader.GetName(i));
                 }
-                <span style="text-decoration: underline;">//IEnumerable&lt;PropertyInfo&gt; resList =</span>
-<span style="text-decoration: underline;">                </span><span style="text-decoration: underline;">//</span><span style="text-decoration: underline;">    (from PropertyInfo prop in properties</span>
-<span style="text-decoration: underline;">                </span><span style="text-decoration: underline;">//</span><span style="text-decoration: underline;">     where prop.CanWrite &amp;&amp; readerFields.Contains(prop.Name.ToUpper())</span>
-<span style="text-decoration: underline;">                //</span>     select prop);
+                <span style="font-style: italic;">//IEnumerable&lt;PropertyInfo&gt; resList =</span>
+<span style="font-style: italic;">                </span><span style="font-style: italic;">//</span><span style="font-style: italic;">    (from PropertyInfo prop in properties</span>
+<span style="font-style: italic;">                </span><span style="font-style: italic;">//</span><span style="font-style: italic;">     where prop.CanWrite &amp;&amp; readerFields.Contains(prop.Name.ToUpper())</span>
+<span style="font-style: italic;">                //</span>     select prop);
                 IEnumerable&lt;PropertyInfo&gt; resList =
                     (from PropertyInfo prop in properties
                      where prop.CanWrite &amp;&amp; readerFields.Contains(prop.Name)
@@ -774,7 +774,7 @@ namespace ZCKJ.Common
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -785,7 +785,7 @@ namespace ZCKJ.Common
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -796,7 +796,7 @@ namespace ZCKJ.Common
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -889,7 +889,7 @@ namespace ZCKJ.Common
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb25e80a"> <span class="nav-number">1</span> <span class="nav-text">Model 处理类</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org89a9215"> <span class="nav-text">Model 处理类</span> </a> </li>
     </ol>
   </div>
             

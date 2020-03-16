@@ -497,32 +497,32 @@
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-orgb0f07bc" class="outline-2">
-<h2 id="orgb0f07bc">问题概述</h2>
-<div class="outline-text-2" id="text-orgb0f07bc">
+<div id="outline-container-orga844795" class="outline-2">
+<h2 id="orga844795">问题概述</h2>
+<div class="outline-text-2" id="text-orga844795">
 <pre class="example">
 现代浏览器针对不同域名之间的ajax请求，一般情况下会阻止你获取到ajax返回内容（即使是1.a.com和2.a.com也算跨域）。这是浏览器的为安全性考虑实施的非常重要的安全策略。
 
 </pre>
 </div>
 </div>
-<div id="outline-container-org599375f" class="outline-2">
-<h2 id="org599375f">请求跨域问题解决</h2>
-<div class="outline-text-2" id="text-org599375f">
+<div id="outline-container-orgf32d6a1" class="outline-2">
+<h2 id="orgf32d6a1">请求跨域问题解决</h2>
+<div class="outline-text-2" id="text-orgf32d6a1">
 <pre class="example">
 下面通过一个 Ajax 请求示例来说明：
 
 </pre>
 </div>
-<div id="outline-container-org080e8cd" class="outline-3">
-<h3 id="org080e8cd">Client</h3>
-<div class="outline-text-3" id="text-org080e8cd">
+<div id="outline-container-org5cb15c8" class="outline-3">
+<h3 id="org5cb15c8">Client</h3>
+<div class="outline-text-3" id="text-org5cb15c8">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span>客户端请求代码</label><pre class="src src-emacs-lisp">// &#19978;&#20256;&#25991;&#20214;
 function upload_idcard_file(_this,type){
-        var formData = new FormData()<span style="color: #b22222;">;</span>
-        formData.append('type',type)<span style="color: #b22222;">;</span>
-        formData.append('file',_this.files[0])<span style="color: #b22222;">;</span>
+        var formData = new FormData()<span style="color: #8B8878;">;</span>
+        formData.append('type',type)<span style="color: #8B8878;">;</span>
+        formData.append('file',_this.files[0])<span style="color: #8B8878;">;</span>
         $.ajax({
                 url: '{$upload_file_url}',
                 type: 'POST',
@@ -531,55 +531,55 @@ function upload_idcard_file(_this,type){
                 cache: false,
                 contentType : false,
                 processData : false,
-                headers : {<span style="color: #8b2252;">"access_token"</span> : <span style="color: #8b2252;">"{$access_token}"</span>},
+                headers : {<span style="color: #CDC673;">"access_token"</span> : <span style="color: #CDC673;">"{$access_token}"</span>},
                 success:function(d){
-                        var img_url = d.data<span style="color: #b22222;">;</span>
-                        img_url = 'http:'+img_url<span style="color: #b22222;">;</span>
-                        load_img(_this.id,img_url)<span style="color: #b22222;">;</span>
+                        var img_url = d.data<span style="color: #8B8878;">;</span>
+                        img_url = 'http:'+img_url<span style="color: #8B8878;">;</span>
+                        load_img(_this.id,img_url)<span style="color: #8B8878;">;</span>
                 },
                 error:function(err){
-                        console.log(err)<span style="color: #b22222;">;</span>
+                        console.log(err)<span style="color: #8B8878;">;</span>
                 }
-        })<span style="color: #b22222;">;</span>
+        })<span style="color: #8B8878;">;</span>
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7542904" class="outline-3">
-<h3 id="org7542904">Server</h3>
-<div class="outline-text-3" id="text-org7542904">
+<div id="outline-container-orgdce5daf" class="outline-3">
+<h3 id="orgdce5daf">Server</h3>
+<div class="outline-text-3" id="text-orgdce5daf">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 2: </span>粗糙解决方式</label><pre class="src src-emacs-lisp">// &#20801;&#35768;&#25152;&#26377;&#36328;&#22495;&#35831;&#27714;
-header('Access-Control-Allow-Origin: *')<span style="color: #b22222;">;</span>
+header('Access-Control-Allow-Origin: *')<span style="color: #8B8878;">;</span>
 
 // &#21482;&#20801;&#35768; http://www.baidu.com &#21457;&#26469;&#30340;&#36328;&#22495;&#35831;&#27714;
-// header('Access-Control-Allow-Origin: http://www.baidu.com')<span style="color: #b22222;">;</span>
+// header('Access-Control-Allow-Origin: http://www.baidu.com')<span style="color: #8B8878;">;</span>
 
 // &#35774;&#32622;&#25903;&#25345;&#30340; http &#35831;&#27714;&#26041;&#24335;
-header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #b22222;">;</span>
+header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #8B8878;">;</span>
 
 // &#20801;&#35768;&#30340;&#21709;&#24212;&#22836;&#23383;&#27573;&#65292;&#35831;&#25353;&#29031;&#33258;&#24049;&#38656;&#27714;&#28155;&#21152;
-header('Access-Control-Allow-Headers:access_token')<span style="color: #b22222;">;</span>
+header('Access-Control-Allow-Headers:access_token')<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 3: </span>动态判断处理跨域问题</label><pre class="src src-emacs-lisp">if(isset($_SERVER['HTTP_ORIGIN'])){
         // &#35831;&#27714;&#26041;&#27861;
-        $request_method = $_SERVER['REQUEST_METHOD']<span style="color: #b22222;">;</span>
+        $request_method = $_SERVER['REQUEST_METHOD']<span style="color: #8B8878;">;</span>
         // &#23450;&#20041;&#19968;&#20010;&#20801;&#35768;&#36328;&#22495;&#35831;&#27714;&#25509;&#21475;&#30340;&#22495;&#21517;&#21015;&#34920;&#65292;&#36825;&#37324;&#20320;&#21487;&#20197;&#29992;&#37197;&#32622;&#20063;&#21487;&#20197;&#29992;&#20854;&#23427;&#24418;&#24335;&#65292;&#25105;&#36825;&#37324;&#21482;&#26159;&#29992;$GLOBALS&#31616;&#21333;&#28436;&#31034;&#19968;&#19979;
         $allow_origin = array(
         'baidu.com',
         'bing.com'
-        )<span style="color: #b22222;">;</span>
+        )<span style="color: #8B8878;">;</span>
         // &#21028;&#26029;&#26159;&#21542;&#26377;origin&#35831;&#27714;&#22836;
         if(in_array($request_method, $allow_origin)
         {
-                header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'])<span style="color: #b22222;">;</span>
-                header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">; </span><span style="color: #b22222;">// &#23458;&#25143;&#31471;&#25658;&#24102;&#35777;&#20070;&#24335;&#35775;&#38382;&#12290;&#20986;&#20110;&#23433;&#20840;&#32771;&#34385;&#65292;&#35813;&#39033;&#35774;&#32622;&#20026;true&#26102;&#65292;Access-Control-Allow-Origin &#30340;&#20540;&#19981;&#20801;&#35768;&#20026;&#12300;*&#12301;</span>
-                header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #b22222;">;</span>
-                header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token')<span style="color: #b22222;">;</span>
+                header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN'])<span style="color: #8B8878;">;</span>
+                header('Access-Control-Allow-Credentials: true')<span style="color: #8B8878;">; </span><span style="color: #8B8878;">// &#23458;&#25143;&#31471;&#25658;&#24102;&#35777;&#20070;&#24335;&#35775;&#38382;&#12290;&#20986;&#20110;&#23433;&#20840;&#32771;&#34385;&#65292;&#35813;&#39033;&#35774;&#32622;&#20026;true&#26102;&#65292;Access-Control-Allow-Origin &#30340;&#20540;&#19981;&#20801;&#35768;&#20026;&#12300;*&#12301;</span>
+                header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE')<span style="color: #8B8878;">;</span>
+                header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token')<span style="color: #8B8878;">;</span>
         }
     }
 }
@@ -588,18 +588,18 @@ header('Access-Control-Allow-Headers:access_token')<span style="color: #b22222;"
 </div>
 </div>
 </div>
-<div id="outline-container-org0c09ba6" class="outline-2">
-<h2 id="org0c09ba6">Session 跨域问题解决</h2>
-<div class="outline-text-2" id="text-org0c09ba6">
+<div id="outline-container-orga0b40ce" class="outline-2">
+<h2 id="orga0b40ce">Session 跨域问题解决</h2>
+<div class="outline-text-2" id="text-orga0b40ce">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #b22222;">;</span>
-header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;</span>
+<pre class="src src-emacs-lisp">ini_set('session.cookie_domain', '.a.com')<span style="color: #8B8878;">;</span>
+header('Access-Control-Allow-Credentials: true')<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 </div>
-<div id="outline-container-orge8272c0" class="outline-3">
-<h3 id="orge8272c0">参考资料</h3>
-<div class="outline-text-3" id="text-orge8272c0">
+<div id="outline-container-org3855b45" class="outline-3">
+<h3 id="org3855b45">参考资料</h3>
+<div class="outline-text-3" id="text-org3855b45">
 <ul class="org-ul">
 <li><a href="https://blog.csdn.net/z69183787/article/details/78954325">跨域Ajax请求时是否带Cookie的设置</a></li>
 </ul>
@@ -742,7 +742,7 @@ header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;<
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -753,7 +753,7 @@ header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;<
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -764,7 +764,7 @@ header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;<
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -857,7 +857,7 @@ header('Access-Control-Allow-Credentials: true')<span style="color: #b22222;">;<
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb0f07bc"> <span class="nav-number">1</span> <span class="nav-text">问题概述</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org599375f"> <span class="nav-number">2</span> <span class="nav-text">请求跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org080e8cd"> <span class="nav-number">2.1</span> <span class="nav-text">Client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7542904"> <span class="nav-number">2.2</span> <span class="nav-text">Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org0c09ba6"> <span class="nav-number">3</span> <span class="nav-text">Session 跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge8272c0"> <span class="nav-number">3.1</span> <span class="nav-text">参考资料</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga844795"> <span class="nav-text">问题概述</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgf32d6a1"> <span class="nav-text">请求跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5cb15c8"> <span class="nav-text">Client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdce5daf"> <span class="nav-text">Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga0b40ce"> <span class="nav-text">Session 跨域问题解决</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3855b45"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
