@@ -1,4 +1,4 @@
-#+TITLE:     PHP 笔记
+#+TITLE:     PHP Notes
 #+AUTHOR:    Rengui Zhao
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -9,14 +9,14 @@
 #+HTML_HEAD: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
 #+EXPORT_SELECT_TAGS: export
 #+EXPORT_EXCLUDE_TAGS: noexport
-#+LINK_UP:   
-#+LINK_HOME: 
-#+XSLT: 
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
 
 #+BEGIN_EXPORT HTML
 ---
 layout: post
-title: PHP 笔记
+title: PHP Notes
 author: zrg
 comments: false
 description: PHP
@@ -67,20 +67,20 @@ photos:
    #+END_SRC
 ** 数值中去除无效的0
    #+BEGIN_SRC php
-     /** 
-      ,* 去除多余的0 
-      ,*/  
-     function del0($s)  
-     {  
-	 $s = trim(strval($s));  
-	 if (preg_match('#^-?\d+?\.0+$#', $s)) {  
-	     return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);  
-	 }   
-	 if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {  
-	     return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);  
-	 }  
-	 return $s;  
-     }  
+     /**
+      ,* 去除多余的0
+      ,*/
+     function del0($s)
+     {
+	 $s = trim(strval($s));
+	 if (preg_match('#^-?\d+?\.0+$#', $s)) {
+	     return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);
+	 }
+	 if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
+	     return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);
+	 }
+	 return $s;
+     }
    #+END_SRC
 ** PHP 生成UUID我唯一序列
    #+BEGIN_SRC php
@@ -96,7 +96,7 @@ photos:
      }
 
      // 也可以使用SQL语句生成：
-     > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32); 
+     > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
 
    #+END_SRC
 * 正则表达式
@@ -125,13 +125,13 @@ photos:
 		 $t = self::array_is_null($v);
 		 if(!$t){
 		     return false;
-		 } 
+		 }
 	     }
-	     return true; 
-	 }elseif(!$arr){ 
-	     return true; 
-	 }else{ 
-	     return false; 
+	     return true;
+	 }elseif(!$arr){
+	     return true;
+	 }else{
+	     return false;
 	 }
      }
    #+END_SRC
@@ -202,11 +202,11 @@ photos:
 	 $file_name=trim($new_name=='')?$file_name:urlencode($new_name);
 	 $file_type=fopen($file_url,'r'); //打开文件
 	 //输入文件标签
-	 header("Content-type: application/octet-stream");  
-	 header("Accept-Ranges: bytes");  
-	 header("Accept-Length: ".filesize($file_url));  
-	 header("Content-Disposition: attachment; filename=".$file_name);  
-	 //输出文件内容  
+	 header("Content-type: application/octet-stream");
+	 header("Accept-Ranges: bytes");
+	 header("Accept-Length: ".filesize($file_url));
+	 header("Content-Disposition: attachment; filename=".$file_name);
+	 //输出文件内容
 	 echo fread($file_type,filesize($file_url));
 	 fclose($file_type);
      }
@@ -221,7 +221,7 @@ photos:
   + Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。
   + 以上四个Header()是必需的。
   + fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区
-** 参考资料 
+** 参考资料
    [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
    [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
 * 图形图像处理技术
@@ -305,12 +305,13 @@ photos:
 	 return $result;
      }
    #+END_SRC
-* PHP 、Web 页面和 MySQL 交互
+* PHP 交互
 ** JavaScript 语言
 *** 了解 JavaScript
 *** JavaScript 语言基础
 ** Cookie 与 Session
-** 同步方式
+** 同步和异步加载数据
+*** 同步
    #+NAME: config.php
    #+BEGIN_SRC emacs-lisp
 <?php
@@ -349,8 +350,8 @@ $query = mysqli_query($link,$sql);
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head> 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>演示：PHP简单漂亮的分页类</title>
         <link rel="stylesheet" type="text/css" href="http://www.sucaihuo.com/jquery/css/common.css" />
         <style type="text/css">
@@ -480,7 +481,7 @@ class page {
     /*
      * $show_pages
      * 页面显示的格式，显示链接的页数为2*$show_pages+1。
-     * 如$show_pages=2那么页面上显示就是[首页] [上页] 1 2 3 4 5 [下页] [尾页] 
+     * 如$show_pages=2那么页面上显示就是[首页] [上页] 1 2 3 4 5 [下页] [尾页]
      */
     private $show_pages;
 
@@ -597,137 +598,211 @@ class page {
 }
    #+END_SRC
    ?>
-** Ajax异步方式
-   #+BEGIN_SRC sql
-     CREATE TABLE IF NOT EXISTS `food` (
-       `id` int(11) NOT NULL AUTO_INCREMENT,
-       `title` varchar(100) NOT NULL,
-       `pic` varchar(255) NOT NULL,
-       PRIMARY KEY (`id`)
-     ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-   #+END_SRC
+*** 异步处理
+    #+BEGIN_SRC sql
+      CREATE TABLE IF NOT EXISTS `food` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`title` varchar(100) NOT NULL,
+	`pic` varchar(255) NOT NULL,
+	PRIMARY KEY (`id`)
+      ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+    #+END_SRC
 
-   #+BEGIN_SRC html
-<div id="list">
-    <ul></ul>
-</div>
-<div id="pagecount"></div>
-   #+END_SRC
+    #+BEGIN_SRC html
+ <div id="list">
+     <ul></ul>
+ </div>
+ <div id="pagecount"></div>
+    #+END_SRC
 
-   #+BEGIN_SRC js
-var curPage = 1; //当前页码
-var total,pageSize,totalPage; //总记录数，每页显示数，总页数
-//获取数据
-function getData(page){ 
-	$.ajax({
-		type: 'POST',
-		url: 'pages.php',
-		data: {'pageNum':page-1},
-		dataType:'json',
-		beforeSend:function(){
-			$("#list ul").append("<li id='loading'>loading...</li>");//显示加载动画
-		},
-		success:function(json){
-			$("#list ul").empty();//清空数据区
-			total = json.total; //总记录数
-			pageSize = json.pageSize; //每页显示条数
-			curPage = page; //当前页
-			totalPage = json.totalPage; //总页数
-			var li = "";
-			var list = json.list;
-			$.each(list,function(index,array){ //遍历json数据列
-				li += "<li><a href='#'><img src='"+array['pic']+"'>"+array['title']
-                +"</a></li>";
-			});
-			$("#list ul").append(li);
-		},
-		complete:function(){ //生成分页条
-			getPageBar();
-		},
-		error:function(){
-			alert("数据加载失败");
-		}
-	});
-}
-//获取分页条
-function getPageBar(){
-	//页码大于最大页数
-	if(curPage>totalPage) curPage=totalPage;
-	//页码小于1
-	if(curPage<1) curPage=1;
-	pageStr = "<span>共"+total+"条</span><span>"+curPage
-    +"/"+totalPage+"</span>";
-	
-	//如果是第一页
-	if(curPage==1){
-		pageStr += "<span>首页</span><span>上一页</span>";
-	}else{
-		pageStr += "<span><a href='javascript:void(0)' rel='1'>首页</a></span>
-        <span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>上一页</a></span>";
-	}
-	
-	//如果是最后页
-	if(curPage>=totalPage){
-		pageStr += "<span>下一页</span><span>尾页</span>";
-	}else{
-		pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>
-        下一页</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>尾页</a>
-        </span>";
-	}
-		
-	$("#pagecount").html(pageStr);
-}
-$(function(){
-	getData(1);
-	$("#pagecount span a").live('click',function(){
-		var rel = $(this).attr("rel");
-		if(rel){
-			getData(rel);
-		}
-	});
-});
-   #+END_SRC
+    #+BEGIN_SRC js
+ var curPage = 1; //当前页码
+ var total,pageSize,totalPage; //总记录数，每页显示数，总页数
+ //获取数据
+ function getData(page){
+	 $.ajax({
+		 type: 'POST',
+		 url: 'pages.php',
+		 data: {'pageNum':page-1},
+		 dataType:'json',
+		 beforeSend:function(){
+			 $("#list ul").append("<li id='loading'>loading...</li>");//显示加载动画
+		 },
+		 success:function(json){
+			 $("#list ul").empty();//清空数据区
+			 total = json.total; //总记录数
+			 pageSize = json.pageSize; //每页显示条数
+			 curPage = page; //当前页
+			 totalPage = json.totalPage; //总页数
+			 var li = "";
+			 var list = json.list;
+			 $.each(list,function(index,array){ //遍历json数据列
+				 li += "<li><a href='#'><img src='"+array['pic']+"'>"+array['title']
+                 +"</a></li>";
+			 });
+			 $("#list ul").append(li);
+		 },
+		 complete:function(){ //生成分页条
+			 getPageBar();
+		 },
+		 error:function(){
+			 alert("数据加载失败");
+		 }
+	 });
+ }
+ //获取分页条
+ function getPageBar(){
+	 //页码大于最大页数
+	 if(curPage>totalPage) curPage=totalPage;
+	 //页码小于1
+	 if(curPage<1) curPage=1;
+	 pageStr = "<span>共"+total+"条</span><span>"+curPage
+     +"/"+totalPage+"</span>";
 
-   #+BEGIN_SRC emacs-lisp
-include_once('connect.php'); //连接数据库，略过，具体请下载源码查看
+	 //如果是第一页
+	 if(curPage==1){
+		 pageStr += "<span>首页</span><span>上一页</span>";
+	 }else{
+		 pageStr += "<span><a href='javascript:void(0)' rel='1'>首页</a></span>
+         <span><a href='javascript:void(0)' rel='"+(curPage-1)+"'>上一页</a></span>";
+	 }
 
-$page = intval($_POST['pageNum']); //当前页
+	 //如果是最后页
+	 if(curPage>=totalPage){
+		 pageStr += "<span>下一页</span><span>尾页</span>";
+	 }else{
+		 pageStr += "<span><a href='javascript:void(0)' rel='"+(parseInt(curPage)+1)+"'>
+         下一页</a></span><span><a href='javascript:void(0)' rel='"+totalPage+"'>尾页</a>
+         </span>";
+	 }
 
-$result = mysql_query("select id from food");
-$total = mysql_num_rows($result);//总记录数
-$pageSize = 6; //每页显示数
-$totalPage = ceil($total/$pageSize); //总页数
+	 $("#pagecount").html(pageStr);
+ }
+ $(function(){
+	 getData(1);
+	 $("#pagecount span a").live('click',function(){
+		 var rel = $(this).attr("rel");
+		 if(rel){
+			 getData(rel);
+		 }
+	 });
+ });
+    #+END_SRC
 
-$startPage = $page*$pageSize; //开始记录
-//构造数组
-$arr['total'] = $total;
-$arr['pageSize'] = $pageSize;
-$arr['totalPage'] = $totalPage;
-$query = mysql_query("select id,title,pic from food order by id asc limit 
-$startPage,$pageSize"); //查询分页数据
-while($row=mysql_fetch_array($query)){
-	 $arr['list'][] = array(
-	 	'id' => $row['id'],
-		'title' => $row['title'],
-		'pic' => $row['pic'],
-	 );
-}
-echo json_encode($arr); //输出JSON数据
-   #+END_SRC
-** 关于分页
+    #+BEGIN_SRC emacs-lisp
+ include_once('connect.php'); //连接数据库，略过，具体请下载源码查看
+
+ $page = intval($_POST['pageNum']); //当前页
+
+ $result = mysql_query("select id from food");
+ $total = mysql_num_rows($result);//总记录数
+ $pageSize = 6; //每页显示数
+ $totalPage = ceil($total/$pageSize); //总页数
+
+ $startPage = $page*$pageSize; //开始记录
+ //构造数组
+ $arr['total'] = $total;
+ $arr['pageSize'] = $pageSize;
+ $arr['totalPage'] = $totalPage;
+ $query = mysql_query("select id,title,pic from food order by id asc limit
+ $startPage,$pageSize"); //查询分页数据
+ while($row=mysql_fetch_array($query)){
+	  $arr['list'][] = array(
+	 	 'id' => $row['id'],
+		 'title' => $row['title'],
+		 'pic' => $row['pic'],
+	  );
+ }
+ echo json_encode($arr); //输出JSON数据
+    #+END_SRC
+*** 跨域请求问题处理
+**** 问题概述
+**** 问题处理
+#+CAPTION: 客户端请求代码
+#+BEGIN_SRC php
+  // 客户端请求代码
+  // 上传文件
+  function upload_idcard_file(_this,type){
+	  var formData = new FormData();
+	  formData.append('type',type);
+	  formData.append('file',_this.files[0]);
+	  $.ajax({
+		  url: '{$upload_file_url}',
+		  type: 'POST',
+		  dataType: 'json',
+		  data: formData,
+		  cache: false,
+		  contentType : false,
+		  processData : false,
+		  headers : {"access_token" : "{$access_token}"},
+		  success:function(d){
+			  var img_url = d.data;
+			  img_url = 'http:'+img_url;
+			  load_img(_this.id,img_url);
+		  },
+		  error:function(err){
+			  console.log(err);
+		  }
+	  });
+  }
+#+END_SRC
+
+#+CAPTION: 服务端处理：粗糙解决方式
+#+BEGIN_SRC php
+  // 服务端处理：粗糙解决方式
+  // 允许所有跨域请求
+  header('Access-Control-Allow-Origin: *');
+
+  // 只允许 http://www.baidu.com 发来的跨域请求
+  // header('Access-Control-Allow-Origin: http://www.baidu.com');
+
+  // 设置支持的 http 请求方式
+  header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+
+  // 允许的响应头字段，请按照自己需求添加
+  header('Access-Control-Allow-Headers:access_token');
+#+END_SRC
+
+#+CAPTION: 服务端处理：动态判断处理跨域问题
+#+BEGIN_SRC php
+  if(isset($_SERVER['HTTP_ORIGIN'])){
+	  // 请求方法
+	  $request_method = $_SERVER['REQUEST_METHOD'];
+	  // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
+	  $allow_origin = array(
+	  'baidu.com',
+	  'bing.com'
+	  );
+	  // 判断是否有origin请求头
+	  if(in_array($request_method, $allow_origin)
+	  {
+		  header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+		  // 客户端携带证书式访问。出于安全考虑，该项设置为true时，Access-Control-Allow-Origin 的值不允许为「*」
+		  header('Access-Control-Allow-Credentials: true'); 
+		  header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+		  header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token');
+	  }
+      }
+  }
+#+END_SRC
+**** Session 跨域问题
+#+BEGIN_SRC php
+  ini_set('session.cookie_domain', '.a.com');
+  header('Access-Control-Allow-Credentials: true');
+#+END_SRC
+*** References
+    + [[https://blog.csdn.net/z69183787/article/details/78954325][跨域Ajax请求时是否带Cookie的设置]]
+** 分页
 *** 介绍
     : 分页（英语：Paging），是一种操作系统里存储器管理的一种技术，可以使计算机的主存可以使用存储在辅助存储器中的数据。……
 *** 前端分页与后端分页
     : 前端分页一般用于数据量较小的情况，一次请求把数据全部从后端请求回来。
     : 后端分页适用于数据量偏大时的情况，减小请求传输压力。前端需要将每页条数和当前页传给后端，后端根据条件查询出数据再传给前端，包括总条数、当前页、每页多少条数据等。
-** MySQL 简介
-** MySQL 数据库操作
-
-** References
-   : https://www.helloweba.net/javascript/195.html
-   : https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81
-   : https://www.zhihu.com/question/26421527
 ** PHP 与 XML 技术
+** References
+   + https://www.helloweba.net/javascript/195.html
+   + https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81
+   + https://www.zhihu.com/question/26421527
 * 附录一：PHP 常见函数
 ** String
    + addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
@@ -752,10 +827,10 @@ echo json_encode($arr); //输出JSON数据
 	   var_dump ( mixed $expression [, mixed $... ] ) : void
 	       var_export ( mixed $expression [, bool $return ] ) : mixed
      #+END_SRC
-   + get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表                                                                                    
-   + hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）                                                                                 
-   + hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符                                                                
-   + hex2bin — 转换十六进制字符串为二进制字符串                                                                                                                           
+   + get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表
+   + hebrev — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew）
+   + hebrevc — 将逻辑顺序希伯来文（logical-Hebrew）转换为视觉顺序希伯来文（visual-Hebrew），并且转换换行符
+   + hex2bin — 转换十六进制字符串为二进制字符串
    + html_entity_decode — Convert HTML entities to their corresponding characters
    + htmlentities — 将字符转换为 HTML 转义字符
    + htmlspecialchars_decode — 将特殊的 HTML 实体转换回普通字符
@@ -779,52 +854,52 @@ echo json_encode($arr); //输出JSON数据
      // 整数部分以千位分隔符方式分隔
      echo number_format((float)round($a,2,PHP_ROUND_HALF_ODD),2,'.',',');
      #+END_SRC
-   + ord — 转换字符串第一个字节为 0-255 之间的值                                                                                                                          
-   + parse_str — 将字符串解析成多个变量                                                                                                                                   
-   + print — 输出字符串                                                                                                                                                   
-   + printf — 输出格式化字符串                                                                                                                                            
-   + quoted_printable_decode — 将 quoted-printable 字符串转换为 8-bit 字符串                                                                                              
-   + quoted_printable_encode — 将 8-bit 字符串转换成 quoted-printable 字符串                                                                                              
-   + quotemeta — 转义元字符集                                                                                                                                             
-   + rtrim — 删除字符串末端的空白字符（或者其他字符）                                                                                                                     
-   + setlocale — 设置地区信息                                                                                                                                             
-   + sha1_file — 计算文件的 sha1 散列值                                                                                                                                   
-   + sha1 — 计算字符串的 sha1 散列值                                                                                                                                      
-   + similar_text — 计算两个字符串的相似度                                                                                                                                
-   + soundex — Calculate the soundex key of a string                                                                                                                      
-   + sprintf — Return a formatted string                                                                                                                                  
-   + sscanf — 根据指定格式解析输入的字符                                                                                                                                  
-   + str_getcsv — 解析 CSV 字符串为一个数组                                                                                                                               
-   + str_ireplace — str_replace 的忽略大小写版本                                                                                                                          
-   + str_pad — 使用另一个字符串填充字符串为指定长度                                                                                                                       
-   + str_repeat — 重复一个字符串                                                                                                                                          
-   + str_rot13 — 对字符串执行 ROT13 转换                                                                                                                                  
-   + str_shuffle — 随机打乱一个字符串                                                                                                                                     
-   + str_split — 将字符串转换为数组                                                                                                                                       
-   + str_word_count — 返回字符串中单词的使用情况                                                                                                                          
-   + strcasecmp — 二进制安全比较字符串（不区分大小写）                                                                                                                    
-   + strcmp — 二进制安全字符串比较                                                                                                                                        
-   + strcoll — 基于区域设置的字符串比较                                                                                                                                   
-   + strcspn — 获取不匹配遮罩的起始子字符串的长度                                                                                                                         
-   + strip_tags — 从字符串中去除 HTML 和 PHP 标记                                                                                                                         
-   + stripcslashes — 反引用一个使用 addcslashes 转义的字符串                                                                                                              
+   + ord — 转换字符串第一个字节为 0-255 之间的值
+   + parse_str — 将字符串解析成多个变量
+   + print — 输出字符串
+   + printf — 输出格式化字符串
+   + quoted_printable_decode — 将 quoted-printable 字符串转换为 8-bit 字符串
+   + quoted_printable_encode — 将 8-bit 字符串转换成 quoted-printable 字符串
+   + quotemeta — 转义元字符集
+   + rtrim — 删除字符串末端的空白字符（或者其他字符）
+   + setlocale — 设置地区信息
+   + sha1_file — 计算文件的 sha1 散列值
+   + sha1 — 计算字符串的 sha1 散列值
+   + similar_text — 计算两个字符串的相似度
+   + soundex — Calculate the soundex key of a string
+   + sprintf — Return a formatted string
+   + sscanf — 根据指定格式解析输入的字符
+   + str_getcsv — 解析 CSV 字符串为一个数组
+   + str_ireplace — str_replace 的忽略大小写版本
+   + str_pad — 使用另一个字符串填充字符串为指定长度
+   + str_repeat — 重复一个字符串
+   + str_rot13 — 对字符串执行 ROT13 转换
+   + str_shuffle — 随机打乱一个字符串
+   + str_split — 将字符串转换为数组
+   + str_word_count — 返回字符串中单词的使用情况
+   + strcasecmp — 二进制安全比较字符串（不区分大小写）
+   + strcmp — 二进制安全字符串比较
+   + strcoll — 基于区域设置的字符串比较
+   + strcspn — 获取不匹配遮罩的起始子字符串的长度
+   + strip_tags — 从字符串中去除 HTML 和 PHP 标记
+   + stripcslashes — 反引用一个使用 addcslashes 转义的字符串
    + strpos()，查找字符串首次出现的位置。strpos ( string $haystack , mixed $needle [, int $offset = 0 ] ) : int，如果没找到 needle，将返回 FALSE，此函数可能返回布尔值 FALSE，但也可能返回等同于 FALSE 的非布尔值。应使用 === 运算符来测试此函数的返回值。缺点：对中文支持不好
      #+BEGIN_SRC php
-       // 判断是否包含某字符串                                                                                                                                                
-       $pos = strpos($str,$needle);                                                                                                                                           
+       // 判断是否包含某字符串
+       $pos = strpos($str,$needle);
        if($pos !== false){
-	     echo 'exist';                                                                                                                                                      
+	     echo 'exist';
        }
      #+END_SRC
-   + stripslashes — 反引用一个引用字符串                                                                                                                                  
-   + strlen()，获取字符串长度。                                                                                                                                           
-   + strnatcasecmp — 使用“自然顺序”算法比较字符串（不区分大小写）                                                                                                         
-   + strnatcmp — 使用自然排序算法比较字符串                                                                                                                               
-   + strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）                                                                                                   
-   + strncmp — 二进制安全比较字符串开头的若干个字符                                                                                                                       
-   + strpbrk — 在字符串中查找一组字符的任何一个字符                                                                                                                       
-   + substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：                                                                                            
-   + mb_substr() ，字符串截取。mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string                      
+   + stripslashes — 反引用一个引用字符串
+   + strlen()，获取字符串长度。
+   + strnatcasecmp — 使用“自然顺序”算法比较字符串（不区分大小写）
+   + strnatcmp — 使用自然排序算法比较字符串
+   + strncasecmp — 二进制安全比较字符串开头的若干个字符（不区分大小写）
+   + strncmp — 二进制安全比较字符串开头的若干个字符
+   + strpbrk — 在字符串中查找一组字符的任何一个字符
+   + substr()，字符串截取。substr(字符串变量,开始截取的位置，截取个数） 。如：
+   + mb_substr() ，字符串截取。mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) : string
    + strstr()，返回字符串从查找字符串出现的位置开始到字符串结尾的字符串
      #+BEGIN_SRC php
        // 去除字符串后3位
@@ -833,32 +908,32 @@ echo json_encode($arr); //输出JSON数据
        // 判断是否包含某字符串，没有返回值，则不包含
        echo strstr($str,'@');
      #+END_SRC
-   + stristr()，与 strstr() 的使用方法一样，区别是 stristr 不区分大小写。                                                                                                 
-   + strchr — strstr 的别名                                                                                                                                               
-   + strrchr — 查找指定字符在字符串中的最后一次出现                                                                                                                       
-   + strrev — 反转字符串                                                                                                                                                  
-   + strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）                                                                                            
-   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。                                                                                              
-   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。                                                                                              
-   + strstr — 查找字符串的首次出现                                                                                                                                        
-   + strtok — 标记分割字符串                                                                                                                                              
-   + strtolower — 将字符串转化为小写                                                                                                                                      
-   + strtoupper — 将字符串转化为大写                                                                                                                                      
-   + strtr — 转换指定字符                                                                                                                                                 
-   + substr_compare — 二进制安全比较字符串（从偏移位置比较指定长度）                                                                                                      
-   + substr_count — 计算字串出现的次数                                                                                                                                    
-   + str_replace()，搜索替换字符串。substr_replace ( mixed $string , mixed $replacement , mixed $start [, mixed $length ] ) : mixed                                       
-   + trim — 去除字符串首尾处的空白字符（或者其他字符）                                                                                                                    
-   + ucfirst — 将字符串的首字母转换为大写                                                                                                                                 
-   + ucwords — 将字符串中每个单词的首字母转换为大写                                                                                                                       
-   + vfprintf — 将格式化字符串写入流                                                                                                                                      
-   + vprintf — 输出格式化字符串                                                                                                                                           
-   + vsprintf — 返回格式化字符串                                                                                                                                          
-   + wordwrap — 打断字符串为指定数量的字串                                                                                                                                
-   + preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids);                                                   
-   + sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str);                                                                                   
-   + Implode()，字符串的合并（array->string）。                                                                                                                           
-   + explode()，字符串的分割（string->array）。                                                                                                                           
+   + stristr()，与 strstr() 的使用方法一样，区别是 stristr 不区分大小写。
+   + strchr — strstr 的别名
+   + strrchr — 查找指定字符在字符串中的最后一次出现
+   + strrev — 反转字符串
+   + strripos — 计算指定字符串在目标字符串中最后一次出现的位置（不区分大小写）
+   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+   + strspn — 计算字符串中全部字符都存在于指定字符集合中的第一段子串的长度。
+   + strstr — 查找字符串的首次出现
+   + strtok — 标记分割字符串
+   + strtolower — 将字符串转化为小写
+   + strtoupper — 将字符串转化为大写
+   + strtr — 转换指定字符
+   + substr_compare — 二进制安全比较字符串（从偏移位置比较指定长度）
+   + substr_count — 计算字串出现的次数
+   + str_replace()，搜索替换字符串。substr_replace ( mixed $string , mixed $replacement , mixed $start [, mixed $length ] ) : mixed
+   + trim — 去除字符串首尾处的空白字符（或者其他字符）
+   + ucfirst — 将字符串的首字母转换为大写
+   + ucwords — 将字符串中每个单词的首字母转换为大写
+   + vfprintf — 将格式化字符串写入流
+   + vprintf — 输出格式化字符串
+   + vsprintf — 返回格式化字符串
+   + wordwrap — 打断字符串为指定数量的字串
+   + preg_replace()，搜索匹配替换字符串。Eg：搜索匹配到，,\n\r\s的使用|替换：preg_replace('/[,，\s\r\n]+/', '|', $ids);
+   + sprintf()，格式化字符串。sprintf(格式,要转化的字符串)，Eg：Sprintf('%01.2f',$str);
+   + Implode()，字符串的合并（array->string）。
+   + explode()，字符串的分割（string->array）。
    + join — implode() 的别名
      #+BEGIN_SRC php
        // 判断是否包含某字符串
@@ -867,11 +942,11 @@ echo json_encode($arr); //输出JSON数据
 	   return true;
        }
      #+END_SRC
-   + htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。                                                                          
-   + json_decode()，对 JSON 格式的字符串进行解码。                                                                                                                        
-   + json_encode()，对变量进行 JSON 编码 。                                                                                                                               
-   + strtolower()，把所有字符转换为小写                                                                                                                                   
-   + strtoupper(), 把所有字符转换为大写                                                                                                                                   
+   + htmlentities/htmlspecialchars/addslashes/stripslashes/strip_tags、mysql_real_escape_strin。
+   + json_decode()，对 JSON 格式的字符串进行解码。
+   + json_encode()，对变量进行 JSON 编码 。
+   + strtolower()，把所有字符转换为小写
+   + strtoupper(), 把所有字符转换为大写
    + strncmp() ， 二进制安全比较字符串开头的若干个字符（区分大小写）
 ** Array
    + curl_setopt_array — 为 cURL 传输会话批量设置选项
@@ -1107,11 +1182,11 @@ echo json_encode($arr); //输出JSON数据
        //9,四舍六入,遇5不舍弃
        var_dump(round(9.5, 0, PHP_ROUND_HALF_DOWN));
        //10,四舍六入,整数部分为奇数则进1
-       var_dump(round(9.5, 0, PHP_ROUND_HALF_EVEN)); 
+       var_dump(round(9.5, 0, PHP_ROUND_HALF_EVEN));
        //9,四舍六入,整数部分为偶数则进1
        var_dump(round(9.5, 0, PHP_ROUND_HALF_ODD));
        //9
-       var_dump(round(8.5, 0, PHP_ROUND_HALF_UP)); 
+       var_dump(round(8.5, 0, PHP_ROUND_HALF_UP));
        //8
        var_dump(round(8.5, 0, PHP_ROUND_HALF_DOWN));
        //8
