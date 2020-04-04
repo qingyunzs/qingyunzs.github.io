@@ -1,8 +1,8 @@
-#+TITLE:     JavaScript 公共文件 
+#+TITLE:     JavaScript 开发笔记 
 #+AUTHOR:    Rengui Zhao
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -16,7 +16,7 @@
 #+BEGIN_EXPORT html
 ---
 layout: post
-title: JavaScript 公共文件
+title: JavaScript 开发笔记
 author: zrg
 comments: false
 description: JavaScript
@@ -31,7 +31,8 @@ photos:
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
-* Date/Time
+* 基本操作
+** Date/Time
 *** 转换UTC时间
     #+BEGIN_SRC javascript
       function ConvertUtcTime(utctime, style) {
@@ -188,6 +189,23 @@ photos:
 	  return ret;
       }
     #+END_SRC
+*** 指定睡眠时间
+    #+BEGIN_SRC javascript
+      /**
+       ,* js指定睡眠时长
+       ,* @param  {[type]} numberMillis [description]
+       ,* @return {[type]}              [description]
+       ,*/
+      function sleep(numberMillis) {
+	  var now = new Date();
+	  var exitTime = now.getTime() + numberMillis;
+	  while (true) {
+	      now = new Date();
+	      if (now.getTime() > exitTime)
+		  return;
+	  }
+      }
+    #+END_SRC
 *** 倒计时
     #+BEGIN_HTML emacs-lisp
     <strong>剩余时间：</strong><span id="timer"></span>
@@ -257,25 +275,17 @@ photos:
       }
       //倒计时 end
     #+END_SRC
-*** 指定睡眠时间
+** String
+*** 常用内置函数
     #+BEGIN_SRC javascript
-      /**
-       ,* js指定睡眠时长
-       ,* @param  {[type]} numberMillis [description]
-       ,* @return {[type]}              [description]
-       ,*/
-      function sleep(numberMillis) {
-	  var now = new Date();
-	  var exitTime = now.getTime() + numberMillis;
-	  while (true) {
-	      now = new Date();
-	      if (now.getTime() > exitTime)
-		  return;
-	  }
-      }
-    #+END_SRC
-* String
-*** 生成随机验证码
+      concat(str1,str2)，字符串拼接
+      left(str, length)，
+      right(str, length)，
+      substring(str, pos, length[optional])，pos：从第几位开始截取
+      mid()，
+      substr()，
+      substring_index(str, delim, count)，delim：关键字，count：关键字出现的次数
+    #+END_SRC*** 生成随机验证码
     #+BEGIN_SRC javascript
       function CreateCode() {
 	  var code = '';
@@ -347,17 +357,7 @@ photos:
 	  return parseInt(numberThousand.toString().split(',').join(''));
       }
     #+END_SRC
-** 常用内置函数
-   #+BEGIN_SRC javascript
-     concat(str1,str2)，字符串拼接
-     left(str, length)，
-     right(str, length)，
-     substring(str, pos, length[optional])，pos：从第几位开始截取
-     mid()，
-     substr()，
-     substring_index(str, delim, count)，delim：关键字，count：关键字出现的次数
-   #+END_SRC
-* Math/Number
+** Math/Number
 *** 默认返回 0 ~ 1 之间的随机数
     #+BEGIN_SRC javascript
       // 取得介于 1 到 10 之间的一个随机数：
@@ -391,14 +391,14 @@ photos:
       // 向下取整
       var n = Math.ceil(3.14); //3
     #+END_SRC
-* Array
+** Array
 *** 判断某元素是否存在数组中
     #+BEGIN_SRC javascript
     var arr = ['a,','b','c','d','e'];
     if(arr.indexOf('a') >= 0) // indexOf 如果元素存在于数组中，会返回数组下标，否则返回 -1
     if($.inArray('a',arr) >=0) // 使用 jQuery 的 inArray 方法，与 indexOf 一样，如果元素存在于数组中，会返回数组下标，否则返回 -1
     #+END_SRC
-* Object
+** Object
 *** 对象(Object) ⇋ 字符串(String)
     #+BEGIN_SRC javascript
 // Object to String
@@ -692,27 +692,6 @@ function isEmpty(obj) {
 	  }                                                                                                                                             
       }                                                                                                                                                     
     #+END_SRC
-* 其他
-** 滚动到页面顶部
-   #+BEGIN_SRC javascript
-     function goTopEx() {
-	 var obj = document.getElementById("goTopBtn");
-	 function getScrollTop() {
-	     return document.documentElement.scrollTop;
-	 }
-	 function setScrollTop(value) {
-	     document.documentElement.scrollTop = value;
-	 }
-	 window.onscroll = function () { getScrollTop() > 0 ? obj.style.display = "" : obj.style.display = "none"; }
-	 obj.onclick = function () {
-	     var goTop = setInterval(scrollMove, 10);
-	     function scrollMove() {
-		 setScrollTop(getScrollTop() / 1.1);
-		 if (getScrollTop() < 1) clearInterval(goTop);
-	     }
-	 }
-     }
-   #+END_SRC
 * 页面操作
 ** 根据网页实际大小来设置iframe显示区域大小
    #+BEGIN_SRC javascript
@@ -749,6 +728,174 @@ function isEmpty(obj) {
    #+BEGIN_SRC javascript
      https://jqueryui.com/accordion/
    #+END_SRC
+** 滚动到页面顶部
+   #+BEGIN_SRC javascript
+     function goTopEx() {
+	 var obj = document.getElementById("goTopBtn");
+	 function getScrollTop() {
+	     return document.documentElement.scrollTop;
+	 }
+	 function setScrollTop(value) {
+	     document.documentElement.scrollTop = value;
+	 }
+	 window.onscroll = function () { getScrollTop() > 0 ? obj.style.display = "" : obj.style.display = "none"; }
+	 obj.onclick = function () {
+	     var goTop = setInterval(scrollMove, 10);
+	     function scrollMove() {
+		 setScrollTop(getScrollTop() / 1.1);
+		 if (getScrollTop() < 1) clearInterval(goTop);
+	     }
+	 }
+     }
+   #+END_SRC
+* Ajax
+** AJAX 简介
+   全称：Asynchronous Javascript and XML，由 Javascript+CSS+DOM+XMLHttpRequest+XSTL+XHTML+XML 七种技术组成，其中技术核心是 XMLHttpRequest。
+** 同步 vs 异步
+   : 同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。
+   : 异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。
+** XMLHttpRequest
+#+CAPTION: Ajax 原生代码示例
+#+BEGIN_SRC javascript
+var ajax = {
+	get:function(url,func){
+        // XMLHttpRequest 用于在后台与服务器交换数据   
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function() {
+        // readyState == 4 说明请求已完成
+        if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) { 
+        	// 从服务器获得数据
+              fn.call(this, xhr.responseText);  
+        }
+    };
+    xhr.send();
+  },
+  // data 应为 'a=a1&b=b1' 这种字符串格式，在 jquery 里如果 data 为对象会自动将对象转成这种字符串格式
+  post: function (url, data, fn) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    // 添加 http 头，发送信息至服务器时内容编码类型
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");  
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+        fn.call(this, xhr.responseText);
+      }
+    };
+    xhr.send(data);
+  }
+};
+#+END_SRC
+** jQuery Ajax
+*** Ajax 参数详解
+#+CAPTION: jQuery Ajax 代码格式示例
+#+BEGIN_SRC javascript
+  $.ajax({
+	  url: URL, // 发送请求的地址（默认为当前页地址)
+    type: "POST", // 请求方式：post/get/put/delete（默认为get)
+    timeout: 600, // 请求超时时间，单位毫秒
+    async:true, // true，异步请求；false，同步请求。
+    cache:false, // true，从浏览器加载缓存；false，不从浏览器加载缓存
+    data: JSON.stringify(stream), // 发送到服务器的数据，要求为Object或String类型的参数。
+    dataType: "json",// 预期服务器返回的数据类型。可用的类型有:xml,html,script,json,jsonp,text
+    contentType: "application/json; charset=utf-8", // 当发送信息至服务器时，内容编码类型。默认为"application/x-www-form-urlencoded"，multipart/form-data：有时候也会这个，上传下载可能会用到。
+    beforeSend: function(XMLHttpRequest){
+	  // 设置请求头,加载loading界面
+    },
+    dataFilter:function(){ //给Ajax返回的原始数据进行预处理的函数。提供data和type两个参数。data是Ajax返回的原始数据，type是调用jQuery.ajax时提供的dataType参数。
+	  // 
+    },
+    global:false, //表示是否触发全局ajax事件。默认为true。
+    ifModified:false, //仅在服务器数据改变时获取新数据。服务器数据改变判断的依据是Last-Modified头信息。默认值是false，即忽略头信息。
+    jsonP:"",// 在一个jsonp请求中重写回调函数的名字。 
+    username:"zrg", //用于响应HTTP访问认证请求的用户名。
+    password:"123456", //用于响应HTTP访问认证请求的密码。
+    processData:false, // 默认情况下，发送的数据将被转换为对象（从技术角度来讲并非字符串）以配合默认内容类型"application/x-www-form-urlencoded"。如果要发送DOM树信息或者其他不希望转换的信息，请设置为false。
+    scriptCharset:"", //只有当请求时dataType为"jsonp"或者"script"，并且type是GET时才会用于强制修改字符集(charset)。通常在本地和远程的内容编码不同时使用。
+    complete: function(XMLHttpRequest, textStatus){ // 请求完成后调用的回调函数（请求成功或失败时均调用）
+	  // 
+    },
+    success: function (data,textStatus) { // 请求成功后调用的回调函数，有两个参数: (1)由服务器返回，并根据dataType参数进行处理后的数据;(2)描述状态的字符串。
+	  if (data.success) {
+		  //
+	} else {
+	  //
+	}
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown){ // 请求失败时被调用的函数。有3个参数，即XMLHttpRequest对象、错误信息、捕获的错误对象(可选)。
+	  //
+    }
+  });
+#+END_SRC
+*** 常见的 POST 提交数据方式
+1. application/x-www-form-urlencoded
+   : 浏览器的原生 <form> 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。
+2. multipart/form-data
+   : 一般用来上传文件
+3. application/json
+   : 该方案可以方便的提交复杂的数据结构，特别适合 RESTful 的接口。
+4. text/xml
+   : XML 结构传输。
+   : XML-RPC（XML Remote Procedure Call），它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。它的使用也很
+   : 广泛，如 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等。
+*** 提交 Form 表单(包括文件上传)
+**** 常规方法
+#+CAPTION: 一般是这样的
+#+BEGIN_SRC js
+$.ajax({
+	url:"${pageContext.request.contextPath}/public/testupload",
+    type:"post",
+    data:{username:username},
+    success:function(data){
+    	window.clearInterval(timer);
+        //
+    },
+    error:function(e){
+    	//
+    }
+});
+
+// 或者单一获取
+var username = $("#username").val();
+var password = $("#password").val();
+...
+#+END_SRC
+// 以上方式，如果数量少的话，那还没有什么，但是如果数据十分大的话，那就十分的麻烦。
+**** 使用 FormData 对象
+// 下面就介绍提高开发效率的方法
+#+CAPTION: 使用 FormData 对象（XMLHttpRequest）
+#+BEGIN_SRC js
+// FormData对象是html5的一个对象，目前的一些主流的浏览器都已经兼容。
+var form = new FormData();
+form.append("username","zxj");
+form.append("password",123456);
+var req = new XMLHttpRequest();
+req.open("post", "${pageContext.request.contextPath}/public/testupload", false);
+req.send(form);
+#+END_SRC
+#+CAPTION: 使用 FormData 对象（jQuery Ajax）
+#+BEGIN_SRC js
+var form = new FormData();
+form.append("username","zxj");
+form.append("password",123456);
+$.ajax({
+	url:"${pageContext.request.contextPath}/public/testupload",
+    type:"post",
+    data:form,
+    processData:false,
+    contentType:false,
+    success:function(data){
+    	window.clearInterval(timer);
+	    //
+    }
+});
+#+END_SRC
+**** 使用 jQuery.form.js
+: 具体参考https://github.com/jquery-form/form
+** References
++ [[https://baike.baidu.com/item/ajax][Ajax 百度百科]]
++ [[https://blog.csdn.net/qq_27093465/article/details/49799341][$.ajax({});的各个参数的理解]]
++ [[https://www.cnblogs.com/zhuxiaojie/p/4783939.html][使用ajax提交form表单，包括ajax文件上传]]
 * 注意事项
 *** JavaScript没有块级作用域
     在其他类C的语言中，由 {} 封闭的代码块都有自己的作用域（如果用ECMAScript的话来讲，就是它们自己的执行环境）。
