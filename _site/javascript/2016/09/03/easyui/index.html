@@ -1,0 +1,1729 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="EasyUI," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Rengui's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="jQuery-EasyUI 开发笔记">
+<meta name="keywords" content="EasyUI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery-EasyUI 开发笔记">
+<meta property="og:url" content="http://localhost:4000/javascript/2016/09/03/easyui/">
+<meta property="og:site_name" content="Rengui's Notes">
+<meta property="og:description" content="jQuery-EasyUI 开发笔记">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://localhost:4000/assets/images/20170425102144.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/datagrid-filter.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery-EasyUI 开发笔记">
+<meta name="twitter:description" content="jQuery-EasyUI 开发笔记">
+<meta name="twitter:image" content="http://localhost:4000/assets/images/20170425102144.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>jQuery-EasyUI 开发笔记 | Rengui's Notes</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-123739978-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Rengui's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/javascript/2016/09/03/easyui/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhao Rengui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Rengui's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            jQuery-EasyUI 开发笔记
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-03T00:00:00+08:00">
+                2016-09-03
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="">
+                
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/category/#/javascript" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3342
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+            
+                <div class="post-description">
+                    jQuery-EasyUI 开发笔记
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  <div id="outline-container-org750ff77" class="outline-2">
+<h2 id="org750ff77">EasyUI分页</h2>
+<div class="outline-text-2" id="text-org750ff77">
+</div>
+<div id="outline-container-org17c8a41" class="outline-3">
+<h3 id="org17c8a41">点击查询按钮，查询数据，分页</h3>
+<div class="outline-text-3" id="text-org17c8a41">
+<p>
+//C# Code
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&#30053;
+</pre>
+</div>
+<p>
+//javascript
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#29992;&#25143;&#36710;&#36742;&#31649;&#29702;
+function DataManage() {
+        var _this = this<span style="color: #75715E;">;</span><span style="color: #75715E;">// _this &#20026; DataManage&#23545;&#35937;</span>
+        //&#21021;&#22987;&#39029;&#38754;&#20998;&#39029;&#25968;
+        _this.initPageSize = 20<span style="color: #75715E;">;</span>
+        _this.initpageIndex = 1<span style="color: #75715E;">;</span>
+        _this.Init = function () {
+                $('#vehicle_pp').pagination({
+                      total: 0,
+                      pageSize: _this.initPageSize,
+                      onSelectPage: function (pageNumber, pageSize) {
+                        _this.initpageIndex = pageNumber<span style="color: #75715E;">;</span>
+                        _this.initPageSize = pageSize<span style="color: #75715E;">;</span>
+                        _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #75715E;">;</span>
+                      }
+                })<span style="color: #75715E;">;</span>
+        }
+
+        //&#31532;&#19968;&#27425;&#26597;&#35810;&#65288;&#20256;&#20837;&#26465;&#20214;&#21363;&#21487;&#65289;
+        _this.getVehicleInfo_First = function () {
+               var companyId = $('#company_code').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+               var onlineState = $('#online_state').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+               var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+               var licensePlate = $('#license_plate').val()<span style="color: #75715E;">;</span>
+               var simcardNo = $('#simcard_no').val()<span style="color: #75715E;">;</span>
+               var deviceId = $('#device_id').val()<span style="color: #75715E;">;</span>
+               var ownerName = $('#owner_name').val()<span style="color: #75715E;">;</span>
+               //&#27880;&#24847;&#65306;div #user_vehicle_data&#20043;&#38388;&#26377;&#20010;&#31354;&#26684;
+               $.getJSON(<span style="color: #E6DB74;">"/Data/GetUserVehicleData"</span>, { pageIndex: _this.initpageIndex, pageSize: _this.initPageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
+               $('div #user_vehicle_data').datagrid({
+                 collapsible: true,
+                 data: data.uservehiclelist,
+               })<span style="color: #75715E;">;</span>
+               $('#vehicle_pp').pagination({
+                 total: data.count,
+                 pageSize: 20,
+                 onSelectPage: function (pageNumber, pageSize) {
+                 _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #75715E;">;</span>
+               }
+            })<span style="color: #75715E;">;</span>
+         })<span style="color: #75715E;">;</span>
+     }
+
+     //&#39029;&#38754;page&#25913;&#21464;&#26102;&#26597;&#35810;
+     _this.getVehicleInfo_PageChnage = function (pageNumber, pageSize) {
+        var companyId = $('#company_code').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+        var onlineState = $('#online_state').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+        var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
+        var licensePlate = $('#license_plate').val()<span style="color: #75715E;">;</span>
+        var simcardNo = $('#simcard_no').val()<span style="color: #75715E;">;</span>
+        var deviceId = $('#device_id').val()<span style="color: #75715E;">;</span>
+        var ownerName = $('#owner_name').val()<span style="color: #75715E;">;</span>
+        $.getJSON(<span style="color: #E6DB74;">"/Data/GetUserVehicleData"</span>, { pageIndex: pageNumber, pageSize: pageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
+                $('div #user_vehicle_data').datagrid({
+                        collapsible: true,
+                        total: data.count,
+                        data: data.uservehiclelist,
+                })<span style="color: #75715E;">;</span>
+        })<span style="color: #75715E;">;</span>
+     }
+}
+</pre>
+</div>
+<p>
+//调用
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$(<span style="color: #F92672;">function</span> () {
+        p_dataManage=new DataManage()<span style="color: #75715E;">;</span>
+        p_dataManage.Init()<span style="color: #75715E;">; </span><span style="color: #75715E;">//&#21021;&#22987;&#21270;&#21152;&#36733;</span>
+})<span style="color: #75715E;">;</span>
+&lt;td&gt;&lt;a href=<span style="color: #E6DB74;">"#"</span> class=<span style="color: #E6DB74;">"easyui-linkbutton"</span> style=<span style="color: #E6DB74;">"border:1px #95B8E7 solid"</span> iconcls=<span style="color: #E6DB74;">"icon-search"</span> plain=<span style="color: #E6DB74;">"true"</span> onclick=<span style="color: #E6DB74;">"p_dataManage.getVehicleInfo_First()"</span>&gt;&#26597;&#35810;&lt;/a&gt;&lt;/td&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org55ebe96" class="outline-2">
+<h2 id="org55ebe96">DataGrid</h2>
+<div class="outline-text-2" id="text-org55ebe96">
+</div>
+<div id="outline-container-org53e98e6" class="outline-3">
+<h3 id="org53e98e6">DataGrid实现行编辑功能</h3>
+<div class="outline-text-3" id="text-org53e98e6">
+<p>
+//效果图：
+<img src="http://localhost:4000/assets/images/20170425102144.png" alt="20170425102144.png" />
+//html code：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #E6DB74;">"SearchDrawRect"</span> class=<span style="color: #E6DB74;">"easyui-datagrid"</span>
+data-options=<span style="color: #E6DB74;">"rownumbers:false,singleSelect:true,method:'get',fit:true"</span>&gt;
+&lt;thead&gt;
+        &lt;tr&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'vehicle_id',width:40,checkbox:true"</span>&gt;&#36712;&#36857;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'company_name',width:150"</span>&gt;&#20844;&#21496;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'license_plate',width:80"</span>&gt;&#36710;&#29260;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'owner_name',width:100"</span>&gt;&#32852;&#31995;&#20154;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'owner_telephone',width:120"</span>&gt;&#32852;&#31995;&#30005;&#35805;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'load_seat',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36733;&#37325;(&#21544;)&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'second_contact_phone',width:80,editor:{type:'textbox',options:{validType:'length[1,10]'}}"</span>&gt;&#36710;&#38271;(&#31859;)&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'traction',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36816;&#20215;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #E6DB74;">"field:'location_time',width:125"</span>&gt;&#23450;&#20301;&#26102;&#38388;&lt;/th&gt;
+        &lt;/tr&gt;
+&lt;/thead&gt;
+&lt;/table&gt;
+</pre>
+</div>
+<p>
+//JavaScript code：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #E6DB74;">"text/javascript"</span>&gt;
+        $('#SearchDrawRect').datagrid({
+                data: data,
+                rowStyler: function (index, row) {
+                        if (row.is_online == <span style="color: #E6DB74;">"0"</span>) {
+                                return 'color:gray<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                        }
+                        if (row.is_online == <span style="color: #E6DB74;">"1"</span>) {
+                                var a = 'color:purple'<span style="color: #75715E;">;</span>
+                                if (row.speed &gt; 0) {
+                                        a = 'color:green<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                                }
+                                if (row.alarm_desc != '' <span style="color: #66D9EF;">&amp;&amp;</span> row.alarm_desc != null) {
+                                        a = 'color:red<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                                }
+                                                            return a<span style="color: #75715E;">;</span>
+                        }
+                },
+                onCheck: function (rowIndex, rowData) {
+                        var x = rowData.real_x<span style="color: #75715E;">;</span>
+                        var y = rowData.real_y<span style="color: #75715E;">;</span>
+                        _this.Map.SetCenterRect(x + <span style="color: #E6DB74;">"|"</span> + y, rowData.vehicle_id)<span style="color: #75715E;">;</span>
+                },
+                onDblClickCell: function (index, field, value) {
+                        if (editIndex != index) {
+                                if (_this.endEditing()) {
+                                        $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('selectRow', index).datagrid('beginEdit', index)<span style="color: #75715E;">;</span>
+                                        var ed = $('#SearchDrawRect').datagrid('getEditor', { index: index, field: <span style="color: #E6DB74;">"load_seat"</span> })<span style="color: #75715E;">;</span>
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus()<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#33719;&#21462;&#28966;&#28857;</span>
+                    editIndex = index<span style="color: #75715E;">;</span>
+                } else {
+                        $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('endEdit', editRow)<span style="color: #75715E;">;</span>
+                }
+            }
+        },
+        toolbar: [{
+                text: '&#20445;&#23384;',
+                iconCls: 'icon-save',
+                handler: function () {
+                        var row = $('#SearchDrawRect').datagrid('getSelected')<span style="color: #75715E;">;</span>
+                        if (row != null) {
+                    var rowIndex = $('#SearchDrawRect').datagrid('getRowIndex', row)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#34892;Index</span>
+                    //&#33719;&#21462;&#24403;&#21069;&#32534;&#36753;&#34892;&#23545;&#35937;
+                    var loadSeatEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"load_seat"</span> })<span style="color: #75715E;">;</span>
+                    var secondContactPhoneEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"second_contact_phone"</span> })<span style="color: #75715E;">;</span>
+                    var tractionEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"traction"</span> })<span style="color: #75715E;">;</span>
+                    if (loadSeatEditor == null || secondContactPhoneEditor == null || tractionEditor==null) {
+                        AlertInfo(<span style="color: #E6DB74;">"&#35831;&#36873;&#20013;&#24403;&#21069;&#32534;&#36753;&#30340;&#34892;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                        return<span style="color: #75715E;">;</span>
+                    }
+                    var updateData = {
+                        vehicleId: row.vehicle_id,
+                        loadSeat: $(loadSeatEditor.target).textbox('getValue'),
+                        secondContactPhone: $(secondContactPhoneEditor.target).textbox('getValue'),
+                        traction: $(tractionEditor.target).textbox('getValue')
+                    }<span style="color: #75715E;">;</span>
+                    $.post(<span style="color: #E6DB74;">"/Data/UpdateVehicle"</span>, { vehicleId: updateData.vehicleId, loadSeat: updateData.loadSeat, secondContactPhone: updateData.secondContactPhone, traction: updateData.traction }, function (data) {
+                        if (data == <span style="color: #E6DB74;">"1"</span>) {
+                                AlertInfo(<span style="color: #E6DB74;">"&#30331;&#24405;&#24050;&#22833;&#25928;&#65292;&#35831;&#37325;&#26032;&#30331;&#24405;&#31995;&#32479;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                        } else if (data == <span style="color: #E6DB74;">"2"</span>) {
+                                AlertInfo(<span style="color: #E6DB74;">"&#27809;&#26377;&#20445;&#23384;&#25104;&#21151;&#65292;&#35831;&#37325;&#26032;&#20445;&#23384;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                        }
+                        else {
+                                if (data != <span style="color: #E6DB74;">""</span>) {
+                                        AlertInfo(data)<span style="color: #75715E;">;</span>
+                                } else {
+                                        AlertInfo(<span style="color: #E6DB74;">"&#20462;&#25913;&#25104;&#21151;"</span>)<span style="color: #75715E;">;</span>
+                                $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('selectRow', rowIndex).datagrid('endEdit', rowIndex)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#32467;&#26463;&#32534;&#36753;&#34892;</span>
+                            }
+                        }
+                    })<span style="color: #75715E;">;</span>
+                } else {
+                        AlertInfo(<span style="color: #E6DB74;">"&#35831;&#36873;&#20013;&#38656;&#35201;&#20445;&#23384;&#30340;&#25968;&#25454;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                }
+            }
+        }]
+})<span style="color: #75715E;">;</span>
+&lt;/script&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org59e02ed" class="outline-3">
+<h3 id="org59e02ed">DataGrid，点击表头进行排序</h3>
+<div class="outline-text-3" id="text-org59e02ed">
+<p>
+//JavaScript code：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">///&#25490;&#24207;
+//obj &#25490;&#24207;&#23545;&#35937;
+//sortName &#25490;&#24207;&#21015;&#21517;
+//sortOrder &#25490;&#24207;acs&#65292;desc
+_this.sort = function (obj, sortName, sortOrder) {
+        var queryParams = $('#' + obj).datagrid('options').queryParams<span style="color: #75715E;">;</span>
+        queryParams.sortName = sortName<span style="color: #75715E;">;</span>
+        queryParams.sortOrder = sortOrder<span style="color: #75715E;">;</span>
+        $('#' + obj).datagrid('reload')<span style="color: #75715E;">;</span>
+}
+
+$('div #user_vehicle_data').datagrid({
+      collapsible: true,
+      queryParams: { <span style="color: #E6DB74;">"sortName"</span>: <span style="color: #E6DB74;">""</span>, <span style="color: #E6DB74;">"sortOrder"</span>: <span style="color: #E6DB74;">""</span> },
+      remoteSort: false,
+      onSortColumn: function (sort, order) {
+            _this.sort('user_vehicle_data', sort, order)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#35843;&#29992;&#25490;&#24207;&#26041;&#27861;&#12290;</span>
+      },
+      sortable: true,
+      total: data.count,
+      data: data.uservehiclelist,
+})<span style="color: #75715E;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc7c7e3e" class="outline-3">
+<h3 id="orgc7c7e3e">DataGrid Filter</h3>
+<div class="outline-text-3" id="text-orgc7c7e3e">
+</div>
+<div id="outline-container-orgbaae1f3" class="outline-4">
+<h4 id="orgbaae1f3">效果图</h4>
+<div class="outline-text-4" id="text-orgbaae1f3">
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/datagrid-filter.png" alt="datagrid-filter.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb61c2ce" class="outline-4">
+<h4 id="orgb61c2ce">实现关键代码</h4>
+<div class="outline-text-4" id="text-orgb61c2ce">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#24341;&#20837;filter&#25991;&#20214;
+//datagrid-filter-zh_CN.js&#20869;&#23481;&#26159;&#33258;&#23450;&#20041;&#30340;&#65292;&#26412;&#23567;&#33410;&#32467;&#23614;
+&lt;script src=<span style="color: #E6DB74;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter.js"</span>&gt;&lt;/script&gt;
+&lt;script src=<span style="color: #E6DB74;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter-zh_CN.js"</span>&gt;&lt;/script&gt;
+
+//&#24320;&#21551;&#36807;&#28388;&#65292;&#23454;&#29616;&#36807;&#28388;&#26041;&#27861;
+$('#SearchDrawRect').datagrid('enableFilter')<span style="color: #75715E;">;</span>
+$('#SearchDrawRect').datagrid('enableFilter', [{
+    field: 'vehicle_type_name',
+    type: 'combobox',
+    options: {
+        url: '/Monitor/GetVehicleType',
+        valueField: 'vehicle_type_name',//&#21407;vehicle_type_code
+        textField: 'vehicle_type_name',
+        multiple: false,
+        panelHeight: '200px',
+        editable: false,
+        onChange: function (value) {
+             var vehicleTypeName=<span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span>
+             if (value == '') {
+                 $('#SearchDrawRect').datagrid('removeFilterRule', 'vehicle_type_name')<span style="color: #75715E;">;</span>
+             } else {
+                 $('#SearchDrawRect').datagrid('addFilterRule', {
+                    field: 'vehicle_type_name',
+                    op: 'equal',
+                    value: value
+                 })<span style="color: #75715E;">;</span>
+             }
+             $('#SearchDrawRect').datagrid('doFilter')<span style="color: #75715E;">;</span>
+        }
+    }
+}, {
+    field: 'load_seat',//&#36710;&#38271;
+    type: 'numberbox',
+    options: {
+        precision: 2,
+        onChange: function (value) {
+            if (value == '') {
+                dg.datagrid('removeFilterRule', 'load_seat')<span style="color: #75715E;">;</span>
+            } else {
+                $('#SearchDrawRect').datagrid('addFilterRule', {
+                    field: 'load_seat',
+                    op: 'greaterorequal',
+                    value: value
+                })<span style="color: #75715E;">;</span>
+            }                    
+            $('#SearchDrawRect').datagrid('doFilter')<span style="color: #75715E;">;</span>
+       }
+   }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2035ec0" class="outline-4">
+<h4 id="org2035ec0">datagrid-filter-zh_CN.js</h4>
+<div class="outline-text-4" id="text-org2035ec0">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//Add by 20170510,zrg
+if ($.fn.datagrid) {
+    $.fn.datagrid.defaults.operators.nofilter.text = '&#19981;&#36807;&#28388;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.contains.text = '&#21253;&#21547;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.equal.text = '&#31561;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.notequal.text = '&#19981;&#31561;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.beginwith='&#24320;&#22836;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.endwith.text = '&#32467;&#23614;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.less.text = '&#23567;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.lessorequal.text = '&#23567;&#20110;&#25110;&#31561;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.greater.text = '&#22823;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.greaterorequal.text = '&#22823;&#20110;&#25110;&#31561;&#20110;'<span style="color: #75715E;">;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfd310fa" class="outline-3">
+<h3 id="orgfd310fa">参考资料</h3>
+<div class="outline-text-3" id="text-orgfd310fa">
+<pre class="example">
+http://www.jeasyui.com/documentation/index.php
+http://46aae4d1e2371e4aa769798941cef698.devproxy.yunshipei.com/frightingforambition/article/details/50457407
+http://blog.csdn.net/hanchangning19890201/article/details/40786587
+http://www.cnblogs.com/sword-successful/p/3386861.html
+
+</pre>
+
+<pre class="example">
+http://www.jeasyui.com/extension/datagrid_filter.php
+http://www.cnblogs.com/ckaifeng/p/5006569.html
+http://blog.csdn.net/hongping626/article/details/16856191
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge8bf746" class="outline-2">
+<h2 id="orge8bf746">Window居中</h2>
+<div class="outline-text-2" id="text-orge8bf746">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">var easyuiPanelOnOpen = function (left, top) {
+        var iframeWidth = $(this).parent().parent().width()<span style="color: #75715E;">;</span>
+        var iframeHeight = $(this).parent().parent().height()<span style="color: #75715E;">;</span>
+        var windowWidth = $(this).parent().width()<span style="color: #75715E;">;</span>
+        var windowHeight = $(this).parent().height()<span style="color: #75715E;">;</span>
+        var setWidth = (iframeWidth - windowWidth) / 2<span style="color: #75715E;">;</span>
+        var setHeight = (iframeHeight - windowHeight) / 2<span style="color: #75715E;">;</span>
+        $(this).parent().css({/* &#20462;&#27491;&#38754;&#26495;&#20301;&#32622; */
+                left: setWidth,
+                top: setHeight
+        })<span style="color: #75715E;">;</span>
+        if (iframeHeight &lt; windowHeight)
+        {
+                $(this).parent().css({/* &#20462;&#27491;&#38754;&#26495;&#20301;&#32622; */
+                        left: setWidth,
+                        top: 0
+                })<span style="color: #75715E;">;</span>
+        }
+        $(<span style="color: #E6DB74;">".window-shadow"</span>).hide()<span style="color: #75715E;">;</span>
+}<span style="color: #75715E;">;</span>
+$.fn.window.defaults.onOpen = easyuiPanelOnOpen<span style="color: #75715E;">;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org285c77b" class="outline-2">
+<h2 id="org285c77b">EasyUI-textbox，点击回车键，执行某个方法</h2>
+<div class="outline-text-2" id="text-org285c77b">
+<p>
+html code:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">&lt;input id=<span style="color: #E6DB74;">"tb"</span> type=<span style="color: #E6DB74;">"text"</span> style=<span style="color: #E6DB74;">"width:300px"</span>&gt;
+</pre>
+</div>
+<p>
+方法一：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#36825;&#31181;&#26041;&#27861;&#33539;&#22260;&#22826;&#24191;&#65292;&#22914;&#26524;&#39029;&#38754;&#26377;&#22810;&#20010;&#25991;&#26412;&#26694;&#23601;&#19981;&#22909;&#29992;&#20102;
+$(window).keydown(<span style="color: #F92672;">function</span>(event) {
+     if(event.keyCode == 13) {
+          alert('111')<span style="color: #75715E;">;</span>
+     }
+})<span style="color: #75715E;">;</span>
+</pre>
+</div>
+<p>
+方法二：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">//&#25353;&#29031;id&#30417;&#21548;&#26576;&#20010;&#25991;&#26412;&#26694;&#30340;&#22238;&#36710;&#20107;&#20214;
+$('#clientID').textbox({
+    inputEvents: $.extend({},$.fn.textbox.defaults.inputEvents,{
+        keyup: function(event){ 
+            if(event.keyCode == 13) {
+                alert('OK')<span style="color: #75715E;">;</span>
+            }
+        }
+    })<span style="color: #75715E;">;</span>
+})<span style="color: #75715E;">; </span>
+</pre>
+</div>
+<p>
+方法三：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">$('#clientID').textbox('textbox').keydown(<span style="color: #F92672;">function</span> (e) {
+    if (e.keyCode == 13) {
+        alert('000')<span style="color: #75715E;">;</span>
+    }
+})<span style="color: #75715E;">;</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/EasyUI" rel="tag"># EasyUI</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/database/2016/11/15/mysql/" rel="next" title="MySQL Notes">
+                <i class="fa fa-chevron-left"></i> MySQL Notes
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/software/2016/06/06/using-emacs/" rel="prev" title="GNU Emacs">
+                GNU Emacs <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Zhao Rengui" />
+          <p class="site-author-name" itemprop="name">Zhao Rengui</p>
+           
+              <p class="site-description motion-element" itemprop="description">Life doesn't just happen to you; you receive everything in your life based on what you've given. 生命中的一切都不是巧合，你得到什么，是源于你付出了什么。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhaorengui" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                
+                
+                <li class="links-of-blogroll-item">
+                  <a href="https://jiangshengfei.github.io/" title="JiangShengfei" target="_blank">JiangShengfei</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org750ff77"> <span class="nav-text">EasyUI分页</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org17c8a41"> <span class="nav-text">点击查询按钮，查询数据，分页</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org55ebe96"> <span class="nav-text">DataGrid</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org53e98e6"> <span class="nav-text">DataGrid实现行编辑功能</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org59e02ed"> <span class="nav-text">DataGrid，点击表头进行排序</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc7c7e3e"> <span class="nav-text">DataGrid Filter</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbaae1f3"> <span class="nav-text">效果图</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb61c2ce"> <span class="nav-text">实现关键代码</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2035ec0"> <span class="nav-text">datagrid-filter-zh_CN.js</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd310fa"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge8bf746"> <span class="nav-text">Window居中</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org285c77b"> <span class="nav-text">EasyUI-textbox，点击回车键，执行某个方法</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2018 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhao Rengui</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://jekyllrb.com">Jekyll</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+  <script type="text/javascript" src="/assets/js/src/js.cookie.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/assets/js/src/scroll-cookie.js?v=5.1.1"></script>
+
+
+  
+
+</body>
+</html>
+

@@ -34,23 +34,166 @@ photos:
 
 * PHP 入门
 ** PHP 概述
-** PHP 环境搭建和开发工具
+   PHP(PHP: Hypertext Preprocessor，超文本预处理器)is a general-purpose programming language originally designed for web development.
 ** PHP 语言基础
-*** 格式风格
-*** 注释
-*** 数据类型
-*** 常量
-*** 变量
-*** 运算符
-*** 表达式
+*** 基本语法
+#+BEGIN_SRC php
+  <?php
+  /**
+  格式风格
+  ,*/
+  // 推荐使用以下标准风格：
+  // <?php ?>
+
+  // 长短风格标记
+  // <script language="php"></script>
+  // <? ?>
+
+  // ASP 风格
+  // <% %>
+
+  /**
+  注释
+  ,*/
+  // 单行注释：//
+  // 多行注释：/* */
+
+  /**
+  数据类型
+  ,*/
+  // PHP 支持8种数据类型
+  // 4种标量类型：boolean，integer，float/double，string
+  // 2种复合类型：array，object
+  // 两种特殊类型：resource，NULL
+
+  // integer，注意进制转换，如下面表示八进制数（等于十进制83）
+  $int = 0123;
+
+  // float/double，用来表示整型无法表示的数据，例如：金额、速度等。
+
+  // string
+  // 1. 单引号和双引号
+  // 2. 定界符：<<<
+
+  // 伪类型介绍
+  // 1. mixed，说明一个参数可以接受多种不同的类型。
+  // 2. number，说明一个参数可以是integer或float。
+  // 3. callback，接受用户自定义函数或者部分内置函数作为一个参数，如 call_user_function() 或 usort()
+
+  // 类型转换，分为自动类型转换、强制类型转换。
+  // 变量类型的测试函数：is_bool(),is_int(),...
+
+
+  /**
+  常量、变量
+  ,*/
+  // 变量的引用赋值
+  $foo = 'Lucy';
+  $bar = &$foo;
+
+  // 局部变量与全局变量区别
+
+  // 静态变量，声明为 static 存储类型。
+
+  // 注意：常量的值只能是标量类型中的一种。
+
+  /**
+  运算符
+  ,*/
+
+#+END_SRC
 *** 函数
-*** 编码规范
-*** 流程控制语句
+#+NAME: 函数
+#+BEGIN_SRC php
+  // 1. 伪类型参数的函数
+  mixed function(mixed $args)
+
+  // 2. 引用参数的函数
+  void function(array &args)
+
+  // 3. 可变参数数量的函数
+  // PHP提供func_get_args()函数接收任意数量的参数。
+  function parameters() {
+      $numargs = func_num_args();
+      if ($numargs > 0) {
+	  echo func_get_arg(0) . ' | ';
+      }
+      $args_array = func_get_args();
+      foreach ($args_array as $key => $arg) {
+	  echo $key . ' - ' . $arg . ' | ';
+      }
+  }
+  // Hello | 0 - Hello | 1 - World |
+  parameters('Hello', 'World');
+
+  // Since PHP 5.6 you can get a variable number of arguments
+  function variable($word, ...$list) {
+      echo $word . " || ";
+      foreach ($list as $item) {
+	  echo $item . ' | ';
+      }
+  }
+  // Separate || Hello | World |
+  variable("Separate", "Hello", "World");
+
+  // 3. 回调函数
+  mixed function(callback arg)
+
+  // 变量函数
+  $foo = function($x, $y, $z) {
+      echo "$x - $y - $z";
+  }
+  function bar ($x, $y) {
+      // Use 'use' to bring in outside variables
+      return function ($z) use ($x, $y) {
+	  $foo($x, $y, $z);
+      };
+  }
+
+  $bar = bar('A', 'B');
+  // Prints "A - B - C"
+  $bar('C');
+
+  // 使用 call_use_func_array() 自定义函数
+  mixed call_use_func_array(callback function, array param_arr)
+
+  // 4. 递归函数
+      function test($n){
+	  echo $n.'\r\n';
+	  if($n>0){
+	      test($n-1);
+	  }else{
+	      echo '###';
+	  }
+	  echo $n.'\r\n';
+      }
+#+END_SRC
+*** 引用文件
+#+BEGIN_SRC php
+  <?php
+  include 'my-file.php';
+  // The code in my-file.php is now available in the current scope.
+  // If the file cannot be included (e.g. file not found), a warning is emitted.
+
+  include_once 'my-file.php';
+  // If the code in my-file.php has been included elsewhere, it will
+  // not be included again. This prevents multiple class declaration errors
+
+  require 'my-file.php';
+  require_once 'my-file.php';
+  // Same as include(), except require() will cause a fatal error if the
+  // file cannot be included.
+#+END_SRC
+
+** PHP 环境搭建和开发工具
 ** PHP 基础知识点
 *** require vs include vs require_once vs include_once
  1. require vs include 处理失败的方式不同：include 产生一个 Warning，继续运行；而 require 导致一个 Fatal Error。
  2. require vs require_once or include vs include_once 后者会判断是否已经引用过指定文件，如果引用过就不再引用。这样做的好处是节省资源和避免重复定义的错误。
  注意：多数情况下，使用 require_once；require/require_once 应用位置放在 PHP 文件最前面，include 一般放在流程控制的处理区段中。
+** 参考资料 
+   + https://en.wikipedia.org/wiki/PHP
+   + https://baike.baidu.com/item/PHP/9337
 * 字符串操作
 ** 在字符串指定位置插入字符串
    #+BEGIN_SRC php
@@ -1314,3 +1457,25 @@ class page {
 ** 函数
 ** 参考资料
 + 《PHP从入门到精通》
+* 附录三：PHP 预定义常量
+| 常量名              | 常量值           | 说明                                     |
+|---------------------+------------------+------------------------------------------|
+| __FILE__            | 当前的文件名     | 在哪个文件中使用，就代表哪个文件名称     |
+| __LINE__            | 当前的行数       | 在代码的哪行使用，就代表哪行的行号       |
+| __FUNCTION__        | 当前的函数名     | 在哪个函数中使用，就代表哪个函数名       |
+| __CLASS__           | 当前的类名       | 在哪个类中使用，就代表哪个类的类名       |
+| __METHOD__          | 当前对象的方法名 | 在对象中的哪个方法使用，就代表这个方法名 |
+| PHP_OS              | UNIX或WINNT等    | 执行PHP解析的操作系统名称                |
+| PHP_VERSION         | 5.5              | 当前php服务器的版本                      |
+| TRUE                | TRUE             | 代表布尔值，真                           |
+| FALSE               | FALSE            | 代表布尔值，假                           |
+| NULL                | NULL             | 代表空值                                 |
+| DIRECTORY_SEPARATOR | \或/             | 根据操作系统决定目录的分隔符             |
+| PATH_SEPARATOR      | :或;             | 在linux上是一个":"号,WIN上是一个";"号    |
+| E_ERROR             | 1                | 错误，导致php脚本运行终止                |
+| E_WARNING           | 2                | 警告，不会导致php脚本运行终止            |
+| E_PARSE             | 4                | 解析错误，由程序解析器报告               |
+| E_NOTICE            | 8                | 非关键的错误，例如变量未初始化           |
+| M_PI                | 3.141592653      | π 圆周率                                 |
+
+

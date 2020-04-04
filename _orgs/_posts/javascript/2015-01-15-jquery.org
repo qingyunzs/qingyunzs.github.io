@@ -1,0 +1,359 @@
+#+TITLE:     jQuery 开发笔记
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:16pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+BEGIN_EXPORT html
+---
+layout: post
+title: jQuery 开发笔记
+author: zrg
+comments: false
+description: jQuery 应用开发笔记
+categories:
+- javascript
+Tags:
+- jQuery
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* 实践应用
+** 隔行变色
+*** 通过原生 JavaScript 实现
+   #+BEGIN_SRC html
+     <style type="text/css">
+     body{
+     font-size: 12px;
+     text-align: center;
+     }
+     #tbStu{
+     width: 260px;
+     border: solid 1px #666;
+     background-color: #eee;
+     }
+     #tbStu tr{
+     line-height: 23px;
+     }
+     #tbStu tr th{
+     background-color: #ccc;
+     color: #fff;
+     }
+     #tbStu .trOdd{
+     background-color: #fff;
+     }
+     </style>
+
+     <table id="tbStu" cellpadding="0" cellspacing="0">
+     <tbody>
+     <tr>
+     <th>StudNo</th>
+     <th>Name</th>
+     <th>Sex</th>
+     <th>Score</th>
+     </tr>
+     <tr>
+     <td>2016001</td>
+     <td>Wang San</td>
+     <td>Man</td>
+     <td>480</td>
+     </tr>
+     <tr>
+     <td>2016002</td>
+     <td>Zhang Si</td>
+     <td>Woman</td>
+     <td>510</td>
+     </tr>
+     <tr>
+     <td>2016003</td>
+     <td>Zhang Wu</td>
+     <td>Woman</td>
+     <td>398</td>
+     </tr>
+     </tbody>
+     </table>
+   #+END_SRC
+
+   #+BEGIN_SRC javascript
+     window.onload=function(){
+	 var oTb=document.getElementById('tbStu');
+	 for (var i = 0; i<oTb.rows.length; i++) {
+	     if (i%2) {
+		 oTb.rows[i].className="trOdd";
+	     }
+	 }
+     }
+   #+END_SRC
+*** 通过 jQuery 实现（样式、html省略）
+    #+BEGIN_SRC javascript
+      $(function(){
+	  $("#tbStu tr:nth-child(even)").addClass("trOdd");
+      });
+    #+END_SRC
+** 返回顶部按钮
+   利用animate和scrollTop来实现返回顶部的动画，而不需要使用其他插件。
+   #+BEGIN_SRC javascript
+     // Back to top
+       $('a.top').click(function () {
+       $(document.body).animate({scrollTop: 0}, 800);
+       return false;
+       });
+   #+END_SRC
+
+   #+BEGIN_SRC html
+     <!-- Create an anchor tag -->
+     <a class="top" href="#">Back to top</a>
+   #+END_SRC
+
+   改变scrollTop的值可以调整返回距离顶部的距离，而animae的第二个参数是执行返回动作需要的时间(单位：毫秒)。
+** 预加载图片
+   如果你的页面中使用了很多不可见的图片（如：hover 显示），你可能需要预加载它们：
+   #+BEGIN_SRC javascript
+     $.preloadImages = function () {
+	 for (var i = 0; i < arguments.length; i++) {
+	     $('<img>').attr('src', arguments[i]);
+	 }
+     };
+
+     $.preloadImages('img/hover1.png','img/hover2.png');
+   #+END_SRC
+** 检查图片是否加载完成
+   有时候你需要确保图片完成加载完成以便执行后面的操作：
+   #+BEGIN_SRC javascript
+   $('img').load(function () {
+       console.log('image load successful');
+   });
+ #+END_SRC
+   你可以把img替换为其他的ID或者class来检查指定图片是否加载完成。
+** 自动修改破损图像
+   如果你碰巧在你的网站上发现了破碎的图像链接，你可以用一个不易被替换的图像来代替它们。添加这个简单的代码可以节省很多麻烦：
+   #+BEGIN_SRC javascript
+     $('img').on('error', function () {
+	 $(this).prop('src', 'img/broken.png');
+     });
+   #+END_SRC 
+   即使你的网站没有破碎的图像链接，添加这段代码也没有任何害处。
+** 鼠标悬停(hover)切换 class 属性
+   下面这段代码可以在其悬停在元素上时添加class属性，当用户鼠标离开时，则自动取消该class属性：
+   #+BEGIN_SRC javascript
+     $('.btn').hover(function () {
+	 $(this).addClass('hover');
+     }, function () {
+	 $(this).removeClass('hover');
+     });
+     你只需要添加必要的CSS代码即可。如果你想要更简洁的代码，可以使用toggleClass方法：
+     $('.btn').hover(function () { 
+	 $(this).toggleClass('hover');
+     });
+   #+END_SRC
+   注：直接使用CSS实现该效果可能是更好的解决方案，但你仍然有必要知道该方法。
+** 禁用 input 字段
+   有时你可能需要禁用表单的submit按钮或者某个input字段，直到用户执行了某些操作（例如，检查“已阅读条款”复选框）。可以添加disabld属性，直到你想启用它时：
+   #+BEGIN_SRC javascript
+     $('input[type="submit"]').prop('disabled', true);
+     // 你要做的就是执行removeAttr方法，并把要移除的属性作为参数传入：
+     $('input[type="submit"]').removeAttr('disabled');
+   #+END_SRC
+** 阻止链接加载
+   有时你不希望链接到某个页面或者重新加载它，你可能希望它来做一些其他事情或者触发一些其他脚本，你可以这么做：
+   #+BEGIN_SRC javascript
+     $('a.no-link').click(function (e) {
+	 e.preventDefault();
+     });
+ #+END_SRC
+** 切换 fade/slide
+   fade 和 slide 是我们在 jQuery 中经常使用的动画效果，它们可以使元素显示效果更好。但是如果你希望元素显示时使用第一种效果，而消失时使用第二种效果，则可以这么做：
+   #+BEGIN_SRC javascript
+     // Fade
+     $('.btn').click(function () {
+	 $('.element').fadeToggle('slow');
+     });
+     // Toggle
+     $('.btn').click(function () {
+	 $('.element').slideToggle('slow');
+     });
+   #+END_SRC
+** 简单的手风琴效果
+   这是一个实现手风琴效果快速简单的方法：
+   #+BEGIN_SRC javascript
+     // Close all panels $('#accordion').find('.content').hide();
+     // Accordion
+     $('#accordion').find('.accordionheader').click(function () {
+	 var next = $(this).next();
+	 next.slideToggle('fast');
+	 $('.content').not(next).slideUp('fast');
+	 return false;
+     });
+ #+END_SRC
+** 让两个 DIV 高度相同
+   有时你需要让两个 div 高度相同，而不管它们里面的内容多少。可以使用下面的代码片段：
+   #+BEGIN_SRC javascript
+     var $columns = $('.column');
+     var height = 0;
+     $columns.each(function () {
+	 if ($(this).height() > height) {
+	     height = $(this).height();
+	 }
+     });
+     $columns.height(height);
+   #+END_SRC
+   这段代码会循环一组元素，并设置它们的高度为元素中的最大高。
+* 附录：jQuery 字典
+** jQuery 选择器
+*** 基本选择器
+ : #id,element,.class,*,selectorN
+*** 层次选择器
+ : ancestor descendent，匹配后代元素
+ : parent>child，匹配所有子元素
+ : prev+next(可以使用.next()代替)，匹配后面紧接的元素
+ : prev~sibling(可以使用nextAll()代替)，匹配后面所有元素
+ : 
+ : .siblings()方法与prev~siblings()区别在于，前者获取全部的相邻元素，不分前后。而后者仅获取标记后面全部相邻元素，不能获取前面部分。
+*** 简单过滤选择器
+ : first() or :first
+ : last() or :last
+ : :not(selector)
+ : :even，获取所有索引值为偶数的元素。
+ : :odd，奇数
+ : :eq(index)
+ : :gt(index)
+ : :lt(index)
+ : :header，获取所有标题类型的元素。
+ : :animated，获取正在执行动画效果的元素
+*** 内容过滤选择器
+ : :contains(text)，获取包含给定文本的元素，如果是查找字母，则有大小写的区别。
+ : :empty，获取所有不包含子元素或文本为空的元素。
+ : :has(selector)，获取含有选择器所匹配的元素。
+ : :parent，获取含有子元素或文本的元素。
+*** 可见性过滤选择器
+ : :hidden
+ : :visible，可见元素
+*** 属性过滤选择器
+ : [attribute]，获取包含给定属性的元素
+ : [attribute=value]，获取等于给定的属性是某个特定值的元素
+ : [attribute!=value]，获取不等于给定的属性是某个特定值的元素
+ : [attribute^=value]，获取给定的属性是以某些值开始的元素
+ : [attribute$=value]，获取给定的属性是以某些值结尾的元素
+ : [attribute*=value]，获取给定的属性是以包含某些值的元素
+ : [selector1][selector2][selectorN]，获取满足多个条件的复合属性的元素
+*** 子元素过滤选择器
+ : :nth-child(eq|even|odd|index)，获取每个父元素下的特定位置元素，索引号从1开始
+ : :first-child，获取每个父元素下的第一个子元素
+ : :last-child，获取每个父元素下的最后一个子元素
+ : :only-child，获取每个父元素下的仅有的一个子元素
+*** 表单对象属性过滤选择器
+ : :enabled，可用的元素
+ : :disabled，不可用的元素
+ : :checked，被选中的元素
+ : :selected，被选中option的元素
+*** 表单选择器
+ : :input，input/texteara/select
+ : :text
+ : :password
+ : :radio
+ : :checkbox
+ : :submit
+ : :image
+ : :reset
+ : :button
+ : :file
+
+** jQuery 事件
+*** 事件机制
+    冒泡现象：实际需要中，我们并不希望事件的冒泡现象发生，即单击了按钮就执行单一的单击事件，而不触发其他外围事件。
+    
+    : jQuery中通过stopPropagation()方法来实现。
+    : event.stopPropagation()
+    : 也可以通过 return false; 实现停止事件的冒泡过程。
+*** 各种事件
+**** 页面载入事件
+ : ready()，类似于js中的OnLoad()方法。OnLoad()方法的执行必须是页面元素的全部加载完成才触发。
+ : 
+ ready()写法：
+ #+BEGIN_SRC emacs-lisp
+ $(document).ready(function(){
+ //code
+ });
+ #+END_SRC
+
+ #+BEGIN_SRC emacs-lisp
+ $(function(){
+ //code
+ });
+ #+END_SRC
+
+ #+BEGIN_SRC emacs-lisp
+ jQuery(document).ready(function(){
+ //code
+ });
+ #+END_SRC
+
+ #+BEGIN_SRC emacs-lisp
+ jQuery(function(){
+ //code
+ });
+ #+END_SRC
+**** 绑定事件
+ #+BEGIN_SRC emacs-lisp
+ $(function(){
+  $("#btnShow").click(function(){
+   //code
+  });
+ });
+
+ or
+
+ bind(type,[data],fn)
+ eg:
+ $(function(){
+  $("#btnBind").bind("click",function(){ //绑定多个事件，可使用空格而隔开
+   $(this).attr("disabled","disabled");
+  });
+ });
+
+ eg：映射方式绑定
+ $(function(){
+  $(".txt").bind({focus:function(){
+    $("#divTip").show();$("#divTip").html("xxx");},
+    change:function(){$("#divTip").show();$("#divTip").html("xxx");}
+  });
+ });
+ #+END_SRC
+**** 切换事件
+ : hover()
+ : toggle(fun1,fun2,[fun3,fun4,...])
+
+ #+BEGIN_SRC emacs-lisp
+ $("a").hover(function(){
+  //code1
+  },function(){
+  //code2
+ });
+
+ or
+
+ $("a").mouseenter(function(){
+  //code1
+ });
+ $("a").mouseleave(function(){
+  //code2
+ });
+ #+END_SRC
+**** 移除事件
+ : unbind([type],[fun])
+**** 其他事件
+ : one(type,[data],fun)，为所选元素绑定一次触发一次的处理函数
+ : trigger(type,[data])，在所选的元素上触发指定类型的事件。
