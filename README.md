@@ -2,13 +2,6 @@
 
 <a href="http://simpleyyt.github.io/jekyll-theme-next/" target="_blank">在线预览 Preview</a> | <a href="http://simpleyyt.com" target="_blank">Yitao's Blog</a> | <a href="http://theme-next.simpleyyt.com" target="_blank">NexT 使用文档</a> |  [English Documentation](README.en.md)
 
-## 贡献 Contributing
-
-欢迎提交问题与需求，修复代码。
-
-## 修改记录
-
-
 ## 开发 Development
 - Jekyll
 - org-mode
@@ -77,6 +70,7 @@
 
 注意：在通过 PlantUML 组件画图时，目前的解决办法只能是：先指定生成图片的地址，执行生成操作，然后改为站点访问地址，最后执行发布。具体操作如下：
 1. 先指定特定生成图片地址
+~~~
 #+BEING_SRC plantuml :file ../../_assets/example.png 
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response
@@ -84,9 +78,11 @@ Bob --> Alice: Authentication Response
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: Another authentication Response
 #+END_SRC
+~~~
 2. 执行生成操作
 > https://github.com/skuro/plantuml-mode
 3. 改写为访问地址
+~~~
 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/example.png
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response
@@ -94,21 +90,8 @@ Bob --> Alice: Authentication Response
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: Another authentication Response
 #+END_SRC
+~~~
 4. 执行发布操作
-## 安装NexT
-1. 确保已安装`Ruby 2.1.0` 或更高版本：
- $ ruby --version
-2. 安装 Bundler 和 jekyll：
- $ sudo gem install bundler
- 安装jeyll之前，先安装ruby-dev
- $ sudo apt install ruby-dev
- $ sudo gem install jekyll
-3. $ git clone https://github.com/zhaorengui/zhaorengui.github.io.git
- $ cd zhaorengui.github.io
-4. 安装依赖项：
- $ bundle install
-5. $ bundle exec jekyll server
-6. 使用浏览器访问 http://localhost:4000，检查站点是否正确运行。具体可参考 http://theme-next.simpleyyt.com/ 
 
 ## 工作流
 1. 搭建jekyll环境
