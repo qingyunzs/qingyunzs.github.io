@@ -124,3 +124,17 @@ Alice <-- Bob: Another authentication Response
 	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
 	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
 	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
+
+## 常见问题
+1. undefined method `new' for BigDecimal:Class (NoMethodError)
+~~~
+version  characteristics                                            Supported ruby version range
+2.0.0    You cannot use BigDecimal.new and do subclassing           2.4 ..
+1.4.x    BigDecimal.new and subclassing always prints warning.      2.3 .. 2.6
+1.3.5    You can use BigDecimal.new and subclassing without warning .. 2.5
+
+$ vim Gemfile
+gem 'bigdecimal', '1.3.5'
+~~~
+2. warning: Using the last argument as keyword parameters is deprecated
+> $ bundle update

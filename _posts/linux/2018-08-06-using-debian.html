@@ -1,6 +1,3 @@
-<p>
-s#+TITLE:     Debian GNU/Linux
-</p>
 ---
 layout: post
 title: Debian GNU/Linux
@@ -266,7 +263,7 @@ $ sudo vim /etc/fstab
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-shell" id="org39a884d">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="orgabebd75">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #75715E;">#</span><span style="color: #75715E;">Notice:</span>
 <span style="color: #75715E;"># </span><span style="color: #75715E;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #75715E;">#</span><span style="color: #75715E;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -3988,16 +3985,44 @@ wold' test.txt
 $ sed '2c No such person' test.txt
 
 </pre>
+
 <p>
 <b>字符串替换</b>
 </p>
 <pre class="example">
+// g 表示全文替换
 $ sed 's/oldStr/newStr/g' fileName
 // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
 $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
 
 </pre></li>
-<li>awk</li>
+<li><p>
+awk
+<br />
+对文件内容进行统计，适合处理格式化数据，比如表格
+</p>
+<pre class="example">
+// 打印第一切片和第四切片内容
+$ awk '{print $1,$4}' netstat.txt
+
+</pre>
+
+<pre class="example">
+// 打印以逗号为分隔符分隔，并打印第二列
+$ awk -F "," '{print $2}' test.txt
+
+</pre>
+
+<pre class="example">
+$ awk '$1=="tcp" &amp;&amp; $2==1 {print $0}' netstat.txt
+
+</pre>
+
+<pre class="example">
+$ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+
+</pre></li>
+
 <li>sort</li>
 <li>wc</li>
 </ol>
@@ -4421,7 +4446,7 @@ done
 <h6 id="orgb1b304b"><span class="section-number-6">4.3.3.0.4</span> break 命令</h6>
 <div class="outline-text-6" id="text-4-3-3-0-4">
 <div class="org-src-container">
-<pre class="src src-shell" id="org2209202"><span class="linenr"> 1: </span><span style="color: #75715E;">#</span><span style="color: #75715E;">!/bin/</span><span style="color: #F92672;">bash</span>
+<pre class="src src-shell" id="orgd3da997"><span class="linenr"> 1: </span><span style="color: #75715E;">#</span><span style="color: #75715E;">!/bin/</span><span style="color: #F92672;">bash</span>
 <span class="linenr"> 2: </span><span style="color: #75715E;"># </span><span style="color: #75715E;">--------------------------------</span>
 <span class="linenr"> 3: </span><span style="color: #75715E;"># </span><span style="color: #75715E;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
 <span class="linenr"> 4: </span><span style="color: #75715E;"># </span><span style="color: #75715E;">1.breaking out of a for loop</span>
@@ -4483,7 +4508,7 @@ done
 <h6 id="org32a7402"><span class="section-number-6">4.3.3.0.5</span> continue 命令</h6>
 <div class="outline-text-6" id="text-4-3-3-0-5">
 <div class="org-src-container">
-<pre class="src src-shell" id="orgd3da997"><span class="linenr"> 1: </span><span style="color: #75715E;"># </span><span style="color: #75715E;">1.using the continue command</span>
+<pre class="src src-shell" id="org6583385"><span class="linenr"> 1: </span><span style="color: #75715E;"># </span><span style="color: #75715E;">1.using the continue command</span>
 <span class="linenr"> 2: </span><span style="color: #F92672;">for</span>((<span style="color: #FD971F;">var1</span> = 1; var1&lt;15; var1++))
 <span class="linenr"> 3: </span><span style="color: #F92672;">do</span>
 <span class="linenr"> 4: </span>        <span style="color: #F92672;">if</span> [$<span style="color: #FD971F;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #FD971F;">var1</span> -lt 10]
@@ -4522,15 +4547,15 @@ done
 </div>
 </div>
 </div>
-<div id="outline-container-org17bf9fe" class="outline-6">
-<h6 id="org17bf9fe"><span class="section-number-6">4.3.3.0.6</span> 处理循环的输出</h6>
+<div id="outline-container-org23323f2" class="outline-6">
+<h6 id="org23323f2"><span class="section-number-6">4.3.3.0.6</span> 处理循环的输出</h6>
 <div class="outline-text-6" id="text-4-3-3-0-6">
 <pre class="example">
 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org3d332dd">for file in /home/zrg/*
+<pre class="src src-emacs-lisp" id="org17bf9fe">for file in /home/zrg/*
 do
 ...
 done &gt; output.txt
@@ -4661,12 +4686,12 @@ mv new_file old_file
 <h2 id="orgc39b827"><span class="section-number-2">5</span> Linux Advanced</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgf89092b" class="outline-3">
-<h3 id="orgf89092b"><span class="section-number-3">5.1</span> Linux User</h3>
+<div id="outline-container-orgbe7affc" class="outline-3">
+<h3 id="orgbe7affc"><span class="section-number-3">5.1</span> Linux User</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-org7b7da41" class="outline-4">
-<h4 id="org7b7da41"><span class="section-number-4">5.1.1</span> Linux User</h4>
+<div id="outline-container-orgf89092b" class="outline-4">
+<h4 id="orgf89092b"><span class="section-number-4">5.1.1</span> Linux User</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <ol class="org-ol">
 <li><p>
@@ -4949,7 +4974,7 @@ $ sudo vim /etc/fstab
 
 </pre>
 <div class="org-src-container">
-<pre class="src src-shell" id="orgabebd75"><span style="color: #FD971F;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org97ce014"><span style="color: #FD971F;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>

@@ -89,7 +89,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Rengui's Notes" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="Knowledge has no limit" type="application/atom+xml" />
 
 
 
@@ -116,7 +116,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vim">
 <meta property="og:url" content="http://localhost:4000/software/linux/2015/11/06/using-vim/">
-<meta property="og:site_name" content="Rengui's Notes">
+<meta property="og:site_name" content="Knowledge has no limit">
 <meta property="og:description" content="Vim 是一个类似于Vi的著名的功能强大、高度可定制的文本编辑器，在Vi的基础上改进和增加了很多特性。">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Vim | Rengui's Notes</title>
+  <title>Vim | Knowledge has no limit</title>
   
 
 
@@ -199,7 +199,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Rengui's Notes</span>
+        <span class="site-title">Knowledge has no limit</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -344,7 +344,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rengui's Notes">
+      <meta itemprop="name" content="Knowledge has no limit">
     </span>
 
     
@@ -476,7 +476,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1863
+                  2073
                 </span>
               
 
@@ -506,8 +506,8 @@
       
         
   <div id="outline-container-orga2d89b1" class="outline-2">
-<h2 id="orga2d89b1">Vim Keyboard</h2>
-<div class="outline-text-2" id="text-orga2d89b1">
+<h2 id="orga2d89b1"><span class="section-number-2">1</span> Vim Keyboard</h2>
+<div class="outline-text-2" id="text-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> Vim Keyboard</caption>
 
@@ -994,12 +994,12 @@
 </div>
 </div>
 <div id="outline-container-orga5776a9" class="outline-2">
-<h2 id="orga5776a9">Highlight Setting</h2>
-<div class="outline-text-2" id="text-orga5776a9">
+<h2 id="orga5776a9"><span class="section-number-2">2</span> Highlight Setting</h2>
+<div class="outline-text-2" id="text-2">
 </div>
 <div id="outline-container-org288bbd3" class="outline-3">
-<h3 id="org288bbd3">Color</h3>
-<div class="outline-text-3" id="text-org288bbd3">
+<h3 id="org288bbd3"><span class="section-number-3">2.1</span> Color</h3>
+<div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li><p>
 查看当前主题 
@@ -1056,12 +1056,25 @@ highlight MatchParen <span style="color: #FD971F;">cterm</span>=underline <span 
 上述配置指定 Search 结果的前景色（foreground）为黑色，背景色（background）为灰色； 渐进搜索的前景色为黑色，背景色为黄色；光标处的字符加下划线。
 
 </pre></li>
+<li><p>
+MacOS 修改主题
+</p>
+<pre class="example">
+$ ls /usr/share/vim/vim81/
+$ vim ~/.vimrc
+
+</pre>
+<div class="org-src-container">
+<pre class="src src-shell">colorscheme darkblue <span style="color: #75715E;"># </span><span style="color: #75715E;">&#20027;&#39064;&#35774;&#32622;</span>
+syntax on <span style="color: #75715E;"># </span><span style="color: #75715E;">&#25171;&#24320;&#35821;&#27861;&#39640;&#20142;</span>
+</pre>
+</div></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-org33402ef" class="outline-3">
-<h3 id="org33402ef">Enable and Disable Highlight</h3>
-<div class="outline-text-3" id="text-org33402ef">
+<h3 id="org33402ef"><span class="section-number-3">2.2</span> Enable and Disable Highlight</h3>
+<div class="outline-text-3" id="text-2-2">
 <pre class="example">
 // Disable
 :nohighlight 或 :nohl
@@ -1128,9 +1141,37 @@ $ rpm -q vim-enhanced
 </div>
 </div>
 </div>
+<div id="outline-container-org516a7ff" class="outline-2">
+<h2 id="org516a7ff"><span class="section-number-2">3</span> Problems</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org5dfbc49" class="outline-3">
+<h3 id="org5dfbc49"><span class="section-number-3">3.1</span> MacOS 下backspace键失效，不能向左删除</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+在默认状态下，delete（backspace）按下只会删除本次插入模式下插入的文本，这跟backspace的模式设置有关，其模式可以设置为以下三种模式： <br />
+</p>
+<ul class="org-ul">
+<li>0 same as “:set backspace=” (Vi compatible)</li>
+<li>1 same as “:set backspace=indent,eol”</li>
+<li>2 same as “:set backspace=indent,eol,start”</li>
+</ul>
+
+<p>
+Solving:
+</p>
+<pre class="example">
+$ vim ~/.vimrc
+" 解决插入模式下delete/backspce键失效问题
+set backspace=2
+
+</pre>
+</div>
+</div>
+</div>
 <div id="outline-container-org668a98e" class="outline-2">
-<h2 id="org668a98e">References</h2>
-<div class="outline-text-2" id="text-org668a98e">
+<h2 id="org668a98e"><span class="section-number-2">4</span> References</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><a href="https://harttle.land/2016/08/08/vim-search-in-file.html">在 Vim 中优雅地查找和替换</a></li>
 </ul>
@@ -1387,7 +1428,7 @@ $ rpm -q vim-enhanced
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga2d89b1"> <span class="nav-text">Vim Keyboard</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga5776a9"> <span class="nav-text">Highlight Setting</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org288bbd3"> <span class="nav-text">Color</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33402ef"> <span class="nav-text">Enable and Disable Highlight</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org668a98e"> <span class="nav-text">References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga2d89b1"> <span class="nav-text">1 Vim Keyboard</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga5776a9"> <span class="nav-text">2 Highlight Setting</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org288bbd3"> <span class="nav-text">2.1 Color</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33402ef"> <span class="nav-text">2.2 Enable and Disable Highlight</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org516a7ff"> <span class="nav-text">3 Problems</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5dfbc49"> <span class="nav-text">3.1 MacOS 下backspace键失效，不能向左删除</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org668a98e"> <span class="nav-text">4 References</span> </a> </li>
     </ol>
   </div>
             
@@ -1518,6 +1559,13 @@ $ rpm -q vim-enhanced
   
   
   <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   

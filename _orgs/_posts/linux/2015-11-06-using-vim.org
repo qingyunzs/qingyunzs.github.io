@@ -2,7 +2,7 @@
 #+AUTHOR:    Zhao Rengui
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs2.swfc.edu.cn/org-info-js/org-info.js
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs2.swfu.edu.cn/org-info-js/org-manual.css" />
@@ -162,6 +162,13 @@ photos:
    highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
    #+END_SRC
    : 上述配置指定 Search 结果的前景色（foreground）为黑色，背景色（background）为灰色； 渐进搜索的前景色为黑色，背景色为黄色；光标处的字符加下划线。
+6. MacOS 修改主题
+   : $ ls /usr/share/vim/vim81/
+   : $ vim ~/.vimrc
+   #+BEGIN_SRC shell
+   colorscheme darkblue # 主题设置
+   syntax on # 打开语法高亮
+   #+END_SRC
 ** Enable and Disable Highlight
 : // Disable
 : :nohighlight 或 :nohl
@@ -197,5 +204,16 @@ photos:
 + 设置生效
   : Notice: 设置完成后，发现功能没有起作用，检查一下系统下是否安装了vim-enhanced包，查询命令为： 
   : $ rpm -q vim-enhanced
+* Problems
+** MacOS 下backspace键失效，不能向左删除
+   在默认状态下，delete（backspace）按下只会删除本次插入模式下插入的文本，这跟backspace的模式设置有关，其模式可以设置为以下三种模式： \\
+   + 0 same as “:set backspace=” (Vi compatible)
+   + 1 same as “:set backspace=indent,eol”
+   + 2 same as “:set backspace=indent,eol,start”
+
+   Solving:
+   : $ vim ~/.vimrc
+   : " 解决插入模式下delete/backspce键失效问题
+   : set backspace=2
 * References
 + [[https://harttle.land/2016/08/08/vim-search-in-file.html][在 Vim 中优雅地查找和替换]]
