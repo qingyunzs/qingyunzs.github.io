@@ -6,6 +6,9 @@
 
 欢迎提交问题与需求，修复代码。
 
+## 修改记录
+
+
 ## 开发 Development
 - Jekyll
 - org-mode
@@ -61,7 +64,7 @@
 4. org 发布目录命名：采用驼峰法命名。
 
 ### 内容规范
-1. 目录编号：文章内容最多支持 3 级目录，对于 3 级以上内容使用有序列表或无序列表表示。
+1. 目录编号：文章内容最多支持 6 级目录，对于 6 级以上内容使用有序列表或无序列表表示。
 2. 标点符号：严格遵守中英文标点符号命名规则及行文规范。
 3. 中英文混用情况：
  + 英文符号就近使用原则，也就是说包含英文则使用英文符号。
@@ -121,3 +124,17 @@ Alice <-- Bob: Another authentication Response
 	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
 	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
 	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
+
+## 常见问题
+1. undefined method `new' for BigDecimal:Class (NoMethodError)
+~~~
+version  characteristics                                            Supported ruby version range
+2.0.0    You cannot use BigDecimal.new and do subclassing           2.4 ..
+1.4.x    BigDecimal.new and subclassing always prints warning.      2.3 .. 2.6
+1.3.5    You can use BigDecimal.new and subclassing without warning .. 2.5
+
+$ vim Gemfile
+gem 'bigdecimal', '1.3.5'
+~~~
+2. warning: Using the last argument as keyword parameters is deprecated
+> $ bundle update

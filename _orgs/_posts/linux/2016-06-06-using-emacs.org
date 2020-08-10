@@ -61,24 +61,25 @@ photos:
     | M-x                | 键入函数名称前缀快捷键 |
 *** General Keyboard
     #+CAPTION:general shotkeys
-    | 快捷键   | 描述                                   | 快捷键  | 描述                       |
-    |----------+----------------------------------------+---------+----------------------------|
-    | C-x  C-c | 退出                                   | C-g     | 退出一个正在运行的命令     |
-    | C-v      | 查看下一屏                             | M-v     | 查看上一屏                 |
-    | C-l      | 重绘屏幕，并将光标所在行置于屏幕的中央 |         |                            |
-    | C-f      | 向右移（forward,前进）                 | C-b     | 向左移（backward，回退）   |
-    | C-p      | 上一行（previous）                     | C-n     | 下一行（next）             |
-    | M-f      | 向右移（以单词为一个单位）             | M-b     | 向左移（以单词为一个单位） |
-    | M-<      | 移动到所有文字最开头                   | M->     | 移动到所有文字的最末尾     |
-    | C-a      | 移动到行首                             | C-e     | 移动到行尾                 |
-    | M-a      | 移动到句首                             | M-e     | 移动到句尾                 |
-    | C-k      | 删除光标后的内容                       | C-y     | 粘贴                       |
-    | C-/      | 撤销                                   | C-x u   | 撤销                       |
-    | C-d      | 删除光标后的字符                       | M-w     | 复制                       |
-    | C-SPACE  | 选择内容模式                           | C-w     | 剪切                       |
-    | C-x C-f  | 新建/打开文件                          | C-x C-s | 保存                       |
-    | C-x 2    | 分屏                                   | C-x 0   | 切换到窗口1                |
-    | C-x o    | 切换窗口                               | C-h t   | 查看帮助                   |
+    | Keyboard | Description                            | Keyboard | Description                    |
+    |----------+----------------------------------------+----------+--------------------------------|
+    | C-x  C-c | Exit                                   | C-g      | Exit the command being excuted |
+    | C-v      | 查看下一屏                             | M-v      | 查看上一屏                     |
+    | C-l      | 重绘屏幕，并将光标所在行置于屏幕的中央 |          |                                |
+    | C-f      | 向右移（forward,前进）                 | C-b      | 向左移（backward，回退）       |
+    | C-p      | Previous line                          | C-n      | Next line                      |
+    | M-f      | 向右移（以单词为一个单位）             | M-b      | 向左移（以单词为一个单位）     |
+    | M-<      | 移动到所有文字最开头                   | M->      | 移动到所有文字的最末尾         |
+    | C-a      | Move custor to line head               | C-e      | Move custor to line tail       |
+    | M-a      | Move custor to sentence head           | M-e      | Move custor to sentence tail   |
+    | C-k      | Delete content after custor            | C-y      | Paste                          |
+    | C-/      | Cancel                                 | C-x u    | Cancel                         |
+    | C-d      | Delete character after custor          | M-w      | Copy                           |
+    | C-d      | Delete character after custor          | M-w      | Copy                           |
+    | C-SPACE  | Select content model                   | C-w      | Cut                            |
+    | C-x C-f  | Open/New file                          | C-x C-s  | Save                           |
+    | C-x 2    | 分屏                                   | C-x 0    | Switch to window 1             |
+    | C-x o    | Switch window                          | C-h t    | Help                           |
 *** File
     #+CAPTION:File
     | Keyboard | Description                                  |
@@ -149,25 +150,27 @@ photos:
     | C-x 1    | 关闭除了光标所在窗格外所有窗格 |
 *** Help
     #+CAPTION: Help
-    | Keyboard | Description                    |
-    |----------+--------------------------------|
-    | C-h m    | 查看当前模式                   |
-    | C-h c    | 显示快捷键绑定的命令           |
-    | C-h k    | 显示快捷键绑定的命令和它的作用 |
-    | C-h f    | 显示函数的功能                 |
-    | C-h b    | 显示当前缓冲区所有可用的快捷键 |
-    | C-h t    | 打开emacs教程                  |
-    | M-x quit | 退出help                       |
+    | Keyboard              | Description                    |
+    |-----------------------+--------------------------------|
+    | C-h m                 | Show current mode              |
+    | C-h c                 | 显示快捷键绑定的命令           |
+    | C-h k                 | 显示快捷键绑定的命令和它的作用 |
+    | C-h f                 | Show feature of function       |
+    | C-h b                 | 显示当前缓冲区所有可用的快捷键 |
+    | C-h t                 | Open emacs tutorial            |
+    | M-x quit              | Exit help                      |
+    | M-x org-entities-help | Org mode entities 特殊字符参考 |
 * Problems
 ** Don't input chinese character
-   编辑~/.bashrc文件，加入如下内容：
    : $ vim ~/.bashrc
-   LC_CTYPE="zh_CN.utf8"
+   #+BEGIN_SRC shell
+     LC_CTYPE="zh_CN.utf8"
+   #+END_SRC
 
-   \\
-   编辑/etc/environment文件，加入如下内容：
    : $ sudo vim /etc/environment
-   LC_CTYPE="zh_CN.utf8"
+   #+BEGIN_SRC shell
+     LC_CTYPE="zh_CN.utf8"
+   #+END_SRC
 ** Warning (server): Unable to start the Emacs server
    *问题描述*
    \\
@@ -225,6 +228,24 @@ photos:
     | org-plus-contrib |                 |
     | planuml-mode     | PlanUML         |
     | emmet-mode       | Emmet plugin    |
+** font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
+   *问题描述*
+   \\
+   M-x org-publish <RET> jekyll-zhaorengui-github-io
+   \\
+   font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
+   \\
+   *问题解决*
+   : #+BEGIN_SRC php
+   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
+   : #+END_SRC
+   : 
+   : 修改为
+   : 
+   : #+BEGIN_SRC php
+   : // 计算出本月第一天再减一个月
+   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
+   : #+END_SRC
 * org-mode
   Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
 ** Installation
@@ -439,7 +460,6 @@ photos:
 		     Source code in the dialect of the specified language identifier.
     2. 
 
-    
 ** PlantUML
 *** 什么是 PlantUML?
     PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
@@ -1224,48 +1244,6 @@ photos:
     | C-c C-c         | plantuml-preview: renders a PlantUML diagram from the current buffer in the best supported format |
     | C-u C-c C-c     | plantuml-preview in other window                                                                  |
     | C-u C-u C-c C-c | plantuml-preview in other frame                                                                   |
-* Problems
-** Don't input chinese character
-   : 编辑~/.bashrc文件，加入如下内容：
-   : $ vim ~/.bashrc
-   : LC_CTYPE="zh_CN.utf8"
-
-   : 编辑/etc/environment文件，加入如下内容：
-   : $ sudo vim /etc/environment
-   : LC_CTYPE="zh_CN.utf8"
-** Warning (server): Unable to start the Emacs server
-   *问题描述*
-   \\
-   Warning (server): Unable to start the Emacs server There is an existing Emacs server, named "server". To start the server in this Emacs process, stop the existing server or call ‘M-x server-force-delete’ to forcibly disconnect it.
-   \\
-   *问题解决*
-   \\
-   打开 init.el 或 .emacs 文件，注释以下代码：（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
-   #+BEGIN_SRC shell
-   (server-start)
-   (setq server-socket-dir "~/.emacs.d/server")
-   #+END_SRC
-   \\
-   *参考资料*
-   + [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][39 Using Emacs as a Server]]
-** font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
-   *问题描述*
-   \\
-   M-x org-publish <RET> jekyll-zhaorengui-github-io
-   \\
-   font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
-   \\
-   *问题解决*
-   : #+BEGIN_SRC php
-   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
-   : #+END_SRC
-   : 
-   : 修改为
-   : 
-   : #+BEGIN_SRC php
-   : // 计算出本月第一天再减一个月
-   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
-   : #+END_SRC
 * References
   + [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
   + [[https://baike.baidu.com/item/emacs][emacs 百度百科]]

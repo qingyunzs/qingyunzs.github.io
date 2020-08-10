@@ -89,7 +89,7 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="Rengui's Notes" type="application/atom+xml" />
+  <link rel="alternate" href="/atom.xml" title="Knowledge has no limit" type="application/atom+xml" />
 
 
 
@@ -116,7 +116,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker notes">
 <meta property="og:url" content="http://localhost:4000/software/2019/07/11/docker/">
-<meta property="og:site_name" content="Rengui's Notes">
+<meta property="og:site_name" content="Knowledge has no limit">
 <meta property="og:description" content="Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -154,7 +154,7 @@
 
 
 
-  <title>Docker notes | Rengui's Notes</title>
+  <title>Docker notes | Knowledge has no limit</title>
   
 
 
@@ -199,7 +199,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Rengui's Notes</span>
+        <span class="site-title">Knowledge has no limit</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -344,7 +344,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Rengui's Notes">
+      <meta itemprop="name" content="Knowledge has no limit">
     </span>
 
     
@@ -590,11 +590,11 @@ Docker 利用了 <a href="https://en.wikipedia.org/wiki/Union_mount">Union FS</a
   <li>Install packages to allow apt to use a repository over HTTPS:
     <blockquote>
       <p>$ sudo apt update
-$ sudo apt-get install \
-apt-transport-https \
-ca-certificates \
-curl \
-gnupg-agent \
+$ sudo apt-get install <br />
+apt-transport-https <br />
+ca-certificates <br />
+curl <br />
+gnupg-agent <br />
 software-properties-common</p>
     </blockquote>
   </li>
@@ -611,9 +611,9 @@ sub   rsa4096 2017-02-22 [S]</p>
   </li>
   <li>Use the following command to set up the stable repository.
     <blockquote>
-      <p>$ sudo add-apt-repository \
-“deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) \
+      <p>$ sudo add-apt-repository <br />
+“deb [arch=amd64] https://download.docker.com/linux/ubuntu <br />
+$(lsb_release -cs) <br />
 stable”</p>
     </blockquote>
   </li>
@@ -676,7 +676,7 @@ WORKDIR /app
 <span class="c"># Copy the current directory contents into the container at /app</span>
 COPY <span class="nb">.</span> /app
 <span class="c"># Install any needed packages specified in requirements.txt</span>
-RUN pip install <span class="nt">--trusted-host</span> pypi.python.org <span class="nt">-r</span> requirements.txt
+RUN pip <span class="nb">install</span> <span class="nt">--trusted-host</span> pypi.python.org <span class="nt">-r</span> requirements.txt
 <span class="c"># Make port 80 available to the world outside this container</span>
 EXPOSE 80
 <span class="c"># Define environment variable</span>
@@ -714,7 +714,7 @@ def hello():
     except RedisError:
         visits = “<i>cannot connect to Redis, counter disabled</i>”</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>html = "&lt;h3&gt;Hello {name}!&lt;/h3&gt;" \
        "&lt;b&gt;Hostname:&lt;/b&gt; {hostname}&lt;br/&gt;" \
        "&lt;b&gt;Visits:&lt;/b&gt; {visits}"
 return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
@@ -722,7 +722,7 @@ return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(
 
 <p>if <strong>name</strong> == “<strong>main</strong>”:
     app.run(host=’0.0.0.0’, port=80)</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3. Installs the Flask and Redis libraries for Python
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3. Installs the Flask and Redis libraries for Python
 &gt; $ sudo pip install -r requirements.txt
 4. Build the app
 &gt; $ ls
@@ -800,11 +800,11 @@ docker container <span class="nb">ls</span>                                <span
 docker container <span class="nb">ls</span> <span class="nt">-a</span>             <span class="c"># List all containers, even those not running</span>
 docker container stop &lt;<span class="nb">hash</span><span class="o">&gt;</span>           <span class="c"># Gracefully stop the specified container</span>
 docker container <span class="nb">kill</span> &lt;<span class="nb">hash</span><span class="o">&gt;</span>         <span class="c"># Force shutdown of the specified container</span>
-docker container rm &lt;<span class="nb">hash</span><span class="o">&gt;</span>        <span class="c"># Remove specified container from this machine</span>
-docker container rm <span class="k">$(</span>docker container <span class="nb">ls</span> <span class="nt">-a</span> <span class="nt">-q</span><span class="k">)</span>         <span class="c"># Remove all containers</span>
+docker container <span class="nb">rm</span> &lt;<span class="nb">hash</span><span class="o">&gt;</span>        <span class="c"># Remove specified container from this machine</span>
+docker container <span class="nb">rm</span> <span class="si">$(</span>docker container <span class="nb">ls</span> <span class="nt">-a</span> <span class="nt">-q</span><span class="si">)</span>         <span class="c"># Remove all containers</span>
 docker image <span class="nb">ls</span> <span class="nt">-a</span>                             <span class="c"># List all images on this machine</span>
-docker image rm &lt;image id&gt;            <span class="c"># Remove specified image from this machine</span>
-docker image rm <span class="k">$(</span>docker image <span class="nb">ls</span> <span class="nt">-a</span> <span class="nt">-q</span><span class="k">)</span>   <span class="c"># Remove all images from this machine</span>
+docker image <span class="nb">rm</span> &lt;image <span class="nb">id</span><span class="o">&gt;</span>            <span class="c"># Remove specified image from this machine</span>
+docker image <span class="nb">rm</span> <span class="si">$(</span>docker image <span class="nb">ls</span> <span class="nt">-a</span> <span class="nt">-q</span><span class="si">)</span>   <span class="c"># Remove all images from this machine</span>
 docker login             <span class="c"># Log in this CLI session using your Docker credentials</span>
 docker tag &lt;image&gt; username/repository:tag  <span class="c"># Tag &lt;image&gt; for upload to registry</span>
 docker run username/repository:tag                   <span class="c"># Run image from a registry</span>
@@ -951,7 +951,7 @@ docker run username/repository:tag                   <span class="c"># Run image
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -973,7 +973,7 @@ docker run username/repository:tag                   <span class="c"># Run image
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">56</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1197,6 +1197,13 @@ docker run username/repository:tag                   <span class="c"># Run image
   
   
   <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/canvas-nest/canvas-nest.min.js"></script>
 
 
   

@@ -53,3 +53,25 @@ photos:
 4. 在低版本的数据下执行脚本，注意（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段)REFERENCES表名(字段))这个先不要执行.
 5. 现在可以通过导入导出任务先将表的内容导入到低版本的数据库内.
 6. 再执行脚本内（ALTER TABLE 表名 WITH CHECK ADD CONSTRAINT [外键名] FOREIGN KEY(字段) REFERENCES 表名(字段))这样的语句，此处将表的外键附加上.
+* SQL Server 修改数据表名前的用户
+1.只修改表前用户
+#+BEGIN_SRC sql
+  EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
+#+END_SRC
+2.用户表/存储过程/视图/触发器/自定义函数一起改
+#+BEGIN_SRC sql
+  declare tb cursor local for
+  select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
+  from sysobjects 
+  where xtype in('U','V','P','TR','FN','IF','TF') and status>=0
+  open tb
+  declare @s nvarchar(4000)
+  fetch tb into @s
+  while @@fetch_status=0
+  begin
+  exec(@s)
+  fetch tb into @s
+  end
+  close tb
+  deallocate tb
+#+END_SRC

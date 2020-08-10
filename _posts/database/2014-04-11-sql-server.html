@@ -59,3 +59,35 @@ photos:
 </div>
 </div>
 </div>
+<div id="outline-container-org83ef6c1" class="outline-2">
+<h2 id="org83ef6c1"><span class="section-number-2">2</span> SQL Server 修改数据表名前的用户</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+1.只修改表前用户
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #F92672;">EXEC</span> sp_MSforeachtable <span style="color: #E6DB74;">'exec sp_changeobjectowner "&#65311;","dbo" '</span>
+</pre>
+</div>
+<p>
+2.用户表/存储过程/视图/触发器/自定义函数一起改
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #F92672;">declare</span> tb <span style="color: #F92672;">cursor</span> <span style="color: #F92672;">local</span> <span style="color: #F92672;">for</span>
+<span style="color: #F92672;">select</span> <span style="color: #E6DB74;">'sp_changeobjectowner ''['</span>+replace(user_name(uid),<span style="color: #E6DB74;">']'</span>,<span style="color: #E6DB74;">']]'</span>)+<span style="color: #E6DB74;">'].['</span>+replace(<span style="color: #F92672;">name</span>,<span style="color: #E6DB74;">']'</span>,<span style="color: #E6DB74;">']]'</span>)+<span style="color: #E6DB74;">']'',''dbo'''</span>
+<span style="color: #F92672;">from</span> sysobjects 
+<span style="color: #F92672;">where</span> xtype <span style="color: #F92672;">in</span>(<span style="color: #E6DB74;">'U'</span>,<span style="color: #E6DB74;">'V'</span>,<span style="color: #E6DB74;">'P'</span>,<span style="color: #E6DB74;">'TR'</span>,<span style="color: #E6DB74;">'FN'</span>,<span style="color: #E6DB74;">'IF'</span>,<span style="color: #E6DB74;">'TF'</span>) <span style="color: #F92672;">and</span> status&gt;=0
+<span style="color: #F92672;">open</span> tb
+<span style="color: #F92672;">declare</span> @s nvarchar(4000)
+<span style="color: #F92672;">fetch</span> tb <span style="color: #F92672;">into</span> @s
+while @@fetch_status=0
+<span style="color: #F92672;">begin</span>
+<span style="color: #F92672;">exec</span>(@s)
+<span style="color: #F92672;">fetch</span> tb <span style="color: #F92672;">into</span> @s
+<span style="color: #F92672;">end</span>
+<span style="color: #F92672;">close</span> tb
+<span style="color: #F92672;">deallocate</span> tb
+</pre>
+</div>
+</div>
+</div>

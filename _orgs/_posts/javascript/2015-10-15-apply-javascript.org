@@ -1,4 +1,4 @@
-#+TITLE:     JavaScript 开发笔记 
+#+TITLE:     JavaScript Notes
 #+AUTHOR:    Rengui Zhao
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
@@ -16,7 +16,7 @@
 #+BEGIN_EXPORT html
 ---
 layout: post
-title: JavaScript 开发笔记
+title: JavaScript Notes
 author: zrg
 comments: false
 description: JavaScript
@@ -301,7 +301,7 @@ photos:
     #+END_SRC
 *** 截取字符串包含中文处理
     #+BEGIN_SRC javascript
-      //(串,长度,增加...) 
+      //(串,长度,增加...)
       function subString(str, len, hasDot) {
 	  var newLength = 0;
 	  var newStr = "";
@@ -420,7 +420,7 @@ if(obj.hasOwnProperty(key)){...}
        // 注意： forEach不支持以下2种方式跳出循环，
        // 1) break; 执行报错: Uncaught SyntaxError: Illegal break statement
        // 2) return false; 只能跳出当前遍历执行
-       
+
        // 返回指定格式数组
        var obj = {"1":5,"2":7,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0};
        var result = Object.keys(obj).map(function(key) {
@@ -428,7 +428,7 @@ if(obj.hasOwnProperty(key)){...}
        });
        console.log(result);
        // [[1,5],[2,7],[3,0],[4,0]…].
-       
+
        // 缺失需要跳出循环，使用 try…catch…
        var obj = {'0':'a','1':'b','2':'c'};
        try {
@@ -440,7 +440,7 @@ if(obj.hasOwnProperty(key)){...}
        });
        } catch (ex) {
        if(ex.message=='exist') throw ex
-       } finally { 
+       } finally {
        console.log('done');
        }
        #+END_SRC
@@ -476,9 +476,9 @@ if(obj.hasOwnProperty(key)){...}
 * 校验
 ** 检查对象是否为空对象
    #+BEGIN_SRC js
-/* 
+/*
  * 检测对象是否是空对象(不包含任何可读属性)。 //如你上面的那个对象就是不含任何可读属性
- * 方法只既检测对象本身的属性，不检测从原型继承的属性。 
+ * 方法只既检测对象本身的属性，不检测从原型继承的属性。
  */
 function isOwnEmpty(obj) {
     for (var name in obj) {
@@ -488,9 +488,9 @@ function isOwnEmpty(obj) {
     }
     return true;
 }
-/* 
- * 检测对象是否是空对象(不包含任何可读属性)。 
- * 方法既检测对象本身的属性，也检测从原型继承的属性(因此没有使hasOwnProperty)。 
+/*
+ * 检测对象是否是空对象(不包含任何可读属性)。
+ * 方法既检测对象本身的属性，也检测从原型继承的属性(因此没有使hasOwnProperty)。
  */
 function isEmpty(obj) {
     for (var name in obj) {
@@ -551,7 +551,7 @@ function isEmpty(obj) {
 	     break;
 	 case 18:
 	     //18位身份号码检测
-	     //出生日期的合法性检查 
+	     //出生日期的合法性检查
 	     //闰年月日:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))
 	     //平年月日:((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|1[0-9]|2[0-8]))
 	     if (parseInt(idcard.substr(6, 4)) % 4 == 0 || (parseInt(idcard.substr(6, 4)) % 100 == 0 && parseInt(idcard.substr(6, 4)) % 4 == 0)) {
@@ -597,8 +597,8 @@ function isEmpty(obj) {
      //--根据17位数字本体码获取最后一位校验码程序
      public class Id18 {
 	 int[] weight={7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2};    //十七位数字本体码权重
-	 char[] validate={ '1','0','X','9','8','7','6','5','4','3','2'};    //mod11,对应校验码字符值    
-    
+	 char[] validate={ '1','0','X','9','8','7','6','5','4','3','2'};    //mod11,对应校验码字符值
+
 	 public char getValidateCode(String id17){
 	     int sum = 0;
 	     int mode = 0;
@@ -608,7 +608,7 @@ function isEmpty(obj) {
 	     mode = sum % 11;
 	     return validate[mode];
 	 }
-    
+
 	 public static void main(String[] args){
 	     Id18 tes t= new Id18();
 	     System.out.println("该身份证验证码："+test.getValidateCode("14230219700101101"));    //该身份证校验码：3
@@ -618,7 +618,7 @@ function isEmpty(obj) {
    *公民身份号码是特征组合码，由十七位数字本体码和一位校验码组成。*
    \\
    排列顺序从左至右依次为：六位数字地址码，八位数字出生日期码，三位数字顺序码和一位校验码。
-   \\ 
+   \\
    1. 地址码
       \\
       表示编码对象常住户口所在县(市、旗、区)的行政区域划分代码，按GB/T2260的规定执行。
@@ -668,31 +668,64 @@ function isEmpty(obj) {
 ** 其他校验
 *** 检查QQ号码
     #+BEGIN_SRC javascript
-      function checkqq()  //检查QQ号码                                                                                                                      
-      {                                                                                                                                                     
-	  var qq=document.getElementById("qq").value;                                                                                                   
-	  var divqq=document.getElementById("qq");                                                                                                      
-	  if(qq!="")                                                                                                                                    
-	  {                                                                                                                                             
-	      if(qq.match(/\D/)!=null)                                                                                                              
-	      {                                                                                                                                     
-		  divqq.innerHTML="<font color='red'>QQ号码只能输入数字！</font>";                                                              
-		  return false;                                                                                                                 
-	      }                                                                                                                                     
-	      else                                                                                                                                  
-	      {                                                                                                                                    
-		  divqq.innerHTML="<font color='red'>√</font>";                                                                                
-		  return true;                                                                                                                  
-	      }                                                                                                                                     
-	  }                                                                                                                                             
-	  else                                                                                                                                          
-	  {                                                                                                                                            
-	      divqq.innerHTML="<font color='green'>√</font>";                                                                                      
-	      return true;                                                                                                                          
-	  }                                                                                                                                             
-      }                                                                                                                                                     
+      function checkqq()  //检查QQ号码
+      {
+	  var qq=document.getElementById("qq").value;
+	  var divqq=document.getElementById("qq");
+	  if(qq!="")
+	  {
+	      if(qq.match(/\D/)!=null)
+	      {
+		  divqq.innerHTML="<font color='red'>QQ号码只能输入数字！</font>";
+		  return false;
+	      }
+	      else
+	      {
+		  divqq.innerHTML="<font color='red'>√</font>";
+		  return true;
+	      }
+	  }
+	  else
+	  {
+	      divqq.innerHTML="<font color='green'>√</font>";
+	      return true;
+	  }
+      }
     #+END_SRC
-* 页面操作
+* 页面交互
+** JavaScript 与 URL
+   #+BEGIN_SRC javascript
+     // 打开新标签页
+     window.open("http://www.baidu.com");
+     window.open("http://www.baidu.com","_blank");
+     // 打开新窗口
+     window.open("http://www.baidu.com","_blank","");
+     // 在当前页面中打开链接
+     window.open("http://www.baidu.com","_self","");
+     window.location.href="http://www.baidu.com";
+
+     // 跳转文件下载页面时，出现空白页
+     // A：使用 js 出发 <a> 标签事件
+     var downLoad=function(src){
+	 var a = document.createElement('a');
+	 a.id = 'expertFile'
+	 a.href =src;
+	 document.body.append(a); 
+	 a.click();
+	 document.getElementById('expertFile').remove();
+     }
+     // B：通过 iframe 来下载
+     function  download (src) {
+	 var download_file= {} 
+	 if (typeof(download_file.iframe) == "undefined") {
+	     var iframe = document.createElement("iframe");
+	     download_file.iframe = iframe;
+	     document.body.appendChild(download_file.iframe);
+	 }
+	 download_file.iframe.src = src
+	 download_file.iframe.style.display = "none";
+     }
+   #+END_SRC
 ** 根据网页实际大小来设置iframe显示区域大小
    #+BEGIN_SRC javascript
      $('#iframe_i').load(function () {
@@ -722,7 +755,7 @@ function isEmpty(obj) {
 	       $("#div3").fadeToggle(3000);*/
 	 });
      });
-   #+END_SRC                                                                                                                                             
+   #+END_SRC
 
    #+NAME:Method 2:
    #+BEGIN_SRC javascript
@@ -759,14 +792,14 @@ function isEmpty(obj) {
 #+BEGIN_SRC javascript
 var ajax = {
 	get:function(url,func){
-        // XMLHttpRequest 用于在后台与服务器交换数据   
+        // XMLHttpRequest 用于在后台与服务器交换数据
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.onreadystatechange = function() {
         // readyState == 4 说明请求已完成
-        if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) { 
+        if (xhr.readyState == 4 && xhr.status == 200 || xhr.status == 304) {
         	// 从服务器获得数据
-              fn.call(this, xhr.responseText);  
+              fn.call(this, xhr.responseText);
         }
     };
     xhr.send();
@@ -776,7 +809,7 @@ var ajax = {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     // 添加 http 头，发送信息至服务器时内容编码类型
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");  
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
         fn.call(this, xhr.responseText);
@@ -803,17 +836,17 @@ var ajax = {
 	  // 设置请求头,加载loading界面
     },
     dataFilter:function(){ //给Ajax返回的原始数据进行预处理的函数。提供data和type两个参数。data是Ajax返回的原始数据，type是调用jQuery.ajax时提供的dataType参数。
-	  // 
+	  //
     },
     global:false, //表示是否触发全局ajax事件。默认为true。
     ifModified:false, //仅在服务器数据改变时获取新数据。服务器数据改变判断的依据是Last-Modified头信息。默认值是false，即忽略头信息。
-    jsonP:"",// 在一个jsonp请求中重写回调函数的名字。 
+    jsonP:"",// 在一个jsonp请求中重写回调函数的名字。
     username:"zrg", //用于响应HTTP访问认证请求的用户名。
     password:"123456", //用于响应HTTP访问认证请求的密码。
     processData:false, // 默认情况下，发送的数据将被转换为对象（从技术角度来讲并非字符串）以配合默认内容类型"application/x-www-form-urlencoded"。如果要发送DOM树信息或者其他不希望转换的信息，请设置为false。
     scriptCharset:"", //只有当请求时dataType为"jsonp"或者"script"，并且type是GET时才会用于强制修改字符集(charset)。通常在本地和远程的内容编码不同时使用。
     complete: function(XMLHttpRequest, textStatus){ // 请求完成后调用的回调函数（请求成功或失败时均调用）
-	  // 
+	  //
     },
     success: function (data,textStatus) { // 请求成功后调用的回调函数，有两个参数: (1)由服务器返回，并根据dataType参数进行处理后的数据;(2)描述状态的字符串。
 	  if (data.success) {

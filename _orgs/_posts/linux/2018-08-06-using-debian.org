@@ -2,7 +2,7 @@
 #+AUTHOR:    zrg
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -751,12 +751,16 @@ photos:
 *** grep 命令
     : 语法格式：grep -iv [指定字符串][文件]
     : -i 不区分大小写
+    : -o 正则匹配指定内容
     : -v 排除指定字符串
 
     : // 查找指定字符串的行并显示
     : $ grep 123 test.txt
 
-    : // 去掉# 注释行
+    : // 查找匹配到的内容
+    : $ grep -o 'engine\[\0-9a-z]*\]'
+
+    : // 打印没有匹配到的行
     : $ grep -v ^# config.txt
 ** Linux Compression and Packaging
    #+CAPTION: File unzip
@@ -1470,11 +1474,25 @@ photos:
 
        : // 数据替换
        : $ sed '2c No such person' test.txt
+
        *字符串替换*
+       : // g 表示全文替换
        : $ sed 's/oldStr/newStr/g' fileName
        : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
        : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
     2. awk
+       \\
+       对文件内容进行统计，适合处理格式化数据，比如表格
+       : // 打印第一切片和第四切片内容
+       : $ awk '{print $1,$4}' netstat.txt
+       
+       : // 打印以逗号为分隔符分隔，并打印第二列
+       : $ awk -F "," '{print $2}' test.txt
+
+       : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
+
+       : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+
     3. sort
     4. wc
 *** 结构化命令
@@ -2339,41 +2357,71 @@ photos:
 	 : $ ssh-keygen
 	 #+NAME: 生成密钥对
 	 #+BEGIN_SRC emacs-lisp
-     Generating public/private rsa key pair.
-     Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-     Enter passphrase (empty for no passphrase):
-     Enter same passphrase again:
-     Your identification has been saved in /home/zrg/.ssh/id_rsa.
-     Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-     The key fingerprint is:
-     SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-     The key's randomart image is:
-     +---[RSA 2048]----+
-     |    +*B==o o.oo=*|
-     |   .o+o= .. . =o.|
-     |     .+ o .o + E |
-     |     . *   o= =  |
-     |      = S . o+   |
-     |       + o .     |
-     |    o . =        |
-     |   . + o .       |
-     |    ..o          |
-     +----[SHA256]-----+
+	   Generating public/private rsa key pair.
+	   Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+	   Enter passphrase (empty for no passphrase):
+	   Enter same passphrase again:
+	   Your identification has been saved in /home/zrg/.ssh/id_rsa.
+	   Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+	   The key fingerprint is:
+	   SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+	   The key's randomart image is:
+	   +---[RSA 2048]----+
+	   |    +*B==o o.oo=*|
+	   |   .o+o= .. . =o.|
+	   |     .+ o .o + E |
+	   |     . *   o= =  |
+	   |      = S . o+   |
+	   |       + o .     |
+	   |    o . =        |
+	   |   . + o .       |
+	   |    ..o          |
+	   +----[SHA256]-----+
+	 #+END_SRC
+	 
+	 : 如果客户端要访问多台服务器时，可进行如下操作：
+	 : 第一种方式：手动指定
+	 : $  ssh user@host -i ~/.ssh/id_rsa
+	 : 第二种方式：配置客户端，/etc/ssh/ssh_config
+	 #+BEGIN_SRC shell
+	   IdentityFile ~/.ssh/id_rsa
+	   IdentityFile ~/.ssh/github_id_rsa
+	 #+END_SRC
+	 : 第三种方式：使用 SSH Agent
+	 #+BEGIN_SRC shell
+	   # Default github user
+	   Host login-zrg
+	   HostName github.com
+	   User zrg
+	   IdentityFile ~/.ssh/id_rsa
+
+	   # jsf user
+	   Host login-jsf
+	   HostName github.com
+	   User jsf
+	   IdentityFile ~/.ssh/id_rsa_jsf
 	 #+END_SRC
        + 在服务器上配置上公钥
+	 : 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
 	 : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
 	 : $ chmod 600 ~/.ssh/authorized_keys
 	 : $ chmod 700 ~/.ssh
        + 配置ssh，打开密钥登录功能
 	 : $ vim /etc/ssh/sshd_config
-	 #+NAME: 配置ssh
-	 #+BEGIN_SRC emacs-lisp
-	  RSAAuthentication yes
-	  PubkeyAuthentication yes
-	  PermitRootLogin yes //root 用户能否通过 SSH 登录
-	  PasswordAuthentication no //当完成全部设置，以密钥方式登录成功后，可以禁用密码登录：
+	 #+NAME: 配置 ssh
+	 #+BEGIN_SRC shell
+	   # 允许用户使用密钥登录
+	   RSAAuthentication yes
+	   PubkeyAuthentication yes
+
+	   # 允许 root 用户通过 SSH 登录
+	   PermitRootLogin yes
+
+	   # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
+	   PasswordAuthentication no
 	 #+END_SRC
        + 重启ssh服务
+	 : 配置完成后，重启 sshd 服务
 	 : $ systemctl restart sshd.service
     6. 使用scp上传或下载文件
        + 从服务器上下载文件
