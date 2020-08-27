@@ -28,6 +28,7 @@ photos:
 - https://www.debian.org/Pics/openlogo-50.png
 ---
 #+END_EXPORT
+
 # (setq org-export-html-use-infojs nil)
 本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linu”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
 # (setq org-export-html-style nil)
@@ -36,9 +37,9 @@ photos:
   欢迎阅读本册子，和其他大全图书不一样，本册子以实践的方式介绍 Linux 基础、Linux 服务架构和 Linux 实用技巧，涵盖了详尽的动手教程和实践信息，还提供了与内容相关的参考资料。本册子可以作为 Linux 的操作参考工具书。作者会持续更新与完善内容，血不流干，死不休战。
 ** 读者对象
    - Linux 系统管理员 ::
-		    如果你是 Linux 环境下的系统管理员，那么本册子也许能为你提供一定的帮助。
+     如果你是 Linux 环境下的系统管理员，那么本册子也许能为你提供一定的帮助。
    - Linux 爱好者 ::
-		  如果你是 Linux 爱好者，本册子将告诉你部分问题的解决办法及原因。
+     如果你是 Linux 爱好者，本册子将告诉你部分问题的解决办法及原因。
 ** 内容结构
    本册子分为五大部分。
    - 第一部分，获取和安装 Linux 系统，Linux 系统的初步设置，Linux 介绍。
@@ -641,41 +642,41 @@ photos:
     : find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
     *示例*
     + 根据文件名查找
-       : 格式：find [搜索范围][匹配条件]
+      : 格式：find [搜索范围][匹配条件]
 
-       : // 默认在当前目录下搜索
-       : $ find -name "MyCProgram.c"
+      : // 默认在当前目录下搜索
+      : $ find -name "MyCProgram.c"
 
-       : // 忽略大小写
-       : $ find -iname "MyCProgram.c"
+      : // 忽略大小写
+      : $ find -iname "MyCProgram.c"
 
-       : // 查找以my开头，后面包含三个字符的文件
-       : $ find -name my??? 
+      : // 查找以my开头，后面包含三个字符的文件
+      : $ find -name my??? 
 
-       : // 深度查找：
-       : // 在 root 目录及其子目录下查找 passwd 文件。
-       : $ sudo find / -maxdepth 2 -name passwd
-       : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
-       : $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
-       : // 找到 home 目录及子目录下所有的空文件(0字节文件) 
-       : // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
-       : $ find ~/ -empty
-       : //列出你 home 目录里的空文件。
-       : $ find ~/ -maxdepth 1 -empty
-       : //列出 home目录下的非隐藏空文件。
-       : $ find ~/ -maxdepth 1 -empty -not -name ".*"
+      : // 深度查找：
+      : // 在 root 目录及其子目录下查找 passwd 文件。
+      : $ sudo find / -maxdepth 2 -name passwd
+      : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
+      : $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
+      : // 找到 home 目录及子目录下所有的空文件(0字节文件) 
+      : // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
+      : $ find ~/ -empty
+      : //列出你 home 目录里的空文件。
+      : $ find ~/ -maxdepth 1 -empty
+      : //列出 home目录下的非隐藏空文件。
+      : $ find ~/ -maxdepth 1 -empty -not -name ".*"
 
-       : // 相反匹配
-       : // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
-       : $ find -maxdepth 1 -not -iname "MyCProgram.c"
+      : // 相反匹配
+      : // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
+      : $ find -maxdepth 1 -not -iname "MyCProgram.c"
 
-       : // 在查找到的文件上执行命令
-       : // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
-       : $ find -iname "MyCProgram.c" -exec md5sum {} \;
-       : // 在 /etc 目录下查找 inittab 文件并显示其详细属性
-       : $ sudo find /etc -name initab -exec ls -l {} \;
-       : 注意：{} 将会被当前文件名取代。
-       : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
+      : // 在查找到的文件上执行命令
+      : // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
+      : $ find -iname "MyCProgram.c" -exec md5sum {} \;
+      : // 在 /etc 目录下查找 inittab 文件并显示其详细属性
+      : $ sudo find /etc -name initab -exec ls -l {} \;
+      : 注意：{} 将会被当前文件名取代。
+      : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
     + 文件大小查找
       : // 格式：+n 大于；-n 小于；n 等于
       : // 在 root 目录下查找大于100MB的文件
@@ -840,12 +841,12 @@ photos:
       + 描述
 	: 配置网络
       + 实践
-* Shell Scripts Programming
+* Shell Scripts
 ** Learning Shell
 *** 学习 Shell 的疑惑
     - 如何启动命令行以及接下来做什么？
     - 如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？
-*** 认识常见的 Shell 类型
+*** 常见的 Shell 类型
     - */bin/bash*
     - /bin/tcsh
     - /bin/dash
@@ -854,47 +855,27 @@ photos:
     - ...
 *** Shell 的父子关系
     : $ ps -f
-    : UID        PID  PPID  C STIME TTY          TIME CMD
-    : zrg      25305  4834  8 23:51 pts/4    00:00:00 -bash
-    : zrg      25317 25305  0 23:51 pts/4    00:00:00 ps -f
 
     : $ bash
     : $ ps -f
-    : UID        PID  PPID  C STIME TTY          TIME CMD
-    : zrg      25305  4834  0 23:51 pts/4    00:00:00 -bash
-    : zrg      25347 25305  0 23:53 pts/4    00:00:00 bash
-    : zrg      25352 25347  0 23:54 pts/4    00:00:00 ps -f
-    输入命令之后，一个子 shell 就出现了。第二个 ps -f 是在子 shell 中执行的。可以从显示结果中看到两个 bash shell 程序在运行。
+    : 输入命令之后，一个子 shell 就出现了。第二个 ps -f 是在子 shell 中执行的。可以从显示结果中看到两个 bash shell 程序在运行。
 
     : $ bash
     : $ bash
     : $ bash
     : $ ps --forest
-    : PID TTY          TIME CMD
-    : 25305 pts/4    00:00:00 bash
-    : 25347 pts/4    00:00:00  \_ bash
-    : 25372 pts/4    00:00:00      \_ bash
-    : 25377 pts/4    00:00:00          \_ bash
-    : 25382 pts/4    00:00:00              \_ ps
-    在上面例子中，bash 命令被输入了三次。实际上创建了三个子 shell。ps --forest 命令展示了这些子 shell 间的嵌套结构。可以使用 exit 命令退出子 shell
+    : 在上面例子中，bash 命令被输入了三次。实际上创建了三个子 shell。ps --forest 命令展示了这些子 shell 间的嵌套结构。可以使用 exit 命令退出子 shell
     : $ exit
 
     *进程列表*
     : $ pwd;ls;cd /etc;pwd
-    : /home/zrg/zhaorengui.github.io
-    : 404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
-    : about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
-    : /etc
-    在命令之间加入“;，指定要依次执行的一系列命令
+    : 在命令之间加入“;，指定要依次执行的一系列命令
     : $ (pwd;ls;cd /etc;pwd)
-    : /home/zrg/zhaorengui.github.io
-    : 404.html  archives  categories  _config.yml  _drafts  Gemfile.lock  index.html  _orgs   README.en.md  _sass       _site  tags
-    : about     assets    category    _data        Gemfile  _includes     _layouts    _posts  README.md     search.xml  tag
-    : /etc
-    使用括号包含命令，成为进程列表
-    \\
-    查看是否生成了子 shell，使用：
+    : 使用括号包含命令，成为进程列表
+    
+    : 查看是否生成了子 shell，使用：
     : $ echo $BASH_SUBSHELL
+
     *子shell用法*
     : // 在后台睡眠10s
     : $ sleep 10&
@@ -914,51 +895,44 @@ photos:
     : $ coproc My_Job{sleep 10;}
 *** 理解 shell 的内建命令
     1. 外部命令 ::
-	       也被称为文件系统命令，是存在于bash shell之外的程序。ps 就是一个外部命令，可以使用 which 和 type 命令找到
-	       : $ which ps
-	       : $ type -a ps
-	       当外部命令执行时，会创建一个子进程，这种操作叫做衍生（forking）。
+       也被称为文件系统命令，是存在于bash shell之外的程序。ps 就是一个外部命令，可以使用 which 和 type 命令找到
+       : $ which ps
+       : $ type -a ps
+       当外部命令执行时，会创建一个子进程，这种操作叫做衍生（forking）。
     2. 内建命令 ::
-	       内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和 shell 编译成一体，作为 shell 工具的组成部分存在。可以利用 type 命令来了解某个命令是否是内建的。
-	       : $ type cd
-	       : cd is a shell builtin
-	       要注意，有些命令有多种实现。既有内建命令也有外部命令。
-	       : $ type -a echo
-	       : echo is a shell builtin
-	       : echo is /bin/echo
-	       : $ type -a pwd
-	       : pwd is a shell builtin
-	       : pwd is /bin/pwd 
+       内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和 shell 编译成一体，作为 shell 工具的组成部分存在。可以利用 type 命令来了解某个命令是否是内建的。
+       : $ type cd
+       : cd is a shell builtin
+       要注意，有些命令有多种实现。既有内建命令也有外部命令。
+       : $ type -a echo
+       : echo is a shell builtin
+       : echo is /bin/echo
+       : $ type -a pwd
+       : pwd is a shell builtin
+       : pwd is /bin/pwd 
 ** Shell Basic
-*** 第一个 shell 程序：Hello World!
-    1. 首先，新建并编辑一个名为 hello.sh 的文件
-       : $ vim hello.sh
-       #+NAME: Hello World
-       #+BEGIN_SRC shell
-       #!/bin/bash  #告诉shell用/bin/bash来运行脚本。
-       # This script displays the date and who's #脚本用途说明及作者等信息描述 
-       echo "This's is a shell script." #显示消息
-       echo -n "The time and date are: " #n表示在一行显示
-       echo "Hello,World!" # print "Hello,World!"
-       date # print date.
+*** Hello World
+    #+begin_src shell
+      #!/bin/bash
+      # This script displays the date and who's #脚本用途说明及作者等信息描述 
+      echo "This's is a shell script." #显示消息
+      echo -n "The time and date are: " #n表示在一行显示
+      echo "Hello,World!" # print "Hello,World!"
+      date # print date.
 
-       echo "User info for userid: $USER" #环境变量，用set命令可以查看一份完整的当前环境变量列表。
-       echo UID: $UID
-       echo HOME: $HOME
-       echo "The cost of the item is \$15." #美元需要使用\转义
+      echo "User info for userid: $USER" #环境变量，用set命令可以查看一份完整的当前环境变量列表。
+      echo UID: $UID
+      echo HOME: $HOME
+      echo "The cost of the item is \$15." #美元需要使用\转义
 
-       days = 10 #用户自定义变量
-       echo $days
+      days= 10 #用户自定义变量
+      echo $days
 
-       # 有两种方法可以将命令赋给变量
-       test = `date` #用一对反引号把整个命令围起来
-       test = $(date) #使用$()格式
-       today = $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
-       #+END_SRC
-    2. 此时，我们想看看运行效果，需要给 hello.sh 可执行(x)权限
-       : $ sudo chmod +x hello.sh
-    3. 执行，查看效果
-       : $ ./hello.sh
+      # 有两种方法可以将命令赋给变量
+      test= `date` #用一对反引号把整个命令围起来
+      test= $(date) #使用$()格式
+      today= $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
+    #+end_src
 *** 历史命令与补全(tab键)
     1. 历史命令的调用
        + 查看历史命令
@@ -968,21 +942,6 @@ photos:
        + 使用“!!”重复执行上一条命令
        + 使用“!<string>”重复执行最后一条以某个字符串开头的命令
     2. 使用 <tab> 键可以对命令、文件、目录等进行自动补全。
-*** 设置命令别名：alias
-    : //利用别名代替长命令
-    : $ vim ~/.bashrc                                                                                                                                    : //存在这样的三行代码，意思就是检查是否存在 .bash_aliases 文件，存在就加载                 
-    #+NAME:.bash_aliases
-    #+BEGIN_SRC shell
-    if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-    fi
-    #+END_SRC
-    : //于是,新建并编辑
-    : $ vim .bash_aliases
-    #+BEGIN_SRC shell
-    #shadowsocks
-    alias shadowsocks="sudo sslocal -c /etc/shadowsocks.json -d start"
-    #+END_SRC 
 *** 重定向输入和输出
     #+CAPTION: 重定向字符
     | 0         | 标准输入                                     |
@@ -1423,10 +1382,10 @@ photos:
     2. exit
        #+NAME: exit 命令允许在脚本结束时指定一个退出状态码
        #+BEGIN_SRC shell
-       echo 'Hello, World'
-       exit 5 
+	 echo 'Hello, World'
+	 exit 5 
        #+END_SRC
-
+       
        #+RESULTS: exit 命令允许在脚本结束时指定一个退出状态码
 
        : $ ./test 
@@ -1496,9 +1455,9 @@ photos:
     3. sort
     4. wc
 *** 结构化命令
-    1. if-then
-       #+NAME: if-then
-       #+BEGIN_SRC shell
+***** if-then
+      #+NAME: if-then
+      #+BEGIN_SRC shell
      #!/bin/bash
      testuser = zrg
      #
@@ -1517,7 +1476,192 @@ photos:
 
      #test命令提供了在if-then语句中测试不同条件的途径。
      #test命令可以判断三类条件：数值比较；字符串比较；文件比较
-       #+END_SRC
+      #+END_SRC
+***** if-then 的高级特性
+      #+NAME: if-then 双括号
+      #+BEGIN_SRC shell
+    #!/bin/bash
+    # (( expression )) expression 可以是任意的数学赋值或比较表达式。
+    var1=10
+    if(( $var1 ** 2 > 90))
+    then
+	    (( $var2 = $var1 ** 2))
+	    echo "The square of $var1 is $var2."
+    fi
+      #+END_SRC
+
+      #+NAME: if-then 双方括号
+      #+BEGIN_SRC shell
+    #!/bin/bash
+    # [[ expression ]]
+    if[[ $USER == r* ]]
+    then
+	    echo "Hello $USER"
+  else
+	  echo "Sorry, I do not know you."
+    fi
+      #+END_SRC
+***** case 命令
+      : 格式：
+      case $变量名 in
+      模式1)
+      命令序列1;;
+      模式2)
+      命令序列2;;
+      *)
+      默认执行的命令序列;;
+      esac 
+      #+NAME: case
+      #+BEGIN_SRC shell
+	 #!/bin/bash
+	 case $action in
+	       start | begin)
+		       echo "start something"
+		       echo "begin something";;
+	       stop | end)
+		       echo "stop something"
+		       echo "end something";;
+	       *)
+	       echo "Ignorant.";;
+       esac
+      #+END_SRC
+***** for 命令
+      : 格式：
+      for var in list
+      do
+      commands
+      done
+      #+NAME: 遍历
+      #+BEGIN_SRC shell
+       #!/bin/bash
+       #
+       # basic for command
+       for country in China America India Japen
+       do
+	       echo "The next state is $country"
+       done
+
+       # another example of how not to use the for command
+       # 1.使用转义字符（反斜线）
+       # 2.使用双引号
+       for test in I don\'t know if "this'll" work
+       do
+	       echo "word:$test"
+       done
+
+       # using a variable to hold the list
+       list="China America India Japen"
+       list=$list" Connecticut"
+       for country in $list
+       do
+	       echo "Welcome to $country"
+       done
+
+       # reading values from a file
+       file="states"
+       # 修改IFS环境变量的值，使其只能识别换行符
+       IFS=$'\n'
+       for state in $(cat $file)
+       do
+	       echo "Visit beautiful $state"
+       done
+
+       # iterate through all the files in a directory
+       for file in $HOME/* /etc/nginx/*
+       do
+	       if [-d "$file"]
+	       then
+		       echo "$file is a directory."
+	       elif [-f "$file"]
+	       then
+		       echo "$file is a file."
+	       fi
+       done
+
+       # C-style for loop
+       #
+       for (( i=1; i <= 10; i++))
+       do
+	       echo "The next number is $i"
+       done
+       # multiple variable
+       for (( a=1; b=10;a <= 10; a++, b++))
+       do
+	       echo "$a - $b"
+       done
+      #+END_SRC
+***** while 命令
+      : 格式：
+      while test command
+      do
+      other commands
+      done
+      #+NAME: while
+      #+BEGIN_SRC shell
+       # while command test
+       var1=10
+       while [ $var1 -gt 0 ]
+       do
+	       echo $var1
+	       var1=$[ $var1 - 1 ]
+       done
+      #+END_SRC
+
+      #+RESULTS: while
+      | 10 |
+      |  9 |
+      |  8 |
+      |  7 |
+      |  6 |
+      |  5 |
+      |  4 |
+      |  3 |
+      |  2 |
+      |  1 |
+
+***** until 命令
+      : until 命令和 while 命令完全相反。
+      : 格式：
+      until test command
+      do
+      other commands
+      done
+      #+NAME:until
+      #+BEGIN_SRC shell -n 1
+       #!/bin/bash
+       # using the until command
+       var1=100
+       until [ $var1 -eq 0 ]
+       do
+	       echo $var1
+	       var1=$[ $var1 -25 ]
+       done
+      #+END_SRC
+
+      #+RESULTS: until
+      | 100 |
+      |  75 |
+      |  50 |
+      |  25 |
+
+      + 循环处理文件数据-处理
+	#+NAME: 循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
+	#+BEGIN_SRC shell -n 1
+    #!/bin/bash
+    # changing the IFS value
+    IFS.OLD=$IFS
+    IFS=$'\n'
+    for entry in $(cat /etc/passwd)
+    do
+	    echo "Values in $entry -"
+	    IFS=:
+	    for value in $entry
+	    do
+		    echo "$value"
+	    done
+    done
+    # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
+	#+END_SRC
 ***** test 命令
       : 格式：
       if test condition
@@ -1614,192 +1758,6 @@ photos:
 	    echo "I cannot write to the file."
     fi
       #+END_SRC
-***** if-then 的高级特性
-      #+NAME: if-then 双括号
-      #+BEGIN_SRC shell
-    #!/bin/bash
-    # (( expression )) expression 可以是任意的数学赋值或比较表达式。
-    var1=10
-    if(( $var1 ** 2 > 90))
-    then
-	    (( $var2 = $var1 ** 2))
-	    echo "The square of $var1 is $var2."
-    fi
-      #+END_SRC
-
-      #+NAME: if-then 双方括号
-      #+BEGIN_SRC shell
-    #!/bin/bash
-    # [[ expression ]]
-    if[[ $USER == r* ]]
-    then
-	    echo "Hello $USER"
-  else
-	  echo "Sorry, I do not know you."
-    fi
-      #+END_SRC
-      2. case 命令
-	 : 格式：
-	 case $变量名 in
-	 模式1)
-	 命令序列1;;
-	 模式2)
-	 命令序列2;;
-	 *)
-	 默认执行的命令序列;;
-	 esac 
-	 #+NAME: case
-	 #+BEGIN_SRC shell
-	 #!/bin/bash
-	 case $action in
-	       start | begin)
-		       echo "start something"
-		       echo "begin something";;
-	       stop | end)
-		       echo "stop something"
-		       echo "end something";;
-	       *)
-	       echo "Ignorant.";;
-       esac
-	 #+END_SRC
-      3. for 命令
-	 : 格式：
-	 for var in list
-	 do
-	 commands
-	 done
-	 #+NAME: 遍历
-	 #+BEGIN_SRC shell
-       #!/bin/bash
-       #
-       # basic for command
-       for country in China America India Japen
-       do
-	       echo "The next state is $country"
-       done
-
-       # another example of how not to use the for command
-       # 1.使用转义字符（反斜线）
-       # 2.使用双引号
-       for test in I don\'t know if "this'll" work
-       do
-	       echo "word:$test"
-       done
-
-       # using a variable to hold the list
-       list="China America India Japen"
-       list=$list" Connecticut"
-       for country in $list
-       do
-	       echo "Welcome to $country"
-       done
-
-       # reading values from a file
-       file="states"
-       # 修改IFS环境变量的值，使其只能识别换行符
-       IFS=$'\n'
-       for state in $(cat $file)
-       do
-	       echo "Visit beautiful $state"
-       done
-
-       # iterate through all the files in a directory
-       for file in $HOME/* /etc/nginx/*
-       do
-	       if [-d "$file"]
-	       then
-		       echo "$file is a directory."
-	       elif [-f "$file"]
-	       then
-		       echo "$file is a file."
-	       fi
-       done
-
-       # C-style for loop
-       #
-       for (( i=1; i <= 10; i++))
-       do
-	       echo "The next number is $i"
-       done
-       # multiple variable
-       for (( a=1; b=10;a <= 10; a++, b++))
-       do
-	       echo "$a - $b"
-       done
-	 #+END_SRC
-      4. while 命令
-	 : 格式：
-	 while test command
-	 do
-	 other commands
-	 done
-	 #+NAME: while
-	 #+BEGIN_SRC shell
-       # while command test
-       var1=10
-       while [ $var1 -gt 0 ]
-       do
-	       echo $var1
-	       var1=$[ $var1 - 1 ]
-       done
-	 #+END_SRC
-
-	 #+RESULTS: while
-	 | 10 |
-	 |  9 |
-	 |  8 |
-	 |  7 |
-	 |  6 |
-	 |  5 |
-	 |  4 |
-	 |  3 |
-	 |  2 |
-	 |  1 |
-
-      5. until 命令
-	 : until 命令和 while 命令完全相反。
-	 : 格式：
-	 until test command
-	 do
-	 other commands
-	 done
-	 #+NAME:until
-	 #+BEGIN_SRC shell -n 1
-       #!/bin/bash
-       # using the until command
-       var1=100
-       until [ $var1 -eq 0 ]
-       do
-	       echo $var1
-	       var1=$[ $var1 -25 ]
-       done
-	 #+END_SRC
-
-	 #+RESULTS: until
-	 | 100 |
-	 |  75 |
-	 |  50 |
-	 |  25 |
-
-      6. 应用
-	 + 循环处理文件数据-处理
-	   #+NAME: 循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
-	   #+BEGIN_SRC shell -n 1
-       #!/bin/bash
-       # changing the IFS value
-       IFS.OLD=$IFS
-       IFS=$'\n'
-       for entry in $(cat /etc/passwd)
-       do
-	       echo "Values in $entry -"
-	       IFS=:
-	       for value in $entry
-	       do
-		       echo "$value"
-	       done
-       done
-       # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
-	   #+END_SRC
 ***** break 命令
       #+NAME:控制循环
       #+BEGIN_SRC shell -n 1
@@ -1900,29 +1858,29 @@ photos:
 ***** 处理循环的输出
       : 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
       #+NAME:处理循环的输出
-      #+BEGIN_SRC emacs-lisp
- for file in /home/zrg/*
- do
- ...
- done > output.txt
+      #+BEGIN_SRC shell
+	for file in /home/zrg/*
+	do
+	...
+	done > output.txt
       #+END_SRC
 ***** 实例
       #+NAME:查找可执行文件
       #+BEGIN_SRC emacs-lisp
- #!/bin/bash
- # finding files in the PATH
- IF=:
- for folder in $PATH
- do
-	 echo "$folder:"
-	 for file in $folder/*
+	#!/bin/bash
+	# finding files in the PATH
+	IF=:
+	 for folder in $PATH
 	 do
-		 if [-x $file]
-		 then
-			 echo "$file"
-		 fi
-	 done
- done
+	  echo "$folder:"
+	  for file in $folder/*
+	  do
+	   if [-x $file]
+	   then
+	    echo "$file"
+	   fi
+	  done
+	done
       #+END_SRC
 
       #+NAME:创建多个用户账户
@@ -2195,17 +2153,17 @@ photos:
     1. 常见进程管理命令
        + top
        + ps ::
-	       list the processes running on the system
-	       : // 查看
-	       : $ ps -ef
+	 list the processes running on the system
+	 : // 查看
+	 : $ ps -ef
        + kill & killall ::
-			   send a signal to one or more processes (usually to "kill" a process)
+	 send a signal to one or more processes (usually to "kill" a process)
        + jobs ::
-		 an alternate way of listing your own processes
+	 an alternate way of listing your own processes
        + bg ::
-	       put a process in the background
+	 put a process in the background
        + fg ::
-	       put a process in the forground
+	 put a process in the forground
 *** 系统资源监控
 *** 例行性工作排程：系统定时任务
     1. 对于 Linux 用户

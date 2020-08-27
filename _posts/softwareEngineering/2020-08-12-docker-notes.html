@@ -1,0 +1,166 @@
+---
+layout: post
+title: Docker Notes
+author: zrg
+description: Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。
+excerpt: 
+comments: false
+categories: 
+- docker
+tags:
+- Docker
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+<div id="outline-container-org3e12039" class="outline-2">
+<h2 id="org3e12039"><span class="section-number-2">1</span> 简介 Introduction</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgdc71ad2" class="outline-3">
+<h3 id="orgdc71ad2"><span class="section-number-3">1.1</span> 什么是 Docker？</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+Docker 是个划时代的开源项目，它彻底释放了计算虚拟化的威力，极大提高了应用的维护效率，降低了云计算应用开发的成本！使用 Docker，可以让应用的部署、测试和分发都变得前所未有的高效和轻松！
+无论是应用开发者、运维人员、还是其他信息技术从业人员，都有必要认识和掌握 Docker，节约有限的生命。
+</pre>
+</div>
+</div>
+<div id="outline-container-orgdb422aa" class="outline-3">
+<h3 id="orgdb422aa"><span class="section-number-3">1.2</span> 为什么要使用 Docker?</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>更高效的利用系统资源</li>
+<li>更快速的启动时间</li>
+<li>一致的运行环境</li>
+<li>持续交付和部署</li>
+<li>更轻松的迁移</li>
+<li>更轻松的维护和扩展</li>
+<li><p>
+对比传统虚拟机总结
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">特性</th>
+<th scope="col" class="org-left">容器</th>
+<th scope="col" class="org-left">虚拟机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">启动</td>
+<td class="org-left">秒级</td>
+<td class="org-left">分钟级</td>
+</tr>
+
+<tr>
+<td class="org-left">硬盘使用</td>
+<td class="org-left">一般为 MB</td>
+<td class="org-left">一般为 GB</td>
+</tr>
+
+<tr>
+<td class="org-left">性能</td>
+<td class="org-left">接近原生</td>
+<td class="org-left">弱于</td>
+</tr>
+
+<tr>
+<td class="org-left">系统支持量</td>
+<td class="org-left">单机支持上千个容器</td>
+<td class="org-left">一般几十个</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org61fe82d" class="outline-3">
+<h3 id="org61fe82d"><span class="section-number-3">1.3</span> 基本概念</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li><p>
+镜像(Image)
+</p>
+<pre class="example">
+Docker 镜像，就相当于是一个 root 文件系统。比如官方镜像 ubuntu:18.04 就包含了完整的一套 Ubuntu 18.04 最小系统的 root 文件系统。
+
+Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。
+</pre></li>
+<li><p>
+分层存储
+Docker 利用了 <a href="https://en.wikipedia.org/wiki/Union_mount">Union FS</a> 的技术，将其设计为分层存储的架构。所以严格来说，镜像并非是像一个 ISO 那样的打包文件，镜像只是一个虚拟的概念，其实际体现并非由一个文件组成，而是由一组文件系统组成，或者说，由多层文件系统联合组成。
+</p>
+
+<pre class="example">
+镜像构建时，会一层层构建，前一层是后一层的基础。在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉
+</pre></li>
+<li><p>
+容器(Container)
+</p>
+<pre class="example">
+容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
+
+容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。
+
+每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，我们可以称这个为容器运行时读写而准备的存储层为容器存储层。
+</pre></li>
+<li>仓库(Repository)
+<b>Docker Registry</b> <br />
+<a href="https://yeasy.gitbooks.io/docker_practice/content/repository/registry.html">Docker Registry</a> 中可以包含多个仓库（Repository）；每个仓库可以包含多个标签（Tag）；每个标签对应一个镜像。
+<br />
+<b>Docker Registry 公开服</b> <br />
+开放给用户使用、允许用户管理镜像的 Registry 服务。一般这类公开服务允许用户免费上传、下载公开的镜像，并可能提供收费服务供用户管理私有镜像。</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc879d25" class="outline-2">
+<h2 id="orgc879d25"><span class="section-number-2">2</span> 常见操作</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org5f955ac" class="outline-3">
+<h3 id="org5f955ac"><span class="section-number-3">2.1</span> image</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-shell">$ docker search ubuntu
+$ docker pull ubuntu:18.04 // &#33719;&#21462;&#38236;&#20687;
+$ docker images
+$ docker image ls -a // &#26174;&#31034;&#21253;&#25324;&#20013;&#38388;&#23618;&#38236;&#20687;&#30340;&#25152;&#26377;&#38236;&#20687;
+$ docker image rm xxx
+$ docker history nginx:v2 // &#26597;&#30475;&#38236;&#20687;&#20869;&#30340;&#21382;&#21490;&#35760;&#24405;
+$ docker system df // &#26597;&#30475;&#38236;&#20687;&#12289;&#23481;&#22120;&#12289;&#25968;&#25454;&#21367;&#25152;&#21344;&#29992;&#30340;&#31354;&#38388;
+$ docker image prune // &#21024;&#38500;&#34394;&#24748;&#38236;&#20687;(dangling image)&#65288;&#26082;&#27809;&#26377;&#20179;&#24211;&#21517;&#65292;&#20063;&#27809;&#26377;&#26631;&#31614;&#65292;&#22343;&#20026; &lt;none&gt;&#65289;
+</pre>
+</div>
+
+<pre class="example">
+// 修改、提交镜像（Modify and commit image）
+$ docker run -t -i training/sinatra /bin/bash // 先使用下载的镜像启动容器。记下容器ID
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc7cdafb" class="outline-2">
+<h2 id="orgc7cdafb"><span class="section-number-2">3</span> 参考资料 References</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li><a href="https://yeasy.gitbooks.io/docker_practice/content/">Docker — 从入门到实践</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Union_mount">Union FS</a></li>
+</ul>
+</div>
+</div>
