@@ -2,7 +2,7 @@
 #+AUTHOR: Rengui Zhao
 #+EMAIL: zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -34,61 +34,88 @@ photos:
 If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
 # (setq org-export-html-style nil)
 
-* Git
-** Git vs SVN
-   + Git是分布式的，SVN不是；
-   + Git把内容按元数据方式存储，而SVN是按文件；
-   + Git分支与SVN的分支不同；
-   + Git没有一个全局的版本号，而SVN有；
-   + Git的内容完整性要优于SVN：Git内容存储使用的是SHA-1算法。。
-** Installation
-   + Ubuntu/Debian
-     : $ sudo apt-get install git
-     : $ sudo apt-get install git-doc git-svn git-email gitk
-   + RHEL/Fedora/CentOS
-     : $ yum install git
-     : $ yum install git-svn git-email gitk
-   + MacOS
-     : $ brew install git
+* Git vs SVN
+  + Git是分布式的，SVN不是；
+  + Git把内容按元数据方式存储，而SVN是按文件；
+  + Git分支与SVN的分支不同；
+  + Git没有一个全局的版本号，而SVN有；
+  + Git的内容完整性要优于SVN：Git内容存储使用的是SHA-1算法。。
+* Installing and Configuration
+** Installing
+  + Ubuntu/Debian
+    : $ sudo apt-get install git
+    : $ sudo apt-get install git-doc git-svn git-email gitk
+  + RHEL/Fedora/CentOS
+    : $ yum install git
+    : $ yum install git-svn git-email gitk
+  + MacOS
+    : $ brew install git
 ** Configuration
-   + Set username and email
-     : $ git config --global user.name "your name"
-     : $ git config --global user.email "your_email@youremail.com"
-   + Support chinese
-     : //UTF-8：
-     : $ git config --global core.quotepath false
-     : //GBK：
-     : $ git config --global i18n.logOutputEncoding gbk
-     : //录入提交说明的字符集：
-     : $ git config --global i18n.commitEncoding gbk
-   + Show config list
-     : $ git config -l
-   + Delete configuration
-     : $ git config --unset --global user.name
-     : $ git config --unset --global user.email
-** Getting and Creating Repository
-   1. 首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：
-      : $ git init
-   2. 检出仓库
-      : // 仓库在本地
-      : $ git clone /path/to/repository
-      : // 仓库在远端
-      : $ git clone username@host:/path/to/repository
-      : $ git clone git@github.com:xxx/hello_world.git //GitHub
-   3. 每次需要改动时，首先，拉取仓库（分支）最新内容(update)
-      : $ git pull
-      : $ git pull orgion master
-   4. 如果欲将本地初始化的仓库连接到某个远程服务器：
-      : $ git remote add origin <server>
-      : $ git remote add origin https://github.com/zhaorengui/test.git //GitHub
-      : $ git push -u origin master
-   5. 删除文件
-      : // 删除本地仓库文件
-      : $ rm test.php
-      : // 从Git仓库中删除文件
-      : $ git rm test.php
-** Commit process
-   \\
+  + Set username and email
+    : $ git config --global user.name "your name"
+    : $ git config --global user.email "your_email@youremail.com"
+  + Support chinese
+    : //UTF-8：
+    : $ git config --global core.quotepath false
+    : //GBK：
+    : $ git config --global i18n.logOutputEncoding gbk
+    : //录入提交说明的字符集：
+    : $ git config --global i18n.commitEncoding gbk
+  + Show config list
+    : $ git config -l
+  + Delete configuration
+    : $ git config --unset --global user.name
+    : $ git config --unset --global user.email
+* Get Started
+** Create Repository
+   : // Create a new repository
+   : $ echo "# This is a new repository" > README.md
+   : $ git init
+   : $ git add README.md
+   : $ git commit -m "first commit"
+   
+   : // 将创建的仓库推送到远端仓库
+   : $ git remote add origin git@github.com:xxx/repo-name.git
+   : $ git push -u origin master
+   
+   : // Push an existing repository
+   : $ git remote add origin git@github.com:xxx/repo-name.git
+   : $ git push -u origin master
+
+
+   : // 检出仓库
+   : // 仓库在本地
+   : $ git clone /path/to/repository
+   : // 仓库在远端
+   : $ git clone username@host:/path/to/repository
+   : $ git clone git@github.com:xxx/hello_world.git //GitHub
+   : // 拉取最新内容
+   : $ git pull
+   : $ git pull orgion master
+   
+   : // 删除文件
+   : // 删除本地仓库文件
+   : $ rm test.php
+   : // 从Git仓库中删除文件
+   : $ git rm test.php
+
+   : // 远程分支重命名
+   : $ git branch -m oldName newName
+   : $ git push --delete origin oldName // 删除远程分支
+   : $ git push origin newName // 上传新命名的本地分支
+   : $ git branch --set-upstream-to=origin/newName
+
+   : // 放弃本地所有的修改
+   : $ git checkout . && git clean -xdf
+
+   : // 内建的图形化 git：
+   : $ gitk
+   : //彩色的 git 输出：
+   : $ git config color.ui true
+
+   : //显示历史记录时，每个提交的信息只显示一行：
+   : $ git config format.pretty oneline
+** 提交流程 Commit Process
    本地仓库由 git 维护的三棵“树”组成。第一个是你的工作目录，它持有实际文；第二个是 缓存区（Index），它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。
    #+CAPTION: 提交流程1
    #+NAME:
@@ -138,7 +165,7 @@ If you have any questions abount this article, or if you have found any errors i
       丢弃本地的所有改动与提交，可以到服务器上获取最新的版本历史，并将你本地主分支指向它：
       : $ git fetch origin
       : $ git reset --hard origin/master
-** Branching and Merging
+** 分支与合并 Branch and Merge
 *** 理解分支
     #+CAPTION: 理解分支
     [[file:{{site.url}}/assets/images/branches.png]]
@@ -580,69 +607,30 @@ If you have any questions abount this article, or if you have found any errors i
 
     : //查看工作树和最新提交的差别
     : $git diff HEAD
-** 实用小贴士
-   : // 内建的图形化 git：
-   : $ gitk
-
-   : //彩色的 git 输出：
-   : $ git config color.ui true
-
-   : //显示历史记录时，每个提交的信息只显示一行：
-   : $ git config format.pretty oneline
-
-   : //交互式添加文件到暂存区：
-   : $ git add -i
-
-   : // 本地分支重名名
-   : $ git branch -m oldName newName
-   
-   : // 远程分支重命名
-   : $ git branch -m oldName newName
-   : $ git push --delete origin oldName // 删除远程分支
-   : $ git push origin newName // 上传新命名的本地分支
-   : $ git branch --set-upstream-to=origin/newName
 ** .gitignore
    : 以斜杠“/”开头表示目录；
    : 以星号“*”通配多个字符；
    : 以问号“?”通配单个字符
    : 以方括号“[]”包含单个字符的匹配列表；
    : 以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
-** Problems
-*** git: fatal: I don't handle protocol 'https'
-    + [[https://stackoverflow.com/questions/42193572/fatal-i-dont-handle-protocol-https/42194024][fatal：I don't handle protocol 'https']]
-*** error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received
-    : 解决：
-    : $ sudo apt purge git
-    : $ sudo apt install git
-*** git pull：fatal: refusing to merge unrelated histories
-    \\
-    合并pull两个不同的项目，问题解决：
-    \\
-    假若我在 Github 新建了一个仓库，在本地又初始化了一个新仓库，并且添加了很多与 Github 内容不同的文件和代码。此时，想把本地代码与远程 Github 仓库的代码合并，于是，通过 git pull origin master 命令拉取代码(origin 就是仓库，而 master 就是需要上传的分支)；然后，就输出 refusing to merge unrelated histories。
-    \\
-    因为是不同的两个仓库，要把两个不同的项目合并，需要添加 --allow-unrelated-histories 告诉 git 允许不相关历史合并，这句代码是在git 2.9.2版本发生的。
-    \\
-    假如我们的源是origin，分支是master，那么需要这样写：
-    : $ git pull origin master --allow-unrelated-histories
-    如果有设置了默认上传分支就可以用下面代码：
-    : $ git pull --allow-unrelated-histories
 * GitHub
 ** Introduction
+*** About GitHub
    \\
    官网地址：https://github.com/
    \\
    GitHub是一个利用Git进行版本控制、专门用于存放软件代码与内容的共享虚拟主机服务。它由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
    \\
    GitHub同时提供付费账户和免费账户。
-** 一些基本概念
-   + Repository(仓库) :: 用于存放项目源代码。
-   + Star(收藏) :: 收藏项目
-   + Fork(复制克隆项目) :: 
-   + Pull Request(发送请求) :: 基于Fork，修改或删除代码提交请求。
-   + Watch(关注) :: 假设项目有任何更新，第一时间收到通知消息。
-   + Issue(事务卡片) :: 发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。
-** 上传代码方式
-*** SSH方式传输
+*** Keyword
+    + Repository(仓库) :: 用于存放项目源代码。
+    + Star(收藏) :: 收藏项目
+    + Fork(复制克隆项目) :: 
+    + Pull Request(发送请求) :: 基于Fork，修改或删除代码提交请求。
+    + Watch(关注) :: 假设项目有任何更新，第一时间收到通知消息。
+    + Issue(事务卡片) :: 发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。
+** Upload Code to GitHub
+*** SSH
     \\
     使用SSH方式，在提交时，不需要输入用户名和密码。
     \\
@@ -655,16 +643,17 @@ If you have any questions abount this article, or if you have found any errors i
     \\
     验证是否成功:
     : $ ssh -T git@github.com 
-*** HTTPS方式传输
+*** HTTPS
     \\
     使用条件：1）本地配置了global；2）需要输入用户名和密码推送代码
 *** 配置免登录提交代码
     : $ vim .git/config
     : [remote "origin"]
     : url=https://github.com/用户名/仓库名.git
-    : 修改为：
-    : [remote "origin"]
-    : url=https://用户名:密码@github.com/用户名/仓库名.git
+    #+BEGIN_SRC shell
+      [remote "origin"]
+      url=https://用户名:密码@github.com/用户名/仓库名.git
+    #+END_SRC
 ** 开源项目贡献流程
    1. 新建Issue：提交问题或建议或想法。
    2. Pull Request：Fork项目，修改代码，发起修改请求。
@@ -687,6 +676,25 @@ If you have any questions abount this article, or if you have found any errors i
     1. 进入项目仓库主页，点击settings。
     2. 找到【Github Pages】，点击【Change theme】，选择主题来自动生成主题页面。
     3. 访问：https://用户名.github.io/仓库名
+* Problems
+** git: fatal: I don't handle protocol 'https'
+   + [[https://stackoverflow.com/questions/42193572/fatal-i-dont-handle-protocol-https/42194024][fatal：I don't handle protocol 'https']]
+** error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received
+   : 解决：
+   : $ sudo apt purge git
+   : $ sudo apt install git
+** git pull：fatal: refusing to merge unrelated histories
+   \\
+   合并pull两个不同的项目，问题解决：
+   \\
+   假若我在 Github 新建了一个仓库，在本地又初始化了一个新仓库，并且添加了很多与 Github 内容不同的文件和代码。此时，想把本地代码与远程 Github 仓库的代码合并，于是，通过 git pull origin master 命令拉取代码(origin 就是仓库，而 master 就是需要上传的分支)；然后，就输出 refusing to merge unrelated histories。
+   \\
+   因为是不同的两个仓库，要把两个不同的项目合并，需要添加 --allow-unrelated-histories 告诉 git 允许不相关历史合并，这句代码是在git 2.9.2版本发生的。
+   \\
+   假如我们的源是origin，分支是master，那么需要这样写：
+   : $ git pull origin master --allow-unrelated-histories
+   如果有设置了默认上传分支就可以用下面代码：
+   : $ git pull --allow-unrelated-histories
 * References
   + [[http://www.open-open.com/lib/view/open1328069889514.html][Git分支]]
   + [[https://git-scm.com/book/en/v2][git v2]]

@@ -2,7 +2,7 @@
 #+AUTHOR:    Zhao Rengui
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs2.swfc.edu.cn/org-info-js/org-info.js
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs2.swfu.edu.cn/org-info-js/org-manual.css" />
@@ -160,92 +160,6 @@ photos:
     | C-h t                 | Open emacs tutorial            |
     | M-x quit              | Exit help                      |
     | M-x org-entities-help | Org mode entities 特殊字符参考 |
-* Problems
-** Don't input chinese character
-   : $ vim ~/.bashrc
-   #+BEGIN_SRC shell
-     LC_CTYPE="zh_CN.utf8"
-   #+END_SRC
-
-   : $ sudo vim /etc/environment
-   #+BEGIN_SRC shell
-     LC_CTYPE="zh_CN.utf8"
-   #+END_SRC
-** Warning (server): Unable to start the Emacs server
-   *问题描述*
-   \\
-   Warning (server): Unable to start the Emacs server \\
-   There is an existing Emacs server, named "server". \\
-   To start the server in this Emacs process, stop the existing \\
-   server or call ‘M-x server-force-delete’ to forcibly disconnect it.
-   \\
-   *问题解决*
-   \\
-   打开 init.el 或 .emacs 文件，注释以下代码：（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
-   #+BEGIN_SRC shell
-   (server-start)
-   (setq server-socket-dir "~/.emacs.d/server")
-   #+END_SRC
-   \\
-   *参考资料*
-   + [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][39 Using Emacs as a Server]]* Customize
-** Basic Customize
-   [[https://github.com/zhaorengui/.emacs.d/blob/master/init.el][init.el]]
-
-   Emacs 快速设置生效命令: 
-   : M-x eval-buffer
-** Advanced Customize
-*** Plugins & Themes
-    1. 安装
-       \\
-       示例：安装 plantuml 插件
-       : M+x package-install <RET>
-       : plantuml-mode <RET>
-       \\
-       示例：安装 monokai-pro 主题（手动安装）
-       #+NAME: 加载 emacs package
-       #+BEGIN_SRC emacs-lisp
-       // 将添加到 ~/.emacs 或 ~/.emacs.d/init.el 文件
-       (add-to-list 'load-path "~/.emacs.d/lisp/")
-       (require 'plugin-name)
-       #+END_SRC
-    2. packages manager
-       \\
-       查看所有安装包
-       : M+x list-packages <RET>
-       \\
-       自动卸载无效的包
-       : M+x package-autoremove <RET>
-       \\
-       修改主题
-       : M-x customize-themes <RET> 
-*** General Plugins
-    #+CAPTION: General plugins
-    | Name             | Description     |
-    |------------------+-----------------|
-    | htmlize          | export to html. |
-    | org              |                 |
-    | org-plus-contrib |                 |
-    | planuml-mode     | PlanUML         |
-    | emmet-mode       | Emmet plugin    |
-** font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
-   *问题描述*
-   \\
-   M-x org-publish <RET> jekyll-zhaorengui-github-io
-   \\
-   font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
-   \\
-   *问题解决*
-   : #+BEGIN_SRC php
-   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
-   : #+END_SRC
-   : 
-   : 修改为
-   : 
-   : #+BEGIN_SRC php
-   : // 计算出本月第一天再减一个月
-   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
-   : #+END_SRC
 * org-mode
   Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
 ** Installation
@@ -514,9 +428,8 @@ photos:
        + 简单示例
 	 \\
 	 顺序图用 -> , -->, <-, <-- 来绘制参与者（Participants）之 间的消息（Message）。
-	 #+NAME: Example code
-	 #+BEGIN_SRC emacs-lisp
-	 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
+
+         #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-s1.png
 	 Alice -> Bob: Authentication Request
 	 Bob --> Alice: Authentication Response
 	 ' 这是注释，使用了“'” 进行单行或多行注释
@@ -805,7 +718,6 @@ photos:
 	 #+RESULTS: Using HTML
 	 [[file:{{site.url}}/assets/images/plantuml-quickstart-s17.png]]
     2. 用例图(Use Case Diagram)
-       + 用例图示例
 	 \\
 	 *用例*
 	 \\
@@ -814,24 +726,25 @@ photos:
 	 *参与者(Actors)*
 	 \\
 	 定义参与者时，可以把参与者的名称放在两个冒号的中间，也可以用 actor 关键词来定义参与者。同样参与着也可以使用别名。
-	 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-u1.png
-	 @startuml
-	 (Usecase One)
-	 (Usecase Two) as (UC2)
-	 usecase UC3
-	 usecase (Last\nusecase) as UC4
 
-	 left to right direction
-	 skinparam packageStyle rect
-	 actor customer
-	 actor clerk
-	 rectangle checkout {
-	    customer -- (checkout)
-	    (checkout) .> (payment) : include
-	    (help) .> (checkout) : extends
-	    (checkout) -- clerk
-	 }
-	 @enduml
+         #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/plantuml-quickstart-u1.png
+	   @startuml
+	   (Usecase One)
+	   (Usecase Two) as (UC2)
+	   usecase UC3
+	   usecase (Last\nusecase) as UC4
+
+	   left to right direction
+	   skinparam packageStyle rect
+	   actor customer
+	   actor clerk
+	   rectangle checkout {
+	      customer -- (checkout)
+	      (checkout) .> (payment) : include
+	      (help) .> (checkout) : extends
+	      (checkout) -- clerk
+	   }
+	   @enduml
 	 #+END_SRC
 
 	 #+RESULTS:
@@ -1066,7 +979,6 @@ photos:
 
 	 #+RESULTS: 完整示例2
 	 [[file:{{site.url}}/assets/images/plantuml-quickstart-a13.png]]
-
     5. 活动图Beta版本
        + 完整示例1 
 	 \\
@@ -1236,7 +1148,6 @@ photos:
 
 	 #+RESULTS: beta example
 	 [[file:{{site.url}}/assets/images/plantuml-quickstart-b2.png]]
-
 *** 快捷键(Keyboard)
     #+CAPTION:Default key bindings
     | 快捷键          | 描述                                                                                              |
@@ -1244,6 +1155,92 @@ photos:
     | C-c C-c         | plantuml-preview: renders a PlantUML diagram from the current buffer in the best supported format |
     | C-u C-c C-c     | plantuml-preview in other window                                                                  |
     | C-u C-u C-c C-c | plantuml-preview in other frame                                                                   |
+* Problems
+** Don't input chinese character
+   : $ vim ~/.bashrc
+   #+BEGIN_SRC shell
+     LC_CTYPE="zh_CN.utf8"
+   #+END_SRC
+
+   : $ sudo vim /etc/environment
+   #+BEGIN_SRC shell
+     LC_CTYPE="zh_CN.utf8"
+   #+END_SRC
+** Warning (server): Unable to start the Emacs server
+   *问题描述*
+   \\
+   Warning (server): Unable to start the Emacs server \\
+   There is an existing Emacs server, named "server". \\
+   To start the server in this Emacs process, stop the existing \\
+   server or call ‘M-x server-force-delete’ to forcibly disconnect it.
+   \\
+   *问题解决*
+   \\
+   打开 init.el 或 .emacs 文件，注释以下代码：（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
+   #+BEGIN_SRC shell
+   (server-start)
+   (setq server-socket-dir "~/.emacs.d/server")
+   #+END_SRC
+   \\
+   *参考资料*
+   + [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][39 Using Emacs as a Server]]* Customize
+** Basic Customize
+   [[https://github.com/zhaorengui/.emacs.d/blob/master/init.el][init.el]]
+
+   Emacs 快速设置生效命令: 
+   : M-x eval-buffer
+** Advanced Customize
+*** Plugins & Themes
+    1. 安装
+       \\
+       示例：安装 plantuml 插件
+       : M+x package-install <RET>
+       : plantuml-mode <RET>
+       \\
+       示例：安装 monokai-pro 主题（手动安装）
+       #+NAME: 加载 emacs package
+       #+BEGIN_SRC emacs-lisp
+	 // 将添加到 ~/.emacs 或 ~/.emacs.d/init.el 文件
+	 (add-to-list 'load-path "~/.emacs.d/lisp/")
+	 (require 'plugin-name)
+       #+END_SRC
+    2. packages manager
+       \\
+       查看所有安装包
+       : M+x list-packages <RET>
+       \\
+       自动卸载无效的包
+       : M+x package-autoremove <RET>
+       \\
+       修改主题
+       : M-x customize-themes <RET> 
+*** General Plugins
+    #+CAPTION: General plugins
+    | Name             | Description     |
+    |------------------+-----------------|
+    | htmlize          | export to html. |
+    | org              |                 |
+    | org-plus-contrib |                 |
+    | planuml-mode     | PlanUML         |
+    | emmet-mode       | Emmet plugin    |
+** font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
+   *问题描述*
+   \\
+   M-x org-publish <RET> jekyll-zhaorengui-github-io
+   \\
+   font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
+   \\
+   *问题解决*
+   : #+BEGIN_SRC php
+   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
+   : #+END_SRC
+   : 
+   : 修改为
+   : 
+   : #+BEGIN_SRC php
+   : // 计算出本月第一天再减一个月
+   : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
+   : #+END_SRC
 * References
   + [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
   + [[https://baike.baidu.com/item/emacs][emacs 百度百科]]
