@@ -37,7 +37,6 @@ Emacs 使用 Emacs Lisp，这种有着极强扩展性的编程语言，从而实
 <div class="outline-text-3" id="text-2-1">
 <pre class="example">
 $ emacs -nw filename
-
 </pre>
 </div>
 </div>
@@ -665,228 +664,26 @@ $ emacs -nw filename
 </div>
 </div>
 </div>
-<div id="outline-container-orge224103" class="outline-2">
-<h2 id="orge224103"><span class="section-number-2">3</span> Problems</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-orgac97d25" class="outline-3">
-<h3 id="orgac97d25"><span class="section-number-3">3.1</span> Don't input chinese character</h3>
-<div class="outline-text-3" id="text-3-1">
-<pre class="example">
-$ vim ~/.bashrc
-
-</pre>
-<div class="org-src-container">
-<pre class="src src-shell"><span style="color: #FD971F;">LC_CTYPE</span>=<span style="color: #E6DB74;">"zh_CN.utf8"</span>
-</pre>
-</div>
-
-<pre class="example">
-$ sudo vim /etc/environment
-
-</pre>
-<div class="org-src-container">
-<pre class="src src-shell"><span style="color: #FD971F;">LC_CTYPE</span>=<span style="color: #E6DB74;">"zh_CN.utf8"</span>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgb0c4aad" class="outline-3">
-<h3 id="orgb0c4aad"><span class="section-number-3">3.2</span> Warning (server): Unable to start the Emacs server</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-<b>问题描述</b>
-<br />
-Warning (server): Unable to start the Emacs server <br />
-There is an existing Emacs server, named "server". <br />
-To start the server in this Emacs process, stop the existing <br />
-server or call ‘M-x server-force-delete’ to forcibly disconnect it.
-<br />
-<b>问题解决</b>
-<br />
-打开 init.el 或 .emacs 文件，注释以下代码：（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
-</p>
-<div class="org-src-container">
-<pre class="src src-shell">(server-start)
-(setq server-socket-dir <span style="color: #E6DB74;">"~/.emacs.d/server"</span>)
-</pre>
-</div>
-<p>
-<br />
-<b>参考资料</b>
-</p>
-<ul class="org-ul">
-<li><a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html">39 Using Emacs as a Server</a>* Customize</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org4432eb3" class="outline-3">
-<h3 id="org4432eb3"><span class="section-number-3">3.3</span> Basic Customize</h3>
-<div class="outline-text-3" id="text-3-3">
-<p>
-<a href="https://github.com/zhaorengui/.emacs.d/blob/master/init.el">init.el</a>
-</p>
-
-<p>
-Emacs 快速设置生效命令: 
-</p>
-<pre class="example">
-M-x eval-buffer
-
-</pre>
-</div>
-</div>
-<div id="outline-container-org32987e8" class="outline-3">
-<h3 id="org32987e8"><span class="section-number-3">3.4</span> Advanced Customize</h3>
-<div class="outline-text-3" id="text-3-4">
-</div>
-<div id="outline-container-org95f8b05" class="outline-4">
-<h4 id="org95f8b05"><span class="section-number-4">3.4.1</span> Plugins &amp; Themes</h4>
-<div class="outline-text-4" id="text-3-4-1">
-<ol class="org-ol">
-<li><p>
-安装
-<br />
-示例：安装 plantuml 插件
-</p>
-<pre class="example">
-M+x package-install &lt;RET&gt;
-plantuml-mode &lt;RET&gt;
-
-</pre>
-<p>
-<br />
-示例：安装 monokai-pro 主题（手动安装）
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org135f055">// &#23558;&#28155;&#21152;&#21040; ~/.emacs &#25110; ~/.emacs.d/init.el &#25991;&#20214;
-(add-to-list 'load-path <span style="color: #E6DB74;">"~/.emacs.d/lisp/"</span>)
-(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">plugin-name</span>)
-</pre>
-</div></li>
-<li><p>
-packages manager
-<br />
-查看所有安装包
-</p>
-<pre class="example">
-M+x list-packages &lt;RET&gt;
-
-</pre>
-<p>
-<br />
-自动卸载无效的包
-</p>
-<pre class="example">
-M+x package-autoremove &lt;RET&gt;
-
-</pre>
-<p>
-<br />
-修改主题
-</p>
-<pre class="example">
-M-x customize-themes &lt;RET&gt; 
-
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org4a91752" class="outline-4">
-<h4 id="org4a91752"><span class="section-number-4">3.4.2</span> General Plugins</h4>
-<div class="outline-text-4" id="text-3-4-2">
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 9:</span> General plugins</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Name</th>
-<th scope="col" class="org-left">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">htmlize</td>
-<td class="org-left">export to html.</td>
-</tr>
-
-<tr>
-<td class="org-left">org</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">org-plus-contrib</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">planuml-mode</td>
-<td class="org-left">PlanUML</td>
-</tr>
-
-<tr>
-<td class="org-left">emmet-mode</td>
-<td class="org-left">Emmet plugin</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="outline-container-org9aef024" class="outline-3">
-<h3 id="org9aef024"><span class="section-number-3">3.5</span> font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals</h3>
-<div class="outline-text-3" id="text-3-5">
-<p>
-<b>问题描述</b>
-<br />
-M-x org-publish &lt;RET&gt; jekyll-zhaorengui-github-io
-<br />
-font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
-<br />
-<b>问题解决</b>
-</p>
-<pre class="example">
-#+BEGIN_SRC php
-echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
-#+END_SRC
-
-修改为
-
-#+BEGIN_SRC php
-// 计算出本月第一天再减一个月
-echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
-#+END_SRC
-
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-org6e0a083" class="outline-2">
-<h2 id="org6e0a083"><span class="section-number-2">4</span> org-mode</h2>
-<div class="outline-text-2" id="text-4">
+<h2 id="org6e0a083"><span class="section-number-2">3</span> org-mode</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
 </p>
 </div>
 <div id="outline-container-org396ee35" class="outline-3">
-<h3 id="org396ee35"><span class="section-number-3">4.1</span> Installation</h3>
-<div class="outline-text-3" id="text-4-1">
+<h3 id="org396ee35"><span class="section-number-3">3.1</span> Installation</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 read more: <a href="https://orgmode.org/">https://orgmode.org/</a>
 </p>
 </div>
 </div>
 <div id="outline-container-org1afdf4f" class="outline-3">
-<h3 id="org1afdf4f"><span class="section-number-3">4.2</span> Org-mode Keyboard</h3>
-<div class="outline-text-3" id="text-4-2">
+<h3 id="org1afdf4f"><span class="section-number-3">3.2</span> Org-mode Keyboard</h3>
+<div class="outline-text-3" id="text-3-2">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 10:</span> org-mode keyboard</caption>
+<caption class="t-above"><span class="table-number">Table 9:</span> org-mode keyboard</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -974,49 +771,47 @@ read more: <a href="https://orgmode.org/">https://orgmode.org/</a>
 </div>
 </div>
 <div id="outline-container-org77541e8" class="outline-3">
-<h3 id="org77541e8"><span class="section-number-3">4.3</span> 一些快捷操作</h3>
-<div class="outline-text-3" id="text-4-3">
+<h3 id="org77541e8"><span class="section-number-3">3.3</span> 一些快捷操作</h3>
+<div class="outline-text-3" id="text-3-3">
 <pre class="example">
 // 快速输入 #+BEGIN_SRC ... #+END_SRC
 &lt;s &lt;TAB&gt;
-
 </pre>
+
 
 <pre class="example">
 // 快速输入 #+BEGIN_EXAMPLE ... #+END_EXAMPLE
 &lt;e &lt;TAB&gt;
-
 </pre>
+
 
 <pre class="example">
 // 快速输入 #+BEGIN_EXPORT html ... #+END_EXPORT
 输入&lt;h &lt;TAB&gt;
-
 </pre>
+
 
 <pre class="example">
 // 快速输入 #+BEGIN_EXPORT latex ... #+END_EXPORT
 &lt;l &lt;TAB&gt;
-
 </pre>
 </div>
 </div>
 <div id="outline-container-org5f7358b" class="outline-3">
-<h3 id="org5f7358b"><span class="section-number-3">4.4</span> 基本语法</h3>
-<div class="outline-text-3" id="text-4-4">
+<h3 id="org5f7358b"><span class="section-number-3">3.4</span> 基本语法</h3>
+<div class="outline-text-3" id="text-3-4">
 </div>
 <div id="outline-container-orgac3aaa1" class="outline-4">
-<h4 id="orgac3aaa1"><span class="section-number-4">4.4.1</span> Title</h4>
-<div class="outline-text-4" id="text-4-4-1">
+<h4 id="orgac3aaa1"><span class="section-number-4">3.4.1</span> Title</h4>
+<div class="outline-text-4" id="text-3-4-1">
 <pre class="example">
 #+TITLE: GNU Emacs
-
 </pre>
 </div>
 </div>
 <div id="outline-container-org71c0c2a" class="outline-4">
-<h4 id="org71c0c2a"><span class="section-number-4">4.4.2</span> Font</h4>
-<div class="outline-text-4" id="text-4-4-2">
+<h4 id="org71c0c2a"><span class="section-number-4">3.4.2</span> Font</h4>
+<div class="outline-text-4" id="text-3-4-2">
 <pre class="example">
 *粗体*
 /斜体/
@@ -1025,23 +820,21 @@ _下划线_
 下标：H_2 O(这里必须留一个空格要不然2和O都成为小标，目前还不知道怎么去掉空格)
 上标：E=mc^2
 等宽字： =git=，~code~
-
 </pre>
 </div>
 </div>
 <div id="outline-container-org17372f4" class="outline-4">
-<h4 id="org17372f4"><span class="section-number-4">4.4.3</span> 段落(paragraph)</h4>
-<div class="outline-text-4" id="text-4-4-3">
+<h4 id="org17372f4"><span class="section-number-4">3.4.3</span> 段落(paragraph)</h4>
+<div class="outline-text-4" id="text-3-4-3">
 <pre class="example">
 使用 \\ 换行
 空一行代表重新起段落
-
 </pre>
 </div>
 </div>
 <div id="outline-container-org54821a4" class="outline-4">
-<h4 id="org54821a4"><span class="section-number-4">4.4.4</span> List</h4>
-<div class="outline-text-4" id="text-4-4-4">
+<h4 id="org54821a4"><span class="section-number-4">3.4.4</span> List</h4>
+<div class="outline-text-4" id="text-3-4-4">
 <ol class="org-ol">
 <li>有序列表
 <ul class="org-ul">
@@ -1053,7 +846,7 @@ _下划线_
 列表相关快捷键
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 11:</span> 折叠</caption>
+<caption class="t-above"><span class="table-number">Table 10:</span> 折叠</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1079,7 +872,7 @@ _下划线_
 </tbody>
 </table>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 12:</span> 大纲或者列表之间移动</caption>
+<caption class="t-above"><span class="table-number">Table 11:</span> 大纲或者列表之间移动</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1115,7 +908,7 @@ _下划线_
 </tbody>
 </table>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 13:</span> 基于大纲/标题的编辑</caption>
+<caption class="t-above"><span class="table-number">Table 12:</span> 基于大纲/标题的编辑</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1179,8 +972,8 @@ _下划线_
 </div>
 </div>
 <div id="outline-container-org7af7f3f" class="outline-4">
-<h4 id="org7af7f3f"><span class="section-number-4">4.4.5</span> 嵌入元数据</h4>
-<div class="outline-text-4" id="text-4-4-5">
+<h4 id="org7af7f3f"><span class="section-number-4">3.4.5</span> 嵌入元数据</h4>
+<div class="outline-text-4" id="text-3-4-5">
 <ol class="org-ol">
 <li>内容元数据
 <ul class="org-ul">
@@ -1196,7 +989,6 @@ c 为所添加的语言
 -t 清除格式
 -h 7 设置高度为7
 -w 40设置宽度为40
-
 </pre></li>
 <li><p>
 注释
@@ -1206,7 +998,6 @@ c 为所添加的语言
 块注释
 ...
 #+END_COMMENT
-
 </pre></li>
 <li><p>
 表格与图片
@@ -1214,7 +1005,6 @@ c 为所添加的语言
 <pre class="example">
 #+CAPTION: This is the caption for the next table (or link)
 则在需要的地方可以通过 \ref{table1} 来引用该表格。
-
 </pre></li>
 <li><p>
 嵌入HTML
@@ -1223,21 +1013,19 @@ c 为所添加的语言
 #+BEGIN_EXPORT html
 All lines between these markers are exported literally
 #+END_EXPORT
-
 </pre></li>
 <li><p>
 包含文件
 </p>
 <pre class="example">
 #+INCLUDE: "~/.emacs" src emacs-lisp
-
 </pre></li>
 </ul></li>
 <li><p>
 文档元数据
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 14:</span> 文档元数据</caption>
+<caption class="t-above"><span class="table-number">Table 13:</span> 文档元数据</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1280,14 +1068,14 @@ All lines between these markers are exported literally
 </div>
 </div>
 <div id="outline-container-org3439417" class="outline-4">
-<h4 id="org3439417"><span class="section-number-4">4.4.6</span> Table</h4>
-<div class="outline-text-4" id="text-4-4-6">
+<h4 id="org3439417"><span class="section-number-4">3.4.6</span> Table</h4>
+<div class="outline-text-4" id="text-3-4-6">
 <ol class="org-ol">
 <li><p>
 快捷键
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
-<caption class="t-above"><span class="table-number">Table 15:</span> 整体区域</caption>
+<caption class="t-above"><span class="table-number">Table 14:</span> 整体区域</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1328,7 +1116,7 @@ All lines between these markers are exported literally
 </tbody>
 </table>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 16:</span> 编辑行和列</caption>
+<caption class="t-above"><span class="table-number">Table 15:</span> 编辑行和列</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1402,7 +1190,7 @@ All lines between these markers are exported literally
 表格计算
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 17:</span> 一张价格表，要求算出总额</caption>
+<caption class="t-above"><span class="table-number">Table 16:</span> 一张价格表，要求算出总额</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1448,14 +1236,13 @@ All lines between these markers are exported literally
 C-u C-c C-c 强制 org-mode 为整个表格进行设计。只希望在某一特定项上进行计算，输入：':=$1*$2′, 即在等号前再加一个冒号。
 &lt;5&gt; 表示指定列的宽度，超出宽度的部分会用=&gt;表示，如果想要编辑，需要按下C-c ` ，会打开另一个buffer让你编辑, 用C-c C-c提交编辑内容。
 &lt;l&gt; 表示左对齐，r,c,l字符分别表示右、中和左对齐。
-
 </pre></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-orgc9b02eb" class="outline-4">
-<h4 id="orgc9b02eb"><span class="section-number-4">4.4.7</span> Link</h4>
-<div class="outline-text-4" id="text-4-4-7">
+<h4 id="orgc9b02eb"><span class="section-number-4">3.4.7</span> Link</h4>
+<div class="outline-text-4" id="text-3-4-7">
 <p>
 在一个链接上按C-c C-o即可访问。
 </p>
@@ -1468,7 +1255,6 @@ C-u C-c C-c 强制 org-mode 为整个表格进行设计。只希望在某一特�
 <pre class="example">
 [[link][description]]
 [[link]]
-
 </pre></li>
 <li><p>
 内部链接
@@ -1476,45 +1262,43 @@ C-u C-c C-c 强制 org-mode 为整个表格进行设计。只希望在某一特�
 <pre class="example">
 #&lt;&lt;target&gt;&gt;
 设置到target的链接：[[target]] 或 [[target][猛击锚点]]
-
 </pre></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-org6a9324f" class="outline-4">
-<h4 id="org6a9324f"><span class="section-number-4">4.4.8</span> 注脚</h4>
-<div class="outline-text-4" id="text-4-4-8">
+<h4 id="org6a9324f"><span class="section-number-4">3.4.8</span> 注脚</h4>
+<div class="outline-text-4" id="text-3-4-8">
 <p>
 注脚的格式有两种，一是方括号+数字，二是方括号+fn+名字。插入脚注：C-c C-x f ，接下俩你可以写一些其他东西，然后在文章的末尾写上下面两句话（注意：必须要顶格写）：
 </p>
 <pre class="example">
 [1] The link is: http://orgmode.org
 [fn:orghome] The link is: http://orgmode.org
-
 </pre>
 </div>
 </div>
 <div id="outline-container-orgbde42b3" class="outline-4">
-<h4 id="orgbde42b3"><span class="section-number-4">4.4.9</span> 分割线</h4>
-<div class="outline-text-4" id="text-4-4-9">
+<h4 id="orgbde42b3"><span class="section-number-4">3.4.9</span> 分割线</h4>
+<div class="outline-text-4" id="text-3-4-9">
 <pre class="example">
 五条短线或以上
-
 </pre>
+
 <hr />
 </div>
 </div>
 <div id="outline-container-orgebc0528" class="outline-4">
-<h4 id="orgebc0528"><span class="section-number-4">4.4.10</span> 标签</h4>
-<div class="outline-text-4" id="text-4-4-10">
+<h4 id="orgebc0528"><span class="section-number-4">3.4.10</span> 标签</h4>
+<div class="outline-text-4" id="text-3-4-10">
 <ol class="org-ol">
 <li><p>
 标记tags
 </p>
 <pre class="example">
 #+FILETAGS: :Peter:Boss:Secret:
-
 </pre>
+
 <p>
 更方便的做法是在正文部分用C-c C-q 或直接在标题上用C-c C-c创建标签
 </p></li>
@@ -1529,7 +1313,6 @@ C-u C-c C-c 强制 org-mode 为整个表格进行设计。只希望在某一特�
 使用#+TAGS元数据进行标记， #+TAGS: { 桌面(d) 服务器(s) }  编辑器(e) 浏览器(f) 多媒体(m) 压缩(z)
 每项之间必须用空格分隔，可以在括号中定义一个快捷键；
 花括号里的为标签组，只能选择一个对标签定义进行修改后，要在标签定义的位置按 C-c C-c 刷新才能生效。
-
 </pre></li>
 <li><p>
 在配置文件中定义
@@ -1551,7 +1334,7 @@ C-u C-c C-c 强制 org-mode 为整个表格进行设计。只希望在某一特�
 tags查询
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 18:</span> tags查询快捷键</caption>
+<caption class="t-above"><span class="table-number">Table 17:</span> tags查询快捷键</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -1586,22 +1369,21 @@ tags查询
 -   排除    a-b   有 a 但没有 b
 |   或      a|b   有 a 或者有 b
 &amp;   和      a&amp;b   同时有 a 和 b，可以用“+”替代
-
 </pre></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-orga44fadc" class="outline-4">
-<h4 id="orga44fadc"><span class="section-number-4">4.4.11</span> org mode entities</h4>
-<div class="outline-text-4" id="text-4-4-11">
+<h4 id="orga44fadc"><span class="section-number-4">3.4.11</span> org mode entities</h4>
+<div class="outline-text-4" id="text-3-4-11">
 <p>
 M-x org-entities-help &lt;RET&gt; 
 </p>
 </div>
 </div>
 <div id="outline-container-org6f05610" class="outline-4">
-<h4 id="org6f05610"><span class="section-number-4">4.4.12</span> Source Code</h4>
-<div class="outline-text-4" id="text-4-4-12">
+<h4 id="org6f05610"><span class="section-number-4">3.4.12</span> Source Code</h4>
+<div class="outline-text-4" id="text-3-4-12">
 <ol class="org-ol">
 <li><p>
 Structure of Code Blocks
@@ -1611,8 +1393,8 @@ Structure of Code Blocks
 #+BEGIN_SRC &lt;language&gt; &lt;switches&gt; &lt;header arguments&gt;
 &lt;body&gt;
 #+END_SRC
-
 </pre>
+
 
 <dl class="org-dl">
 <dt>'&lt;switches&gt;'</dt><dd>Optional. Switches provide finer control of the code execution, export, and format(see the discussion of switches in <a href="https://orgmode.org/org.html#Literal-Examples">Literal Examples</a>).</dd>
@@ -1626,12 +1408,12 @@ Structure of Code Blocks
 </div>
 
 <div id="outline-container-orgd24d215" class="outline-3">
-<h3 id="orgd24d215"><span class="section-number-3">4.5</span> PlantUML</h3>
-<div class="outline-text-3" id="text-4-5">
+<h3 id="orgd24d215"><span class="section-number-3">3.5</span> PlantUML</h3>
+<div class="outline-text-3" id="text-3-5">
 </div>
 <div id="outline-container-org9a3526d" class="outline-4">
-<h4 id="org9a3526d"><span class="section-number-4">4.5.1</span> 什么是 PlantUML?</h4>
-<div class="outline-text-4" id="text-4-5-1">
+<h4 id="org9a3526d"><span class="section-number-4">3.5.1</span> 什么是 PlantUML?</h4>
+<div class="outline-text-4" id="text-3-5-1">
 <p>
 PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例：
 </p>
@@ -1655,8 +1437,8 @@ PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例
 </div>
 </div>
 <div id="outline-container-orgd2de275" class="outline-4">
-<h4 id="orgd2de275"><span class="section-number-4">4.5.2</span> 配置 Emacs 支持 PlantUML</h4>
-<div class="outline-text-4" id="text-4-5-2">
+<h4 id="orgd2de275"><span class="section-number-4">3.5.2</span> 配置 Emacs 支持 PlantUML</h4>
+<div class="outline-text-4" id="text-3-5-2">
 <ol class="org-ol">
 <li>下载 plantuml.jar 到你的硬盘上
 <a href="http://www.plantuml.com/download.html">官网下载页面</a></li>
@@ -1665,7 +1447,6 @@ PlantUML是一个快速创建UML图形的组件。下面是一个简单的示例
 </p>
 <pre class="example">
 $ sudo apt install graphviz
-
 </pre></li>
 <li><p>
 配置 Emacs 支持 PlantUML
@@ -1697,20 +1478,19 @@ PlantUML mode for Emacs
 <pre class="example">
 M-x package-install &lt;RET&gt;
 plantuml-mode &lt;RET&gt;
-
 </pre>
+
 
 <pre class="example">
 M-x customize-variable &lt;RET&gt;
 plantuml-jar-path &lt;RET&gt;
-
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org7214437" class="outline-4">
-<h4 id="org7214437"><span class="section-number-4">4.5.3</span> 使用 PlantUML 绘制顺序图、用例图、类图和流程图</h4>
-<div class="outline-text-4" id="text-4-5-3">
+<div id="outline-container-org5a280c3" class="outline-4">
+<h4 id="org5a280c3"><span class="section-number-4">3.5.3</span> 使用 PlantUML 绘制顺序图、用例图、类图和流程图</h4>
+<div class="outline-text-4" id="text-3-5-3">
 <ol class="org-ol">
 <li>顺序图(Sequence Diagram)
 <ul class="org-ul">
@@ -1719,14 +1499,11 @@ plantuml-jar-path &lt;RET&gt;
 <br />
 顺序图用 -&gt; , &#x2013;&gt;, &lt;-, &lt;&#x2013; 来绘制参与者（Participants）之 间的消息（Message）。
 </p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org56aef41">#+BEGIN_SRC plantuml <span style="color: #F92672;">:file</span> {{site.url}}/assets/images/plantuml-quickstart-s1.png
-Alice -&gt; Bob: Authentication Request
-Bob --&gt; Alice: Authentication Response
-' &#36825;&#26159;&#27880;&#37322;&#65292;&#20351;&#29992;&#20102;&#8220;'&#8221; &#36827;&#34892;&#21333;&#34892;&#25110;&#22810;&#34892;&#27880;&#37322;
-Alice -&gt; Bob: Another atuhentication Request
-Alice &lt;-- Bob: Another authentication Response
-</pre>
+
+
+<div class="figure">
+<p><img src="{{site.url}}/assets/images/plantuml-quickstart-s1.png" alt="plantuml-quickstart-s1.png" />
+</p>
 </div>
 
 
@@ -1780,7 +1557,7 @@ Alice &lt;-- Bob: Another authentication Response
 关键词 newpage 是用来把图形分割成几个图片的。每一个被分割出来的 图片可以看作是一个新的页面（ new page ），如果要给新的页面添加一 个标题，可以紧跟在关键词 newpage 之后来设置。
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgc5c80b9">' &#35201;&#32473;&#22270;&#24418;&#21152;&#19968;&#20010;&#26631;&#39064;&#21487;&#20197;&#29992; title &#20851;&#38190;&#35789;&#26469;&#35774;&#32622;&#12290;
+<pre class="src src-emacs-lisp" id="org85dac26">' &#35201;&#32473;&#22270;&#24418;&#21152;&#19968;&#20010;&#26631;&#39064;&#21487;&#20197;&#29992; title &#20851;&#38190;&#35789;&#26469;&#35774;&#32622;&#12290;
 title Simple Comunication example
 actor Bob
 boundary Lily #red
@@ -1860,7 +1637,7 @@ endlegend
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgc15910f">Alice -&gt; Bob: Authentication Request
+<pre class="src src-emacs-lisp" id="orgbc4457c">Alice -&gt; Bob: Authentication Request
 note left: this is a first note
 alt successful case
 Bob -&gt; Alice: Authentication Accepted
@@ -1917,7 +1694,7 @@ end note
 </ul>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org042eb23">participant Alice
+<pre class="src src-emacs-lisp" id="orgb9328aa">participant Alice
 participant <span style="color: #E6DB74;">"The &lt;b&gt;Famous&lt;/b&gt; Bob"</span> as Bob
 
 Alice -&gt; Bob : A &lt;i&gt;well formated&lt;/i&gt; message
@@ -1941,10 +1718,8 @@ end note
 </p>
 </div></li>
 </ul></li>
-<li>用例图(Use Case Diagram)
-<ul class="org-ul">
 <li><p>
-用例图示例
+用例图(Use Case Diagram)
 <br />
 <b>用例</b>
 <br />
@@ -1955,11 +1730,11 @@ end note
 定义参与者时，可以把参与者的名称放在两个冒号的中间，也可以用 actor 关键词来定义参与者。同样参与着也可以使用别名。
 </p>
 
+
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/plantuml-quickstart-u1.png" alt="plantuml-quickstart-u1.png" />
 </p>
 </div></li>
-</ul></li>
 <li>类图(Class Diagram)</li>
 <li>活动图(Activity Diagram)
 <ul class="org-ul">
@@ -1982,7 +1757,7 @@ end note
 长文本的活动描述(Long activity description)，在定义活动的时候，有时候需要用多行文字来描述这个活动，这时我们可以在描述里添加换行符，也可以使用少量的HTML标签。以下是可以使用的HTML标签：
 </p>
 <div class="org-src-container">
-<pre class="src src-html" id="orga31557e">&lt;<span style="color: #A6E22E;">b</span>&gt;
+<pre class="src src-html" id="orge252c13">&lt;<span style="color: #A6E22E;">b</span>&gt;
 &lt;<span style="color: #A6E22E;">i</span>&gt;
 &lt;<span style="color: #A6E22E;">font</span> <span style="color: #FD971F;">size</span>=<span style="color: #E6DB74;">"nn"</span>&gt; or &lt;<span style="color: #F92672;">size</span>:<span style="color: #A6E22E;">nn</span>&gt; to change font size
 &lt;<span style="color: #A6E22E;">font</span> <span style="color: #FD971F;">color</span>=<span style="color: #E6DB74;">"#AAAAAA"</span>&gt; or &lt;<span style="color: #A6E22E;">font</span> <span style="color: #FD971F;">color</span>=<span style="color: #E6DB74;">"colorName"</span>&gt;
@@ -2003,7 +1778,7 @@ end note
 <li>分区(Partition)，通过分区关键词 partition 可以定义一个分区，并且可以使用HTML的 颜色码或颜色名来设置分区的背景色。在你申明一个活动时，PlantUML会自动 的把这个活动对象放置到最后使用的分区中。当然，也可以使用 end partitio 关闭分区定义。</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org98da4da">title Simple example\nof title
+<pre class="src src-emacs-lisp" id="orgad73796">title Simple example\nof title
 skinparam activityStartColor red
 /'
 skinparam backgroundColor #DDD
@@ -2059,7 +1834,7 @@ endif
 完整示例2
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgb4f4926">'http://click.sourceforge.net/images/activity-diagram-small.png
+<pre class="src src-emacs-lisp" id="orgc643039">'http://click.sourceforge.net/images/activity-diagram-small.png
 title Servlet Container
 
 (*) --&gt; <span style="color: #E6DB74;">"ClickServlet.handleRequest()"</span>
@@ -2114,7 +1889,6 @@ endif
 </p>
 </div></li>
 </ul></li>
-
 <li>活动图Beta版本
 <ul class="org-ul">
 <li><p>
@@ -2139,7 +1913,7 @@ Beta版本的活动图简化了活动图的符号定义，从 V7947 这个版本
 </dl>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org1d70d21">' : &#24320;&#22987;
+<pre class="src src-emacs-lisp" id="org31769e2">' : &#24320;&#22987;
 start
 note left: This is start
 if (graphviz installed?) then (yes)
@@ -2181,7 +1955,7 @@ end
 完整示例2
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org292de88">  start
+<pre class="src src-emacs-lisp" id="org0248ad9">  start
 <span style="color: #F92672;">:ClickServlet.handleRequest</span>()<span style="color: #75715E;">;</span>
 <span style="color: #F92672;">:new</span> page<span style="color: #75715E;">;</span>
 if (Page.onSecurityCheck) then (true)
@@ -2225,12 +1999,11 @@ stop
 </ol>
 </div>
 </div>
-
 <div id="outline-container-org3a5cc90" class="outline-4">
-<h4 id="org3a5cc90"><span class="section-number-4">4.5.4</span> 快捷键(Keyboard)</h4>
-<div class="outline-text-4" id="text-4-5-4">
+<h4 id="org3a5cc90"><span class="section-number-4">3.5.4</span> 快捷键(Keyboard)</h4>
+<div class="outline-text-4" id="text-3-5-4">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 19:</span> Default key bindings</caption>
+<caption class="t-above"><span class="table-number">Table 18:</span> Default key bindings</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -2261,6 +2034,205 @@ stop
 </tbody>
 </table>
 </div>
+</div>
+</div>
+</div>
+<div id="outline-container-orge224103" class="outline-2">
+<h2 id="orge224103"><span class="section-number-2">4</span> Problems</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgac97d25" class="outline-3">
+<h3 id="orgac97d25"><span class="section-number-3">4.1</span> Don't input chinese character</h3>
+<div class="outline-text-3" id="text-4-1">
+<pre class="example">
+$ vim ~/.bashrc
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #FD971F;">LC_CTYPE</span>=<span style="color: #E6DB74;">"zh_CN.utf8"</span>
+</pre>
+</div>
+
+<pre class="example">
+$ sudo vim /etc/environment
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #FD971F;">LC_CTYPE</span>=<span style="color: #E6DB74;">"zh_CN.utf8"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb0c4aad" class="outline-3">
+<h3 id="orgb0c4aad"><span class="section-number-3">4.2</span> Warning (server): Unable to start the Emacs server</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<b>问题描述</b>
+<br />
+Warning (server): Unable to start the Emacs server <br />
+There is an existing Emacs server, named "server". <br />
+To start the server in this Emacs process, stop the existing <br />
+server or call ‘M-x server-force-delete’ to forcibly disconnect it.
+<br />
+<b>问题解决</b>
+<br />
+打开 init.el 或 .emacs 文件，注释以下代码：（这只是临时解决办法，肯定有更好的解决方式，暂时未找到）
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">(server-start)
+(setq server-socket-dir <span style="color: #E6DB74;">"~/.emacs.d/server"</span>)
+</pre>
+</div>
+<p>
+<br />
+<b>参考资料</b>
+</p>
+<ul class="org-ul">
+<li><a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html">39 Using Emacs as a Server</a>* Customize</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4432eb3" class="outline-3">
+<h3 id="org4432eb3"><span class="section-number-3">4.3</span> Basic Customize</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+<a href="https://github.com/zhaorengui/.emacs.d/blob/master/init.el">init.el</a>
+</p>
+
+<p>
+Emacs 快速设置生效命令: 
+</p>
+<pre class="example">
+M-x eval-buffer
+</pre>
+</div>
+</div>
+<div id="outline-container-org32987e8" class="outline-3">
+<h3 id="org32987e8"><span class="section-number-3">4.4</span> Advanced Customize</h3>
+<div class="outline-text-3" id="text-4-4">
+</div>
+<div id="outline-container-org95f8b05" class="outline-4">
+<h4 id="org95f8b05"><span class="section-number-4">4.4.1</span> Plugins &amp; Themes</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<ol class="org-ol">
+<li><p>
+安装
+<br />
+示例：安装 plantuml 插件
+</p>
+<pre class="example">
+M+x package-install &lt;RET&gt;
+plantuml-mode &lt;RET&gt;
+</pre>
+
+<p>
+<br />
+示例：安装 monokai-pro 主题（手动安装）
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org135f055">// &#23558;&#28155;&#21152;&#21040; ~/.emacs &#25110; ~/.emacs.d/init.el &#25991;&#20214;
+(add-to-list 'load-path <span style="color: #E6DB74;">"~/.emacs.d/lisp/"</span>)
+(<span style="color: #F92672;">require</span> '<span style="color: #AE81FF;">plugin-name</span>)
+</pre>
+</div></li>
+<li><p>
+packages manager
+<br />
+查看所有安装包
+</p>
+<pre class="example">
+M+x list-packages &lt;RET&gt;
+</pre>
+
+<p>
+<br />
+自动卸载无效的包
+</p>
+<pre class="example">
+M+x package-autoremove &lt;RET&gt;
+</pre>
+
+<p>
+<br />
+修改主题
+</p>
+<pre class="example">
+M-x customize-themes &lt;RET&gt; 
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4a91752" class="outline-4">
+<h4 id="org4a91752"><span class="section-number-4">4.4.2</span> General Plugins</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 19:</span> General plugins</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">htmlize</td>
+<td class="org-left">export to html.</td>
+</tr>
+
+<tr>
+<td class="org-left">org</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">org-plus-contrib</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">planuml-mode</td>
+<td class="org-left">PlanUML</td>
+</tr>
+
+<tr>
+<td class="org-left">emmet-mode</td>
+<td class="org-left">Emmet plugin</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org9aef024" class="outline-3">
+<h3 id="org9aef024"><span class="section-number-3">4.5</span> font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+<b>问题描述</b>
+<br />
+M-x org-publish &lt;RET&gt; jekyll-zhaorengui-github-io
+<br />
+font-lock-fontify-keywords-region: Error in syntax table logic for to-the-end intervals
+<br />
+<b>问题解决</b>
+</p>
+<pre class="example">
+#+BEGIN_SRC php
+echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month')); // 计算出本月第一天再减一个月
+#+END_SRC
+
+修改为
+
+#+BEGIN_SRC php
+// 计算出本月第一天再减一个月
+echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
+#+END_SRC
+</pre>
 </div>
 </div>
 </div>

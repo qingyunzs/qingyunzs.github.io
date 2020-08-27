@@ -540,7 +540,6 @@ I have always been fascinated website development. So, management and back up of
 Linux kernel version: 3.10.0 
 OS: CentOS 7
 software: subversion
-
 </pre>
 </div>
 </div>
@@ -553,21 +552,20 @@ software: subversion
 <div class="outline-text-4" id="text-orga4cbc96">
 <pre class="example">
 Official Site: https://www.visualsvn.com
-
 </pre>
+
 
 <pre class="example">
 Dowload:
 $ wget http://subversion.tigris.org/downloads/subversion-1.6.1.tar.gz
 $ wget http://subversion.tigris.org/downloads/subversion-deps-1.6.1.tar.gz
-
 </pre>
+
 
 <pre class="example">
 Decompression command:
 $ tar zxvf subversion-1.6.1.tar.gz
 $ tar zxvf subversion-deps-1.6.1.tar.gz
-
 </pre>
 </div>
 </div>
@@ -578,7 +576,6 @@ $ tar zxvf subversion-deps-1.6.1.tar.gz
 Command:
 $ ./configure --prefix=/usr/local/svn/
 $ make &amp;&amp; make install
-
 </pre>
 </div>
 </div>
@@ -589,7 +586,6 @@ $ make &amp;&amp; make install
 Comand:
 $ echo "export PATH=$PATH:/usr/local/svn/bin/" &gt;&gt; /etc/profile
 $ source /etc/profile
-
 </pre>
 </div>
 </div>
@@ -599,7 +595,6 @@ $ source /etc/profile
 <div class="outline-text-3" id="text-org2c3e940">
 <pre class="example">
 $ yum install subversion mod_dav_svn
-
 </pre>
 </div>
 </div>
@@ -614,14 +609,13 @@ $ yum install subversion mod_dav_svn
 <pre class="example">
 Build root directory of svn
 $ mkdir -p /opt/svn
-
 </pre>
+
 
 <pre class="example">
 Build warehoust of test
 $ mkdir -p /opt/svn/svntest/
 $ svnadmin create /opt/svn/svntest/
-
 </pre>
 </div>
 </div>
@@ -634,8 +628,8 @@ $ cd /opt/svn/svntest/conf/
 authz: Configure file about setting permissions of users.
 passwd:  Configure file about setting username and password.
 svnserve.conf: Configure file about svn.
-
 </pre>
+
 
 <pre class="example">
 2.svnserve.conf
@@ -646,22 +640,21 @@ edit:
      auth-access = write
      password-db = passwd
      authz-db = authz
-
 </pre>
+
 
 <pre class="example">
 3.authz
 add:
     [svntest:/]
     92csz.com = rw # add a user(92csz.com),read and write.
-
 </pre>
+
 
 <pre class="example">
 4.passwd
 edit:
     92csz.com = 123456 # password is 123456
-
 
 </pre>
 </div>
@@ -676,7 +669,6 @@ edit:
 <div class="outline-text-3" id="text-org02d1803">
 <pre class="example">
 $ svnserve -d -r /opt/svn/
-
 </pre>
 </div>
 </div>
@@ -687,7 +679,6 @@ $ svnserve -d -r /opt/svn/
 $ netstat -aux |grep svn
 restult:
         tcp 000.0.0.0:3690.0.0.0:*  LISTEN  8646/svnserve
-
 
 </pre>
 </div>
@@ -701,7 +692,6 @@ $ chmod -R 775 /opt/svn/
  or
 $ chmod -R o+rw /opt/svn
 
-
 </pre>
 </div>
 </div>
@@ -712,7 +702,6 @@ $ chmod -R o+rw /opt/svn
 Open svn client(right),Enter IP address of svn server and warehouse name
 exmple:
 $ svn://192.168.120.166/svntest
-
 
 </pre>
 </div>
@@ -746,7 +735,6 @@ LoadModule authz_svn_module   modules/mod_authz_svn.so
 <div class="outline-text-3" id="text-orgd4fb4db">
 <pre class="example">
 htpasswd -cm /etc/svn-auth-users testuser1
-
 </pre>
 </div>
 </div>
@@ -762,7 +750,6 @@ chown -R apache.apache repo
 # If you still have issues with SELinux Security please apply this: 
 chcon -R -t httpd_sys_content_t /var/www/unixmensvn/repo
 chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo
-
 </pre>
 </div>
 </div>
@@ -773,7 +760,6 @@ chcon -R -t httpd_sys_rw_content_t /var/www/unixmensvn/repo
 firewall-cmd --permanent --zone=public --add-service=http
 firewall-cmd --permanent --zone=public --add-service=https
 firewall-cmd --reload
-
 </pre>
 </div>
 </div>
@@ -787,8 +773,8 @@ svn import -m "Initial repository" /tmp/svn-structure-template   file:///var/www
 Adding         /tmp/svn-structure-template/branches
 Adding         /tmp/svn-structure-template/tags
 Adding         /tmp/svn-structure-template/trunk
-
 </pre>
+
 <p>
 Committed revision 1.
 </p>
@@ -810,7 +796,6 @@ Done!
 1.svn: Can’t open file ‘***/txn-current-lock’: Permission denied
 Solve:
       Severth(Vew 7th section).
-
 </pre>
 </div>
 </div>
@@ -822,7 +807,6 @@ Solve:
 Solve:
       Check configure.
 ### Evey establishment of a lirary need to be configured.This is very important.
-
 </pre>
 </div>
 </div>
@@ -836,7 +820,6 @@ Solve:
 Solve:
       into /opt/svn/wp-job/db , there is a file "rep-cache.db"
 chown -R zrg.zrggroup rep-cache.db
-
 </pre>
 </div>
 </div>
@@ -888,8 +871,8 @@ chown -R zrg.zrggroup rep-cache.db
         <div class="post-nav" id="post-nav-id">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/database/linux/2014/12/14/install-oracle-on-linux/" rel="next" title="Install Oracle Database 12c On CentOS7">
-                <i class="fa fa-chevron-left"></i> Install Oracle Database 12c On CentOS7
+              <a href="/algorithms/2014/10/21/acm/" rel="next" title="ACM">
+                <i class="fa fa-chevron-left"></i> ACM
               </a>
             
           </div>
@@ -977,7 +960,7 @@ chown -R zrg.zrggroup rep-cache.db
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -988,7 +971,7 @@ chown -R zrg.zrggroup rep-cache.db
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -999,7 +982,7 @@ chown -R zrg.zrggroup rep-cache.db
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

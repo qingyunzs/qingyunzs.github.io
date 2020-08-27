@@ -587,7 +587,6 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 <div class="outline-text-2" id="text-orga7b5fbf">
 <pre class="example">
 建议根据文档顺序依次安装。
-
 </pre>
 </div>
 </div>
@@ -642,7 +641,7 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
  &#28982;&#21518;&#25191;&#34892;&#65306;# autoreconf --force --install
        #autoreconf --force --install
        #autoreconf --force --install
-       &#20043;&#21518;&#65292;&#25171;&#24320;configure&#25991;&#20214;(&#29616;&#22312;&#20351;&#29992;&#30340;&#29256;&#26412;&#26159;apr-1.5.2&#65292;30212&#34892;)&#65292;&#27880;&#37322;   $RM -f <span style="color: #E6DB74;">"$cfgfile"</span>&#65292;&#23601;&#26159;&#22312;&#21069;&#38754;&#28155;&#21152;&#8220;#&#8221;&#12290;
+       &#20043;&#21518;&#65292;&#25171;&#24320;configure&#25991;&#20214;(&#29616;&#22312;&#20351;&#29992;&#30340;&#29256;&#26412;&#26159;apr-1.5.2&#65292;30212&#34892;)&#65292;&#27880;&#37322;   $RM -f <span style="color: #E6DB74;">"$cfgfile"</span>&#65292;&#23601;&#26159;&#22312;&#21069;&#38754;&#28155;&#21152;<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8220;</span>#<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8221;</span>&#12290;
 &#37325;&#26032;&#25191;&#34892;./configure --prefix=/usr/local/apr&#65292;&#38382;&#39064;&#35299;&#20915;&#12290;
 &#25104;&#21151;&#26631;&#24535;&#65306;
 </pre>
@@ -741,7 +740,6 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 </div>
 <pre class="example">
 至此，Apache安装成功
-
 </pre>
 </div>
 </div>
@@ -790,14 +788,14 @@ ServerName localhost:80
 <h4 id="org2deaf92">Configure virtual host</h4>
 <div class="outline-text-4" id="text-org2deaf92">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orga3f65ee">LoadModule vhost_alias_module modules/mod_vhost_alias.so
+<pre class="src src-emacs-lisp" id="orge4ebad5">LoadModule vhost_alias_module modules/mod_vhost_alias.so
 # Virtual hosts 
 Include conf/extra/httpd-vhosts.conf
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orged6765c">&lt;VirtualHost 127.0.0.1:80&gt;
+<pre class="src src-emacs-lisp" id="orgde5d414">&lt;VirtualHost 127.0.0.1:80&gt;
     #directory
     DocumentRoot <span style="color: #E6DB74;">"D:</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">phpStudy</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">WWW\ec-shop</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">gold"</span>
     ServerName local.gold
@@ -832,14 +830,14 @@ Explain:
 <h4 id="orgf7d1bd7">Configure multiple ports and multiple sites</h4>
 <div class="outline-text-4" id="text-orgf7d1bd7">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orge4ebad5">Add listening port:
+<pre class="src src-emacs-lisp" id="org724c9cc">Add listening port:
   Listen 81
   Listen 82
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgde5d414">&lt;VirtualHost *:81&gt;
+<pre class="src src-emacs-lisp" id="org646f236">&lt;VirtualHost *:81&gt;
 #    ServerAdmin webmaster@dummy-host2.example.com
      DocumentRoot <span style="color: #E6DB74;">"d:</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">wamp</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">www</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">wp-job"</span>
      ServerName localhost
@@ -869,7 +867,6 @@ Explain:
 <div class="outline-text-3" id="text-org531c082">
 <pre class="example">
 Nginx是一款免费、开源、高效的 HTTP 服务器，Nginx是以稳定著称，丰富的功能，结构简单，低资源消耗。
-
 </pre>
 </div>
 </div>
@@ -890,19 +887,18 @@ enabled=1
 <div class="outline-text-3" id="text-org6ad5465">
 <pre class="example">
 yum install -y nginx
-
 </pre>
+
 
 <pre class="example">
 //设置nginx开机自启动
 systemctl enable nginx.service
-
 </pre>
+
 
 <pre class="example">
 //启动/停止/重新启动nginx
 systemctl start/stop/restart nginx.service
-
 </pre>
 </div>
 </div>
@@ -913,7 +909,6 @@ systemctl start/stop/restart nginx.service
 firewall-cmd –permanent –zone=public –add-service=http
 firewall-cmd –permanent –zone=public –add-service=https
 firewall-cmd –reload
-
 </pre>
 </div>
 </div>
@@ -926,8 +921,8 @@ firewall-cmd –reload
 <div class="outline-text-4" id="text-org4f12aef">
 <pre class="example">
 环境要求:能够正常访问网页
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs_lisp">server {
     listen       80;
@@ -982,8 +977,8 @@ firewall-cmd –reload
 <div class="outline-text-4" id="text-org451f05e">
 <pre class="example">
 环境要求：php, ThinkPHP5, pathinfo,  
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">server {
     listen       8080<span style="color: #75715E;">;</span>
@@ -1053,32 +1048,30 @@ firewall-cmd –reload
 <pre class="example">
 1. 403 Forbidden
 问题分析：1）检查文件或目录(/srv/www/)权限问题；2）配置检查：访问文件类型，index index.php index.html index.htm
-
 </pre>
+
 
 <pre class="example">
 2.访问时，出现以下内容：
 File not found. 
 No input file specified.
 问题分析：1）检查路径配置是否正确；2）检查php-fpm配置
-
 </pre>
+
 
 <pre class="example">
 3.
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdba4252" class="outline-3">
-<h3 id="orgdba4252">参考资料</h3>
-<div class="outline-text-3" id="text-orgdba4252">
+<div id="outline-container-org1a44ee4" class="outline-3">
+<h3 id="org1a44ee4">参考资料</h3>
+<div class="outline-text-3" id="text-org1a44ee4">
 <pre class="example">
 http://www.nginx.cn/231.html
 https://www.nginx.com/
 https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
-
 </pre>
 </div>
 </div>
@@ -1088,8 +1081,8 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 <div class="outline-text-2" id="text-org5fb81ba">
 <pre class="example">
 注意：这里下载的是rpm安装包。
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">1.rpm&#23433;&#35013;&#26102;&#65292;&#25253;&#22914;&#19979;&#38169;&#35823;&#65292;&#36825;&#26159;&#22240;&#20026;&#38656;&#35201;&#23433;&#35013;&#36825;&#20123;&#20381;&#36182;&#21253;&#65306;
 </pre>
@@ -1129,7 +1122,6 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 </div>
 <pre class="example">
 安装完成后，可以通过 # mysql_secure_installation 命令设置root用户密码。
-
 </pre>
 </div>
 <div id="outline-container-orgda3f3eb" class="outline-3">
@@ -1138,7 +1130,6 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 <pre class="example">
 //非源码安装方式
 yum install mariadb mariadb-server net-tools
-
 </pre>
 </div>
 </div>
@@ -1313,8 +1304,8 @@ make libdir=/usr/lib64 <span style="color: #66D9EF;">&amp;&amp;</span> make libd
 下载地址 http://curl.haxx.se/
 #./configure --prefix=/usr/local/curl
 #make &amp;&amp; make install ，成功标志:
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/php-13.png" alt="php-13.png" />
@@ -1352,8 +1343,8 @@ $ ./configure --prefix=/usr/local/php \
 --enable-mbregex \
 --enable-zip \
 --enable-fileinfo \
-
 </pre>
+
 <p>
 此时，会报下图错误，解决办法就是安装zlib-devel，# zypper in libxml2-devel -y
 <img src="http://localhost:4000/assets/images/php-14.png" alt="php-14.png" />
@@ -1363,8 +1354,8 @@ $ ./configure --prefix=/usr/local/php \
 </p>
 <pre class="example">
 # make &amp;&amp; make install
-
 </pre>
+
 <p>
 成功标志：
 <img src="http://localhost:4000/assets/images/php-16.png" alt="php-16.png" />
@@ -1432,12 +1423,12 @@ phpinfo()<span style="color: #75715E;">;</span>
 </div>
 <pre class="example">
 需要安装其他扩展，使用同样的操作。
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">&#29305;&#21035;&#25552;&#31034;1&#65306;
  &#21487;&#33021;&#22312;make&#30340;&#26102;&#20505;&#65292;&#20250;&#36935;&#21040;&#38169;&#35823;
- &#38169;&#35823;&#65306;&#8216;<span style="color: #AE81FF;">PHP_FE_END</span>&#8217;&#26410;&#22768;&#26126;(&#19981;&#22312;&#20989;&#25968;&#20869;) -----{error: &#8216;<span style="color: #AE81FF;">PHP_FE_END</span>&#8217; undeclared here (not in a function)}
+ &#38169;&#35823;&#65306;<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8216;</span><span style="color: #AE81FF;">PHP_FE_END</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8217;</span>&#26410;&#22768;&#26126;(&#19981;&#22312;&#20989;&#25968;&#20869;) -----{error: <span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8216;</span><span style="color: #AE81FF;">PHP_FE_END</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8217;</span> undeclared here (not in a function)}
  &#35299;&#20915;&#26041;&#27861;&#65306; &#28304;&#20195;&#30721;&#26377;&#38169;&#35823;&#65292;&#36827;&#20837;php-5.3.18/ext/mcrypt&#30446;&#24405;
  sed -i 's|PHP_FE_END|{NULL,NULL,NULL}|' ./*.c
  sed -i 's|ZEND_MOD_END|{NULL,NULL,NULL}|' ./*.c
@@ -1463,13 +1454,12 @@ vim /usr/local/php/etc/php-fpm.conf
 content:
         user=username
         group=groupname
-
 </pre>
+
 
 <pre class="example">
 //开启php-fpm
 /usr/local/php/sbin/php-fpm start
-
 </pre>
 </div>
 </div>
@@ -1485,14 +1475,14 @@ content:
 //安装必须组件
 $apt-get install libevent-dev
 或下载libevent-dev源码安装：libevent.org or https://sourceforge.net/projects/levent/
-
 </pre>
+
 
 <pre class="example">
 //下载Memcached
 网址：http://memcached.org/downloads
-
 </pre>
+
 
 <pre class="example">
 //安装Memcached
@@ -1501,15 +1491,14 @@ $cd memcached-1.5.4
 $./configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent
 $make &amp;&amp; make install
 或通过apt-get命令直接安装：$apt-get install memcached
-
 </pre>
+
 
 <pre class="example">
 //启动Memcached
 $/usr/local/memcached/bin/memcached -m 64 -p 11211 -u nobody -vv -d
 -d表示在后台运行
 $ps aux |grep memcached
-
 </pre>
 </div>
 </div>
@@ -1523,8 +1512,8 @@ $ps aux |grep memcached
 <pre class="example">
 //下载libmemcached
 网址：https://launchpad.net/
-
 </pre>
+
 
 <pre class="example">
 //解压安装
@@ -1532,7 +1521,6 @@ $tar zxvf libmemcached-1.0.18.tar.gz
 $cd libmemcached-1.0.18
 $./configure --prefix=/usr/local/libmemcached
 #make &amp;&amp; make install
-
 </pre>
 </div>
 </div>
@@ -1550,8 +1538,8 @@ $./configure --with-php-config=/usr/local/php7/bin/php-config
 #make &amp;&amp; make install
 //编辑php.ini文件，加入：extension=memcache.so
 //重启Apache，查看memcache扩展是否加载
-
 </pre>
+
 <p>
 ### memcached 扩展
 </p>
@@ -1565,14 +1553,13 @@ $./configure --with-php-config=/usr/local/php7/bin/php-config \
 --disable-memcached-sasl
 //同样，编辑PHP配置文件，加入：extension=memcached.so
 //重启Apache，查看memcached扩展是否加载
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3a0409f" class="outline-3">
-<h3 id="org3a0409f">参考资料</h3>
-<div class="outline-text-3" id="text-org3a0409f">
+<div id="outline-container-org5e0141b" class="outline-3">
+<h3 id="org5e0141b">参考资料</h3>
+<div class="outline-text-3" id="text-org5e0141b">
 <pre class="example">
 memcache官网：http://memcache.org/
 Linux Memcached 安装：http://www.runoob.com/memcached/memcached-install.html
@@ -1581,7 +1568,6 @@ linux下安装PHP memcached扩展：http://www.cnblogs.com/flywind/p/6021568.htm
 PHP7 下安装 memcache 和 memcached 扩展：http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html
 Linux下的Memcache安装：http://kimi.it/257.html
 Memcache基础教程：http://kimi.it/259.html
-
 </pre>
 </div>
 </div>
@@ -1596,20 +1582,19 @@ Memcache基础教程：http://kimi.it/259.html
 </div>
 </div>
 </div>
-<div id="outline-container-org1a44ee4" class="outline-2">
-<h2 id="org1a44ee4">参考资料</h2>
-<div class="outline-text-2" id="text-org1a44ee4">
+<div id="outline-container-orgbe4262b" class="outline-2">
+<h2 id="orgbe4262b">参考资料</h2>
+<div class="outline-text-2" id="text-orgbe4262b">
 <pre class="example">
 https://xwsoul.com/posts/684
-
 </pre>
+
 
 <pre class="example">
 http://php.net/
 http://www.apache.org/
 https://www.mysql.com/
 https://mariadb.org/
-
 </pre>
 </div>
 </div>
@@ -1767,7 +1752,7 @@ https://mariadb.org/
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1778,7 +1763,7 @@ https://mariadb.org/
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1789,7 +1774,7 @@ https://mariadb.org/
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1882,7 +1867,7 @@ https://mariadb.org/
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga7b5fbf"> <span class="nav-text">前言(Preface)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb3e6f3a"> <span class="nav-text">安装Apache</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org918edae"> <span class="nav-text">解压</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1983b49"> <span class="nav-text">配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcd977a3"> <span class="nav-text">安装APR和APR-util</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4a9ae7d"> <span class="nav-text">运行安装apache（httpd）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8e2ee81"> <span class="nav-text">启动Apache</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33a61a7"> <span class="nav-text">设置开机启动</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3a8ed2a"> <span class="nav-text">配置Virtual Host</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2deaf92"> <span class="nav-text">Configure virtual host</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf7d1bd7"> <span class="nav-text">Configure multiple ports and multiple sites</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfbaeb61"> <span class="nav-text">安装Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org531c082"> <span class="nav-text">Nginx 介绍</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org463414c"> <span class="nav-text">配置yum源</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6ad5465"> <span class="nav-text">安装(Installing)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9c37b35"> <span class="nav-text">打开 HTTP 和 HTTPS 防火墙端口</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org84c165e"> <span class="nav-text">配置Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4f12aef"> <span class="nav-text">/etc/nginx/conf.d/default.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org451f05e"> <span class="nav-text">/etc/nginx/conf.d/vhosts/finance.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc15f610"> <span class="nav-text">nginx问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdba4252"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5fb81ba"> <span class="nav-text">安装MySQL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda3f3eb"> <span class="nav-text">安装MariaDB</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7cb9b6c"> <span class="nav-text">安装PHP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga534a15"> <span class="nav-text">安装php扩展</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org35dcfeb"> <span class="nav-text">jpeg</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdd68e81"> <span class="nav-text">libpng</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5ad02bf"> <span class="nav-text">freetype</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7c06b55"> <span class="nav-text">zlib</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org078f0ce"> <span class="nav-text">gd</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcc4beec"> <span class="nav-text">curl</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76f533c"> <span class="nav-text">安装php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1e4a606"> <span class="nav-text">检测PHP是否安装成功</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org465320e"> <span class="nav-text">bcmath扩展安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb2e8143"> <span class="nav-text">php-fpm配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3fbb97d"> <span class="nav-text">Memcache安装指南</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5fbc5bd"> <span class="nav-text">服务端安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org58c3366"> <span class="nav-text">客户端安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd7d8b05"> <span class="nav-text">第一步，安装libmemcached库</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96824d5"> <span class="nav-text">第二步，安装PHP memcache、memcached扩展</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3a0409f"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga1fe486"> <span class="nav-text">再次声明</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1a44ee4"> <span class="nav-text">参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga7b5fbf"> <span class="nav-text">前言(Preface)</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb3e6f3a"> <span class="nav-text">安装Apache</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org918edae"> <span class="nav-text">解压</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1983b49"> <span class="nav-text">配置</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcd977a3"> <span class="nav-text">安装APR和APR-util</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4a9ae7d"> <span class="nav-text">运行安装apache（httpd）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8e2ee81"> <span class="nav-text">启动Apache</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33a61a7"> <span class="nav-text">设置开机启动</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3a8ed2a"> <span class="nav-text">配置Virtual Host</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2deaf92"> <span class="nav-text">Configure virtual host</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf7d1bd7"> <span class="nav-text">Configure multiple ports and multiple sites</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgfbaeb61"> <span class="nav-text">安装Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org531c082"> <span class="nav-text">Nginx 介绍</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org463414c"> <span class="nav-text">配置yum源</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6ad5465"> <span class="nav-text">安装(Installing)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9c37b35"> <span class="nav-text">打开 HTTP 和 HTTPS 防火墙端口</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org84c165e"> <span class="nav-text">配置Nginx</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4f12aef"> <span class="nav-text">/etc/nginx/conf.d/default.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org451f05e"> <span class="nav-text">/etc/nginx/conf.d/vhosts/finance.conf</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc15f610"> <span class="nav-text">nginx问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1a44ee4"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5fb81ba"> <span class="nav-text">安装MySQL</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda3f3eb"> <span class="nav-text">安装MariaDB</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7cb9b6c"> <span class="nav-text">安装PHP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga534a15"> <span class="nav-text">安装php扩展</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org35dcfeb"> <span class="nav-text">jpeg</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdd68e81"> <span class="nav-text">libpng</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5ad02bf"> <span class="nav-text">freetype</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7c06b55"> <span class="nav-text">zlib</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org078f0ce"> <span class="nav-text">gd</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcc4beec"> <span class="nav-text">curl</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76f533c"> <span class="nav-text">安装php</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1e4a606"> <span class="nav-text">检测PHP是否安装成功</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org465320e"> <span class="nav-text">bcmath扩展安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb2e8143"> <span class="nav-text">php-fpm配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3fbb97d"> <span class="nav-text">Memcache安装指南</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5fbc5bd"> <span class="nav-text">服务端安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org58c3366"> <span class="nav-text">客户端安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd7d8b05"> <span class="nav-text">第一步，安装libmemcached库</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96824d5"> <span class="nav-text">第二步，安装PHP memcache、memcached扩展</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5e0141b"> <span class="nav-text">参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga1fe486"> <span class="nav-text">再次声明</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbe4262b"> <span class="nav-text">参考资料</span> </a> </li>
     </ol>
   </div>
             

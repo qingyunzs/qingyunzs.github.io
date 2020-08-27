@@ -102,22 +102,22 @@ $<span style="color: #FD971F;">bar</span> = &amp;$<span style="color: #FD971F;">
 </div>
 </div>
 </div>
-<div id="outline-container-orgfdaebf6" class="outline-4">
-<h4 id="orgfdaebf6"><span class="section-number-4">1.2.2</span> 函数</h4>
+<div id="outline-container-orgdd828e8" class="outline-4">
+<h4 id="orgdd828e8"><span class="section-number-4">1.2.2</span> 函数</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <div class="org-src-container">
-<pre class="src src-php" id="org29aaeba"><span style="color: #75715E;">// </span><span style="color: #75715E;">1. &#20266;&#31867;&#22411;&#21442;&#25968;&#30340;&#20989;&#25968;</span>
-mixed <span style="color: #F92672;">function</span>(<span style="color: #66D9EF;">mixed</span> $<span style="color: #FD971F;">args</span>)
+<pre class="src src-php" id="org86042c1"><span style="color: #75715E;">// </span><span style="color: #75715E;">1. &#20266;&#31867;&#22411;&#21442;&#25968;&#30340;&#20989;&#25968;</span>
+<span style="color: #66D9EF;">mixed</span> <span style="color: #F92672;">function</span>(mixed $<span style="color: #FD971F;">args</span>)
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">2. &#24341;&#29992;&#21442;&#25968;&#30340;&#20989;&#25968;</span>
 <span style="color: #66D9EF;">void</span> <span style="color: #F92672;">function</span>(<span style="color: #F92672;">array</span> &amp;args)
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">3. &#21487;&#21464;&#21442;&#25968;&#25968;&#37327;&#30340;&#20989;&#25968;</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">PHP&#25552;&#20379;func_get_args()&#20989;&#25968;&#25509;&#25910;&#20219;&#24847;&#25968;&#37327;&#30340;&#21442;&#25968;&#12290;</span>
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">parameters</span>() {
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">parameters</span>() {
     $<span style="color: #FD971F;">numargs</span> = func_num_args();
     <span style="color: #F92672;">if</span> ($<span style="color: #FD971F;">numargs</span> &gt; 0) {
-    <span style="color: #F92672;">echo</span> func_get_arg(0) . <span style="color: #E6DB74;">' | '</span>;
+    <span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">func_get_arg</span>(0) . <span style="color: #E6DB74;">' | '</span>;
     }
     $<span style="color: #FD971F;">args_array</span> = func_get_args();
     <span style="color: #F92672;">foreach</span> ($<span style="color: #FD971F;">args_array</span> <span style="color: #F92672;">as</span> $<span style="color: #FD971F;">key</span> =&gt; $<span style="color: #FD971F;">arg</span>) {
@@ -128,7 +128,7 @@ mixed <span style="color: #F92672;">function</span>(<span style="color: #66D9EF;
 parameters(<span style="color: #E6DB74;">'Hello'</span>, <span style="color: #E6DB74;">'World'</span>);
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">Since PHP 5.6 you can get a variable number of arguments</span>
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">variable</span>($<span style="color: #FD971F;">word</span>, ...$<span style="color: #FD971F;">list</span>) {
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">variable</span>($<span style="color: #FD971F;">word</span>, ...$<span style="color: #FD971F;">list</span>) {
     <span style="color: #F92672;">echo</span> $<span style="color: #FD971F;">word</span> . <span style="color: #E6DB74;">" || "</span>;
     <span style="color: #F92672;">foreach</span> ($<span style="color: #FD971F;">list</span> <span style="color: #F92672;">as</span> $<span style="color: #FD971F;">item</span>) {
     <span style="color: #F92672;">echo</span> $<span style="color: #FD971F;">item</span> . <span style="color: #E6DB74;">' | '</span>;
@@ -138,13 +138,13 @@ parameters(<span style="color: #E6DB74;">'Hello'</span>, <span style="color: #E6
 variable(<span style="color: #E6DB74;">"Separate"</span>, <span style="color: #E6DB74;">"Hello"</span>, <span style="color: #E6DB74;">"World"</span>);
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">3. &#22238;&#35843;&#20989;&#25968;</span>
-mixed <span style="color: #F92672;">function</span>(<span style="color: #66D9EF;">callback</span> <span style="color: #FD971F;">arg</span>)
+<span style="color: #66D9EF;">mixed</span> <span style="color: #F92672;">function</span>(<span style="color: #66D9EF;">callback</span> <span style="color: #FD971F;">arg</span>)
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#21464;&#37327;&#20989;&#25968;</span>
 $<span style="color: #FD971F;">foo</span> = <span style="color: #F92672;">function</span>($<span style="color: #FD971F;">x</span>, $<span style="color: #FD971F;">y</span>, $<span style="color: #FD971F;">z</span>) {
     <span style="color: #F92672;">echo</span> <span style="color: #E6DB74;">"</span><span style="color: #FD971F;">$x</span><span style="color: #E6DB74;"> - </span><span style="color: #FD971F;">$y</span><span style="color: #E6DB74;"> - </span><span style="color: #FD971F;">$z</span><span style="color: #E6DB74;">"</span>;
 }
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">bar</span> ($<span style="color: #FD971F;">x</span>, $<span style="color: #FD971F;">y</span>) {
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">bar</span> ($<span style="color: #FD971F;">x</span>, $<span style="color: #FD971F;">y</span>) {
     <span style="color: #75715E;">// </span><span style="color: #75715E;">Use 'use' to bring in outside variables</span>
     <span style="color: #F92672;">return</span> <span style="color: #F92672;">function</span> ($<span style="color: #FD971F;">z</span>) <span style="color: #F92672;">use</span> ($<span style="color: #FD971F;">x</span>, $<span style="color: #FD971F;">y</span>) {
     $<span style="color: #FD971F;">foo</span>($<span style="color: #FD971F;">x</span>, $<span style="color: #FD971F;">y</span>, $<span style="color: #FD971F;">z</span>);
@@ -156,10 +156,10 @@ $<span style="color: #FD971F;">bar</span> = bar(<span style="color: #E6DB74;">'A
 $<span style="color: #FD971F;">bar</span>(<span style="color: #E6DB74;">'C'</span>);
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#20351;&#29992; call_use_func_array() &#33258;&#23450;&#20041;&#20989;&#25968;</span>
-<span style="color: #66D9EF;">mixed</span> <span style="color: #A6E22E;">call_use_func_array</span>(callback <span style="color: #F92672;">function</span>, <span style="color: #F92672;">array</span> param_arr)
+<span style="color: #66D9EF;">mixed</span> <span style="color: #A6E22E;">call_use_func_array</span>(<span style="color: #66D9EF;">callback</span> <span style="color: #F92672;">function</span>, <span style="color: #66D9EF;">array</span> <span style="color: #FD971F;">param_arr</span>)
 
 <span style="color: #75715E;">// </span><span style="color: #75715E;">4. &#36882;&#24402;&#20989;&#25968;</span>
-    <span style="color: #F92672;">function</span> <span style="color: #A6E22E;">test</span>($<span style="color: #FD971F;">n</span>){
+    <span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">test</span>($<span style="color: #FD971F;">n</span>){
     <span style="color: #F92672;">echo</span> $<span style="color: #FD971F;">n</span>.<span style="color: #E6DB74;">'\r\n'</span>;
     <span style="color: #F92672;">if</span>($<span style="color: #FD971F;">n</span>&gt;0){
         test($<span style="color: #FD971F;">n</span>-1);
@@ -215,8 +215,8 @@ $<span style="color: #FD971F;">bar</span>(<span style="color: #E6DB74;">'C'</spa
 </div>
 </div>
 </div>
-<div id="outline-container-orge508a00" class="outline-3">
-<h3 id="orge508a00"><span class="section-number-3">1.5</span> 参考资料</h3>
+<div id="outline-container-orgc23e982" class="outline-3">
+<h3 id="orgc23e982"><span class="section-number-3">1.5</span> 参考资料</h3>
 <div class="outline-text-3" id="text-1-5">
 <ul class="org-ul">
 <li><a href="https://en.wikipedia.org/wiki/PHP">https://en.wikipedia.org/wiki/PHP</a></li>
@@ -233,7 +233,7 @@ $<span style="color: #FD971F;">bar</span>(<span style="color: #E6DB74;">'C'</spa
 <h3 id="org4a2937a"><span class="section-number-3">2.1</span> 在字符串指定位置插入字符串</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">str_insert</span>($<span style="color: #FD971F;">str</span>,$<span style="color: #FD971F;">i</span>,$<span style="color: #FD971F;">subStr</span>){
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">str_insert</span>($<span style="color: #FD971F;">str</span>,$<span style="color: #FD971F;">i</span>,$<span style="color: #FD971F;">subStr</span>){
     <span style="color: #F92672;">for</span>($<span style="color: #FD971F;">j</span>=0;$<span style="color: #FD971F;">j</span>&lt;$<span style="color: #FD971F;">i</span>;$<span style="color: #FD971F;">j</span>++){
     $<span style="color: #FD971F;">startStr</span> .=$<span style="color: #FD971F;">str</span>[$<span style="color: #FD971F;">j</span>];
     }
@@ -254,7 +254,7 @@ $<span style="color: #FD971F;">bar</span>(<span style="color: #E6DB74;">'C'</spa
 <pre class="src src-php"><span style="color: #E6DB74;">/**</span>
 <span style="color: #E6DB74;"> * &#21435;&#38500;&#22810;&#20313;&#30340;0</span>
 <span style="color: #E6DB74;"> */</span>
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">del0</span>($<span style="color: #FD971F;">s</span>)
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">del0</span>($<span style="color: #FD971F;">s</span>)
 {
     $<span style="color: #FD971F;">s</span> = trim(strval($<span style="color: #FD971F;">s</span>));
     <span style="color: #F92672;">if</span> (preg_match(<span style="color: #E6DB74;">'#^-?\d+?\.0+$#'</span>, $<span style="color: #FD971F;">s</span>)) {
@@ -273,7 +273,7 @@ $<span style="color: #FD971F;">bar</span>(<span style="color: #E6DB74;">'C'</spa
 <h3 id="orga899743"><span class="section-number-3">2.3</span> PHP 生成UUID我唯一序列</h3>
 <div class="outline-text-3" id="text-2-3">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">uuid</span>($<span style="color: #FD971F;">prefix</span> =<span style="color: #E6DB74;">''</span>)
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">uuid</span>($<span style="color: #FD971F;">prefix</span> =<span style="color: #E6DB74;">''</span>)
 {
     $<span style="color: #FD971F;">chars</span> = md5(uniqid(mt_rand(), <span style="color: #AE81FF;">true</span>));
     $<span style="color: #FD971F;">uuid</span> = substr($<span style="color: #FD971F;">chars</span>,0,8) . <span style="color: #E6DB74;">'-'</span>;
@@ -321,7 +321,7 @@ $<span style="color: #FD971F;">tempArr</span>=<span style="color: #F92672;">arra
 <h3 id="org70def36"><span class="section-number-3">4.2</span> 判断二维数组是否为空</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">array_is_null</span>($<span style="color: #FD971F;">arr</span> = <span style="color: #AE81FF;">null</span>){
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">array_is_null</span>($<span style="color: #FD971F;">arr</span> = <span style="color: #AE81FF;">null</span>){
     <span style="color: #F92672;">if</span>(is_array($<span style="color: #FD971F;">arr</span>)){
     <span style="color: #F92672;">foreach</span>($<span style="color: #FD971F;">arr</span> <span style="color: #F92672;">as</span> $<span style="color: #FD971F;">k</span>=&gt;$<span style="color: #FD971F;">v</span>){
         <span style="color: #F92672;">if</span>($<span style="color: #FD971F;">v</span>&amp;&amp;!is_array($<span style="color: #FD971F;">v</span>)){
@@ -352,12 +352,12 @@ $<span style="color: #FD971F;">tempArr</span>=<span style="color: #F92672;">arra
 <h3 id="orgacd4906"><span class="section-number-3">5.1</span> 获取上个月第一天及最后一天</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">echo</span> date(<span style="color: #E6DB74;">'Y-m-01'</span>, strtotime(<span style="color: #E6DB74;">'-1 month'</span>));
-<span style="color: #F92672;">echo</span> date(<span style="color: #E6DB74;">'Y-m-t'</span>, strtotime(<span style="color: #E6DB74;">'-1 month'</span>));
+<pre class="src src-php"><span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">date</span>(<span style="color: #E6DB74;">'Y-m-01'</span>, strtotime(<span style="color: #E6DB74;">'-1 month'</span>));
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">date</span>(<span style="color: #E6DB74;">'Y-m-t'</span>, strtotime(<span style="color: #E6DB74;">'-1 month'</span>));
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#19978;&#20010;&#26376;&#31532;&#19968;&#22825;,  &#35745;&#31639;&#20986;&#26412;&#26376;&#31532;&#19968;&#22825;&#20877;&#20943;&#19968;&#20010;&#26376;</span>
-<span style="color: #F92672;">echo</span> date(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(date(<span style="color: #E6DB74;">'Y-m-01'</span>) . <span style="color: #E6DB74;">' -1 month'</span>));
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">date</span>(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(date(<span style="color: #E6DB74;">'Y-m-01'</span>) . <span style="color: #E6DB74;">' -1 month'</span>));
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#19978;&#20010;&#26376;&#26368;&#21518;&#19968;&#22825;,// &#35745;&#31639;&#20986;&#26412;&#26376;&#31532;&#19968;&#22825;&#20877;&#20943;&#19968;&#22825;</span>
-<span style="color: #F92672;">echo</span> date(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(date(<span style="color: #E6DB74;">'Y-m-01'</span>) . <span style="color: #E6DB74;">' -1 day'</span>));
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">date</span>(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(date(<span style="color: #E6DB74;">'Y-m-01'</span>) . <span style="color: #E6DB74;">' -1 day'</span>));
 </pre>
 </div>
 </div>
@@ -367,7 +367,7 @@ $<span style="color: #FD971F;">tempArr</span>=<span style="color: #F92672;">arra
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-php">$<span style="color: #FD971F;">BeginDate</span>=date(<span style="color: #E6DB74;">'Y-m-01'</span>, strtotime(date(<span style="color: #E6DB74;">"Y-m-d"</span>)));
-<span style="color: #F92672;">echo</span> date(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(<span style="color: #E6DB74;">"</span><span style="color: #FD971F;">$BeginDate</span><span style="color: #E6DB74;"> +1 month -1 day"</span>));
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">date</span>(<span style="color: #E6DB74;">'Y-m-d'</span>, strtotime(<span style="color: #E6DB74;">"</span><span style="color: #FD971F;">$BeginDate</span><span style="color: #E6DB74;"> +1 month -1 day"</span>));
 </pre>
 </div>
 </div>
@@ -398,7 +398,7 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
 <h3 id="orgd68175d"><span class="section-number-3">5.5</span> 计算已成为会员多少天或距离某活动还剩余多少天</h3>
 <div class="outline-text-3" id="text-5-5">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">get_days_calc</span>($<span style="color: #FD971F;">calcTime</span>, $<span style="color: #FD971F;">currentTime</span>, $<span style="color: #FD971F;">differOrSurplus</span>){
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">get_days_calc</span>($<span style="color: #FD971F;">calcTime</span>, $<span style="color: #FD971F;">currentTime</span>, $<span style="color: #FD971F;">differOrSurplus</span>){
     <span style="color: #F92672;">switch</span> ($<span style="color: #FD971F;">differOrSurplus</span>) {
     <span style="color: #F92672;">case</span> 1:
     <span style="color: #F92672;">return</span> round(($<span style="color: #FD971F;">currentTime</span>-$<span style="color: #FD971F;">calcTime</span>)/3600/24);
@@ -431,7 +431,7 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
 <span style="color: #E6DB74;"> * </span><span style="color: #AE81FF;">@param</span><span style="color: #E6DB74;">  [type] </span><span style="color: #FD971F;">$</span><span style="color: #FD971F;">new_name</span><span style="color: #E6DB74;"> [&#25351;&#23450;&#25991;&#20214;&#21517;&#31216;]</span>
 <span style="color: #E6DB74;"> * </span><span style="color: #AE81FF;">@return</span><span style="color: #E6DB74;"> [type] [description]</span>
 <span style="color: #E6DB74;"> */</span>
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">downloadFile</span>($<span style="color: #FD971F;">file_url</span>,$<span style="color: #FD971F;">new_name</span>=<span style="color: #E6DB74;">''</span>){
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">downloadFile</span>($<span style="color: #FD971F;">file_url</span>,$<span style="color: #FD971F;">new_name</span>=<span style="color: #E6DB74;">''</span>){
     <span style="color: #F92672;">if</span>(!isset($<span style="color: #FD971F;">file_url</span>)||trim($<span style="color: #FD971F;">file_url</span>) == <span style="color: #E6DB74;">''</span>){
     <span style="color: #F92672;">echo</span> <span style="color: #E6DB74;">'500'</span>;
     }
@@ -450,7 +450,7 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
     header(<span style="color: #E6DB74;">"Accept-Length: "</span>.filesize($<span style="color: #FD971F;">file_url</span>));
     header(<span style="color: #E6DB74;">"Content-Disposition: attachment; filename="</span>.$<span style="color: #FD971F;">file_name</span>);
     <span style="color: #75715E;">//</span><span style="color: #75715E;">&#36755;&#20986;&#25991;&#20214;&#20869;&#23481;</span>
-    <span style="color: #F92672;">echo</span> fread($<span style="color: #FD971F;">file_type</span>,filesize($<span style="color: #FD971F;">file_url</span>));
+    <span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">fread</span>($<span style="color: #FD971F;">file_type</span>,filesize($<span style="color: #FD971F;">file_url</span>));
     fclose($<span style="color: #FD971F;">file_type</span>);
 }
 </pre>
@@ -471,8 +471,8 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
 </ul>
 </div>
 </div>
-<div id="outline-container-orgb689c38" class="outline-3">
-<h3 id="orgb689c38"><span class="section-number-3">6.2</span> 参考资料</h3>
+<div id="outline-container-org16b5f9f" class="outline-3">
+<h3 id="org16b5f9f"><span class="section-number-3">6.2</span> 参考资料</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 <a href="http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html">Php如何实现下载功能超详细流程分析</a>
@@ -498,7 +498,7 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
 <h3 id="org9b00a0e"><span class="section-number-3">10.1</span> 获取当前URL</h3>
 <div class="outline-text-3" id="text-10-1">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">getCurrentPageURL</span>()
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">getCurrentPageURL</span>()
 {
     $<span style="color: #FD971F;">pageURL</span> = <span style="color: #E6DB74;">'http'</span>;
     <span style="color: #F92672;">if</span> (<span style="color: #F92672;">isset</span>($<span style="color: #FD971F;">_SERVER</span>[<span style="color: #E6DB74;">"HTTPS"</span>]) &amp;&amp; $<span style="color: #FD971F;">_SERVER</span>[<span style="color: #E6DB74;">"HTTPS"</span>] == <span style="color: #E6DB74;">"on"</span>)
@@ -524,7 +524,7 @@ date(<span style="color: #E6DB74;">'Y-m-d H:i:s'</span>, 1156219870);
 <h3 id="orgf243fce"><span class="section-number-3">10.2</span> curl 请求处理</h3>
 <div class="outline-text-3" id="text-10-2">
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">curl</span>( $<span style="color: #FD971F;">url</span> = <span style="color: #E6DB74;">''</span>,$<span style="color: #FD971F;">method</span> = <span style="color: #E6DB74;">'GET'</span>,$<span style="color: #FD971F;">req_data</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">header</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">response_header</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">exec_time</span> = 5,$<span style="color: #FD971F;">connect_time</span> = 5 )
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">curl</span>( $<span style="color: #FD971F;">url</span> = <span style="color: #E6DB74;">''</span>,$<span style="color: #FD971F;">method</span> = <span style="color: #E6DB74;">'GET'</span>,$<span style="color: #FD971F;">req_data</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">header</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">response_header</span> = <span style="color: #AE81FF;">false</span>,$<span style="color: #FD971F;">exec_time</span> = 5,$<span style="color: #FD971F;">connect_time</span> = 5 )
 {
     $<span style="color: #FD971F;">method</span> = strtoupper( $<span style="color: #FD971F;">method</span> );
     $<span style="color: #FD971F;">ch</span> = curl_init();
@@ -1035,12 +1035,12 @@ echo json_encode($arr)<span style="color: #75715E;">; </span><span style="color:
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span>客户端请求代码</label><pre class="src src-php"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#23458;&#25143;&#31471;&#35831;&#27714;&#20195;&#30721;</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#19978;&#20256;&#25991;&#20214;</span>
-<span style="color: #F92672;">function</span> <span style="color: #A6E22E;">upload_idcard_file</span>(<span style="color: #66D9EF;">_this</span>,<span style="color: #66D9EF;">type</span>){
-    <span style="color: #F92672;">var</span> formData = <span style="color: #F92672;">new</span> <span style="color: #66D9EF;">FormData</span>();
+<span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">upload_idcard_file</span>(_this,type){
+    <span style="color: #66D9EF;">var</span> <span style="color: #FD971F;">formData</span> = <span style="color: #F92672;">new</span> FormData();
     formData.append(<span style="color: #E6DB74;">'type'</span>,type);
     formData.append(<span style="color: #E6DB74;">'file'</span>,_this.files[0]);
     $.ajax({
-        <span style="color: #AE81FF;">url</span>: <span style="color: #E6DB74;">'{$upload_file_url}'</span>,
+        url: <span style="color: #E6DB74;">'{$upload_file_url}'</span>,
         type: <span style="color: #E6DB74;">'POST'</span>,
         dataType: <span style="color: #E6DB74;">'json'</span>,
         data: formData,
@@ -1112,8 +1112,8 @@ header(<span style="color: #E6DB74;">'Access-Control-Allow-Credentials: true'</s
 </div>
 </div>
 </div>
-<div id="outline-container-org132c9da" class="outline-4">
-<h4 id="org132c9da"><span class="section-number-4">11.3.4</span> References</h4>
+<div id="outline-container-org3bb7355" class="outline-4">
+<h4 id="org3bb7355"><span class="section-number-4">11.3.4</span> References</h4>
 <div class="outline-text-4" id="text-11-3-4">
 <ul class="org-ul">
 <li><a href="https://blog.csdn.net/z69183787/article/details/78954325">跨域Ajax请求时是否带Cookie的设置</a></li>
@@ -1130,7 +1130,6 @@ header(<span style="color: #E6DB74;">'Access-Control-Allow-Credentials: true'</s
 <div class="outline-text-4" id="text-11-4-1">
 <pre class="example">
 分页（英语：Paging），是一种操作系统里存储器管理的一种技术，可以使计算机的主存可以使用存储在辅助存储器中的数据。……
-
 </pre>
 </div>
 </div>
@@ -1140,7 +1139,6 @@ header(<span style="color: #E6DB74;">'Access-Control-Allow-Credentials: true'</s
 <pre class="example">
 前端分页一般用于数据量较小的情况，一次请求把数据全部从后端请求回来。
 后端分页适用于数据量偏大时的情况，减小请求传输压力。前端需要将每页条数和当前页传给后端，后端根据条件查询出数据再传给前端，包括总条数、当前页、每页多少条数据等。
-
 </pre>
 </div>
 </div>
@@ -1148,12 +1146,12 @@ header(<span style="color: #E6DB74;">'Access-Control-Allow-Credentials: true'</s
 <div id="outline-container-org6ec81f8" class="outline-3">
 <h3 id="org6ec81f8"><span class="section-number-3">11.5</span> PHP 与 XML 技术</h3>
 </div>
-<div id="outline-container-org3bb7355" class="outline-3">
-<h3 id="org3bb7355"><span class="section-number-3">11.6</span> References</h3>
+<div id="outline-container-orgd884e46" class="outline-3">
+<h3 id="orgd884e46"><span class="section-number-3">11.6</span> References</h3>
 <div class="outline-text-3" id="text-11-6">
 <ul class="org-ul">
 <li><a href="https://www.helloweba.net/javascript/195.html">https://www.helloweba.net/javascript/195.html</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81">https://zh.wikipedia.org/wiki/分頁</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81">https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81</a></li>
 <li><a href="https://www.zhihu.com/question/26421527">https://www.zhihu.com/question/26421527</a></li>
 </ul>
 </div>
@@ -1187,9 +1185,9 @@ header(<span style="color: #E6DB74;">'Access-Control-Allow-Credentials: true'</s
 var_export — 输出或返回一个变量的字符串表示
 </p>
 <div class="org-src-container">
-<pre class="src src-php">print_r ( <span style="color: #66D9EF;">mixed</span> $<span style="color: #FD971F;">expression</span> [, <span style="color: #66D9EF;">bool</span> $<span style="color: #FD971F;">return</span> = <span style="color: #AE81FF;">FALSE</span> ] ) : mixed
-    var_dump ( <span style="color: #66D9EF;">mixed</span> $<span style="color: #FD971F;">expression</span> [, <span style="color: #66D9EF;">mixed</span> <span style="color: #FD971F;">$</span>... ] ) : <span style="color: #66D9EF;">void</span>
-    var_export ( <span style="color: #66D9EF;">mixed</span> $<span style="color: #FD971F;">expression</span> [, <span style="color: #66D9EF;">bool</span> $<span style="color: #FD971F;">return</span> ] ) : mixed
+<pre class="src src-php">print_r ( mixed $<span style="color: #FD971F;">expression</span> [, <span style="color: #66D9EF;">bool</span> $<span style="color: #FD971F;">return</span> = <span style="color: #AE81FF;">FALSE</span> ] ) : mixed
+    var_dump ( mixed $<span style="color: #FD971F;">expression</span> [, mixed $... ] ) : <span style="color: #66D9EF;">void</span>
+    var_export ( mixed $<span style="color: #FD971F;">expression</span> [, <span style="color: #66D9EF;">bool</span> $<span style="color: #FD971F;">return</span> ] ) : mixed
 </pre>
 </div></li>
 <li>get_html_translation_table — 返回使用 htmlspecialchars 和 htmlentities 后的转换表</li>
@@ -1217,9 +1215,9 @@ number_format — 以千位分隔符方式格式化一个数字
 </p>
 <div class="org-src-container">
 <pre class="src src-php"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#26080;&#35770;&#20540;&#26159;&#21542;&#20026;0&#65292;&#37117;&#20445;&#30041;&#23567;&#25968;&#28857;&#21518;&#20004;&#20301;</span>
-<span style="color: #F92672;">echo</span> number_format((<span style="color: #66D9EF;">float</span>)round($<span style="color: #FD971F;">a</span>,2,<span style="color: #AE81FF;">PHP_ROUND_HALF_ODD</span>),2,<span style="color: #E6DB74;">'.'</span>,<span style="color: #E6DB74;">''</span>);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">number_format</span>((<span style="color: #66D9EF;">float</span>)round($<span style="color: #FD971F;">a</span>,2,<span style="color: #AE81FF;">PHP_ROUND_HALF_ODD</span>),2,<span style="color: #E6DB74;">'.'</span>,<span style="color: #E6DB74;">''</span>);
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#25972;&#25968;&#37096;&#20998;&#20197;&#21315;&#20301;&#20998;&#38548;&#31526;&#26041;&#24335;&#20998;&#38548;</span>
-<span style="color: #F92672;">echo</span> number_format((<span style="color: #66D9EF;">float</span>)round($<span style="color: #FD971F;">a</span>,2,<span style="color: #AE81FF;">PHP_ROUND_HALF_ODD</span>),2,<span style="color: #E6DB74;">'.'</span>,<span style="color: #E6DB74;">','</span>);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">number_format</span>((<span style="color: #66D9EF;">float</span>)round($<span style="color: #FD971F;">a</span>,2,<span style="color: #AE81FF;">PHP_ROUND_HALF_ODD</span>),2,<span style="color: #E6DB74;">'.'</span>,<span style="color: #E6DB74;">','</span>);
 </pre>
 </div></li>
 <li>ord — 转换字符串第一个字节为 0-255 之间的值</li>
@@ -1276,10 +1274,10 @@ strstr()，返回字符串从查找字符串出现的位置开始到字符串结
 </p>
 <div class="org-src-container">
 <pre class="src src-php"><span style="color: #75715E;">// </span><span style="color: #75715E;">&#21435;&#38500;&#23383;&#31526;&#20018;&#21518;3&#20301;</span>
-substr($<span style="color: #FD971F;">tempStr</span>,0,<span style="color: #66D9EF;">strlen</span>($<span style="color: #FD971F;">tempStr</span>)-3);                                                   <span style="color: #75715E;">// </span><span style="color: #75715E;">&#25130;&#21462;&#26576;&#20010;&#23383;&#31526;&#20043;&#21518;&#30340;&#23383;&#31526;&#20018;</span>
+substr($<span style="color: #FD971F;">tempStr</span>,0,strlen($<span style="color: #FD971F;">tempStr</span>)-3);                                                   <span style="color: #75715E;">// </span><span style="color: #75715E;">&#25130;&#21462;&#26576;&#20010;&#23383;&#31526;&#20043;&#21518;&#30340;&#23383;&#31526;&#20018;</span>
 substr($<span style="color: #FD971F;">str</span>,strpos($<span style="color: #FD971F;">str</span>,<span style="color: #E6DB74;">"_"</span>);
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#21028;&#26029;&#26159;&#21542;&#21253;&#21547;&#26576;&#23383;&#31526;&#20018;&#65292;&#27809;&#26377;&#36820;&#22238;&#20540;&#65292;&#21017;&#19981;&#21253;&#21547;</span>
-<span style="color: #F92672;">echo</span> strstr($<span style="color: #FD971F;">str</span>,<span style="color: #E6DB74;">'@'</span>);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">strstr</span>($<span style="color: #FD971F;">str</span>,<span style="color: #E6DB74;">'@'</span>);
 </pre>
 </div></li>
 <li>stristr()，与 strstr() 的使用方法一样，区别是 stristr 不区分大小写。</li>
@@ -1574,7 +1572,7 @@ floor(), 向下取整
 <div class="org-src-container">
 <pre class="src src-php">  <span style="color: #75715E;">// </span><span style="color: #75715E;">intval()</span>
   <span style="color: #75715E;">// </span><span style="color: #75715E;">3</span>
-<span style="color: #F92672;">echo</span> intval(3.14);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">intval</span>(3.14);
 <span style="color: #75715E;">// </span><span style="color: #75715E;">round()</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#26684;&#24335;&#65306;round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ) : float</span>
 <span style="color: #75715E;">//  </span><span style="color: #75715E;">PHP_ROUND_HALF_UP&#12289; PHP_ROUND_HALF_DOWN PHP_ROUND_HALF_EVEN &#25110; PHP_ROUND_HALF_ODD</span>
@@ -1606,11 +1604,11 @@ var_dump(round(8.5, 0, <span style="color: #AE81FF;">PHP_ROUND_HALF_ODD</span>))
 <span style="color: #75715E;">// </span><span style="color: #75715E;">ceil()</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#26684;&#24335;&#65306;ceil ( float $value ) : float</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">4</span>
-<span style="color: #F92672;">echo</span> ceil(3.14);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">ceil</span>(3.14);
 <span style="color: #75715E;">// </span><span style="color: #75715E;">floor()</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#26684;&#24335;&#65306;floor ( float $value ) : float</span>
 <span style="color: #75715E;">// </span><span style="color: #75715E;">3</span>
-<span style="color: #F92672;">echo</span> floor(3.14);
+<span style="color: #66D9EF;">echo</span> <span style="color: #A6E22E;">floor</span>(3.14);
 <span style="color: #75715E;">// </span><span style="color: #75715E;">&#20445;&#30041;&#20004;&#20301;&#23567;&#25968;,&#19981;&#22235;&#33293;&#20116;&#20837;</span>
 var_dump(floor(3.157*100)/100));
 </pre>
@@ -1697,7 +1695,6 @@ fputs — fwrite 的别名
 </ul>
 <pre class="example">
 如：Name、SuperMan、BigClassObject。
-
 </pre>
 </div>
 </div>
@@ -1726,8 +1723,8 @@ fputs — fwrite 的别名
 参数命名采用驼峰命名法（首字母小写，后续单词首字母大写）。如：
 </p>
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">EchoAnyWord</span>{
-    <span style="color: #F92672;">function</span> <span style="color: #A6E22E;">echoWord</span>($<span style="color: #FD971F;">firstWord</span>, $<span style="color: #FD971F;">secondWord</span>){
+<pre class="src src-php"><span style="color: #66D9EF;">class</span> <span style="color: #FD971F;">EchoAnyWord</span>{
+    <span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">echoWord</span>($<span style="color: #FD971F;">firstWord</span>, $<span style="color: #FD971F;">secondWord</span>){
     ...
     }
 }
@@ -1747,7 +1744,6 @@ fputs — fwrite 的别名
 
 <pre class="example">
 如：$msg_error、$chk_pwd等
-
 </pre>
 </div>
 <div id="outline-container-org3654618" class="outline-4">
@@ -1758,7 +1754,7 @@ fputs — fwrite 的别名
 引用变量要带有‘r’(recommend)前缀。如：
 </p>
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">class</span> <span style="color: #66D9EF;">Example</span>{
+<pre class="src src-php"><span style="color: #66D9EF;">class</span> <span style="color: #FD971F;">Example</span>{
     $<span style="color: #FD971F;">mExam</span> = <span style="color: #E6DB74;">""</span>;
     <span style="color: #66D9EF;">funciton</span> <span style="color: #A6E22E;">SetExam</span>(&amp;$<span style="color: #FD971F;">rExam</span>){
     ...
@@ -1803,7 +1799,7 @@ define(<span style="color: #E6DB74;">'DEFAULT_NUM_SUM'</span>,500);
 静态变量应该带有前缀‘s’。如：
 </p>
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #66D9EF;">station</span> $<span style="color: #FD971F;">sStatus</span> = 1;
+<pre class="src src-php">station $<span style="color: #FD971F;">sStatus</span> = 1;
 </pre>
 </div></li>
 </ul>
@@ -1817,7 +1813,7 @@ define(<span style="color: #E6DB74;">'DEFAULT_NUM_SUM'</span>,500);
 <b>所有的名称都使用小写字母，多个单词使用‘_’来分割。如：</b>
 </p>
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #F92672;">function</span> <span style="color: #A6E22E;">this_good_idear</span>(){
+<pre class="src src-php"><span style="color: #66D9EF;">function</span> <span style="color: #A6E22E;">this_good_idear</span>(){
     ...
 }
 </pre>
@@ -1826,11 +1822,11 @@ define(<span style="color: #E6DB74;">'DEFAULT_NUM_SUM'</span>,500);
 </div>
 </div>
 </div>
-<div id="outline-container-org86042c1" class="outline-3">
-<h3 id="org86042c1"><span class="section-number-3">13.3</span> 函数</h3>
+<div id="outline-container-org6dc1cd6" class="outline-3">
+<h3 id="org6dc1cd6"><span class="section-number-3">13.3</span> 函数</h3>
 </div>
-<div id="outline-container-orgc23e982" class="outline-3">
-<h3 id="orgc23e982"><span class="section-number-3">13.4</span> 参考资料</h3>
+<div id="outline-container-orgff36ec6" class="outline-3">
+<h3 id="orgff36ec6"><span class="section-number-3">13.4</span> 参考资料</h3>
 <div class="outline-text-3" id="text-13-4">
 <ul class="org-ul">
 <li>《PHP从入门到精通》</li>

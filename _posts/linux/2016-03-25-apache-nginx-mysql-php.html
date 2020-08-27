@@ -33,7 +33,6 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 <div class="outline-text-2" id="text-orga7b5fbf">
 <pre class="example">
 建议根据文档顺序依次安装。
-
 </pre>
 </div>
 </div>
@@ -88,7 +87,7 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
  &#28982;&#21518;&#25191;&#34892;&#65306;# autoreconf --force --install
        #autoreconf --force --install
        #autoreconf --force --install
-       &#20043;&#21518;&#65292;&#25171;&#24320;configure&#25991;&#20214;(&#29616;&#22312;&#20351;&#29992;&#30340;&#29256;&#26412;&#26159;apr-1.5.2&#65292;30212&#34892;)&#65292;&#27880;&#37322;   $RM -f <span style="color: #E6DB74;">"$cfgfile"</span>&#65292;&#23601;&#26159;&#22312;&#21069;&#38754;&#28155;&#21152;&#8220;#&#8221;&#12290;
+       &#20043;&#21518;&#65292;&#25171;&#24320;configure&#25991;&#20214;(&#29616;&#22312;&#20351;&#29992;&#30340;&#29256;&#26412;&#26159;apr-1.5.2&#65292;30212&#34892;)&#65292;&#27880;&#37322;   $RM -f <span style="color: #E6DB74;">"$cfgfile"</span>&#65292;&#23601;&#26159;&#22312;&#21069;&#38754;&#28155;&#21152;<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8220;</span>#<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8221;</span>&#12290;
 &#37325;&#26032;&#25191;&#34892;./configure --prefix=/usr/local/apr&#65292;&#38382;&#39064;&#35299;&#20915;&#12290;
 &#25104;&#21151;&#26631;&#24535;&#65306;
 </pre>
@@ -187,7 +186,6 @@ This is a installation process of "Apache+MySQL+PHP" source packages on linux en
 </div>
 <pre class="example">
 至此，Apache安装成功
-
 </pre>
 </div>
 </div>
@@ -236,14 +234,14 @@ ServerName localhost:80
 <h4 id="org2deaf92">Configure virtual host</h4>
 <div class="outline-text-4" id="text-org2deaf92">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orga3f65ee">LoadModule vhost_alias_module modules/mod_vhost_alias.so
+<pre class="src src-emacs-lisp" id="orge4ebad5">LoadModule vhost_alias_module modules/mod_vhost_alias.so
 # Virtual hosts 
 Include conf/extra/httpd-vhosts.conf
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orged6765c">&lt;VirtualHost 127.0.0.1:80&gt;
+<pre class="src src-emacs-lisp" id="orgde5d414">&lt;VirtualHost 127.0.0.1:80&gt;
     #directory
     DocumentRoot <span style="color: #E6DB74;">"D:</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">phpStudy</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">WWW\ec-shop</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">gold"</span>
     ServerName local.gold
@@ -278,14 +276,14 @@ Explain:
 <h4 id="orgf7d1bd7">Configure multiple ports and multiple sites</h4>
 <div class="outline-text-4" id="text-orgf7d1bd7">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orge4ebad5">Add listening port:
+<pre class="src src-emacs-lisp" id="org724c9cc">Add listening port:
   Listen 81
   Listen 82
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="orgde5d414">&lt;VirtualHost *:81&gt;
+<pre class="src src-emacs-lisp" id="org646f236">&lt;VirtualHost *:81&gt;
 #    ServerAdmin webmaster@dummy-host2.example.com
      DocumentRoot <span style="color: #E6DB74;">"d:</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">wamp</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">www</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">\</span><span style="color: #E6DB74;">wp-job"</span>
      ServerName localhost
@@ -315,7 +313,6 @@ Explain:
 <div class="outline-text-3" id="text-org531c082">
 <pre class="example">
 Nginx是一款免费、开源、高效的 HTTP 服务器，Nginx是以稳定著称，丰富的功能，结构简单，低资源消耗。
-
 </pre>
 </div>
 </div>
@@ -336,19 +333,18 @@ enabled=1
 <div class="outline-text-3" id="text-org6ad5465">
 <pre class="example">
 yum install -y nginx
-
 </pre>
+
 
 <pre class="example">
 //设置nginx开机自启动
 systemctl enable nginx.service
-
 </pre>
+
 
 <pre class="example">
 //启动/停止/重新启动nginx
 systemctl start/stop/restart nginx.service
-
 </pre>
 </div>
 </div>
@@ -359,7 +355,6 @@ systemctl start/stop/restart nginx.service
 firewall-cmd –permanent –zone=public –add-service=http
 firewall-cmd –permanent –zone=public –add-service=https
 firewall-cmd –reload
-
 </pre>
 </div>
 </div>
@@ -372,8 +367,8 @@ firewall-cmd –reload
 <div class="outline-text-4" id="text-org4f12aef">
 <pre class="example">
 环境要求:能够正常访问网页
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs_lisp">server {
     listen       80;
@@ -428,8 +423,8 @@ firewall-cmd –reload
 <div class="outline-text-4" id="text-org451f05e">
 <pre class="example">
 环境要求：php, ThinkPHP5, pathinfo,  
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">server {
     listen       8080<span style="color: #75715E;">;</span>
@@ -499,32 +494,30 @@ firewall-cmd –reload
 <pre class="example">
 1. 403 Forbidden
 问题分析：1）检查文件或目录(/srv/www/)权限问题；2）配置检查：访问文件类型，index index.php index.html index.htm
-
 </pre>
+
 
 <pre class="example">
 2.访问时，出现以下内容：
 File not found. 
 No input file specified.
 问题分析：1）检查路径配置是否正确；2）检查php-fpm配置
-
 </pre>
+
 
 <pre class="example">
 3.
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdba4252" class="outline-3">
-<h3 id="orgdba4252">参考资料</h3>
-<div class="outline-text-3" id="text-orgdba4252">
+<div id="outline-container-org1a44ee4" class="outline-3">
+<h3 id="org1a44ee4">参考资料</h3>
+<div class="outline-text-3" id="text-org1a44ee4">
 <pre class="example">
 http://www.nginx.cn/231.html
 https://www.nginx.com/
 https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
-
 </pre>
 </div>
 </div>
@@ -534,8 +527,8 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 <div class="outline-text-2" id="text-org5fb81ba">
 <pre class="example">
 注意：这里下载的是rpm安装包。
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">1.rpm&#23433;&#35013;&#26102;&#65292;&#25253;&#22914;&#19979;&#38169;&#35823;&#65292;&#36825;&#26159;&#22240;&#20026;&#38656;&#35201;&#23433;&#35013;&#36825;&#20123;&#20381;&#36182;&#21253;&#65306;
 </pre>
@@ -575,7 +568,6 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 </div>
 <pre class="example">
 安装完成后，可以通过 # mysql_secure_installation 命令设置root用户密码。
-
 </pre>
 </div>
 <div id="outline-container-orgda3f3eb" class="outline-3">
@@ -584,7 +576,6 @@ https://www.nginx.com/resources/wiki/start/topics/tutorials/install/
 <pre class="example">
 //非源码安装方式
 yum install mariadb mariadb-server net-tools
-
 </pre>
 </div>
 </div>
@@ -759,8 +750,8 @@ make libdir=/usr/lib64 <span style="color: #66D9EF;">&amp;&amp;</span> make libd
 下载地址 http://curl.haxx.se/
 #./configure --prefix=/usr/local/curl
 #make &amp;&amp; make install ，成功标志:
-
 </pre>
+
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/php-13.png" alt="php-13.png" />
@@ -798,8 +789,8 @@ $ ./configure --prefix=/usr/local/php \
 --enable-mbregex \
 --enable-zip \
 --enable-fileinfo \
-
 </pre>
+
 <p>
 此时，会报下图错误，解决办法就是安装zlib-devel，# zypper in libxml2-devel -y
 <img src="{{site.url}}/assets/images/php-14.png" alt="php-14.png" />
@@ -809,8 +800,8 @@ $ ./configure --prefix=/usr/local/php \
 </p>
 <pre class="example">
 # make &amp;&amp; make install
-
 </pre>
+
 <p>
 成功标志：
 <img src="{{site.url}}/assets/images/php-16.png" alt="php-16.png" />
@@ -878,12 +869,12 @@ phpinfo()<span style="color: #75715E;">;</span>
 </div>
 <pre class="example">
 需要安装其他扩展，使用同样的操作。
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">&#29305;&#21035;&#25552;&#31034;1&#65306;
  &#21487;&#33021;&#22312;make&#30340;&#26102;&#20505;&#65292;&#20250;&#36935;&#21040;&#38169;&#35823;
- &#38169;&#35823;&#65306;&#8216;<span style="color: #AE81FF;">PHP_FE_END</span>&#8217;&#26410;&#22768;&#26126;(&#19981;&#22312;&#20989;&#25968;&#20869;) -----{error: &#8216;<span style="color: #AE81FF;">PHP_FE_END</span>&#8217; undeclared here (not in a function)}
+ &#38169;&#35823;&#65306;<span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8216;</span><span style="color: #AE81FF;">PHP_FE_END</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8217;</span>&#26410;&#22768;&#26126;(&#19981;&#22312;&#20989;&#25968;&#20869;) -----{error: <span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8216;</span><span style="color: #AE81FF;">PHP_FE_END</span><span style="color: #FD971F; font-weight: bold; font-style: italic; text-decoration: underline;">&#8217;</span> undeclared here (not in a function)}
  &#35299;&#20915;&#26041;&#27861;&#65306; &#28304;&#20195;&#30721;&#26377;&#38169;&#35823;&#65292;&#36827;&#20837;php-5.3.18/ext/mcrypt&#30446;&#24405;
  sed -i 's|PHP_FE_END|{NULL,NULL,NULL}|' ./*.c
  sed -i 's|ZEND_MOD_END|{NULL,NULL,NULL}|' ./*.c
@@ -909,13 +900,12 @@ vim /usr/local/php/etc/php-fpm.conf
 content:
         user=username
         group=groupname
-
 </pre>
+
 
 <pre class="example">
 //开启php-fpm
 /usr/local/php/sbin/php-fpm start
-
 </pre>
 </div>
 </div>
@@ -931,14 +921,14 @@ content:
 //安装必须组件
 $apt-get install libevent-dev
 或下载libevent-dev源码安装：libevent.org or https://sourceforge.net/projects/levent/
-
 </pre>
+
 
 <pre class="example">
 //下载Memcached
 网址：http://memcached.org/downloads
-
 </pre>
+
 
 <pre class="example">
 //安装Memcached
@@ -947,15 +937,14 @@ $cd memcached-1.5.4
 $./configure --prefix=/usr/local/memcached --with-libevent=/usr/local/libevent
 $make &amp;&amp; make install
 或通过apt-get命令直接安装：$apt-get install memcached
-
 </pre>
+
 
 <pre class="example">
 //启动Memcached
 $/usr/local/memcached/bin/memcached -m 64 -p 11211 -u nobody -vv -d
 -d表示在后台运行
 $ps aux |grep memcached
-
 </pre>
 </div>
 </div>
@@ -969,8 +958,8 @@ $ps aux |grep memcached
 <pre class="example">
 //下载libmemcached
 网址：https://launchpad.net/
-
 </pre>
+
 
 <pre class="example">
 //解压安装
@@ -978,7 +967,6 @@ $tar zxvf libmemcached-1.0.18.tar.gz
 $cd libmemcached-1.0.18
 $./configure --prefix=/usr/local/libmemcached
 #make &amp;&amp; make install
-
 </pre>
 </div>
 </div>
@@ -996,8 +984,8 @@ $./configure --with-php-config=/usr/local/php7/bin/php-config
 #make &amp;&amp; make install
 //编辑php.ini文件，加入：extension=memcache.so
 //重启Apache，查看memcache扩展是否加载
-
 </pre>
+
 <p>
 ### memcached 扩展
 </p>
@@ -1011,14 +999,13 @@ $./configure --with-php-config=/usr/local/php7/bin/php-config \
 --disable-memcached-sasl
 //同样，编辑PHP配置文件，加入：extension=memcached.so
 //重启Apache，查看memcached扩展是否加载
-
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3a0409f" class="outline-3">
-<h3 id="org3a0409f">参考资料</h3>
-<div class="outline-text-3" id="text-org3a0409f">
+<div id="outline-container-org5e0141b" class="outline-3">
+<h3 id="org5e0141b">参考资料</h3>
+<div class="outline-text-3" id="text-org5e0141b">
 <pre class="example">
 memcache官网：http://memcache.org/
 Linux Memcached 安装：http://www.runoob.com/memcached/memcached-install.html
@@ -1027,7 +1014,6 @@ linux下安装PHP memcached扩展：http://www.cnblogs.com/flywind/p/6021568.htm
 PHP7 下安装 memcache 和 memcached 扩展：http://www.lnmp.cn/install-memcache-and-memcached-extends-under-php7.html
 Linux下的Memcache安装：http://kimi.it/257.html
 Memcache基础教程：http://kimi.it/259.html
-
 </pre>
 </div>
 </div>
@@ -1042,20 +1028,19 @@ Memcache基础教程：http://kimi.it/259.html
 </div>
 </div>
 </div>
-<div id="outline-container-org1a44ee4" class="outline-2">
-<h2 id="org1a44ee4">参考资料</h2>
-<div class="outline-text-2" id="text-org1a44ee4">
+<div id="outline-container-orgbe4262b" class="outline-2">
+<h2 id="orgbe4262b">参考资料</h2>
+<div class="outline-text-2" id="text-orgbe4262b">
 <pre class="example">
 https://xwsoul.com/posts/684
-
 </pre>
+
 
 <pre class="example">
 http://php.net/
 http://www.apache.org/
 https://www.mysql.com/
 https://mariadb.org/
-
 </pre>
 </div>
 </div>

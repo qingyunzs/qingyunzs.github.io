@@ -563,13 +563,12 @@ Installing pip
 or
 # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 # python get-pip.py
-
 </pre>
+
 
 <pre class="example">
 // update
 # pip install --upgrade pip
-
 </pre></li>
 <li><p>
 Installing shadowsocks
@@ -577,8 +576,8 @@ Installing shadowsocks
 <pre class="example">
 # pip install shadowsocks
 # vim /etc/shadowsocks.json
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-shell">{
   <span style="color: #E6DB74;">"server"</span>: <span style="color: #E6DB74;">"server_ip"</span>,//server ip address
@@ -615,8 +614,8 @@ Configuring auto-start script
 </p>
 <pre class="example">
 #vim /etc/systemd/system/shadowsocks.service
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">[Unit]
 Description=Shadowsocks
@@ -634,22 +633,20 @@ Start shadowsocks
 #systemctl enable shadowsocks
 #systemctl start shadowsocks
 #systemctl status shadowsocks -l
-
 </pre></li>
 <li><p>
 Auto install script
 </p>
 <pre class="example">
 $ vim install-shadowsocks.sh, content of file from 
-
 </pre>
+
 <p>
 <a href="https://github.com/zhaorengui/article/blob/master/network/install-shadowsocks.sh">install-shadowsocks.sh</a>
 </p>
 <pre class="example">
 # chmod +x install-shadowsocks.sh
 # ./install-shadowsocks.sh
-
 </pre></li>
 </ol>
 </div>
@@ -665,14 +662,12 @@ Installing docker
 # yum install docker
 # systemctl enable docker
 # systemctl start docker
-
 </pre></li>
 <li><p>
 Deploy shadowsocks
 </p>
 <pre class="example">
 # docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
-
 </pre></li>
 </ol>
 </div>
@@ -700,7 +695,6 @@ Debian/Ubuntu:
 <pre class="example">
 $ sudo apt-get install python-pip
 $ sudo pip install shadowsocks
-
 </pre></li>
 <li><p>
 Fedora/Centos:
@@ -709,7 +703,6 @@ Fedora/Centos:
 $ sudo yum install python-setuptools   or   sudo dnf install python-setuptools
 $ sudo easy_install pip
 $ sudo pip install shadowsocks
-
 </pre></li>
 <li><p>
 OpenSUSE:
@@ -717,7 +710,6 @@ OpenSUSE:
 <pre class="example">
 $ sudo zypper install python-pip
 $ sudo pip install shadowsocks
-
 </pre></li>
 <li><p>
 Archlinux:
@@ -725,7 +717,6 @@ Archlinux:
 <pre class="example">
 $ sudo pacman -S python-pip
 $ sudo pip install shadowsocks
-
 </pre></li>
 </ul>
 <p>
@@ -733,8 +724,8 @@ sslocal is the client software and ssserver is the server software. On some Linu
 </p>
 <pre class="example">
 $ whereis sslocal
-
 </pre>
+
 <p>
 sslocal: /usr/local/bin/sslocal
 </p></li>
@@ -756,21 +747,20 @@ sslocal: /usr/local/bin/sslocal
 <pre class="example">
 // start
 $ sudo sslocal -c /etc/shadowsocks.json
-
 </pre>
+
 
 <pre class="example">
 // To run in the background
 $ sudo sslocal -c /etc/shadowsocks.json -d start
-
 </pre></li>
 <li><p>
 /etc/rc.local
 </p>
 <pre class="example">
 $ sudo vim /etc/rc.local
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">sudo sslocal -c /etc/shadowsocks.json -d start
 </pre>
@@ -779,7 +769,6 @@ $ sudo vim /etc/rc.local
 <pre class="example">
 // Check if It Works
 # sudo systemctl status rc-local.service
-
 </pre></li>
 </ol>
 </div>
@@ -794,8 +783,8 @@ Install and Configure polipo
 <pre class="example">
 $ sudo apt install polipo
 $ sudo vim /etc/polipo/config
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-shell" id="orgedc18cc"><span style="color: #FD971F;">logSyslog</span> = true
 <span style="color: #FD971F;">logFile</span> = /var/log/polipo/polipo.log
@@ -814,7 +803,6 @@ Restart polipo
 </p>
 <pre class="example">
 $ sudo systemctl restart polipo
-
 </pre></li>
 <li><p>
 Export http_proxy and https_proxy
@@ -822,14 +810,12 @@ Export http_proxy and https_proxy
 <pre class="example">
 $ export http_proxy="http://127.0.0.1:8123/"
 $ export https_proxy="https://127.0.0.1:8123/"
-
 </pre></li>
 <li><p>
 testing
 </p>
 <pre class="example">
 $ curl www.google.com
-
 </pre></li>
 </ol>
 </div>
@@ -844,15 +830,15 @@ ShadowSocks start error: undefined symbol EVP_CIPHER_CTX_cleanup
 </p>
 <pre class="example">
 openssl 1.1.0 "EVP_CIPHER_CTX_cleanup" is old.
-
 </pre>
+
 <p>
 [Solving]
 </p>
 <pre class="example">
 $ vim /usr/local/lib/python3.5/dist-packages/shadowsocks/crypto/openssl.py
-
 </pre>
+
 <div class="org-src-container">
 <pre class="src src-python" id="orgf626dc8">VIM Command&#65306;
 :%s/cleanup/reset/
@@ -875,7 +861,6 @@ $ sudo echo "/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/lib64" &gt;&gt; /etc/ld.so.conf
 $ sudo echo "/usr/local/lib" &gt;&gt; /etc/ld.so.conf
 $ sudo ldconfig
-
 </pre></li>
 </ol>
 </div>
@@ -885,16 +870,16 @@ $ sudo ldconfig
 <h3 id="orgf2cffc7"><span class="section-number-3">2.2</span> Windows</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
-<div id="outline-container-orgc02936e" class="outline-4">
-<h4 id="orgc02936e"><span class="section-number-4">2.2.1</span> Download</h4>
+<div id="outline-container-orgd6bc0e1" class="outline-4">
+<h4 id="orgd6bc0e1"><span class="section-number-4">2.2.1</span> Download</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
-<div id="outline-container-orgc0995d3" class="outline-4">
-<h4 id="orgc0995d3"><span class="section-number-4">2.2.2</span> Configure</h4>
+<div id="outline-container-orgb295bd5" class="outline-4">
+<h4 id="orgb295bd5"><span class="section-number-4">2.2.2</span> Configure</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <ol class="org-ol">
 <li>unzip
@@ -913,16 +898,16 @@ Get shadowsocks client by sending email to zrg1390556487@gmail.com
 <h3 id="orgdc970c9"><span class="section-number-3">2.3</span> Android</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
-<div id="outline-container-org9ac5804" class="outline-4">
-<h4 id="org9ac5804"><span class="section-number-4">2.3.1</span> Download</h4>
+<div id="outline-container-orgf2336bf" class="outline-4">
+<h4 id="orgf2336bf"><span class="section-number-4">2.3.1</span> Download</h4>
 <div class="outline-text-4" id="text-2-3-1">
 <p>
 Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
-<div id="outline-container-orga224e18" class="outline-4">
-<h4 id="orga224e18"><span class="section-number-4">2.3.2</span> Configure</h4>
+<div id="outline-container-orgc0609bb" class="outline-4">
+<h4 id="orgc0609bb"><span class="section-number-4">2.3.2</span> Configure</h4>
 <div class="outline-text-4" id="text-2-3-2">
 
 <div class="figure">
@@ -956,16 +941,16 @@ Get shadowsocks client by sending email to zrg1390556487@gmail.com
 <h2 id="org572ac76"><span class="section-number-2">3</span> Browser Plugin: SwitchyOmega</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgb82a9e9" class="outline-3">
-<h3 id="orgb82a9e9"><span class="section-number-3">3.1</span> Download</h3>
+<div id="outline-container-orgce8d391" class="outline-3">
+<h3 id="orgce8d391"><span class="section-number-3">3.1</span> Download</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 Get shadowsocks client by sending email to zrg1390556487@gmail.com
 </p>
 </div>
 </div>
-<div id="outline-container-org437e49e" class="outline-3">
-<h3 id="org437e49e"><span class="section-number-3">3.2</span> Configure</h3>
+<div id="outline-container-orge7759a3" class="outline-3">
+<h3 id="orge7759a3"><span class="section-number-3">3.2</span> Configure</h3>
 <div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
 <li>set proxy
@@ -978,7 +963,6 @@ set rule
 rule:http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
 or
 https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
-
 </pre></li>
 </ol>
 </div>
@@ -1142,7 +1126,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1153,7 +1137,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1164,7 +1148,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1257,7 +1241,7 @@ https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6f862b2"> <span class="nav-text">1 Server</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org52145b1"> <span class="nav-text">1.1 Buy a Cloud Host</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc85b536"> <span class="nav-text">1.2 Solution 1: Using Original Shadowsocks</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd78f429"> <span class="nav-text">1.3 Solution 2: Using docker</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org344a4e5"> <span class="nav-text">2 Client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga58e703"> <span class="nav-text">2.1 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1d1b5f9"> <span class="nav-text">2.1.1 Command Line Client on Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org763386c"> <span class="nav-text">2.1.2 Global Proxy</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org890b1ee"> <span class="nav-text">2.1.3 Solving Problem</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf2cffc7"> <span class="nav-text">2.2 Windows</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc02936e"> <span class="nav-text">2.2.1 Download</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc0995d3"> <span class="nav-text">2.2.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdc970c9"> <span class="nav-text">2.3 Android</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9ac5804"> <span class="nav-text">2.3.1 Download</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga224e18"> <span class="nav-text">2.3.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org730b919"> <span class="nav-text">2.4 IOS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org99ee1a9"> <span class="nav-text">2.5 Mac OS X</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org572ac76"> <span class="nav-text">3 Browser Plugin: SwitchyOmega</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb82a9e9"> <span class="nav-text">3.1 Download</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org437e49e"> <span class="nav-text">3.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org48ccbea"> <span class="nav-text">4 References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6f862b2"> <span class="nav-text">1 Server</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org52145b1"> <span class="nav-text">1.1 Buy a Cloud Host</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc85b536"> <span class="nav-text">1.2 Solution 1: Using Original Shadowsocks</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd78f429"> <span class="nav-text">1.3 Solution 2: Using docker</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org344a4e5"> <span class="nav-text">2 Client</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga58e703"> <span class="nav-text">2.1 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1d1b5f9"> <span class="nav-text">2.1.1 Command Line Client on Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org763386c"> <span class="nav-text">2.1.2 Global Proxy</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org890b1ee"> <span class="nav-text">2.1.3 Solving Problem</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf2cffc7"> <span class="nav-text">2.2 Windows</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd6bc0e1"> <span class="nav-text">2.2.1 Download</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb295bd5"> <span class="nav-text">2.2.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdc970c9"> <span class="nav-text">2.3 Android</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf2336bf"> <span class="nav-text">2.3.1 Download</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc0609bb"> <span class="nav-text">2.3.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org730b919"> <span class="nav-text">2.4 IOS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org99ee1a9"> <span class="nav-text">2.5 Mac OS X</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org572ac76"> <span class="nav-text">3 Browser Plugin: SwitchyOmega</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgce8d391"> <span class="nav-text">3.1 Download</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge7759a3"> <span class="nav-text">3.2 Configure</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org48ccbea"> <span class="nav-text">4 References</span> </a> </li>
     </ol>
   </div>
             

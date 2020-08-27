@@ -520,7 +520,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  9515
+                  9565
                 </span>
               
 
@@ -553,13 +553,9 @@
 If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
 </p>
 
-<div id="outline-container-orgd452024" class="outline-2">
-<h2 id="orgd452024"><span class="section-number-2">1</span> Git</h2>
+<div id="outline-container-org09194af" class="outline-2">
+<h2 id="org09194af"><span class="section-number-2">1</span> Git vs SVN</h2>
 <div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-org09194af" class="outline-3">
-<h3 id="org09194af"><span class="section-number-3">1.1</span> Git vs SVN</h3>
-<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>Git是分布式的，SVN不是；</li>
 <li>Git把内容按元数据方式存储，而SVN是按文件；</li>
@@ -569,9 +565,13 @@ If you have any questions abount this article, or if you have found any errors i
 </ul>
 </div>
 </div>
-<div id="outline-container-org9b0c092" class="outline-3">
-<h3 id="org9b0c092"><span class="section-number-3">1.2</span> Installation</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-org14b9a64" class="outline-2">
+<h2 id="org14b9a64"><span class="section-number-2">2</span> Installing and Configuration</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgdf525d9" class="outline-3">
+<h3 id="orgdf525d9"><span class="section-number-3">2.1</span> Installing</h3>
+<div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
 <li><p>
 Ubuntu/Debian
@@ -579,7 +579,6 @@ Ubuntu/Debian
 <pre class="example">
 $ sudo apt-get install git
 $ sudo apt-get install git-doc git-svn git-email gitk
-
 </pre></li>
 <li><p>
 RHEL/Fedora/CentOS
@@ -587,21 +586,19 @@ RHEL/Fedora/CentOS
 <pre class="example">
 $ yum install git
 $ yum install git-svn git-email gitk
-
 </pre></li>
 <li><p>
 MacOS
 </p>
 <pre class="example">
 $ brew install git
-
 </pre></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-org4f3304f" class="outline-3">
-<h3 id="org4f3304f"><span class="section-number-3">1.3</span> Configuration</h3>
-<div class="outline-text-3" id="text-1-3">
+<h3 id="org4f3304f"><span class="section-number-3">2.2</span> Configuration</h3>
+<div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
 <li><p>
 Set username and email
@@ -609,7 +606,6 @@ Set username and email
 <pre class="example">
 $ git config --global user.name "your name"
 $ git config --global user.email "your_email@youremail.com"
-
 </pre></li>
 <li><p>
 Support chinese
@@ -621,14 +617,12 @@ $ git config --global core.quotepath false
 $ git config --global i18n.logOutputEncoding gbk
 //录入提交说明的字符集：
 $ git config --global i18n.commitEncoding gbk
-
 </pre></li>
 <li><p>
 Show config list
 </p>
 <pre class="example">
 $ git config -l
-
 </pre></li>
 <li><p>
 Delete configuration
@@ -636,78 +630,107 @@ Delete configuration
 <pre class="example">
 $ git config --unset --global user.name
 $ git config --unset --global user.email
-
 </pre></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org968c8aa" class="outline-3">
-<h3 id="org968c8aa"><span class="section-number-3">1.4</span> Getting and Creating Repository</h3>
-<div class="outline-text-3" id="text-1-4">
-<ol class="org-ol">
-<li><p>
-首先，在服务器端或本地存储仓库目录下，进行仓库的初始化：
-</p>
+</div>
+<div id="outline-container-orgcaacceb" class="outline-2">
+<h2 id="orgcaacceb"><span class="section-number-2">3</span> Get Started</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org4e3ff4a" class="outline-3">
+<h3 id="org4e3ff4a"><span class="section-number-3">3.1</span> Create Repository</h3>
+<div class="outline-text-3" id="text-3-1">
 <pre class="example">
+// Create a new repository
+$ echo "# This is a new repository" &gt; README.md
 $ git init
+$ git add README.md
+$ git commit -m "first commit"
+</pre>
 
-</pre></li>
-<li><p>
-检出仓库
-</p>
+
 <pre class="example">
+// 将创建的仓库推送到远端仓库
+$ git remote add origin git@github.com:xxx/repo-name.git
+$ git push -u origin master
+</pre>
+
+
+<pre class="example">
+// Push an existing repository
+$ git remote add origin git@github.com:xxx/repo-name.git
+$ git push -u origin master
+</pre>
+
+
+
+<pre class="example">
+// 检出仓库
 // 仓库在本地
 $ git clone /path/to/repository
 // 仓库在远端
 $ git clone username@host:/path/to/repository
 $ git clone git@github.com:xxx/hello_world.git //GitHub
-
-</pre></li>
-<li><p>
-每次需要改动时，首先，拉取仓库（分支）最新内容(update)
-</p>
-<pre class="example">
+// 拉取最新内容
 $ git pull
 $ git pull orgion master
+</pre>
 
-</pre></li>
-<li><p>
-如果欲将本地初始化的仓库连接到某个远程服务器：
-</p>
-<pre class="example">
-$ git remote add origin &lt;server&gt;
-$ git remote add origin https://github.com/zhaorengui/test.git //GitHub
-$ git push -u origin master
 
-</pre></li>
-<li><p>
-删除文件
-</p>
 <pre class="example">
+// 删除文件
 // 删除本地仓库文件
 $ rm test.php
 // 从Git仓库中删除文件
 $ git rm test.php
+</pre>
 
-</pre></li>
-</ol>
+
+<pre class="example">
+// 远程分支重命名
+$ git branch -m oldName newName
+$ git push --delete origin oldName // 删除远程分支
+$ git push origin newName // 上传新命名的本地分支
+$ git branch --set-upstream-to=origin/newName
+</pre>
+
+
+<pre class="example">
+// 放弃本地所有的修改
+$ git checkout . &amp;&amp; git clean -xdf
+</pre>
+
+
+<pre class="example">
+// 内建的图形化 git：
+$ gitk
+//彩色的 git 输出：
+$ git config color.ui true
+</pre>
+
+
+<pre class="example">
+//显示历史记录时，每个提交的信息只显示一行：
+$ git config format.pretty oneline
+</pre>
 </div>
 </div>
-<div id="outline-container-org52d7f04" class="outline-3">
-<h3 id="org52d7f04"><span class="section-number-3">1.5</span> Commit process</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-orgc1676aa" class="outline-3">
+<h3 id="orgc1676aa"><span class="section-number-3">3.2</span> 提交流程 Commit Process</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-<br />
 本地仓库由 git 维护的三棵“树”组成。第一个是你的工作目录，它持有实际文；第二个是 缓存区（Index），它像个缓存区域，临时保存你的改动；最后是 HEAD，指向你最近一次提交后的结果。
 </p>
 
-<div id="orgf7d74f8" class="figure">
+<div id="org835c0b6" class="figure">
 <p><img src="http://localhost:4000/assets/images/commit1.png" alt="commit1.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>提交流程1</p>
 </div>
 
-<div id="orgbd17203" class="figure">
+<div id="orgfd6324f" class="figure">
 <p><img src="http://localhost:4000/assets/images/trees.png" alt="trees.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>提交流程2</p>
@@ -722,7 +745,6 @@ $ git add &lt;filename&gt;
 //提交所有
 $ git add -A
 $ git add .
-
 </pre></li>
 <li><p>
 额……突然想起还有某个地方要改动一下，撤销提交到暂存区的代码。
@@ -733,7 +755,6 @@ $ git reset
 $ git reset HEAD .
 // 撤销提交到暂存区的某个文件
 $ git reset HEAD --filename
-
 </pre></li>
 <li><p>
 修改完遗漏功能后，再次提交了代码到暂存区，再提交到本地仓库分支。
@@ -742,7 +763,6 @@ $ git reset HEAD --filename
 $ git commit -m "Description"
 //直接跳过暂存区提交
 $ git commit -a -m "Description"
-
 </pre></li>
 <li><p>
 经过上一步操作后，又想起刚才提交到本地仓库分支的代码需要进一步优化，所以只能撤消 commit。
@@ -759,7 +779,6 @@ $ git reset --soft HEAD~1
 --hard: 删除工作空间改动代码，撤销commit，撤销git add . 
 注意：如果 commit 注释写错了，只是想改一下注释，只需要执行以下命令，注释写完后保存就 OK 了。
 $ git commit --amend
-
 </pre></li>
 <li><p>
 推送到远端仓库
@@ -767,7 +786,6 @@ $ git commit --amend
 <pre class="example">
 $ git push
 $ git push origin master //master为分支名称
-
 </pre></li>
 <li><p>
 压缩提交历史
@@ -775,8 +793,8 @@ $ git push origin master //master为分支名称
 <pre class="example">
 $ git rebase -i
 $ git rebase -i HEAD~2 //在历史记录中合并为一次完美的提交
-
 </pre>
+
 <p>
 参考：<a href="https://blog.csdn.net/itfootball/article/details/44154121">https://blog.csdn.net/itfootball/article/details/44154121</a>
 </p></li>
@@ -787,26 +805,25 @@ $ git rebase -i HEAD~2 //在历史记录中合并为一次完美的提交
 </p>
 <pre class="example">
 $ git checkout file 
-
 </pre>
+
 <p>
 丢弃本地的所有改动与提交，可以到服务器上获取最新的版本历史，并将你本地主分支指向它：
 </p>
 <pre class="example">
 $ git fetch origin
 $ git reset --hard origin/master
-
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org824ae5f" class="outline-3">
-<h3 id="org824ae5f"><span class="section-number-3">1.6</span> Branching and Merging</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-org9e1f0f3" class="outline-3">
+<h3 id="org9e1f0f3"><span class="section-number-3">3.3</span> 分支与合并 Branch and Merge</h3>
+<div class="outline-text-3" id="text-3-3">
 </div>
 <div id="outline-container-orgdc347dc" class="outline-4">
-<h4 id="orgdc347dc"><span class="section-number-4">1.6.1</span> 理解分支</h4>
-<div class="outline-text-4" id="text-1-6-1">
+<h4 id="orgdc347dc"><span class="section-number-4">3.3.1</span> 理解分支</h4>
+<div class="outline-text-4" id="text-3-3-1">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/branches.png" alt="branches.png" />
@@ -822,7 +839,6 @@ $ git reset --hard origin/master
 <pre class="example">
 $ git add README test.rb LICENSE
 $ git commit -m 'initial commit of my project'
-
 </pre></li>
 <li><p>
 现在，Git 仓库中有五个对象：三个表示文件快照内容的 blob 对象；一个记录着目录树内容及其中各个文件对应 blob 对象索引的 tree 对象；一个包含指向 tree 对象（根目录）的索引和其他提交信息元数据的 commit 对象。
@@ -856,8 +872,8 @@ Git 中的分支，其实本质上仅仅是个指向 commit 对象的可变指�
 </p>
 <pre class="example">
 $ git branch test
-
 </pre>
+
 <p>
 这会在当前 commit 对象上新建一个分支指针，如图：
 </p>
@@ -881,8 +897,8 @@ $ git branch test
 </p>
 <pre class="example">
 $ git checkout testing
-
 </pre>
+
 <p>
 这样 HEAD 就指向了 testing 分支：
 </p>
@@ -897,8 +913,8 @@ $ git checkout testing
 </p>
 <pre class="example">
 $ git commit -a -m 'made a change'
-
 </pre>
+
 <p>
 提交后的结果：
 </p>
@@ -913,8 +929,8 @@ $ git commit -a -m 'made a change'
 </p>
 <pre class="example">
 $ git checkout master
-
 </pre>
+
 <p>
 <img src="http://localhost:4000/assets/images/git-branch08.png" alt="git-branch08.png" />
 这条命令做了两件事。它把 HEAD 指针移回到 master 分支，并把工作目录中的文件换成了 master 分支所指向的快照内容。<br />
@@ -925,8 +941,8 @@ $ git checkout master
 </p>
 <pre class="example">
 $ git commit -a -m 'made other changes'
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch09.png" alt="git-branch09.png" />
@@ -940,22 +956,22 @@ $ git commit -a -m 'made other changes'
 </div>
 </div>
 <div id="outline-container-org894fce2" class="outline-4">
-<h4 id="org894fce2"><span class="section-number-4">1.6.2</span> 分支的管理</h4>
-<div class="outline-text-4" id="text-1-6-2">
+<h4 id="org894fce2"><span class="section-number-4">3.3.2</span> 分支的管理</h4>
+<div class="outline-text-4" id="text-3-3-2">
 <ol class="org-ol">
 <li><p>
 创建分支与切换分支
 </p>
 <pre class="example">
 $ git branch branchName
-
 </pre>
+
 
 <pre class="example">
 // 创建并切换分支
 $ git checkout -b branchName
-
 </pre>
+
 
 <p>
 <b>举例说明</b>
@@ -972,8 +988,8 @@ $ git checkout -b branchName
 
 <pre class="example">
 A.首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新：
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch10.png" alt="git-branch10.png" />
@@ -988,8 +1004,8 @@ $ git checkout -b iss53
 $ git branch iss53
 $ git checkout iss53
 该命令执行结果：
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch11.png" alt="git-branch11.png" />
@@ -999,8 +1015,8 @@ $ git checkout iss53
 
 <pre class="example">
 在提交了若干次更新后，iss53 分支的指针也会随着向前推进。
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch12.png" alt="git-branch12.png" />
@@ -1013,8 +1029,8 @@ C.现在你就接到了那个网站问题的紧急电话，需要马上修补。
 此时，确定你已经提交了所有的修改，接下来切换到 master 分支：
 $ git checkout master
 切换回主分支后，工作目录中的内容和你在解决问题 #53 之前一模一样，你可以集中精力进行紧急修补。
-
 </pre>
+
 
 <p>
 特别注意：Git 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
@@ -1023,8 +1039,8 @@ $ git checkout master
 <pre class="example">
 创建一个紧急修补分支 hotfix 来开展工作，直到搞定：
 $ git checkout -b 'hotfix'
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch13.png" alt="git-branch13.png" />
@@ -1040,8 +1056,8 @@ Updating f42c576..3a0874c
 Fast forward
 README |    1 -
 1 files changed, 0 insertions(+), 1 deletions(-)
-
 </pre>
+
 <p>
 请注意，合并时出现了“Fast forward”的提示。由于当前 master 分支所在的提交对象是要并入的 hotfix 分支的直接上游，Git 只需把master 分支指针直接右移。换句话说，如果顺着一个分支走下去可以到达另一个分支的话，那么 Git 在合并两者时，只会简单地把指针右移，因为这种单线的历史分支不存在任何需要解决的分歧，所以这种合并过程可以称为快进（Fast forward）。
 </p>
@@ -1058,14 +1074,14 @@ E.在那个超级重要的修补发布以后，你想要回到被打扰之前的
 $ git branch -d &lt;BranchName&gt;
 删除远程分支(原理是把一个空分支push到server上，相当于删除该分支。)
 $ git push origin :&lt;BranchName&gt;
-
 </pre>
+
 
 <pre class="example">
 F.现在回到之前未完成的 #53 问题修复分支上继续工作
 $ git checkout iss53
-
 </pre>
+
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch15.png" alt="git-branch15.png" />
@@ -1078,20 +1094,18 @@ $ git checkout iss53
 <pre class="example">
 // 如果不加任何参数，它会给出当前所有分支的清单：
 $ git branch
-
 </pre>
+
 
 <pre class="example">
 //查看各个分支最后一个提交对象的信息
 $ git branch -v
-
 </pre></li>
 <li><p>
 删除分支
 </p>
 <pre class="example">
 $ git branch -d branchName
-
 </pre></li>
 <li><p>
 修改分支名称
@@ -1099,8 +1113,8 @@ $ git branch -d branchName
 <pre class="example">
 // 本地分支重命名
 $ git branch -m oldName newName
-
 </pre>
+
 
 <pre class="example">
 // 远程分支重命名
@@ -1108,7 +1122,6 @@ $ git branch -m oldName newName
 $ git push --delete origin oldName
 $ git push origin newName
 $ git branch --set-upstream-to origin/newName
-
 </pre></li>
 <li><p>
 筛选已合并的分支
@@ -1119,8 +1132,8 @@ $ git branch --set-upstream-to origin/newName
 $ git branch --merged
 iss53
 *master
-
 </pre>
+
 <p>
 列表中没有 * 的分支通常都可以用 git branch -d 来删掉。原因很简单，既然已经把它们所包含的工作整合到了其他分支，删掉也不会损失什么。
 </p>
@@ -1128,8 +1141,8 @@ iss53
 <pre class="example">
 //查看尚未合并到当前分支的分支
 $ git branch --no-merged
-
 </pre>
+
 <p>
 这样就显示还未合并进来的分支列表，如果此时用git branch -d 删除该分支会提示错误，因为那样做会丢失数据：
 </p>
@@ -1138,14 +1151,13 @@ $ git branch -d testing
 error: The branch 'testing' is not an ancestor of your current HEAD.
 If you are sure you want to delete it, run 'git branch -D testing'.
 // 当然，你也可以用大写 -D 强制执行。
-
 </pre></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-orgd8d5771" class="outline-4">
-<h4 id="orgd8d5771"><span class="section-number-4">1.6.3</span> 分支的合并</h4>
-<div class="outline-text-4" id="text-1-6-3">
+<h4 id="orgd8d5771"><span class="section-number-4">3.3.3</span> 分支的合并</h4>
+<div class="outline-text-4" id="text-3-3-3">
 <ol class="org-ol">
 <li><p>
 在问题 #53 相关的工作完成之后，可以合并回 master 分支。
@@ -1153,8 +1165,8 @@ If you are sure you want to delete it, run 'git branch -D testing'.
 <pre class="example">
 $ git checkout master
 $ git merge iss53
-
 </pre>
+
 <p>
 请注意，这次合并操作的底层实现，并不同于之前 hotfix 的并入方式。如下图所示。
 <br />
@@ -1165,7 +1177,7 @@ $ git merge iss53
 Git 没有简单地把分支指针右移，而是对三方合并后的结果重新做一个新的快照，并自动创建一个指向它的提交对象（C6），见下图所示。
 </p>
 
-<div id="orga579fef" class="figure">
+<div id="org99ba8cb" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch17.png" alt="git-branch17.png" />
 </p>
 <p><span class="figure-number">Figure 18: </span>Git 自动创建了一个包含了合并结果的提交对象</p>
@@ -1175,7 +1187,6 @@ Git 没有简单地把分支指针右移，而是对三方合并后的结果重�
 </p>
 <pre class="example">
 $ git branch -d iss53
-
 </pre></li>
 <li><p>
 遇到冲突时的分支合并
@@ -1189,8 +1200,8 @@ $ git merge iss53
 Auto-merging index.html
 CONFLICT (content): Merge conflict in index.html
 Automatic merge failed; fix conflicts and then commit the result.
-
 </pre>
+
 <p>
 Git 作了合并，但没有提交，它会停下来等你解决冲突。要看看哪些文件在合并时发生冲突，可以用 git status 查阅：
 </p>
@@ -1205,8 +1216,8 @@ index.html: needs merge
 ..." to discard changes in working directory)
 #
 #unmerged:   index.html
-
 </pre>
+
 <p>
 任何包含未解决冲突的文件都会以未合并（unmerged）的状态列出。Git 会在有冲突的文件里加入标准的冲突解决标记，可以通过它们来手工定位并解决这些冲突。可以看到此文件包含类似下面这样的部分：
 </p>
@@ -1216,8 +1227,8 @@ contact : email.support@github.com
 =======
 please contact us at support@github.com
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
-
 </pre>
+
 <p>
 可以看到 <code>=====</code> 隔开的上半部分，是 HEAD（即 master 分支，在运行merge 命令时所切换到的分支）中的内容，下半部分是在 iss53 分支中的内容。解决冲突的办法：手动合并；利用合并工具自动合并。自动合并，可以利用有图形界面的工具来解决，运行：
 </p>
@@ -1229,15 +1240,15 @@ Normal merge conflict for 'index.html':
 {local}: modified
 {remote}: modified
 Hit return to start merge resolution tool (opendiff):
-
 </pre>
+
 <p>
 不想用默认的合并工具，可以在上方”merge tool candidates”里找到可用的合并工具列表，输入你想用的工具名。再运行一次 git status 来确认所有冲突都已解决：
 </p>
 <pre class="example">
 $ git status
-
 </pre>
+
 <p>
 如果确认所有冲突都已解决，也就是进入了暂存区，就可以用 git commit 来完成这次合并提交。提交的记录注释差不多是这样：
 </p>
@@ -1251,8 +1262,8 @@ index.html
 # .git/MERGE_HEAD
 # and try again.
 #
-
 </pre>
+
 <p>
 如果想给将来看这次合并的人一些方便，可以修改该信息，提供更多合并细节。
 </p></li>
@@ -1260,8 +1271,8 @@ index.html
 </div>
 </div>
 <div id="outline-container-org5522324" class="outline-4">
-<h4 id="org5522324"><span class="section-number-4">1.6.4</span> 分支的衍合</h4>
-<div class="outline-text-4" id="text-1-6-4">
+<h4 id="org5522324"><span class="section-number-4">3.3.4</span> 分支的衍合</h4>
+<div class="outline-text-4" id="text-3-3-4">
 <p>
 <br />
 把一个分支整合到另一个分支的办法有两种：merge 和 rebase（译注：rebase 的翻译暂定为“衍合”）
@@ -1283,8 +1294,8 @@ index.html
 <pre class="example">
 $ git checkout experiment
 $ git rebase master
-
 </pre>
+
 <p>
 原理：回到两个分支最近的共同祖先，根据当前分支（也就是要进行衍合的分支 experiment）后续的历次提交对象（这里只有一个 C3），生成一系列文件补丁，然后以基底分支（也就是主干分支master）最后一个提交对象（C4）为新的出发点，逐个应用之前准备好的补丁文件，最后会生成一个新的合并提交对象（C3’），从而改写 experiment 的提交历史，使它成为 master 分支的直接下游，如图所示：
 </p>
@@ -1293,7 +1304,7 @@ $ git rebase master
 现在回到 master 分支，进行一次快进合并
 </p>
 
-<div id="orga50e9fe" class="figure">
+<div id="org07e927f" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch30.png" alt="git-branch30.png" />
 </p>
 <p><span class="figure-number">Figure 19: </span>master 分支的快进</p>
@@ -1303,13 +1314,12 @@ $ git rebase master
 先在自己的一个分支里进行开发，当准备向主项目提交补丁的时候，根据最新的origin/master 进行一次衍合操作然后再提交，这样维护者
 就不需要做任何整合工作（译注：实际上是把解决分支补丁同最新主干代码之间冲突的责任，化转为由提交补丁的人来解决。），只需根据你
 提供的仓库地址作一次快进合并，或者直接采纳你提交的补丁。
-
 </pre>
+
 
 <pre class="example">
 请注意，合并结果中最后一次提交所指向的快照，无论是通过衍合，还是三方合并，都会得到相同的快照内容，只不过提交历史不同罢了。
 衍合是按照每行的修改次序重演一遍修改，而合并是把最终结果合在一起。
-
 </pre></li>
 <li><p>
 衍合举例 
@@ -1318,10 +1328,10 @@ $ git rebase master
 衍合也可以放到其他分支进行，并不一定非得根据分化之前的分支。以下图为例，给服务器端代码添加一些功能而创建了特性分支 server，
 然后提交 C3 和 C4。然后又从 C3 的地方再增加一个client 分支来对客户端代码进行一些相应修改，所以提交了 C8 和 C9。最后，又
 回到 server 分支提交了 C10。
-
 </pre>
 
-<div id="orgb704013" class="figure">
+
+<div id="orge70a155" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch31.png" alt="git-branch31.png" />
 </p>
 <p><span class="figure-number">Figure 20: </span>从一个特性分支里再分出一个特性分支的历史</p>
@@ -1332,10 +1342,10 @@ $ git rebase master
 git rebase 的 --onto 选项指定新的基底分支master：
 $ git rebase --onto master server client
 这好比在说：“取出 client 分支，找出 client 分支和 server 分支的共同祖先之后的变化，然后把它们在master 上重演一遍”。
-
 </pre>
 
-<div id="org274fd2e" class="figure">
+
+<div id="orgbd32c0b" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch32.png" alt="git-branch32.png" />
 </p>
 <p><span class="figure-number">Figure 21: </span>将特性分支上的另一个特性分支衍合到其他分支</p>
@@ -1344,10 +1354,10 @@ $ git rebase --onto master server client
 现在可以快进 master 分支了
 $ git checkout master
 $ git merge client
-
 </pre>
 
-<div id="org245c3e4" class="figure">
+
+<div id="orgdf7982e" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch33.png" alt="git-branch33.png" />
 </p>
 <p><span class="figure-number">Figure 22: </span>快进 master 分支，使之包含 client 分支的变化</p>
@@ -1356,10 +1366,10 @@ $ git merge client
 现在我们决定把 server 分支的变化也包含进来。
 $ git rebase master server
 于是，server 的进度应用到 master 的基础上：
-
 </pre>
 
-<div id="orgb482518" class="figure">
+
+<div id="org9c36ee7" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch34.png" alt="git-branch34.png" />
 </p>
 <p><span class="figure-number">Figure 23: </span>在 master 分支上衍合 server 分支</p>
@@ -1368,17 +1378,17 @@ $ git rebase master server
 然后就可以快进主干分支 master 了：
 $ git checkout master
 $ git merge server
-
 </pre>
+
 
 <pre class="example">
 现在 client 和 server 分支的变化都已经集成到主干分支来了，可以删掉它们了。
 $ git branch -d client
 $ git branch -d server
-
 </pre>
 
-<div id="orgca0b334" class="figure">
+
+<div id="orgac0e872" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch35.png" alt="git-branch35.png" />
 </p>
 <p><span class="figure-number">Figure 24: </span>最终的提交历史</p>
@@ -1389,10 +1399,10 @@ $ git branch -d server
 <pre class="example">
 奇妙的衍合也并非完美无缺，要用它得遵守一条准则：一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。
 用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似下图所示：
-
 </pre>
 
-<div id="org6a5e3de" class="figure">
+
+<div id="orga468743" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch36.png" alt="git-branch36.png" />
 </p>
 <p><span class="figure-number">Figure 25: </span>克隆一个仓库，在其基础上工作一番</p>
@@ -1400,10 +1410,10 @@ $ git branch -d server
 <pre class="example">
 现在，某人在 C1 的基础上做了些改变，并合并他自己的分支得到结果 C6，推送到中央服务器。当你抓取并合并这些数据到你本地的开发分支
 中后，会得到合并结果 C7，历史提交会变成：
-
 </pre>
 
-<div id="org9887b28" class="figure">
+
+<div id="org6b8809e" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch37.png" alt="git-branch37.png" />
 </p>
 <p><span class="figure-number">Figure 26: </span>抓取他人提交，并入自己主干</p>
@@ -1411,10 +1421,10 @@ $ git branch -d server
 <pre class="example">
 接下来，那个推送 C6 上来的人决定用衍合取代之前的合并操作；继而又用 git push --force 覆盖了服务器上的历史，得到 C4’。而之
 后当你再从服务器上下载最新提交后，会得到：
-
 </pre>
 
-<div id="orge3f8a41" class="figure">
+
+<div id="org7b03527" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch38.png" alt="git-branch38.png" />
 </p>
 <p><span class="figure-number">Figure 27: </span>有人推送了衍合后得到的 C4’，丢弃了你作为开发基础的 C4 和 C6</p>
@@ -1422,10 +1432,10 @@ $ git branch -d server
 <pre class="example">
 下载更新后需要合并，但此时衍合产生的提交对象 C4’ 的 SHA-1 校验值和之前 C4 完全不同，所以 Git 会把它们当作新的提交对象处理，
 而实际上此刻你的提交历史 C7 中早已经包含了 C4 的修改内容，于是合并操作会把 C7 和 C4’ 合并为 C8
-
 </pre>
 
-<div id="org3022016" class="figure">
+
+<div id="org22bd681" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch39.png" alt="git-branch39.png" />
 </p>
 <p><span class="figure-number">Figure 28: </span>你把相同的内容又合并了一遍，生成一个新的提交 C8</p>
@@ -1435,14 +1445,13 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，会看到两个提交拥有相同的作者日期与说明，令人费解。而更糟的是，当你把
 这样的历史推送到服务器后，会再次把这些衍合后的提交引入到中央服务 器，进一步困扰其他人（译注：这个例子中，出问题的责任方是那个发布
 了 C6 后又用衍合发布 C4’ 的人，其他人会因此反馈双重历史到共享主干，从而混淆大家的视听。）。
-
 </pre></li>
 </ol>
 </div>
 </div>
 <div id="outline-container-org1115e48" class="outline-4">
-<h4 id="org1115e48"><span class="section-number-4">1.6.5</span> 实际开发工作流程</h4>
-<div class="outline-text-4" id="text-1-6-5">
+<h4 id="org1115e48"><span class="section-number-4">3.3.5</span> 实际开发工作流程</h4>
+<div class="outline-text-4" id="text-3-3-5">
 <ul class="org-ul">
 <li><p>
 长期分支
@@ -1454,13 +1463,13 @@ C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，
 本质上我们刚才谈论的，是随着提交对象不断右移的指针。稳定分支的指针总是在提交历史中落后一大截，而前沿分支总是比较靠前。
 </p>
 
-<div id="orga9a22b3" class="figure">
+<div id="org4668fab" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch18.png" alt="git-branch18.png" />
 </p>
 <p><span class="figure-number">Figure 29: </span>稳定分支总是比较老旧</p>
 </div>
 
-<div id="org90ceb5b" class="figure">
+<div id="org98fa947" class="figure">
 <p><img src="http://localhost:4000/assets/images/git-branch19.png" alt="git-branch19.png" />
 </p>
 <p><span class="figure-number">Figure 30: </span>想象成流水线可能会容易点</p>
@@ -1486,8 +1495,8 @@ C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，
 </div>
 </div>
 <div id="outline-container-org9056df6" class="outline-4">
-<h4 id="org9056df6"><span class="section-number-4">1.6.6</span> remote branch</h4>
-<div class="outline-text-4" id="text-1-6-6">
+<h4 id="org9056df6"><span class="section-number-4">3.3.6</span> remote branch</h4>
+<div class="outline-text-4" id="text-3-3-6">
 <p>
 <br />
 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
@@ -1515,33 +1524,32 @@ C4’，两者有着不同的 SHA-1 校验值，如果用git log 查看历史，
 <pre class="example">
 // 推送本地分支
 $ git push origin serverfix
-
 </pre>
+
 
 <pre class="example">
 // 跟踪远程分支
 从远程分支 checkout 出来的本地分支，称为_跟踪分支(tracking branch)。
 $ git checkout --track origin/serverfix
-
 </pre>
+
 
 <pre class="example">
 // 删除远程分支
 在服务器上删除serverfix 分支，运行下面的命令：
 $ git push origin :serverfix
-
 </pre>
+
 
 <pre class="example">
 //拉取远程仓库最新改动到本地仓库，执行：
 $ git pull
-
 </pre>
 </div>
 </div>
 <div id="outline-container-org80c808d" class="outline-4">
-<h4 id="org80c808d"><span class="section-number-4">1.6.7</span> tag</h4>
-<div class="outline-text-4" id="text-1-6-7">
+<h4 id="org80c808d"><span class="section-number-4">3.3.7</span> tag</h4>
+<div class="outline-text-4" id="text-3-3-7">
 <ul class="org-ul">
 <li><p>
 查看标签
@@ -1553,7 +1561,6 @@ $ git tag
 $ git tag -l v4.0.*
 //查看相应标签的版本信息
 $ git show V0.1
-
 </pre></li>
 <li><p>
 创建标签
@@ -1564,7 +1571,6 @@ $ git show V0.1
 $ git tag 1.0.0 1b2e1d63ff //1b2e1d63ff是你想要标记的提交 ID 的前 10 位字符。
 //创建带有注释的标签
 $ git tag -a V0.1 -m "版本0.1" 
-
 </pre></li>
 <li><p>
 修改标签
@@ -1574,28 +1580,25 @@ $ git tag newTag oldTag
 $ git tag -d oldTag
 $ git push origin :refs/tags/old
 $ git push --tags
-
 </pre></li>
 <li><p>
 删除标签
 </p>
 <pre class="example">
 $ git tag -d tagName
-
 </pre></li>
 <li><p>
 推送tag到远程仓库
 </p>
 <pre class="example">
 $ git push origin --tags
-
 </pre></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-org1f53cfc" class="outline-4">
-<h4 id="org1f53cfc"><span class="section-number-4">1.6.8</span> log</h4>
-<div class="outline-text-4" id="text-1-6-8">
+<h4 id="org1f53cfc"><span class="section-number-4">3.3.8</span> log</h4>
+<div class="outline-text-4" id="text-3-3-8">
 <ul class="org-ul">
 <li>基本使用
 <ul class="org-ul">
@@ -1605,19 +1608,18 @@ log
 <pre class="example">
 //查看提交日志，不带参数，按提交时间列出所有的更新，最近的更新排在最上面
 $ git log
-
 </pre>
+
 
 <pre class="example">
 //查看所有操作日志
 $ git reflog
-
 </pre>
+
 
 <pre class="example">
 //只显示指定文件的日志信息
 $ git log README.md
-
 </pre></li>
 <li><p>
 show
@@ -1625,13 +1627,12 @@ show
 <pre class="example">
 $ git show
 //显示最后 5 次的文件改变的具体内容
-
 </pre>
+
 
 <pre class="example">
 $ git show commitid
 //显示某个 commitid 改变的具体内容
-
 </pre></li>
 <li><p>
 whatchanged
@@ -1639,7 +1640,6 @@ whatchanged
 <pre class="example">
 $ git whatchanged --stat
 每次修改的文件列表, 及文件修改的统计
-
 </pre></li>
 </ul></li>
 <li>选项(Option)
@@ -1650,7 +1650,6 @@ $ git whatchanged --stat
 <pre class="example">
 $ git log -p -2 README.md
 //-p 选项展开显示每次提交的内容差异，-2 则仅显示最近的两次更新：
-
 </pre></li>
 <li><p>
 &#x2013;stat
@@ -1659,7 +1658,6 @@ $ git log -p -2 README.md
 $ git log --stat -1
 $ git log --name-status -1
 //--stat 选项仅显示简要的增改行数统计，--shortstat 选项只显示，--name-status 每次修改的文件列表, 显示状态
-
 </pre></li>
 <li><p>
 &#x2013;graph
@@ -1667,7 +1665,6 @@ $ git log --name-status -1
 <pre class="example">
 //以图表形式输出分支提交日志
 $ git log --graph
-
 </pre></li>
 <li><p>
 &#x2013;word-diff
@@ -1676,7 +1673,6 @@ $ git log --graph
 //--word-diff 选项，进行单词层面上的对比。你需要在书籍、论文这种很大的文本文件上进行对比的时候，这个功能就显出用武之地了。
 $ git log -U1 --word-diff
 //-U1，表示希望上下文（ context ）行数从默认的 3 行，减为 1 行 
-
 </pre></li>
 <li><p>
 &#x2013;pretty
@@ -1686,139 +1682,239 @@ $ git log -U1 --word-diff
 // 将每个提交放在一行显示
 $ git log --pretty=oneline
 // 另外还有short，full，fuller 和 format 可以用。format可以定制要显示的记录格式，这样的输出便于后期编程提取分析
-
 </pre></li>
 <li><p>
 &#x2013;name-only
 </p>
 <pre class="example">
 仅在提交信息后显示已修改的文件清单。
-
 </pre></li>
 <li><p>
 &#x2013;name-status
 </p>
 <pre class="example">
 显示新增、修改、删除的文件清单。
-
 </pre></li>
 <li><p>
 &#x2013;abbrev-commit
 </p>
 <pre class="example">
 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符。
-
 </pre></li>
 <li><p>
 &#x2013;relative-date
 </p>
 <pre class="example">
 使用较短的相对时间显示（比如，“2 weeks ago”）。
-
 </pre></li>
 </ul></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgda15bcb" class="outline-4">
-<h4 id="orgda15bcb"><span class="section-number-4">1.6.9</span> diff</h4>
-<div class="outline-text-4" id="text-1-6-9">
+<h4 id="orgda15bcb"><span class="section-number-4">3.3.9</span> diff</h4>
+<div class="outline-text-4" id="text-3-3-9">
 <pre class="example">
 //查看更改前后的差别
 $git diff 
-
 </pre>
+
 
 <pre class="example">
 //查看工作树和最新提交的差别
 $git diff HEAD
-
 </pre>
 </div>
-</div>
-</div>
-<div id="outline-container-orgaf3c124" class="outline-3">
-<h3 id="orgaf3c124"><span class="section-number-3">1.7</span> 实用小贴士</h3>
-<div class="outline-text-3" id="text-1-7">
-<pre class="example">
-// 内建的图形化 git：
-$ gitk
-
-</pre>
-
-<pre class="example">
-//彩色的 git 输出：
-$ git config color.ui true
-
-</pre>
-
-<pre class="example">
-//显示历史记录时，每个提交的信息只显示一行：
-$ git config format.pretty oneline
-
-</pre>
-
-<pre class="example">
-//交互式添加文件到暂存区：
-$ git add -i
-
-</pre>
-
-<pre class="example">
-// 本地分支重名名
-$ git branch -m oldName newName
-
-</pre>
-
-<pre class="example">
-// 远程分支重命名
-$ git branch -m oldName newName
-$ git push --delete origin oldName // 删除远程分支
-$ git push origin newName // 上传新命名的本地分支
-$ git branch --set-upstream-to=origin/newName
-
-</pre>
 </div>
 </div>
 <div id="outline-container-orgcc79e5c" class="outline-3">
-<h3 id="orgcc79e5c"><span class="section-number-3">1.8</span> .gitignore</h3>
-<div class="outline-text-3" id="text-1-8">
+<h3 id="orgcc79e5c"><span class="section-number-3">3.4</span> .gitignore</h3>
+<div class="outline-text-3" id="text-3-4">
 <pre class="example">
 以斜杠“/”开头表示目录；
 以星号“*”通配多个字符；
 以问号“?”通配单个字符
 以方括号“[]”包含单个字符的匹配列表；
 以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
-
 </pre>
 </div>
 </div>
-<div id="outline-container-org7e2e46b" class="outline-3">
-<h3 id="org7e2e46b"><span class="section-number-3">1.9</span> Problems</h3>
-<div class="outline-text-3" id="text-1-9">
 </div>
-<div id="outline-container-org6f9194d" class="outline-4">
-<h4 id="org6f9194d"><span class="section-number-4">1.9.1</span> git: fatal: I don't handle protocol 'https'</h4>
-<div class="outline-text-4" id="text-1-9-1">
+<div id="outline-container-org4c6fde2" class="outline-2">
+<h2 id="org4c6fde2"><span class="section-number-2">4</span> GitHub</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgeba035a" class="outline-3">
+<h3 id="orgeba035a"><span class="section-number-3">4.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgdbf9c94" class="outline-4">
+<h4 id="orgdbf9c94"><span class="section-number-4">4.1.1</span> About GitHub</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+<br />
+官网地址：<a href="https://github.com/">https://github.com/</a>
+<br />
+GitHub是一个利用Git进行版本控制、专门用于存放软件代码与内容的共享虚拟主机服务。它由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
+<br />
+GitHub同时提供付费账户和免费账户。
+</p>
+</div>
+</div>
+<div id="outline-container-org84cedb0" class="outline-4">
+<h4 id="org84cedb0"><span class="section-number-4">4.1.2</span> Keyword</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<dl class="org-dl">
+<dt>Repository(仓库)</dt><dd>用于存放项目源代码。</dd>
+<dt>Star(收藏)</dt><dd>收藏项目</dd>
+<dt>Fork(复制克隆项目)</dt><dd></dd>
+
+<dt>Pull Request(发送请求)</dt><dd>基于Fork，修改或删除代码提交请求。</dd>
+<dt>Watch(关注)</dt><dd>假设项目有任何更新，第一时间收到通知消息。</dd>
+<dt>Issue(事务卡片)</dt><dd>发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd425500" class="outline-3">
+<h3 id="orgd425500"><span class="section-number-3">4.2</span> Upload Code to GitHub</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-org4215813" class="outline-4">
+<h4 id="org4215813"><span class="section-number-4">4.2.1</span> SSH</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+<br />
+使用SSH方式，在提交时，不需要输入用户名和密码。
+<br />
+首先在本地创建ssh key，一直回车。
+</p>
+<pre class="example">
+$ ssh-keygen -t rsa -C "your_email@youremail.com"
+//成功的话会在~/目录下生成.ssh文件夹，进入.ssh目录，打开id_rsa.pub文件，复制里面的key。
+</pre>
+
+<p>
+<br />
+进入github官网上，点击个人中心的 Account Settings（账户配置），左边选择"SSH Keys" &gt; "Add SSH Key",title自定义填写，然后将复制的key粘贴到GitHub的文本框中。下面是添加好的SSH Keys示例：
+<img src="http://localhost:4000/assets/images/sshkeys.png" alt="sshkeys.png" />
+<br />
+验证是否成功:
+</p>
+<pre class="example">
+$ ssh -T git@github.com 
+</pre>
+</div>
+</div>
+<div id="outline-container-org6ed17a4" class="outline-4">
+<h4 id="org6ed17a4"><span class="section-number-4">4.2.2</span> HTTPS</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+<br />
+使用条件：1）本地配置了global；2）需要输入用户名和密码推送代码
+</p>
+</div>
+</div>
+<div id="outline-container-org0df896f" class="outline-4">
+<h4 id="org0df896f"><span class="section-number-4">4.2.3</span> 配置免登录提交代码</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<pre class="example">
+$ vim .git/config
+[remote "origin"]
+url=https://github.com/用户名/仓库名.git
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell">[remote <span style="color: #E6DB74;">"origin"</span>]
+<span style="color: #FD971F;">url</span>=https://&#29992;&#25143;&#21517;:&#23494;&#30721;@github.com/&#29992;&#25143;&#21517;/&#20179;&#24211;&#21517;.git
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org230535a" class="outline-3">
+<h3 id="org230535a"><span class="section-number-3">4.3</span> 开源项目贡献流程</h3>
+<div class="outline-text-3" id="text-4-3">
+<ol class="org-ol">
+<li>新建Issue：提交问题或建议或想法。</li>
+<li><p>
+Pull Request：Fork项目，修改代码，发起修改请求。
+<b>方式一</b>
+</p>
+<pre class="example">
+通过 Github 网站图形化操作，New pull request.
+</pre>
+
+<p>
+<b>方式二</b>
+</p>
+<pre class="example">
+使用 git 命令操作。
+$ git remote -v
+$ git remote add upstream https://github.com/xxx/xxx.git
+// $ git remote remove upstream
+$ git fetch upstream // 从源仓库同步代码
+$ git merge upstream/master //合并到本地分支
+$ git push
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org735bbc2" class="outline-3">
+<h3 id="org735bbc2"><span class="section-number-3">4.4</span> Github Pages</h3>
+<div class="outline-text-3" id="text-4-4">
+</div>
+<div id="outline-container-orgae3f02a" class="outline-4">
+<h4 id="orgae3f02a"><span class="section-number-4">4.4.1</span> 新建仓库搭建</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<ol class="org-ol">
+<li>创建个人站点，新建仓库。（注：仓库名必须为【用户名.github.io】）</li>
+<li><p>
+在新建的仓库下，新建index.html文件即可。
+</p>
+<pre class="example">
+注：(1)Github Pages仅支持静态网页;(2)仓库里面只能是.html文件
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge04fef7" class="outline-4">
+<h4 id="orge04fef7"><span class="section-number-4">4.4.2</span> 项目仓库下搭建</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<ol class="org-ol">
+<li>进入项目仓库主页，点击settings。</li>
+<li>找到【Github Pages】，点击【Change theme】，选择主题来自动生成主题页面。</li>
+<li>访问：<a href="https://用户名.github.io/%E4%BB%93%E5%BA%93%E5%90%8D">https://用户名.github.io/%E4%BB%93%E5%BA%93%E5%90%8D</a></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7e2e46b" class="outline-2">
+<h2 id="org7e2e46b"><span class="section-number-2">5</span> Problems</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org6f9194d" class="outline-3">
+<h3 id="org6f9194d"><span class="section-number-3">5.1</span> git: fatal: I don't handle protocol 'https'</h3>
+<div class="outline-text-3" id="text-5-1">
 <ul class="org-ul">
 <li><a href="https://stackoverflow.com/questions/42193572/fatal-i-dont-handle-protocol-https/42194024">fatal：I don't handle protocol 'https'</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2d5e6a4" class="outline-4">
-<h4 id="org2d5e6a4"><span class="section-number-4">1.9.2</span> error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received</h4>
-<div class="outline-text-4" id="text-1-9-2">
+<div id="outline-container-org2d5e6a4" class="outline-3">
+<h3 id="org2d5e6a4"><span class="section-number-3">5.2</span> error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received</h3>
+<div class="outline-text-3" id="text-5-2">
 <pre class="example">
 解决：
 $ sudo apt purge git
 $ sudo apt install git
-
 </pre>
 </div>
 </div>
-<div id="outline-container-orge495f22" class="outline-4">
-<h4 id="orge495f22"><span class="section-number-4">1.9.3</span> git pull：fatal: refusing to merge unrelated histories</h4>
-<div class="outline-text-4" id="text-1-9-3">
+<div id="outline-container-orge495f22" class="outline-3">
+<h3 id="orge495f22"><span class="section-number-3">5.3</span> git pull：fatal: refusing to merge unrelated histories</h3>
+<div class="outline-text-3" id="text-5-3">
 <p>
 <br />
 合并pull两个不同的项目，问题解决：
@@ -1831,168 +1927,20 @@ $ sudo apt install git
 </p>
 <pre class="example">
 $ git pull origin master --allow-unrelated-histories
-
 </pre>
+
 <p>
 如果有设置了默认上传分支就可以用下面代码：
 </p>
 <pre class="example">
 $ git pull --allow-unrelated-histories
-
 </pre>
-</div>
-</div>
-</div>
-</div>
-<div id="outline-container-org4c6fde2" class="outline-2">
-<h2 id="org4c6fde2"><span class="section-number-2">2</span> GitHub</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-orgeba035a" class="outline-3">
-<h3 id="orgeba035a"><span class="section-number-3">2.1</span> Introduction</h3>
-<div class="outline-text-3" id="text-2-1">
-<p>
-<br />
-官网地址：<a href="https://github.com/">https://github.com/</a>
-<br />
-GitHub是一个利用Git进行版本控制、专门用于存放软件代码与内容的共享虚拟主机服务。它由GitHub公司（曾称Logical Awesome）的开发者Chris Wanstrath、PJ Hyett和Tom Preston-Werner使用Ruby on Rails编写而成。
-<br />
-GitHub同时提供付费账户和免费账户。
-</p>
-</div>
-</div>
-<div id="outline-container-orgc41d5f8" class="outline-3">
-<h3 id="orgc41d5f8"><span class="section-number-3">2.2</span> 一些基本概念</h3>
-<div class="outline-text-3" id="text-2-2">
-<dl class="org-dl">
-<dt>Repository(仓库)</dt><dd>用于存放项目源代码。</dd>
-<dt>Star(收藏)</dt><dd>收藏项目</dd>
-<dt>Fork(复制克隆项目)</dt><dd></dd>
-
-<dt>Pull Request(发送请求)</dt><dd>基于Fork，修改或删除代码提交请求。</dd>
-<dt>Watch(关注)</dt><dd>假设项目有任何更新，第一时间收到通知消息。</dd>
-<dt>Issue(事务卡片)</dt><dd>发现了代码存在BUG，但是目前没有成型代码，需要讨论时使用。</dd>
-</dl>
-</div>
-</div>
-<div id="outline-container-org284d8cd" class="outline-3">
-<h3 id="org284d8cd"><span class="section-number-3">2.3</span> 上传代码方式</h3>
-<div class="outline-text-3" id="text-2-3">
-</div>
-<div id="outline-container-org7ba4e83" class="outline-4">
-<h4 id="org7ba4e83"><span class="section-number-4">2.3.1</span> SSH方式传输</h4>
-<div class="outline-text-4" id="text-2-3-1">
-<p>
-<br />
-使用SSH方式，在提交时，不需要输入用户名和密码。
-<br />
-首先在本地创建ssh key，一直回车。
-</p>
-<pre class="example">
-$ ssh-keygen -t rsa -C "your_email@youremail.com"
-//成功的话会在~/目录下生成.ssh文件夹，进入.ssh目录，打开id_rsa.pub文件，复制里面的key。
-
-</pre>
-<p>
-<br />
-进入github官网上，点击个人中心的 Account Settings（账户配置），左边选择"SSH Keys" &gt; "Add SSH Key",title自定义填写，然后将复制的key粘贴到GitHub的文本框中。下面是添加好的SSH Keys示例：
-<img src="http://localhost:4000/assets/images/sshkeys.png" alt="sshkeys.png" />
-<br />
-验证是否成功:
-</p>
-<pre class="example">
-$ ssh -T git@github.com 
-
-</pre>
-</div>
-</div>
-<div id="outline-container-org9867fd0" class="outline-4">
-<h4 id="org9867fd0"><span class="section-number-4">2.3.2</span> HTTPS方式传输</h4>
-<div class="outline-text-4" id="text-2-3-2">
-<p>
-<br />
-使用条件：1）本地配置了global；2）需要输入用户名和密码推送代码
-</p>
-</div>
-</div>
-<div id="outline-container-org0df896f" class="outline-4">
-<h4 id="org0df896f"><span class="section-number-4">2.3.3</span> 配置免登录提交代码</h4>
-<div class="outline-text-4" id="text-2-3-3">
-<pre class="example">
-$ vim .git/config
-[remote "origin"]
-url=https://github.com/用户名/仓库名.git
-修改为：
-[remote "origin"]
-url=https://用户名:密码@github.com/用户名/仓库名.git
-
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org230535a" class="outline-3">
-<h3 id="org230535a"><span class="section-number-3">2.4</span> 开源项目贡献流程</h3>
-<div class="outline-text-3" id="text-2-4">
-<ol class="org-ol">
-<li>新建Issue：提交问题或建议或想法。</li>
-<li><p>
-Pull Request：Fork项目，修改代码，发起修改请求。
-<b>方式一</b>
-</p>
-<pre class="example">
-通过 Github 网站图形化操作，New pull request.
-
-</pre>
-<p>
-<b>方式二</b>
-</p>
-<pre class="example">
-使用 git 命令操作。
-$ git remote -v
-$ git remote add upstream https://github.com/xxx/xxx.git
-// $ git remote remove upstream
-$ git fetch upstream // 从源仓库同步代码
-$ git merge upstream/master //合并到本地分支
-$ git push
-
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org735bbc2" class="outline-3">
-<h3 id="org735bbc2"><span class="section-number-3">2.5</span> Github Pages</h3>
-<div class="outline-text-3" id="text-2-5">
-</div>
-<div id="outline-container-orgae3f02a" class="outline-4">
-<h4 id="orgae3f02a"><span class="section-number-4">2.5.1</span> 新建仓库搭建</h4>
-<div class="outline-text-4" id="text-2-5-1">
-<ol class="org-ol">
-<li>创建个人站点，新建仓库。（注：仓库名必须为【用户名.github.io】）</li>
-<li><p>
-在新建的仓库下，新建index.html文件即可。
-</p>
-<pre class="example">
-注：(1)Github Pages仅支持静态网页;(2)仓库里面只能是.html文件
-
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orge04fef7" class="outline-4">
-<h4 id="orge04fef7"><span class="section-number-4">2.5.2</span> 项目仓库下搭建</h4>
-<div class="outline-text-4" id="text-2-5-2">
-<ol class="org-ol">
-<li>进入项目仓库主页，点击settings。</li>
-<li>找到【Github Pages】，点击【Change theme】，选择主题来自动生成主题页面。</li>
-<li>访问：<a href="https://用户名.github.io/%E4%BB%93%E5%BA%93%E5%90%8D">https://用户名.github.io/仓库名</a></li>
-</ol>
-</div>
 </div>
 </div>
 </div>
 <div id="outline-container-orgb5016fc" class="outline-2">
-<h2 id="orgb5016fc"><span class="section-number-2">3</span> References</h2>
-<div class="outline-text-2" id="text-3">
+<h2 id="orgb5016fc"><span class="section-number-2">6</span> References</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li><a href="http://www.open-open.com/lib/view/open1328069889514.html">Git分支</a></li>
 <li><a href="https://git-scm.com/book/en/v2">git v2</a></li>
@@ -2148,7 +2096,7 @@ $ git push
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">43</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2159,7 +2107,7 @@ $ git push
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2170,7 +2118,7 @@ $ git push
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -2263,7 +2211,7 @@ $ git push
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd452024"> <span class="nav-text">1 Git</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org09194af"> <span class="nav-text">1.1 Git vs SVN</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9b0c092"> <span class="nav-text">1.2 Installation</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4f3304f"> <span class="nav-text">1.3 Configuration</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org968c8aa"> <span class="nav-text">1.4 Getting and Creating Repository</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org52d7f04"> <span class="nav-text">1.5 Commit process</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org824ae5f"> <span class="nav-text">1.6 Branching and Merging</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdc347dc"> <span class="nav-text">1.6.1 理解分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org894fce2"> <span class="nav-text">1.6.2 分支的管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8d5771"> <span class="nav-text">1.6.3 分支的合并</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5522324"> <span class="nav-text">1.6.4 分支的衍合</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1115e48"> <span class="nav-text">1.6.5 实际开发工作流程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9056df6"> <span class="nav-text">1.6.6 remote branch</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org80c808d"> <span class="nav-text">1.6.7 tag</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1f53cfc"> <span class="nav-text">1.6.8 log</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda15bcb"> <span class="nav-text">1.6.9 diff</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaf3c124"> <span class="nav-text">1.7 实用小贴士</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc79e5c"> <span class="nav-text">1.8 .gitignore</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7e2e46b"> <span class="nav-text">1.9 Problems</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6f9194d"> <span class="nav-text">1.9.1 git: fatal: I don't handle protocol 'https'</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2d5e6a4"> <span class="nav-text">1.9.2 error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge495f22"> <span class="nav-text">1.9.3 git pull：fatal: refusing to merge unrelated histories</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4c6fde2"> <span class="nav-text">2 GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeba035a"> <span class="nav-text">2.1 Introduction</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc41d5f8"> <span class="nav-text">2.2 一些基本概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org284d8cd"> <span class="nav-text">2.3 上传代码方式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org7ba4e83"> <span class="nav-text">2.3.1 SSH方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9867fd0"> <span class="nav-text">2.3.2 HTTPS方式传输</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0df896f"> <span class="nav-text">2.3.3 配置免登录提交代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org230535a"> <span class="nav-text">2.4 开源项目贡献流程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org735bbc2"> <span class="nav-text">2.5 Github Pages</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgae3f02a"> <span class="nav-text">2.5.1 新建仓库搭建</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge04fef7"> <span class="nav-text">2.5.2 项目仓库下搭建</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb5016fc"> <span class="nav-text">3 References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org09194af"> <span class="nav-text">1 Git vs SVN</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org14b9a64"> <span class="nav-text">2 Installing and Configuration</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdf525d9"> <span class="nav-text">2.1 Installing</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4f3304f"> <span class="nav-text">2.2 Configuration</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgcaacceb"> <span class="nav-text">3 Get Started</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4e3ff4a"> <span class="nav-text">3.1 Create Repository</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc1676aa"> <span class="nav-text">3.2 提交流程 Commit Process</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9e1f0f3"> <span class="nav-text">3.3 分支与合并 Branch and Merge</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdc347dc"> <span class="nav-text">3.3.1 理解分支</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org894fce2"> <span class="nav-text">3.3.2 分支的管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd8d5771"> <span class="nav-text">3.3.3 分支的合并</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5522324"> <span class="nav-text">3.3.4 分支的衍合</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1115e48"> <span class="nav-text">3.3.5 实际开发工作流程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9056df6"> <span class="nav-text">3.3.6 remote branch</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org80c808d"> <span class="nav-text">3.3.7 tag</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1f53cfc"> <span class="nav-text">3.3.8 log</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda15bcb"> <span class="nav-text">3.3.9 diff</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcc79e5c"> <span class="nav-text">3.4 .gitignore</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4c6fde2"> <span class="nav-text">4 GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeba035a"> <span class="nav-text">4.1 Introduction</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdbf9c94"> <span class="nav-text">4.1.1 About GitHub</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org84cedb0"> <span class="nav-text">4.1.2 Keyword</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd425500"> <span class="nav-text">4.2 Upload Code to GitHub</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4215813"> <span class="nav-text">4.2.1 SSH</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6ed17a4"> <span class="nav-text">4.2.2 HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0df896f"> <span class="nav-text">4.2.3 配置免登录提交代码</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org230535a"> <span class="nav-text">4.3 开源项目贡献流程</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org735bbc2"> <span class="nav-text">4.4 Github Pages</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgae3f02a"> <span class="nav-text">4.4.1 新建仓库搭建</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge04fef7"> <span class="nav-text">4.4.2 项目仓库下搭建</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7e2e46b"> <span class="nav-text">5 Problems</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6f9194d"> <span class="nav-text">5.1 git: fatal: I don't handle protocol 'https'</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2d5e6a4"> <span class="nav-text">5.2 error: RPC failed; curl 56 GnuTLS recv error (-9): A TLS packet with unexpected length was received</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge495f22"> <span class="nav-text">5.3 git pull：fatal: refusing to merge unrelated histories</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgb5016fc"> <span class="nav-text">6 References</span> </a> </li>
     </ol>
   </div>
             
