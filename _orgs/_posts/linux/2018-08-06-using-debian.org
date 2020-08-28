@@ -33,7 +33,7 @@ photos:
 本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linu”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
 # (setq org-export-html-style nil)
 
-* Preface
+* 前言｜Preface
   欢迎阅读本册子，和其他大全图书不一样，本册子以实践的方式介绍 Linux 基础、Linux 服务架构和 Linux 实用技巧，涵盖了详尽的动手教程和实践信息，还提供了与内容相关的参考资料。本册子可以作为 Linux 的操作参考工具书。作者会持续更新与完善内容，血不流干，死不休战。
 ** 读者对象
    - Linux 系统管理员 ::
@@ -78,9 +78,9 @@ photos:
    关于这个问题，可以参考一下两个链接，或许能让你收获点什么！
    - [[http://cs2.swfu.edu.cn/~wx672/lecture_notes/linux/en.html][Linux很有趣，可我的英文太差了，怎么办？]]
    - [[http://www.yinwang.org/blog-cn/2018/11/23/grammar][解谜英语语法]] 
-* Get Started
-** 安装(Installation)
-*** 安装过程
+* 开始｜Get Started
+** 安装｜Installation
+*** 安装过程｜Installing
     1. 安装准备
        \\
        首先，准备一个U盘，用来刻录系统（刻录命令：dd，用法格式：sudo dd if=xxx.iso of=/dev/sdb），到 https://www.debian.org/ 下载 iso 镜像，注意有最小版和完整版。
@@ -88,8 +88,8 @@ photos:
        Windows 下的刻录软件推荐使用 UltraISO（对于新手，建议在 Windows 下完成刻录）。
     2. 插入U盘，开机，开始选择安装。
     3. 
-*** 主机规划与磁盘分区
-*** 安装后的常用操作
+*** 主机规划与磁盘分区｜Host Planning and Disk partition
+*** 安装后的常用操作｜Common operations after installation
     + *查看 Linux 发行版名称及版本号*
       - 查看 Linux 内核版本
 	: // 方式一
@@ -245,7 +245,7 @@ photos:
 	: poweroff
 	: init 0
 	: logout
-** 配置(Configuration)
+** 配置｜Configuration
 *** 用户身份切换: su & sudo
     Linux 系统当中的身份变换，可能有以下几个原因：
     + 使用一般账号：系统平日操作的好习惯
@@ -377,7 +377,7 @@ photos:
 	5. 重启可用
     + 参考资料
       + [[https://wiki.debian.org/Locale][Locale debian wiki]]
-** 介绍(Instroduction)
+** 介绍｜Instroduction
    首先，明确一点：GNU Not's Unix.
 *** 入门第一步，理解 Linux
     1. 首先，以 Linux 的思维方式系统性思考问题。
@@ -588,9 +588,9 @@ photos:
     9. type
        \\
        查看命令类型(Display information about command type)
-* Linux File, Directory, and Disk format
-** Linux File Permission
-*** 理解文件权限
+* 文件、目录和磁盘格式｜Linux File, Directory, and Disk format
+** 文件权限｜File Permission
+*** 理解｜Understand
     1. 使用文件权限符
        : $ ls -lh
        drwxr-xr-x 3 zrg zrg 4.0K Apr 21 16:24 练手项目
@@ -610,7 +610,7 @@ photos:
     2. 默认文件权限
        \\
        umask 命令用来设置所创建文件和目录的默认权限。
-*** Share File
+*** 共享文件｜Share File
     Linux 为每个文件和目录存储了3个额外的信息位。
     - 设置用户ID（SUID）
     - 设置组ID（GID）
@@ -633,12 +633,12 @@ photos:
     : $ umask 002
     : $ cd testdir
     : $ touch testfile
-** Linux Directory
+** 目录｜Directory
    #+CAPTION:Linux Directory
    #+ALTR_HTML: :alt cat/spider image :align center
    [[file:{{site.url}}/assets/images/cs2.png]]
-** Linux File Search
-*** find 命令
+** 文件搜索｜File Search
+*** find
     : find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
     *示例*
     + 根据文件名查找
@@ -734,7 +734,7 @@ photos:
       : 16187430 test-file-name
       : //使用 inode 编号来删除那些具有特殊符号的文件名。
       : $ find -inum 16187430 -exec rm {} \;
-*** locate 命令
+*** locate
     该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
     : // 安装：
     : $ sudo apt install mlocate
@@ -745,25 +745,12 @@ photos:
 
     : // 更新文件资料库：
     : $ updatedb
-*** which 和 where 命令
+*** which 和 where
     用于查找某个命令(Locate a command)
     : $ which ls
     : $ where useradd
-*** grep 命令
-    : 语法格式：grep -iv [指定字符串][文件]
-    : -i 不区分大小写
-    : -o 正则匹配指定内容
-    : -v 排除指定字符串
-
-    : // 查找指定字符串的行并显示
-    : $ grep 123 test.txt
-
-    : // 查找匹配到的内容
-    : $ grep -o 'engine\[\0-9a-z]*\]'
-
-    : // 打印没有匹配到的行
-    : $ grep -v ^# config.txt
-** Linux Compression and Packaging
+*** wc
+** 压缩和打包｜Compression and Packaging
    #+CAPTION: File unzip
    #+ALTR_HTML: :alt cat/spider image :title :align center
    [[file:{{site.url}}/assets/images/tar.png]]
@@ -778,81 +765,81 @@ photos:
    : //解压到指定目录
    
    : $ unzip name.zip -d ./dir
-** Linux Disk and File System
-*** 格式化分区命令
+** 文件系统｜File System
+*** mkfs
     将 /dev/sda7 硬盘格式化为 ext3 格式。
     : $ mkfs -t ext3 -c /dev/sda7
-** ～～～
-*** 网络命令
-    + write
-      + 描述
-	: 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
-	: 格式: write user [tty]
-      + 实践
-    + wall
-      + 描述
-	: 发送广播信息(write a message to all users)
-	: 格式: wall [-n] [-t timeout] [message | file]
-      + 实践
-    + ping
-      + 描述
-	: 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
-      + 实践
-	- 指定ping次数
-	  : $ ping -c 4 baidu.com
-    + ifconfig
-      + 描述
-	: configure a network interface
-      + 实践
-    + mail
-      + 描述
-	: 查看/发送电子邮件
-      + 实践
-    + last & lastlog
-      + 描述
-	: 列出目前/过去登入系统的用户信息
-	: last, lastb - show a listing of last logged in users
-	: last [options] [username...] [tty...]
-	: lastb [options] [username...] [tty...]
+** 文本处理｜Text Processing
+*** grep
+    : 语法格式：grep -iv [指定字符串][文件]
+    : -i 不区分大小写
+    : -o 正则匹配指定内容
+    : -v 排除指定字符串
 
-	: 列出用户最后一次登录系统的信息
-	: lastlog - reports the most recent login of all users or of a given user
-	: lastlog [options]
-      + 实践
-    + traceroute
-      + 描述
-	: 追踪数据包到主机间的路径
-	: traceroute - print the route packets trace to network host
-      + 实践
-    + netstat
-      + 描述
-	: 显示网络相关信息
-	: netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
-      + 实践
-	- 查看主机对外开放端口
-	  : $ netstat -ntlp
-	- 查看本机监听的端口
-	  : $ netstat -tlun
-	- 查看本机所有的网络连接
-	  : $ netstat -ano
-	- 查看本机路由表
-	  : $ netstat -rn
-    + setup
-      + 描述
-	: 配置网络
-      + 实践
-* Shell Scripts
-** Learning Shell
+    : // 查找指定字符串的行并显示
+    : $ grep 123 test.txt
+
+    : // 查找匹配到的内容
+    : $ grep -o 'engine\[\0-9a-z]*\]'
+
+    : // 打印没有匹配到的行
+    : $ grep -v ^# config.txt
+*** sed
+    \\
+    一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
+    : // 查看文件的第2行
+    : $ sed -n '2p' test.txt
+
+    : // 删除从第2行到第4行的数据
+    : $ sed '2,4d' test.txt
+
+    : // 在第2行追加hello
+    : $ sed '2a hello' test.txt
+
+    : // 在第2行前插入两行数据
+    : $ sed '2i hello \
+    : wold' test.txt
+
+    : // 数据替换
+    : $ sed '2c No such person' test.txt
+
+    *字符串替换*
+    : // g 表示全文替换
+    : $ sed 's/oldStr/newStr/g' fileName
+    : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
+    : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
+*** awk
+    \\
+    对文件内容进行统计，适合处理格式化数据，比如表格
+    : // 打印第一切片和第四切片内容
+    : $ awk '{print $1,$4}' netstat.txt
+       
+    : // 打印以逗号为分隔符分隔，并打印第二列
+    : $ awk -F "," '{print $2}' test.txt
+
+    : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
+
+    : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+* Shell Script
+** 认识 Linux Shell
 *** 学习 Shell 的疑惑
     - 如何启动命令行以及接下来做什么？
     - 如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？
-*** 常见的 Shell 类型
+*** 常见终端
+    - Linux 控制终端
+    - Terminal
+      - GNOME Terminal
+      - Konsole Terminal
+    - Terminus
+    - Xterm
+    - XShell
+*** Shell 类型
     - */bin/bash*
     - /bin/tcsh
     - /bin/dash
     - /bin/csh
     - /bin/sh
-    - ...
+    - /bin/zsh
 *** Shell 的父子关系
     : $ ps -f
 
@@ -892,7 +879,7 @@ photos:
     : //协程：在后台生成一个子shell，同时在这个子shell中执行命令。
     : // 进行协程处理，使用 coproc 命令
     : $ coproc sleep 10
-    : $ coproc My_Job{sleep 10;}
+    : $ coproc My_Job{sleep 10;
 *** 理解 shell 的内建命令
     1. 外部命令 ::
        也被称为文件系统命令，是存在于bash shell之外的程序。ps 就是一个外部命令，可以使用 which 和 type 命令找到
@@ -910,490 +897,492 @@ photos:
        : $ type -a pwd
        : pwd is a shell builtin
        : pwd is /bin/pwd 
-** Shell Basic
-*** Hello World
-    #+begin_src shell
-      #!/bin/bash
-      # This script displays the date and who's #脚本用途说明及作者等信息描述 
-      echo "This's is a shell script." #显示消息
-      echo -n "The time and date are: " #n表示在一行显示
-      echo "Hello,World!" # print "Hello,World!"
-      date # print date.
-
-      echo "User info for userid: $USER" #环境变量，用set命令可以查看一份完整的当前环境变量列表。
-      echo UID: $UID
-      echo HOME: $HOME
-      echo "The cost of the item is \$15." #美元需要使用\转义
-
-      days= 10 #用户自定义变量
-      echo $days
-
-      # 有两种方法可以将命令赋给变量
-      test= `date` #用一对反引号把整个命令围起来
-      test= $(date) #使用$()格式
-      today= $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
-    #+end_src
-*** 历史命令与补全(tab键)
-    1. 历史命令的调用
-       + 查看历史命令
-	 : $ history
-       + 使用上、下箭头调用之前的命令
-       + 使用“!n”重复执行第 n条历史命令
-       + 使用“!!”重复执行上一条命令
-       + 使用“!<string>”重复执行最后一条以某个字符串开头的命令
-    2. 使用 <tab> 键可以对命令、文件、目录等进行自动补全。
-*** 重定向输入和输出
-    #+CAPTION: 重定向字符
-    | 0         | 标准输入                                     |
-    | 1         | 标准输出                                     |
-    | 2         | 标准错误输出                                 |
-    |-----------+----------------------------------------------|
-    | >         | 默认为标准输出重定向，与 >1 相同             |
-    | 2>&1      | 把标准输出重定向到标准输出                   |
-    | 
-    | &>file    | 把标准输出和标准错误输出都重定向到 file 中   |
-    | /dev/null | 是一个特殊文件，所有重定向到它的东西都丢弃掉 |
-
-    1. 输出重定向
-       : // 标准输出重定向
-       : $ date > test
-       : $ date >> test
-
-       : // 标准错误输出重定向
-       : $ date 2>test
-       : $ date 2>>test
-
-       : // 正确输出和错误输出同时保存
-       : $ date > test 2>&1
-       : $ date >> test 2>&1
-       : $ date &>test
-       : $ date &>>test
-       : $ date >>test1 2>>test2
-    2. 输入重定向
-       : // 输入重定向
-       : $ wc < test
-       : //wc 命令，默认情况下，会输出3个值：
-       - 文本的行数
-       - 文本的词数
-       - 文本的字节数
-
-	 : // 内联输入重定向(inline input redirection)
-	 : $ wc << EOF
-	 shell 会用PS2环境变量中定义的次提示符来提示输入数据
-*** 多命令顺序执行与管道符
-    : // 同时执行
-    : $ ls -lht;less test.txt
-    : $ cd ~/test && touch hello.sh
-    
-    : // 管道运算符
-    : $ rpm -qa | sort
-*** 通配符
-    1. shell通配符(wildcard)
-       #+CAPTION: shell 常见通配符
-       | 字符                  | 含义                                        | 实例                                                                                 |
-       |-----------------------+---------------------------------------------+--------------------------------------------------------------------------------------|
-       | <15>                  | <20>                                        | <50>                                                                                 |
-       | \ast                 | 匹配 0 或多个字符                           | a*b  a与b之间可以有任意长度的任意字符, 也可以一个也没有, 如aabcb, axyzb, a012b, ab。 |
-       | ?                     | 匹配任意一个字符                            | a?b  a与b之间必须也只能有一个字符, 可以是任意字符, 如aab, abb, acb, a0b。            |
-       | [list]                | 匹配 list 中的任意单一字符                  | a[xyz]b   a与b之间必须也只能有一个字符, 但只能是 x 或 y 或 z, 如: axb, ayb, azb。    |
-       | [!list]               | 匹配 除list 中的任意单一字符                | a[!0-9]b  a与b之间必须也只能有一个字符, 但不能是阿拉伯数字, 如axb, aab, a-b。        |
-       | [c1-c2]               | 匹配 c1-c2 中的任意单一字符 如：[0-9] [a-z] | a[0-9]b  0与9之间必须也只能有一个字符 如a0b, a1b... a9b。                            |
-       | {string1,string2,...} | 匹配 sring1 或 string2 (或更多)其一字符串   | a{abc,xyz,123}b    a与b之间只能是abc或xyz或123这三个字符串之一。                     |
-    2. shell 特殊字符
-       shell 除了有通配符之外，由shell 负责预先先解析后，将处理结果传给命令行之外，shell还有一系列自己的其他特殊字符。
-       #+CAPTION: shell 特殊字符
-       | 字符     | 说明                                                                   |
-       |----------+------------------------------------------------------------------------|
-       | IFS      | 由 <space> 或 <tab> 或 <enter> 三者之一组成(我们常用 space )。         |
-       | CR       | 由 <enter> 产生。                                                      |
-       | \equal   | 设定变量。                                                             |
-       | \dollar  | 作变量或运算替换(请不要与 shell prompt 搞混了)。                       |
-       | >        | 重导向 stdout。 *                                                      |
-       | <        | 重导向 stdin。 *                                                       |
-       |          | 命令管线。 *                                                           |
-       | &        | 重导向 file descriptor ，或将命令置于背境执行。 *                      |
-       | ( )      | 将其内的命令置于 nested subshell 执行，或用于运算或命令替换。 *        |
-       | { }      | 将其内的命令置于 non-named function 中执行，或用在变量替换的界定范围。 |
-       | ;        | 在前一个命令结束时，而忽略其返回值，继续执行下一个命令。 *             |
-       | &&       | 在前一个命令结束时，若返回值为 true，继续执行下一个命令。 *            |
-       | 两个竖线 | 在前一个命令结束时，若返回值为 false，继续执行下一个命令。 *           |
-       | \iexcl  | 执行 history 列表中的命令。*                                           |
-    3. shell 转义符
-       #+CAPTION: shell 转义符号
-       | 字符       | 说明                                                                                        |
-       |------------+---------------------------------------------------------------------------------------------|
-       | ‘’(单引号) | 又叫硬转义，其内部所有的shell 元字符、通配符都会被关掉。注意，硬转义中不允许出现’(单引号)。 |
-       | “”(双引号) | 又叫软转义，其内部只允许出现特定的shell 元字符：$用于参数代换 `用于命令代替                 |
-       | \(反斜杠)  | 又叫转义，去除其后紧跟的元字符或通配符的特殊意义。                                          |
-    4. shell 解析脚本过程
-       #+begin_src plantuml :file {{site.url}}/assets/images/shell-analysis-process.png
-       (*) --> "split into tokens" as sit
-       note left: 1
-       note right: 用meta来分隔字符串
-       sit -right-> [double quates]6
-       sit -right-> [single quates]11
-       sit -down-> if "check 1st token" as check then
-       note left: 2
-       check -left-> if "opening keyword" then
-	--> [read next command]sit
-	endif
-       check -right-> if "other keyword" then
-	--> [syntax error!](*)
-	endif
-       check -down-> if "not keyword" then
-	--> "check 1st token" as check2
-	note left: 3
-	check2 -left-> if "alias" then
-	 -->[expanded alias]sit
-	check2 -down-> if "not alias" then
-	 -->"brace expansion"
-	 note left: 4
-	 -->"tilde expansion"
-	 note left: 5
-	 note right: 解析波浪线
-	 -->"parameter expansion" as 6
-	 note left: 6
-	 note right: parameter expansion: 将$var用变量值取代
-	 -->"command substitution"
-	 note left: 7
-	 -->"arithmeric substitution" as 8
-	 note left: 8
-	 8-right->[double quates]11
-	 8-down->"word splitting"
-	 note left: 9
-	 -->"pathname expansion"
-	 note left: 10
-	 note right: 进行wildcard匹配
-	 -->"command lookup:function,built-in command,executable file" as 11
-	 note left: 11
-	 note right: command lookup:function,built-in command,executable file
-	 -->"run command"
-	 note left: 12
-	 -left->[eval,make arguments into next command]sit
-	endif
-       #+end_src
-
-       #+RESULTS:
-       [[file:{{site.url}}/assets/images/shell-analysis-process.png]]
-*** 环境变量
-    1. 概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
-    2. 全局环境变量和局部环境变量:
-       : // 查看全局变量
-       : $ env
-       : or
-       : $ printenv
-
-       : // 查看某个全局环境变量
-       : $ env HOME
-       : or
-       : $ echo $HOME
-
-       : // set 命令会显示为某个特定进程设置的所有环境变量，包括全局变量、局部变量以及用户自定义变量。
-       : $ set
-    3. 设置用户自定义变量
-       : $ my_variable=Hello
-       注意：所有环境变量名均使用大写字母，这是 bash shell 的标准惯例。自己创建的局部变量或是 shell 脚本，请使用小写字母。变量名区分大小写。
-       : $ my_variable="Hello World"
-
-       : // 设置全局变量
-       : $ export my_variable="I am Global now"
-
-       : // 删除环境变量
-       : $ unset my_variable
-       注意：如果要用到变量，使用$；如果要操作变量，不使用$。
-    4. PATH、PS1 环境变量
-       : // 全局环境变量
-       : $ PATH=$PATH:/opt/test/scripts
-       
-       : // 自定义用户命令行的字符显示
-       PS1 默认提示符变量，如动态显示当前目录：
-       : $ export PS1="[\u@\h \w]"
-       #+CAPTION: PS1 变量可使用的参数值
-       | \d | 代表日期，格式为weekday month date，例如："Mon Aug 1"                    |
-       | \H | 完整的主机名称。例如：我的机器名称为：fc4.linux，则这个名称就是fc4.linux |
-       | \h | 仅取主机的第一个名字，如上例，则为fc4，.linux则被省略                    |
-       | \t | 显示时间为24小时格式，如：HH：MM：SS                                     |
-       | \T | 显示时间为12小时格式                                                     |
-       | \A | 显示时间为24小时格式：HH：MM                                             |
-       | \u | 当前用户的账号名称                                                       |
-       | \v | BASH的版本信息                                                           |
-       | \w | 完整的工作目录名称。家目录会以 ~代替                                     |
-       | \W | 利用basename取得工作目录名称，所以只会列出最后一个目录                   |
-       | \# | 下达的第几个命令                                                         |
-       | \$ | 提示字符，如果是root时，提示符为：# ，普通用户则为：$                    |
-       | \[ | 字符"["                                                                  |
-       | \] | 字符"]"                                                                  |
-       | \! | 命令行动态统计历史命令次数                                               |
-       PS2 是副提示符变量，默认值是''> ''。PS2一般使用于命令行里较长命令的换行提示信息。可自定义设置如下：
-       : $ export PS2="PS2 => "
-       另外，还有 PS3 和 PS4，因为这两个环境变量可能用得不多，所以在这就不介绍了，感兴趣的小伙伴可自行研究。
-    5. 定位系统环境变量
-       - 登录时作为默认登录 shell
-	 \\
-	 登录 shell 会从5个不同的启动文件里读取命令，其中 /etc/profile 是默认的 bash shell 主启动文件。
-	 : $HOME/.bash_profile
-	 : $HOME/.bashrc
-	 : $HOME/.bash_login
-	 : $HOME/.profile
-       - 作为非登录 shell 的交互式 shell
-	 \\
-         作为非登录 shell 的交互式启动的，它不会访问 /etc/profile 文件，只会检查 HOME 目录中的 .bashrc 文件。
-	 \\
-	 .bashrc 文件有两个作用：一是查看/etc目录下通用的 bashrc 文件；二是为用户提供一个定制自己的命名别名和私有脚本函数的地方。
-       - 作为运行脚本的非交互式shell
-	 \\
-         系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
-	 \\
-	 在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。
-    6. 数组变量
-       : // 环境变量作为数组使用
-       : $ mytest=(one two three four five)
-       : $ echo ${mytest[2]}
-       : three
-       : $ echo ${mytest[*]}
-       : one two three four five
-       
-       : //改变某个索引的值
-       : $ mytest[2] = seven
-
-       : //删除某个索引的值和删除整个数组
-       : $ unset mytest[2]
-       : $ unset mytest
-    7. 环境变量配置文件
-       + /etc/profile
-       + /etc/profile.d/*.sh
-       + ~/.bash_profile
-       + ~/.bashrc
-       + /etc/bashrc
-       + ~/.bash_logout
-       + ~/.bash_history
-       + /etc/issue :: 本地终端欢迎信息
-       + /etc/motd :: 登录后的欢迎信息
-*** 位置参数(positional parameter)
-    #+CAPTION: 位置参数
-    | 位置参数变量 | 说明                                                                                                                                                                                               |
-    |--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | <l15>        | <l50>                                                                                                                                                                                              |
-    | $n           | n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。 |
-    | $*           | 这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。                                                                                  |
-    | $@           | 这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。                                                                                |
-    | $#           | 这个变量代表命令行中所有参数的个数（不包括$0）。                                                                                                                                                   |
-    #+NAME: 读取参数
-    #+BEGIN_SRC shell
-    #!/bin/bash
-    # using one command line parameter
-    #
-    factorial=1
-    for ((number=1; number<=$1; number++))
-    do
-    factorial=$[$factorial * $number]
-    done
-    echo "The factorial of $1 is $factorial"
-    #+END_SRC
-
-    #+RESULTS: 读取参数
-    : The factorial of  is 1
-
-*** 预定义变量
-    1. 常见的预定义变量
-       #+CAPTION: 常见的预定义变量
-       | 预定义常量 | 作用                                                                                                   |
-       |------------+--------------------------------------------------------------------------------------------------------|
-       |            | <l50>                                                                                                  |
-       | 0          | 存当前程序或脚本的名称                                                                                 |
-       | $*         | 保存传递给脚本或进程的所有参数                                                                         |
-       | $$         | 当前进程给脚本的PID号                                                                                  |
-       | $!         | 后台运行的最后一个进程的PID号                                                                          |
-       | $?         | 用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。 |
-       | $#         | 用于保存脚本的参数个数                                                                                 |
-    2. 从键盘输入
-       + read 命令
-	 + 选项
-	   + -p :: 等待输入时的提示信息
-	   + -t :: 等待秒数
-	   + -n :: 允许输入的字符数
-	   + -s :: 隐藏输入的数据，适用于机密信息的输入
-	 + 示例
-	   #+name: 从键盘输入
-	   #+begin_src shell
-	   #!/bin/bash
-	   # Date: 2019/07/27
-	   # Author: zrg
-	   #
-	   # Enter a variable name
-	   read -p "Please enter a variable name:" -t 15 varName
-	   echo "\n"
-	   echo $varName
-	   #+end_src
-
-	   #+RESULTS: 从键盘输入
-	   : n
-*** 执行数学运算和运算符
-    1. 方法1：declare
-       : $ declare -i c=$a+$b
-       : $ echo $c
-    2. 方法2：expr 或 let 运算工具
-       : $ c=$(expr $a +$b)
-       : $ echo c
-    3. 方法3：$((表达式)) 或 $[表达式]
-       : $ var1=$((1+5))
-       : $ var2=$[$var1*2]
-       : // 使用 $ 和 [] 将数学表达式围起来
-       注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
-    4. 浮点运算解决方案
-       : 使用内建的bash计算器：bc
-       : $ bc
-       : 3.44 / 5
-       : 0
-       : scale = 4 // 浮点运算由scale控制，默认值为0
-
-       注意：-q 选项可以不显示冗长的欢迎信息
-       : $ bc -q
-
-       #+NAME: 在脚本中使用bc
-       #+BEGIN_SRC shell
+** Shell 基础｜Shell Basic
+*** Shell 变量｜Shell Parameter
+**** Hello World
+     #+begin_src shell
        #!/bin/bash
-       var1 = $(echo "scale=4;3.44 / 5" | bc)
-       echo The answer is $var1
-       #+END_SRC 
+       # This script displays the date and who's #脚本用途说明及作者等信息描述 
+       echo "This's is a shell script." #显示消息
+       echo -n "The time and date are: " #n表示在一行显示
+       echo "Hello,World!" # print "Hello,World!"
+       date # print date.
 
-       #+RESULTS: 在脚本中使用bc
-       : The answer is
+       echo "User info for userid: $USER" #环境变量，用set命令可以查看一份完整的当前环境变量列表。
+       echo UID: $UID
+       echo HOME: $HOME
+       echo "The cost of the item is \$15." #美元需要使用\转义
 
-       #+NAME:使用内联重定向，允许直接在命令行中重定向数据
-       #+BEGIN_SRC shell
-       #!/bin/bash
-       var1= 10.46
-       var2= 43.67
-       var3= 33.2
-       var4= 71
-       var5= $(bc << EOF
-       scale= 4
-       a1= ($var1*$var2)
-       a2= ($var3*var4)
-       a1+b1
-       EOF
-       )
-       echo "The final answer for this mess is $var5"
-       #+END_SRC
+       days= 10 #用户自定义变量
+       echo $days
 
-       #+RESULTS: 使用内联重定向，允许直接在命令行中重定向数据
-       : The final answer for this mess is
-    5. 运算符
-       + 算术运算符
-         #+CAPTION:算术运算符
-         | 运算符       | 说明                                          | 举例                          |
-         |--------------+-----------------------------------------------+-------------------------------|
-         | +            | 加法                                          | `expr $a + $b` 结果为 30。    |
-         | -            | 减法                                          | `expr $a - $b` 结果为 -10。   |
-         | \ast         | 乘法                                          | `expr $a \* $b` 结果为  200。 |
-         | \slash       | 除法                                          | `expr $b / $a` 结果为 2。     |
-         | %            | 取余                                          | `expr $b % $a` 结果为 0。     |
-         | \equal       | 赋值                                          | a=$b 将把变量 b 的值赋给 a。  |
-         | \equal\equal | 相等。用于比较两个数字，相同则返回 true。     | [ $a == $b ] 返回 false。     |
-         | !=           | 不相等。用于比较两个数字，不相同则返回 true。 | [ $a != $b ] 返回 true。      |
-         注意：条件表达式要放在方括号之间，并且要有空格，例如: [$a==$b] 是错误的，必须写成 [ $a == $b ]。
-       + 关系运算符
-	 #+CAPTION:关系运算符
-         | 运算符 | 说明                                                  | 举例                       |
-         |--------+-------------------------------------------------------+----------------------------|
-         | -eq    | 检测两个数是否相等，相等返回 true。                   | [ $a -eq $b ] 返回 false。 |
-         | -ne    | 检测两个数是否不相等，不相等返回 true。               | [ $a -ne $b ] 返回 true。  |
-         | -gt    | 检测左边的数是否大于右边的，如果是，则返回 true。     | [ $a -gt $b ] 返回 false。 |
-         | -lt    | 检测左边的数是否小于右边的，如果是，则返回 true。     | [ $a -lt $b ] 返回 true。  |
-         | -ge    | 检测左边的数是否大于等于右边的，如果是，则返回 true。 | [ $a -ge $b ] 返回 false。 |
-         | -le    | 检测左边的数是否小于等于右边的，如果是，则返回 true。 | [ $a -le $b ] 返回 true。  |
-       + 布尔运算符
-	 #+CAPTION:布尔运算符
-         | 运算符 | 说明                                                | 举例                                     |
-         |--------+-----------------------------------------------------+------------------------------------------|
-         | \iexcl | 非运算，表达式为 true 则返回 false，否则返回 true。 | [ ! false ] 返回 true。                  |
-         | -o     | 或运算，有一个表达式为 true 则返回 true。           | [ $a -lt 20 -o $b -gt 100 ] 返回 true。  |
-         | -a     | 与运算，两个表达式都为 true 才返回 true。           | [ $a -lt 20 -a $b -gt 100 ] 返回 false。 |
-       + 逻辑运算符
-	 #+CAPTION:逻辑运算符
-	 | 运算符     | 说明       | 举例                                          |
-	 |------------+------------+-----------------------------------------------|
-	 | &&         | 逻辑的 AND | [ $a -lt 100 && $b -gt 100 ] 返回 false       |
-	 | \vbar\vbar | 逻辑的 OR  | [ $a -lt 100 \vbar\vbar $b -gt 100 ] 返回 true |
-	 注意：“|”，可通过 M-x org-entities-help <RET> 查看，Other > Misc
-       + 字符串运算符
-	 #+CAPTION:字符串运算符
-	 | 运算符  | 说明                                      | 举例                     |
-	 |---------+-------------------------------------------+--------------------------|
-	 | \equal  | 检测两个字符串是否相等，相等返回 true。   | [ $a = $b ] 返回 false。 |
-	 | !=      | 检测两个字符串是否相等，不相等返回 true。 | [ $a != $b ] 返回 true。 |
-	 | -z      | 检测字符串长度是否为0，为0返回 true。     | [ -z $a ] 返回 false。   |
-	 | -n      | 检测字符串长度是否为0，不为0返回 true。   | [ -n "$a" ] 返回 true。  |
-	 | \dollar | 检测字符串是否为空，不为空返回 true。     | [ $a ] 返回 true。       |
-       + 文件测试运算符
-	 #+CAPTION:文件测试运算符
-         | 操作符  | 说明                                                                        | 举例                      |
-         |---------+-----------------------------------------------------------------------------+---------------------------|
-         | -b file | 检测文件是否是块设备文件，如果是，则返回 true。                             | [ -b $file ] 返回 false。 |
-         | -c file | 检测文件是否是字符设备文件，如果是，则返回 true。                           | [ -c $file ] 返回 false。 |
-         | -d file | 检测文件是否是目录，如果是，则返回 true。                                   | [ -d $file ] 返回 false。 |
-         | -f file | 检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。 | [ -f $file ] 返回 true。  |
-         | -g file | 检测文件是否设置了 SGID 位，如果是，则返回 true。                           | [ -g $file ] 返回 false。 |
-         | -k file | 检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。                 | [ -k $file ] 返回 false。 |
-         | -p file | 检测文件是否是有名管道，如果是，则返回 true。                               | [ -p $file ] 返回 false。 |
-         | -u file | 检测文件是否设置了 SUID 位，如果是，则返回 true。                           | [ -u $file ] 返回 false。 |
-         | -r file | 检测文件是否可读，如果是，则返回 true。                                     | [ -r $file ] 返回 true。  |
-         | -w file | 检测文件是否可写，如果是，则返回 true。                                     | [ -w $file ] 返回 true。  |
-         | -x file | 检测文件是否可执行，如果是，则返回 true。                                   | [ -x $file ] 返回 true。  |
-         | -s file | 检测文件是否为空（文件大小是否大于0），不为空返回 true。                    | [ -s $file ] 返回 true。  |
-         | -e file | 检测文件（包括目录）是否存在，如果是，则返回 true。                         | [ -e $file ] 返回 true。  |
-         | -S      | 判断某文件是否 socket。                                                     |                           |
-         | -L      | 检测文件是否存在并且是一个符号链接。                                        |                           |
-*** 变量测试
-    变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
-    #+CAPTION:变量测试表
-    | 变量置换方式 | y 没有设置                  | y 为空                      | y 设置值   |
-    |--------------+-----------------------------+-----------------------------+------------|
-    | x=${y-变量}  | x=newValue                  | x为空                       | x=$y       |
-    | x=${y:-变量} | x=newValue                  | x=newValue                  | x=$y       |
-    | x=${y+变量}  | x为空                       | x=newValue                  | x=newValue |
-    | x=${y:-变量} | x为空                       | x为空                       | x=newValue |
-    | x=${y=变量}  | x=newValue                  | x为空                       | x=$y       |
-    |              | y=newValue                  | y值不变                     | y值不变    |
-    | x=${y:=变量} | x=newValue                  | x=newValue                  | x=$y       |
-    |              | y=newValue                  | y=newValue                  | y值不变    |
-    | x=${y?变量}  | newValue 输出到标准错误输出 | x为空                       | x=$y       |
-    | x=${y:?变量} | newValue 输出到标准错误输出 | newValue 输出到标准错误输出 | x=$y       |
-    
-    : x=${y-4}
-    : // 表示如果y不存在，那么x=4；如果y为空值，那么x为空值；如果y有值，那么x被赋y的值。
-*** 退出脚本
-    1. 退出状态码       
-       #+CAPTION: 退出状态码
-       | 状态码 | 描述                       |
-       |--------+----------------------------|
-       |      0 | 命令成功结束               |
-       |      1 | 一般性未知错误             |
-       |      2 | 不适合的shell命令          |
-       |    126 | 命令不可执行               |
-       |    127 | 没找到命令                 |
-       |    128 | 无效的退出参数             |
-       |  128+x | 与Linux信号x相关的严重错误 |
-       |    130 | 通过Ctrl+C终止的命令       |
-       |    255 | 正常范围之外的退出状态码   |
-       : $ echo $?
-       : 0
-    2. exit
-       #+NAME: exit 命令允许在脚本结束时指定一个退出状态码
-       #+BEGIN_SRC shell
-	 echo 'Hello, World'
-	 exit 5 
-       #+END_SRC
+       # 有两种方法可以将命令赋给变量
+       test= `date` #用一对反引号把整个命令围起来
+       test= $(date) #使用$()格式
+       today= $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
+     #+end_src
+**** 环境变量｜Environment Parameter
+     1. 概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
+     2. 全局环境变量和局部环境变量:
+	: // 查看全局变量
+	: $ env
+	: or
+	: $ printenv
+
+	: // 查看某个全局环境变量
+	: $ env HOME
+	: or
+	: $ echo $HOME
+
+	: // set 命令会显示为某个特定进程设置的所有环境变量，包括全局变量、局部变量以及用户自定义变量。
+	: $ set
+     3. 设置用户自定义变量
+	: $ my_variable=Hello
+	注意：所有环境变量名均使用大写字母，这是 bash shell 的标准惯例。自己创建的局部变量或是 shell 脚本，请使用小写字母。变量名区分大小写。
+	: $ my_variable="Hello World"
+
+	: // 设置全局变量
+	: $ export my_variable="I am Global now"
+
+	: // 删除环境变量
+	: $ unset my_variable
+	注意：如果要用到变量，使用$；如果要操作变量，不使用$。
+     4. PATH、PS1 环境变量
+	: // 全局环境变量
+	: $ PATH=$PATH:/opt/test/scripts
        
-       #+RESULTS: exit 命令允许在脚本结束时指定一个退出状态码
+	: // 自定义用户命令行的字符显示
+	PS1 默认提示符变量，如动态显示当前目录：
+	: $ export PS1="[\u@\h \w]"
+	#+CAPTION: PS1 变量可使用的参数值
+	| \d | 代表日期，格式为weekday month date，例如："Mon Aug 1"                    |
+	| \H | 完整的主机名称。例如：我的机器名称为：fc4.linux，则这个名称就是fc4.linux |
+	| \h | 仅取主机的第一个名字，如上例，则为fc4，.linux则被省略                    |
+	| \t | 显示时间为24小时格式，如：HH：MM：SS                                     |
+	| \T | 显示时间为12小时格式                                                     |
+	| \A | 显示时间为24小时格式：HH：MM                                             |
+	| \u | 当前用户的账号名称                                                       |
+	| \v | BASH的版本信息                                                           |
+	| \w | 完整的工作目录名称。家目录会以 ~代替                                     |
+	| \W | 利用basename取得工作目录名称，所以只会列出最后一个目录                   |
+	| \# | 下达的第几个命令                                                         |
+	| \$ | 提示字符，如果是root时，提示符为：# ，普通用户则为：$                    |
+	| \[ | 字符"["                                                                  |
+	| \] | 字符"]"                                                                  |
+	| \! | 命令行动态统计历史命令次数                                               |
+	PS2 是副提示符变量，默认值是''> ''。PS2一般使用于命令行里较长命令的换行提示信息。可自定义设置如下：
+	: $ export PS2="PS2 => "
+	另外，还有 PS3 和 PS4，因为这两个环境变量可能用得不多，所以在这就不介绍了，感兴趣的小伙伴可自行研究。
+     5. 定位系统环境变量
+	- 登录时作为默认登录 shell
+	  \\
+	  登录 shell 会从5个不同的启动文件里读取命令，其中 /etc/profile 是默认的 bash shell 主启动文件。
+	  : $HOME/.bash_profile
+	  : $HOME/.bashrc
+	  : $HOME/.bash_login
+	  : $HOME/.profile
+	- 作为非登录 shell 的交互式 shell
+	  \\
+          作为非登录 shell 的交互式启动的，它不会访问 /etc/profile 文件，只会检查 HOME 目录中的 .bashrc 文件。
+	  \\
+	  .bashrc 文件有两个作用：一是查看/etc目录下通用的 bashrc 文件；二是为用户提供一个定制自己的命名别名和私有脚本函数的地方。
+	- 作为运行脚本的非交互式shell
+	  \\
+          系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
+	  \\
+	  在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。
+     6. 数组变量
+	: // 环境变量作为数组使用
+	: $ mytest=(one two three four five)
+	: $ echo ${mytest[2]}
+	: three
+	: $ echo ${mytest[*]}
+	: one two three four five
+       
+	: //改变某个索引的值
+	: $ mytest[2] = seven
 
-       : $ ./test 
-       : Hello, World
-       : $ echo $?
-       : 5
-** Shell Programming
-*** 正则表达式
+	: //删除某个索引的值和删除整个数组
+	: $ unset mytest[2]
+	: $ unset mytest
+     7. 环境变量配置文件
+	+ /etc/profile
+	+ /etc/profile.d/*.sh
+	+ ~/.bash_profile
+	+ ~/.bashrc
+	+ /etc/bashrc
+	+ ~/.bash_logout
+	+ ~/.bash_history
+	+ /etc/issue :: 本地终端欢迎信息
+	+ /etc/motd :: 登录后的欢迎信息
+**** 重定向输入和输出｜Redirect Input and Output
+     #+CAPTION: 重定向字符
+     | 0         | 标准输入                                     |
+     | 1         | 标准输出                                     |
+     | 2         | 标准错误输出                                 |
+     |-----------+----------------------------------------------|
+     | >         | 默认为标准输出重定向，与 >1 相同             |
+     | 2>&1      | 把标准输出重定向到标准输出                   |
+     | 
+     | &>file    | 把标准输出和标准错误输出都重定向到 file 中   |
+     | /dev/null | 是一个特殊文件，所有重定向到它的东西都丢弃掉 |
+
+     1. 输出重定向
+	: // 标准输出重定向
+	: $ date > test
+	: $ date >> test
+
+	: // 标准错误输出重定向
+	: $ date 2>test
+	: $ date 2>>test
+
+	: // 正确输出和错误输出同时保存
+	: $ date > test 2>&1
+	: $ date >> test 2>&1
+	: $ date &>test
+	: $ date &>>test
+	: $ date >>test1 2>>test2
+     2. 输入重定向
+	: // 输入重定向
+	: $ wc < test
+	: //wc 命令，默认情况下，会输出3个值：
+	- 文本的行数
+	- 文本的词数
+	- 文本的字节数
+
+	  : // 内联输入重定向(inline input redirection)
+	  : $ wc << EOF
+	  shell 会用PS2环境变量中定义的次提示符来提示输入数据
+**** 通配符｜Wildcard Character
+     1. shell通配符(wildcard)
+	#+CAPTION: shell 常见通配符
+	| 字符                  | 含义                                        | 实例                                                                                 |
+	|-----------------------+---------------------------------------------+--------------------------------------------------------------------------------------|
+	| <15>                  | <20>                                        | <50>                                                                                 |
+	| \ast                 | 匹配 0 或多个字符                           | a*b  a与b之间可以有任意长度的任意字符, 也可以一个也没有, 如aabcb, axyzb, a012b, ab。 |
+	| ?                     | 匹配任意一个字符                            | a?b  a与b之间必须也只能有一个字符, 可以是任意字符, 如aab, abb, acb, a0b。            |
+	| [list]                | 匹配 list 中的任意单一字符                  | a[xyz]b   a与b之间必须也只能有一个字符, 但只能是 x 或 y 或 z, 如: axb, ayb, azb。    |
+	| [!list]               | 匹配 除list 中的任意单一字符                | a[!0-9]b  a与b之间必须也只能有一个字符, 但不能是阿拉伯数字, 如axb, aab, a-b。        |
+	| [c1-c2]               | 匹配 c1-c2 中的任意单一字符 如：[0-9] [a-z] | a[0-9]b  0与9之间必须也只能有一个字符 如a0b, a1b... a9b。                            |
+	| {string1,string2,...} | 匹配 sring1 或 string2 (或更多)其一字符串   | a{abc,xyz,123}b    a与b之间只能是abc或xyz或123这三个字符串之一。                     |
+     2. shell 特殊字符
+	shell 除了有通配符之外，由shell 负责预先先解析后，将处理结果传给命令行之外，shell还有一系列自己的其他特殊字符。
+	#+CAPTION: shell 特殊字符
+	| 字符     | 说明                                                                   |
+	|----------+------------------------------------------------------------------------|
+	| IFS      | 由 <space> 或 <tab> 或 <enter> 三者之一组成(我们常用 space )。         |
+	| CR       | 由 <enter> 产生。                                                      |
+	| \equal   | 设定变量。                                                             |
+	| \dollar  | 作变量或运算替换(请不要与 shell prompt 搞混了)。                       |
+	| >        | 重导向 stdout。 *                                                      |
+	| <        | 重导向 stdin。 *                                                       |
+	|          | 命令管线。 *                                                           |
+	| &        | 重导向 file descriptor ，或将命令置于背境执行。 *                      |
+	| ( )      | 将其内的命令置于 nested subshell 执行，或用于运算或命令替换。 *        |
+	| { }      | 将其内的命令置于 non-named function 中执行，或用在变量替换的界定范围。 |
+	| ;        | 在前一个命令结束时，而忽略其返回值，继续执行下一个命令。 *             |
+	| &&       | 在前一个命令结束时，若返回值为 true，继续执行下一个命令。 *            |
+	| 两个竖线 | 在前一个命令结束时，若返回值为 false，继续执行下一个命令。 *           |
+	| \iexcl  | 执行 history 列表中的命令。*                                           |
+     3. shell 转义符
+	#+CAPTION: shell 转义符号
+	| 字符       | 说明                                                                                        |
+	|------------+---------------------------------------------------------------------------------------------|
+	| ‘’(单引号) | 又叫硬转义，其内部所有的shell 元字符、通配符都会被关掉。注意，硬转义中不允许出现’(单引号)。 |
+	| “”(双引号) | 又叫软转义，其内部只允许出现特定的shell 元字符：$用于参数代换 `用于命令代替                 |
+	| \(反斜杠)  | 又叫转义，去除其后紧跟的元字符或通配符的特殊意义。                                          |
+     4. shell 解析脚本过程
+	#+begin_src plantuml :file {{site.url}}/assets/images/shell-analysis-process.png
+	  (*) --> "split into tokens" as sit
+	  note left: 1
+	  note right: 用meta来分隔字符串
+	  sit -right-> [double quates]6
+	  sit -right-> [single quates]11
+	  sit -down-> if "check 1st token" as check then
+	  note left: 2
+	  check -left-> if "opening keyword" then
+	   --> [read next command]sit
+	   endif
+	  check -right-> if "other keyword" then
+	   --> [syntax error!](*)
+	   endif
+	  check -down-> if "not keyword" then
+	   --> "check 1st token" as check2
+	   note left: 3
+	   check2 -left-> if "alias" then
+	    -->[expanded alias]sit
+	   check2 -down-> if "not alias" then
+	    -->"brace expansion"
+	    note left: 4
+	    -->"tilde expansion"
+	    note left: 5
+	    note right: 解析波浪线
+	    -->"parameter expansion" as 6
+	    note left: 6
+	    note right: parameter expansion: 将$var用变量值取代
+	    -->"command substitution"
+	    note left: 7
+	    -->"arithmeric substitution" as 8
+	    note left: 8
+	    8-right->[double quates]11
+	    8-down->"word splitting"
+	    note left: 9
+	    -->"pathname expansion"
+	    note left: 10
+	    note right: 进行wildcard匹配
+	    -->"command lookup:function,built-in command,executable file" as 11
+	    note left: 11
+	    note right: command lookup:function,built-in command,executable file
+	    -->"run command"
+	    note left: 12
+	    -left->[eval,make arguments into next command]sit
+	   endif
+	#+end_src
+
+	#+RESULTS:
+	[[file:{{site.url}}/assets/images/shell-analysis-process.png]]
+**** 位置参数｜Positional Parameter
+     #+CAPTION: 位置参数
+     | 位置参数变量 | 说明                                                                                                                                                                                               |
+     |--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+     | <l15>        | <l50>                                                                                                                                                                                              |
+     | $n           | n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。 |
+     | $*           | 这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。                                                                                  |
+     | $@           | 这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。                                                                                |
+     | $#           | 这个变量代表命令行中所有参数的个数（不包括$0）。                                                                                                                                                   |
+     #+NAME: 读取参数
+     #+BEGIN_SRC shell
+       #!/bin/bash
+       # using one command line parameter
+       #
+       factorial=1
+       for ((number=1; number<=$1; number++))
+       do
+       factorial=$[$factorial * $number]
+       done
+       echo "The factorial of $1 is $factorial"
+     #+END_SRC
+
+     #+RESULTS: 读取参数
+
+**** 预定义变量｜Predefine Parameter
+     1. 常见的预定义变量
+	#+CAPTION: 常见的预定义变量
+	| 预定义变量 | 作用                                                                                                   |
+	|------------+--------------------------------------------------------------------------------------------------------|
+	|            | <l50>                                                                                                  |
+	| 0          | 存当前程序或脚本的名称                                                                                 |
+	| $*         | 保存传递给脚本或进程的所有参数                                                                         |
+	| $$         | 当前进程给脚本的PID号                                                                                  |
+	| $!         | 后台运行的最后一个进程的PID号                                                                          |
+	| $?         | 用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。 |
+	| $#         | 用于保存脚本的参数个数                                                                                 |
+     2. 从键盘输入
+	+ read 命令
+	  + 选项
+	    + -p :: 等待输入时的提示信息
+	    + -t :: 等待秒数
+	    + -n :: 允许输入的字符数
+	    + -s :: 隐藏输入的数据，适用于机密信息的输入
+	  + 示例
+	    #+name: 从键盘输入
+	    #+begin_src shell
+	    #!/bin/bash
+	    # Date: 2019/07/27
+	    # Author: zrg
+	    #
+	    # Enter a variable name
+	    read -p "Please enter a variable name:" -t 15 varName
+	    echo "\n"
+	    echo $varName
+	    #+end_src
+
+	    #+RESULTS: 从键盘输入
+	    : n
+**** 运算符｜Operator
+     1. 方法1：declare
+	: $ declare -i c=$a+$b
+	: $ echo $c
+     2. 方法2：expr 或 let 运算工具
+	: $ c=$(expr $a +$b)
+	: $ echo c
+     3. 方法3：$((表达式)) 或 $[表达式]
+	: $ var1=$((1+5))
+	: $ var2=$[$var1*2]
+	: // 使用 $ 和 [] 将数学表达式围起来
+	注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+     4. 浮点运算解决方案
+	: 使用内建的bash计算器：bc
+	: $ bc
+	: 3.44 / 5
+	: 0
+	: scale = 4 // 浮点运算由scale控制，默认值为0
+
+	注意：-q 选项可以不显示冗长的欢迎信息
+	: $ bc -q
+
+	#+NAME: 在脚本中使用bc
+	#+BEGIN_SRC shell
+	#!/bin/bash
+	var1 = $(echo "scale=4;3.44 / 5" | bc)
+	echo The answer is $var1
+	#+END_SRC 
+
+	#+RESULTS: 在脚本中使用bc
+	: The answer is
+
+	#+NAME:使用内联重定向，允许直接在命令行中重定向数据
+	#+BEGIN_SRC shell
+	#!/bin/bash
+	var1= 10.46
+	var2= 43.67
+	var3= 33.2
+	var4= 71
+	var5= $(bc << EOF
+	scale= 4
+	a1= ($var1*$var2)
+	a2= ($var3*var4)
+	a1+b1
+	EOF
+	)
+	echo "The final answer for this mess is $var5"
+	#+END_SRC
+
+	#+RESULTS: 使用内联重定向，允许直接在命令行中重定向数据
+	: The final answer for this mess is
+     5. 运算符
+	+ 算术运算符
+          #+CAPTION:算术运算符
+          | 运算符       | 说明                                          | 举例                          |
+          |--------------+-----------------------------------------------+-------------------------------|
+          | +            | 加法                                          | `expr $a + $b` 结果为 30。    |
+          | -            | 减法                                          | `expr $a - $b` 结果为 -10。   |
+          | \ast         | 乘法                                          | `expr $a \* $b` 结果为  200。 |
+          | \slash       | 除法                                          | `expr $b / $a` 结果为 2。     |
+          | %            | 取余                                          | `expr $b % $a` 结果为 0。     |
+          | \equal       | 赋值                                          | a=$b 将把变量 b 的值赋给 a。  |
+          | \equal\equal | 相等。用于比较两个数字，相同则返回 true。     | [ $a == $b ] 返回 false。     |
+          | !=           | 不相等。用于比较两个数字，不相同则返回 true。 | [ $a != $b ] 返回 true。      |
+          注意：条件表达式要放在方括号之间，并且要有空格，例如: [$a==$b] 是错误的，必须写成 [ $a == $b ]。
+	+ 关系运算符
+	  #+CAPTION:关系运算符
+          | 运算符 | 说明                                                  | 举例                       |
+          |--------+-------------------------------------------------------+----------------------------|
+          | -eq    | 检测两个数是否相等，相等返回 true。                   | [ $a -eq $b ] 返回 false。 |
+          | -ne    | 检测两个数是否不相等，不相等返回 true。               | [ $a -ne $b ] 返回 true。  |
+          | -gt    | 检测左边的数是否大于右边的，如果是，则返回 true。     | [ $a -gt $b ] 返回 false。 |
+          | -lt    | 检测左边的数是否小于右边的，如果是，则返回 true。     | [ $a -lt $b ] 返回 true。  |
+          | -ge    | 检测左边的数是否大于等于右边的，如果是，则返回 true。 | [ $a -ge $b ] 返回 false。 |
+          | -le    | 检测左边的数是否小于等于右边的，如果是，则返回 true。 | [ $a -le $b ] 返回 true。  |
+	+ 布尔运算符
+	  #+CAPTION:布尔运算符
+          | 运算符 | 说明                                                | 举例                                     |
+          |--------+-----------------------------------------------------+------------------------------------------|
+          | \iexcl | 非运算，表达式为 true 则返回 false，否则返回 true。 | [ ! false ] 返回 true。                  |
+          | -o     | 或运算，有一个表达式为 true 则返回 true。           | [ $a -lt 20 -o $b -gt 100 ] 返回 true。  |
+          | -a     | 与运算，两个表达式都为 true 才返回 true。           | [ $a -lt 20 -a $b -gt 100 ] 返回 false。 |
+	+ 逻辑运算符
+	  #+CAPTION:逻辑运算符
+	  | 运算符     | 说明       | 举例                                          |
+	  |------------+------------+-----------------------------------------------|
+	  | &&         | 逻辑的 AND | [ $a -lt 100 && $b -gt 100 ] 返回 false       |
+	  | \vbar\vbar | 逻辑的 OR  | [ $a -lt 100 \vbar\vbar $b -gt 100 ] 返回 true |
+	  注意：“|”，可通过 M-x org-entities-help <RET> 查看，Other > Misc
+	+ 字符串运算符
+	  #+CAPTION:字符串运算符
+	  | 运算符  | 说明                                      | 举例                     |
+	  |---------+-------------------------------------------+--------------------------|
+	  | \equal  | 检测两个字符串是否相等，相等返回 true。   | [ $a = $b ] 返回 false。 |
+	  | !=      | 检测两个字符串是否相等，不相等返回 true。 | [ $a != $b ] 返回 true。 |
+	  | -z      | 检测字符串长度是否为0，为0返回 true。     | [ -z $a ] 返回 false。   |
+	  | -n      | 检测字符串长度是否为0，不为0返回 true。   | [ -n "$a" ] 返回 true。  |
+	  | \dollar | 检测字符串是否为空，不为空返回 true。     | [ $a ] 返回 true。       |
+	+ 文件测试运算符
+	  #+CAPTION:文件测试运算符
+          | 操作符  | 说明                                                                        | 举例                      |
+          |---------+-----------------------------------------------------------------------------+---------------------------|
+          | -b file | 检测文件是否是块设备文件，如果是，则返回 true。                             | [ -b $file ] 返回 false。 |
+          | -c file | 检测文件是否是字符设备文件，如果是，则返回 true。                           | [ -c $file ] 返回 false。 |
+          | -d file | 检测文件是否是目录，如果是，则返回 true。                                   | [ -d $file ] 返回 false。 |
+          | -f file | 检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。 | [ -f $file ] 返回 true。  |
+          | -g file | 检测文件是否设置了 SGID 位，如果是，则返回 true。                           | [ -g $file ] 返回 false。 |
+          | -k file | 检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。                 | [ -k $file ] 返回 false。 |
+          | -p file | 检测文件是否是有名管道，如果是，则返回 true。                               | [ -p $file ] 返回 false。 |
+          | -u file | 检测文件是否设置了 SUID 位，如果是，则返回 true。                           | [ -u $file ] 返回 false。 |
+          | -r file | 检测文件是否可读，如果是，则返回 true。                                     | [ -r $file ] 返回 true。  |
+          | -w file | 检测文件是否可写，如果是，则返回 true。                                     | [ -w $file ] 返回 true。  |
+          | -x file | 检测文件是否可执行，如果是，则返回 true。                                   | [ -x $file ] 返回 true。  |
+          | -s file | 检测文件是否为空（文件大小是否大于0），不为空返回 true。                    | [ -s $file ] 返回 true。  |
+          | -e file | 检测文件（包括目录）是否存在，如果是，则返回 true。                         | [ -e $file ] 返回 true。  |
+          | -S      | 判断某文件是否 socket。                                                     |                           |
+          | -L      | 检测文件是否存在并且是一个符号链接。                                        |                           |
+**** 变量测试｜Parameter Test
+     变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
+     #+CAPTION:变量测试表
+     | 变量置换方式 | y 没有设置                  | y 为空                      | y 设置值   |
+     |--------------+-----------------------------+-----------------------------+------------|
+     | x=${y-变量}  | x=newValue                  | x为空                       | x=$y       |
+     | x=${y:-变量} | x=newValue                  | x=newValue                  | x=$y       |
+     | x=${y+变量}  | x为空                       | x=newValue                  | x=newValue |
+     | x=${y:-变量} | x为空                       | x为空                       | x=newValue |
+     | x=${y=变量}  | x=newValue                  | x为空                       | x=$y       |
+     |              | y=newValue                  | y值不变                     | y值不变    |
+     | x=${y:=变量} | x=newValue                  | x=newValue                  | x=$y       |
+     |              | y=newValue                  | y=newValue                  | y值不变    |
+     | x=${y?变量}  | newValue 输出到标准错误输出 | x为空                       | x=$y       |
+     | x=${y:?变量} | newValue 输出到标准错误输出 | newValue 输出到标准错误输出 | x=$y       |
+    
+     : x=${y-4}
+     : // 表示如果y不存在，那么x=4；如果y为空值，那么x为空值；如果y有值，那么x被赋y的值。
+**** 退出｜Exit
+     1. 退出状态码       
+	#+CAPTION: 退出状态码
+	| 状态码 | 描述                       |
+	|--------+----------------------------|
+	|      0 | 命令成功结束               |
+	|      1 | 一般性未知错误             |
+	|      2 | 不适合的shell命令          |
+	|    126 | 命令不可执行               |
+	|    127 | 没找到命令                 |
+	|    128 | 无效的退出参数             |
+	|  128+x | 与Linux信号x相关的严重错误 |
+	|    130 | 通过Ctrl+C终止的命令       |
+	|    255 | 正常范围之外的退出状态码   |
+	: $ echo $?
+	: 0
+     2. exit
+	#+NAME: exit 命令允许在脚本结束时指定一个退出状态码
+	#+BEGIN_SRC shell
+	  echo 'Hello, World'
+	  exit 5 
+	#+END_SRC
+       
+	#+RESULTS: exit 命令允许在脚本结束时指定一个退出状态码
+
+	: $ ./test 
+	: Hello, World
+	: $ echo $?
+	: 5
+*** 管道命令｜Pipe Command
+**** 选取命令
+     + cut
+     + grep
+**** 排序命令
+     + sort
+     + wc
+     + uniq
+**** 双向重定向
+     + tee
+**** 划分命令
+     + tr
+     + col
+     + join
+     + paste
+     + expand
+**** 参数代换
+     + split
+     + xargs
+*** 正则表达式｜Regular Expression
     #+CAPTION: 正则表达式的基本组成部分
     | 正则表达式 | 描述                                          | 示例                                                        |
     |------------+-----------------------------------------------+-------------------------------------------------------------|
@@ -1414,340 +1403,62 @@ photos:
     | \vbar      | 交替匹配 \vbar 两边的任意一项ab(c             | d)匹配abc或abd不支持                                        |
     
     参考：https://man.linuxde.net/docs/shell_regex.html
-*** 字符操作
-    1. sed
-       \\
-       一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
-       : // 查看文件的第2行
-       : $ sed -n '2p' test.txt
-
-       : // 删除从第2行到第4行的数据
-       : $ sed '2,4d' test.txt
-
-       : // 在第2行追加hello
-       : $ sed '2a hello' test.txt
-
-       : // 在第2行前插入两行数据
-       : $ sed '2i hello \
-       : wold' test.txt
-
-       : // 数据替换
-       : $ sed '2c No such person' test.txt
-
-       *字符串替换*
-       : // g 表示全文替换
-       : $ sed 's/oldStr/newStr/g' fileName
-       : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
-       : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
-    2. awk
-       \\
-       对文件内容进行统计，适合处理格式化数据，比如表格
-       : // 打印第一切片和第四切片内容
-       : $ awk '{print $1,$4}' netstat.txt
-       
-       : // 打印以逗号为分隔符分隔，并打印第二列
-       : $ awk -F "," '{print $2}' test.txt
-
-       : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
-
-       : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
-
-    3. sort
-    4. wc
-*** 结构化命令
-***** if-then
-      #+NAME: if-then
-      #+BEGIN_SRC shell
-     #!/bin/bash
-     testuser = zrg
-     #
-     if grep $testuser /etc/passwd
-     then
-	     echo "The bash files for user $testuser are:"
-	 ls -a /home/$testuser/.b*
-	 echo
-     elif ls -d /home/$testuser
-     then
-	     echo "The user $testuser has a directory"
-     else
-	     echo "The user $testuser does not exist on this system."
-	 echo
-     fi
-
-     #test命令提供了在if-then语句中测试不同条件的途径。
-     #test命令可以判断三类条件：数值比较；字符串比较；文件比较
-      #+END_SRC
-***** if-then 的高级特性
-      #+NAME: if-then 双括号
-      #+BEGIN_SRC shell
+*** 流程控制｜Flow control
+**** if-then
+     #+NAME: if-then
+     #+BEGIN_SRC shell
     #!/bin/bash
-    # (( expression )) expression 可以是任意的数学赋值或比较表达式。
-    var1=10
-    if(( $var1 ** 2 > 90))
+    testuser = zrg
+    #
+    if grep $testuser /etc/passwd
     then
-	    (( $var2 = $var1 ** 2))
-	    echo "The square of $var1 is $var2."
-    fi
-      #+END_SRC
-
-      #+NAME: if-then 双方括号
-      #+BEGIN_SRC shell
-    #!/bin/bash
-    # [[ expression ]]
-    if[[ $USER == r* ]]
+	    echo "The bash files for user $testuser are:"
+	ls -a /home/$testuser/.b*
+	echo
+    elif ls -d /home/$testuser
     then
-	    echo "Hello $USER"
-  else
-	  echo "Sorry, I do not know you."
+	    echo "The user $testuser has a directory"
+    else
+	    echo "The user $testuser does not exist on this system."
+	echo
     fi
-      #+END_SRC
-***** case 命令
-      : 格式：
-      case $变量名 in
-      模式1)
-      命令序列1;;
-      模式2)
-      命令序列2;;
-      *)
-      默认执行的命令序列;;
-      esac 
-      #+NAME: case
-      #+BEGIN_SRC shell
-	 #!/bin/bash
-	 case $action in
-	       start | begin)
-		       echo "start something"
-		       echo "begin something";;
-	       stop | end)
-		       echo "stop something"
-		       echo "end something";;
-	       *)
-	       echo "Ignorant.";;
-       esac
-      #+END_SRC
-***** for 命令
-      : 格式：
-      for var in list
-      do
-      commands
-      done
-      #+NAME: 遍历
-      #+BEGIN_SRC shell
-       #!/bin/bash
-       #
-       # basic for command
-       for country in China America India Japen
-       do
-	       echo "The next state is $country"
-       done
 
-       # another example of how not to use the for command
-       # 1.使用转义字符（反斜线）
-       # 2.使用双引号
-       for test in I don\'t know if "this'll" work
-       do
-	       echo "word:$test"
-       done
+    #test命令提供了在if-then语句中测试不同条件的途径。
+    #test命令可以判断三类条件：数值比较；字符串比较；文件比较
+     #+END_SRC
 
-       # using a variable to hold the list
-       list="China America India Japen"
-       list=$list" Connecticut"
-       for country in $list
-       do
-	       echo "Welcome to $country"
-       done
 
-       # reading values from a file
-       file="states"
-       # 修改IFS环境变量的值，使其只能识别换行符
-       IFS=$'\n'
-       for state in $(cat $file)
-       do
-	       echo "Visit beautiful $state"
-       done
+     *if-then 的高级特性*
+     #+NAME: if-then 双括号
+     #+BEGIN_SRC shell
+   #!/bin/bash
+   # (( expression )) expression 可以是任意的数学赋值或比较表达式。
+   var1=10
+   if(( $var1 ** 2 > 90))
+   then
+	   (( $var2 = $var1 ** 2))
+	   echo "The square of $var1 is $var2."
+   fi
+     #+END_SRC
 
-       # iterate through all the files in a directory
-       for file in $HOME/* /etc/nginx/*
-       do
-	       if [-d "$file"]
-	       then
-		       echo "$file is a directory."
-	       elif [-f "$file"]
-	       then
-		       echo "$file is a file."
-	       fi
-       done
+     #+NAME: if-then 双方括号
+     #+BEGIN_SRC shell
+   #!/bin/bash
+   # [[ expression ]]
+   if[[ $USER == r* ]]
+   then
+	   echo "Hello $USER"
+ else
+	 echo "Sorry, I do not know you."
+   fi
+     #+END_SRC
 
-       # C-style for loop
-       #
-       for (( i=1; i <= 10; i++))
-       do
-	       echo "The next number is $i"
-       done
-       # multiple variable
-       for (( a=1; b=10;a <= 10; a++, b++))
-       do
-	       echo "$a - $b"
-       done
-      #+END_SRC
-***** while 命令
-      : 格式：
-      while test command
-      do
-      other commands
-      done
-      #+NAME: while
-      #+BEGIN_SRC shell
-       # while command test
-       var1=10
-       while [ $var1 -gt 0 ]
-       do
-	       echo $var1
-	       var1=$[ $var1 - 1 ]
-       done
-      #+END_SRC
-
-      #+RESULTS: while
-      | 10 |
-      |  9 |
-      |  8 |
-      |  7 |
-      |  6 |
-      |  5 |
-      |  4 |
-      |  3 |
-      |  2 |
-      |  1 |
-
-***** until 命令
-      : until 命令和 while 命令完全相反。
-      : 格式：
-      until test command
-      do
-      other commands
-      done
-      #+NAME:until
-      #+BEGIN_SRC shell -n 1
-       #!/bin/bash
-       # using the until command
-       var1=100
-       until [ $var1 -eq 0 ]
-       do
-	       echo $var1
-	       var1=$[ $var1 -25 ]
-       done
-      #+END_SRC
-
-      #+RESULTS: until
-      | 100 |
-      |  75 |
-      |  50 |
-      |  25 |
-
-      + 循环处理文件数据-处理
-	#+NAME: 循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
-	#+BEGIN_SRC shell -n 1
-    #!/bin/bash
-    # changing the IFS value
-    IFS.OLD=$IFS
-    IFS=$'\n'
-    for entry in $(cat /etc/passwd)
-    do
-	    echo "Values in $entry -"
-	    IFS=:
-	    for value in $entry
-	    do
-		    echo "$value"
-	    done
-    done
-    # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
-	#+END_SRC
-***** test 命令
-      : 格式：
-      if test condition
-      then
-      commands
-      fi
-      : 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
-      #+NAME: if-then 字符串比较
-      #+BEGIN_SRC shell
-  #!/bin/bash
-  $var = 10
-  if [$var -eq 5]
-  then 
-	  echo "The value $var are equal."
-  else
-	  echo "The value $var are different."
-  fi
-  $var1 = baduser
-  if [$USER != $var1]
-  then
-	  echo "This is not $var1"
-  else
-	  echo "Welcome $var"
-  fi
-  $var2 = baseall
-  $var3 = hockey
-  if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
-  then
-	  echo "$var2 is greater than $var3"
-  else
-	  echo "$var2 is less than $var3"
-  fi
-      #+END_SRC
-      : 特别说明：
-      : 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
-      : 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
-
-      #+NAME: if-then 字符串大小
-      #+BEGIN_SRC shell
-  #!/bin/bash
-  var1 = testing
-  var2 =''
-  if [-n $var1]
-  then
-	  echo "The string '$var1' is not empty."
-  else
-	  echo "The string '$var1' is empty."
-  fi
-  if [-z $var2]
-  then
-	  echo "The string '$var2' is empty."
-  else
-	  echo "The string '$var2' is not empty."
-  fi
-      #+END_SRC
-
-      #+NAME: if-then 文件比较
-      #+BEGIN_SRC shell
-  #!/bin/bash
-  jump_directory=/home/arthur
-  if [-d $jump_directory]
-  then
-	  echo "The $jump_directory directory exists."
-  else
-	  echo "The $jump_directory directory does not exists."
-  fi
-      #+END_SRC
-      | 比较            | 描述                                     |
-      |-----------------+------------------------------------------|
-      | -d file         | 检查file是否存在并是一个目录             |
-      | -e file         | 检查file是否存在                         |
-      | -f file         | 检查file是否存在并是一个文件             |
-      | -r file         | 检查file是否存在并可读                   |
-      | -s file         | 检查file是否存在并非空                   |
-      | -w file         | 检查file是否存在并可写                   |
-      | -x file         | 检查file是否存在并可执行                 |
-      | -O file         | 检查file是否存在并属当前用户所有         |
-      | -G file         | 检查file是否存在并且默认组与当前用户相同 |
-      | file1 -nt file2 | 检查file是否比file2                      |
-      | file1 -ot file2 | 检查file是否比file2旧                    |
-***** 复合条件
-      : 格式：
-      [condition1] && [condition2]
-      [condition1] || [condition2]
-      #+NAME: if-then 复合条件测试
-      #+BEGIN_SRC shell
+     *复合条件*
+     : 格式：
+     [condition1] && [condition2]
+     [condition1] || [condition2]
+     #+NAME: if-then 复合条件测试
+     #+BEGIN_SRC shell
     #!/bin/bash
     # testing compound comparisons
     #
@@ -1757,288 +1468,629 @@ photos:
     else
 	    echo "I cannot write to the file."
     fi
-      #+END_SRC
-***** break 命令
-      #+NAME:控制循环
-      #+BEGIN_SRC shell -n 1
+     #+END_SRC
+      
+**** test
+     : 格式：
+     if test condition
+     then
+     commands
+     fi
+     : 如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+     #+NAME: if-then 字符串比较
+     #+BEGIN_SRC shell
  #!/bin/bash
- # --------------------------------
- # 跳出单个循环
- # 1.breaking out of a for loop
- for var1 in 1 2 3 4 5
- do
-	 if [ $var1 -eq 5]
-	 then
-		 break
-	 fi
-	 echo "Iteration number: $var1"
- done
- echo "The for loop is completed"
- # 2.breaking out of a while loop
- var1=1
- while [ $var1 -lt 10 ]
- do
-	 if [ $var1 -eq 5]
-	 then
-		 break
-	 fi
-	 echo "Iteration number: $var1"
- done
- echo "The while loop is completed"
- # --------------------------------
- # 跳出内部循环
- # 3.breaking out of an inner loop
- for(( a = 1; a<4; a++))
- do
-	 echo "Outer loop: $a"
-	 for((b = 1; b<100; b++))
-	 do
-		 if [ $var1 -eq 5]
-		 then
-			 break
-		 fi
-		 echo "Inner loop: $b"
-	 done
- done
- # ---------------------------------
- # 跳出外部循环
- # 4.breaking out of an outer loop
- for(( a = 1; a<4; a++))
- do
-	 echo "Outer loop: $a"
-	 for((b = 1; b<100; b++))
-	 do
-		 if [ $var1 -eq 5]
-		 then
-			 break 2
-		 fi
-		 echo "Inner loop: $b"
-	 done
- done
-      #+END_SRC
-***** continue 命令
-      #+NAME:控制循环
-      #+BEGIN_SRC shell -n 1
- # 1.using the continue command
- for((var1 = 1; var1<15; var1++))
- do
-	 if [$var1 -gt 5] && [$var1 -lt 10]
-	 then
-		 continue
-	 fi
-	 echo "Iteration number: $var1"
- done
- # 2.improperly using the continue command in a while loop
- var1=1
- while echo "while iteration: $var1"
-	 [ $var1 -lt 15 ]
- do
-	 if [ $var1 -gt 5] && [$var1 -lt 10]
-	 then
-		 continue
-	 fi
-	 echo "Inside iteration number: $var1"
-	 var1 = $[$var1 +1]
- done
- # 3.continuing an outer loop
- for(( a = 1; a<5; a++))
- do
-	 echo "Interation : $a"
-	 for((b = 1; b<3; b++))
-	 do
-		 if [ $b -gt 2] && [$a -lt 4]
-		 then
-			 continue 2
-		 fi
-		 var3=$[$a+$b]
-		 echo "The result of $a * $b is $var3"
-	 done
- done
-      #+END_SRC
-***** 处理循环的输出
-      : 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
-      #+NAME:处理循环的输出
-      #+BEGIN_SRC shell
+ $var = 10
+ if [$var -eq 5]
+ then 
+	 echo "The value $var are equal."
+ else
+	 echo "The value $var are different."
+ fi
+ $var1 = baduser
+ if [$USER != $var1]
+ then
+	 echo "This is not $var1"
+ else
+	 echo "Welcome $var"
+ fi
+ $var2 = baseall
+ $var3 = hockey
+ if [$var2 \> $var3] #>符号需要转义，防止解释成输出重定向
+ then
+	 echo "$var2 is greater than $var3"
+ else
+	 echo "$var2 is less than $var3"
+ fi
+     #+END_SRC
+     : 特别说明：
+     : 1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+     : 2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+
+     #+NAME: if-then 字符串大小
+     #+BEGIN_SRC shell
+ #!/bin/bash
+ var1 = testing
+ var2 =''
+ if [-n $var1]
+ then
+	 echo "The string '$var1' is not empty."
+ else
+	 echo "The string '$var1' is empty."
+ fi
+ if [-z $var2]
+ then
+	 echo "The string '$var2' is empty."
+ else
+	 echo "The string '$var2' is not empty."
+ fi
+     #+END_SRC
+
+     #+NAME: if-then 文件比较
+     #+BEGIN_SRC shell
+ #!/bin/bash
+ jump_directory=/home/arthur
+ if [-d $jump_directory]
+ then
+	 echo "The $jump_directory directory exists."
+ else
+	 echo "The $jump_directory directory does not exists."
+ fi
+     #+END_SRC
+     | 比较            | 描述                                     |
+     |-----------------+------------------------------------------|
+     | -d file         | 检查file是否存在并是一个目录             |
+     | -e file         | 检查file是否存在                         |
+     | -f file         | 检查file是否存在并是一个文件             |
+     | -r file         | 检查file是否存在并可读                   |
+     | -s file         | 检查file是否存在并非空                   |
+     | -w file         | 检查file是否存在并可写                   |
+     | -x file         | 检查file是否存在并可执行                 |
+     | -O file         | 检查file是否存在并属当前用户所有         |
+     | -G file         | 检查file是否存在并且默认组与当前用户相同 |
+     | file1 -nt file2 | 检查file是否比file2                      |
+     | file1 -ot file2 | 检查file是否比file2旧                    |
+**** case
+     : 格式：
+     case $变量名 in
+     模式1)
+     命令序列1;;
+     模式2)
+     命令序列2;;
+     *)
+     默认执行的命令序列;;
+     esac 
+     #+NAME: case
+     #+BEGIN_SRC shell
+	#!/bin/bash
+	case $action in
+	      start | begin)
+		      echo "start something"
+		      echo "begin something";;
+	      stop | end)
+		      echo "stop something"
+		      echo "end something";;
+	      *)
+	      echo "Ignorant.";;
+      esac
+     #+END_SRC
+**** for
+     : 格式：
+     for var in list
+     do
+     commands
+     done
+     #+NAME: 遍历
+     #+BEGIN_SRC shell
+      #!/bin/bash
+      #
+      # basic for command
+      for country in China America India Japen
+      do
+	      echo "The next state is $country"
+      done
+
+      # another example of how not to use the for command
+      # 1.使用转义字符（反斜线）
+      # 2.使用双引号
+      for test in I don\'t know if "this'll" work
+      do
+	      echo "word:$test"
+      done
+
+      # using a variable to hold the list
+      list="China America India Japen"
+      list=$list" Connecticut"
+      for country in $list
+      do
+	      echo "Welcome to $country"
+      done
+
+      # reading values from a file
+      file="states"
+      # 修改IFS环境变量的值，使其只能识别换行符
+      IFS=$'\n'
+      for state in $(cat $file)
+      do
+	      echo "Visit beautiful $state"
+      done
+
+      # iterate through all the files in a directory
+      for file in $HOME/* /etc/nginx/*
+      do
+	      if [-d "$file"]
+	      then
+		      echo "$file is a directory."
+	      elif [-f "$file"]
+	      then
+		      echo "$file is a file."
+	      fi
+      done
+
+      # C-style for loop
+      #
+      for (( i=1; i <= 10; i++))
+      do
+	      echo "The next number is $i"
+      done
+      # multiple variable
+      for (( a=1; b=10;a <= 10; a++, b++))
+      do
+	      echo "$a - $b"
+      done
+     #+END_SRC
+
+     *处理循环的输出*
+     : 可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
+     #+NAME:处理循环的输出
+     #+BEGIN_SRC shell
 	for file in /home/zrg/*
 	do
 	...
 	done > output.txt
-      #+END_SRC
-***** 实例
-      #+NAME:查找可执行文件
-      #+BEGIN_SRC emacs-lisp
-	#!/bin/bash
-	# finding files in the PATH
-	IF=:
-	 for folder in $PATH
-	 do
-	  echo "$folder:"
-	  for file in $folder/*
-	  do
-	   if [-x $file]
-	   then
-	    echo "$file"
-	   fi
-	  done
-	done
-      #+END_SRC
+     #+END_SRC
+**** while
+     : 格式：
+     while test command
+     do
+     other commands
+     done
+     #+NAME: while
+     #+BEGIN_SRC shell
+      # while command test
+      var1=10
+      while [ $var1 -gt 0 ]
+      do
+	      echo $var1
+	      var1=$[ $var1 - 1 ]
+      done
+     #+END_SRC
 
-      #+NAME:创建多个用户账户
-      #+BEGIN_SRC emacs-lisp
- #!/bin/bash
- # process new user accounts
- input = "users.csv"
- while IFS=',' read -r userid name
- do
-	 echo "adding $userid"
-	 useradd -c "$name" -m $userid
- done < "$input"
-      #+END_SRC
+     #+RESULTS: while
+     | 10 |
+     |  9 |
+     |  8 |
+     |  7 |
+     |  6 |
+     |  5 |
+     |  4 |
+     |  3 |
+     |  2 |
+     |  1 |
+
+**** until
+     : until 命令和 while 命令完全相反。
+     : 格式：
+     until test command
+     do
+     other commands
+     done
+     #+NAME:until
+     #+BEGIN_SRC shell -n 1
+      #!/bin/bash
+      # using the until command
+      var1=100
+      until [ $var1 -eq 0 ]
+      do
+	      echo $var1
+	      var1=$[ $var1 -25 ]
+      done
+     #+END_SRC
+
+     #+RESULTS: until
+     | 100 |
+     |  75 |
+     |  50 |
+     |  25 |
+
+     + 循环处理文件数据-处理
+       #+NAME: 循环处理文件数据-处理 /etc/passwd 文件中的数据(1.使用嵌套循环；2.修改IFS环境变量)
+       #+BEGIN_SRC shell -n 1
+   #!/bin/bash
+   # changing the IFS value
+   IFS.OLD=$IFS
+   IFS=$'\n'
+   for entry in $(cat /etc/passwd)
+   do
+	   echo "Values in $entry -"
+	   IFS=:
+	   for value in $entry
+	   do
+		   echo "$value"
+	   done
+   done
+   # 该脚本使用了两个不同的 IFS 的值来解析数据，第一个 IFS 值解析出 /etc/passwd 文件中的单独的行，内部 for 循环接着将 IFS 的值修改为冒号，允许你从 /etc/passwd 的行中解析出单独的值。
+       #+END_SRC
+
+**** break
+     #+NAME:控制循环
+     #+BEGIN_SRC shell -n 1
+#!/bin/bash
+# --------------------------------
+# 跳出单个循环
+# 1.breaking out of a for loop
+for var1 in 1 2 3 4 5
+do
+	if [ $var1 -eq 5]
+	then
+		break
+	fi
+	echo "Iteration number: $var1"
+done
+echo "The for loop is completed"
+# 2.breaking out of a while loop
+var1=1
+while [ $var1 -lt 10 ]
+do
+	if [ $var1 -eq 5]
+	then
+		break
+	fi
+	echo "Iteration number: $var1"
+done
+echo "The while loop is completed"
+# --------------------------------
+# 跳出内部循环
+# 3.breaking out of an inner loop
+for(( a = 1; a<4; a++))
+do
+	echo "Outer loop: $a"
+	for((b = 1; b<100; b++))
+	do
+		if [ $var1 -eq 5]
+		then
+			break
+		fi
+		echo "Inner loop: $b"
+	done
+done
+# ---------------------------------
+# 跳出外部循环
+# 4.breaking out of an outer loop
+for(( a = 1; a<4; a++))
+do
+	echo "Outer loop: $a"
+	for((b = 1; b<100; b++))
+	do
+		if [ $var1 -eq 5]
+		then
+			break 2
+		fi
+		echo "Inner loop: $b"
+	done
+done
+     #+END_SRC
+**** continue
+     #+NAME:控制循环
+     #+BEGIN_SRC shell -n 1
+# 1.using the continue command
+for((var1 = 1; var1<15; var1++))
+do
+	if [$var1 -gt 5] && [$var1 -lt 10]
+	then
+		continue
+	fi
+	echo "Iteration number: $var1"
+done
+# 2.improperly using the continue command in a while loop
+var1=1
+while echo "while iteration: $var1"
+	[ $var1 -lt 15 ]
+do
+	if [ $var1 -gt 5] && [$var1 -lt 10]
+	then
+		continue
+	fi
+	echo "Inside iteration number: $var1"
+	var1 = $[$var1 +1]
+done
+# 3.continuing an outer loop
+for(( a = 1; a<5; a++))
+do
+	echo "Interation : $a"
+	for((b = 1; b<3; b++))
+	do
+		if [ $b -gt 2] && [$a -lt 4]
+		then
+			continue 2
+		fi
+		var3=$[$a+$b]
+		echo "The result of $a * $b is $var3"
+	done
+done
+     #+END_SRC
+*** 处理用户输入和数据呈现
+**** 命令行参数
+**** 数据呈现
 *** 控制脚本
-*** 创建函数
-*** 使用其他 shell
-** 实用的脚本示例
+** Shell 高级｜Advanced
+*** 函数
+*** 图形化桌面的脚本编程
+**** 创建文本菜单
+**** 制作窗口
+*** 其它 Shell
+** 实用的脚本收集
+*** 查找可执行文件
+    #+NAME:查找可执行文件
+    #+BEGIN_SRC emacs-lisp
+       #!/bin/bash
+       # finding files in the PATH
+       IF=:
+	for folder in $PATH
+	do
+	 echo "$folder:"
+	 for file in $folder/*
+	 do
+	  if [-x $file]
+	  then
+	   echo "$file"
+	  fi
+	 done
+       done
+    #+END_SRC
+
+    #+NAME:创建多个用户账户
+    #+BEGIN_SRC emacs-lisp
+#!/bin/bash
+# process new user accounts
+input = "users.csv"
+while IFS=',' read -r userid name
+do
+	echo "adding $userid"
+	useradd -c "$name" -m $userid
+done < "$input"
+    #+END_SRC
 *** 编写简单的脚本实用工具
 **** 归档
 **** 管理用户账户
 **** 检测磁盘空间
 *** 创建与数据库、Web及E-Mail相关的脚本
-*** 一些小意思的脚本
-**** 发送消息
-**** 获取格言
-**** 编造借口
-**** 在当前目录及指定子目录深度下创建.gitignore文件
-     #+BEGIN_SRC shell
-   #!/bin/sh
-   for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
-   do
-	   echo $dir
-	   `touch $dir/.gitignore`
-	   echo "*">$dir/.gitignore
-   done
-     #+END_SRC
-**** 解决 dpkg: warning: files list file for package 'x' missing
-     #+CAPTION: 
-     #+BEGIN_SRC shell
-  for package in $(sudo apt install catdoc 2&1 |grep "warning: files list file for package'" |grep -Po "[^'\n ]+'" |grep -Po "[^']+");
+*** 发送消息
+*** 获取格言
+*** 编造借口
+*** 在当前目录及指定子目录深度下创建.gitignore文件
+    #+BEGIN_SRC shell
+  #!/bin/sh
+  for dir in `find ./ -mindepth 2 -maxdepth 4 -type d`
   do
-	  sudo apt install --reinstall "$package"
+	  echo $dir
+	  `touch $dir/.gitignore`
+	  echo "*">$dir/.gitignore
   done
-     #+END_SRC
+    #+END_SRC
+*** 解决 dpkg: warning: files list file for package 'x' missing
+    #+CAPTION: 
+    #+BEGIN_SRC shell
+ for package in $(sudo apt install catdoc 2&1 |grep "warning: files list file for package'" |grep -Po "[^'\n ]+'" |grep -Po "[^']+");
+ do
+	 sudo apt install --reinstall "$package"
+ done
+    #+END_SRC
 *** 删除大文件的前n行
     #+CAPTION: 示例：删除前10行
     #+BEGIN_SRC shell
     tail -n +10 old_file>new_file
     mv new_file old_file
     #+END_SRC
-* Linux Advanced
-** Linux User
-*** Linux User
-    1. /etc/passwd
-       : $ cat /etc/passwd
-       #+NAME:/etc/passwd
-       #+BEGIN_SRC shell
-       root:x:0:0:root:/root:/bin/bash
-       daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-       bin:x:2:2:bin:/bin:/usr/sbin/nologin
-       ...
-       zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
-       #+END_SRC
-       : /etc/passwd 文件的字段包含如下信息：
-       - 登录用户名
-       - 用户密码
-       - UID
-       - Group ID
-       - 描述
-       - HOME目录位置
-       - 默认shell
-       : /etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-       : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-    2. /etc/shadow
-       : /etc/shadow 文件的每条记录都有9个字段：
-       - 与/etc/passwd文件对应的登录名
-       - 加密后的密码
-       - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
-       - 多少天后才能更改密码
-       - 多少天后必须更改密码
-       - 密码过期前提前多少天提醒用户更改密码
-       - 密码过期后多少天禁用用户帐目
-       - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
-       - 预留字段给将来使用
-    3. 用户管理文件
-       - Home 目录
-	 : 超级用户：/root/
-	 : 普通用户：/home/zrg/
-       - /var/spool/mail/zrg/
-	 : 用户邮箱目录
-       - /etc/skel
-	 : 在创建用户时，默认复制该目录下的文件到用户的家目录。
-    4. 新增、删除和修改用户
-       : //新增用户
-       : $ sudo useradd -D
-       : or
-       : $ sudo less /etc/default/useradd
-       : See below, the subsection "Changing the default values".
-       - GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
-       - HOME=/home //HOME目录位置
-       - INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
-       - EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
-       - SHELL=/bin/sh //将sh作为默认shell
-       - SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
-       - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
-       : //用上面的默认系统参数创建一个新用户账户
-       : $ sudo useradd test
-       : //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
-       : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+*** 根据参数执行指定 PHP 脚本（消息队列rabbitmq）
+    1. 消息队列：启用消费者
+       #+begin_src shell
+	 #!/bin/bash
+	 route_category="$1" # 路由组名称
+	 number="$2"         # 消费者数量
+	 expect_number="$2"         # 预计启用消费者数量
 
-       : //删除用户
-       : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
-       : $ userdel -r test
-       : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+	 routes=(user store system)
 
-       : //修改用户
-       #+CAPTION: 用户账户修改工具
-       | 命令     | 描述                                               |
-       |----------+----------------------------------------------------|
-       | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
-       | passwd   | 修改已有用户的密码                                 |
-       | chpasswd | 从文件中读取登录名密码对，并更新密码               |
-       | chage    | 修改密码的过期时间                                 |
-       | chfn     | 修改用户账户的备注信息                             |
-       | chsh     | 修改用户账户的默认登录shell                        |
-    5. 修改密码
-       : 修改用户密码的命令：passwd
-       + -S 查询用户密码的状态，仅root用户可用。
-       + -l 暂时锁定用户。仅root用户可用。
-       + -u 解锁用户。仅root用户可用。
-       + --stdin 通过管道符输出的数据作为用户的密码。
-*** Linux Group
-    1. /etc/group
-       : /etc/group文件有4个字段：
-       - 组名
-       - 组密码
-       - GID
-       - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
-    2. /etc/gshadow
-       : /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
-       : /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
-       : 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
-       : 这时就要用到用户组密码。
+	 # Check routes exists
+	 if [ ! -n "$route_category" ] || [ ! -n "$number" ]; then
+	   echo "错误：接收两个参数，参数1：路由组名称，参数2：运行消费者数量"
+	   exit
+	 fi
+
+	 # Check correctness of route category
+	 if [[ ! "${routes[@]}" =~ "$route_category" ]]; then
+	   echo "错误：非法的路由组名称"
+	   exit
+	 fi
+
+	 # If number less than 1, then let $number equal 1
+	 if [ $number -lt 1 ]; then
+	   echo "警告：第二个参数值不能小于1"
+	   number=1
+	 fi
+
+	 # Start execute cumstomer command
+	 echo "即将启用消费者队列......"
+	 actual_number=0 # 实际启用消费者数量
+	 while (($number > 0)); do
+	   php /www/test/think rabbit_receive "$route_category" &
+	   let actual_number=actual_number+1
+	   echo "第 $actual_number 个 $route_category 消费者队列已启用"
+	   let number=number-1
+	 done
+
+	 # Get queue
+	 total_number=`ps -ef |grep rabbit_receive\ $route_category | wc -l`
+	 let total_number=total_number-1
+
+	 echo "----------------------------------"
+	 echo "完成 $route_category 消费者队列启用"
+	 echo "预计启用数量：$expect_number"
+	 echo "实际启用数量：$actual_number"
+	 echo "当前 $route_category 消息队列总计启用数量：$total_number"
+	 echo "----------------------------------"
+
+       #+end_src
+    2. 消息队列：Kill 启用消费者
+       #+begin_src shell
+	 #!/bin/bash
+	 route_category="$1" # 路由组名称
+	 kill_number="$2"    # 要杀死的消费者队列数量（可选），不传表示杀死全部
+
+	 routes=(user store system)
+
+	 # Check routes exists
+	 if [ ! -n "$route_category" ]; then
+	   echo "错误：接收两个参数，参数1：路由组名称，参数2（可选）：要杀死的消费者队列数量"
+	   exit
+	 fi
+
+	 # Check correctness of route category
+	 if [[ ! "${routes[@]}" =~ "$route_category" ]]; then
+	   echo "错误：非法的路由组名称"
+	   exit
+	 fi
+
+	 # ps　-efw 查看所有进程的命令
+	 # grep -w rabbit_receive\ $route_category 强制 PATTERN 仅完全匹配字词
+	 # grep -v grep 在列出的进程中去除含有关键字“grep”的进程
+	 # cut -c 9-15 截取输入行的第9个字符到第15个字符，而这正好是进程号PID
+	 # head -n $kill_number 指定列出要kill的PID
+	 # xargs kill -9 xargs命令是用来把前面命令的输出结果（PID）作为“kill -9”命令的参数，并执行该命令
+	 echo "----------------------------------"
+	 if [ -n "$kill_number" ] && [ $kill_number -gt 0 ]; then
+	   ps -efw | grep -w rabbit_receive\ $route_category | grep -v grep | cut -c 9-15 | head -n $kill_number | xargs kill -9
+	   echo "已 Kill $kill_number 个消费者队列"
+	   last_number=$(ps -efw | grep -w rabbit_receive\ $route_category | grep -v grep | cut -c 9-15 | wc -l)
+	   echo "剩余 $last_number 个 $route_category 消费者队列"
+	 else
+	   ps -efw | grep -w rabbit_receive\ $route_category | grep -v grep | cut -c 9-15 | xargs kill -9
+	   all_kill_number=$(ps -efw | grep -w rabbit_receive\ $route_category | grep -v grep | cut -c 9-15 | wc -l)
+	   echo "已Kill $all_kill_number 个 $route_category 消费者队列，所有 $route_category 消费队列全部Kill完成"
+	 fi
+	 echo "----------------------------------"
+
+       #+end_src
+* Linux 使用者管理｜Linux User Management
+** Linux 账号管理和 ACL 权限设置｜Linux Account Management and ACL Authorization
+*** Linux 用户和用户组｜Linux Account and Group
+**** Linux 用户｜Linux User
+     1. /etc/passwd
+	: $ cat /etc/passwd
+	#+NAME:/etc/passwd
+	#+BEGIN_SRC shell
+	root:x:0:0:root:/root:/bin/bash
+	daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+	bin:x:2:2:bin:/bin:/usr/sbin/nologin
+	...
+	zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+	#+END_SRC
+	: /etc/passwd 文件的字段包含如下信息：
+	- 登录用户名
+	- 用户密码
+	- UID
+	- Group ID
+	- 描述
+	- HOME目录位置
+	- 默认shell
+	: /etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+	: 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+     2. /etc/shadow
+	: /etc/shadow 文件的每条记录都有9个字段：
+	- 与/etc/passwd文件对应的登录名
+	- 加密后的密码
+	- 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+	- 多少天后才能更改密码
+	- 多少天后必须更改密码
+	- 密码过期前提前多少天提醒用户更改密码
+	- 密码过期后多少天禁用用户帐目
+	- 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+	- 预留字段给将来使用
+     3. 用户管理文件
+	- Home 目录
+	  : 超级用户：/root/
+	  : 普通用户：/home/zrg/
+	- /var/spool/mail/zrg/
+	  : 用户邮箱目录
+	- /etc/skel
+	  : 在创建用户时，默认复制该目录下的文件到用户的家目录。
+     4. 新增、删除和修改用户
+	: //新增用户
+	: $ sudo useradd -D
+	: or
+	: $ sudo less /etc/default/useradd
+	: See below, the subsection "Changing the default values".
+	- GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
+	- HOME=/home //HOME目录位置
+	- INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
+	- EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
+	- SHELL=/bin/sh //将sh作为默认shell
+	- SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
+	- CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+	: //用上面的默认系统参数创建一个新用户账户
+	: $ sudo useradd test
+	: //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
+	: $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+
+	: //删除用户
+	: 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+	: $ userdel -r test
+	: 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+
+	: //修改用户
+	#+CAPTION: 用户账户修改工具
+	| 命令     | 描述                                               |
+	|----------+----------------------------------------------------|
+	| usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+	| passwd   | 修改已有用户的密码                                 |
+	| chpasswd | 从文件中读取登录名密码对，并更新密码               |
+	| chage    | 修改密码的过期时间                                 |
+	| chfn     | 修改用户账户的备注信息                             |
+	| chsh     | 修改用户账户的默认登录shell                        |
+     5. 修改密码
+	: 修改用户密码的命令：passwd
+	+ -S 查询用户密码的状态，仅root用户可用。
+	+ -l 暂时锁定用户。仅root用户可用。
+	+ -u 解锁用户。仅root用户可用。
+	+ --stdin 通过管道符输出的数据作为用户的密码。
+**** Linux 组｜Linux Group
+     1. /etc/group
+	: /etc/group文件有4个字段：
+	- 组名
+	- 组密码
+	- GID
+	- 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
+     2. /etc/gshadow
+	: /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
+	: /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
+	: 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
+	: 这时就要用到用户组密码。
        
-       : $ sudo less /etc/gshadow
-       - 组名：用户组的名称，由字母或数字构成。
-       - 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
-       - 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
-       - 组内用户列表：如果有多个成员，用,号分割 ;
-    3. 创建、修改和删除组
-       : $ sudo groupadd shared
-       : $ sudo groupmod -n sharing shared
-       : $ sudo groupdel shared
-    4. 加入组和从组里删除
-       : $ sudo gpasswd -a test tests
-       : $ sudo gpasswd -d test tests
-** Linux Access Control
-*** Linux 细部权限规划：ACL 权限控制
+	: $ sudo less /etc/gshadow
+	- 组名：用户组的名称，由字母或数字构成。
+	- 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+	- 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+	- 组内用户列表：如果有多个成员，用,号分割 ;
+     3. 创建、修改和删除组
+	: $ sudo groupadd shared
+	: $ sudo groupmod -n sharing shared
+	: $ sudo groupdel shared
+     4. 加入组和从组里删除
+	: $ sudo gpasswd -a test tests
+	: $ sudo gpasswd -d test tests
+
+*** Linux 权限规划：ACL 权限控制｜Linux Authority Division: ACL Access Control
     1. 什么是 ACL？
        \\
        ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
@@ -2085,6 +2137,142 @@ photos:
        + 针对默认权限和递归(针对目录/子目录下的所有文件)权限的设定
 	 : 配置规范：『 d:[ug]:使用者列表:[rwx] 』
 	 : # setfacl -m d:u:zhao:rx -R /project
+*** Linux 用户信息传递
+**** 查询用户：w、who、last、lastlog
+**** 用户交流：write、mesg、wall
+**** 用户邮箱：mail
+** 磁盘配额和高级文件系统管理｜Disk Quota and Advanced File System Management
+*** 磁盘配额应用实践｜Application Practice of Disk Quota
+*** 软件磁盘阵列｜Software RAID
+*** 逻辑卷管理器｜Logical Volume Manager
+* Linux 计划任务（crontab）｜Linux Cron Job(crontab)
+** 什么事计划任务
+*** 计划任务的种类
+*** 常见的例行性工作
+** 单一计划任务
+** 循环计划任务
+   1. 对于 Linux 用户
+      : 你肯定希望：
+      :      每一天早上 8:00 钟，让电脑连接上音响，并播放音乐来唤你起床；
+      :      而中午 12:00 希望 Linux 可以发一封信到你的邮件信箱，提醒你可以去吃午餐了；
+      :      另外，在每年你爱人生日的前一天，先发封信提醒你，以免忘记这么重要的一天。
+   2. crontab 简单介绍 
+      crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
+      1. /etc/crontab 文件
+	 : 在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。
+	 : 
+	 : cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。
+	 : 
+	 : 用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
+	 : 
+      2. crontab 文件格式如下：
+	 #+NAME:crontab file
+	 #+BEGIN_SRC shell
+	SHELL=/bin/bash
+	PATH=/sbin:/bin:/usr/sbin:/usr/bin
+	MAILTO=root       #如果出现错误，或者有数据输出，数据作为邮件发给这个帐号
+	HOME=/            #使用者运行的路径,这里是根目录
+	# run-parts
+	 #+END_SRC
+	 : 注意到"run-parts"这个参数，后面可以写要运行的某个脚本。
+	 : 
+	 : 另外：
+	 : /usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。
+	 : /usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。
+   3. crontab 基本格式
+      #+CAPTION:格式    
+      | \        | *      | *      | *      | *      | *     | commond |
+      |----------+--------+--------+--------+--------+-------+---------|
+      | 代表意思 | 分     | 时     | 日     | 月     | 周    |         |
+      | 范    围 | (0-59) | (0-23) | (1-31) | (1-12) | (0-6) |         |
+
+      : “ * ”表示任意时刻
+      : “ , ”表示分割
+      : “ - ”表示一个段
+      : “ /n ”表示每 n 的单位执行一次
+
+      : 命令后面加上 >/dev/null 2>&1  ,标准错误重定向到标准输出
+   4. 实例1：实现两个周备份一次 /var/ftp 目录下的内容
+      : 具体实现方法如下:
+      :    a.先新建一个 txt 文件，这里是 ftp-back-shell.txt，文件内容：
+      #+NAME:ftp-back-shell.txt
+      #+BEGIN_SRC shell
+       * * 14 * * cd /back/ftp-back/ && rsync -avzc /var/ftp ./
+      #+END_SRC
+      :    b.将 ftp-back.txt 文件放到 /opt/ftp-back/ 目录下 
+      : 
+      :    c.运行：
+      :         $ crontab /opt/ftp-back/ftp-back.txt
+      :         $ crontab -l
+      : 
+      :    d.需要进行重启，配置文件生效： sudo systemctl restart crond.service
+   5. 实例2：实现定时插入数据
+      1. 新建 crontab.sh 脚本文件
+	 : $ vim crontab.sh
+	 #+BEGIN_SRC shell
+	 #!/bin/sh
+	 /usr/bin/php /home/zrg/.crontab/crontab.php
+	 #+END_SRC
+      2. 编辑 php 文件
+      3. 设置定时任务
+	 : $ crontab -e
+	 #+BEGIN_SRC shell
+	 */2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
+	 #+END_SRC
+      4. 查看定时任务
+	 : $ crontab -l
+	 : 重启服务使生效：sudo systemctl restart cron.service
+      5. 移除定时服务
+	 : $ crontab -r
+   6. 示例3：备份 mysql 数据
+      : $ sudo vim cron.sh
+      #+BEGIN_SRC shell
+       #!/bin/sh
+       filename=`date +%Y%m%d%H%M%S`
+       mysqldump -u root -proot testdb>/home/zrg/crontab/$filename.sql
+      #+END_SRC
+      : $ crontab -e
+      : 0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
+      : $rccron reload
+   7. 一些简单示例
+      : 43 21 * * * 21:43 执行
+      : 0 17 * * 1 每周一的 17:00 执行
+      : 0,10 17 * * 0,2,3 每周日,周二,周三的 17:00和 17:10 执行
+      : 0-10 17 1 * * 毎月1日从 17:00到17:10 毎隔1分钟 执行
+      : */10 * * * * 　　　　　　 每隔10分 执行
+      : 0,10,20,30,40,50 * * * *　每隔10分 执行
+      : 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
+** 唤醒式的工作任务
+   1. anacron 是什么？
+   2. anacron 与 crontab
+      #+CAPTION: anacron vs crontab
+      | crontab                        | anacron                                                              |
+      |--------------------------------+----------------------------------------------------------------------|
+      | 适合服务器                     | 适合桌面/笔记本电脑                                                  |
+      | 它是守护进程                   | 非守护进程                                                           |
+      | 关机时不会执行计划任务         | 如果计划任务到期，机器是关机的，那么它会在机器下次开机后执行计划任务 |
+      | 可以让你以分钟级运行计划任务   | 只能让你以天为基础来运行计划任务                                     |
+      | 普通用户和 root 用户都可以使用 | 只有 root 用户可以使用（使用特定的配置启动普通任务）                 |
+   3. anacron 与 /etc/anacrontab
+* Linux 进程管理和 SELinux｜Linux Process Management and SELinux
+** 进程与程序
+** 任务管理
+** 进程管理
+   1. 常见进程管理命令
+      + top
+      + ps ::
+	list the processes running on the system
+	: // 查看
+	: $ ps -ef
+      + kill & killall ::
+	send a signal to one or more processes (usually to "kill" a process)
+      + jobs ::
+	an alternate way of listing your own processes
+      + bg ::
+	put a process in the background
+      + fg ::
+	put a process in the forground
+** 特殊文件与进程
 *** Linux 文件特殊权限
     1. SetUID
        + SetUID 介绍
@@ -2147,967 +2335,955 @@ photos:
        + 选项
 	 + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
 	 + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
-** Linux Server
-** Linux System Resource
-*** 进程管理
-    1. 常见进程管理命令
-       + top
-       + ps ::
-	 list the processes running on the system
-	 : // 查看
-	 : $ ps -ef
-       + kill & killall ::
-	 send a signal to one or more processes (usually to "kill" a process)
-       + jobs ::
-	 an alternate way of listing your own processes
-       + bg ::
-	 put a process in the background
-       + fg ::
-	 put a process in the forground
-*** 系统资源监控
-*** 例行性工作排程：系统定时任务
-    1. 对于 Linux 用户
-       : 你肯定希望：
-       :      每一天早上 8:00 钟，让电脑连接上音响，并播放音乐来唤你起床；
-       :      而中午 12:00 希望 Linux 可以发一封信到你的邮件信箱，提醒你可以去吃午餐了；
-       :      另外，在每年你爱人生日的前一天，先发封信提醒你，以免忘记这么重要的一天。
-    2. crontab 简单介绍 
-       crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
-       1. /etc/crontab 文件
-	  : 在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。
-	  : 
-	  : cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。
-	  : 
-	  : 用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
-	  : 
-       2. crontab 文件格式如下：
-	  #+NAME:crontab file
-	  #+BEGIN_SRC shell
-	 SHELL=/bin/bash
-	 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-	 MAILTO=root       #如果出现错误，或者有数据输出，数据作为邮件发给这个帐号
-	 HOME=/            #使用者运行的路径,这里是根目录
-	 # run-parts
-	  #+END_SRC
-	  : 注意到"run-parts"这个参数，后面可以写要运行的某个脚本。
-	  : 
-	  : 另外：
-	  : /usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。
-	  : /usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。
-    3. crontab 基本格式
-       #+CAPTION:格式    
-       | \        | *      | *      | *      | *      | *     | commond |
-       |----------+--------+--------+--------+--------+-------+---------|
-       | 代表意思 | 分     | 时     | 日     | 月     | 周    |         |
-       | 范    围 | (0-59) | (0-23) | (1-31) | (1-12) | (0-6) |         |
+** SELinux
+*** 什么是SELinux
+*** SELinux的运行模式
+*** SELinux策略内的规则管理
+* Linux 系统管理员｜Linux System Administrator
+** Linux 系统服务（daemon）｜Linux System Service
+*** systemctl
+** Linux 日志｜Linux Log
+** 启动流程、模块管理与 loader｜Start Process, Module Management and Loader
+** 基础系统配置与备份策略
+** 软件安装｜Software Install
+*** 源代码与Tarbal
+*** 软件安装RPM、SRPM与YUM
+*** 常见软件安装过程
+**** 神奇的 nc 命令
+     1. 介绍
+	: netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
+	: netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
+     2. 安装
+	: // Redhat/CentOS/Fedora
+	: $ yum install nc
+	: // Debian/Ubuntu
+	: $ sudo apt-get install netcat
+     3. 常见使用
+	: 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
+	: $ nc -z -v -n 172.31.100.7 21-25
+	: 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
+	: z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
+	: v 参数指使用冗余选项（译者注：即详细输出）
+	: n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
 
-       : “ * ”表示任意时刻
-       : “ , ”表示分割
-       : “ - ”表示一个段
-       : “ /n ”表示每 n 的单位执行一次
+	: Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
+	: 一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
+	: $ nc -v 172.31.100.7 21
+	+ 聊天工具
+	  : // Server
+	  : $ nc -l 1234
+	  : // Client
+	  : $ nc 172.168.100.7 1234
+	+ 文件传输
+	  : // Server > Client
+	  : $ nc -l 1234 > file.txt
+	  : $ nc 172.168.100.7 1234 <file.txt
+	+ 目录传输
+	  : // Server > Client
+	  : $ tar -cvf - dir_name | nc -l 1234
+	  : $ nc -n 172.168.100.7 1234 | tar -xvf -
+	  : 这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
+	  : 在客户端我们下载该压缩包通过netcat 管道然后打开文件。
+	  : 如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
+	  : // Server
+	  : $ tar -cvf – dir_name| bzip2 -z | nc -l 1234
+	  : // Client
+	  : $ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
+	+ 加密网络传输数据
+	  : // Server
+	  : $ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
+	  : // Client
+	  : $ mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1234
+	+ 流视频
+	  : // Server
+	  : $ cat video.avi | nc -l 1234
+	  : 从一个视频文件中读入并重定向输出到netcat客户端
+	  : // Client
+	  : $ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
+	  : 从socket中读入数据并重定向到mplayer。
+	+ 克隆一个设备
+	  : 已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
+	  : 假如你的系统在磁盘/dev/sda上:
+	  : // Server
+	  : $ dd if=/dev/sda | nc -l 1234
+	  : // Client
+	  : $ nc -n 172.31.100.7 1567 | dd of=/dev/sda
+	  : dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
+	  : 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
+     4. 参考资料
+	: https://blog.csdn.net/zhangxiao93/article/details/52705642
+**** GCC
+     1. 简单编译
+	: $ gcc test.c -o test
+	: 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
 
-       : 命令后面加上 >/dev/null 2>&1  ,标准错误重定向到标准输出
-    4. 实例1：实现两个周备份一次 /var/ftp 目录下的内容
-       : 具体实现方法如下:
-       :    a.先新建一个 txt 文件，这里是 ftp-back-shell.txt，文件内容：
-       #+NAME:ftp-back-shell.txt
-       #+BEGIN_SRC shell
-	* * 14 * * cd /back/ftp-back/ && rsync -avzc /var/ftp ./
-       #+END_SRC
-       :    b.将 ftp-back.txt 文件放到 /opt/ftp-back/ 目录下 
-       : 
-       :    c.运行：
-       :         $ crontab /opt/ftp-back/ftp-back.txt
-       :         $ crontab -l
-       : 
-       :    d.需要进行重启，配置文件生效： sudo systemctl restart crond.service
-    5. 实例2：实现定时插入数据
-       1. 新建 crontab.sh 脚本文件
-	  : $ vim crontab.sh
-	  #+BEGIN_SRC shell
+	: 1.Preprocessing
+	: $ gcc -E test.c -o test.i
+	: 或
+	: $ gcc -E test.c
+	: gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
+	: 2.Compilation
+	: $ gcc -S test.i -o test.s
+	: gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
+	: 3.Assembly
+	: $ gcc -c test.s -o test.o
+	: 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
+	: 4.Linking
+	: gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
+	: 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
+	: $ gcc test.o -o test
+     2. 多个程序文件的编译
+	: $ gcc test1.c test2.c -o test
+     3. 检错
+	: $ gcc -pedantic test.c -o test
+	: //警告信息
+	: $ gcc -Wall test.c -p test
+	: //-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
+	: $ gcc -Werror test.c -o test
+     4. 库文件连接
+	: 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
+	: $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
+	: 2.链接。最后我们把所有目标文件链接成可执行文件:
+	: $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
+	: 3.强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
+	: $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
+     5. 其他
+	: 静态库链接时搜索路径顺序：
+
+	: 1. ld 会去找GCC命令中的参数 -L
+	: 2. 再找 gcc 的环境变量 LIBRARY_PATH
+	: 3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
+
+	: 动态链接时、执行时搜索路径顺序:
+
+	: 1. 编译目标代码时指定的动态库搜索路径
+	: 2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
+	: 3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
+	: 4. 默认的动态库搜索路径 /lib
+	: 5. 默认的动态库搜索路径 /usr/lib
+
+	: 有关环境变量：
+	: LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
+	: LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
+     6. Reference
+	: http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
+**** 系统状态监视命令：top & htop
+     1. top
+	#+CAPTION:
+	#+ALTR_HTML: :align center
+	[[file:{{site.url}}/assets/images/top.jpg]]
+     2. htop
+	+ 下载及安装
+	  : $ git clone https://github.com/hishamhm/htop 
+	  : $ tar zxvf htop-2.0.2.tar.gz
+	  : $ cd htop-2.0.2
+	  : $ ./configure
+	  : # make && make install
+     *错误解决*
+     : configure: error: missing libraries: libncurses
+     : Solving:
+     : $ sudo apt-get install nucurses-dev
+**** 网络监视命令：iftop
+     : $ sudo apt-get install iftop
+     : 
+**** wget vs axel
+     : 官方地址: http://axel.alioth.debian.org/
+     : 描述: 替换wget命令
+**** VIM&Emacs
+     : 两个神器软件单独介绍，这里不重复叙写。
+**** MPlayer
+     : // official：http://www.mplayerhq.hu/design7/news.html
+     : $ tar -Jxf MPlayer-1.1.1.tar.xz
+     : $ cd MPlayer-1.1.1
+     : $ sudo ./configure
+     : // 发现，需要安装一个依赖包:yasm
+     : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+     : // 安装完成后，重新配置、编译和安装
+     : $ sudo ./configure
+     : $ sudo make && make install
+**** google-chrome & chromium
+     1. 添加安装源
+	: $ sudo vim /etc/apt/sources.list
+	: deb http://dl.google.com/linux/chrome/deb/ stable main
+     2. 添加公钥验证下载
+	: $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
+	: $ apt-key add linux_signing_key.pub
+     3. 执行安装
+	: $ sudo apt update
+	: // stable ersion
+	: $ sudo apt install google-chrome-stable
+	: // beta or unstable ersion
+	: $ sudo apt install google-chrome-beta
+	: $ sudo apt install google-chrome-unstable
+     4. 安装 chromium
+	: $ sudo apt-get update
+	: $ sudo apt-get install chromium chromium-l10n
+	: （chromium-l10n 是用于本地化界面的，是可选的软件包）
+	: 注意：chromium不支持PDF查看
+**** Scrot：截图工具
+     1. 安装
+	: $ sudo apt-get install scrot
+     2. 使用方法
+	+ 整个桌面截图(Full desktop)
+	  : $ scrot
+	  : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+	+ 特定区域截图（选择截取）(Specific area)
+	  : $ scrot -s
+	+ 延迟截图(temporize screenshot)
+	  : $ scrot -s -d 5
+	+ 截图调整质量(Adjust the quality of screenshots)
+	  : $ scrot -q 50
+	+ 截图调整大小(Adjust the screen size)
+	  : $ scrot -t 10
+	+ 将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+	  : $ scrot -e 'mv $f ~/screenshots'
+     3. 参考资料(References)
+	: https://linux.cn/article-3197-1.html
+**** rarcrack（压缩包密码破解工具）
+     : 支持格式：rar,7z,zip
+     : // install
+     : $ sudo apt-get install libxml2-dev build-essential
+     : $ sudo apt-get install rarcrack
+     : // use
+     : $ rarcrack --threads 10 --type rar test.rar
+**** 宝塔面板
+     : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+**** Cisco AnyConnect VPN Client
+     1. 问题解决
+	: $ sudo systemctl enable vpnagentd_init
+	: vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
+	: Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
+	: insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
+	: insserv: There is a loop between service bt and vpnagentd_init if stopped
+	: insserv:  loop involving service vpnagentd_init at depth 2
+	: insserv:  loop involving service bt at depth 1
+	: insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
+	: insserv: exiting now without changing boot order!
+	: update-rc.d: error: insserv rejected the script header
+
+	: [solve]：$ sudo vim /etc/init.d/vpnagentd_init
+	#+BEGIN_SRC shell
 	  #!/bin/sh
-	  /usr/bin/php /home/zrg/.crontab/crontab.php
-	  #+END_SRC
-       2. 编辑 php 文件
-       3. 设置定时任务
-	  : $ crontab -e
-	  #+BEGIN_SRC shell
-	  */2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
-	  #+END_SRC
-       4. 查看定时任务
-	  : $ crontab -l
-	  : 重启服务使生效：sudo systemctl restart cron.service
-       5. 移除定时服务
-	  : $ crontab -r
-    6. 示例3：备份 mysql 数据
-       : $ sudo vim cron.sh
-       #+BEGIN_SRC shell
-	#!/bin/sh
-	filename=`date +%Y%m%d%H%M%S`
-	mysqldump -u root -proot testdb>/home/zrg/crontab/$filename.sql
-       #+END_SRC
-       : $ crontab -e
-       : 0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
-       : $rccron reload
-    7. 一些简单示例
-       : 43 21 * * * 21:43 执行
-       : 0 17 * * 1 每周一的 17:00 执行
-       : 0,10 17 * * 0,2,3 每周日,周二,周三的 17:00和 17:10 执行
-       : 0-10 17 1 * * 毎月1日从 17:00到17:10 毎隔1分钟 执行
-       : */10 * * * * 　　　　　　 每隔10分 执行
-       : 0,10,20,30,40,50 * * * *　每隔10分 执行
-       : 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
-*** 远程管理：SSH、VNC
-    1. SSH & OpenSSH & SSL & OpenSSL
-       + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
-       + OpenSSL，对SSL的实现。
-       + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
-       + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-       + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
-    2. ssh 配置
-       *配置持久连接*
-       + 服务端
-	 : $ sudo vim /etc/ssh/sshd_config
-	 #+NAME: sshd_config
-	 #+BEGIN_SRC shell
-	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	 ClientAliveInterval 60  
-	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	 ClientAliveCountMax 3
-	 #+END_SRC
+	  ### BEGIN INIT INFO
+	  # Provides: vpnagentd_init
+	  # Required-Start: $remote_fs $syslog
+	  # Required-Stop: $remote_fs $syslog
+	  # Default-Start: 2 3 4 5
+	  # Default-Stop: 0 1 6
+	  # Short-Description: Start Cisco vpn agent daemon at boot time
+	  # Description: Cisco vpn agent daemon
+	  ### END INIT INFO
+	#+END_SRC
+**** Bind：DNS工具
+     1. 安装
+	: # yum install -y bind
+     2. 配置
+	: 1)# vim /etc/named.conf
+	: 修改内容如下：
+	:  将下面
+	:  listen-on port 53 { 127.0.0.1; };
+	:  allow-query { localhost; };
+	:  改为
+	:  listen-on port 53 { any; };
+	:  allow-query { any; };
 
-       + 客户端
-	 : $ sudo vim /etc/ssh/ssh_config
-	 #+NAME: ssh_config
-	 #+BEGIN_SRC shell
-	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	 ServerAliveInterval 60  
-	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	 ServerAliveCountMax 3
-	 #+END_SRC
-    3. 使用OpenSSL生成密钥对
-       : 生成私钥
-       : $ openssl genrsa -out rsa_private_key.pem 1024
-       : 参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+	: 2)# vim named.rfc1912.zones
+	: 注意改动位置：
+	: zone "zrg.com.cn" IN {
+	: type master;
+	: file "named.zrg";
+	: allow-update { none; };
+	: };
 
-       : 从私钥中提取公钥
-       : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-       : 参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-    4. 修改ssh默认端口号
-       + 首先修改配置文件：
-	 : $ vim /etc/ssh/sshd_config
-	 #+NAME:/etc/ssh/ssh_config
-	 #+BEGIN_SRC shell
-	  Port 22 Port 6666   
-	 #+END_SRC
-	 : 注意：
-	 - 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
-	 - 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
-       + 重启ssh和防火墙
-	 : $ systemctl restart iptables
-	 : $ systemctl restart sshd
-       + 假如要限制SSH登陆的IP，那么可以如下做：
-	 : 首先：修改/etc/hosts.deny，在其中加入sshd:ALL
-	 : 然后：修改：/etc/hosts.allow，在其中进行如下设置：sshd:192.168.1.1：deny  （192.168.1.*）
-	 : 这样就可以限制只有192.168.1.1的IP通过SSH登陆上LINUX机器了。
-    5. 通过密钥登录服务器
-       + 生成密钥对
-	 : $ ssh-keygen
-	 #+NAME: 生成密钥对
-	 #+BEGIN_SRC emacs-lisp
-	   Generating public/private rsa key pair.
-	   Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-	   Enter passphrase (empty for no passphrase):
-	   Enter same passphrase again:
-	   Your identification has been saved in /home/zrg/.ssh/id_rsa.
-	   Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-	   The key fingerprint is:
-	   SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-	   The key's randomart image is:
-	   +---[RSA 2048]----+
-	   |    +*B==o o.oo=*|
-	   |   .o+o= .. . =o.|
-	   |     .+ o .o + E |
-	   |     . *   o= =  |
-	   |      = S . o+   |
-	   |       + o .     |
-	   |    o . =        |
-	   |   . + o .       |
-	   |    ..o          |
-	   +----[SHA256]-----+
-	 #+END_SRC
+	: 3)# cp /var/named/named.localhost /var/named/named.zrg
+	: //修改文件所属群组
+	: #chgrp named /var/named/named.zrg
+
+	: 4)# vim /var/named/named.zrg
+	: 注意改动位置：
+	: $TTL 1D
+	: @ IN SOA @ dns.zrg.com.cn. root(
+	: 0 ; serial
+	: 1D ; refresh
+	: 1H ; retry
+	: 1W ; expire
+	: 3H ) ; minimum
+	: NS dns.zrg.com.cn.
+	: DNS A 192.168.120.166
+	: A 127.0.0.1
+	: AAAA ::1
+
+	: 5)# /etc/init.d/named restart
+	: # chkconfig named on
+
+	: 6)# vim /etc/sysconfig/network
+	: Network=yes
+	: Hostname=dns.zrg.com.cn
+
+	: 7)# vim /etc/resolv.conf
+	: Search zrg.com.cn
+	: Nameserver 192.168.120.166
+
+	: 8)# /etc/init.d/named restart
+	: # ping zrg.com.cn
+	: # reboot
+**** Composer
+     1. 安装
+	: 1.Download composer.phar file.
+	: 2.Excute:
+	: # php composer.phar
+	: 3.Global:
+	: # mv composer.phar /usr/local/bin/composer
+	: 4.Permission:
+	: # chmod 744 composer
+     2. 问题解决
+	: error: /usr/bin/env: php: No such file or directory
+	:  solve:Configuring php to become global variables
+**** vsftpd
+     1. Download and Install
+	: https://security.appspot.com/vsftpd.html#download
+	: //yum
+	: yum install -y vsftpd
+     2. Change default dir
+	#+BEGIN_SRC emacs-lisp
+       #local user
+       local_root=/usr/share/nginx/html
+       #is_enable local view,default_setting is NO
+       chroot_local_user=NO
+       #anonymous user
+       anon_root=/var/ftp/pub
+	#+END_SRC
+     3. Configuring directory of access
+	#+BEGIN_SRC emacs-lisp
+       chroot_local_user=YES
+       chroot_list_enable=NO
+       allow_writeable_chroot=YES
+
+       报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
+	  500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+
+       notice:
+	配置具体情况有以下几种：
+       1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
+       2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
+       3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
+       4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
+
+       5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
+	#+END_SRC
+     4. my vsftpd.conf
+	//CentOS 7, /etc/vsftpd/vsftpd.conf.
+	#+BEGIN_SRC emacs-lisp
+       # Example config file /etc/vsftpd/vsftpd.conf
+       # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+       anonymous_enable=NO
+       #
+       local_root=/srv/www/
+       #
+       # Uncomment this to allow local users to log in.
+       # When SELinux is enforcing check for SE bool ftp_home_dir
+       local_enable=YES
+       #
+       # Uncomment this to enable any form of FTP write command.
+       write_enable=YES
+       #
+       # Default umask for local users is 077. You may wish to change this to 022,
+       # if your users expect that (022 is used by most other ftpd's)
+       local_umask=022
+       #
+       # Uncomment this to allow the anonymous FTP user to upload files. This only
+       # has an effect if the above global write enable is activated. Also, you will
+       # obviously need to create a directory writable by the FTP user.
+       # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
+       #anon_upload_enable=YES
+       #
+       # Uncomment this if you want the anonymous FTP user to be able to create
+       # new directories.
+       #anon_mkdir_write_enable=YES
+       #
+       # Activate directory messages - messages given to remote users when they
+       # go into a certain directory.
+       dirmessage_enable=YES
+       #
+       # Activate logging of uploads/downloads.
+       xferlog_enable=YES
+       #
+       # Make sure PORT transfer connections originate from port 20 (ftp-data).
+       connect_from_port_20=YES
+       #
+       # If you want, you can arrange for uploaded anonymous files to be owned by
+       # a different user. Note! Using "root" for uploaded files is not
+       # recommended!
+       #chown_uploads=YES
+       #chown_username=whoever
+       #
+       # You may override where the log file goes if you like. The default is shown
+       # below.
+       #xferlog_file=/var/log/xferlog
+       #
+       # If you want, you can have your log file in standard ftpd xferlog format.
+       # Note that the default log file location is /var/log/xferlog in this case.
+       xferlog_std_format=YES
+       #
+       # You may change the default value for timing out an idle session.
+       #idle_session_timeout=600
+       #
+       # You may change the default value for timing out a data connection.
+       #data_connection_timeout=120
+       #
+       # It is recommended that you define on your system a unique user which the
+       # ftp server can use as a totally isolated and unprivileged user.
+       #nopriv_user=ftpsecure
+       #
+       # Enable this and the server will recognise asynchronous ABOR requests. Not
+       # recommended for security (the code is non-trivial). Not enabling it,
+       # however, may confuse older FTP clients.
+       #async_abor_enable=YES
+       #
+       # By default the server will pretend to allow ASCII mode but in fact ignore
+       # the request. Turn on the below options to have the server actually do ASCII
+       # mangling on files when in ASCII mode.
+       # Beware that on some FTP servers, ASCII support allows a denial of service
+       # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
+       # predicted this attack and has always been safe, reporting the size of the
+       # raw file.
+       # ASCII mangling is a horrible feature of the protocol.
+       #ascii_upload_enable=YES
+       #ascii_download_enable=YES
+       #
+       # You may fully customise the login banner string:
+       #ftpd_banner=Welcome to blah FTP service.
+       #
+       # You may specify a file of disallowed anonymous e-mail addresses. Apparently
+       # useful for combatting certain DoS attacks.
+       #deny_email_enable=YES
+       # (default follows)
+       #banned_email_file=/etc/vsftpd/banned_emails
+       #
+       # You may specify an explicit list of local users to chroot() to their home
+       # directory. If chroot_local_user is YES, then this list becomes a list of
+       # users to NOT chroot().
+       # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
+       # the user does not have write access to the top level directory within the
+       # chroot)
+       chroot_local_user=YES
+       chroot_list_enable=YES
+       allow_writeable_chroot=YES
+       # (default follows)
+       chroot_list_file=/etc/vsftpd/chroot_list
+       #
+       # You may activate the "-R" option to the builtin ls. This is disabled by
+       # default to avoid remote users being able to cause excessive I/O on large
+       # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
+       # the presence of the "-R" option, so there is a strong case for enabling it.
+       #ls_recurse_enable=YES
+       #
+       # When "listen" directive is enabled, vsftpd runs in standalone mode and
+       # listens on IPv4 sockets. This directive cannot be used in conjunction
+       # with the listen_ipv6 directive.
+       listen=NO
+       #
+       # This directive enables listening on IPv6 sockets. By default, listening
+       # on the IPv6 "any" address (::) will accept connections from both IPv6
+       # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
+       # sockets. If you want that (perhaps because you want to listen on specific
+       # addresses) then you must run two copies of vsftpd with two configuration
+       # files.
+       # Make sure, that one of the listen options is commented !!
+       listen_ipv6=YES
+
+       pam_service_name=vsftpd
+       userlist_enable=YES
+       tcp_wrappers=YES
+	#+END_SRC
+     5. References
+	: https://security.appspot.com/vsftpd.html
+	: https://en.wikipedia.org/wiki/Vsftpd
+	: http://baike.baidu.com/item/vsftpd
+**** Cygwin：windows 下 Linux 模拟软件
+     1. 安装Cygwin
+	: 略
+	: 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
+
+	: // 举例说明：安装及配置ssh
+	: 1.运行安装文件
+	: 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
+	: 3.安装完成后，打开Cygwin，输入ssh-host-config
+	: 当询问if privilege separation should be used 时输入 no . 
+	: 当询问if sshd should be installed as a service 时输入yes . 
+	: 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
+	: 其余询问均输入 no
+	: 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
+	: 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
+	: 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
+	: 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
+	: 8.输入 ssh localhost 启动SSH
+     2. 参考资料
+	: 1.Cygwin-Official Site:http://cygwin.com/
+	: 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
+	: 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
+	: 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+**** Wps for Linux
+     : 1. 从官网下载安装包，网址：http://www.wps.cn/
+
+     : 2. 安装
+     : $ sudo dpkg -i wps_office_10.xxx.deb
+
+     : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
+     : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
+     : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+     : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
+     : 或者直接 在win 中（C/WINDOWS/FONTS）
+     : 2) 执行以下命令,生成字体的索引信息：
+     : $ sudo mkfontscale
+     : $ sudo mkfontdir
+     : 3) 运行fc-cache命令更新字体缓存
+     : $ sudo fc-cache
+**** gnome-screenshots
+     1.  常用快捷键
+	: Prt Scrn to take a screenshot of the desktop.
+	: Alt+Prt Scrn to take a screenshot of a window.
+	: Shift+Prt Scrn to take a screenshot of an area you select.
+     2. 参考资料(References)
+	+ [[https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en][Screenshots and screencasts]]
+** X Window
+** Linux内核编译与管理
+* Linux 网络｜Network
+** 连接 Internet｜Connect Internet
+*** 网卡和网卡驱动程序
+*** 网络相关配置文件
+*** 无线网络
+*** 常见问题
+** 构建局域网
+** Linux 常见网络命令
+   + write
+     + 描述
+       : 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
+       : 格式: write user [tty]
+     + 实践
+   + wall
+     + 描述
+       : 发送广播信息(write a message to all users)
+       : 格式: wall [-n] [-t timeout] [message | file]
+     + 实践
+   + ping
+     + 描述
+       : 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
+     + 实践
+       - 指定ping次数
+	 : $ ping -c 4 baidu.com
+   + ifconfig
+     + 描述
+       : configure a network interface
+     + 实践
+   + mail
+     + 描述
+       : 查看/发送电子邮件
+     + 实践
+   + last & lastlog
+     + 描述
+       : 列出目前/过去登入系统的用户信息
+       : last, lastb - show a listing of last logged in users
+       : last [options] [username...] [tty...]
+       : lastb [options] [username...] [tty...]
+
+       : 列出用户最后一次登录系统的信息
+       : lastlog - reports the most recent login of all users or of a given user
+       : lastlog [options]
+     + 实践
+   + traceroute
+     + 描述
+       : 追踪数据包到主机间的路径
+       : traceroute - print the route packets trace to network host
+     + 实践
+   + netstat
+     + 描述
+       : 显示网络相关信息
+       : netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+     + 实践
+       - 查看主机对外开放端口
+	 : $ netstat -ntlp
+       - 查看本机监听的端口
+	 : $ netstat -tlun
+       - 查看本机所有的网络连接
+	 : $ netstat -ano
+       - 查看本机路由表
+	 : $ netstat -rn
+   + setup
+     + 描述
+       : 配置网络
+     + 实践
+** Linux 网络排错
+** Linux 网络安全与主机基本防护
+** 路由与路由器设定
+** 防火墙和 NAT 服务器
+** DNS 解析
+** 远程管理：SSH、VNC、XDMCP 和 RDP
+   1. SSH & OpenSSH & SSL & OpenSSL
+      + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
+      + OpenSSL，对SSL的实现。
+      + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
+      + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+      + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+   2. ssh 配置
+      *配置持久连接*
+      + 服务端
+	: $ sudo vim /etc/ssh/sshd_config
+	#+NAME: sshd_config
+	#+BEGIN_SRC shell
+	#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	ClientAliveInterval 60  
+	#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	ClientAliveCountMax 3
+	#+END_SRC
+
+      + 客户端
+	: $ sudo vim /etc/ssh/ssh_config
+	#+NAME: ssh_config
+	#+BEGIN_SRC shell
+	#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	ServerAliveInterval 60  
+	#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	ServerAliveCountMax 3
+	#+END_SRC
+   3. 使用OpenSSL生成密钥对
+      : 生成私钥
+      : $ openssl genrsa -out rsa_private_key.pem 1024
+      : 参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+
+      : 从私钥中提取公钥
+      : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+      : 参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+   4. 修改ssh默认端口号
+      + 首先修改配置文件：
+	: $ vim /etc/ssh/sshd_config
+	#+NAME:/etc/ssh/ssh_config
+	#+BEGIN_SRC shell
+	 Port 22 Port 6666   
+	#+END_SRC
+	: 注意：
+	- 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
+	- 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
+      + 重启ssh和防火墙
+	: $ systemctl restart iptables
+	: $ systemctl restart sshd
+      + 假如要限制SSH登陆的IP，那么可以如下做：
+	: 首先：修改/etc/hosts.deny，在其中加入sshd:ALL
+	: 然后：修改：/etc/hosts.allow，在其中进行如下设置：sshd:192.168.1.1：deny  （192.168.1.*）
+	: 这样就可以限制只有192.168.1.1的IP通过SSH登陆上LINUX机器了。
+   5. 通过密钥登录服务器
+      + 生成密钥对
+	: $ ssh-keygen
+	#+NAME: 生成密钥对
+	#+BEGIN_SRC emacs-lisp
+	  Generating public/private rsa key pair.
+	  Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+	  Enter passphrase (empty for no passphrase):
+	  Enter same passphrase again:
+	  Your identification has been saved in /home/zrg/.ssh/id_rsa.
+	  Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+	  The key fingerprint is:
+	  SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+	  The key's randomart image is:
+	  +---[RSA 2048]----+
+	  |    +*B==o o.oo=*|
+	  |   .o+o= .. . =o.|
+	  |     .+ o .o + E |
+	  |     . *   o= =  |
+	  |      = S . o+   |
+	  |       + o .     |
+	  |    o . =        |
+	  |   . + o .       |
+	  |    ..o          |
+	  +----[SHA256]-----+
+	#+END_SRC
 	 
-	 : 如果客户端要访问多台服务器时，可进行如下操作：
-	 : 第一种方式：手动指定
-	 : $  ssh user@host -i ~/.ssh/id_rsa
-	 : 第二种方式：配置客户端，/etc/ssh/ssh_config
-	 #+BEGIN_SRC shell
-	   IdentityFile ~/.ssh/id_rsa
-	   IdentityFile ~/.ssh/github_id_rsa
-	 #+END_SRC
-	 : 第三种方式：使用 SSH Agent
-	 #+BEGIN_SRC shell
-	   # Default github user
-	   Host login-zrg
-	   HostName github.com
-	   User zrg
-	   IdentityFile ~/.ssh/id_rsa
+	: 如果客户端要访问多台服务器时，可进行如下操作：
+	: 第一种方式：手动指定
+	: $  ssh user@host -i ~/.ssh/id_rsa
+	: 第二种方式：配置客户端，/etc/ssh/ssh_config
+	#+BEGIN_SRC shell
+	  IdentityFile ~/.ssh/id_rsa
+	  IdentityFile ~/.ssh/github_id_rsa
+	#+END_SRC
+	: 第三种方式：使用 SSH Agent
+	#+BEGIN_SRC shell
+	  # Default github user
+	  Host login-zrg
+	  HostName github.com
+	  User zrg
+	  IdentityFile ~/.ssh/id_rsa
 
-	   # jsf user
-	   Host login-jsf
-	   HostName github.com
-	   User jsf
-	   IdentityFile ~/.ssh/id_rsa_jsf
-	 #+END_SRC
-       + 在服务器上配置上公钥
-	 : 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
-	 : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
-	 : $ chmod 600 ~/.ssh/authorized_keys
-	 : $ chmod 700 ~/.ssh
-       + 配置ssh，打开密钥登录功能
-	 : $ vim /etc/ssh/sshd_config
-	 #+NAME: 配置 ssh
-	 #+BEGIN_SRC shell
-	   # 允许用户使用密钥登录
-	   RSAAuthentication yes
-	   PubkeyAuthentication yes
+	  # jsf user
+	  Host login-jsf
+	  HostName github.com
+	  User jsf
+	  IdentityFile ~/.ssh/id_rsa_jsf
+	#+END_SRC
+      + 在服务器上配置上公钥
+	: 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
+	: $ cat ~/.ssh/id_rsa.pub >> authorized_keys
+	: $ chmod 600 ~/.ssh/authorized_keys
+	: $ chmod 700 ~/.ssh
+      + 配置ssh，打开密钥登录功能
+	: $ vim /etc/ssh/sshd_config
+	#+NAME: 配置 ssh
+	#+BEGIN_SRC shell
+	  # 允许用户使用密钥登录
+	  RSAAuthentication yes
+	  PubkeyAuthentication yes
 
-	   # 允许 root 用户通过 SSH 登录
-	   PermitRootLogin yes
+	  # 允许 root 用户通过 SSH 登录
+	  PermitRootLogin yes
 
-	   # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
-	   PasswordAuthentication no
-	 #+END_SRC
-       + 重启ssh服务
-	 : 配置完成后，重启 sshd 服务
-	 : $ systemctl restart sshd.service
-    6. 使用scp上传或下载文件
-       + 从服务器上下载文件
-	 : $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-	 : 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
-       + 上传本地文件到服务器
-	 : $ scp /path/filename username@servername:/path   
-	 : 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
-       + 从服务器下载整个目录
-	 : $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-	 : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-       + 上传目录到服务器
-	 : $ scp  -r local_dir username@servername:remote_dir
-	 : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-*** 防火墙：iptables & firewalld 工具
-    1. 防火墙管理工具
-       \\
-       众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
-       \\
-       目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
-       \\
-       iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
-       \\
-       netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
-       \\
-       iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
-    2. iptables
-       \\
-       在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。
-       + 策略与规则链
-	 \\
-	 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
-	 - 在进行路由选择前处理数据包（PREROUTING）；
-	 - 处理流入的数据包（INPUT）；
-	 - 处理流出的数据包（OUTPUT）；
-	 - 处理转发的数据包（FORWARD）；
-	 - 在进行路由选择后处理数据包（POSTROUTING）。
-	 \\
-	 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
-	 \\
-	 iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、DROP（拒绝流量通过，直接将流量丢弃不响应）。当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
-       + 基本的命令参数
-	 + 规则功能说明
-	   : 1. 
-	   #+CAPTION: 表
-	   | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
-	   | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
-	   | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
-	   | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
-	   : 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
-	   #+CAPTION: NAT
-	   | snat | 地址转换   |
-	   | dnat | 标地址转换 |
-	   | pnat | 标端口转换 |
-	   : 3. mangle 表
-	   : 将报文拆开来并修改报文标志位，最后封装起来
+	  # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
+	  PasswordAuthentication no
+	#+END_SRC
+      + 重启ssh服务
+	: 配置完成后，重启 sshd 服务
+	: $ systemctl restart sshd.service
+   6. 使用scp上传或下载文件
+      + 从服务器上下载文件
+	: $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
+	: 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+      + 上传本地文件到服务器
+	: $ scp /path/filename username@servername:/path   
+	: 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
+      + 从服务器下载整个目录
+	: $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+	: 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
+      + 上传目录到服务器
+	: $ scp  -r local_dir username@servername:remote_dir
+	: 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
 
-	   : 4. 5个检查点（内置链）
-	   - PREROUTING
-	   - INPUT
-	   - FORWORD
-	   - OUTPUT
-	   - POSTROUTING    
-	 + iptables中常用的参数以及作用
-	   #+CAPTION:  iptables中常用的参数以及作用
-	   | 参数        | 作用                                           |
-	   |-------------+------------------------------------------------|
-	   | -P	  | 设置默认策略                                   |
-	   | -F          | 清空规则链                                     |
-	   | -L          | 查看规则链                                     |
-	   | -A          | 在规则链的末尾加入新规则                       |
-	   | -I num      | 在规则链的头部加入新规则                       |
-	   | -D num      | 删除某一条规则                                 |
-	   | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
-	   | -d          | 匹配目标地址                                   |
-	   | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
-	   | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
-	   | -p          | 匹配协议，如TCP、UDP、ICMP                     |
-	   | --dport num | 匹配目标端口号                                 |
-	   | --sport num | 匹配来源端口号                                 |
-	 + 查看已有的防火墙规则链
-	   : $ iptables -L
-	   : $ iptables -nvL –line-number
-	   : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
-	   : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
-	   : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-	   : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
-	 + 清空已有的防火墙规则链
-	   : $ iptables -F
-	 + 添加规则
-	   + 把INPUT规则链的默认策略设置为拒绝
-	     : $ iptables -P INPUT DROP
-	     : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
-	   + 向INPUT链中添加允许ICMP流量进入的策略规则
-	     : $ iptables -I INPUT -p icmp -j ACCEPT
-	     : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
-	     : 这种ping命令检测行为。
-	   + 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
-	     : $ iptables -D INPUT 1
-	     : $ iptables -P INPUT ACCEPT
-	   + 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
-	     : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
-	     : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
-	   + 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
-	     : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
-	     : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
-	   + 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
-	     : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
-	   + 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
-	     : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
-	     : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
-	   + 保存防火墙策略命令，使其永久生效
-	     : $ service iptables save
-    3. Firewalld
-       \\
-       Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。
-       \\
-       相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
-       \\
-       firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
-       #+CAPTION:firewalld中常用的区域名称及策略规则
-       | 区域     | 默认规则策略                                                                                                            |
-       |----------+-------------------------------------------------------------------------------------------------------------------------|
-       | trusted  | 允许所有的数据包                                                                                                        |
-       | home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
-       | internal | 等同于home区域                                                                                                          |
-       | work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
-       | public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
-       | external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-       | dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-       | block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-       | drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-    4. 终端管理工具
-       \\
-       firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
-       #+CAPTION: firewall-cmd命令中使用的参数以及作用
-       | 参数                          | 作用                                                   |
-       |-------------------------------+--------------------------------------------------------|
-       | --get-default-zone            | 查询默认的区域名称                                     |
-       | --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
-       | --get-zones                   | 显示可用的区域                                         |
-       | --get-services                | 显示预先定义的服务                                     |
-       | --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
-       | --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
-       | --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
-       | --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
-       | --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
-       | --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
-       | --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
-       | --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
-       | --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
-       | --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
-       | --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
-       | --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
-       | --panic-on                    | 开启应急状况模式                                       |
-       | --panic-off                   | 关闭应急状况模式                                       |
-       使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
-       + 使用示例
-	 - 查看firewalld服务当前所使用的区域
-	   : # firewall-cmd --get-default-zone
-	 - 查询eno16777728网卡在firewalld服务中的区域
-	   : # firewall-cmd --get-zone-of-interface=eno16777728
-	 - 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
-	   : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
-	   : # firewall-cmd --get-zone-of-interface=eno16777728
-	   : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
-	 - 把firewalld服务的当前默认区域设置为public
-	   : # firewall-cmd --set-default-zone=public
-	   : # firewall-cmd --get-default-zone
-	 - 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
-	   : # firewall-cmd --panic-on
-	   : # firewall-cmd --panic-off
-	 - 查询public区域是否允许请求SSH和HTTPS协议的流量
-	   : # firewall-cmd --zone=public --query-service=ssh
-	   : # firewall-cmd --zone=public --query-service=https
-	 - 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
-	   : # firewall-cmd --zone=public --add-service=https
-	   : # firewall-cmd --permanent --zone=public --add-service=https
-	   : # firewall-cmd --reload
-	 - 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
-	   : # firewall-cmd --permanent --zone=public --remove-service=http
-	   : # firewall-cmd --reload 
-	 - 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
-	   : # firewall-cmd --zone=public --add-port=8080-8081/tcp
-	   : # firewall-cmd --zone=public --list-ports
-	 - 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
-	   : 流量转发命令格式为:
-	   : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
+** DHCP 服务器
+*** DHCP 原理
+*** DHCP 服务端的设定
+*** DHCP 客户端的设定
+** 文件服务器：NFS 服务器
+** 文件服务器：SAMBA 服务器
+** 文件服务器：FTP 服务器
+** NIS 服务器
+** NTP 服务器
+** Proxy 服务器
+** iSCSI 服务器
+** DNS 服务器
+** Web 服务器
+** 邮件服务器：Postfix
+** 在服务器上启用HTTPS
+   - 创建一个 2048 位 RSA 公钥/私钥对。
+   - 生成一个嵌入您的公钥的证书签名请求 (CSR)
+   - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
+   - 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
+   : 1. 生成密钥和证书签名请求
+   : 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
+   : 
 
-	   : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
-	   : # firewall-cmd --reload
-	 - firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
-	   : $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
-    5. 图形化管理工具
-    6. 服务的访问控制列表
-       \\
-       TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
-       \\
-       TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
-       #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
-       | 客户端类型     | 示例                       | 满足示例的客户端列表               |
-       |----------------+----------------------------+------------------------------------|
-       | 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
-       | 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
-       | 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
-       | 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
-       | 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
-       | 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
-       在配置TCP Wrappers服务时需要遵循两个原则：
-       1. 编写拒绝策略规则时，填写的是服务名称，而非协议名称；
-       2. 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
-    7. 参考资料
-       + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
-       + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
-       + [[https://wiki.debian.org/iptables][iptables debian wiki]]
-** Linux Logs
-** Linux Start
-** Linux Backup and Restore
-** Linux Software
-*** 在服务器上启用HTTPS
-    - 创建一个 2048 位 RSA 公钥/私钥对。
-    - 生成一个嵌入您的公钥的证书签名请求 (CSR)
-    - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
-    - 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
-    : 1. 生成密钥和证书签名请求
-    : 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
-    : 
+   : 参考资料：
+   [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
+** 防火墙：iptables & firewalld 工具
+   1. 防火墙管理工具
+      \\
+      众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
+      \\
+      目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+      \\
+      iptables服务会把配置好的防火墙策略交由内核层面的netfilter网络过滤器来处理，而firewalld服务则是把配置好的防火墙策略交由内核层面的nftables包过滤框架来处理。换句话说，当前在Linux系统中其实存在多个防火墙管理工具，旨在方便运维人员管理Linux系统中的防火墙策略，我们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
+      \\
+      netfilter 组件也称为内核空间（kernelspace），是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
+      \\
+      iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
+   2. iptables
+      \\
+      在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。
+      + 策略与规则链
+	\\
+	防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+	- 在进行路由选择前处理数据包（PREROUTING）；
+	- 处理流入的数据包（INPUT）；
+	- 处理流出的数据包（OUTPUT）；
+	- 处理转发的数据包（FORWARD）；
+	- 在进行路由选择后处理数据包（POSTROUTING）。
+	\\
+	一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+	\\
+	iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、DROP（拒绝流量通过，直接将流量丢弃不响应）。当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
+      + 基本的命令参数
+	+ 规则功能说明
+	  : 1. 
+	  #+CAPTION: 表
+	  | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
+	  | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
+	  | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
+	  | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
+	  : 2. NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
+	  #+CAPTION: NAT
+	  | snat | 地址转换   |
+	  | dnat | 标地址转换 |
+	  | pnat | 标端口转换 |
+	  : 3. mangle 表
+	  : 将报文拆开来并修改报文标志位，最后封装起来
 
-    : 参考资料：
-    [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
-*** 神奇的 nc 命令
-    1. 介绍
-       : netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
-       : netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
-    2. 安装
-       : // Redhat/CentOS/Fedora
-       : $ yum install nc
-       : // Debian/Ubuntu
-       : $ sudo apt-get install netcat
-    3. 常见使用
-       : 端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
-       : $ nc -z -v -n 172.31.100.7 21-25
-       : 可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
-       : z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
-       : v 参数指使用冗余选项（译者注：即详细输出）
-       : n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
+	  : 4. 5个检查点（内置链）
+	  - PREROUTING
+	  - INPUT
+	  - FORWORD
+	  - OUTPUT
+	  - POSTROUTING    
+	+ iptables中常用的参数以及作用
+	  #+CAPTION:  iptables中常用的参数以及作用
+	  | 参数        | 作用                                           |
+	  |-------------+------------------------------------------------|
+	  | -P	  | 设置默认策略                                   |
+	  | -F          | 清空规则链                                     |
+	  | -L          | 查看规则链                                     |
+	  | -A          | 在规则链的末尾加入新规则                       |
+	  | -I num      | 在规则链的头部加入新规则                       |
+	  | -D num      | 删除某一条规则                                 |
+	  | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
+	  | -d          | 匹配目标地址                                   |
+	  | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
+	  | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
+	  | -p          | 匹配协议，如TCP、UDP、ICMP                     |
+	  | --dport num | 匹配目标端口号                                 |
+	  | --sport num | 匹配来源端口号                                 |
+	+ 查看已有的防火墙规则链
+	  : $ iptables -L
+	  : $ iptables -nvL –line-number
+	  : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+	  : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+	  : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+	  : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+	+ 清空已有的防火墙规则链
+	  : $ iptables -F
+	+ 添加规则
+	  + 把INPUT规则链的默认策略设置为拒绝
+	    : $ iptables -P INPUT DROP
+	    : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
+	  + 向INPUT链中添加允许ICMP流量进入的策略规则
+	    : $ iptables -I INPUT -p icmp -j ACCEPT
+	    : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
+	    : 这种ping命令检测行为。
+	  + 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
+	    : $ iptables -D INPUT 1
+	    : $ iptables -P INPUT ACCEPT
+	  + 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
+	    : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
+	    : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
+	  + 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
+	    : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
+	    : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
+	  + 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
+	    : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
+	  + 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
+	    : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
+	    : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
+	  + 保存防火墙策略命令，使其永久生效
+	    : $ service iptables save
+   3. Firewalld
+      \\
+      Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。
+      \\
+      相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+      \\
+      firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
+      #+CAPTION:firewalld中常用的区域名称及策略规则
+      | 区域     | 默认规则策略                                                                                                            |
+      |----------+-------------------------------------------------------------------------------------------------------------------------|
+      | trusted  | 允许所有的数据包                                                                                                        |
+      | home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
+      | internal | 等同于home区域                                                                                                          |
+      | work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
+      | public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
+      | external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+      | dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+      | block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+      | drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+   4. 终端管理工具
+      \\
+      firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
+      #+CAPTION: firewall-cmd命令中使用的参数以及作用
+      | 参数                          | 作用                                                   |
+      |-------------------------------+--------------------------------------------------------|
+      | --get-default-zone            | 查询默认的区域名称                                     |
+      | --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
+      | --get-zones                   | 显示可用的区域                                         |
+      | --get-services                | 显示预先定义的服务                                     |
+      | --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
+      | --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
+      | --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
+      | --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
+      | --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
+      | --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
+      | --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
+      | --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
+      | --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
+      | --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
+      | --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
+      | --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
+      | --panic-on                    | 开启应急状况模式                                       |
+      | --panic-off                   | 关闭应急状况模式                                       |
+      使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
+      + 使用示例
+	- 查看firewalld服务当前所使用的区域
+	  : # firewall-cmd --get-default-zone
+	- 查询eno16777728网卡在firewalld服务中的区域
+	  : # firewall-cmd --get-zone-of-interface=eno16777728
+	- 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
+	  : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
+	  : # firewall-cmd --get-zone-of-interface=eno16777728
+	  : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
+	- 把firewalld服务的当前默认区域设置为public
+	  : # firewall-cmd --set-default-zone=public
+	  : # firewall-cmd --get-default-zone
+	- 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
+	  : # firewall-cmd --panic-on
+	  : # firewall-cmd --panic-off
+	- 查询public区域是否允许请求SSH和HTTPS协议的流量
+	  : # firewall-cmd --zone=public --query-service=ssh
+	  : # firewall-cmd --zone=public --query-service=https
+	- 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
+	  : # firewall-cmd --zone=public --add-service=https
+	  : # firewall-cmd --permanent --zone=public --add-service=https
+	  : # firewall-cmd --reload
+	- 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
+	  : # firewall-cmd --permanent --zone=public --remove-service=http
+	  : # firewall-cmd --reload 
+	- 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
+	  : # firewall-cmd --zone=public --add-port=8080-8081/tcp
+	  : # firewall-cmd --zone=public --list-ports
+	- 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
+	  : 流量转发命令格式为:
+	  : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
 
-       : Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
-       : 一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
-       : $ nc -v 172.31.100.7 21
-       + 聊天工具
-	 : // Server
-	 : $ nc -l 1234
-	 : // Client
-	 : $ nc 172.168.100.7 1234
-       + 文件传输
-	 : // Server > Client
-	 : $ nc -l 1234 > file.txt
-	 : $ nc 172.168.100.7 1234 <file.txt
-       + 目录传输
-	 : // Server > Client
-	 : $ tar -cvf - dir_name | nc -l 1234
-	 : $ nc -n 172.168.100.7 1234 | tar -xvf -
-	 : 这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
-	 : 在客户端我们下载该压缩包通过netcat 管道然后打开文件。
-	 : 如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
-	 : // Server
-	 : $ tar -cvf – dir_name| bzip2 -z | nc -l 1234
-	 : // Client
-	 : $ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
-       + 加密网络传输数据
-	 : // Server
-	 : $ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb > file.txt
-	 : // Client
-	 : $ mcrypt –flush –bare -F -q -m ecb < file.txt | nc -l 1234
-       + 流视频
-	 : // Server
-	 : $ cat video.avi | nc -l 1234
-	 : 从一个视频文件中读入并重定向输出到netcat客户端
-	 : // Client
-	 : $ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
-	 : 从socket中读入数据并重定向到mplayer。
-       + 克隆一个设备
-	 : 已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
-	 : 假如你的系统在磁盘/dev/sda上:
-	 : // Server
-	 : $ dd if=/dev/sda | nc -l 1234
-	 : // Client
-	 : $ nc -n 172.31.100.7 1567 | dd of=/dev/sda
-	 : dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
-	 : 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
-    4. 参考资料
-       : https://blog.csdn.net/zhangxiao93/article/details/52705642
-*** GCC
-    1. 简单编译
-       : $ gcc test.c -o test
-       : 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
+	  : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
+	  : # firewall-cmd --reload
+	- firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
+	  : $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
+   5. 图形化管理工具
+   6. 服务的访问控制列表
+      \\
+      TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+      \\
+      TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
+      #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
+      | 客户端类型     | 示例                       | 满足示例的客户端列表               |
+      |----------------+----------------------------+------------------------------------|
+      | 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
+      | 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
+      | 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
+      | 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
+      | 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
+      | 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
+      在配置TCP Wrappers服务时需要遵循两个原则：
+      1. 编写拒绝策略规则时，填写的是服务名称，而非协议名称；
+      2. 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
+   7. 参考资料
+      + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
+      + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
+      + [[https://wiki.debian.org/iptables][iptables debian wiki]]
 
-       : 1.Preprocessing
-       : $ gcc -E test.c -o test.i
-       : 或
-       : $ gcc -E test.c
-       : gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
-       : 2.Compilation
-       : $ gcc -S test.i -o test.s
-       : gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
-       : 3.Assembly
-       : $ gcc -c test.s -o test.o
-       : 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
-       : 4.Linking
-       : gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
-       : 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
-       : $ gcc test.o -o test
-    2. 多个程序文件的编译
-       : $ gcc test1.c test2.c -o test
-    3. 检错
-       : $ gcc -pedantic test.c -o test
-       : //警告信息
-       : $ gcc -Wall test.c -p test
-       : //-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
-       : $ gcc -Werror test.c -o test
-    4. 库文件连接
-       : 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
-       : $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
-       : 2.链接。最后我们把所有目标文件链接成可执行文件:
-       : $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
-       : 3.强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
-       : $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
-    5. 其他
-       : 静态库链接时搜索路径顺序：
-
-       : 1. ld 会去找GCC命令中的参数 -L
-       : 2. 再找 gcc 的环境变量 LIBRARY_PATH
-       : 3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
-
-       : 动态链接时、执行时搜索路径顺序:
-
-       : 1. 编译目标代码时指定的动态库搜索路径
-       : 2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
-       : 3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
-       : 4. 默认的动态库搜索路径 /lib
-       : 5. 默认的动态库搜索路径 /usr/lib
-
-       : 有关环境变量：
-       : LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
-       : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
-    6. Reference
-       : http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
-*** 系统状态监视命令：top & htop
-    1. top
-       #+CAPTION:
-       #+ALTR_HTML: :align center
-       [[file:{{site.url}}/assets/images/top.jpg]]
-    2. htop
-       + 下载及安装
-	 : $ git clone https://github.com/hishamhm/htop 
-	 : $ tar zxvf htop-2.0.2.tar.gz
-	 : $ cd htop-2.0.2
-	 : $ ./configure
-	 : # make && make install
-***** 错误解决
-      : configure: error: missing libraries: libncurses
-      : Solving:
-      : $ sudo apt-get install nucurses-dev
-*** 网络监视命令：iftop
-    : $ sudo apt-get install iftop
-    : 
-*** wget vs axel
-    : 官方地址: http://axel.alioth.debian.org/
-    : 描述: 替换wget命令
-*** VIM&Emacs
-    : 两个神器软件单独介绍，这里不重复叙写。
-*** MPlayer
-    : // official：http://www.mplayerhq.hu/design7/news.html
-    : $ tar -Jxf MPlayer-1.1.1.tar.xz
-    : $ cd MPlayer-1.1.1
-    : $ sudo ./configure
-    : // 发现，需要安装一个依赖包:yasm
-    : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
-    : // 安装完成后，重新配置、编译和安装
-    : $ sudo ./configure
-    : $ sudo make && make install
-*** google-chrome & chromium
-    1. 添加安装源
-       : $ sudo vim /etc/apt/sources.list
-       : deb http://dl.google.com/linux/chrome/deb/ stable main
-    2. 添加公钥验证下载
-       : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
-       : $ apt-key add linux_signing_key.pub
-    3. 执行安装
-       : $ sudo apt update
-       : // stable ersion
-       : $ sudo apt install google-chrome-stable
-       : // beta or unstable ersion
-       : $ sudo apt install google-chrome-beta
-       : $ sudo apt install google-chrome-unstable
-    4. 安装 chromium
-       : $ sudo apt-get update
-       : $ sudo apt-get install chromium chromium-l10n
-       : （chromium-l10n 是用于本地化界面的，是可选的软件包）
-       : 注意：chromium不支持PDF查看
-*** Scrot：截图工具
-    1. 安装
-       : $ sudo apt-get install scrot
-    2. 使用方法
-       + 整个桌面截图(Full desktop)
-	 : $ scrot
-	 : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
-       + 特定区域截图（选择截取）(Specific area)
-	 : $ scrot -s
-       + 延迟截图(temporize screenshot)
-	 : $ scrot -s -d 5
-       + 截图调整质量(Adjust the quality of screenshots)
-	 : $ scrot -q 50
-       + 截图调整大小(Adjust the screen size)
-	 : $ scrot -t 10
-       + 将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
-	 : $ scrot -e 'mv $f ~/screenshots'
-    3. 参考资料(References)
-       : https://linux.cn/article-3197-1.html
-*** rarcrack（压缩包密码破解工具）
-    : 支持格式：rar,7z,zip
-    : // install
-    : $ sudo apt-get install libxml2-dev build-essential
-    : $ sudo apt-get install rarcrack
-    : // use
-    : $ rarcrack --threads 10 --type rar test.rar
-*** 宝塔面板
-    : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
-*** Cisco AnyConnect VPN Client
-    1. 问题解决
-       : $ sudo systemctl enable vpnagentd_init
-       : vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
-       : Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
-       : insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
-       : insserv: There is a loop between service bt and vpnagentd_init if stopped
-       : insserv:  loop involving service vpnagentd_init at depth 2
-       : insserv:  loop involving service bt at depth 1
-       : insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
-       : insserv: exiting now without changing boot order!
-       : update-rc.d: error: insserv rejected the script header
-
-       : [solve]：$ sudo vim /etc/init.d/vpnagentd_init
-       #+BEGIN_SRC shell
-	 #!/bin/sh
-	 ### BEGIN INIT INFO
-	 # Provides: vpnagentd_init
-	 # Required-Start: $remote_fs $syslog
-	 # Required-Stop: $remote_fs $syslog
-	 # Default-Start: 2 3 4 5
-	 # Default-Stop: 0 1 6
-	 # Short-Description: Start Cisco vpn agent daemon at boot time
-	 # Description: Cisco vpn agent daemon
-	 ### END INIT INFO
-       #+END_SRC
-*** Bind：DNS工具
-    1. 安装
-       : # yum install -y bind
-    2. 配置
-       : 1)# vim /etc/named.conf
-       : 修改内容如下：
-       :  将下面
-       :  listen-on port 53 { 127.0.0.1; };
-       :  allow-query { localhost; };
-       :  改为
-       :  listen-on port 53 { any; };
-       :  allow-query { any; };
-
-       : 2)# vim named.rfc1912.zones
-       : 注意改动位置：
-       : zone "zrg.com.cn" IN {
-       : type master;
-       : file "named.zrg";
-       : allow-update { none; };
-       : };
-
-       : 3)# cp /var/named/named.localhost /var/named/named.zrg
-       : //修改文件所属群组
-       : #chgrp named /var/named/named.zrg
-
-       : 4)# vim /var/named/named.zrg
-       : 注意改动位置：
-       : $TTL 1D
-       : @ IN SOA @ dns.zrg.com.cn. root(
-       : 0 ; serial
-       : 1D ; refresh
-       : 1H ; retry
-       : 1W ; expire
-       : 3H ) ; minimum
-       : NS dns.zrg.com.cn.
-       : DNS A 192.168.120.166
-       : A 127.0.0.1
-       : AAAA ::1
-
-       : 5)# /etc/init.d/named restart
-       : # chkconfig named on
-
-       : 6)# vim /etc/sysconfig/network
-       : Network=yes
-       : Hostname=dns.zrg.com.cn
-
-       : 7)# vim /etc/resolv.conf
-       : Search zrg.com.cn
-       : Nameserver 192.168.120.166
-
-       : 8)# /etc/init.d/named restart
-       : # ping zrg.com.cn
-       : # reboot
-*** Composer
-    1. 安装
-       : 1.Download composer.phar file.
-       : 2.Excute:
-       : # php composer.phar
-       : 3.Global:
-       : # mv composer.phar /usr/local/bin/composer
-       : 4.Permission:
-       : # chmod 744 composer
-    2. 问题解决
-       : error: /usr/bin/env: php: No such file or directory
-       :  solve:Configuring php to become global variables
-*** vsftpd
-    1. Download and Install
-       : https://security.appspot.com/vsftpd.html#download
-       : //yum
-       : yum install -y vsftpd
-    2. Change default dir
-       #+BEGIN_SRC emacs-lisp
-      #local user
-      local_root=/usr/share/nginx/html
-      #is_enable local view,default_setting is NO
-      chroot_local_user=NO
-      #anonymous user
-      anon_root=/var/ftp/pub
-       #+END_SRC
-    3. Configuring directory of access
-       #+BEGIN_SRC emacs-lisp
-      chroot_local_user=YES
-      chroot_list_enable=NO
-      allow_writeable_chroot=YES
-
-      报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
-	 500 OOPS: vsftpd: refusing to run with writable root inside chroot()
-
-      notice:
-       配置具体情况有以下几种：
-      1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
-      2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
-      3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
-      4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
-
-      5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
-       #+END_SRC
-    4. my vsftpd.conf
-       //CentOS 7, /etc/vsftpd/vsftpd.conf.
-       #+BEGIN_SRC emacs-lisp
-      # Example config file /etc/vsftpd/vsftpd.conf
-      # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
-      anonymous_enable=NO
-      #
-      local_root=/srv/www/
-      #
-      # Uncomment this to allow local users to log in.
-      # When SELinux is enforcing check for SE bool ftp_home_dir
-      local_enable=YES
-      #
-      # Uncomment this to enable any form of FTP write command.
-      write_enable=YES
-      #
-      # Default umask for local users is 077. You may wish to change this to 022,
-      # if your users expect that (022 is used by most other ftpd's)
-      local_umask=022
-      #
-      # Uncomment this to allow the anonymous FTP user to upload files. This only
-      # has an effect if the above global write enable is activated. Also, you will
-      # obviously need to create a directory writable by the FTP user.
-      # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
-      #anon_upload_enable=YES
-      #
-      # Uncomment this if you want the anonymous FTP user to be able to create
-      # new directories.
-      #anon_mkdir_write_enable=YES
-      #
-      # Activate directory messages - messages given to remote users when they
-      # go into a certain directory.
-      dirmessage_enable=YES
-      #
-      # Activate logging of uploads/downloads.
-      xferlog_enable=YES
-      #
-      # Make sure PORT transfer connections originate from port 20 (ftp-data).
-      connect_from_port_20=YES
-      #
-      # If you want, you can arrange for uploaded anonymous files to be owned by
-      # a different user. Note! Using "root" for uploaded files is not
-      # recommended!
-      #chown_uploads=YES
-      #chown_username=whoever
-      #
-      # You may override where the log file goes if you like. The default is shown
-      # below.
-      #xferlog_file=/var/log/xferlog
-      #
-      # If you want, you can have your log file in standard ftpd xferlog format.
-      # Note that the default log file location is /var/log/xferlog in this case.
-      xferlog_std_format=YES
-      #
-      # You may change the default value for timing out an idle session.
-      #idle_session_timeout=600
-      #
-      # You may change the default value for timing out a data connection.
-      #data_connection_timeout=120
-      #
-      # It is recommended that you define on your system a unique user which the
-      # ftp server can use as a totally isolated and unprivileged user.
-      #nopriv_user=ftpsecure
-      #
-      # Enable this and the server will recognise asynchronous ABOR requests. Not
-      # recommended for security (the code is non-trivial). Not enabling it,
-      # however, may confuse older FTP clients.
-      #async_abor_enable=YES
-      #
-      # By default the server will pretend to allow ASCII mode but in fact ignore
-      # the request. Turn on the below options to have the server actually do ASCII
-      # mangling on files when in ASCII mode.
-      # Beware that on some FTP servers, ASCII support allows a denial of service
-      # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
-      # predicted this attack and has always been safe, reporting the size of the
-      # raw file.
-      # ASCII mangling is a horrible feature of the protocol.
-      #ascii_upload_enable=YES
-      #ascii_download_enable=YES
-      #
-      # You may fully customise the login banner string:
-      #ftpd_banner=Welcome to blah FTP service.
-      #
-      # You may specify a file of disallowed anonymous e-mail addresses. Apparently
-      # useful for combatting certain DoS attacks.
-      #deny_email_enable=YES
-      # (default follows)
-      #banned_email_file=/etc/vsftpd/banned_emails
-      #
-      # You may specify an explicit list of local users to chroot() to their home
-      # directory. If chroot_local_user is YES, then this list becomes a list of
-      # users to NOT chroot().
-      # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
-      # the user does not have write access to the top level directory within the
-      # chroot)
-      chroot_local_user=YES
-      chroot_list_enable=YES
-      allow_writeable_chroot=YES
-      # (default follows)
-      chroot_list_file=/etc/vsftpd/chroot_list
-      #
-      # You may activate the "-R" option to the builtin ls. This is disabled by
-      # default to avoid remote users being able to cause excessive I/O on large
-      # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
-      # the presence of the "-R" option, so there is a strong case for enabling it.
-      #ls_recurse_enable=YES
-      #
-      # When "listen" directive is enabled, vsftpd runs in standalone mode and
-      # listens on IPv4 sockets. This directive cannot be used in conjunction
-      # with the listen_ipv6 directive.
-      listen=NO
-      #
-      # This directive enables listening on IPv6 sockets. By default, listening
-      # on the IPv6 "any" address (::) will accept connections from both IPv6
-      # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
-      # sockets. If you want that (perhaps because you want to listen on specific
-      # addresses) then you must run two copies of vsftpd with two configuration
-      # files.
-      # Make sure, that one of the listen options is commented !!
-      listen_ipv6=YES
-
-      pam_service_name=vsftpd
-      userlist_enable=YES
-      tcp_wrappers=YES
-       #+END_SRC
-    5. References
-       : https://security.appspot.com/vsftpd.html
-       : https://en.wikipedia.org/wiki/Vsftpd
-       : http://baike.baidu.com/item/vsftpd
-*** Cygwin：windows 下 Linux 模拟软件
-    1. 安装Cygwin
-       : 略
-       : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
-
-       : // 举例说明：安装及配置ssh
-       : 1.运行安装文件
-       : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
-       : 3.安装完成后，打开Cygwin，输入ssh-host-config
-       : 当询问if privilege separation should be used 时输入 no . 
-       : 当询问if sshd should be installed as a service 时输入yes . 
-       : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
-       : 其余询问均输入 no
-       : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
-       : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
-       : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
-       : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
-       : 8.输入 ssh localhost 启动SSH
-    2. 参考资料
-       : 1.Cygwin-Official Site:http://cygwin.com/
-       : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
-       : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
-       : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
-*** Wps for Linux
-    : 1. 从官网下载安装包，网址：http://www.wps.cn/
-
-    : 2. 安装
-    : $ sudo dpkg -i wps_office_10.xxx.deb
-
-    : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
-    : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
-    : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
-    : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
-    : 或者直接 在win 中（C/WINDOWS/FONTS）
-    : 2) 执行以下命令,生成字体的索引信息：
-    : $ sudo mkfontscale
-    : $ sudo mkfontdir
-    : 3) 运行fc-cache命令更新字体缓存
-    : $ sudo fc-cache
-*** gnome-screenshots
-    1.  常用快捷键
-       : Prt Scrn to take a screenshot of the desktop.
-       : Alt+Prt Scrn to take a screenshot of a window.
-       : Shift+Prt Scrn to take a screenshot of an area you select.
-    2. 参考资料(References)
-       + [[https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en][Screenshots and screencasts]]
-* Problem
+* 常见问题收集｜Problem
 ** 命令行下不能输入中文标点符号
    : 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
 ** 不能在 Sublime 编辑器（Editor）中输入中文
