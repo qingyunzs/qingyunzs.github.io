@@ -946,7 +946,7 @@ class page {
    + https://www.helloweba.net/javascript/195.html
    + https://zh.wikipedia.org/wiki/%E5%88%86%E9%A0%81
    + https://www.zhihu.com/question/26421527
-* 附录一：PHP 常见函数
+* 附录 A：PHP 常见函数
 ** String
    + addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
    + addslashes()，字符串转义，使用反斜线引用字符串。如I’m Zhao中的’
@@ -1395,7 +1395,7 @@ class page {
        // fputcsv ( resource $handle , array $fields [, string $delimiter = ',' [, string $enclosure = '"' ]] ) : int
        // fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = ',' [, string $enclosure = '"' [, string $escape = '\\' ]]]] ) : array
      #+END_SRC
-* 附录二：PHP 命名规范
+* 附录 B：PHP 命名规范
 ** 类
 *** 类名称
 + 使用大写字母作为词的分割，其他的字母均使用小写。
@@ -1403,10 +1403,12 @@ class page {
 + *不要使用下划线('_')。*
 : 如：Name、SuperMan、BigClassObject。
 *** 类属性
-+ 属性名命名采用驼峰命名法（首字母小写，后续单词首字母大写），私有属性使用'_'开始。如：$tablePrefix，$_tablePrefix
-*** 类方法
-+ 方法的作用都是执行一个动作，达到一个目的。所以名称应该说明方法是做什么的。一般名称的前缀都是有第一规律的，如is（判断）、get（得到），set（设置）。
-+ 方法的的命名采用驼峰命名法（首字母小写，后续单词首字母大写）， 如：getUserName()\ parseLayout()
+属性名命名采用驼峰命名法（首字母小写，后续单词首字母大写），私有属性使用'_'开始。
+  : 如：$tablePrefix，$_tablePrefix
+*** 类方法和函数名称
++ 方法的作用都是执行一个动作，达到一个目的。所以名称应该说明方法是做什么的。一般名称的前缀都是有第一规律的，如 is, get, set。
++ 方法的的命名采用驼峰命名法（首字母小写，后续单词首字母大写）， 如：getUserName(), parseLayout()
++ 私有方法、函数，使用带有下划线的形式，如 _func()
 *** 方法中参数
 + 参数命名采用驼峰命名法（首字母小写，后续单词首字母大写）。如：
   #+BEGIN_SRC php
@@ -1454,10 +1456,46 @@ class page {
 	...
     }
   #+END_SRC
-** 函数
 ** 参考资料
 + 《PHP从入门到精通》
-* 附录三：PHP 预定义常量
+* 附录 C：PHP 代码检查(Code Inspection)
+** Slow array function used in loop
+   #+begin_src php
+     // Let's start with an example demonstrating the case:
+     $options = [];
+     foreach ($configurationSources as $source) {
+	 /* something happens here */
+	 $options = array_merge($options, $source->getOptions());
+     }
+
+     // In order to reduce execution time we can modify the code and perform the merge operation only once:
+     $options = [];
+     foreach ($configurationSources as $source) {
+	 /* something happens here */
+	 $options[] = $source->getOptions(); // <- yes, we'll use a little bit more memory
+     }
+
+     /* PHP below 5.6 */
+     $options = call_user_func_array('array_merge', $options + [[]]); // the nested empty array covers cases when no loops were made, must be second operand
+
+     /* PHP 5.6+: more friendly to refactoring as less magic involved */
+     $options = array_merge([], ...$options); // the empty array covers cases when no loops were made
+
+     /* PHP 7.4+: array_merge now accepts to be called without arguments. It will work even if $options is empty */
+     $options = array_merge(...$options);
+
+
+     // The second case demonstration:
+     for ($index = 0; $index < count($array); ++$index) {
+	 /* something happens here */
+     }
+
+     // Here count($array) is executed in each loop cycle and cause performance issues when counting big arrays. Instead, we can introduce a local variable, so the count operation gets executed only once:
+     for ($index = 0, $count = count($array); $index < $count; ++$index) {
+	 /* something happens here */
+     }
+   #+end_src
+* 附录 D：PHP 预定义常量
 | 常量名              | 常量值           | 说明                                     |
 |---------------------+------------------+------------------------------------------|
 | __FILE__            | 当前的文件名     | 在哪个文件中使用，就代表哪个文件名称     |
