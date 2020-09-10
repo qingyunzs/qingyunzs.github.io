@@ -251,7 +251,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org7eadc98">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org955b336">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -2098,9 +2098,13 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 </ul>
 </div>
 </div>
-<div id="outline-container-org142f86c" class="outline-4">
-<h4 id="org142f86c"><span class="section-number-4">4.1.3</span> Shell 类型</h4>
+<div id="outline-container-org48a5d39" class="outline-4">
+<h4 id="org48a5d39"><span class="section-number-4">4.1.3</span> Shell 简介</h4>
 <div class="outline-text-4" id="text-4-1-3">
+<ol class="org-ol">
+<li>Shell 是一个用 C 语言编写的程序，Shell 既是一种命令语言，又是一种程序设计语言。</li>
+<li>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。</li>
+<li>Shell 类型
 <ul class="org-ul">
 <li><b>/bin/bash</b></li>
 <li>/bin/tcsh</li>
@@ -2108,7 +2112,27 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 <li>/bin/csh</li>
 <li>/bin/sh</li>
 <li>/bin/zsh</li>
-</ul>
+</ul></li>
+<li><p>
+执行 Shell 脚本
+</p>
+<pre class="example">
+// 新增可执行权限
+chmod +x test.sh
+</pre>
+
+
+<pre class="example">
+// 作为可执行程序
+./test.sh
+</pre>
+
+
+<pre class="example">
+// 作为解释器参数
+/bin/sh test.sh
+</pre></li>
+</ol>
 </div>
 </div>
 <div id="outline-container-org3ceb91c" class="outline-4">
@@ -2257,9 +2281,122 @@ date <span style="color: #8B8878;"># </span><span style="color: #8B8878;">print 
 </div>
 </div>
 </div>
-<div id="outline-container-org37b85c9" class="outline-5">
-<h5 id="org37b85c9"><span class="section-number-5">4.2.1.2</span> 环境变量｜Environment Parameter</h5>
+<div id="outline-container-org534bf27" class="outline-5">
+<h5 id="org534bf27"><span class="section-number-5">4.2.1.2</span> 变量</h5>
 <div class="outline-text-5" id="text-4-2-1-2">
+<ol class="org-ol">
+<li><p>
+使用变量
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">"qinjx"</span>
+<span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">your_name</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">your_name</span>}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21464;&#37327;&#21517;&#22806;&#38754;&#30340;&#33457;&#25324;&#21495;&#26159;&#21487;&#36873;&#30340;&#65292;&#21152;&#19981;&#21152;&#37117;&#34892;&#65292;&#21152;&#33457;&#25324;&#21495;&#26159;&#20026;&#20102;&#24110;&#21161;&#35299;&#37322;&#22120;&#35782;&#21035;&#21464;&#37327;&#30340;&#36793;&#30028;&#65292;&#20363;&#22914;&#19979;&#38754;&#30340;&#24773;&#20917;&#65306;</span>
+<span style="color: #FF1493;">for</span> skill<span style="color: #FF1493;"> in</span> Ada Coffe Action Java; <span style="color: #FF1493;">do</span>
+    <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"I am good at ${skill}Script"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21482;&#35835;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.google.com"</span>
+<span style="color: #FF1493;">readonly</span> myUrl
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.runoob.com"</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36816;&#34892;&#33050;&#26412;&#65292;&#32467;&#26524;&#22914;&#19979;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">/bin/sh: NAME: This variable is read only.</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21024;&#38500;&#21464;&#37327;</span>
+<span style="color: #FF1493;">unset</span> variable_name
+</pre>
+</div></li>
+<li>变量类型</li>
+<li><p>
+字符串
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org65e49f5"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Shell &#23383;&#31526;&#20018;</span>
+<span style="color: #FF8C00;">str</span>=<span style="color: #CDC673;">'this is a string'</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">'zrg'</span>
+<span style="color: #FF8C00;">str2</span>=<span style="color: #CDC673;">"Hello, I know you are \"$your_name\"! \n"</span>
+<span style="color: #FF1493;">echo</span> -e $<span style="color: #FF8C00;">str</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36755;&#20986;&#32467;&#26524;&#20026;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">Hello, I know you are "runoob"! </span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25340;&#25509;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21452;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting</span>=<span style="color: #CDC673;">"hello, "</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">" !"</span>
+<span style="color: #FF8C00;">greeting_1</span>=<span style="color: #CDC673;">"hello, ${your_name} !"</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21333;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting_2</span>=<span style="color: #CDC673;">'hello, '</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">' !'</span>
+<span style="color: #FF8C00;">greeting_3</span>=<span style="color: #CDC673;">'hello, ${your_name} !'</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#23383;&#31526;&#20018;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"abcd"</span>
+<span style="color: #FF1493;">echo</span> ${#<span style="color: #FF8C00;">string</span>} <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25552;&#21462;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">string</span>:1:4} <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; unoo</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23383;&#31526; i &#25110; o &#30340;&#20301;&#32622;(&#21738;&#20010;&#23383;&#27597;&#20808;&#20986;&#29616;&#23601;&#35745;&#31639;&#21738;&#20010;)&#65306;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #AF87FF; font-weight: bold;">`expr index "$string" io`</span>  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+</pre>
+</div></li>
+<li><p>
+数组
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Shell &#25968;&#32452;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;</span>
+<span style="color: #FF8C00;">array_name</span>=(value0 value1 value2 value3)
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#35835;&#21462;&#25968;&#32452;</span>
+<span style="color: #FF8C00;">value</span>=${<span style="color: #FF8C00;">array_name</span>[n]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992; @ &#31526;&#21495;&#21487;&#20197;&#33719;&#21462;&#25968;&#32452;&#20013;&#30340;&#25152;&#26377;&#20803;&#32032;</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#25968;&#32452;&#30340;&#38271;&#24230;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#20803;&#32032;&#30340;&#20010;&#25968;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[*]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#21333;&#20010;&#20803;&#32032;&#30340;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">lengthn</span>=${#<span style="color: #FF8C00;">array_name</span>[n]}
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3f985e8" class="outline-5">
+<h5 id="org3f985e8"><span class="section-number-5">4.2.1.3</span> 注释</h5>
+<div class="outline-text-5" id="text-4-2-1-3">
+<ol class="org-ol">
+<li>单行注释：以 # 开头的行就是注释</li>
+<li><p>
+多行注释：
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;&#26159;</span>
+:&lt;&lt;<span style="color: #CDC673;">'</span>
+<span style="color: #CDC673;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673;">'</span>
+
+<span style="color: #CDC673; font-weight: bold;">:&lt;&lt;!</span>
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">!</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org37b85c9" class="outline-5">
+<h5 id="org37b85c9"><span class="section-number-5">4.2.1.4</span> 环境变量｜Environment Parameter</h5>
+<div class="outline-text-5" id="text-4-2-1-4">
 <ol class="org-ol">
 <li>概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。</li>
 <li><p>
@@ -2493,8 +2630,8 @@ $ unset mytest
 </div>
 </div>
 <div id="outline-container-org9bbba6f" class="outline-5">
-<h5 id="org9bbba6f"><span class="section-number-5">4.2.1.3</span> 重定向输入和输出｜Redirect Input and Output</h5>
-<div class="outline-text-5" id="text-4-2-1-3">
+<h5 id="org9bbba6f"><span class="section-number-5">4.2.1.5</span> 重定向输入和输出｜Redirect Input and Output</h5>
+<div class="outline-text-5" id="text-4-2-1-5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 13:</span> 重定向字符</caption>
 
@@ -2601,8 +2738,8 @@ shell 会用PS2环境变量中定义的次提示符来提示输入数据
 </div>
 </div>
 <div id="outline-container-org75bea5c" class="outline-5">
-<h5 id="org75bea5c"><span class="section-number-5">4.2.1.4</span> 通配符｜Wildcard Character</h5>
-<div class="outline-text-5" id="text-4-2-1-4">
+<h5 id="org75bea5c"><span class="section-number-5">4.2.1.6</span> 通配符｜Wildcard Character</h5>
+<div class="outline-text-5" id="text-4-2-1-6">
 <ol class="org-ol">
 <li><p>
 shell通配符(wildcard)
@@ -2798,8 +2935,12 @@ shell 解析脚本过程
 </div>
 </div>
 <div id="outline-container-orgd7ed5d1" class="outline-5">
-<h5 id="orgd7ed5d1"><span class="section-number-5">4.2.1.5</span> 位置参数｜Positional Parameter</h5>
-<div class="outline-text-5" id="text-4-2-1-5">
+<h5 id="orgd7ed5d1"><span class="section-number-5">4.2.1.7</span> 位置参数｜Positional Parameter</h5>
+<div class="outline-text-5" id="text-4-2-1-7">
+</div>
+<div id="outline-container-orgb381268" class="outline-6">
+<h6 id="orgb381268"><span class="section-number-6">4.2.1.7.1</span> 特殊变量</h6>
+<div class="outline-text-6" id="text-4-2-1-7-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 17:</span> 位置参数</caption>
 
@@ -2834,12 +2975,48 @@ shell 解析脚本过程
 <td class="org-left">$#</td>
 <td class="org-left">这个变量代表命令行中所有参数的个数（不包括$0）。</td>
 </tr>
+
+<tr>
+<td class="org-left">$$</td>
+<td class="org-left">脚本运行的当前进程ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$!</td>
+<td class="org-left">后台运行的最后一个进程的ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$-</td>
+<td class="org-left">显示Shell使用的当前选项，与set命令功能相同。</td>
+</tr>
+
+<tr>
+<td class="org-left">$?</td>
+<td class="org-left">显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</td>
+</tr>
 </tbody>
 </table>
+
+<p>
+<b>$</b> 与 $@ 区别：*
+</p>
+<ul class="org-ul">
+<li>相同点：都是引用所有参数。</li>
+<li>不同点：只有在双引号中体现出来。假设在脚本运行时写了三个参数 1、2、3，，则 " * " 等价于 "1 2 3"（传递了一个参数），而 "@" 等价于 "1" "2" "3"（传递了三个参数）。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfeb0a6d" class="outline-6">
+<h6 id="orgfeb0a6d"><span class="section-number-6">4.2.1.7.2</span> 读取参数</h6>
+<div class="outline-text-6" id="text-4-2-1-7-2">
 <div class="org-src-container">
 <pre class="src src-shell" id="org8e052cd"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">using one command line parameter</span>
-<span style="color: #8B8878;">#</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#25191;&#34892;&#30340;&#25991;&#20214;&#21517;&#65306;$0"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#19968;&#20010;&#21442;&#25968;&#20026;&#65306;$1"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#20108;&#20010;&#21442;&#25968;&#20026;&#65306;$2"</span>;
+
 <span style="color: #FF8C00;">factorial</span>=1
 <span style="color: #FF1493;">for</span> ((<span style="color: #FF8C00;">number</span>=1; number&lt;=$<span style="color: #FF8C00;">1</span>; number++))
 <span style="color: #FF1493;">do</span>
@@ -2850,61 +3027,9 @@ shell 解析脚本过程
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5bdb278" class="outline-5">
-<h5 id="org5bdb278"><span class="section-number-5">4.2.1.6</span> 预定义变量｜Predefine Parameter</h5>
-<div class="outline-text-5" id="text-4-2-1-6">
-<ol class="org-ol">
-<li><p>
-常见的预定义变量
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 18:</span> 常见的预定义变量</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">预定义变量</th>
-<th scope="col" class="org-left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">0</td>
-<td class="org-left">存当前程序或脚本的名称</td>
-</tr>
-
-<tr>
-<td class="org-left">$*</td>
-<td class="org-left">保存传递给脚本或进程的所有参数</td>
-</tr>
-
-<tr>
-<td class="org-left">$$</td>
-<td class="org-left">当前进程给脚本的PID号</td>
-</tr>
-
-<tr>
-<td class="org-left">$!</td>
-<td class="org-left">后台运行的最后一个进程的PID号</td>
-</tr>
-
-<tr>
-<td class="org-left">$?</td>
-<td class="org-left">用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。</td>
-</tr>
-
-<tr>
-<td class="org-left">$#</td>
-<td class="org-left">用于保存脚本的参数个数</td>
-</tr>
-</tbody>
-</table></li>
-<li>从键盘输入
+<div id="outline-container-org9021db4" class="outline-6">
+<h6 id="org9021db4"><span class="section-number-6">4.2.1.7.3</span> 从键盘输入</h6>
+<div class="outline-text-6" id="text-4-2-1-7-3">
 <ul class="org-ul">
 <li>read 命令
 <ul class="org-ul">
@@ -2930,13 +3055,13 @@ shell 解析脚本过程
 </pre>
 </div></li>
 </ul></li>
-</ul></li>
-</ol>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-orga314172" class="outline-5">
-<h5 id="orga314172"><span class="section-number-5">4.2.1.7</span> 运算符｜Operator</h5>
-<div class="outline-text-5" id="text-4-2-1-7">
+<h5 id="orga314172"><span class="section-number-5">4.2.1.8</span> 运算符｜Operator</h5>
+<div class="outline-text-5" id="text-4-2-1-8">
 <ol class="org-ol">
 <li><p>
 方法1：declare
@@ -3013,7 +3138,7 @@ $ bc -q
 算术运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 19:</span> 算术运算符</caption>
+<caption class="t-above"><span class="table-number">Table 18:</span> 算术运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3086,7 +3211,7 @@ $ bc -q
 关系运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 20:</span> 关系运算符</caption>
+<caption class="t-above"><span class="table-number">Table 19:</span> 关系运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3144,7 +3269,7 @@ $ bc -q
 布尔运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 21:</span> 布尔运算符</caption>
+<caption class="t-above"><span class="table-number">Table 20:</span> 布尔运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3184,7 +3309,7 @@ $ bc -q
 逻辑运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 22:</span> 逻辑运算符</caption>
+<caption class="t-above"><span class="table-number">Table 21:</span> 逻辑运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3221,7 +3346,7 @@ $ bc -q
 字符串运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 23:</span> 字符串运算符</caption>
+<caption class="t-above"><span class="table-number">Table 22:</span> 字符串运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3273,7 +3398,7 @@ $ bc -q
 文件测试运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 24:</span> 文件测试运算符</caption>
+<caption class="t-above"><span class="table-number">Table 23:</span> 文件测试运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3386,13 +3511,13 @@ $ bc -q
 </div>
 </div>
 <div id="outline-container-org4d34c00" class="outline-5">
-<h5 id="org4d34c00"><span class="section-number-5">4.2.1.8</span> 变量测试｜Parameter Test</h5>
-<div class="outline-text-5" id="text-4-2-1-8">
+<h5 id="org4d34c00"><span class="section-number-5">4.2.1.9</span> 变量测试｜Parameter Test</h5>
+<div class="outline-text-5" id="text-4-2-1-9">
 <p>
 变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 25:</span> 变量测试表</caption>
+<caption class="t-above"><span class="table-number">Table 24:</span> 变量测试表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3491,14 +3616,14 @@ x=${y-4}
 </div>
 </div>
 <div id="outline-container-orge2090b9" class="outline-5">
-<h5 id="orge2090b9"><span class="section-number-5">4.2.1.9</span> 退出｜Exit</h5>
-<div class="outline-text-5" id="text-4-2-1-9">
+<h5 id="orge2090b9"><span class="section-number-5">4.2.1.10</span> 退出｜Exit</h5>
+<div class="outline-text-5" id="text-4-2-1-10">
 <ol class="org-ol">
 <li><p>
 退出状态码       
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 26:</span> 退出状态码</caption>
+<caption class="t-above"><span class="table-number">Table 25:</span> 退出状态码</caption>
 
 <colgroup>
 <col  class="org-right" />
@@ -3638,7 +3763,7 @@ $ echo $?
 <h4 id="org293ef6f"><span class="section-number-4">4.2.3</span> 正则表达式｜Regular Expression</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 27:</span> 正则表达式的基本组成部分</caption>
+<caption class="t-above"><span class="table-number">Table 26:</span> 正则表达式的基本组成部分</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3756,11 +3881,11 @@ $ echo $?
 <h4 id="orgd004403"><span class="section-number-4">4.2.4</span> 流程控制｜Flow control</h4>
 <div class="outline-text-4" id="text-4-2-4">
 </div>
-<div id="outline-container-orgbae6238" class="outline-5">
-<h5 id="orgbae6238"><span class="section-number-5">4.2.4.1</span> if-then</h5>
+<div id="outline-container-org305961a" class="outline-5">
+<h5 id="org305961a"><span class="section-number-5">4.2.4.1</span> if-then</h5>
 <div class="outline-text-5" id="text-4-2-4-1">
 <div class="org-src-container">
-<pre class="src src-shell" id="org62e4417"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="orgaf4d297"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span style="color: #FF8C00;">testuser</span> = zrg
 <span style="color: #8B8878;">#</span>
 <span style="color: #FF1493;">if</span> grep $<span style="color: #FF8C00;">testuser</span> /etc/passwd
@@ -3988,8 +4113,8 @@ $<span style="color: #FF8C00;">var3</span> = hockey
 </table>
 </div>
 </div>
-<div id="outline-container-orgffceb82" class="outline-5">
-<h5 id="orgffceb82"><span class="section-number-5">4.2.4.3</span> case</h5>
+<div id="outline-container-org6f0c198" class="outline-5">
+<h5 id="org6f0c198"><span class="section-number-5">4.2.4.3</span> case</h5>
 <div class="outline-text-5" id="text-4-2-4-3">
 <pre class="example">
 格式：
@@ -4006,7 +4131,7 @@ case $变量名 in
 esac 
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org54fde0f">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
+<pre class="src src-shell" id="orgea09d1d">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
   <span style="color: #FF1493;">case</span> $<span style="color: #FF8C00;">action</span><span style="color: #FF1493;"> in</span>
         start | begin)
                 <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"start something"</span>
@@ -4110,8 +4235,8 @@ done
 </div>
 </div>
 </div>
-<div id="outline-container-org62426ac" class="outline-5">
-<h5 id="org62426ac"><span class="section-number-5">4.2.4.5</span> while</h5>
+<div id="outline-container-org1b59855" class="outline-5">
+<h5 id="org1b59855"><span class="section-number-5">4.2.4.5</span> while</h5>
 <div class="outline-text-5" id="text-4-2-4-5">
 <pre class="example">
 格式：
@@ -4124,7 +4249,7 @@ other commands
 done
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org1521d80"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">while command test</span>
+<pre class="src src-shell" id="org5ec4cc9"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">while command test</span>
 <span style="color: #FF8C00;">var1</span>=10
 <span style="color: #FF1493;">while</span> [ $<span style="color: #FF8C00;">var1</span> -gt 0 ]
 <span style="color: #FF1493;">do</span>
@@ -4136,8 +4261,8 @@ done
 </div>
 </div>
 
-<div id="outline-container-org6b59819" class="outline-5">
-<h5 id="org6b59819"><span class="section-number-5">4.2.4.6</span> until</h5>
+<div id="outline-container-org3a5f353" class="outline-5">
+<h5 id="org3a5f353"><span class="section-number-5">4.2.4.6</span> until</h5>
 <div class="outline-text-5" id="text-4-2-4-6">
 <pre class="example">
 until 命令和 while 命令完全相反。
@@ -4151,7 +4276,7 @@ other commands
 done
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org8b9436d"><span class="linenr">1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="orgea471c1"><span class="linenr">1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span class="linenr">2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">using the until command</span>
 <span class="linenr">3: </span><span style="color: #FF8C00;">var1</span>=100
 <span class="linenr">4: </span><span style="color: #FF1493;">until</span> [ $<span style="color: #FF8C00;">var1</span> -eq 0 ]
@@ -4191,7 +4316,7 @@ done
 <h5 id="org106d8b1"><span class="section-number-5">4.2.4.7</span> break</h5>
 <div class="outline-text-5" id="text-4-2-4-7">
 <div class="org-src-container">
-<pre class="src src-shell" id="org387a9d9"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="org349000a"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span class="linenr"> 2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">--------------------------------</span>
 <span class="linenr"> 3: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
 <span class="linenr"> 4: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.breaking out of a for loop</span>
@@ -4253,7 +4378,7 @@ done
 <h5 id="org095fb08"><span class="section-number-5">4.2.4.8</span> continue</h5>
 <div class="outline-text-5" id="text-4-2-4-8">
 <div class="org-src-container">
-<pre class="src src-shell" id="org26eb319"><span class="linenr"> 1: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.using the continue command</span>
+<pre class="src src-shell" id="org3cd47d0"><span class="linenr"> 1: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.using the continue command</span>
 <span class="linenr"> 2: </span><span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">var1</span> = 1; var1&lt;15; var1++))
 <span class="linenr"> 3: </span><span style="color: #FF1493;">do</span>
 <span class="linenr"> 4: </span>        <span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #FF8C00;">var1</span> -lt 10]
@@ -4334,11 +4459,11 @@ done
 <h3 id="org01c8926"><span class="section-number-3">4.4</span> 实用的脚本收集</h3>
 <div class="outline-text-3" id="text-4-4">
 </div>
-<div id="outline-container-org057f420" class="outline-4">
-<h4 id="org057f420"><span class="section-number-4">4.4.1</span> 查找可执行文件</h4>
+<div id="outline-container-org891929a" class="outline-4">
+<h4 id="org891929a"><span class="section-number-4">4.4.1</span> 查找可执行文件</h4>
 <div class="outline-text-4" id="text-4-4-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org1a3f83c">#!/bin/bash
+<pre class="src src-emacs-lisp" id="org465cb19">#!/bin/bash
 # finding files in the PATH
 IF=:
  for folder in $PATH
@@ -4664,7 +4789,7 @@ $ userdel -r test
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 28:</span> 用户账户修改工具</caption>
+<caption class="t-above"><span class="table-number">Table 27:</span> 用户账户修改工具</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4822,7 +4947,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org6f70d55"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org0ca1e3b"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -4973,7 +5098,7 @@ crontab 文件格式如下：
 crontab 基本格式
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 29:</span> 格式</caption>
+<caption class="t-above"><span class="table-number">Table 28:</span> 格式</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5138,7 +5263,7 @@ $rccron reload
 anacron 与 crontab
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 30:</span> anacron vs crontab</caption>
+<caption class="t-above"><span class="table-number">Table 29:</span> anacron vs crontab</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -6773,7 +6898,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 31:</span> 表</caption>
+<caption class="t-above"><span class="table-number">Table 30:</span> 表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -6807,7 +6932,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 32:</span> NAT</caption>
+<caption class="t-above"><span class="table-number">Table 31:</span> NAT</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -6852,7 +6977,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 iptables中常用的参数以及作用
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 33:</span> iptables中常用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 32:</span> iptables中常用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7019,7 +7144,7 @@ Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火�
 firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 34:</span> firewalld中常用的区域名称及策略规则</caption>
+<caption class="t-above"><span class="table-number">Table 33:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7085,7 +7210,7 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 35:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 34:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7289,7 +7414,7 @@ TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能�
 TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 36:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<caption class="t-above"><span class="table-number">Table 35:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col  class="org-left" />

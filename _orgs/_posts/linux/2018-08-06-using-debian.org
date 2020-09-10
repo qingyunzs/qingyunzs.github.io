@@ -833,13 +833,25 @@ photos:
     - Terminus
     - Xterm
     - XShell
-*** Shell 类型
-    - */bin/bash*
-    - /bin/tcsh
-    - /bin/dash
-    - /bin/csh
-    - /bin/sh
-    - /bin/zsh
+*** Shell 简介
+    1. Shell 是一个用 C 语言编写的程序，Shell 既是一种命令语言，又是一种程序设计语言。
+    2. Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。
+    3. Shell 类型
+       - */bin/bash*
+       - /bin/tcsh
+       - /bin/dash
+       - /bin/csh
+       - /bin/sh
+       - /bin/zsh
+    4. 执行 Shell 脚本
+       : // 新增可执行权限
+       : chmod +x test.sh
+
+       : // 作为可执行程序
+       : ./test.sh
+
+       : // 作为解释器参数
+       : /bin/sh test.sh
 *** Shell 的父子关系
     : $ ps -f
 
@@ -921,6 +933,96 @@ photos:
        test= $(date) #使用$()格式
        today= $(date+%y%m%d) #today变量被赋予格式化后的date命令的输出。
      #+end_src
+**** 变量
+     1. 使用变量
+	#+begin_src shell
+	  #!/bin/sh
+	  # 定义变量
+	  your_name="qinjx"
+	  echo $your_name
+	  echo ${your_name}
+	  # 变量名外面的花括号是可选的，加不加都行，加花括号是为了帮助解释器识别变量的边界，例如下面的情况：
+	  for skill in Ada Coffe Action Java; do
+	      echo "I am good at ${skill}Script"
+	  done
+
+	  # 只读变量
+	  myUrl="https://www.google.com"
+	  readonly myUrl
+	  myUrl="https://www.runoob.com"
+	  :<<EOF
+	  运行脚本，结果如下：
+	  /bin/sh: NAME: This variable is read only.
+	  EOF
+
+	  # 删除变量
+	  unset variable_name
+	#+end_src
+     2. 变量类型
+     3. 字符串
+	#+name:字符串
+        #+begin_src shell
+	  # Shell 字符串
+	  str='this is a string'
+	  your_name='zrg'
+	  str2="Hello, I know you are \"$your_name\"! \n"
+	  echo -e $str
+	  :<<EOF
+	  输出结果为：
+	  Hello, I know you are "runoob"! 
+	  EOF
+	  # 拼接字符串
+	  # 使用双引号拼接
+	  greeting="hello, "$your_name" !"
+	  greeting_1="hello, ${your_name} !"
+	  # 使用单引号拼接
+	  greeting_2='hello, '$your_name' !'
+	  greeting_3='hello, ${your_name} !'
+	  # 获取字符串长度
+	  string="abcd"
+	  echo ${#string} #输出 4
+	  # 提取子字符串
+	  string="runoob is a great site"
+	  echo ${string:1:4} # 输出 unoo
+	  # 查找子字符串
+	  # 查找字符 i 或 o 的位置(哪个字母先出现就计算哪个)：
+	  string="runoob is a great site"
+	  echo `expr index "$string" io`  # 输出 4
+        #+end_src	
+     4. 数组
+        #+begin_src shell
+	  # Shell 数组
+	  # 定义
+	  array_name=(value0 value1 value2 value3)
+	  # 读取数组
+	  value=${array_name[n]}
+	  # 使用 @ 符号可以获取数组中的所有元素
+	  echo ${array_name[@]}
+	  # 获取数组的长度
+	  # 取得数组元素的个数
+	  length=${#array_name[@]}
+	  # 或者
+	  length=${#array_name[*]}
+	  # 取得数组单个元素的长度
+	  lengthn=${#array_name[n]}
+        #+end_src	
+**** 注释
+     1. 单行注释：以 # 开头的行就是注释
+     2. 多行注释：
+	#+begin_src shell
+	  :<<EOF
+	  注释内容...
+	  EOF
+
+	  # 或者是
+	  :<<'
+	  注释内容...
+	  '
+
+	  :<<!
+	  注释内容...
+	  !
+	#+end_src
 **** 环境变量｜Environment Parameter
      1. 概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。
      2. 全局环境变量和局部环境变量:
@@ -1142,63 +1244,63 @@ photos:
 	#+RESULTS:
 	[[file:{{site.url}}/assets/images/shell-analysis-process.png]]
 **** 位置参数｜Positional Parameter
-     #+CAPTION: 位置参数
-     | 位置参数变量 | 说明                                                                                                                                                                                               |
-     |--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-     | <l15>        | <l50>                                                                                                                                                                                              |
-     | $n           | n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。 |
-     | $*           | 这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。                                                                                  |
-     | $@           | 这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。                                                                                |
-     | $#           | 这个变量代表命令行中所有参数的个数（不包括$0）。                                                                                                                                                   |
-     #+NAME: 读取参数
-     #+BEGIN_SRC shell
+***** 特殊变量
+      #+CAPTION: 位置参数
+      | 位置参数变量 | 说明                                                                                                                                                                                               |
+      |--------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | <l10>        | <l50>                                                                                                                                                                                              |
+      | $n           | n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。 |
+      | $*           | 这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。                                                                                  |
+      | $@           | 这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。                                                                                |
+      | $#           | 这个变量代表命令行中所有参数的个数（不包括$0）。                                                                                                                                                   |
+      | $$           | 脚本运行的当前进程ID号                                                                                                                                                                             |
+      | $!           | 后台运行的最后一个进程的ID号                                                                                                                                                                       |
+      | $-           | 显示Shell使用的当前选项，与set命令功能相同。                                                                                                                                                       |
+      | $?           | 显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。                                                                                                                                      |
+
+      *$* 与 $@ 区别：*
+      + 相同点：都是引用所有参数。
+      + 不同点：只有在双引号中体现出来。假设在脚本运行时写了三个参数 1、2、3，，则 " * " 等价于 "1 2 3"（传递了一个参数），而 "@" 等价于 "1" "2" "3"（传递了三个参数）。
+***** 读取参数
+      #+NAME: 读取参数
+      #+BEGIN_SRC shell
        #!/bin/bash
        # using one command line parameter
-       #
+       echo "执行的文件名：$0";
+       echo "第一个参数为：$1";
+       echo "第二个参数为：$2";
+
        factorial=1
        for ((number=1; number<=$1; number++))
        do
        factorial=$[$factorial * $number]
        done
        echo "The factorial of $1 is $factorial"
-     #+END_SRC
+      #+END_SRC
 
-     #+RESULTS: 读取参数
+      #+RESULTS: 读取参数
+***** 从键盘输入
+      + read 命令
+	+ 选项
+	  + -p :: 等待输入时的提示信息
+	  + -t :: 等待秒数
+	  + -n :: 允许输入的字符数
+	  + -s :: 隐藏输入的数据，适用于机密信息的输入
+	+ 示例
+	  #+name: 从键盘输入
+	  #+begin_src shell
+	  #!/bin/bash
+	  # Date: 2019/07/27
+	  # Author: zrg
+	  #
+	  # Enter a variable name
+	  read -p "Please enter a variable name:" -t 15 varName
+	  echo "\n"
+	  echo $varName
+	  #+end_src
 
-**** 预定义变量｜Predefine Parameter
-     1. 常见的预定义变量
-	#+CAPTION: 常见的预定义变量
-	| 预定义变量 | 作用                                                                                                   |
-	|------------+--------------------------------------------------------------------------------------------------------|
-	|            | <l50>                                                                                                  |
-	| 0          | 存当前程序或脚本的名称                                                                                 |
-	| $*         | 保存传递给脚本或进程的所有参数                                                                         |
-	| $$         | 当前进程给脚本的PID号                                                                                  |
-	| $!         | 后台运行的最后一个进程的PID号                                                                          |
-	| $?         | 用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。 |
-	| $#         | 用于保存脚本的参数个数                                                                                 |
-     2. 从键盘输入
-	+ read 命令
-	  + 选项
-	    + -p :: 等待输入时的提示信息
-	    + -t :: 等待秒数
-	    + -n :: 允许输入的字符数
-	    + -s :: 隐藏输入的数据，适用于机密信息的输入
-	  + 示例
-	    #+name: 从键盘输入
-	    #+begin_src shell
-	    #!/bin/bash
-	    # Date: 2019/07/27
-	    # Author: zrg
-	    #
-	    # Enter a variable name
-	    read -p "Please enter a variable name:" -t 15 varName
-	    echo "\n"
-	    echo $varName
-	    #+end_src
-
-	    #+RESULTS: 从键盘输入
-	    : n
+	  #+RESULTS: 从键盘输入
+	  : n
 **** 运算符｜Operator
      1. 方法1：declare
 	: $ declare -i c=$a+$b
