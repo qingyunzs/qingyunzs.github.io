@@ -2515,60 +2515,60 @@ done < "$input"
      4. 参考资料
 	: https://blog.csdn.net/zhangxiao93/article/details/52705642
 **** GCC
-     1. 简单编译
-	: $ gcc test.c -o test
-	: 实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
+***** 简单编译
+      : $ gcc test.c -o test
+      实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
+      
+      1. Preprocessing
+	 : $ gcc -E test.c -o test.i
+	 : 或
+	 : $ gcc -E test.c
+	 gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
+      2. Compilation
+	 : $ gcc -S test.i -o test.s
+	 gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
+      3. Assembly
+	 : $ gcc -c test.s -o test.o
+	 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
+      4. Linking
+	 gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
+	 \\
+	 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
+	 : $ gcc test.o -o test
+***** 多个程序文件的编译
+      : $ gcc test1.c test2.c -o test
+***** 检错
+      : $ gcc -pedantic test.c -o test
+      : //警告信息
+      : $ gcc -Wall test.c -p test
+      -Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
+      : $ gcc -Werror test.c -o test
+***** 库文件连接
+      1. 编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
+	 : $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
+      2. 链接。最后我们把所有目标文件链接成可执行文件:
+	 : $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
+      3. 强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
+	 : $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
+***** 其他
+      静态库链接时搜索路径顺序：
+      \\
+      1. ld 会去找GCC命令中的参数 -L
+      2. 再找 gcc 的环境变量 LIBRARY_PATH
+      3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
 
-	: 1.Preprocessing
-	: $ gcc -E test.c -o test.i
-	: 或
-	: $ gcc -E test.c
-	: gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
-	: 2.Compilation
-	: $ gcc -S test.i -o test.s
-	: gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
-	: 3.Assembly
-	: $ gcc -c test.s -o test.o
-	: 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
-	: 4.Linking
-	: gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
-	: 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
-	: $ gcc test.o -o test
-     2. 多个程序文件的编译
-	: $ gcc test1.c test2.c -o test
-     3. 检错
-	: $ gcc -pedantic test.c -o test
-	: //警告信息
-	: $ gcc -Wall test.c -p test
-	: //-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
-	: $ gcc -Werror test.c -o test
-     4. 库文件连接
-	: 1.编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
-	: $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
-	: 2.链接。最后我们把所有目标文件链接成可执行文件:
-	: $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
-	: 3.强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
-	: $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
-     5. 其他
-	: 静态库链接时搜索路径顺序：
-
-	: 1. ld 会去找GCC命令中的参数 -L
-	: 2. 再找 gcc 的环境变量 LIBRARY_PATH
-	: 3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
-
-	: 动态链接时、执行时搜索路径顺序:
-
-	: 1. 编译目标代码时指定的动态库搜索路径
-	: 2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
-	: 3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
-	: 4. 默认的动态库搜索路径 /lib
-	: 5. 默认的动态库搜索路径 /usr/lib
-
-	: 有关环境变量：
-	: LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
-	: LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
-     6. Reference
-	: http://www.cnblogs.com/ggjucheng/archive/2011/12/14/2287738.html
+      动态链接时、执行时搜索路径顺序:
+      \\
+      1. 编译目标代码时指定的动态库搜索路径
+      2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
+      3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
+      4. 默认的动态库搜索路径 /lib
+      5. 默认的动态库搜索路径 /usr/lib
+      
+      \\
+      *有关环境变量*
+      : LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
+      : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 **** 系统状态监视命令：top & htop
      1. top
 	#+CAPTION:

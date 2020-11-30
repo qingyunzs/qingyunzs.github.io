@@ -2,12 +2,6 @@
 
 <a href="http://simpleyyt.github.io/jekyll-theme-next/" target="_blank">在线预览 Preview</a> | <a href="http://simpleyyt.com" target="_blank">Yitao's Blog</a> | <a href="http://theme-next.simpleyyt.com" target="_blank">NexT 使用文档</a> |  [English Documentation](README.en.md)
 
-## 开发 Development
-- Jekyll
-- org-mode
-- PlantUML
-- Latex
-
 ## 目录结构
 ~~~
 ├─_data		数据目录
@@ -63,26 +57,62 @@
  + 英文符号就近使用原则，也就是说包含英文则使用英文符号。
  + 中英文混用时，英文单词两端使用空格隔开。
 
-## Org 编写
-参考如下： 
-> [The Org Manual](http://orgmode.org/manual/index.html)
-> [GNU Emacs](https://zhaorengui.github.io/software/2016/06/06/using-emacs/)
+## 搭建jekyll环境
+1. 检查是否已安装 Ruby
+确保已安装`Ruby 2.1.0` 或更高版本：
+$ ruby --version
 
+2. 安装 Bundler 和 jekyll：
+$ sudo gem install bundler
+安装jeyll之前，先安装ruby-dev
+$ sudo apt install ruby-dev
+$ sudo gem install jekyll
+
+3. 从远端拉取和构建静态站点
+$ git clone https://github.com/zhaorengui/zhaorengui.github.io.git
+$ cd zhaorengui.github.io
+安装依赖项：
+$ bundle install
+构建
+$ bundle exec jekyll server
+
+4. 使用浏览器访问
+检查站点是否正确运行，具体可参考 http://theme-next.simpleyyt.com/ 
+http://localhost:4000
+
+## 构建写作环境
+1. 使用 emacs+org+jekyll 写作（推荐）
+	- 下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
+	- 修改init-org-jekyll.el其中的参数为你自己的
+	- 放到~/.emacs.d/lisp/目录下
+	- 配置emacs加载init-org-jekyll
+	- 打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
+2. 使用 markdown 写作
+   - 第一种方式：你可以在_orgs/_posts目录下，以markdown格式写文章，每次发布时使用org发布方式发布，即org-publish。
+   - 直接在_posts目录下写markdown文件
+3. 开始写作
+	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
+	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
+	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
+	- 注意：只有文章有更新，才会更新_posts目录下的内容，所以批量迁移时，注意保留_posts目录下的内容。
+
+## 问题收集
+### Org 写作 PlantUML 组件绘图生成过程
 注意：在通过 PlantUML 组件画图时，目前的解决办法只能是：先指定生成图片的地址，执行生成操作，然后改为站点访问地址，最后执行发布。具体操作如下：
 1. 先指定特定生成图片地址
-~~~
+```
 #+BEING_SRC plantuml :file ../../_assets/example.png 
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response
-
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: Another authentication Response
 #+END_SRC
-~~~
+```
 2. 执行生成操作
 > https://github.com/skuro/plantuml-mode
+
 3. 改写为访问地址
-~~~
+```
 #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/example.png
 Alice -> Bob: Authentication Request
 Bob --> Alice: Authentication Response
@@ -90,25 +120,13 @@ Bob --> Alice: Authentication Response
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: Another authentication Response
 #+END_SRC
-~~~
-4. 执行发布操作
+```
 
-## 工作流
-1. 搭建jekyll环境
-> 参考：https://zhaorengui.github.io/jekyll/2018/08/05/next-tutorial/
-> 或者参考：http://theme-next.simpleyyt.com/
-2. 构建emacs+org+jekyll写作环境
-	- 下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
-	- 修改init-org-jekyll.el其中的参数为你自己的
-	- 放到~/.emacs.d/lisp/目录下
-	- 配置emacs加载init-org-jekyll
-	- 打开emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
-3. 文章写作流
-	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
-	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
-	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
+参考资料： 
+> [The Org Manual](http://orgmode.org/manual/index.html)
+> [GNU Emacs](https://zhaorengui.github.io/software/2016/06/06/using-emacs/)
 
-## 常见问题
+### 常见问题
 1. undefined method `new' for BigDecimal:Class (NoMethodError)
 ~~~
 version  characteristics                                            Supported ruby version range
@@ -119,5 +137,6 @@ version  characteristics                                            Supported ru
 $ vim Gemfile
 gem 'bigdecimal', '1.3.5'
 ~~~
+
 2. warning: Using the last argument as keyword parameters is deprecated
 > $ bundle update

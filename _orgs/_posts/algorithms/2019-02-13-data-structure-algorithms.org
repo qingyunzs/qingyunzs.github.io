@@ -1,8 +1,8 @@
-#+TITLE:     数据结构与算法
+#+Title:     数据结构与算法
 #+AUTHOR:    zrg
 #+EMAIL:     zrg1390556487@gmail.com
 #+LANGUAGE:  cn
-#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
 #+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
@@ -288,3 +288,101 @@ for j=2 to A.length
 * 参考资料
   + [[https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E8%A1%A8][线性表-维基百科]]
   + [[http://www.cnblogs.com/skywang12345/p/3603935.html][数据结构与算法系列 目录]]
+* 附录A 伪代码
+  伪代码(Pseudocode)是一种算法描述语言。使用伪代码的目的是为了使被描述的算法可以容易地以任何一种编程语言(C, Java, Pascal)实现。
+** 语法规则
+*** 变量的声明
+    算法中出现的数组、变量可以是以下类型：整数、实数、字符、字符串或指针。
+*** 指令的表示
+    在算法中的某些指令或子任务可以用文字来叙述，例如，”设x是A中的最大项”，这里A是一个数组；或者”将x插入L中”，这里L是一个链表。这样做的目的是为了避免因那些与主要问题无关的细节使算法本身杂乱无章。
+*** 表达式
+    算术表达式可以使用通常的算术运算符（+，-，*，/，以及表示幂的^）。逻辑表达式可以使用关系运算符 = 、≠、<、>、≤ 和 ≥，以及逻辑运算符与(and)、或（or）、非（not）。
+*** 赋值语句
+    赋值语句是如下形式的语句：a←b。这里a是变量、数组项，b是算术表达式、逻辑表达式或指针表达式。语句的含义是将b的值赋给a。
+    \\
+    变量交换：若a和b都是变量、数组项，那么记号a<->b 表示a和b的内容进行交换。
+*** goto语句
+    : goto label（goto标号）
+*** 分支结构
+    #+begin_src emacs-lisp
+      if i=10
+	  then xxxx
+	  else xxxx //else 和 then 要对齐
+       
+      //或者
+      if i=10
+	  then xxxx //if 后面必定跟上then，else后面不用跟then
+	  elseif i=9 //elseif 要连在一起写
+	      then xxxx
+	      yyyy
+	  else  xxxx //else 跟在 elseif 的 then 对齐
+    #+end_src
+*** 循环结构
+    #+begin_src emacs-lisp
+      // while
+      while time<10
+	  do  xxxxx //while后面必定要紧跟缩进的do
+	  xxxxx
+      end
+
+      // for
+      for var init to limit by incr 
+	      do s
+      end
+      // 这里var是变量，init、limit和incr都是算术表达式，而s是由一个或多个语句组成的语句串。初始时，var被赋予init的值。假若incr≥0，则只要var≤limit，就执行s并且将incr加到var上。（假若incr<0，则只要var≥limit，就执行s并且将incr加到var上）。incr的符号不能由s来该改变。
+    #+end_src
+*** 程序的结束
+    exit语句可以在通常的结束条件满足之前，被用来结束while循环或者for循环的执行。
+    \\
+    return用来指出一个算法执行的终点
+*** 注释风格
+    算法中的注释被括在 /* */ 之中。
+*** 函数的编写
+    函数的伪代码格式例子为：search（A，name）， 参数类型可以不给出，但必须在注释中说明。
+** 实例
+   伪代码：
+   #+begin_src lisp
+  x ← 0
+  y ← 0
+  z ← 0
+
+  while x < N
+  do x ← x + 1
+  y ← x + y
+  for t ← 0 to 10
+  do z ← ( z + x * y ) / 100
+  repeat
+  y ← y + 1
+  z ← z - y
+  until z < 0
+  z ← x * y
+
+  y ← y / 2
+   #+end_src
+
+   C 语言代码：
+   #+begin_src C
+     #inlude <stdio.h>
+     int x, y, z = 0;
+     int N=10;
+
+     while( z < N )
+     {
+	 x++;
+	 y += x;
+       　for(int t = 0; t < 10; t++ )
+	 {
+	     z = ( z + x * y ) / 100;
+	     do 
+	     {
+	       y ++;
+	       z -= y;
+	     } while( z >= 0 );
+	 }
+	 z = x * y;
+     }
+
+     y /= 2;
+   #+end_src
+
+   #+RESULTS:
