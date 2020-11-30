@@ -82,7 +82,7 @@ http://localhost:4000
 
 ## 构建写作环境
 1. 使用 emacs+org+jekyll 写作（推荐）
-	- 下载文件：https://github.com/zhaorengui/dotfile/blob/master/dot.emacs.d/lisp/init-org-jekyll.el
+	- 下载文件：https://github.com/zhaorengui/.emacs.d.git
 	- 修改init-org-jekyll.el其中的参数为你自己的
 	- 放到~/.emacs.d/lisp/目录下
 	- 配置emacs加载init-org-jekyll
