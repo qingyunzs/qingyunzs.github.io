@@ -478,7 +478,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  41507
+                  43566
                 </span>
               
 
@@ -764,7 +764,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org7eadc98">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org955b336">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -2611,9 +2611,13 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 </ul>
 </div>
 </div>
-<div id="outline-container-org142f86c" class="outline-4">
-<h4 id="org142f86c"><span class="section-number-4">4.1.3</span> Shell 类型</h4>
+<div id="outline-container-org48a5d39" class="outline-4">
+<h4 id="org48a5d39"><span class="section-number-4">4.1.3</span> Shell 简介</h4>
 <div class="outline-text-4" id="text-4-1-3">
+<ol class="org-ol">
+<li>Shell 是一个用 C 语言编写的程序，Shell 既是一种命令语言，又是一种程序设计语言。</li>
+<li>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。</li>
+<li>Shell 类型
 <ul class="org-ul">
 <li><b>/bin/bash</b></li>
 <li>/bin/tcsh</li>
@@ -2621,7 +2625,27 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 <li>/bin/csh</li>
 <li>/bin/sh</li>
 <li>/bin/zsh</li>
-</ul>
+</ul></li>
+<li><p>
+执行 Shell 脚本
+</p>
+<pre class="example">
+// 新增可执行权限
+chmod +x test.sh
+</pre>
+
+
+<pre class="example">
+// 作为可执行程序
+./test.sh
+</pre>
+
+
+<pre class="example">
+// 作为解释器参数
+/bin/sh test.sh
+</pre></li>
+</ol>
 </div>
 </div>
 <div id="outline-container-org3ceb91c" class="outline-4">
@@ -2770,9 +2794,122 @@ date <span style="color: #8B8878;"># </span><span style="color: #8B8878;">print 
 </div>
 </div>
 </div>
-<div id="outline-container-org37b85c9" class="outline-5">
-<h5 id="org37b85c9"><span class="section-number-5">4.2.1.2</span> 环境变量｜Environment Parameter</h5>
+<div id="outline-container-org534bf27" class="outline-5">
+<h5 id="org534bf27"><span class="section-number-5">4.2.1.2</span> 变量</h5>
 <div class="outline-text-5" id="text-4-2-1-2">
+<ol class="org-ol">
+<li><p>
+使用变量
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">"qinjx"</span>
+<span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">your_name</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">your_name</span>}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21464;&#37327;&#21517;&#22806;&#38754;&#30340;&#33457;&#25324;&#21495;&#26159;&#21487;&#36873;&#30340;&#65292;&#21152;&#19981;&#21152;&#37117;&#34892;&#65292;&#21152;&#33457;&#25324;&#21495;&#26159;&#20026;&#20102;&#24110;&#21161;&#35299;&#37322;&#22120;&#35782;&#21035;&#21464;&#37327;&#30340;&#36793;&#30028;&#65292;&#20363;&#22914;&#19979;&#38754;&#30340;&#24773;&#20917;&#65306;</span>
+<span style="color: #FF1493;">for</span> skill<span style="color: #FF1493;"> in</span> Ada Coffe Action Java; <span style="color: #FF1493;">do</span>
+    <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"I am good at ${skill}Script"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21482;&#35835;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.google.com"</span>
+<span style="color: #FF1493;">readonly</span> myUrl
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.runoob.com"</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36816;&#34892;&#33050;&#26412;&#65292;&#32467;&#26524;&#22914;&#19979;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">/bin/sh: NAME: This variable is read only.</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21024;&#38500;&#21464;&#37327;</span>
+<span style="color: #FF1493;">unset</span> variable_name
+</pre>
+</div></li>
+<li>变量类型</li>
+<li><p>
+字符串
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org65e49f5"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Shell &#23383;&#31526;&#20018;</span>
+<span style="color: #FF8C00;">str</span>=<span style="color: #CDC673;">'this is a string'</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">'zrg'</span>
+<span style="color: #FF8C00;">str2</span>=<span style="color: #CDC673;">"Hello, I know you are \"$your_name\"! \n"</span>
+<span style="color: #FF1493;">echo</span> -e $<span style="color: #FF8C00;">str</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36755;&#20986;&#32467;&#26524;&#20026;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">Hello, I know you are "runoob"! </span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25340;&#25509;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21452;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting</span>=<span style="color: #CDC673;">"hello, "</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">" !"</span>
+<span style="color: #FF8C00;">greeting_1</span>=<span style="color: #CDC673;">"hello, ${your_name} !"</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21333;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting_2</span>=<span style="color: #CDC673;">'hello, '</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">' !'</span>
+<span style="color: #FF8C00;">greeting_3</span>=<span style="color: #CDC673;">'hello, ${your_name} !'</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#23383;&#31526;&#20018;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"abcd"</span>
+<span style="color: #FF1493;">echo</span> ${#<span style="color: #FF8C00;">string</span>} <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25552;&#21462;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">string</span>:1:4} <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; unoo</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23383;&#31526; i &#25110; o &#30340;&#20301;&#32622;(&#21738;&#20010;&#23383;&#27597;&#20808;&#20986;&#29616;&#23601;&#35745;&#31639;&#21738;&#20010;)&#65306;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #AF87FF; font-weight: bold;">`expr index "$string" io`</span>  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+</pre>
+</div></li>
+<li><p>
+数组
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Shell &#25968;&#32452;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;</span>
+<span style="color: #FF8C00;">array_name</span>=(value0 value1 value2 value3)
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#35835;&#21462;&#25968;&#32452;</span>
+<span style="color: #FF8C00;">value</span>=${<span style="color: #FF8C00;">array_name</span>[n]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992; @ &#31526;&#21495;&#21487;&#20197;&#33719;&#21462;&#25968;&#32452;&#20013;&#30340;&#25152;&#26377;&#20803;&#32032;</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#25968;&#32452;&#30340;&#38271;&#24230;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#20803;&#32032;&#30340;&#20010;&#25968;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[*]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#21333;&#20010;&#20803;&#32032;&#30340;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">lengthn</span>=${#<span style="color: #FF8C00;">array_name</span>[n]}
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3f985e8" class="outline-5">
+<h5 id="org3f985e8"><span class="section-number-5">4.2.1.3</span> 注释</h5>
+<div class="outline-text-5" id="text-4-2-1-3">
+<ol class="org-ol">
+<li>单行注释：以 # 开头的行就是注释</li>
+<li><p>
+多行注释：
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;&#26159;</span>
+:&lt;&lt;<span style="color: #CDC673;">'</span>
+<span style="color: #CDC673;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673;">'</span>
+
+<span style="color: #CDC673; font-weight: bold;">:&lt;&lt;!</span>
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">!</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org37b85c9" class="outline-5">
+<h5 id="org37b85c9"><span class="section-number-5">4.2.1.4</span> 环境变量｜Environment Parameter</h5>
+<div class="outline-text-5" id="text-4-2-1-4">
 <ol class="org-ol">
 <li>概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。</li>
 <li><p>
@@ -3006,8 +3143,8 @@ $ unset mytest
 </div>
 </div>
 <div id="outline-container-org9bbba6f" class="outline-5">
-<h5 id="org9bbba6f"><span class="section-number-5">4.2.1.3</span> 重定向输入和输出｜Redirect Input and Output</h5>
-<div class="outline-text-5" id="text-4-2-1-3">
+<h5 id="org9bbba6f"><span class="section-number-5">4.2.1.5</span> 重定向输入和输出｜Redirect Input and Output</h5>
+<div class="outline-text-5" id="text-4-2-1-5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 13:</span> 重定向字符</caption>
 
@@ -3114,8 +3251,8 @@ shell 会用PS2环境变量中定义的次提示符来提示输入数据
 </div>
 </div>
 <div id="outline-container-org75bea5c" class="outline-5">
-<h5 id="org75bea5c"><span class="section-number-5">4.2.1.4</span> 通配符｜Wildcard Character</h5>
-<div class="outline-text-5" id="text-4-2-1-4">
+<h5 id="org75bea5c"><span class="section-number-5">4.2.1.6</span> 通配符｜Wildcard Character</h5>
+<div class="outline-text-5" id="text-4-2-1-6">
 <ol class="org-ol">
 <li><p>
 shell通配符(wildcard)
@@ -3311,8 +3448,12 @@ shell 解析脚本过程
 </div>
 </div>
 <div id="outline-container-orgd7ed5d1" class="outline-5">
-<h5 id="orgd7ed5d1"><span class="section-number-5">4.2.1.5</span> 位置参数｜Positional Parameter</h5>
-<div class="outline-text-5" id="text-4-2-1-5">
+<h5 id="orgd7ed5d1"><span class="section-number-5">4.2.1.7</span> 位置参数｜Positional Parameter</h5>
+<div class="outline-text-5" id="text-4-2-1-7">
+</div>
+<div id="outline-container-orgb381268" class="outline-6">
+<h6 id="orgb381268"><span class="section-number-6">4.2.1.7.1</span> 特殊变量</h6>
+<div class="outline-text-6" id="text-4-2-1-7-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 17:</span> 位置参数</caption>
 
@@ -3347,12 +3488,48 @@ shell 解析脚本过程
 <td class="org-left">$#</td>
 <td class="org-left">这个变量代表命令行中所有参数的个数（不包括$0）。</td>
 </tr>
+
+<tr>
+<td class="org-left">$$</td>
+<td class="org-left">脚本运行的当前进程ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$!</td>
+<td class="org-left">后台运行的最后一个进程的ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$-</td>
+<td class="org-left">显示Shell使用的当前选项，与set命令功能相同。</td>
+</tr>
+
+<tr>
+<td class="org-left">$?</td>
+<td class="org-left">显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</td>
+</tr>
 </tbody>
 </table>
+
+<p>
+<b>$</b> 与 $@ 区别：*
+</p>
+<ul class="org-ul">
+<li>相同点：都是引用所有参数。</li>
+<li>不同点：只有在双引号中体现出来。假设在脚本运行时写了三个参数 1、2、3，，则 " * " 等价于 "1 2 3"（传递了一个参数），而 "@" 等价于 "1" "2" "3"（传递了三个参数）。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfeb0a6d" class="outline-6">
+<h6 id="orgfeb0a6d"><span class="section-number-6">4.2.1.7.2</span> 读取参数</h6>
+<div class="outline-text-6" id="text-4-2-1-7-2">
 <div class="org-src-container">
 <pre class="src src-shell" id="org8e052cd"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">using one command line parameter</span>
-<span style="color: #8B8878;">#</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#25191;&#34892;&#30340;&#25991;&#20214;&#21517;&#65306;$0"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#19968;&#20010;&#21442;&#25968;&#20026;&#65306;$1"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#20108;&#20010;&#21442;&#25968;&#20026;&#65306;$2"</span>;
+
 <span style="color: #FF8C00;">factorial</span>=1
 <span style="color: #FF1493;">for</span> ((<span style="color: #FF8C00;">number</span>=1; number&lt;=$<span style="color: #FF8C00;">1</span>; number++))
 <span style="color: #FF1493;">do</span>
@@ -3363,61 +3540,9 @@ shell 解析脚本过程
 </div>
 </div>
 </div>
-
-<div id="outline-container-org5bdb278" class="outline-5">
-<h5 id="org5bdb278"><span class="section-number-5">4.2.1.6</span> 预定义变量｜Predefine Parameter</h5>
-<div class="outline-text-5" id="text-4-2-1-6">
-<ol class="org-ol">
-<li><p>
-常见的预定义变量
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 18:</span> 常见的预定义变量</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">预定义变量</th>
-<th scope="col" class="org-left">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">0</td>
-<td class="org-left">存当前程序或脚本的名称</td>
-</tr>
-
-<tr>
-<td class="org-left">$*</td>
-<td class="org-left">保存传递给脚本或进程的所有参数</td>
-</tr>
-
-<tr>
-<td class="org-left">$$</td>
-<td class="org-left">当前进程给脚本的PID号</td>
-</tr>
-
-<tr>
-<td class="org-left">$!</td>
-<td class="org-left">后台运行的最后一个进程的PID号</td>
-</tr>
-
-<tr>
-<td class="org-left">$?</td>
-<td class="org-left">用于返回上一条命令是否成功执行。如果成功执行，将返回数字0，否则返回非零数字（通常情况下都返回数字1）。</td>
-</tr>
-
-<tr>
-<td class="org-left">$#</td>
-<td class="org-left">用于保存脚本的参数个数</td>
-</tr>
-</tbody>
-</table></li>
-<li>从键盘输入
+<div id="outline-container-org9021db4" class="outline-6">
+<h6 id="org9021db4"><span class="section-number-6">4.2.1.7.3</span> 从键盘输入</h6>
+<div class="outline-text-6" id="text-4-2-1-7-3">
 <ul class="org-ul">
 <li>read 命令
 <ul class="org-ul">
@@ -3443,13 +3568,13 @@ shell 解析脚本过程
 </pre>
 </div></li>
 </ul></li>
-</ul></li>
-</ol>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-orga314172" class="outline-5">
-<h5 id="orga314172"><span class="section-number-5">4.2.1.7</span> 运算符｜Operator</h5>
-<div class="outline-text-5" id="text-4-2-1-7">
+<h5 id="orga314172"><span class="section-number-5">4.2.1.8</span> 运算符｜Operator</h5>
+<div class="outline-text-5" id="text-4-2-1-8">
 <ol class="org-ol">
 <li><p>
 方法1：declare
@@ -3526,7 +3651,7 @@ $ bc -q
 算术运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 19:</span> 算术运算符</caption>
+<caption class="t-above"><span class="table-number">Table 18:</span> 算术运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3599,7 +3724,7 @@ $ bc -q
 关系运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 20:</span> 关系运算符</caption>
+<caption class="t-above"><span class="table-number">Table 19:</span> 关系运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3657,7 +3782,7 @@ $ bc -q
 布尔运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 21:</span> 布尔运算符</caption>
+<caption class="t-above"><span class="table-number">Table 20:</span> 布尔运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3697,7 +3822,7 @@ $ bc -q
 逻辑运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 22:</span> 逻辑运算符</caption>
+<caption class="t-above"><span class="table-number">Table 21:</span> 逻辑运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3734,7 +3859,7 @@ $ bc -q
 字符串运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 23:</span> 字符串运算符</caption>
+<caption class="t-above"><span class="table-number">Table 22:</span> 字符串运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3786,7 +3911,7 @@ $ bc -q
 文件测试运算符
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 24:</span> 文件测试运算符</caption>
+<caption class="t-above"><span class="table-number">Table 23:</span> 文件测试运算符</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3899,13 +4024,13 @@ $ bc -q
 </div>
 </div>
 <div id="outline-container-org4d34c00" class="outline-5">
-<h5 id="org4d34c00"><span class="section-number-5">4.2.1.8</span> 变量测试｜Parameter Test</h5>
-<div class="outline-text-5" id="text-4-2-1-8">
+<h5 id="org4d34c00"><span class="section-number-5">4.2.1.9</span> 变量测试｜Parameter Test</h5>
+<div class="outline-text-5" id="text-4-2-1-9">
 <p>
 变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 25:</span> 变量测试表</caption>
+<caption class="t-above"><span class="table-number">Table 24:</span> 变量测试表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4004,14 +4129,14 @@ x=${y-4}
 </div>
 </div>
 <div id="outline-container-orge2090b9" class="outline-5">
-<h5 id="orge2090b9"><span class="section-number-5">4.2.1.9</span> 退出｜Exit</h5>
-<div class="outline-text-5" id="text-4-2-1-9">
+<h5 id="orge2090b9"><span class="section-number-5">4.2.1.10</span> 退出｜Exit</h5>
+<div class="outline-text-5" id="text-4-2-1-10">
 <ol class="org-ol">
 <li><p>
 退出状态码       
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 26:</span> 退出状态码</caption>
+<caption class="t-above"><span class="table-number">Table 25:</span> 退出状态码</caption>
 
 <colgroup>
 <col  class="org-right" />
@@ -4151,7 +4276,7 @@ $ echo $?
 <h4 id="org293ef6f"><span class="section-number-4">4.2.3</span> 正则表达式｜Regular Expression</h4>
 <div class="outline-text-4" id="text-4-2-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 27:</span> 正则表达式的基本组成部分</caption>
+<caption class="t-above"><span class="table-number">Table 26:</span> 正则表达式的基本组成部分</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4269,11 +4394,11 @@ $ echo $?
 <h4 id="orgd004403"><span class="section-number-4">4.2.4</span> 流程控制｜Flow control</h4>
 <div class="outline-text-4" id="text-4-2-4">
 </div>
-<div id="outline-container-orgbae6238" class="outline-5">
-<h5 id="orgbae6238"><span class="section-number-5">4.2.4.1</span> if-then</h5>
+<div id="outline-container-org305961a" class="outline-5">
+<h5 id="org305961a"><span class="section-number-5">4.2.4.1</span> if-then</h5>
 <div class="outline-text-5" id="text-4-2-4-1">
 <div class="org-src-container">
-<pre class="src src-shell" id="org62e4417"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="orgaf4d297"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span style="color: #FF8C00;">testuser</span> = zrg
 <span style="color: #8B8878;">#</span>
 <span style="color: #FF1493;">if</span> grep $<span style="color: #FF8C00;">testuser</span> /etc/passwd
@@ -4501,8 +4626,8 @@ $<span style="color: #FF8C00;">var3</span> = hockey
 </table>
 </div>
 </div>
-<div id="outline-container-orgffceb82" class="outline-5">
-<h5 id="orgffceb82"><span class="section-number-5">4.2.4.3</span> case</h5>
+<div id="outline-container-org6f0c198" class="outline-5">
+<h5 id="org6f0c198"><span class="section-number-5">4.2.4.3</span> case</h5>
 <div class="outline-text-5" id="text-4-2-4-3">
 <pre class="example">
 格式：
@@ -4519,7 +4644,7 @@ case $变量名 in
 esac 
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org54fde0f">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
+<pre class="src src-shell" id="orgea09d1d">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
   <span style="color: #FF1493;">case</span> $<span style="color: #FF8C00;">action</span><span style="color: #FF1493;"> in</span>
         start | begin)
                 <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"start something"</span>
@@ -4623,8 +4748,8 @@ done
 </div>
 </div>
 </div>
-<div id="outline-container-org62426ac" class="outline-5">
-<h5 id="org62426ac"><span class="section-number-5">4.2.4.5</span> while</h5>
+<div id="outline-container-org1b59855" class="outline-5">
+<h5 id="org1b59855"><span class="section-number-5">4.2.4.5</span> while</h5>
 <div class="outline-text-5" id="text-4-2-4-5">
 <pre class="example">
 格式：
@@ -4637,7 +4762,7 @@ other commands
 done
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org1521d80"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">while command test</span>
+<pre class="src src-shell" id="org5ec4cc9"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">while command test</span>
 <span style="color: #FF8C00;">var1</span>=10
 <span style="color: #FF1493;">while</span> [ $<span style="color: #FF8C00;">var1</span> -gt 0 ]
 <span style="color: #FF1493;">do</span>
@@ -4649,8 +4774,8 @@ done
 </div>
 </div>
 
-<div id="outline-container-org6b59819" class="outline-5">
-<h5 id="org6b59819"><span class="section-number-5">4.2.4.6</span> until</h5>
+<div id="outline-container-org3a5f353" class="outline-5">
+<h5 id="org3a5f353"><span class="section-number-5">4.2.4.6</span> until</h5>
 <div class="outline-text-5" id="text-4-2-4-6">
 <pre class="example">
 until 命令和 while 命令完全相反。
@@ -4664,7 +4789,7 @@ other commands
 done
 </p>
 <div class="org-src-container">
-<pre class="src src-shell" id="org8b9436d"><span class="linenr">1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="orgea471c1"><span class="linenr">1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span class="linenr">2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">using the until command</span>
 <span class="linenr">3: </span><span style="color: #FF8C00;">var1</span>=100
 <span class="linenr">4: </span><span style="color: #FF1493;">until</span> [ $<span style="color: #FF8C00;">var1</span> -eq 0 ]
@@ -4704,7 +4829,7 @@ done
 <h5 id="org106d8b1"><span class="section-number-5">4.2.4.7</span> break</h5>
 <div class="outline-text-5" id="text-4-2-4-7">
 <div class="org-src-container">
-<pre class="src src-shell" id="org387a9d9"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="org349000a"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span class="linenr"> 2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">--------------------------------</span>
 <span class="linenr"> 3: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
 <span class="linenr"> 4: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.breaking out of a for loop</span>
@@ -4766,7 +4891,7 @@ done
 <h5 id="org095fb08"><span class="section-number-5">4.2.4.8</span> continue</h5>
 <div class="outline-text-5" id="text-4-2-4-8">
 <div class="org-src-container">
-<pre class="src src-shell" id="org26eb319"><span class="linenr"> 1: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.using the continue command</span>
+<pre class="src src-shell" id="org3cd47d0"><span class="linenr"> 1: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.using the continue command</span>
 <span class="linenr"> 2: </span><span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">var1</span> = 1; var1&lt;15; var1++))
 <span class="linenr"> 3: </span><span style="color: #FF1493;">do</span>
 <span class="linenr"> 4: </span>        <span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #FF8C00;">var1</span> -lt 10]
@@ -4847,11 +4972,11 @@ done
 <h3 id="org01c8926"><span class="section-number-3">4.4</span> 实用的脚本收集</h3>
 <div class="outline-text-3" id="text-4-4">
 </div>
-<div id="outline-container-org057f420" class="outline-4">
-<h4 id="org057f420"><span class="section-number-4">4.4.1</span> 查找可执行文件</h4>
+<div id="outline-container-org891929a" class="outline-4">
+<h4 id="org891929a"><span class="section-number-4">4.4.1</span> 查找可执行文件</h4>
 <div class="outline-text-4" id="text-4-4-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org1a3f83c">#!/bin/bash
+<pre class="src src-emacs-lisp" id="org465cb19">#!/bin/bash
 # finding files in the PATH
 IF=:
  for folder in $PATH
@@ -5177,7 +5302,7 @@ $ userdel -r test
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 28:</span> 用户账户修改工具</caption>
+<caption class="t-above"><span class="table-number">Table 27:</span> 用户账户修改工具</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5335,7 +5460,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org6f70d55"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org0ca1e3b"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -5486,7 +5611,7 @@ crontab 文件格式如下：
 crontab 基本格式
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 29:</span> 格式</caption>
+<caption class="t-above"><span class="table-number">Table 28:</span> 格式</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -5651,7 +5776,7 @@ $rccron reload
 anacron 与 crontab
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 30:</span> anacron vs crontab</caption>
+<caption class="t-above"><span class="table-number">Table 29:</span> anacron vs crontab</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7286,7 +7411,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 31:</span> 表</caption>
+<caption class="t-above"><span class="table-number">Table 30:</span> 表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7320,7 +7445,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 32:</span> NAT</caption>
+<caption class="t-above"><span class="table-number">Table 31:</span> NAT</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7365,7 +7490,7 @@ iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量�
 iptables中常用的参数以及作用
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 33:</span> iptables中常用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 32:</span> iptables中常用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7532,7 +7657,7 @@ Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火�
 firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 34:</span> firewalld中常用的区域名称及策略规则</caption>
+<caption class="t-above"><span class="table-number">Table 33:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7598,7 +7723,7 @@ firewalld中常见的区域名称（默认为public）以及相应的策略规�
 firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 35:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 34:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -7802,7 +7927,7 @@ TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能�
 TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 36:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<caption class="t-above"><span class="table-number">Table 35:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -8356,7 +8481,7 @@ $ iptables -L
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-count">46</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -8471,7 +8596,7 @@ $ iptables -L
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdaa1d6b"> <span class="nav-text">1 前言｜Preface</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.1 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org89bdb67"> <span class="nav-text">1.2 内容结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaa31277"> <span class="nav-text">1.3 作者</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc263b14"> <span class="nav-text">1.4 英文太差，能学好 Linux 吗？</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8a1f7c0"> <span class="nav-text">2 开始｜Get Started</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb9c28a0"> <span class="nav-text">2.1 安装｜Installation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org85323c8"> <span class="nav-text">2.1.1 安装过程｜Installing</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3592f09"> <span class="nav-text">2.1.2 主机规划与磁盘分区｜Host Planning and Disk partition</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9cab106"> <span class="nav-text">2.1.3 安装后的常用操作｜Common operations after installation</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2a6387f"> <span class="nav-text">2.2 配置｜Configuration</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5995a54"> <span class="nav-text">2.2.1 用户身份切换: su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org88efccc"> <span class="nav-text">2.2.2 Wifi连接配置(configure)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbb72d44"> <span class="nav-text">2.2.3 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org475efa1"> <span class="nav-text">2.2.4 配置系统支持中文(support chinese)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge1b0a56"> <span class="nav-text">2.3 介绍｜Instroduction</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.3.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0435a92"> <span class="nav-text">2.3.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org24f45b2"> <span class="nav-text">2.3.3 Linux 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d8a5c8"> <span class="nav-text">2.3.4 Linux 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgffc02b2"> <span class="nav-text">2.3.5 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4babee6"> <span class="nav-text">3 文件、目录和磁盘格式｜Linux File, Directory, and Disk format</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org31b577e"> <span class="nav-text">3.1 文件权限｜File Permission</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org47caf3c"> <span class="nav-text">3.1.1 理解｜Understand</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda19c16"> <span class="nav-text">3.1.2 共享文件｜Share File</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbf0b5df"> <span class="nav-text">3.2 目录｜Directory</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd6d68e1"> <span class="nav-text">3.3 文件搜索｜File Search</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb0b5a40"> <span class="nav-text">3.3.1 find</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org268574a"> <span class="nav-text">3.3.2 locate</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc5e9674"> <span class="nav-text">3.3.3 which 和 where</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96419c8"> <span class="nav-text">3.3.4 wc</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9234865"> <span class="nav-text">3.4 压缩和打包｜Compression and Packaging</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org50e4e69"> <span class="nav-text">3.5 文件系统｜File System</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fa4afa"> <span class="nav-text">3.5.1 mkfs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org41093ea"> <span class="nav-text">3.6 文本处理｜Text Processing</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">3.6.1 grep</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">3.6.2 sed</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">3.6.3 awk</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga09598b"> <span class="nav-text">4 Shell Script</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2dcb537"> <span class="nav-text">4.1 认识 Linux Shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39ef13e"> <span class="nav-text">4.1.1 学习 Shell 的疑惑</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51434c"> <span class="nav-text">4.1.2 常见终端</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org142f86c"> <span class="nav-text">4.1.3 Shell 类型</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3ceb91c"> <span class="nav-text">4.1.4 Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bb6fa7"> <span class="nav-text">4.1.5 理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfab06c2"> <span class="nav-text">4.2 Shell 基础｜Shell Basic</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0bc6a1a"> <span class="nav-text">4.2.1 Shell 变量｜Shell Parameter</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org43c9331"> <span class="nav-text">4.2.1.1 Hello World</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org37b85c9"> <span class="nav-text">4.2.1.2 环境变量｜Environment Parameter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9bbba6f"> <span class="nav-text">4.2.1.3 重定向输入和输出｜Redirect Input and Output</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org75bea5c"> <span class="nav-text">4.2.1.4 通配符｜Wildcard Character</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd7ed5d1"> <span class="nav-text">4.2.1.5 位置参数｜Positional Parameter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5bdb278"> <span class="nav-text">4.2.1.6 预定义变量｜Predefine Parameter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga314172"> <span class="nav-text">4.2.1.7 运算符｜Operator</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4d34c00"> <span class="nav-text">4.2.1.8 变量测试｜Parameter Test</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge2090b9"> <span class="nav-text">4.2.1.9 退出｜Exit</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org95edd08"> <span class="nav-text">4.2.2 管道命令｜Pipe Command</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org66fdcef"> <span class="nav-text">4.2.2.1 选取命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0d2ee46"> <span class="nav-text">4.2.2.2 排序命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org98d0acb"> <span class="nav-text">4.2.2.3 双向重定向</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org776e056"> <span class="nav-text">4.2.2.4 划分命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org93722e1"> <span class="nav-text">4.2.2.5 参数代换</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org293ef6f"> <span class="nav-text">4.2.3 正则表达式｜Regular Expression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd004403"> <span class="nav-text">4.2.4 流程控制｜Flow control</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbae6238"> <span class="nav-text">4.2.4.1 if-then</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0a049ef"> <span class="nav-text">4.2.4.2 test</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgffceb82"> <span class="nav-text">4.2.4.3 case</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf0ae4cb"> <span class="nav-text">4.2.4.4 for</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org62426ac"> <span class="nav-text">4.2.4.5 while</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org6b59819"> <span class="nav-text">4.2.4.6 until</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org106d8b1"> <span class="nav-text">4.2.4.7 break</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org095fb08"> <span class="nav-text">4.2.4.8 continue</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge7005e7"> <span class="nav-text">4.2.5 处理用户输入和数据呈现</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org046dda0"> <span class="nav-text">4.2.5.1 命令行参数</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd3a5025"> <span class="nav-text">4.2.5.2 数据呈现</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9afcba2"> <span class="nav-text">4.2.6 控制脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org35e764d"> <span class="nav-text">4.3 Shell 高级｜Advanced</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb57e17f"> <span class="nav-text">4.3.1 函数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc394e07"> <span class="nav-text">4.3.2 图形化桌面的脚本编程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgcb0673a"> <span class="nav-text">4.3.2.1 创建文本菜单</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org56f29f9"> <span class="nav-text">4.3.2.2 制作窗口</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0b8b5c"> <span class="nav-text">4.3.3 其它 Shell</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01c8926"> <span class="nav-text">4.4 实用的脚本收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org057f420"> <span class="nav-text">4.4.1 查找可执行文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org480e271"> <span class="nav-text">4.4.2 编写简单的脚本实用工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5a533ae"> <span class="nav-text">4.4.2.1 归档</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4dd53e9"> <span class="nav-text">4.4.2.2 管理用户账户</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3e353df"> <span class="nav-text">4.4.2.3 检测磁盘空间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39888d7"> <span class="nav-text">4.4.3 创建与数据库、Web及E-Mail相关的脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4238392"> <span class="nav-text">4.4.4 发送消息</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9390553"> <span class="nav-text">4.4.5 获取格言</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org065f027"> <span class="nav-text">4.4.6 编造借口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc8423af"> <span class="nav-text">4.4.7 在当前目录及指定子目录深度下创建.gitignore文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org57eedcd"> <span class="nav-text">4.4.8 解决 dpkg: warning: files list file for package 'x' missing</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org701d11d"> <span class="nav-text">4.4.9 删除大文件的前n行</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6fba34e"> <span class="nav-text">4.4.10 根据参数执行指定 PHP 脚本（消息队列rabbitmq）</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1e825ef"> <span class="nav-text">5 Linux 使用者管理｜Linux User Management</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9673590"> <span class="nav-text">5.1 Linux 账号管理和 ACL 权限设置｜Linux Account Management and ACL Authorization</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgab23ef3"> <span class="nav-text">5.1.1 Linux 用户和用户组｜Linux Account and Group</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3ad2f31"> <span class="nav-text">5.1.1.1 Linux 用户｜Linux User</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org566aed4"> <span class="nav-text">5.1.1.2 Linux 组｜Linux Group</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge7b3e20"> <span class="nav-text">5.1.2 Linux 权限规划：ACL 权限控制｜Linux Authority Division: ACL Access Control</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96e19c0"> <span class="nav-text">5.1.3 Linux 用户信息传递</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1df3f94"> <span class="nav-text">5.1.3.1 查询用户：w、who、last、lastlog</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgab87bfd"> <span class="nav-text">5.1.3.2 用户交流：write、mesg、wall</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5e7e360"> <span class="nav-text">5.1.3.3 用户邮箱：mail</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb67c694"> <span class="nav-text">5.2 磁盘配额和高级文件系统管理｜Disk Quota and Advanced File System Management</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org30626c6"> <span class="nav-text">5.2.1 磁盘配额应用实践｜Application Practice of Disk Quota</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge96e192"> <span class="nav-text">5.2.2 软件磁盘阵列｜Software RAID</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86f6dbb"> <span class="nav-text">5.2.3 逻辑卷管理器｜Logical Volume Manager</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7323871"> <span class="nav-text">6 Linux 计划任务（crontab）｜Linux Cron Job(crontab)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2e01632"> <span class="nav-text">6.1 什么事计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">6.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">6.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">6.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">6.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">6.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b7fc81"> <span class="nav-text">7 Linux 进程管理和 SELinux｜Linux Process Management and SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">7.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">7.2 任务管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">7.3 进程管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">7.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">7.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">7.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">7.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">7.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">7.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1447515"> <span class="nav-text">8 Linux 系统管理员｜Linux System Administrator</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge59c5bf"> <span class="nav-text">8.1 Linux 系统服务（daemon）｜Linux System Service</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd779f10"> <span class="nav-text">8.1.1 systemctl</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdcd310a"> <span class="nav-text">8.2 Linux 日志｜Linux Log</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgba36aaa"> <span class="nav-text">8.3 启动流程、模块管理与 loader｜Start Process, Module Management and Loader</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org022ece1"> <span class="nav-text">8.4 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8a1af8e"> <span class="nav-text">8.5 软件安装｜Software Install</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb25be84"> <span class="nav-text">8.5.1 源代码与Tarbal</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa88b6f"> <span class="nav-text">8.5.2 软件安装RPM、SRPM与YUM</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge95233b"> <span class="nav-text">8.5.3 常见软件安装过程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">8.5.3.1 神奇的 nc 命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">8.5.3.2 GCC</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">8.5.3.3 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga522792"> <span class="nav-text">8.5.3.4 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">8.5.3.5 wget vs axel</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org01f904d"> <span class="nav-text">8.5.3.6 VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">8.5.3.7 MPlayer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">8.5.3.8 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">8.5.3.9 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">8.5.3.10 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">8.5.3.11 宝塔面板</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">8.5.3.12 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">8.5.3.13 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">8.5.3.14 Composer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76525b8"> <span class="nav-text">8.5.3.15 vsftpd</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">8.5.3.16 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">8.5.3.17 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">8.5.3.18 gnome-screenshots</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4a1826"> <span class="nav-text">8.6 X Window</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga9a8cd0"> <span class="nav-text">8.7 Linux内核编译与管理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org25538e0"> <span class="nav-text">9 Linux 网络｜Network</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org066c006"> <span class="nav-text">9.1 连接 Internet｜Connect Internet</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org67de850"> <span class="nav-text">9.1.1 网卡和网卡驱动程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgabd85b5"> <span class="nav-text">9.1.2 网络相关配置文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge4ad0c1"> <span class="nav-text">9.1.3 无线网络</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1696c1c"> <span class="nav-text">9.1.4 常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6c27517"> <span class="nav-text">9.2 构建局域网</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">9.3 Linux 常见网络命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01e3cca"> <span class="nav-text">9.4 Linux 网络排错</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge5b5a58"> <span class="nav-text">9.5 Linux 网络安全与主机基本防护</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4157f6d"> <span class="nav-text">9.6 路由与路由器设定</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6d58156"> <span class="nav-text">9.7 防火墙和 NAT 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb620a97"> <span class="nav-text">9.8 DNS 解析</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdb7e3f7"> <span class="nav-text">9.9 远程管理：SSH、VNC、XDMCP 和 RDP</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11631ef"> <span class="nav-text">9.10 DHCP 服务器</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86d8f67"> <span class="nav-text">9.10.1 DHCP 原理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf07a162"> <span class="nav-text">9.10.2 DHCP 服务端的设定</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge46c8b6"> <span class="nav-text">9.10.3 DHCP 客户端的设定</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgde40f7e"> <span class="nav-text">9.11 文件服务器：NFS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org60c1a05"> <span class="nav-text">9.12 文件服务器：SAMBA 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org88307ab"> <span class="nav-text">9.13 文件服务器：FTP 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf160277"> <span class="nav-text">9.14 NIS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org68b8d00"> <span class="nav-text">9.15 NTP 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda2872f"> <span class="nav-text">9.16 Proxy 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0008458"> <span class="nav-text">9.17 iSCSI 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0b74f19"> <span class="nav-text">9.18 DNS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org394742f"> <span class="nav-text">9.19 Web 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org58c55fe"> <span class="nav-text">9.20 邮件服务器：Postfix</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org38813df"> <span class="nav-text">9.21 在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org27867dd"> <span class="nav-text">9.22 防火墙：iptables &amp; firewalld 工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbfa61b6"> <span class="nav-text">10 常见问题收集｜Problem</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">10.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">10.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">10.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">10.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">10.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">10.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">10.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">10.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">10.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">10.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">10.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">10.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">10.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgdaa1d6b"> <span class="nav-text">1 前言｜Preface</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.1 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org89bdb67"> <span class="nav-text">1.2 内容结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaa31277"> <span class="nav-text">1.3 作者</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc263b14"> <span class="nav-text">1.4 英文太差，能学好 Linux 吗？</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org8a1f7c0"> <span class="nav-text">2 开始｜Get Started</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb9c28a0"> <span class="nav-text">2.1 安装｜Installation</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org85323c8"> <span class="nav-text">2.1.1 安装过程｜Installing</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3592f09"> <span class="nav-text">2.1.2 主机规划与磁盘分区｜Host Planning and Disk partition</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9cab106"> <span class="nav-text">2.1.3 安装后的常用操作｜Common operations after installation</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2a6387f"> <span class="nav-text">2.2 配置｜Configuration</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5995a54"> <span class="nav-text">2.2.1 用户身份切换: su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org88efccc"> <span class="nav-text">2.2.2 Wifi连接配置(configure)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbb72d44"> <span class="nav-text">2.2.3 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org475efa1"> <span class="nav-text">2.2.4 配置系统支持中文(support chinese)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge1b0a56"> <span class="nav-text">2.3 介绍｜Instroduction</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.3.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0435a92"> <span class="nav-text">2.3.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org24f45b2"> <span class="nav-text">2.3.3 Linux 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d8a5c8"> <span class="nav-text">2.3.4 Linux 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgffc02b2"> <span class="nav-text">2.3.5 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4babee6"> <span class="nav-text">3 文件、目录和磁盘格式｜Linux File, Directory, and Disk format</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org31b577e"> <span class="nav-text">3.1 文件权限｜File Permission</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org47caf3c"> <span class="nav-text">3.1.1 理解｜Understand</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda19c16"> <span class="nav-text">3.1.2 共享文件｜Share File</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbf0b5df"> <span class="nav-text">3.2 目录｜Directory</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd6d68e1"> <span class="nav-text">3.3 文件搜索｜File Search</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb0b5a40"> <span class="nav-text">3.3.1 find</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org268574a"> <span class="nav-text">3.3.2 locate</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc5e9674"> <span class="nav-text">3.3.3 which 和 where</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96419c8"> <span class="nav-text">3.3.4 wc</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9234865"> <span class="nav-text">3.4 压缩和打包｜Compression and Packaging</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org50e4e69"> <span class="nav-text">3.5 文件系统｜File System</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fa4afa"> <span class="nav-text">3.5.1 mkfs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org41093ea"> <span class="nav-text">3.6 文本处理｜Text Processing</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">3.6.1 grep</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">3.6.2 sed</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">3.6.3 awk</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga09598b"> <span class="nav-text">4 Shell Script</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2dcb537"> <span class="nav-text">4.1 认识 Linux Shell</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39ef13e"> <span class="nav-text">4.1.1 学习 Shell 的疑惑</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd51434c"> <span class="nav-text">4.1.2 常见终端</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org48a5d39"> <span class="nav-text">4.1.3 Shell 简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3ceb91c"> <span class="nav-text">4.1.4 Shell 的父子关系</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5bb6fa7"> <span class="nav-text">4.1.5 理解 shell 的内建命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfab06c2"> <span class="nav-text">4.2 Shell 基础｜Shell Basic</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0bc6a1a"> <span class="nav-text">4.2.1 Shell 变量｜Shell Parameter</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org43c9331"> <span class="nav-text">4.2.1.1 Hello World</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org534bf27"> <span class="nav-text">4.2.1.2 变量</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3f985e8"> <span class="nav-text">4.2.1.3 注释</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org37b85c9"> <span class="nav-text">4.2.1.4 环境变量｜Environment Parameter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9bbba6f"> <span class="nav-text">4.2.1.5 重定向输入和输出｜Redirect Input and Output</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org75bea5c"> <span class="nav-text">4.2.1.6 通配符｜Wildcard Character</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd7ed5d1"> <span class="nav-text">4.2.1.7 位置参数｜Positional Parameter</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgb381268"> <span class="nav-text">4.2.1.7.1 特殊变量</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgfeb0a6d"> <span class="nav-text">4.2.1.7.2 读取参数</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org9021db4"> <span class="nav-text">4.2.1.7.3 从键盘输入</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga314172"> <span class="nav-text">4.2.1.8 运算符｜Operator</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4d34c00"> <span class="nav-text">4.2.1.9 变量测试｜Parameter Test</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge2090b9"> <span class="nav-text">4.2.1.10 退出｜Exit</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org95edd08"> <span class="nav-text">4.2.2 管道命令｜Pipe Command</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org66fdcef"> <span class="nav-text">4.2.2.1 选取命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0d2ee46"> <span class="nav-text">4.2.2.2 排序命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org98d0acb"> <span class="nav-text">4.2.2.3 双向重定向</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org776e056"> <span class="nav-text">4.2.2.4 划分命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org93722e1"> <span class="nav-text">4.2.2.5 参数代换</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org293ef6f"> <span class="nav-text">4.2.3 正则表达式｜Regular Expression</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd004403"> <span class="nav-text">4.2.4 流程控制｜Flow control</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org305961a"> <span class="nav-text">4.2.4.1 if-then</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0a049ef"> <span class="nav-text">4.2.4.2 test</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org6f0c198"> <span class="nav-text">4.2.4.3 case</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf0ae4cb"> <span class="nav-text">4.2.4.4 for</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1b59855"> <span class="nav-text">4.2.4.5 while</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3a5f353"> <span class="nav-text">4.2.4.6 until</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org106d8b1"> <span class="nav-text">4.2.4.7 break</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org095fb08"> <span class="nav-text">4.2.4.8 continue</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge7005e7"> <span class="nav-text">4.2.5 处理用户输入和数据呈现</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org046dda0"> <span class="nav-text">4.2.5.1 命令行参数</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd3a5025"> <span class="nav-text">4.2.5.2 数据呈现</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9afcba2"> <span class="nav-text">4.2.6 控制脚本</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org35e764d"> <span class="nav-text">4.3 Shell 高级｜Advanced</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb57e17f"> <span class="nav-text">4.3.1 函数</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc394e07"> <span class="nav-text">4.3.2 图形化桌面的脚本编程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgcb0673a"> <span class="nav-text">4.3.2.1 创建文本菜单</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org56f29f9"> <span class="nav-text">4.3.2.2 制作窗口</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0b8b5c"> <span class="nav-text">4.3.3 其它 Shell</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01c8926"> <span class="nav-text">4.4 实用的脚本收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org891929a"> <span class="nav-text">4.4.1 查找可执行文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org480e271"> <span class="nav-text">4.4.2 编写简单的脚本实用工具</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5a533ae"> <span class="nav-text">4.4.2.1 归档</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4dd53e9"> <span class="nav-text">4.4.2.2 管理用户账户</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3e353df"> <span class="nav-text">4.4.2.3 检测磁盘空间</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org39888d7"> <span class="nav-text">4.4.3 创建与数据库、Web及E-Mail相关的脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4238392"> <span class="nav-text">4.4.4 发送消息</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9390553"> <span class="nav-text">4.4.5 获取格言</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org065f027"> <span class="nav-text">4.4.6 编造借口</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgc8423af"> <span class="nav-text">4.4.7 在当前目录及指定子目录深度下创建.gitignore文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org57eedcd"> <span class="nav-text">4.4.8 解决 dpkg: warning: files list file for package 'x' missing</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org701d11d"> <span class="nav-text">4.4.9 删除大文件的前n行</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org6fba34e"> <span class="nav-text">4.4.10 根据参数执行指定 PHP 脚本（消息队列rabbitmq）</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1e825ef"> <span class="nav-text">5 Linux 使用者管理｜Linux User Management</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9673590"> <span class="nav-text">5.1 Linux 账号管理和 ACL 权限设置｜Linux Account Management and ACL Authorization</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgab23ef3"> <span class="nav-text">5.1.1 Linux 用户和用户组｜Linux Account and Group</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3ad2f31"> <span class="nav-text">5.1.1.1 Linux 用户｜Linux User</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org566aed4"> <span class="nav-text">5.1.1.2 Linux 组｜Linux Group</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge7b3e20"> <span class="nav-text">5.1.2 Linux 权限规划：ACL 权限控制｜Linux Authority Division: ACL Access Control</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96e19c0"> <span class="nav-text">5.1.3 Linux 用户信息传递</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1df3f94"> <span class="nav-text">5.1.3.1 查询用户：w、who、last、lastlog</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgab87bfd"> <span class="nav-text">5.1.3.2 用户交流：write、mesg、wall</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5e7e360"> <span class="nav-text">5.1.3.3 用户邮箱：mail</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb67c694"> <span class="nav-text">5.2 磁盘配额和高级文件系统管理｜Disk Quota and Advanced File System Management</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org30626c6"> <span class="nav-text">5.2.1 磁盘配额应用实践｜Application Practice of Disk Quota</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge96e192"> <span class="nav-text">5.2.2 软件磁盘阵列｜Software RAID</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86f6dbb"> <span class="nav-text">5.2.3 逻辑卷管理器｜Logical Volume Manager</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org7323871"> <span class="nav-text">6 Linux 计划任务（crontab）｜Linux Cron Job(crontab)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2e01632"> <span class="nav-text">6.1 什么事计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">6.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">6.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">6.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">6.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">6.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b7fc81"> <span class="nav-text">7 Linux 进程管理和 SELinux｜Linux Process Management and SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">7.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">7.2 任务管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">7.3 进程管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">7.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">7.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">7.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">7.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">7.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">7.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1447515"> <span class="nav-text">8 Linux 系统管理员｜Linux System Administrator</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge59c5bf"> <span class="nav-text">8.1 Linux 系统服务（daemon）｜Linux System Service</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd779f10"> <span class="nav-text">8.1.1 systemctl</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdcd310a"> <span class="nav-text">8.2 Linux 日志｜Linux Log</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgba36aaa"> <span class="nav-text">8.3 启动流程、模块管理与 loader｜Start Process, Module Management and Loader</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org022ece1"> <span class="nav-text">8.4 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8a1af8e"> <span class="nav-text">8.5 软件安装｜Software Install</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb25be84"> <span class="nav-text">8.5.1 源代码与Tarbal</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa88b6f"> <span class="nav-text">8.5.2 软件安装RPM、SRPM与YUM</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge95233b"> <span class="nav-text">8.5.3 常见软件安装过程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">8.5.3.1 神奇的 nc 命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">8.5.3.2 GCC</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">8.5.3.3 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga522792"> <span class="nav-text">8.5.3.4 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">8.5.3.5 wget vs axel</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org01f904d"> <span class="nav-text">8.5.3.6 VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">8.5.3.7 MPlayer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">8.5.3.8 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">8.5.3.9 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">8.5.3.10 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">8.5.3.11 宝塔面板</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">8.5.3.12 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">8.5.3.13 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">8.5.3.14 Composer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76525b8"> <span class="nav-text">8.5.3.15 vsftpd</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">8.5.3.16 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">8.5.3.17 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">8.5.3.18 gnome-screenshots</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4a1826"> <span class="nav-text">8.6 X Window</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga9a8cd0"> <span class="nav-text">8.7 Linux内核编译与管理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org25538e0"> <span class="nav-text">9 Linux 网络｜Network</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org066c006"> <span class="nav-text">9.1 连接 Internet｜Connect Internet</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org67de850"> <span class="nav-text">9.1.1 网卡和网卡驱动程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgabd85b5"> <span class="nav-text">9.1.2 网络相关配置文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge4ad0c1"> <span class="nav-text">9.1.3 无线网络</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1696c1c"> <span class="nav-text">9.1.4 常见问题</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6c27517"> <span class="nav-text">9.2 构建局域网</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">9.3 Linux 常见网络命令</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org01e3cca"> <span class="nav-text">9.4 Linux 网络排错</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge5b5a58"> <span class="nav-text">9.5 Linux 网络安全与主机基本防护</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4157f6d"> <span class="nav-text">9.6 路由与路由器设定</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6d58156"> <span class="nav-text">9.7 防火墙和 NAT 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb620a97"> <span class="nav-text">9.8 DNS 解析</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdb7e3f7"> <span class="nav-text">9.9 远程管理：SSH、VNC、XDMCP 和 RDP</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org11631ef"> <span class="nav-text">9.10 DHCP 服务器</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org86d8f67"> <span class="nav-text">9.10.1 DHCP 原理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf07a162"> <span class="nav-text">9.10.2 DHCP 服务端的设定</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge46c8b6"> <span class="nav-text">9.10.3 DHCP 客户端的设定</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgde40f7e"> <span class="nav-text">9.11 文件服务器：NFS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org60c1a05"> <span class="nav-text">9.12 文件服务器：SAMBA 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org88307ab"> <span class="nav-text">9.13 文件服务器：FTP 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf160277"> <span class="nav-text">9.14 NIS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org68b8d00"> <span class="nav-text">9.15 NTP 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgda2872f"> <span class="nav-text">9.16 Proxy 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0008458"> <span class="nav-text">9.17 iSCSI 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0b74f19"> <span class="nav-text">9.18 DNS 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org394742f"> <span class="nav-text">9.19 Web 服务器</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org58c55fe"> <span class="nav-text">9.20 邮件服务器：Postfix</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org38813df"> <span class="nav-text">9.21 在服务器上启用HTTPS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org27867dd"> <span class="nav-text">9.22 防火墙：iptables &amp; firewalld 工具</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgbfa61b6"> <span class="nav-text">10 常见问题收集｜Problem</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">10.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">10.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">10.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">10.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">10.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">10.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">10.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">10.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">10.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">10.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">10.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">10.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">10.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li>
     </ol>
   </div>
             
