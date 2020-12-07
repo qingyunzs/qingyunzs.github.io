@@ -3018,172 +3018,7 @@ done < "$input"
 ** Linux 网络排错
 ** Linux 网络安全与主机基本防护
 ** 路由与路由器设定
-** 防火墙和 NAT 服务器
-** DNS 解析
-** 远程管理：SSH、VNC、XDMCP 和 RDP
-   1. SSH & OpenSSH & SSL & OpenSSL
-      + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
-      + OpenSSL，对SSL的实现。
-      + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
-      + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-      + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
-   2. ssh 配置
-      *配置持久连接*
-      + 服务端
-	: $ sudo vim /etc/ssh/sshd_config
-	#+NAME: sshd_config
-	#+BEGIN_SRC shell
-	#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	ClientAliveInterval 60  
-	#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	ClientAliveCountMax 3
-	#+END_SRC
-
-      + 客户端
-	: $ sudo vim /etc/ssh/ssh_config
-	#+NAME: ssh_config
-	#+BEGIN_SRC shell
-	#server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	ServerAliveInterval 60  
-	#server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	ServerAliveCountMax 3
-	#+END_SRC
-   3. 使用OpenSSL生成密钥对
-      : 生成私钥
-      : $ openssl genrsa -out rsa_private_key.pem 1024
-      : 参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
-
-      : 从私钥中提取公钥
-      : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-      : 参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-   4. 修改ssh默认端口号
-      + 首先修改配置文件：
-	: $ vim /etc/ssh/sshd_config
-	#+NAME:/etc/ssh/ssh_config
-	#+BEGIN_SRC shell
-	 Port 22 Port 6666   
-	#+END_SRC
-	: 注意：
-	- 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
-	- 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
-      + 重启ssh和防火墙
-	: $ systemctl restart iptables
-	: $ systemctl restart sshd
-      + 假如要限制SSH登陆的IP，那么可以如下做：
-	: 首先：修改/etc/hosts.deny，在其中加入sshd:ALL
-	: 然后：修改：/etc/hosts.allow，在其中进行如下设置：sshd:192.168.1.1：deny  （192.168.1.*）
-	: 这样就可以限制只有192.168.1.1的IP通过SSH登陆上LINUX机器了。
-   5. 通过密钥登录服务器
-      + 生成密钥对
-	: $ ssh-keygen
-	#+NAME: 生成密钥对
-	#+BEGIN_SRC emacs-lisp
-	  Generating public/private rsa key pair.
-	  Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-	  Enter passphrase (empty for no passphrase):
-	  Enter same passphrase again:
-	  Your identification has been saved in /home/zrg/.ssh/id_rsa.
-	  Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-	  The key fingerprint is:
-	  SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-	  The key's randomart image is:
-	  +---[RSA 2048]----+
-	  |    +*B==o o.oo=*|
-	  |   .o+o= .. . =o.|
-	  |     .+ o .o + E |
-	  |     . *   o= =  |
-	  |      = S . o+   |
-	  |       + o .     |
-	  |    o . =        |
-	  |   . + o .       |
-	  |    ..o          |
-	  +----[SHA256]-----+
-	#+END_SRC
-	 
-	: 如果客户端要访问多台服务器时，可进行如下操作：
-	: 第一种方式：手动指定
-	: $  ssh user@host -i ~/.ssh/id_rsa
-	: 第二种方式：配置客户端，/etc/ssh/ssh_config
-	#+BEGIN_SRC shell
-	  IdentityFile ~/.ssh/id_rsa
-	  IdentityFile ~/.ssh/github_id_rsa
-	#+END_SRC
-	: 第三种方式：使用 SSH Agent
-	#+BEGIN_SRC shell
-	  # Default github user
-	  Host login-zrg
-	  HostName github.com
-	  User zrg
-	  IdentityFile ~/.ssh/id_rsa
-
-	  # jsf user
-	  Host login-jsf
-	  HostName github.com
-	  User jsf
-	  IdentityFile ~/.ssh/id_rsa_jsf
-	#+END_SRC
-      + 在服务器上配置上公钥
-	: 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
-	: $ cat ~/.ssh/id_rsa.pub >> authorized_keys
-	: $ chmod 600 ~/.ssh/authorized_keys
-	: $ chmod 700 ~/.ssh
-      + 配置ssh，打开密钥登录功能
-	: $ vim /etc/ssh/sshd_config
-	#+NAME: 配置 ssh
-	#+BEGIN_SRC shell
-	  # 允许用户使用密钥登录
-	  RSAAuthentication yes
-	  PubkeyAuthentication yes
-
-	  # 允许 root 用户通过 SSH 登录
-	  PermitRootLogin yes
-
-	  # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
-	  PasswordAuthentication no
-	#+END_SRC
-      + 重启ssh服务
-	: 配置完成后，重启 sshd 服务
-	: $ systemctl restart sshd.service
-   6. 使用scp上传或下载文件
-      + 从服务器上下载文件
-	: $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-	: 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
-      + 上传本地文件到服务器
-	: $ scp /path/filename username@servername:/path   
-	: 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
-      + 从服务器下载整个目录
-	: $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-	: 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-      + 上传目录到服务器
-	: $ scp  -r local_dir username@servername:remote_dir
-	: 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-
-** DHCP 服务器
-*** DHCP 原理
-*** DHCP 服务端的设定
-*** DHCP 客户端的设定
-** 文件服务器：NFS 服务器
-** 文件服务器：SAMBA 服务器
-** 文件服务器：FTP 服务器
-** NIS 服务器
-** NTP 服务器
-** Proxy 服务器
-** iSCSI 服务器
-** DNS 服务器
-** Web 服务器
-** 邮件服务器：Postfix
-** 在服务器上启用HTTPS
-   - 创建一个 2048 位 RSA 公钥/私钥对。
-   - 生成一个嵌入您的公钥的证书签名请求 (CSR)
-   - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
-   - 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
-   : 1. 生成密钥和证书签名请求
-   : 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
-   : 
-
-   : 参考资料：
-   [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
-** 防火墙：iptables & firewalld 工具
+** 防火墙/iptables & firewalld 工具
 *** 认识防火墙
     + 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。在公网与企业内网之间充当保护屏障的防火墙（见下图所示）虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
     + 目前在RHEL 7系统中，firewalld防火墙取代了iptables防火墙。其实，iptables与firewalld都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
@@ -3192,64 +3027,64 @@ done < "$input"
     + iptables 组件是一种工具，也称为用户空间（userspace），它使插入、修改和除去信息包过滤表中的规则变得容易。
 *** iptables
     1. 概念
-       : 在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。
+       \\
+       在早期的Linux系统中，默认使用的是iptables防火墙管理服务来配置防火墙。尽管新型的firewalld防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用iptables。
     2. 策略与规则链
-       : 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+       \\
+       防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
        - 在进行路由选择前处理数据包（PREROUTING）；
        - 处理流入的数据包（INPUT）；
        - 处理流出的数据包（OUTPUT）；
        - 处理转发的数据包（FORWARD）；
        - 在进行路由选择后处理数据包（POSTROUTING）。
-       
-       : 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+       \\
+       一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+       \\
+       iptables 服务的术语：ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、DROP（拒绝流量通过，直接将流量丢弃不响应）。当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
+    3. 规则参数
+       #+CAPTION: 规则参数表
+       | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
+       | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
+       | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
+       | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
+         
+       #+CAPTION: NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
+       | snat | 地址转换   |
+       | dnat | 标地址转换 |
+       | pnat | 标端口转换 |
 
-       : iptables 服务的术语:ACCEPT（允许流量通过）、REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"）、LOG（记录日志信息）、DROP（拒绝流量通过，直接将流量丢弃不响应）。当把Linux系统中的防火墙策略设置为REJECT拒绝动作后，流量发送方会看到端口不可达的响应：把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线
-    3. 基本的命令参数
-       + 规则功能说明
-	 #+CAPTION: 规则参数表
-	 | filter  | 主要和主机自身有关，主要负责防火墙功能 过滤本机流入流出的数据包是默认使用的表 |
-	 | input   | 负责过滤所有目标地址是本机地址的数据包，就是过滤进入主机的数据包              |
-	 | forward | 负责转发流经主机但不进入本机的数据包，和NAT关系很大                           |
-	 | output  | 负责处理源地址的数据包，就是对本机发出的数据包;                               |
-	 
-         : NAT 表，负责网络地址转换，即来源于目的IP地址和端口的转换，一般用于共享上网或特殊端口的转换服务
-	 #+CAPTION: NAT
-	 | snat | 地址转换   |
-	 | dnat | 标地址转换 |
-	 | pnat | 标端口转换 |
-	 
-         : mangle 表，将报文拆开来并修改报文标志位，最后封装起来
+       mangle 表，将报文拆开来并修改报文标志位，最后封装起来
+       \\
+       5个检查点（内置链）：PREROUTING, INPUT, FORWORD, OUTPUT, POSTROUTING
+    4. iptables 中常用的选项及作用
+       #+CAPTION:  iptables中常用的参数以及作用
+       | 参数        | 作用                                           |
+       |-------------+------------------------------------------------|
+       | -P	  | 设置默认策略                                   |
+       | -F          | 清空规则链                                     |
+       | -L          | 查看规则链                                     |
+       | -A          | 在规则链的末尾加入新规则                       |
+       | -I num      | 在规则链的头部加入新规则                       |
+       | -D num      | 删除某一条规则                                 |
+       | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
+       | -d          | 匹配目标地址                                   |
+       | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
+       | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
+       | -p          | 匹配协议，如TCP、UDP、ICMP                     |
+       | --dport num | 匹配目标端口号                                 |
+       | --sport num | 匹配来源端口号                                 |
 
-	 : 5个检查点（内置链）：PREROUTING, INPUT, FORWORD, OUTPUT, POSTROUTING
-       + iptables中常用的选项及作用
-	 #+CAPTION:  iptables中常用的参数以及作用
-	 | 参数        | 作用                                           |
-	 |-------------+------------------------------------------------|
-	 | -P	  | 设置默认策略                                   |
-	 | -F          | 清空规则链                                     |
-	 | -L          | 查看规则链                                     |
-	 | -A          | 在规则链的末尾加入新规则                       |
-	 | -I num      | 在规则链的头部加入新规则                       |
-	 | -D num      | 删除某一条规则                                 |
-	 | -s          | 匹配来源地址IP/MASK，加叹号“!”表示除这个IP外 |
-	 | -d          | 匹配目标地址                                   |
-	 | -i 网卡名称 | 匹配从这块网卡流入的数据                       |
-	 | -o 网卡名称 | 匹配从这块网卡流出的数据                       |
-	 | -p          | 匹配协议，如TCP、UDP、ICMP                     |
-	 | --dport num | 匹配目标端口号                                 |
-	 | --sport num | 匹配来源端口号                                 |
-
-         : // 查看已有的防火墙规则链
-	 : $ iptables -L
-	 : $ iptables -nvL –line-number
-	 : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
-	 : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
-	 : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-	 : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+       : // 查看已有的防火墙规则链
+       : $ iptables -L
+       : $ iptables -nvL –line-number
+       : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+       : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+       : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+       : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
 	 
-         : // 清空已有的防火墙规则链
-	 : $ iptables -F
-    4. 添加规则
+       : // 清空已有的防火墙规则链
+       : $ iptables -F
+    5. 添加规则
        : // 把INPUT规则链的默认策略设置为拒绝
        : $ iptables -P INPUT DROP
        : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
@@ -3282,9 +3117,9 @@ done < "$input"
        : $ service iptables save
 *** Firewalld
     1. 概念
-       : Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
-
-       : firewalld中常见的区域名称（默认为public）以及相应的策略规则如下表所示。
+       \\
+       Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+       
        #+CAPTION:firewalld中常用的区域名称及策略规则
        | 区域     | 默认规则策略                                                                                                            |
        |----------+-------------------------------------------------------------------------------------------------------------------------|
@@ -3298,7 +3133,8 @@ done < "$input"
        | block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
        | drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
     2. 命令行管理工具(firewall-cmd)
-       : firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本
+       \\
+       firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本。
        #+CAPTION: firewall-cmd命令中使用的参数以及作用
        | 参数                          | 作用                                                   |
        |-------------------------------+--------------------------------------------------------|
@@ -3320,8 +3156,8 @@ done < "$input"
        | --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
        | --panic-on                    | 开启应急状况模式                                       |
        | --panic-off                   | 关闭应急状况模式                                       |
-
-       : 使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
+       
+       使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
        - 查看firewalld服务当前所使用的区域
 	 : # firewall-cmd --get-default-zone
        - 查询eno16777728网卡在firewalld服务中的区域
@@ -3358,8 +3194,9 @@ done < "$input"
        - firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
 	 : $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
 *** 服务的访问控制列表
-    : TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
-    : TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
+    TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+    \\
+    TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
     #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
     | 客户端类型     | 示例                       | 满足示例的客户端列表               |
     |----------------+----------------------------+------------------------------------|
@@ -3377,6 +3214,159 @@ done < "$input"
     + [[https://en.wikipedia.org/wiki/Iptables][iptables wiki]]
     + [[https://baike.baidu.com/item/IPTABLES/9139339?fr=aladdin][iptables 百度百科]]
     + [[https://wiki.debian.org/iptables][iptables debian wiki]]
+** NAT 服务器
+** DNS 解析
+** 远程管理：SSH、VNC、XDMCP 和 RDP
+*** SSH & OpenSSH & SSL & OpenSSL
+    + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
+    + OpenSSL，对SSL的实现。
+    + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
+    + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+    + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+*** SSH 配置
+    1. 配置持久连接
+       + Server 端
+	 : $ sudo vim /etc/ssh/sshd_config
+	 #+NAME: sshd_config
+	 #+BEGIN_SRC shell
+	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	 ClientAliveInterval 60  
+	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	 ClientAliveCountMax 3
+	 #+END_SRC
+       + Client 端
+	 : $ sudo vim /etc/ssh/ssh_config
+	 #+NAME: ssh_config
+	 #+BEGIN_SRC shell
+	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	 ServerAliveInterval 60  
+	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	 ServerAliveCountMax 3
+	 #+END_SRC
+    2. 使用OpenSSL生成密钥对
+       : // 生成私钥
+       : $ openssl genrsa -out rsa_private_key.pem 1024
+       参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+
+       : // 从私钥中提取公钥
+       : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+       参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+    3. 修改 SSH 默认端口号
+       : 首先，修改配置文件：
+       : $ vim /etc/ssh/sshd_config
+       Port 22 Port 6666   
+       : 注意事项：
+       - 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
+       - 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
+       - 
+
+    4. 通过密钥登录服务器
+       + 第一步，生成密钥对
+	 : $ ssh-keygen
+	 #+NAME: 生成密钥对
+	 #+BEGIN_SRC emacs-lisp
+	   Generating public/private rsa key pair.
+	   Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+	   Enter passphrase (empty for no passphrase):
+	   Enter same passphrase again:
+	   Your identification has been saved in /home/zrg/.ssh/id_rsa.
+	   Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+	   The key fingerprint is:
+	   SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+	   The key's randomart image is:
+	   +---[RSA 2048]----+
+	   |    +*B==o o.oo=*|
+	   |   .o+o= .. . =o.|
+	   |     .+ o .o + E |
+	   |     . *   o= =  |
+	   |      = S . o+   |
+	   |       + o .     |
+	   |    o . =        |
+	   |   . + o .       |
+	   |    ..o          |
+	   +----[SHA256]-----+
+	 #+END_SRC
+
+	 如果客户端要访问多台服务器时，可进行如下操作：
+	 : 第一种方式：手动指定
+	 : $  ssh user@host -i ~/.ssh/id_rsa
+	 : 第二种方式：配置客户端，/etc/ssh/ssh_config
+	 #+BEGIN_SRC shell
+	   IdentityFile ~/.ssh/id_rsa
+	   IdentityFile ~/.ssh/github_id_rsa
+	 #+END_SRC
+	 : 第三种方式：使用 SSH Agent
+	 #+BEGIN_SRC shell
+	   # Default github user
+	   Host login-zrg
+	   HostName github.com
+	   User zrg
+	   IdentityFile ~/.ssh/id_rsa
+
+	   # jsf user
+	   Host login-jsf
+	   HostName github.com
+	   User jsf
+	   IdentityFile ~/.ssh/id_rsa_jsf
+	 #+END_SRC
+       + 第二步，在服务器上配置上公钥
+	 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
+	 : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
+	 : $ chmod 600 ~/.ssh/authorized_keys
+	 : $ chmod 700 ~/.ssh
+       + 第三步，配置ssh，打开密钥登录功能
+	 : $ vim /etc/ssh/sshd_config
+	 #+NAME: 配置 ssh
+	 # 允许用户使用密钥登录
+	 RSAAuthentication yes
+	 PubkeyAuthentication yes
+	 # 允许 root 用户通过 SSH 登录
+	 PermitRootLogin yes
+	 # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
+	 PasswordAuthentication no
+	 #+END_SRC
+       + 第四步，重启ssh服务
+	 配置完成后，重启 sshd 服务
+	 : $ systemctl restart sshd.service
+*** SCP 使用
+    使用scp上传或下载文件
+    + 从服务器上下载文件
+      : $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
+      : 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+    + 上传本地文件到服务器
+      : $ scp /path/filename username@servername:/path   
+      : 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
+    + 从服务器下载整个目录
+      : $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+      : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
+    + 上传目录到服务器
+      : $ scp  -r local_dir username@servername:remote_dir
+      : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+** DHCP 服务器
+*** DHCP 原理
+*** DHCP 服务端的设定
+*** DHCP 客户端的设定
+** 文件服务器：NFS 服务器
+** 文件服务器：SAMBA 服务器
+** 文件服务器：FTP 服务器
+** NIS 服务器
+** NTP 服务器
+** Proxy 服务器
+** iSCSI 服务器
+** DNS 服务器
+** Web 服务器
+** 邮件服务器：Postfix
+** 在服务器上启用HTTPS
+   - 创建一个 2048 位 RSA 公钥/私钥对。
+   - 生成一个嵌入您的公钥的证书签名请求 (CSR)
+   - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
+   - 将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。
+   : 1. 生成密钥和证书签名请求
+   : 此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
+   : 
+
+   : 参考资料：
+   [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
 * 常见问题收集｜Problem
 ** 命令行下不能输入中文标点符号
    : 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
