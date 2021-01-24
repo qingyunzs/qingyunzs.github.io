@@ -106,14 +106,14 @@ photos:
    4. strip_tags——Strip HTML and PHP tags from a string
    5. Strip 去除的意思
 ** static, self, parent, and $this 区别
-1. static
-   + static关键字声明一个属性或方法是和类相关的，而不是和类的某个特定的实例相关，因此，这类属性或方法也称为“类属性”或“类方法”。
-   + static的属性，在内存中只有一份，为所有的实例共用。也就是说，在内存中即使有多个实例，静态的属性也只有一份。
-   + static关键字可以用来修饰变量、方法。
-   + 通过static关键字定义的属性或方法（例如static $web），只能由当前类通过【self::$web】来访问，其他类和子类是无法访问的。
-2. $this指的是实例化的对象，而不是类本身
-3. self指的是类本身，而不是实例化的对象
-4. 在PHP中，子类继承父类并改写了父类中的方法，但是依然想要调用父类中的方法，就用parent
+   1. static
+      + static关键字声明一个属性或方法是和类相关的，而不是和类的某个特定的实例相关，因此，这类属性或方法也称为“类属性”或“类方法”。
+      + static的属性，在内存中只有一份，为所有的实例共用。也就是说，在内存中即使有多个实例，静态的属性也只有一份。
+      + static关键字可以用来修饰变量、方法。
+      + 通过static关键字定义的属性或方法（例如static $web），只能由当前类通过【self::$web】来访问，其他类和子类是无法访问的。
+   2. $this指的是实例化的对象，而不是类本身
+   3. self指的是类本身，而不是实例化的对象
+   4. 在PHP中，子类继承父类并改写了父类中的方法，但是依然想要调用父类中的方法，就用parent
 ** return, break, and continue 区别
    1. return，立即停止执行函数内部的代码，然后继续执行下面的代码
    2. break，立即停止执行本循环体内的所有循环，最常见的switch循环。
@@ -207,20 +207,20 @@ photos:
 
    #+end_src
 ** 构造函数 vs 析构函数
-1. 构造函数
-   + 类的构造函数是类的一种特殊的成员函数，它会在每次创建类的新对象时执行。
-   + Java、C++ 构造函数的名称与类的名称是完全相同的，PHP 语言目前普遍用法是使用 __construct() 代替。
-   + 构造函数不会返回任何类型，也不会返回 void。
-2. 析构函数
-   + 类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。
-   + Java、C++ 析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。PHP 语言普遍用法是使用 __desctruct() 代替。
-   + 析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。
-   + 试图在析构函数（在脚本终止时被调用）中抛出一个异常会导致致命错误。
+   1. 构造函数
+      + 类的构造函数是类的一种特殊的成员函数，它会在每次创建类的新对象时执行。
+      + Java、C++ 构造函数的名称与类的名称是完全相同的，PHP 语言目前普遍用法是使用 __construct() 代替。
+      + 构造函数不会返回任何类型，也不会返回 void。
+   2. 析构函数
+      + 类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。
+      + Java、C++ 析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。PHP 语言普遍用法是使用 __desctruct() 代替。
+      + 析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。
+      + 试图在析构函数（在脚本终止时被调用）中抛出一个异常会导致致命错误。
 ** public, protected, private and final 区别
-1. public 用于声明可以外部调用类或方法
-2. protected 声明只能被继承子类调用
-3. private 用于定义私有属性或方法，仅供内部类调用
-4. final 指定某个类不允许被继承或者是某个方法不允许被修改
+   1. public 用于声明可以外部调用类或方法
+   2. protected 声明只能被继承子类调用
+   3. private 用于定义私有属性或方法，仅供内部类调用
+   4. final 指定某个类不允许被继承或者是某个方法不允许被修改
 ** implode vs explode
    #+begin_src php
      // 将数组元素组合为字符串
@@ -725,17 +725,17 @@ photos:
        #+end_src
    16. __debugInfo()，打印所需调试信息
 ** 面向对象方法get_object_vars、is_subclass_of、interface_exists
-1. get_object_vars($obj) 获得对象的属性，以关联数组形式返回。
-2. get_parent_class()，参数是对象或者是类名，获得父类。
-3. is_subclass_of($obj,$class)：判断对象是否是某个类的子类实例化产生的。
-4. interface_exists():判断接口是否存在。
-5. get_class():获得当前对象是哪个类实例化出来的。
-6. get_declared_classes()：以数组形式返回当前脚本中所有的类。
-7. get_declared_interfaces()：以数组形式返回当前脚本中的所有接口。
-8. method_exists():判断某个类中是否存在某个方法，也就是检查类的方法是否存在。
-9. property_exists():判断某个类中是否存在某个属性，也就是检查类的属性是否存在。
-10. instanceof:判断某个对象是否是某个类实例化产生的。
-11. 
+   1. get_object_vars($obj) 获得对象的属性，以关联数组形式返回。
+   2. get_parent_class()，参数是对象或者是类名，获得父类。
+   3. is_subclass_of($obj,$class)：判断对象是否是某个类的子类实例化产生的。
+   4. interface_exists():判断接口是否存在。
+   5. get_class():获得当前对象是哪个类实例化出来的。
+   6. get_declared_classes()：以数组形式返回当前脚本中所有的类。
+   7. get_declared_interfaces()：以数组形式返回当前脚本中的所有接口。
+   8. method_exists():判断某个类中是否存在某个方法，也就是检查类的方法是否存在。
+   9. property_exists():判断某个类中是否存在某个属性，也就是检查类的属性是否存在。
+   10. instanceof:判断某个对象是否是某个类实例化产生的。
+   11. 
 ** mysql, mysqli, pdo 区别
 ** PHP 命令传参
    #+begin_src php
@@ -1308,27 +1308,27 @@ photos:
    + sizeof — count 的别名
 
 *** 排序函数
-   + array_multisort — 对多个数组或多维数组进行排序
-   + arsort — 对数组进行逆向排序并保持索引关系
-   + asort — 对数组进行排序并保持索引关系
-   + krsort — 对数组按照键名逆向排序
-   + ksort — 对数组按照键名排序
-   + sort — 对数组排序
-   + rsort — 对数组逆向排序
-   + natcasesort — 用“自然排序”算法对数组进行不区分大小写字母的排序
-   + natsort — 用“自然排序”算法对数组排序
-   + uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
-   + uksort — 使用用户自定义的比较函数对数组中的键名进行排序
-   + usort — 使用用户自定义的比较函数对数组中的值进行排序
-     #+BEGIN_SRC php
-	   // uksort ( array &$array , callable $key_compare_func ) : bool
-       uksort(&$arr, function ($a, $b) use ($seq) {
-	   $seq = array_flip($seq);
-	   $idx1 = $seq[$a] ?? -1;
-	   $idx2 = $seq[$b] ?? -1;
-	   return $idx1 - $idx2;
-       });
-     #+END_SRC
+    + array_multisort — 对多个数组或多维数组进行排序
+    + arsort — 对数组进行逆向排序并保持索引关系
+    + asort — 对数组进行排序并保持索引关系
+    + krsort — 对数组按照键名逆向排序
+    + ksort — 对数组按照键名排序
+    + sort — 对数组排序
+    + rsort — 对数组逆向排序
+    + natcasesort — 用“自然排序”算法对数组进行不区分大小写字母的排序
+    + natsort — 用“自然排序”算法对数组排序
+    + uasort — 使用用户自定义的比较函数对数组中的值进行排序并保持索引关联
+    + uksort — 使用用户自定义的比较函数对数组中的键名进行排序
+    + usort — 使用用户自定义的比较函数对数组中的值进行排序
+      #+BEGIN_SRC php
+	    // uksort ( array &$array , callable $key_compare_func ) : bool
+	uksort(&$arr, function ($a, $b) use ($seq) {
+	    $seq = array_flip($seq);
+	    $idx1 = $seq[$a] ?? -1;
+	    $idx2 = $seq[$b] ?? -1;
+	    return $idx1 - $idx2;
+	});
+      #+END_SRC
 ** 字符串函数
    + addcslashes — 以 C 语言风格使用反斜线转义字符串中的字符
    + addslashes()，字符串转义，使用反斜线引用字符串。如I’m Zhao中的’
