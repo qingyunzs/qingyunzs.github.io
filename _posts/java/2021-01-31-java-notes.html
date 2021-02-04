@@ -1,0 +1,444 @@
+---
+layout: post
+title: Java 开发笔记
+author: zrg
+comments: false
+description: Java 开发笔记
+categories:
+- java
+tags:
+- Java
+photos:
+---
+<p>
+x
+</p>
+
+<div id="outline-container-org900f0ca" class="outline-2">
+<h2 id="org900f0ca"><span class="section-number-2">1</span> Java 概念</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgde20516" class="outline-3">
+<h3 id="orgde20516"><span class="section-number-3">1.1</span> 重写(override)和重载(overload)</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>概念
+<ul class="org-ul">
+<li>Override：子类中和父类中的方法声明一模一样。</li>
+<li>Overload：方法一样，参数或参数类型不一样。</li>
+</ul></li>
+<li>使用注意事项
+<ul class="org-ul">
+<li>父类中私有方法不能被重写</li>
+<li>子类重写父类方法时，访问权限不能更低</li>
+<li>父类静态方法，子类也必须通过静态方法进行重写。（算不上重写）</li>
+<li>推荐：重写时，最好声明一模一样。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org2b606cb" class="outline-3">
+<h3 id="org2b606cb"><span class="section-number-3">1.2</span> == vs equals</h3>
+<div class="outline-text-3" id="text-1-2">
+<ol class="org-ol">
+<li>对于==，如果作用于基本数据类型的变量（byte,short,char,int,long,float,double,boolean ），则直接比较其存储的"值"是否相等；如果作用于引用类型的变量（String），则比较的是所指向的对象的地址（即是否指向同一个对象）。</li>
+<li>equals方法是基类Object中的方法，因此对于所有的继承于Object的类都会有该方法。在Object类中，equals方法是用来比较两个对象的引用是否相等，即是否指向同一个对象。</li>
+<li>对于equals方法注意：equals方法不能作用于基本数据类型的变量。如果没有对equals方法进行重写，则比较的是引用类型的变量所指向的对象的地址；而String类对equals方法进行了重写，用来比较指向的字符串对象所存储的字符串是否相等。其他的一些类诸如Double，Date，Integer等，都对equals方法进行了重写用来比较指向的对象所存储的内容是否相等。</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org0af0c65" class="outline-3">
+<h3 id="org0af0c65"><span class="section-number-3">1.3</span> 反射 &amp; 范型</h3>
+<div class="outline-text-3" id="text-1-3">
+<ol class="org-ol">
+<li>概念
+<ul class="org-ul">
+<li>反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。</li>
+<li>范型：在日常生活中，橡皮泥通过外力可以改变其形状，其形状是不固 定的。在Java中，通过泛型可以给开发带来方便，通过参数的指 定，可以改变其类型。</li>
+</ul></li>
+
+<li><p>
+使用范型的优缺点
+</p>
+<ul class="org-ul">
+<li>使代码看起来灵活，代码量减少，容易管理 ，不容易产生错误；</li>
+<li>使用泛型在代码编译的时候能进行类型的检查并自动转换，使代码的运行效率得到提高；</li>
+<li>使用泛型在编译进行自动转换的时候出现了错误，会进行错误提示；</li>
+</ul>
+<p>
+-（缺点）在性能上不如数组快。
+</p></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org1da7301" class="outline-3">
+<h3 id="org1da7301"><span class="section-number-3">1.4</span> 值传递 vs 引用传递</h3>
+<div class="outline-text-3" id="text-1-4">
+<ol class="org-ol">
+<li>错误理解
+<ul class="org-ul">
+<li>值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。</li>
+<li>Java是引用传递</li>
+<li>传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。</li>
+</ul></li>
+
+<li>实参和形参
+<ul class="org-ul">
+<li>形式参数：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数。</li>
+<li>实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。</li>
+</ul></li>
+
+<li><p>
+值传递和引用传递
+</p>
+<ul class="org-ul">
+<li>值传递（pass by value）是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。</li>
+<li>引用传递（pass by reference）是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。</li>
+</ul>
+
+<p>
+<b>举例：</b>
+<img src="{{site.url}}/assets/images/value-example.png" alt="value-example.png" />
+</p></li>
+
+<li>总结
+<ul class="org-ul">
+<li>值传递：会创建副本，在函数中无法改变原始对象。</li>
+<li>引用传递：引用传递不会创建副本，函数中可以改变原始对象。</li>
+<li>Java中其实还是值传递的，只不过对于对象参数，值的内容是对象的引用。可以说，Java中的传递只有值传递。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4c42cef" class="outline-3">
+<h3 id="org4c42cef"><span class="section-number-3">1.5</span> Class&lt;T&gt; vs Class&lt;?&gt;</h3>
+<div class="outline-text-3" id="text-1-5">
+</div>
+<div id="outline-container-org9f20da1" class="outline-4">
+<h4 id="org9f20da1"><span class="section-number-4">1.5.1</span> 提前了解</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>使用大写字母A,B,C,D&#x2026;&#x2026;X,Y,Z定义的，就都是泛型，把T换成A也一样，这里T只是名字上的意义而已。</li>
+<li>？ 表示不确定的java类型</li>
+<li>T (type) 表示具体的一个java类型</li>
+<li>K V (key value) 分别代表java键值中的Key Value</li>
+<li>E (element) 代表Element</li>
+<li>?和T区别是：？是一个不确定类，？和T都表示不确定的类型 ，但如果是T的话，函数里面可以对T进行操作，比方 T car = getCar()，而不能用？ car = getCar()。</li>
+<li>Object和T不同点在于，Object是一个实打实的类,并没有泛指谁，可以直接给List中 add(new Object())</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfaf1e87" class="outline-4">
+<h4 id="orgfaf1e87"><span class="section-number-4">1.5.2</span> Class&lt;T&gt;，Class&lt;?&gt;区别</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ol class="org-ol">
+<li>Class是什么呢，Class也是一个类，但Class是存放上面String,List,Map&#x2026;&#x2026;类信息的一个类，有点抽象。</li>
+<li><p>
+如何获取到Class类呢，有三种方式:
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">List</span> <span style="color: #FF8C00;">list</span> = <span style="color: #AF87FF;">null</span>;
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = list.getClass();
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>);
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = List.<span style="color: #FF1493;">class</span>;
+</pre>
+</div></li>
+<li><p>
+使用Class&lt;T&gt;和Class&lt;?&gt;多发生在反射场景下，如果我们不使用泛型，反射创建一个类是什么样的:
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span> = (<span style="color: #5FD7FF;">People</span>) Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>).newInstance();
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#38656;&#35201;&#24378;&#36716;&#65292;&#22914;&#26524;&#21453;&#23556;&#30340;&#31867;&#22411;&#19981;&#26159;People&#31867;&#65292;&#23601;&#20250;&#25253;java.lang.ClassCastException&#38169;&#35823;&#12290;</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20351;&#29992;Class&lt;T&gt;&#27867;&#22411;&#21518;&#65292;&#19981;&#29992;&#24378;&#36716;&#20102;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Test</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">T</span> <span style="color: #87D700;">createInstance</span>(<span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>) <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span> {
+        <span style="color: #FF1493;">return</span> clazz.newInstance();
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>)  <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span>  {
+            <span style="color: #5FD7FF;">Fruit</span> <span style="color: #FF8C00;">fruit</span>= createInstance(Fruit .<span style="color: #FF1493;">class</span>);
+            <span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span>= createInstance(People.<span style="color: #FF1493;">class</span>);
+    }
+}
+</pre>
+</div></li>
+<li><p>
+结论：
+</p>
+<ul class="org-ul">
+<li>Class&lt;T&gt;在实例化的时候，T要替换成具体类</li>
+<li>Class&lt;?&gt;它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21487;&#20197;&#36825;&#26679;&#22768;&#26126;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;?&gt; <span style="color: #FF8C00;">clazz</span>;
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20294;&#19981;&#21487;&#20197;&#36825;&#26679;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>;
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orga9594db" class="outline-3">
+<h3 id="orga9594db"><span class="section-number-3">1.6</span> String vs StringBuffer vs StringBuilder</h3>
+<div class="outline-text-3" id="text-1-6">
+<ol class="org-ol">
+<li>都是final类，都不允许被继承；</li>
+<li>String类长度是不可变的，StringBuffer和StringBuilder类长度是可以改变的；</li>
+<li>StringBuffer类是线程安全的，StringBuilder不是线程安全的；</li>
+<li>String类型和StringBuffer类型的主要性能区别：
+<ul class="org-ul">
+<li>String是不可变的对象，因此每次在对String类进行改变的时候都会生成一个新的string对象，然后将指针指向新的string对象，所以经常要改变字符串长度的话不要使用string，因为每次生成对象都会对系统性能产生影响，特别是当内存中引用的对象多了以后，JVM的GC就会开始工作，性能就会降低；</li>
+<li>使用StringBuffer类时，每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用，所以多数情况下推荐使用StringBuffer，特别是字符串对象经常要改变的情况；</li>
+<li>在某些情况下，String对象的字符串拼接其实是被Java Compiler编译成了StringBuffer对象的拼接，所以这些时候String对象的速度并不会比StringBuffer对象慢。</li>
+</ul></li>
+<li>StringBuilder是5.0新增的，此类提供一个与 StringBuffer 兼容的 API，但不保证同步。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同；</li>
+<li>使用策略：
+<ul class="org-ul">
+<li>基本原则：如果要操作少量的数据，用String ；单线程操作大量数据，用StringBuilder ；多线程操作大量数据，用StringBuffer。</li>
+<li>不要使用String类的”+”来进行频繁的拼接，因为那样的性能极差的，应该使用StringBuffer或StringBuilder类，这在Java的优化上是一条比较重要的原则。</li>
+<li>StringBuilder一般使用在方法内部来完成类似”+”功能，因为是线程不安全的，所以用完以后可以丢弃。StringBuffer主要用在全局变量中。</li>
+<li>相同情况下，使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。而在现实的模块化编程中，负责某一模块的程序员不一定能清晰地判断该模块是否会放入多线程的环境中运行，因此：除非确定系统的瓶颈是在 StringBuffer 上，并且确定你的模块不会运行在多线程模式下，才可以采用StringBuilder；否则还是用StringBuffer。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3424245" class="outline-3">
+<h3 id="org3424245"><span class="section-number-3">1.7</span> 自动装箱、拆箱</h3>
+<div class="outline-text-3" id="text-1-7">
+<ol class="org-ol">
+<li><p>
+什么是自动装箱、拆箱
+简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。如下所示：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#33258;&#21160;&#35013;&#31665;</span>
+<span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">total</span> = 99;
+
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#33258;&#21160;&#25286;&#31665;</span>
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">totalprim</span> = total;
+</pre>
+</div>
+
+<p>
+反编译class文件之后得到如下内容：
+</p>
+
+<pre class="example">
+javap -c StringTest
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">total</span> = 99; 
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25191;&#34892;&#19978;&#38754;&#37027;&#21477;&#20195;&#30721;&#30340;&#26102;&#20505;&#65292;&#31995;&#32479;&#20026;&#25105;&#20204;&#25191;&#34892;&#20102;&#65306; </span>
+<span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">total</span> = Integer.valueOf(99);
+
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">totalprim</span> = total; 
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25191;&#34892;&#19978;&#38754;&#37027;&#21477;&#20195;&#30721;&#30340;&#26102;&#20505;&#65292;&#31995;&#32479;&#20026;&#25105;&#20204;&#25191;&#34892;&#20102;&#65306; </span>
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">totalprim</span> = total.intValue();
+
+<span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#36827;&#32780;&#20197;Integer&#20026;&#20363;&#65292;&#20998;&#26512;&#28304;&#30721;</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Integer.valueOf&#20989;&#25968;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">Integer</span> <span style="color: #87D700;">valueOf</span>(<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">i</span>) {
+    <span style="color: #FF1493;">return</span>  i &gt;= 128 || i &lt; -128 ? <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Integer</span>(i) : SMALL_VALUES[i + 128];
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Integer&#30340;&#26500;&#36896;&#20989;&#25968;&#65306;</span>
+<span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">value</span>;
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23450;&#20041;&#20102;&#19968;&#20010;value&#21464;&#37327;&#65292;&#21019;&#24314;&#19968;&#20010;Integer&#23545;&#35937;&#65292;&#23601;&#20250;&#32473;&#36825;&#20010;&#21464;&#37327;&#21021;&#22987;&#21270;&#12290;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #87D700;">Integer</span>(<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">value</span>) {
+    <span style="color: #FF1493;">this</span>.value = value;
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20256;&#20837;&#30340;&#26159;&#19968;&#20010;String&#21464;&#37327;&#65292;&#23427;&#20250;&#20808;&#25226;&#23427;&#36716;&#25442;&#25104;&#19968;&#20010;int&#20540;&#65292;&#28982;&#21518;&#36827;&#34892;&#21021;&#22987;&#21270;&#12290;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #87D700;">Integer</span>(<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">string</span>) <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">NumberFormatException</span> {
+    <span style="color: #FF1493;">this</span>(parseInt(string));
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">SMALL_VALUES[i + 128]&#65292;&#23427;&#26159;&#19968;&#20010;&#38745;&#24577;&#30340;Integer&#25968;&#32452;&#23545;&#35937;&#65292;&#20063;&#23601;&#26159;&#35828;&#26368;&#32456;valueOf&#36820;&#22238;&#30340;&#37117;&#26159;&#19968;&#20010;Integer&#23545;&#35937;&#12290;</span>
+<span style="color: #FF1493;">private</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Integer</span>[] <span style="color: #FF8C00;">SMALL_VALUES</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Integer</span>[256];
+</pre>
+</div>
+
+<p>
+小结：装箱的过程会创建对应的对象，这个会消耗内存，所以装箱的过程会增加内存的消耗，影响性能。
+</p></li>
+<li><p>
+进一步了解
+在Integer的构造函数中，它分两种情况：
+</p>
+<pre class="example">
+i &gt;= 128 || i &lt; -128 =====&gt; new Integer(i)
+i &lt; 128 &amp;&amp; i &gt;= -128 =====&gt; SMALL_VALUES[i + 128]
+</pre>
+
+
+<pre class="example">
+private static final Integer[] SMALL_VALUES = new Integer[256];
+</pre>
+
+
+<p>
+SMALL_VALUES本来已经被创建好，也就是说在i &gt;= 128 || i &lt; -128是会创建不同的对象，在i &lt; 128 &amp;&amp; i &gt;= -128会根据i的值返回已经创建好的指定的对象。下面举例说明：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Main</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">i1</span> = 100;
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">i2</span> = 100;
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">i3</span> = 200;
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">i4</span> = 200;
+
+        System.out.println(i1==i2);  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+        System.out.println(i3==i4);  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">false</span>
+    }
+}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>i1和i2会进行自动装箱，执行了valueOf函数，它们的值在(-128,128]这个范围内，它们会拿到SMALL_VALUES数组里面的同一个对象SMALL_VALUES[228]，它们引用到了同一个Integer对象，所以它们肯定是相等的。</li>
+<li>i3和i4也会进行自动装箱，执行了valueOf函数，它们的值大于128，所以会执行new Integer(200)，也就是说它们会分别创建两个不同的对象，所以它们肯定不等。</li>
+</ul>
+
+<p>
+<b>举例2:</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Main</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+
+        <span style="color: #5FD7FF;">Double</span> <span style="color: #FF8C00;">i1</span> = 100.0;
+        <span style="color: #5FD7FF;">Double</span> <span style="color: #FF8C00;">i2</span> = 100.0;
+        <span style="color: #5FD7FF;">Double</span> <span style="color: #FF8C00;">i3</span> = 200.0;
+        <span style="color: #5FD7FF;">Double</span> <span style="color: #FF8C00;">i4</span> = 200.0;
+
+        System.out.println(i1==i2); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">false</span>
+        System.out.println(i3==i4); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">false</span>
+    }
+}
+</pre>
+</div>
+<p>
+看看上面的执行结果，跟Integer不一样，对于Integer，在(-128,128]之间只有固定的256个值，所以为了避免多次创建对象，我们事先就创建好一个大小为256的Integer数组SMALL_VALUES，所以如果值在这个范围内，就可以直接返回我们事先创建好的对象就可以了。
+<br />
+但是对于Double类型来说，因为它在这个范围内个数是无限的。所以在Double里面的做法很直接，就是直接创建一个对象，所以每次创建的对象都不一样。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">Double</span> <span style="color: #87D700;">valueOf</span>(<span style="color: #5FD7FF;">double</span> <span style="color: #FF8C00;">d</span>) {
+     <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Double</span>(d);
+}
+</pre>
+</div>
+
+<p>
+下面我们进行一个归类：
+</p>
+<ul class="org-ul">
+<li>Integer派别：Integer、Short、Byte、Character、Long这几个类的valueOf方法的实现是类似的。</li>
+<li>Double派别：Double、Float的valueOf方法的实现是类似的。每次都返回不同的对象。</li>
+</ul></li>
+<li>其他情况
+<ul class="org-ul">
+<li><p>
+Boolean
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Main</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+
+        <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">i1</span> = <span style="color: #AF87FF;">false</span>;
+        <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">i2</span> = <span style="color: #AF87FF;">false</span>;
+        <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">i3</span> = <span style="color: #AF87FF;">true</span>;
+        <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">i4</span> = <span style="color: #AF87FF;">true</span>;
+
+        System.out.println(i1==i2);<span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+        System.out.println(i3==i4);<span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+    }
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36820;&#22238;&#30340;&#37117;&#26159;true&#65292;&#20063;&#23601;&#26159;&#23427;&#20204;&#25191;&#34892;valueOf&#36820;&#22238;&#30340;&#37117;&#26159;&#30456;&#21516;&#30340;&#23545;&#35937;&#12290;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">Boolean</span> <span style="color: #87D700;">valueOf</span>(<span style="color: #5FD7FF;">boolean</span> <span style="color: #FF8C00;">b</span>) {
+    <span style="color: #FF1493;">return</span> b ? <span style="color: #AF87FF;">Boolean</span>.TRUE : <span style="color: #AF87FF;">Boolean</span>.FALSE;
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21487;&#20197;&#30475;&#21040;&#23427;&#24182;&#27809;&#26377;&#21019;&#24314;&#23545;&#35937;&#65292;&#22240;&#20026;&#22312;&#20869;&#37096;&#24050;&#32463;&#25552;&#21069;&#21019;&#24314;&#22909;&#20004;&#20010;&#23545;&#35937;&#65292;&#22240;&#20026;&#23427;&#21482;&#26377;&#20004;&#31181;&#24773;&#20917;&#65292;&#36825;&#26679;&#20063;&#26159;&#20026;&#20102;&#36991;&#20813;&#37325;&#22797;&#21019;&#24314;&#22826;&#22810;&#30340;&#23545;&#35937;&#12290;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">TRUE</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Boolean</span>(<span style="color: #AF87FF;">true</span>);
+
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Boolean</span> <span style="color: #FF8C00;">FALSE</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Boolean</span>(<span style="color: #AF87FF;">false</span>);
+</pre>
+</div></li>
+<li><p>
+拆箱操作
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">num1</span> = 400;
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">num2</span> = 400;
+System.out.println(num1 == num2); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+System.out.println(num1.equals(num2));  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+</pre>
+</div>
+
+<p>
+equals 源码：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Override</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">boolean</span> <span style="color: #87D700;">equals</span>(<span style="color: #5FD7FF;">Object</span> <span style="color: #FF8C00;">o</span>) {
+    <span style="color: #FF1493;">return</span> (o <span style="color: #FF1493;">instanceof</span> Integer) &amp;&amp; (((<span style="color: #5FD7FF;">Integer</span>) o).value == value);
+}
+</pre>
+</div>
+<p>
+说明：指定equal比较的是内容本身，并且我也可看到 equals 的参数是一个Object对象，我们传入的是一个 int 类型，所以首先会进行装箱，然后比较。之所以返回 true，是由于它比较的是对象里面的 value 值。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">num1</span> = 100;
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">num2</span> = 100;
+<span style="color: #5FD7FF;">Long</span> <span style="color: #FF8C00;">num3</span> = 200l;
+System.out.println(num1 + num2);  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">200</span>
+System.out.println(num3 == (num1 + num2));  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">true</span>
+System.out.println(num3.equals(num1 + num2));  <span style="color: #8B8878;">//</span><span style="color: #8B8878;">false</span>
+</pre>
+</div>
+<p>
+说明：当一个基础数据类型与封装类进行==、+、-、*、/运算时，会将封装类进行拆箱，对基础数据类型进行运算。 对于num3.equals(num1 + num2)为false的原因，根据代码实现来说明。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Override</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">boolean</span> <span style="color: #87D700;">equals</span>(<span style="color: #5FD7FF;">Object</span> <span style="color: #FF8C00;">o</span>) {
+    <span style="color: #FF1493;">return</span> (o <span style="color: #FF1493;">instanceof</span> Long) &amp;&amp; (((<span style="color: #5FD7FF;">Long</span>) o).value == value);
+}
+</pre>
+</div>
+<p>
+所以，对于num3.equals(num1 + num2)为false的原因就是类型不同。
+</p></li>
+<li><p>
+陷阱
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">integer100</span>=<span style="color: #AF87FF;">null</span>;
+<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">int100</span>=integer100;
+</pre>
+</div>
+<p>
+这两行代码是完全合法的，完全能够通过编译的，但是在运行时，就会抛出空指针异常。其中，integer100为Integer类型的对象，它当然可以指向null。但在第二行时，就会对integer100进行拆箱，也就是对一个null对象执行intValue()方法，当然会抛出空指针异常。所以，有拆箱操作时一定要特别注意封装类对象是否为null。
+</p></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org5afaddf" class="outline-2">
+<h2 id="org5afaddf"><span class="section-number-2">2</span> </h2>
+</div>
