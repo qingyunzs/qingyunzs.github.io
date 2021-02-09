@@ -94,7 +94,9 @@ http://localhost:4000
 	- 打开emacs，M-x jekyll-draft-post，按提示输入标题，Emacs便会在 _org/_drafts中新建该文件，在_org/_drafts中编辑的文件不会被发布；
 	- 当文章写好后，M-x jekyll-publish-post，Emacs便会将文章转移至_org/_posts中；
 	- M-x org-publish，选择jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs会将_org/_posts中的所有org文件转换成html文件并存于_posts中，并把 _org/_assest中图片等静态资源全部复制至站点根目录下的_assest目录中。
-	- 注意：只有文章有更新，才会更新_posts目录下的内容，所以批量迁移时，注意保留_posts目录下的内容。
+4. 注意事项
+	- 只有文章有更新，才会更新 _posts 目录下的内容，所以批量迁移时，注意保留 _posts 目录下的内容。
+	- 如何彻底删除某篇文章呢？就是在删除 _orgs/_posts 目录下的文件后，接着删除 _posts 目录下的文件。
 
 ## 问题收集
 ### Org 写作 PlantUML 组件绘图生成过程
