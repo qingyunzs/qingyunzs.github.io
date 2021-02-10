@@ -31,6 +31,21 @@ photos:
 #+END_EXPORT
 
 * 学习准备
+** 学习安排
+   1. Linux 基础学习（阅读书籍推荐《鸟哥的Linux私房菜：基础学习篇》，也可以参考我写的小册子：[[https://zhaorengui.github.io/linux/2018/08/06/using-debian/][Debian GNU/Linux]]）
+   2. Python
+   3. 数据分析
+   4. 实例
+** 励志公式
+   : 1.01^365 = 37.78
+   : 0.99^365 = 0.03
+   积硅步以致千里，积怠惰以致深渊。
+
+   : 1.02^365 = 1377.41                                                                                                                                                : 0.98^365 = 0.0006
+   只比你努力一点的人，其实已经甩你很远。
+
+   : 1.01^3 * 0.99^2 < 1.01
+   三天打鱼，两天晒网，终将一无所获。
 ** 常用软件
 *** Google Chrome
     当下最流行的浏览器。
@@ -227,6 +242,31 @@ photos:
 *** Cygwin
   Cygwin是一个可原生运行于Windows系统上的POSXI兼容环境。具体参见资料：[[https://zhuanlan.zhihu.com/p/56692626][Cygwin是什么]]  
 *** IDE(Integrated Development Environment): PyCharm
+* 操作系统(Operating System)
+** OS 作为接口的示意图
+   [[file:{{site}}/assets/images/os-01.png]]
+** 不用应用领域主流 OS
+    1. 桌面 OS
+       - Windows
+       - MacOS
+       - Linux
+    2. 服务器 OS
+       - Windows Server
+       - Linux::
+	 安全稳定，占有率高
+    3. 嵌入式 OS
+       - Windows SE::
+	 基本上没人用了
+       - Linux::
+	 主流
+    4. 移动设备 OS
+       - iOS
+       - Android
+** 虚拟机
+   虚拟机（Virtual Machine）指通过软件模拟的具有完整硬件系统功能的、运行在一个完全隔离环境中的完整计算机系统。
+   - 虚拟系统生成全新虚拟镜像，具有真实操作系统完全一样的功能。
+   - 独立安装软件、保存数据，不对真正的操作系统产生任何影响。
+   - 操作系统与虚拟操作系统能灵活切换。
 * Python 简介
   1. Python 是一种解释型、面向对象、动态数据类型的高级程序设计语言。
   2. 官方宣布于 2020 年 1 月 1 日， 停止 Python 2 的更新。Python 2.7 被确定为最后一个 Python 2.x 版本。
@@ -240,6 +280,7 @@ photos:
      - [[https://www.w3school.com.cn/p.asp#python][w3school]]
      - [[https://www.runoob.com/python3/python3-tutorial.html][Python 3 菜鸟教程]]
      - [[https://www.bilibili.com/video/BV1ex411x7Em?from=search&seid=10686282289125873067][Python从入门到精通教程]]
+     - [[https://www.bilibili.com/video/BV1ex411x7Em?p=1][bilibili：Python从入门到精通教程]]
   6. 入门练习：https://learnxinyminutes.com/docs/python/
 * Python 环境搭建
 ** *Windows*
@@ -281,6 +322,8 @@ photos:
 * Python 基本语法
 ** 基础语法
 *** 编码
+    1. 默认情况下，Python 3 源码文件以 UTF-8 编码，所有字符串都是 unicode 字符串。
+    2. 
 *** 标识符
 *** 保留字
 *** 注释
@@ -308,6 +351,51 @@ photos:
 *** Dictionary
 ** 运算符
 ** 流程控制语句
+*** 练习题：输入某年某月某日，判断这一天是这一年的第几天？
+    #+begin_src python
+      # -*- coding: utf-8 -*-
+      # @Date   : 2021/02/10
+      # @Time   : 19:30
+      # @Author : zrg
+
+      # 需求:输入某年某月某日，判断这一天是这一年的第几天？
+      # 思路:以5月20日为例，应该先把前四个月的加起来，然后再加上20天即本年的第几天
+      # 特殊情况: 如果年份为闰年且输入月份大于2时需考虑多加一天
+
+      year = int(input("Year:"))
+      month = int(input("Month:"))
+      day = int(input("Day:"))
+
+      sum_day = 0 # 第几天
+      leap_year = 0 # 闰年
+
+      # 使用元组定义天数
+      # 如果输入的月份是1月份，则直接计算day即可
+      # 如果输入的月份是2月份，则要先计算出1月份的天数，即为31天
+      # 以此类推
+      # 1  2   3   4   5    6    7    8    9    10   11   12
+      # 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334
+      months = (0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334)
+
+      # 根据输入的月份，计算出前几个月的天数
+      if 0 < month <= 12:
+	  sum_day = months[month - 1]
+      else:
+	  print("输入的月份有误")
+
+      # 判断是否为闰年:
+      # 1.能被400整除 或者是 2.能被4整除并且不能被100整除
+      if year % 400 == 0 or (year % 4 == 0 and year % 100 != 0):
+	  leap_year = 1
+
+      # 判断如果是闰年并且输入的月份大于2则在总的天数上加1
+      if leap_year == 1 and month > 2:
+	  sum_day += day + 1
+      else:
+	  sum_day += day
+
+      print("It is the {sum_day}th day.")
+    #+end_src
 ** *迭代器与生成器*
 ** 函数
 ** Python 数据结构
@@ -348,3 +436,6 @@ photos:
 ** uWSGI
 ** Django
 ** Flask
+* Python 数据分析
+** 参考资料
+  - data science community：https://www.kaggle.com/
