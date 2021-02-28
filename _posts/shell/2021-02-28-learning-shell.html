@@ -1,0 +1,2519 @@
+---
+layout: post
+title: Shell 脚本编程
+author: zrg
+comments: false
+description: 这是一篇关于 Linux Shell 学习笔记
+categories:
+- Shell
+tags:
+- Shell
+photos:
+---
+
+<div id="outline-container-orga6c990e" class="outline-2">
+<h2 id="orga6c990e"><span class="section-number-2">1</span> 认识 Shell Scripts</h2>
+<div class="outline-text-2" id="text-1">
+<ol class="org-ol">
+<li>学习 Shell 的疑惑
+<ul class="org-ul">
+<li>如何启动命令行以及接下来做什么？</li>
+<li>如何使用 shell脚本来自动处理系统管理任务，包括从检测系统统计数据和数据文件到为你的老板生成报表？</li>
+</ul></li>
+<li>Shell 简介
+<ul class="org-ul">
+<li>Shell 是一个用 C 语言编写的程序，Shell 既是一种命令语言，又是一种程序设计语言。</li>
+<li>Shell 是指一种应用程序，这个应用程序提供了一个界面，用户通过这个界面访问操作系统内核的服务。</li>
+<li>Shell 类型
+<ul class="org-ul">
+<li><b>/bin/bash</b></li>
+<li>/bin/tcsh</li>
+<li>/bin/dash</li>
+<li>/bin/csh</li>
+<li>/bin/sh</li>
+<li>/bin/zsh</li>
+</ul></li>
+<li><p>
+执行 Shell 脚本
+</p>
+<pre class="example">
+// 新增可执行权限
+chmod +x test.sh
+</pre>
+
+
+<pre class="example">
+// 作为可执行程序
+./test.sh
+</pre>
+
+
+<pre class="example">
+// 作为解释器参数
+/bin/sh test.sh
+</pre></li>
+</ul></li>
+<li>常见 Shell 操作终端
+<ul class="org-ul">
+<li>Linux 控制终端</li>
+<li>Terminal
+<ul class="org-ul">
+<li>GNOME Terminal</li>
+<li>Konsole Terminal</li>
+</ul></li>
+<li>Terminus</li>
+<li>Xterm</li>
+<li>XShell</li>
+</ul></li>
+<li><p>
+理解 Shell 的父子关系
+</p>
+<pre class="example">
+$ ps -f
+</pre>
+
+
+<pre class="example">
+$ bash
+$ ps -f
+输入命令之后，一个子 shell 就出现了。第二个 ps -f 是在子 shell 中执行的。可以从显示结果中看到两个 bash shell 程序在运行。
+</pre>
+
+
+<pre class="example">
+$ bash
+$ bash
+$ bash
+$ ps --forest
+在上面例子中，bash 命令被输入了三次。实际上创建了三个子 shell。ps --forest 命令展示了这些子 shell 间的嵌套结构。可以使用 exit 命令退出子 shell
+$ exit
+</pre>
+
+
+<p>
+<b>进程列表</b>
+</p>
+<pre class="example">
+$ pwd;ls;cd /etc;pwd
+在命令之间加入“;，指定要依次执行的一系列命令
+$ (pwd;ls;cd /etc;pwd)
+使用括号包含命令，成为进程列表
+</pre>
+
+
+<pre class="example">
+查看是否生成了子 shell，使用：
+$ echo $BASH_SUBSHELL
+</pre>
+
+
+<p>
+<b>子shell用法</b>
+</p>
+<pre class="example">
+// 在后台睡眠10s
+$ sleep 10&amp;
+// 查看后台进程
+$ ps -f
+or
+$ jobs -l
+</pre>
+
+
+<pre class="example">
+//将进程列表置入后台
+$ (sleep 2;echo $BASH_SUBSHELL;sleep 2)&amp;
+// 创建备份
+$ (tar -cf Rich.rar /home/rich;tar -cf My.tar /home/christine)&amp;
+</pre>
+
+
+<pre class="example">
+//协程：在后台生成一个子shell，同时在这个子shell中执行命令。
+// 进行协程处理，使用 coproc 命令
+$ coproc sleep 10
+$ coproc My_Job{sleep 10;
+</pre></li>
+<li>理解 shell 的内建命令
+<dl class="org-dl">
+<dt>外部命令</dt><dd><p>
+也被称为文件系统命令，是存在于bash shell之外的程序。ps 就是一个外部命令，可以使用 which 和 type 命令找到
+</p>
+<pre class="example">
+$ which ps
+$ type -a ps
+</pre>
+
+<p>
+当外部命令执行时，会创建一个子进程，这种操作叫做衍生（forking）。
+</p></dd>
+<dt>内建命令</dt><dd><p>
+内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和 shell 编译成一体，作为 shell 工具的组成部分存在。可以利用 type 命令来了解某个命令是否是内建的。
+</p>
+<pre class="example">
+$ type cd
+cd is a shell builtin
+</pre>
+
+<p>
+要注意，有些命令有多种实现。既有内建命令也有外部命令。
+</p>
+<pre class="example">
+$ type -a echo
+echo is a shell builtin
+echo is /bin/echo
+$ type -a pwd
+pwd is a shell builtin
+pwd is /bin/pwd 
+</pre></dd>
+</dl></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org06a728d" class="outline-2">
+<h2 id="org06a728d"><span class="section-number-2">2</span> Shell 基础</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org7546523" class="outline-3">
+<h3 id="org7546523"><span class="section-number-3">2.1</span> Hello World</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;">################</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Hello World  #</span>
+<span style="color: #8B8878;">################     </span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">This script displays the date and who's #&#33050;&#26412;&#29992;&#36884;&#35828;&#26126;&#21450;&#20316;&#32773;&#31561;&#20449;&#24687;&#25551;&#36848; </span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"This's is a shell script."</span> <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#26174;&#31034;&#28040;&#24687;</span>
+<span style="color: #FF1493;">echo</span> -n <span style="color: #CDC673;">"The time and date are: "</span> <span style="color: #8B8878;">#</span><span style="color: #8B8878;">n&#34920;&#31034;&#22312;&#19968;&#34892;&#26174;&#31034;</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Hello,World!"</span> <span style="color: #8B8878;"># </span><span style="color: #8B8878;">print "Hello,World!"</span>
+date <span style="color: #8B8878;"># </span><span style="color: #8B8878;">print date.</span>
+
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"User info for userid: $USER"</span> <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#29615;&#22659;&#21464;&#37327;&#65292;&#29992;set&#21629;&#20196;&#21487;&#20197;&#26597;&#30475;&#19968;&#20221;&#23436;&#25972;&#30340;&#24403;&#21069;&#29615;&#22659;&#21464;&#37327;&#21015;&#34920;&#12290;</span>
+<span style="color: #FF1493;">echo</span> UID: $<span style="color: #FF8C00;">UID</span>
+<span style="color: #FF1493;">echo</span> HOME: $<span style="color: #FF8C00;">HOME</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The cost of the item is \$15."</span> <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#32654;&#20803;&#38656;&#35201;&#20351;&#29992;\&#36716;&#20041;</span>
+
+<span style="color: #FF8C00;">days</span>= 10 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#29992;&#25143;&#33258;&#23450;&#20041;&#21464;&#37327;</span>
+<span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">days</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26377;&#20004;&#31181;&#26041;&#27861;&#21487;&#20197;&#23558;&#21629;&#20196;&#36171;&#32473;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">test</span>= <span style="color: #AF87FF; font-weight: bold;">`date`</span> <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#29992;&#19968;&#23545;&#21453;&#24341;&#21495;&#25226;&#25972;&#20010;&#21629;&#20196;&#22260;&#36215;&#26469;</span>
+<span style="color: #FF8C00;">test</span>= $(date) <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#20351;&#29992;$()&#26684;&#24335;</span>
+<span style="color: #FF8C00;">today</span>= $(date+%y%m%d) <span style="color: #8B8878;">#</span><span style="color: #8B8878;">today&#21464;&#37327;&#34987;&#36171;&#20104;&#26684;&#24335;&#21270;&#21518;&#30340;date&#21629;&#20196;&#30340;&#36755;&#20986;&#12290;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org40f8865" class="outline-3">
+<h3 id="org40f8865"><span class="section-number-3">2.2</span> 变量</h3>
+<div class="outline-text-3" id="text-2-2">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">############</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;&#21464;&#37327; #</span>
+<span style="color: #8B8878;">############</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">"qinjx"</span>
+<span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">your_name</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">your_name</span>}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21464;&#37327;&#21517;&#22806;&#38754;&#30340;&#33457;&#25324;&#21495;&#26159;&#21487;&#36873;&#30340;&#65292;&#21152;&#19981;&#21152;&#37117;&#34892;&#65292;&#21152;&#33457;&#25324;&#21495;&#26159;&#20026;&#20102;&#24110;&#21161;&#35299;&#37322;&#22120;&#35782;&#21035;&#21464;&#37327;&#30340;&#36793;&#30028;&#65292;&#20363;&#22914;&#19979;&#38754;&#30340;&#24773;&#20917;&#65306;</span>
+<span style="color: #FF1493;">for</span> skill<span style="color: #FF1493;"> in</span> Ada Coffe Action Java; <span style="color: #FF1493;">do</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"I am good at ${skill}Script"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21482;&#35835;&#21464;&#37327;</span>
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.google.com"</span>
+<span style="color: #FF1493;">readonly</span> myUrl
+<span style="color: #FF8C00;">myUrl</span>=<span style="color: #CDC673;">"https://www.runoob.com"</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36816;&#34892;&#33050;&#26412;&#65292;&#32467;&#26524;&#22914;&#19979;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">/bin/sh: NAME: This variable is read only.</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;">############</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21024;&#38500;&#21464;&#37327; #</span>
+<span style="color: #8B8878;">############</span>
+<span style="color: #FF1493;">unset</span> variable_name
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ee060a" class="outline-3">
+<h3 id="org9ee060a"><span class="section-number-3">2.3</span> 字符串</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">################</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Shell &#23383;&#31526;&#20018; #</span>
+<span style="color: #8B8878;">################</span>
+<span style="color: #FF8C00;">str</span>=<span style="color: #CDC673;">'this is a string'</span>
+<span style="color: #FF8C00;">your_name</span>=<span style="color: #CDC673;">'zrg'</span>
+<span style="color: #FF8C00;">str2</span>=<span style="color: #CDC673;">"Hello, I know you are \"$your_name\"! \n"</span>
+<span style="color: #FF1493;">echo</span> -e $<span style="color: #FF8C00;">str</span>
+:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#36755;&#20986;&#32467;&#26524;&#20026;&#65306;</span>
+<span style="color: #CDC673; font-weight: bold;">Hello, I know you are "runoob"! </span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25340;&#25509;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21452;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting</span>=<span style="color: #CDC673;">"hello, "</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">" !"</span>
+<span style="color: #FF8C00;">greeting_1</span>=<span style="color: #CDC673;">"hello, ${your_name} !"</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992;&#21333;&#24341;&#21495;&#25340;&#25509;</span>
+<span style="color: #FF8C00;">greeting_2</span>=<span style="color: #CDC673;">'hello, '</span>$<span style="color: #FF8C00;">your_name</span><span style="color: #CDC673;">' !'</span>
+<span style="color: #FF8C00;">greeting_3</span>=<span style="color: #CDC673;">'hello, ${your_name} !'</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#23383;&#31526;&#20018;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"abcd"</span>
+<span style="color: #FF1493;">echo</span> ${#<span style="color: #FF8C00;">string</span>} <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25552;&#21462;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">string</span>:1:4} <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; unoo</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23376;&#23383;&#31526;&#20018;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#26597;&#25214;&#23383;&#31526; i &#25110; o &#30340;&#20301;&#32622;(&#21738;&#20010;&#23383;&#27597;&#20808;&#20986;&#29616;&#23601;&#35745;&#31639;&#21738;&#20010;)&#65306;</span>
+<span style="color: #FF8C00;">string</span>=<span style="color: #CDC673;">"runoob is a great site"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #AF87FF; font-weight: bold;">`expr index "$string" io`</span>  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36755;&#20986; 4</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org913b41d" class="outline-3">
+<h3 id="org913b41d"><span class="section-number-3">2.4</span> 数组</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23450;&#20041;</span>
+<span style="color: #FF8C00;">array_name</span>=(value0 value1 value2 value3)
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#35835;&#21462;&#25968;&#32452;</span>
+<span style="color: #FF8C00;">value</span>=${<span style="color: #FF8C00;">array_name</span>[n]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20351;&#29992; @ &#31526;&#21495;&#21487;&#20197;&#33719;&#21462;&#25968;&#32452;&#20013;&#30340;&#25152;&#26377;&#20803;&#32032;</span>
+<span style="color: #FF1493;">echo</span> ${<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#33719;&#21462;&#25968;&#32452;&#30340;&#38271;&#24230;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#20803;&#32032;&#30340;&#20010;&#25968;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[@]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;</span>
+<span style="color: #FF8C00;">length</span>=${#<span style="color: #FF8C00;">array_name</span>[*]}
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#21462;&#24471;&#25968;&#32452;&#21333;&#20010;&#20803;&#32032;&#30340;&#38271;&#24230;</span>
+<span style="color: #FF8C00;">lengthn</span>=${#<span style="color: #FF8C00;">array_name</span>[n]}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgca665ce" class="outline-3">
+<h3 id="orgca665ce"><span class="section-number-3">2.5</span> 注释</h3>
+<div class="outline-text-3" id="text-2-5">
+<ol class="org-ol">
+<li>单行注释：以 # 开头的行就是注释</li>
+<li><p>
+多行注释：
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">:&lt;&lt;EOF
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#25110;&#32773;&#26159;</span>
+:&lt;&lt;<span style="color: #CDC673;">'</span>
+<span style="color: #CDC673;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673;">'</span>
+
+<span style="color: #CDC673; font-weight: bold;">:&lt;&lt;!</span>
+<span style="color: #CDC673; font-weight: bold;">&#27880;&#37322;&#20869;&#23481;...</span>
+<span style="color: #CDC673; font-weight: bold;">!</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgeab9d57" class="outline-3">
+<h3 id="orgeab9d57"><span class="section-number-3">2.6</span> 环境变量(Environment Parameter)</h3>
+<div class="outline-text-3" id="text-2-6">
+<ol class="org-ol">
+<li>概念：环境变量（environment variable），用来存储有关 shell 会话和工作环境的信息。</li>
+<li><p>
+全局环境变量和局部环境变量:
+</p>
+<pre class="example">
+// 查看全局变量
+$ env
+or
+$ printenv
+</pre>
+
+
+<pre class="example">
+// 查看某个全局环境变量
+$ env HOME
+or
+$ echo $HOME
+</pre>
+
+
+<pre class="example">
+// set 命令会显示为某个特定进程设置的所有环境变量，包括全局变量、局部变量以及用户自定义变量。
+$ set
+</pre></li>
+<li><p>
+设置用户自定义变量
+</p>
+<pre class="example">
+$ my_variable=Hello
+</pre>
+
+<p>
+注意：所有环境变量名均使用大写字母，这是 bash shell 的标准惯例。自己创建的局部变量或是 shell 脚本，请使用小写字母。变量名区分大小写。
+</p>
+<pre class="example">
+$ my_variable="Hello World"
+</pre>
+
+
+<pre class="example">
+// 设置全局变量
+$ export my_variable="I am Global now"
+</pre>
+
+
+<pre class="example">
+// 删除环境变量
+$ unset my_variable
+</pre>
+
+<p>
+注意：如果要用到变量，使用$；如果要操作变量，不使用$。
+</p></li>
+<li><p>
+PATH、PS1 环境变量
+</p>
+<pre class="example">
+// 全局环境变量
+$ PATH=$PATH:/opt/test/scripts
+</pre>
+
+
+<pre class="example">
+// 自定义用户命令行的字符显示
+</pre>
+
+<p>
+PS1 默认提示符变量，如动态显示当前目录：
+</p>
+<pre class="example">
+$ export PS1="[\u@\h \w]"
+</pre>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> PS1 变量可使用的参数值</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\d</td>
+<td class="org-left">代表日期，格式为weekday month date，例如："Mon Aug 1"</td>
+</tr>
+
+<tr>
+<td class="org-left">\H</td>
+<td class="org-left">完整的主机名称。例如：我的机器名称为：fc4.linux，则这个名称就是fc4.linux</td>
+</tr>
+
+<tr>
+<td class="org-left">\h</td>
+<td class="org-left">仅取主机的第一个名字，如上例，则为fc4，.linux则被省略</td>
+</tr>
+
+<tr>
+<td class="org-left">\t</td>
+<td class="org-left">显示时间为24小时格式，如：HH：MM：SS</td>
+</tr>
+
+<tr>
+<td class="org-left">\T</td>
+<td class="org-left">显示时间为12小时格式</td>
+</tr>
+
+<tr>
+<td class="org-left">\A</td>
+<td class="org-left">显示时间为24小时格式：HH：MM</td>
+</tr>
+
+<tr>
+<td class="org-left">\u</td>
+<td class="org-left">当前用户的账号名称</td>
+</tr>
+
+<tr>
+<td class="org-left">\v</td>
+<td class="org-left">BASH的版本信息</td>
+</tr>
+
+<tr>
+<td class="org-left">\w</td>
+<td class="org-left">完整的工作目录名称。家目录会以 ~代替</td>
+</tr>
+
+<tr>
+<td class="org-left">\W</td>
+<td class="org-left">利用basename取得工作目录名称，所以只会列出最后一个目录</td>
+</tr>
+
+<tr>
+<td class="org-left">\#</td>
+<td class="org-left">下达的第几个命令</td>
+</tr>
+
+<tr>
+<td class="org-left">\$</td>
+<td class="org-left">提示字符，如果是root时，提示符为：# ，普通用户则为：$</td>
+</tr>
+
+<tr>
+<td class="org-left">\[</td>
+<td class="org-left">字符"["</td>
+</tr>
+
+<tr>
+<td class="org-left">\]</td>
+<td class="org-left">字符"]"</td>
+</tr>
+
+<tr>
+<td class="org-left">\!</td>
+<td class="org-left">命令行动态统计历史命令次数</td>
+</tr>
+</tbody>
+</table>
+<p>
+PS2 是副提示符变量，默认值是''&gt; ''。PS2一般使用于命令行里较长命令的换行提示信息。可自定义设置如下：
+</p>
+<pre class="example">
+$ export PS2="PS2 =&gt; "
+</pre>
+
+<p>
+另外，还有 PS3 和 PS4，因为这两个环境变量可能用得不多，所以在这就不介绍了，感兴趣的小伙伴可自行研究。
+</p></li>
+<li>定位系统环境变量
+<ul class="org-ul">
+<li><p>
+登录时作为默认登录 shell
+<br />
+登录 shell 会从5个不同的启动文件里读取命令，其中 /etc/profile 是默认的 bash shell 主启动文件。
+</p>
+<pre class="example">
+$HOME/.bash_profile
+$HOME/.bashrc
+$HOME/.bash_login
+$HOME/.profile
+</pre></li>
+<li>作为非登录 shell 的交互式 shell
+<br />
+作为非登录 shell 的交互式启动的，它不会访问 /etc/profile 文件，只会检查 HOME 目录中的 .bashrc 文件。
+<br />
+.bashrc 文件有两个作用：一是查看/etc目录下通用的 bashrc 文件；二是为用户提供一个定制自己的命名别名和私有脚本函数的地方。</li>
+<li>作为运行脚本的非交互式shell
+<br />
+系统执行 shell 脚本时使用，不同的地方在于它没有命令提示符。bash shell 提供了 BASH_ENV 环境变量，当 shell 启动一个非交互式 shell 进程时，它会检查这个环境变量来查看要执行的启动文件。
+<br />
+在大多数发行版中，存储个人用户永久性 bash shell 变量的地方是 $HOME/.bashrc 文件。但如果设置了 BASH_ENV 变量，那么记住，除非它指向的是 $HOME/.bashrc，否则应该将非交互式 shell 的用户变量放在别的地方。</li>
+</ul></li>
+<li><p>
+数组变量
+</p>
+<pre class="example">
+// 环境变量作为数组使用
+$ mytest=(one two three four five)
+$ echo ${mytest[2]}
+three
+$ echo ${mytest[*]}
+one two three four five
+</pre>
+
+
+<pre class="example">
+//改变某个索引的值
+$ mytest[2] = seven
+</pre>
+
+
+<pre class="example">
+//删除某个索引的值和删除整个数组
+$ unset mytest[2]
+$ unset mytest
+</pre></li>
+<li>环境变量配置文件
+<ul class="org-ul">
+<li>/etc/profile</li>
+<li>/etc/profile.d/*.sh</li>
+<li>~/.bash_profile</li>
+<li>~/.bashrc</li>
+<li>/etc/bashrc</li>
+<li>~/.bash_logout</li>
+<li>~/.bash_history</li>
+<li id="/etc/issue">本地终端欢迎信息</li>
+<li id="/etc/motd">登录后的欢迎信息</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org43c81c6" class="outline-3">
+<h3 id="org43c81c6"><span class="section-number-3">2.7</span> 重定向(Redirect)输入和输出</h3>
+<div class="outline-text-3" id="text-2-7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> 重定向字符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">0</th>
+<th scope="col" class="org-left">标准输入</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">1</th>
+<th scope="col" class="org-left">标准输出</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">2</th>
+<th scope="col" class="org-left">标准错误输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&gt;</td>
+<td class="org-left">默认为标准输出重定向，与 &gt;1 相同</td>
+</tr>
+
+<tr>
+<td class="org-left">2&gt;&amp;1</td>
+<td class="org-left">把标准输出重定向到标准输出</td>
+</tr>
+<tbody>
+<tr>
+</tr>
+</tbody>
+
+<tr>
+<td class="org-left">&amp;&gt;file</td>
+<td class="org-left">把标准输出和标准错误输出都重定向到 file 中</td>
+</tr>
+
+<tr>
+<td class="org-left">/dev/null</td>
+<td class="org-left">是一个特殊文件，所有重定向到它的东西都丢弃掉</td>
+</tr>
+</tbody>
+</table>
+
+<ol class="org-ol">
+<li><p>
+输出重定向
+</p>
+<pre class="example">
+// 标准输出重定向
+$ date &gt; test
+$ date &gt;&gt; test
+</pre>
+
+
+<pre class="example">
+// 标准错误输出重定向
+$ date 2&gt;test
+$ date 2&gt;&gt;test
+</pre>
+
+
+<pre class="example">
+// 正确输出和错误输出同时保存
+$ date &gt; test 2&gt;&amp;1
+$ date &gt;&gt; test 2&gt;&amp;1
+$ date &amp;&gt;test
+$ date &amp;&gt;&gt;test
+$ date &gt;&gt;test1 2&gt;&gt;test2
+</pre></li>
+<li><p>
+输入重定向
+</p>
+<pre class="example">
+// 输入重定向
+$ wc &lt; test
+//wc 命令，默认情况下，会输出3个值：
+</pre>
+
+<ul class="org-ul">
+<li>文本的行数</li>
+<li>文本的词数</li>
+<li><p>
+文本的字节数
+</p>
+
+<pre class="example">
+// 内联输入重定向(inline input redirection)
+$ wc &lt;&lt; EOF
+</pre>
+
+<p>
+shell 会用PS2环境变量中定义的次提示符来提示输入数据
+</p></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga105c61" class="outline-3">
+<h3 id="orga105c61"><span class="section-number-3">2.8</span> 通配符(Wildcard Character)</h3>
+<div class="outline-text-3" id="text-2-8">
+<ol class="org-ol">
+<li><p>
+shell通配符(wildcard)
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 3:</span> shell 常见通配符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">字符</th>
+<th scope="col" class="org-left">含义</th>
+<th scope="col" class="org-left">实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&lowast;</td>
+<td class="org-left">匹配 0 或多个字符</td>
+<td class="org-left">a*b  a与b之间可以有任意长度的任意字符, 也可以一个也没有, 如aabcb, axyzb, a012b, ab。</td>
+</tr>
+
+<tr>
+<td class="org-left">?</td>
+<td class="org-left">匹配任意一个字符</td>
+<td class="org-left">a?b  a与b之间必须也只能有一个字符, 可以是任意字符, 如aab, abb, acb, a0b。</td>
+</tr>
+
+<tr>
+<td class="org-left">[list]</td>
+<td class="org-left">匹配 list 中的任意单一字符</td>
+<td class="org-left">a[xyz]b   a与b之间必须也只能有一个字符, 但只能是 x 或 y 或 z, 如: axb, ayb, azb。</td>
+</tr>
+
+<tr>
+<td class="org-left">[!list]</td>
+<td class="org-left">匹配 除list 中的任意单一字符</td>
+<td class="org-left">a[!0-9]b  a与b之间必须也只能有一个字符, 但不能是阿拉伯数字, 如axb, aab, a-b。</td>
+</tr>
+
+<tr>
+<td class="org-left">[c1-c2]</td>
+<td class="org-left">匹配 c1-c2 中的任意单一字符 如：[0-9] [a-z]</td>
+<td class="org-left">a[0-9]b  0与9之间必须也只能有一个字符 如a0b, a1b&#x2026; a9b。</td>
+</tr>
+
+<tr>
+<td class="org-left">{string1,string2,&#x2026;}</td>
+<td class="org-left">匹配 sring1 或 string2 (或更多)其一字符串</td>
+<td class="org-left">a{abc,xyz,123}b    a与b之间只能是abc或xyz或123这三个字符串之一。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+shell 特殊字符
+shell 除了有通配符之外，由shell 负责预先先解析后，将处理结果传给命令行之外，shell还有一系列自己的其他特殊字符。
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 4:</span> shell 特殊字符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">字符</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">IFS</td>
+<td class="org-left">由 &lt;space&gt; 或 &lt;tab&gt; 或 &lt;enter&gt; 三者之一组成(我们常用 space )。</td>
+</tr>
+
+<tr>
+<td class="org-left">CR</td>
+<td class="org-left">由 &lt;enter&gt; 产生。</td>
+</tr>
+
+<tr>
+<td class="org-left">=</td>
+<td class="org-left">设定变量。</td>
+</tr>
+
+<tr>
+<td class="org-left">$</td>
+<td class="org-left">作变量或运算替换(请不要与 shell prompt 搞混了)。</td>
+</tr>
+
+<tr>
+<td class="org-left">&gt;</td>
+<td class="org-left">重导向 stdout。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">&lt;</td>
+<td class="org-left">重导向 stdin。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">命令管线。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">&amp;</td>
+<td class="org-left">重导向 file descriptor ，或将命令置于背境执行。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">( )</td>
+<td class="org-left">将其内的命令置于 nested subshell 执行，或用于运算或命令替换。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">{ }</td>
+<td class="org-left">将其内的命令置于 non-named function 中执行，或用在变量替换的界定范围。</td>
+</tr>
+
+<tr>
+<td class="org-left">;</td>
+<td class="org-left">在前一个命令结束时，而忽略其返回值，继续执行下一个命令。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">&amp;&amp;</td>
+<td class="org-left">在前一个命令结束时，若返回值为 true，继续执行下一个命令。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">两个竖线</td>
+<td class="org-left">在前一个命令结束时，若返回值为 false，继续执行下一个命令。 *</td>
+</tr>
+
+<tr>
+<td class="org-left">&iexcl;</td>
+<td class="org-left">执行 history 列表中的命令。*</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+shell 转义符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 5:</span> shell 转义符号</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">字符</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">‘’(单引号)</td>
+<td class="org-left">又叫硬转义，其内部所有的shell 元字符、通配符都会被关掉。注意，硬转义中不允许出现’(单引号)。</td>
+</tr>
+
+<tr>
+<td class="org-left">“”(双引号)</td>
+<td class="org-left">又叫软转义，其内部只允许出现特定的shell 元字符：$用于参数代换 `用于命令代替</td>
+</tr>
+
+<tr>
+<td class="org-left">\(反斜杠)</td>
+<td class="org-left">又叫转义，去除其后紧跟的元字符或通配符的特殊意义。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+shell 解析脚本过程
+</p>
+
+<div class="figure">
+<p><img src="{{site.url}}/assets/images/shell-analysis-process.png" alt="shell-analysis-process.png" />
+</p>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfaa398b" class="outline-3">
+<h3 id="orgfaa398b"><span class="section-number-3">2.9</span> 位置参数(Positional Parameter)</h3>
+<div class="outline-text-3" id="text-2-9">
+<ol class="org-ol">
+<li><p>
+特殊变量
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 6:</span> 位置参数</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">位置参数变量</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">$n</td>
+<td class="org-left">n为自然数。0代表命令本身，0代表命令本身，1到9代表第1到第9个参数（参数的值是执行该命令时，从9代表第1到第9个参数（参数的值是执行该命令时，从1开始依次输入的），十以上的参数要用大括号包含，如${10}。</td>
+</tr>
+
+<tr>
+<td class="org-left">$*</td>
+<td class="org-left">这个变量代表命令行中所有的参数（不包括$0），它把所有的参数当做一个整体对待。对其进行for循环遍历时，只会循环一次。</td>
+</tr>
+
+<tr>
+<td class="org-left">$@</td>
+<td class="org-left">这个变量也代表命令行中所有的参数（不包括$0），它把所有的参数当做独立的个体对待。对其进行for循环遍历时，可循环多次。</td>
+</tr>
+
+<tr>
+<td class="org-left">$#</td>
+<td class="org-left">这个变量代表命令行中所有参数的个数（不包括$0）。</td>
+</tr>
+
+<tr>
+<td class="org-left">$$</td>
+<td class="org-left">脚本运行的当前进程ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$!</td>
+<td class="org-left">后台运行的最后一个进程的ID号</td>
+</tr>
+
+<tr>
+<td class="org-left">$-</td>
+<td class="org-left">显示Shell使用的当前选项，与set命令功能相同。</td>
+</tr>
+
+<tr>
+<td class="org-left">$?</td>
+<td class="org-left">显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>$</b> 与 $@ 区别：*
+</p>
+<ul class="org-ul">
+<li>相同点：都是引用所有参数。</li>
+<li>不同点：只有在双引号中体现出来。假设在脚本运行时写了三个参数 1、2、3，，则 " * " 等价于 "1 2 3"（传递了一个参数），而 "@" 等价于 "1" "2" "3"（传递了三个参数）。</li>
+</ul></li>
+<li><p>
+读取参数
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org3137630"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">using one command line parameter</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#25191;&#34892;&#30340;&#25991;&#20214;&#21517;&#65306;$0"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#19968;&#20010;&#21442;&#25968;&#20026;&#65306;$1"</span>;
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532;&#20108;&#20010;&#21442;&#25968;&#20026;&#65306;$2"</span>;
+
+<span style="color: #FF8C00;">factorial</span>=1
+<span style="color: #FF1493;">for</span> ((<span style="color: #FF8C00;">number</span>=1; number&lt;=$<span style="color: #FF8C00;">1</span>; number++))
+<span style="color: #FF1493;">do</span>
+<span style="color: #FF8C00;">factorial</span>=$[$<span style="color: #FF8C00;">factorial</span> * $<span style="color: #FF8C00;">number</span>]
+<span style="color: #FF1493;">done</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The factorial of $1 is $factorial"</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgdaf80fe" class="outline-3">
+<h3 id="orgdaf80fe"><span class="section-number-3">2.10</span> 运算符(Operational Character)</h3>
+<div class="outline-text-3" id="text-2-10">
+<ol class="org-ol">
+<li><p>
+方法1：declare
+</p>
+<pre class="example">
+$ declare -i c=$a+$b
+$ echo $c
+</pre></li>
+<li><p>
+方法2：expr 或 let 运算工具
+</p>
+<pre class="example">
+$ c=$(expr $a +$b)
+$ echo c
+</pre></li>
+<li><p>
+方法3：$((表达式)) 或 $[表达式]
+</p>
+<pre class="example">
+$ var1=$((1+5))
+$ var2=$[$var1*2]
+// 使用 $ 和 [] 将数学表达式围起来
+</pre>
+
+<p>
+注意：bash shell数学运算符支持整数运算。z shell（zsh）提供了完整的浮点数算术操作。
+</p></li>
+<li><p>
+浮点运算解决方案
+</p>
+<pre class="example">
+使用内建的bash计算器：bc
+$ bc
+3.44 / 5
+0
+scale = 4 // 浮点运算由scale控制，默认值为0
+</pre>
+
+
+<p>
+注意：-q 选项可以不显示冗长的欢迎信息
+</p>
+<pre class="example">
+$ bc -q
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org2d9f5a3"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">var1</span> = $(<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"scale=4;3.44 / 5"</span> | bc)
+<span style="color: #FF1493;">echo</span> The answer is $<span style="color: #FF8C00;">var1</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgaf22699"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">var1</span>= 10.46
+<span style="color: #FF8C00;">var2</span>= 43.67
+<span style="color: #FF8C00;">var3</span>= 33.2
+<span style="color: #FF8C00;">var4</span>= 71
+<span style="color: #FF8C00;">var5</span>= $(bc &lt;&lt; EOF
+<span style="color: #CDC673; font-weight: bold;">scale= 4</span>
+<span style="color: #CDC673; font-weight: bold;">a1= ($var1*$var2)</span>
+<span style="color: #CDC673; font-weight: bold;">a2= ($var3*var4)</span>
+<span style="color: #CDC673; font-weight: bold;">a1+b1</span>
+<span style="color: #CDC673; font-weight: bold;">EOF</span>
+)
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The final answer for this mess is $var5"</span>
+</pre>
+</div></li>
+<li>运算符
+<ul class="org-ul">
+<li><p>
+算术运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 7:</span> 算术运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">加法</td>
+<td class="org-left">`expr $a + $b` 结果为 30。</td>
+</tr>
+
+<tr>
+<td class="org-left">-</td>
+<td class="org-left">减法</td>
+<td class="org-left">`expr $a - $b` 结果为 -10。</td>
+</tr>
+
+<tr>
+<td class="org-left">&lowast;</td>
+<td class="org-left">乘法</td>
+<td class="org-left">`expr $a \* $b` 结果为  200。</td>
+</tr>
+
+<tr>
+<td class="org-left">/</td>
+<td class="org-left">除法</td>
+<td class="org-left">`expr $b / $a` 结果为 2。</td>
+</tr>
+
+<tr>
+<td class="org-left">%</td>
+<td class="org-left">取余</td>
+<td class="org-left">`expr $b % $a` 结果为 0。</td>
+</tr>
+
+<tr>
+<td class="org-left">=</td>
+<td class="org-left">赋值</td>
+<td class="org-left">a=$b 将把变量 b 的值赋给 a。</td>
+</tr>
+
+<tr>
+<td class="org-left">==</td>
+<td class="org-left">相等。用于比较两个数字，相同则返回 true。</td>
+<td class="org-left">[ $a == $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">!=</td>
+<td class="org-left">不相等。用于比较两个数字，不相同则返回 true。</td>
+<td class="org-left">[ $a != $b ] 返回 true。</td>
+</tr>
+</tbody>
+</table>
+<p>
+注意：条件表达式要放在方括号之间，并且要有空格，例如: [$a==$b] 是错误的，必须写成 [ $a == $b ]。
+</p></li>
+<li><p>
+关系运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 8:</span> 关系运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-eq</td>
+<td class="org-left">检测两个数是否相等，相等返回 true。</td>
+<td class="org-left">[ $a -eq $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-ne</td>
+<td class="org-left">检测两个数是否不相等，不相等返回 true。</td>
+<td class="org-left">[ $a -ne $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-gt</td>
+<td class="org-left">检测左边的数是否大于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -gt $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-lt</td>
+<td class="org-left">检测左边的数是否小于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -lt $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-ge</td>
+<td class="org-left">检测左边的数是否大于等于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -ge $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-le</td>
+<td class="org-left">检测左边的数是否小于等于右边的，如果是，则返回 true。</td>
+<td class="org-left">[ $a -le $b ] 返回 true。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+布尔运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 9:</span> 布尔运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&iexcl;</td>
+<td class="org-left">非运算，表达式为 true 则返回 false，否则返回 true。</td>
+<td class="org-left">[ ! false ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-o</td>
+<td class="org-left">或运算，有一个表达式为 true 则返回 true。</td>
+<td class="org-left">[ $a -lt 20 -o $b -gt 100 ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-a</td>
+<td class="org-left">与运算，两个表达式都为 true 才返回 true。</td>
+<td class="org-left">[ $a -lt 20 -a $b -gt 100 ] 返回 false。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+逻辑运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 10:</span> 逻辑运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&amp;&amp;</td>
+<td class="org-left">逻辑的 AND</td>
+<td class="org-left">[ $a -lt 100 &amp;&amp; $b -gt 100 ] 返回 false</td>
+</tr>
+
+<tr>
+<td class="org-left">||</td>
+<td class="org-left">逻辑的 OR</td>
+<td class="org-left">[ $a -lt 100 || $b -gt 100 ] 返回 true</td>
+</tr>
+</tbody>
+</table>
+<p>
+注意：“|”，可通过 M-x org-entities-help &lt;RET&gt; 查看，Other &gt; Misc
+</p></li>
+<li><p>
+字符串运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 11:</span> 字符串运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">运算符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">=</td>
+<td class="org-left">检测两个字符串是否相等，相等返回 true。</td>
+<td class="org-left">[ $a = $b ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">!=</td>
+<td class="org-left">检测两个字符串是否相等，不相等返回 true。</td>
+<td class="org-left">[ $a != $b ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-z</td>
+<td class="org-left">检测字符串长度是否为0，为0返回 true。</td>
+<td class="org-left">[ -z $a ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-n</td>
+<td class="org-left">检测字符串长度是否为0，不为0返回 true。</td>
+<td class="org-left">[ -n "$a" ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">$</td>
+<td class="org-left">检测字符串是否为空，不为空返回 true。</td>
+<td class="org-left">[ $a ] 返回 true。</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+文件测试运算符
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 12:</span> 文件测试运算符</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">操作符</th>
+<th scope="col" class="org-left">说明</th>
+<th scope="col" class="org-left">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-b file</td>
+<td class="org-left">检测文件是否是块设备文件，如果是，则返回 true。</td>
+<td class="org-left">[ -b $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-c file</td>
+<td class="org-left">检测文件是否是字符设备文件，如果是，则返回 true。</td>
+<td class="org-left">[ -c $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-d file</td>
+<td class="org-left">检测文件是否是目录，如果是，则返回 true。</td>
+<td class="org-left">[ -d $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-f file</td>
+<td class="org-left">检测文件是否是普通文件（既不是目录，也不是设备文件），如果是，则返回 true。</td>
+<td class="org-left">[ -f $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-g file</td>
+<td class="org-left">检测文件是否设置了 SGID 位，如果是，则返回 true。</td>
+<td class="org-left">[ -g $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-k file</td>
+<td class="org-left">检测文件是否设置了粘着位(Sticky Bit)，如果是，则返回 true。</td>
+<td class="org-left">[ -k $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-p file</td>
+<td class="org-left">检测文件是否是有名管道，如果是，则返回 true。</td>
+<td class="org-left">[ -p $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-u file</td>
+<td class="org-left">检测文件是否设置了 SUID 位，如果是，则返回 true。</td>
+<td class="org-left">[ -u $file ] 返回 false。</td>
+</tr>
+
+<tr>
+<td class="org-left">-r file</td>
+<td class="org-left">检测文件是否可读，如果是，则返回 true。</td>
+<td class="org-left">[ -r $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-w file</td>
+<td class="org-left">检测文件是否可写，如果是，则返回 true。</td>
+<td class="org-left">[ -w $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-x file</td>
+<td class="org-left">检测文件是否可执行，如果是，则返回 true。</td>
+<td class="org-left">[ -x $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-s file</td>
+<td class="org-left">检测文件是否为空（文件大小是否大于0），不为空返回 true。</td>
+<td class="org-left">[ -s $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-e file</td>
+<td class="org-left">检测文件（包括目录）是否存在，如果是，则返回 true。</td>
+<td class="org-left">[ -e $file ] 返回 true。</td>
+</tr>
+
+<tr>
+<td class="org-left">-S</td>
+<td class="org-left">判断某文件是否 socket。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">-L</td>
+<td class="org-left">检测文件是否存在并且是一个符号链接。</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org79708c6" class="outline-3">
+<h3 id="org79708c6"><span class="section-number-3">2.11</span> 变量测试</h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+变量测试主要在 Shell 中使用，其它绝大多数语言是没有这个概念的，通用度不高。而且变量测试比较复杂，在实际写脚本的过程中完全可以用其它方式来取代变量测试。
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 13:</span> 变量测试表</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">变量置换方式</th>
+<th scope="col" class="org-left">y 没有设置</th>
+<th scope="col" class="org-left">y 为空</th>
+<th scope="col" class="org-left">y 设置值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">x=${y-变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:-变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y+变量}</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:-变量}</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=newValue</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y=变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y值不变</td>
+<td class="org-left">y值不变</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:=变量}</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=newValue</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y=newValue</td>
+<td class="org-left">y值不变</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y?变量}</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">x为空</td>
+<td class="org-left">x=$y</td>
+</tr>
+
+<tr>
+<td class="org-left">x=${y:?变量}</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">newValue 输出到标准错误输出</td>
+<td class="org-left">x=$y</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+x=${y-4}
+// 表示如果y不存在，那么x=4；如果y为空值，那么x为空值；如果y有值，那么x被赋y的值。
+</pre>
+</div>
+</div>
+<div id="outline-container-org62b7a1a" class="outline-3">
+<h3 id="org62b7a1a"><span class="section-number-3">2.12</span> 退出</h3>
+<div class="outline-text-3" id="text-2-12">
+<ol class="org-ol">
+<li><p>
+退出状态码       
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 14:</span> 退出状态码</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">状态码</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">命令成功结束</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">一般性未知错误</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">不适合的shell命令</td>
+</tr>
+
+<tr>
+<td class="org-right">126</td>
+<td class="org-left">命令不可执行</td>
+</tr>
+
+<tr>
+<td class="org-right">127</td>
+<td class="org-left">没找到命令</td>
+</tr>
+
+<tr>
+<td class="org-right">128</td>
+<td class="org-left">无效的退出参数</td>
+</tr>
+
+<tr>
+<td class="org-right">128+x</td>
+<td class="org-left">与Linux信号x相关的严重错误</td>
+</tr>
+
+<tr>
+<td class="org-right">130</td>
+<td class="org-left">通过Ctrl+C终止的命令</td>
+</tr>
+
+<tr>
+<td class="org-right">255</td>
+<td class="org-left">正常范围之外的退出状态码</td>
+</tr>
+</tbody>
+</table>
+<pre class="example">
+$ echo $?
+0
+</pre></li>
+<li><p>
+exit
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgd741565"><span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">'Hello, World'</span>
+<span style="color: #FF1493;">exit</span> 5 
+</pre>
+</div>
+
+<pre class="example">
+$ ./test 
+Hello, World
+$ echo $?
+5
+</pre></li>
+</ol>
+<p>
+#+end_src
+</p>
+</div>
+</div>
+
+<div id="outline-container-org74ec572" class="outline-3">
+<h3 id="org74ec572"><span class="section-number-3">2.13</span> 管道(Pipe)命令</h3>
+<div class="outline-text-3" id="text-2-13">
+<pre class="example">
+选取命令: cut,grep
+排序命令: sort,wc,uniq
+双向重定向：tee
+划分命令: tr,col,join,paste,expand
+参数代换: split,xargs
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf7b6c41" class="outline-3">
+<h3 id="orgf7b6c41"><span class="section-number-3">2.14</span> 正则表达式(Regular Expression)</h3>
+<div class="outline-text-3" id="text-2-14">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 15:</span> 正则表达式的基本组成部分</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">正则表达式</th>
+<th scope="col" class="org-left">描述</th>
+<th scope="col" class="org-left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">\</td>
+<td class="org-left">转义符，将特殊字符进行转义，忽略其特殊意义</td>
+<td class="org-left">a\.b匹配a.b，但不能匹配ajb，.被转义为特殊意义</td>
+</tr>
+
+<tr>
+<td class="org-left">^</td>
+<td class="org-left">匹配行首，awk中，^则是匹配字符串的开始</td>
+<td class="org-left">^tux匹配以tux开头的行</td>
+</tr>
+
+<tr>
+<td class="org-left">$</td>
+<td class="org-left">匹配行尾，awk中，$则是匹配字符串的结尾</td>
+<td class="org-left">tux$匹配以tux结尾的行</td>
+</tr>
+
+<tr>
+<td class="org-left">.</td>
+<td class="org-left">匹配除换行符\n之外的任意单个字符，awk则中可以</td>
+<td class="org-left">ab.匹配abc或bad，不可匹配abcd或abde，只能匹配单字符</td>
+</tr>
+
+<tr>
+<td class="org-left">[]</td>
+<td class="org-left">匹配包含在[字符]之中的任意一个字符</td>
+<td class="org-left">coo[kl]可以匹配cook或cool</td>
+</tr>
+
+<tr>
+<td class="org-left">[^]</td>
+<td class="org-left">匹配[^字符]之外的任意一个字符</td>
+<td class="org-left">123[^45]不可以匹配1234或1235，1236、1237都可以</td>
+</tr>
+
+<tr>
+<td class="org-left">[-]</td>
+<td class="org-left">匹配[]中指定范围内的任意一个字符，要写成递增</td>
+<td class="org-left">[0-9]可以匹配1、2或3等其中任意一个数字</td>
+</tr>
+
+<tr>
+<td class="org-left">?</td>
+<td class="org-left">匹配之前的项1次或者0次</td>
+<td class="org-left">colou?r可以匹配color或者colour，不能匹配colouur不支持</td>
+</tr>
+
+<tr>
+<td class="org-left">+</td>
+<td class="org-left">匹配之前的项1次或者多次</td>
+<td class="org-left">sa-6+匹配sa-6、sa-666，不能匹配sa-不支持</td>
+</tr>
+
+<tr>
+<td class="org-left">&lowast;</td>
+<td class="org-left">匹配之前的项0次或者多次</td>
+<td class="org-left">co*l匹配cl、col、cool、coool等</td>
+</tr>
+
+<tr>
+<td class="org-left">()</td>
+<td class="org-left">匹配表达式，创建一个用于匹配的子串</td>
+<td class="org-left">ma(tri)?匹配max或maxtrix不支持()()()</td>
+</tr>
+
+<tr>
+<td class="org-left">{n}</td>
+<td class="org-left">匹配之前的项n次，n是可以为0的正整数</td>
+<td class="org-left">[0-9]{3}匹配任意一个三位数，可以扩展为[0-9][0-9][0-9]不支持</td>
+</tr>
+
+<tr>
+<td class="org-left">{n,}</td>
+<td class="org-left">之前的项至少需要匹配n次</td>
+<td class="org-left">[0-9]{2,}匹配任意一个两位数或更多位数不支持</td>
+</tr>
+
+<tr>
+<td class="org-left">{n,m}</td>
+<td class="org-left">指定之前的项至少匹配n次，最多匹配m次，n&lt;=m</td>
+<td class="org-left">[0-9]{2,5}匹配从两位数到五位数之间的任意一个数字不支持</td>
+</tr>
+
+<tr>
+<td class="org-left">|</td>
+<td class="org-left">交替匹配 | 两边的任意一项ab(c</td>
+<td class="org-left">d)匹配abc或abd不支持</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+参考：<a href="https://man.linuxde.net/docs/shell_regex.html">https://man.linuxde.net/docs/shell_regex.html</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org98149d9" class="outline-3">
+<h3 id="org98149d9"><span class="section-number-3">2.15</span> 流程控制</h3>
+<div class="outline-text-3" id="text-2-15">
+</div>
+<div id="outline-container-org96f71e6" class="outline-4">
+<h4 id="org96f71e6"><span class="section-number-4">2.15.1</span> if-then</h4>
+<div class="outline-text-4" id="text-2-15-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgea48668"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">testuser</span> = zrg
+<span style="color: #8B8878;">#</span>
+<span style="color: #FF1493;">if</span> grep $<span style="color: #FF8C00;">testuser</span> /etc/passwd
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The bash files for user $testuser are:"</span>
+    ls -a /home/$<span style="color: #FF8C00;">testuser</span>/.b*
+    <span style="color: #FF1493;">echo</span>
+<span style="color: #FF1493;">elif</span> ls -d /home/$<span style="color: #FF8C00;">testuser</span>
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The user $testuser has a directory"</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The user $testuser does not exist on this system."</span>
+    <span style="color: #FF1493;">echo</span>
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">test&#21629;&#20196;&#25552;&#20379;&#20102;&#22312;if-then&#35821;&#21477;&#20013;&#27979;&#35797;&#19981;&#21516;&#26465;&#20214;&#30340;&#36884;&#24452;&#12290;</span>
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">test&#21629;&#20196;&#21487;&#20197;&#21028;&#26029;&#19977;&#31867;&#26465;&#20214;&#65306;&#25968;&#20540;&#27604;&#36739;&#65307;&#23383;&#31526;&#20018;&#27604;&#36739;&#65307;&#25991;&#20214;&#27604;&#36739;</span>
+</pre>
+</div>
+
+
+<p>
+<b>if-then 的高级特性</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org4bafb1f"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">(( expression )) expression &#21487;&#20197;&#26159;&#20219;&#24847;&#30340;&#25968;&#23398;&#36171;&#20540;&#25110;&#27604;&#36739;&#34920;&#36798;&#24335;&#12290;</span>
+<span style="color: #FF8C00;">var1</span>=10
+<span style="color: #FF1493;">if</span>(( $<span style="color: #FF8C00;">var1</span> ** 2 &gt; 90))
+<span style="color: #FF1493;">then</span>
+        (( $<span style="color: #FF8C00;">var2</span> = $<span style="color: #FF8C00;">var1</span> ** 2))
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The square of $var1 is $var2."</span>
+<span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org989f96a">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
+  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">[[ expression ]]</span>
+  <span style="color: #FF1493;">if</span>[[ $<span style="color: #FF8C00;">USER</span> == r* ]]
+  <span style="color: #FF1493;">then</span>
+          <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Hello $USER"</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Sorry, I do not know you."</span>
+  <span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+
+<p>
+<b>复合条件</b>
+</p>
+<pre class="example">
+格式：
+</pre>
+
+<p>
+[condition1] &amp;&amp; [condition2]
+[condition1] || [condition2]
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgbc266bd"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">testing compound comparisons</span>
+<span style="color: #8B8878;">#</span>
+<span style="color: #FF1493;">if</span> [-d $<span style="color: #FF8C00;">HOME</span>] &amp;&amp; [-w $<span style="color: #FF8C00;">HOME</span>/testing]
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The file exists and you can write to it."</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"I cannot write to the file."</span>
+<span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf0f7544" class="outline-4">
+<h4 id="orgf0f7544"><span class="section-number-4">2.15.2</span> test</h4>
+<div class="outline-text-4" id="text-2-15-2">
+<pre class="example">
+格式：
+</pre>
+
+<p>
+if test condition
+then
+commands
+fi
+</p>
+<pre class="example">
+如果 test 命令中列出的条件成立，退出并返回退出状态码0；如果条件不成立，退出并返回非零的退出状态码。
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgddfa4ca"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+$<span style="color: #FF8C00;">var</span> = 10
+<span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">var</span> -eq 5]
+<span style="color: #FF1493;">then</span> 
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The value $var are equal."</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The value $var are different."</span>
+<span style="color: #FF1493;">fi</span>
+$<span style="color: #FF8C00;">var1</span> = baduser
+<span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">USER</span> != $<span style="color: #FF8C00;">var1</span>]
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"This is not $var1"</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Welcome $var"</span>
+<span style="color: #FF1493;">fi</span>
+$<span style="color: #FF8C00;">var2</span> = baseall
+$<span style="color: #FF8C00;">var3</span> = hockey
+<span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">var2</span> <span style="color: #CDC673;">\&gt;</span> $<span style="color: #FF8C00;">var3</span>] <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&gt;&#31526;&#21495;&#38656;&#35201;&#36716;&#20041;&#65292;&#38450;&#27490;&#35299;&#37322;&#25104;&#36755;&#20986;&#37325;&#23450;&#21521;</span>
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$var2 is greater than $var3"</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$var2 is less than $var3"</span>
+<span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+<pre class="example">
+特别说明：
+1.test命令和测试表达式使用标准的数学比较符号来表示字符串比较，而用文本代码来表示数值比较。
+2.比较测试时，大写字母被认为是小于小写字母，但sort命令恰好相反。
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgb82ed85"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">var1</span> = testing
+<span style="color: #FF8C00;">var2</span> =<span style="color: #CDC673;">''</span>
+<span style="color: #FF1493;">if</span> [-n $<span style="color: #FF8C00;">var1</span>]
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The string '$var1' is not empty."</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The string '$var1' is empty."</span>
+<span style="color: #FF1493;">fi</span>
+<span style="color: #FF1493;">if</span> [-z $<span style="color: #FF8C00;">var2</span>]
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The string '$var2' is empty."</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The string '$var2' is not empty."</span>
+<span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org3eb6c4a"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">jump_directory</span>=/home/arthur
+<span style="color: #FF1493;">if</span> [-d $<span style="color: #FF8C00;">jump_directory</span>]
+<span style="color: #FF1493;">then</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The $jump_directory directory exists."</span>
+<span style="color: #FF1493;">else</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The $jump_directory directory does not exists."</span>
+<span style="color: #FF1493;">fi</span>
+</pre>
+</div>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">比较</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-d file</td>
+<td class="org-left">检查file是否存在并是一个目录</td>
+</tr>
+
+<tr>
+<td class="org-left">-e file</td>
+<td class="org-left">检查file是否存在</td>
+</tr>
+
+<tr>
+<td class="org-left">-f file</td>
+<td class="org-left">检查file是否存在并是一个文件</td>
+</tr>
+
+<tr>
+<td class="org-left">-r file</td>
+<td class="org-left">检查file是否存在并可读</td>
+</tr>
+
+<tr>
+<td class="org-left">-s file</td>
+<td class="org-left">检查file是否存在并非空</td>
+</tr>
+
+<tr>
+<td class="org-left">-w file</td>
+<td class="org-left">检查file是否存在并可写</td>
+</tr>
+
+<tr>
+<td class="org-left">-x file</td>
+<td class="org-left">检查file是否存在并可执行</td>
+</tr>
+
+<tr>
+<td class="org-left">-O file</td>
+<td class="org-left">检查file是否存在并属当前用户所有</td>
+</tr>
+
+<tr>
+<td class="org-left">-G file</td>
+<td class="org-left">检查file是否存在并且默认组与当前用户相同</td>
+</tr>
+
+<tr>
+<td class="org-left">file1 -nt file2</td>
+<td class="org-left">检查file是否比file2</td>
+</tr>
+
+<tr>
+<td class="org-left">file1 -ot file2</td>
+<td class="org-left">检查file是否比file2旧</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgd9fde42" class="outline-4">
+<h4 id="orgd9fde42"><span class="section-number-4">2.15.3</span> case</h4>
+<div class="outline-text-4" id="text-2-15-3">
+<pre class="example">
+格式：
+</pre>
+
+<p>
+case $变量名 in
+模式1)
+命令序列1;;
+模式2)
+命令序列2;;
+*)
+默认执行的命令序列;;
+esac 
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orga117b42">  <span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/bash</span>
+  <span style="color: #FF1493;">case</span> $<span style="color: #FF8C00;">action</span><span style="color: #FF1493;"> in</span>
+        start | begin)
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"start something"</span>
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"begin something"</span>;;
+        stop | end)
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"stop something"</span>
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"end something"</span>;;
+        *)
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Ignorant."</span>;;
+<span style="color: #FF1493;">esac</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge37301b" class="outline-4">
+<h4 id="orge37301b"><span class="section-number-4">2.15.4</span> for</h4>
+<div class="outline-text-4" id="text-2-15-4">
+<pre class="example">
+格式：
+</pre>
+
+<p>
+for var in list
+do
+commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org964f8d6"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;">#</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">basic for command</span>
+<span style="color: #FF1493;">for</span> country<span style="color: #FF1493;"> in</span> China America India Japen
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The next state is $country"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">another example of how not to use the for command</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.&#20351;&#29992;&#36716;&#20041;&#23383;&#31526;&#65288;&#21453;&#26012;&#32447;&#65289;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">2.&#20351;&#29992;&#21452;&#24341;&#21495;</span>
+<span style="color: #FF1493;">for</span> test<span style="color: #FF1493;"> in</span> I don<span style="color: #CDC673;">\'</span>t know if <span style="color: #CDC673;">"this'll"</span> work
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"word:$test"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">using a variable to hold the list</span>
+<span style="color: #FF8C00;">list</span>=<span style="color: #CDC673;">"China America India Japen"</span>
+<span style="color: #FF8C00;">list</span>=$<span style="color: #FF8C00;">list</span><span style="color: #CDC673;">" Connecticut"</span>
+<span style="color: #FF1493;">for</span> country<span style="color: #FF1493;"> in</span> $<span style="color: #FF8C00;">list</span>
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Welcome to $country"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">reading values from a file</span>
+<span style="color: #FF8C00;">file</span>=<span style="color: #CDC673;">"states"</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20462;&#25913;IFS&#29615;&#22659;&#21464;&#37327;&#30340;&#20540;&#65292;&#20351;&#20854;&#21482;&#33021;&#35782;&#21035;&#25442;&#34892;&#31526;</span>
+<span style="color: #FF8C00;">IFS</span>=$<span style="color: #CDC673;">'\n'</span>
+<span style="color: #FF1493;">for</span> state<span style="color: #FF1493;"> in</span> $(cat $<span style="color: #FF8C00;">file</span>)
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Visit beautiful $state"</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">iterate through all the files in a directory</span>
+<span style="color: #FF1493;">for</span> file<span style="color: #FF1493;"> in</span> $<span style="color: #FF8C00;">HOME</span>/* /etc/nginx/*
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">if</span> [-d <span style="color: #CDC673;">"$file"</span>]
+        <span style="color: #FF1493;">then</span>
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$file is a directory."</span>
+        <span style="color: #FF1493;">elif</span> [-f <span style="color: #CDC673;">"$file"</span>]
+        <span style="color: #FF1493;">then</span>
+                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$file is a file."</span>
+        <span style="color: #FF1493;">fi</span>
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">C-style for loop</span>
+<span style="color: #8B8878;">#</span>
+<span style="color: #FF1493;">for</span> (( <span style="color: #FF8C00;">i</span>=1; i &lt;= 10; i++))
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The next number is $i"</span>
+<span style="color: #FF1493;">done</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">multiple variable</span>
+<span style="color: #FF1493;">for</span> (( <span style="color: #FF8C00;">a</span>=1; <span style="color: #FF8C00;">b</span>=10;a &lt;= 10; a++, b++))
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$a - $b"</span>
+<span style="color: #FF1493;">done</span>
+</pre>
+</div>
+
+<p>
+<b>处理循环的输出</b>
+</p>
+<pre class="example">
+可以对循环的输出使用管道或进行重定向，通过在 done 命令之后添加一个处理命令来实现：
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org10643d4"><span style="color: #FF1493;">for</span> file<span style="color: #FF1493;"> in</span> /home/zrg/*
+<span style="color: #FF1493;">do</span>
+...
+<span style="color: #FF1493;">done</span> &gt; output.txt
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc67d72c" class="outline-4">
+<h4 id="orgc67d72c"><span class="section-number-4">2.15.5</span> while</h4>
+<div class="outline-text-4" id="text-2-15-5">
+<pre class="example">
+格式：
+</pre>
+
+<p>
+while test command
+do
+other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org16d8487"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">while command test</span>
+<span style="color: #FF8C00;">var1</span>=10
+<span style="color: #FF1493;">while</span> [ $<span style="color: #FF8C00;">var1</span> -gt 0 ]
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">var1</span>
+        <span style="color: #FF8C00;">var1</span>=$[ $<span style="color: #FF8C00;">var1</span> - 1 ]
+<span style="color: #FF1493;">done</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org94e8aba" class="outline-4">
+<h4 id="org94e8aba"><span class="section-number-4">2.15.6</span> until</h4>
+<div class="outline-text-4" id="text-2-15-6">
+<pre class="example">
+until 命令和 while 命令完全相反。
+格式：
+</pre>
+
+<p>
+until test command
+do
+other commands
+done
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org092b46e"><span class="linenr">1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span class="linenr">2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">using the until command</span>
+<span class="linenr">3: </span><span style="color: #FF8C00;">var1</span>=100
+<span class="linenr">4: </span><span style="color: #FF1493;">until</span> [ $<span style="color: #FF8C00;">var1</span> -eq 0 ]
+<span class="linenr">5: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">6: </span>        <span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">var1</span>
+<span class="linenr">7: </span>        <span style="color: #FF8C00;">var1</span>=$[ $<span style="color: #FF8C00;">var1</span> -25 ]
+<span class="linenr">8: </span><span style="color: #FF1493;">done</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><p>
+循环处理文件数据-处理
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org8d0a239"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">changing the IFS value</span>
+<span class="linenr"> 3: </span>IFS.OLD=$<span style="color: #FF8C00;">IFS</span>
+<span class="linenr"> 4: </span><span style="color: #FF8C00;">IFS</span>=$<span style="color: #CDC673;">'\n'</span>
+<span class="linenr"> 5: </span><span style="color: #FF1493;">for</span> entry<span style="color: #FF1493;"> in</span> $(cat /etc/passwd)
+<span class="linenr"> 6: </span><span style="color: #FF1493;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Values in $entry -"</span>
+<span class="linenr"> 8: </span>        <span style="color: #FF8C00;">IFS</span>=:
+<span class="linenr"> 9: </span>        <span style="color: #FF1493;">for</span> value<span style="color: #FF1493;"> in</span> $<span style="color: #FF8C00;">entry</span>
+<span class="linenr">10: </span>        <span style="color: #FF1493;">do</span>
+<span class="linenr">11: </span>                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"$value"</span>
+<span class="linenr">12: </span>        <span style="color: #FF1493;">done</span>
+<span class="linenr">13: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">14: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#35813;&#33050;&#26412;&#20351;&#29992;&#20102;&#20004;&#20010;&#19981;&#21516;&#30340; IFS &#30340;&#20540;&#26469;&#35299;&#26512;&#25968;&#25454;&#65292;&#31532;&#19968;&#20010; IFS &#20540;&#35299;&#26512;&#20986; /etc/passwd &#25991;&#20214;&#20013;&#30340;&#21333;&#29420;&#30340;&#34892;&#65292;&#20869;&#37096; for &#24490;&#29615;&#25509;&#30528;&#23558; IFS &#30340;&#20540;&#20462;&#25913;&#20026;&#20882;&#21495;&#65292;&#20801;&#35768;&#20320;&#20174; /etc/passwd &#30340;&#34892;&#20013;&#35299;&#26512;&#20986;&#21333;&#29420;&#30340;&#20540;&#12290;</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga3d4f27" class="outline-4">
+<h4 id="orga3d4f27"><span class="section-number-4">2.15.7</span> break</h4>
+<div class="outline-text-4" id="text-2-15-7">
+<div class="org-src-container">
+<pre class="src src-shell" id="org177237e"><span class="linenr"> 1: </span><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span class="linenr"> 2: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">--------------------------------</span>
+<span class="linenr"> 3: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36339;&#20986;&#21333;&#20010;&#24490;&#29615;</span>
+<span class="linenr"> 4: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.breaking out of a for loop</span>
+<span class="linenr"> 5: </span><span style="color: #FF1493;">for</span> var1<span style="color: #FF1493;"> in</span> 1 2 3 4 5
+<span class="linenr"> 6: </span><span style="color: #FF1493;">do</span>
+<span class="linenr"> 7: </span>        <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">var1</span> -eq 5]
+<span class="linenr"> 8: </span>        <span style="color: #FF1493;">then</span>
+<span class="linenr"> 9: </span>                <span style="color: #FF1493;">break</span>
+<span class="linenr">10: </span>        <span style="color: #FF1493;">fi</span>
+<span class="linenr">11: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Iteration number: $var1"</span>
+<span class="linenr">12: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">13: </span><span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The for loop is completed"</span>
+<span class="linenr">14: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">2.breaking out of a while loop</span>
+<span class="linenr">15: </span><span style="color: #FF8C00;">var1</span>=1
+<span class="linenr">16: </span><span style="color: #FF1493;">while</span> [ $<span style="color: #FF8C00;">var1</span> -lt 10 ]
+<span class="linenr">17: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">18: </span>        <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">var1</span> -eq 5]
+<span class="linenr">19: </span>        <span style="color: #FF1493;">then</span>
+<span class="linenr">20: </span>                <span style="color: #FF1493;">break</span>
+<span class="linenr">21: </span>        <span style="color: #FF1493;">fi</span>
+<span class="linenr">22: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Iteration number: $var1"</span>
+<span class="linenr">23: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">24: </span><span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The while loop is completed"</span>
+<span class="linenr">25: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">--------------------------------</span>
+<span class="linenr">26: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36339;&#20986;&#20869;&#37096;&#24490;&#29615;</span>
+<span class="linenr">27: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">3.breaking out of an inner loop</span>
+<span class="linenr">28: </span><span style="color: #FF1493;">for</span>(( <span style="color: #FF8C00;">a</span> = 1; a&lt;4; a++))
+<span class="linenr">29: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">30: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Outer loop: $a"</span>
+<span class="linenr">31: </span>        <span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">b</span> = 1; b&lt;100; b++))
+<span class="linenr">32: </span>        <span style="color: #FF1493;">do</span>
+<span class="linenr">33: </span>                <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">var1</span> -eq 5]
+<span class="linenr">34: </span>                <span style="color: #FF1493;">then</span>
+<span class="linenr">35: </span>                        <span style="color: #FF1493;">break</span>
+<span class="linenr">36: </span>                <span style="color: #FF1493;">fi</span>
+<span class="linenr">37: </span>                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Inner loop: $b"</span>
+<span class="linenr">38: </span>        <span style="color: #FF1493;">done</span>
+<span class="linenr">39: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">40: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">---------------------------------</span>
+<span class="linenr">41: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36339;&#20986;&#22806;&#37096;&#24490;&#29615;</span>
+<span class="linenr">42: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">4.breaking out of an outer loop</span>
+<span class="linenr">43: </span><span style="color: #FF1493;">for</span>(( <span style="color: #FF8C00;">a</span> = 1; a&lt;4; a++))
+<span class="linenr">44: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">45: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Outer loop: $a"</span>
+<span class="linenr">46: </span>        <span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">b</span> = 1; b&lt;100; b++))
+<span class="linenr">47: </span>        <span style="color: #FF1493;">do</span>
+<span class="linenr">48: </span>                <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">var1</span> -eq 5]
+<span class="linenr">49: </span>                <span style="color: #FF1493;">then</span>
+<span class="linenr">50: </span>                        <span style="color: #FF1493;">break</span> 2
+<span class="linenr">51: </span>                <span style="color: #FF1493;">fi</span>
+<span class="linenr">52: </span>                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Inner loop: $b"</span>
+<span class="linenr">53: </span>        <span style="color: #FF1493;">done</span>
+<span class="linenr">54: </span><span style="color: #FF1493;">done</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5dc4609" class="outline-4">
+<h4 id="org5dc4609"><span class="section-number-4">2.15.8</span> continue</h4>
+<div class="outline-text-4" id="text-2-15-8">
+<div class="org-src-container">
+<pre class="src src-shell" id="org930f841"><span class="linenr"> 1: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">1.using the continue command</span>
+<span class="linenr"> 2: </span><span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">var1</span> = 1; var1&lt;15; var1++))
+<span class="linenr"> 3: </span><span style="color: #FF1493;">do</span>
+<span class="linenr"> 4: </span>        <span style="color: #FF1493;">if</span> [$<span style="color: #FF8C00;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #FF8C00;">var1</span> -lt 10]
+<span class="linenr"> 5: </span>        <span style="color: #FF1493;">then</span>
+<span class="linenr"> 6: </span>                <span style="color: #FF1493;">continue</span>
+<span class="linenr"> 7: </span>        <span style="color: #FF1493;">fi</span>
+<span class="linenr"> 8: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Iteration number: $var1"</span>
+<span class="linenr"> 9: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">10: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">2.improperly using the continue command in a while loop</span>
+<span class="linenr">11: </span><span style="color: #FF8C00;">var1</span>=1
+<span class="linenr">12: </span><span style="color: #FF1493;">while </span><span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"while iteration: $var1"</span>
+<span class="linenr">13: </span>        [ $<span style="color: #FF8C00;">var1</span> -lt 15 ]
+<span class="linenr">14: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">15: </span>        <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">var1</span> -gt 5] &amp;&amp; [$<span style="color: #FF8C00;">var1</span> -lt 10]
+<span class="linenr">16: </span>        <span style="color: #FF1493;">then</span>
+<span class="linenr">17: </span>                <span style="color: #FF1493;">continue</span>
+<span class="linenr">18: </span>        <span style="color: #FF1493;">fi</span>
+<span class="linenr">19: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Inside iteration number: $var1"</span>
+<span class="linenr">20: </span>        <span style="color: #FF8C00;">var1</span> = $[$<span style="color: #FF8C00;">var1</span> +1]
+<span class="linenr">21: </span><span style="color: #FF1493;">done</span>
+<span class="linenr">22: </span><span style="color: #8B8878;"># </span><span style="color: #8B8878;">3.continuing an outer loop</span>
+<span class="linenr">23: </span><span style="color: #FF1493;">for</span>(( <span style="color: #FF8C00;">a</span> = 1; a&lt;5; a++))
+<span class="linenr">24: </span><span style="color: #FF1493;">do</span>
+<span class="linenr">25: </span>        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"Interation : $a"</span>
+<span class="linenr">26: </span>        <span style="color: #FF1493;">for</span>((<span style="color: #FF8C00;">b</span> = 1; b&lt;3; b++))
+<span class="linenr">27: </span>        <span style="color: #FF1493;">do</span>
+<span class="linenr">28: </span>                <span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">b</span> -gt 2] &amp;&amp; [$<span style="color: #FF8C00;">a</span> -lt 4]
+<span class="linenr">29: </span>                <span style="color: #FF1493;">then</span>
+<span class="linenr">30: </span>                        <span style="color: #FF1493;">continue</span> 2
+<span class="linenr">31: </span>                <span style="color: #FF1493;">fi</span>
+<span class="linenr">32: </span>                <span style="color: #FF8C00;">var3</span>=$[$<span style="color: #FF8C00;">a</span>+$<span style="color: #FF8C00;">b</span>]
+<span class="linenr">33: </span>                <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"The result of $a * $b is $var3"</span>
+<span class="linenr">34: </span>        <span style="color: #FF1493;">done</span>
+<span class="linenr">35: </span><span style="color: #FF1493;">done</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdeeba0e" class="outline-3">
+<h3 id="orgdeeba0e"><span class="section-number-3">2.16</span> 处理用户输入和数据呈现</h3>
+<div class="outline-text-3" id="text-2-16">
+</div>
+<div id="outline-container-org114127b" class="outline-4">
+<h4 id="org114127b"><span class="section-number-4">2.16.1</span> 命令行参数</h4>
+</div>
+<div id="outline-container-orgbb3fb7e" class="outline-4">
+<h4 id="orgbb3fb7e"><span class="section-number-4">2.16.2</span> 数据呈现</h4>
+</div>
+</div>
+<div id="outline-container-org0caf295" class="outline-3">
+<h3 id="org0caf295"><span class="section-number-3">2.17</span> 控制脚本</h3>
+</div>
+</div>
+<div id="outline-container-org6b0d970" class="outline-2">
+<h2 id="org6b0d970"><span class="section-number-2">3</span> Shell 高级</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org22d6632" class="outline-3">
+<h3 id="org22d6632"><span class="section-number-3">3.1</span> 函数</h3>
+</div>
+<div id="outline-container-orge7289bf" class="outline-3">
+<h3 id="orge7289bf"><span class="section-number-3">3.2</span> 图形化桌面的脚本编程</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-orgcb72589" class="outline-4">
+<h4 id="orgcb72589"><span class="section-number-4">3.2.1</span> 创建文本菜单</h4>
+</div>
+<div id="outline-container-orgbb24ba5" class="outline-4">
+<h4 id="orgbb24ba5"><span class="section-number-4">3.2.2</span> 制作窗口</h4>
+</div>
+</div>
+<div id="outline-container-orga7e9ce7" class="outline-3">
+<h3 id="orga7e9ce7"><span class="section-number-3">3.3</span> 其它 Shell</h3>
+</div>
+</div>
+<div id="outline-container-org1f22601" class="outline-2">
+<h2 id="org1f22601"><span class="section-number-2">4</span> 实用的脚本收集</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org92c3176" class="outline-3">
+<h3 id="org92c3176"><span class="section-number-3">4.1</span> 查找可执行文件</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org870562f">#!/bin/bash
+# finding files in the PATH
+IF=:
+ for folder in $PATH
+ do
+  echo <span style="color: #CDC673;">"$folder:"</span>
+  for file in $folder/*
+  do
+   if [-x $file]
+   then
+    echo <span style="color: #CDC673;">"$file"</span>
+   fi
+  done
+done
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org04cbd1e">#!/bin/bash
+# process new user accounts
+input = <span style="color: #CDC673;">"users.csv"</span>
+while IFS=',' read -r userid name
+do
+        echo <span style="color: #CDC673;">"adding $userid"</span>
+        useradd -c <span style="color: #CDC673;">"$name"</span> -m $userid
+done &lt; <span style="color: #CDC673;">"$input"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge452df5" class="outline-3">
+<h3 id="orge452df5"><span class="section-number-3">4.2</span> 编写简单的脚本实用工具</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orgd298736" class="outline-4">
+<h4 id="orgd298736"><span class="section-number-4">4.2.1</span> 归档</h4>
+</div>
+<div id="outline-container-orge40e3ef" class="outline-4">
+<h4 id="orge40e3ef"><span class="section-number-4">4.2.2</span> 管理用户账户</h4>
+</div>
+<div id="outline-container-org217b5a0" class="outline-4">
+<h4 id="org217b5a0"><span class="section-number-4">4.2.3</span> 检测磁盘空间</h4>
+</div>
+</div>
+<div id="outline-container-org80795c6" class="outline-3">
+<h3 id="org80795c6"><span class="section-number-3">4.3</span> 创建与数据库、Web及E-Mail相关的脚本</h3>
+</div>
+<div id="outline-container-org8cd7d01" class="outline-3">
+<h3 id="org8cd7d01"><span class="section-number-3">4.4</span> 发送消息</h3>
+</div>
+<div id="outline-container-orge472606" class="outline-3">
+<h3 id="orge472606"><span class="section-number-3">4.5</span> 获取格言</h3>
+</div>
+<div id="outline-container-org9a467c2" class="outline-3">
+<h3 id="org9a467c2"><span class="section-number-3">4.6</span> 编造借口</h3>
+</div>
+<div id="outline-container-org1406659" class="outline-3">
+<h3 id="org1406659"><span class="section-number-3">4.7</span> 在当前目录及指定子目录深度下创建.gitignore文件</h3>
+<div class="outline-text-3" id="text-4-7">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
+<span style="color: #FF1493;">for</span> dir<span style="color: #FF1493;"> in</span> <span style="color: #AF87FF; font-weight: bold;">`find ./ -mindepth 2 -maxdepth 4 -type d`</span>
+<span style="color: #FF1493;">do</span>
+        <span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">dir</span>
+        <span style="color: #AF87FF; font-weight: bold;">`touch $dir/.gitignore`</span>
+        <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"*"</span>&gt;$<span style="color: #FF8C00;">dir</span>/.gitignore
+<span style="color: #FF1493;">done</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb765fad" class="outline-3">
+<h3 id="orgb765fad"><span class="section-number-3">4.8</span> 解决 dpkg: warning: files list file for package 'x' missing</h3>
+<div class="outline-text-3" id="text-4-8">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span></label><pre class="src src-shell"><span style="color: #FF1493;">for</span> package<span style="color: #FF1493;"> in</span> $(sudo apt install catdoc 2&amp;1 |grep <span style="color: #CDC673;">"warning: files list file for package'"</span> |grep -Po <span style="color: #CDC673;">"[^'\n ]+'"</span> |grep -Po <span style="color: #CDC673;">"[^']+"</span>);
+<span style="color: #FF1493;">do</span>
+        sudo apt install --reinstall <span style="color: #CDC673;">"$package"</span>
+<span style="color: #FF1493;">done</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d09bbe" class="outline-3">
+<h3 id="org1d09bbe"><span class="section-number-3">4.9</span> 删除大文件的前n行</h3>
+<div class="outline-text-3" id="text-4-9">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>示例：删除前10行</label><pre class="src src-shell">tail -n +10 old_file&gt;new_file
+mv new_file old_file
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4f335a1" class="outline-3">
+<h3 id="org4f335a1"><span class="section-number-3">4.10</span> 根据参数执行指定 PHP 脚本（消息队列rabbitmq）</h3>
+<div class="outline-text-3" id="text-4-10">
+<ol class="org-ol">
+<li><p>
+消息队列：启用消费者
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">route_category</span>=<span style="color: #CDC673;">"$1"</span> <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36335;&#30001;&#32452;&#21517;&#31216;</span>
+<span style="color: #FF8C00;">number</span>=<span style="color: #CDC673;">"$2"</span>         <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28040;&#36153;&#32773;&#25968;&#37327;</span>
+<span style="color: #FF8C00;">expect_number</span>=<span style="color: #CDC673;">"$2"</span>         <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#39044;&#35745;&#21551;&#29992;&#28040;&#36153;&#32773;&#25968;&#37327;</span>
+
+<span style="color: #FF8C00;">routes</span>=(user store system)
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Check routes exists</span>
+<span style="color: #FF1493;">if</span> [ <span style="color: #CDC673; font-weight: bold;">!</span> -n <span style="color: #CDC673;">"$route_category"</span> ] || [ <span style="color: #CDC673; font-weight: bold;">!</span> -n <span style="color: #CDC673;">"$number"</span> ]; <span style="color: #FF1493;">then</span>
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#38169;&#35823;&#65306;&#25509;&#25910;&#20004;&#20010;&#21442;&#25968;&#65292;&#21442;&#25968;1&#65306;&#36335;&#30001;&#32452;&#21517;&#31216;&#65292;&#21442;&#25968;2&#65306;&#36816;&#34892;&#28040;&#36153;&#32773;&#25968;&#37327;"</span>
+  <span style="color: #FF1493;">exit</span>
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Check correctness of route category</span>
+<span style="color: #FF1493;">if</span> [[ <span style="color: #CDC673; font-weight: bold;">!</span> <span style="color: #CDC673;">"${routes[@]}"</span> =~ <span style="color: #CDC673;">"$route_category"</span> ]]; <span style="color: #FF1493;">then</span>
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#38169;&#35823;&#65306;&#38750;&#27861;&#30340;&#36335;&#30001;&#32452;&#21517;&#31216;"</span>
+  <span style="color: #FF1493;">exit</span>
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">If number less than 1, then let $number equal 1</span>
+<span style="color: #FF1493;">if</span> [ $<span style="color: #FF8C00;">number</span> -lt 1 ]; <span style="color: #FF1493;">then</span>
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#35686;&#21578;&#65306;&#31532;&#20108;&#20010;&#21442;&#25968;&#20540;&#19981;&#33021;&#23567;&#20110;1"</span>
+  <span style="color: #FF8C00;">number</span>=1
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Start execute cumstomer command</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#21363;&#23558;&#21551;&#29992;&#28040;&#36153;&#32773;&#38431;&#21015;......"</span>
+<span style="color: #FF8C00;">actual_number</span>=0 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#23454;&#38469;&#21551;&#29992;&#28040;&#36153;&#32773;&#25968;&#37327;</span>
+<span style="color: #FF1493;">while</span> (($<span style="color: #FF8C00;">number</span> &gt; 0)); <span style="color: #FF1493;">do</span>
+  php /www/test/think rabbit_receive <span style="color: #CDC673;">"$route_category"</span> &amp;
+  <span style="color: #FF1493;">let</span> <span style="color: #FF8C00;">actual_number</span>=actual_number+1
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#31532; $actual_number &#20010; $route_category &#28040;&#36153;&#32773;&#38431;&#21015;&#24050;&#21551;&#29992;"</span>
+  <span style="color: #FF1493;">let</span> <span style="color: #FF8C00;">number</span>=number-1
+<span style="color: #FF1493;">done</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Get queue</span>
+<span style="color: #FF8C00;">total_number</span>=<span style="color: #AF87FF; font-weight: bold;">`ps -ef |grep rabbit_receive\ $route_category | wc -l`</span>
+<span style="color: #FF1493;">let</span> <span style="color: #FF8C00;">total_number</span>=total_number-1
+
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"----------------------------------"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#23436;&#25104; $route_category &#28040;&#36153;&#32773;&#38431;&#21015;&#21551;&#29992;"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#39044;&#35745;&#21551;&#29992;&#25968;&#37327;&#65306;$expect_number"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#23454;&#38469;&#21551;&#29992;&#25968;&#37327;&#65306;$actual_number"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#24403;&#21069; $route_category &#28040;&#24687;&#38431;&#21015;&#24635;&#35745;&#21551;&#29992;&#25968;&#37327;&#65306;$total_number"</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"----------------------------------"</span>
+
+</pre>
+</div></li>
+<li><p>
+消息队列：Kill 启用消费者
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #FF8C00;">route_category</span>=<span style="color: #CDC673;">"$1"</span> <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#36335;&#30001;&#32452;&#21517;&#31216;</span>
+<span style="color: #FF8C00;">kill_number</span>=<span style="color: #CDC673;">"$2"</span>    <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#35201;&#26432;&#27515;&#30340;&#28040;&#36153;&#32773;&#38431;&#21015;&#25968;&#37327;&#65288;&#21487;&#36873;&#65289;&#65292;&#19981;&#20256;&#34920;&#31034;&#26432;&#27515;&#20840;&#37096;</span>
+
+<span style="color: #FF8C00;">routes</span>=(user store system)
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Check routes exists</span>
+<span style="color: #FF1493;">if</span> [ <span style="color: #CDC673; font-weight: bold;">!</span> -n <span style="color: #CDC673;">"$route_category"</span> ]; <span style="color: #FF1493;">then</span>
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#38169;&#35823;&#65306;&#25509;&#25910;&#20004;&#20010;&#21442;&#25968;&#65292;&#21442;&#25968;1&#65306;&#36335;&#30001;&#32452;&#21517;&#31216;&#65292;&#21442;&#25968;2&#65288;&#21487;&#36873;&#65289;&#65306;&#35201;&#26432;&#27515;&#30340;&#28040;&#36153;&#32773;&#38431;&#21015;&#25968;&#37327;"</span>
+  <span style="color: #FF1493;">exit</span>
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Check correctness of route category</span>
+<span style="color: #FF1493;">if</span> [[ <span style="color: #CDC673; font-weight: bold;">!</span> <span style="color: #CDC673;">"${routes[@]}"</span> =~ <span style="color: #CDC673;">"$route_category"</span> ]]; <span style="color: #FF1493;">then</span>
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#38169;&#35823;&#65306;&#38750;&#27861;&#30340;&#36335;&#30001;&#32452;&#21517;&#31216;"</span>
+  <span style="color: #FF1493;">exit</span>
+<span style="color: #FF1493;">fi</span>
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">ps&#12288;-efw &#26597;&#30475;&#25152;&#26377;&#36827;&#31243;&#30340;&#21629;&#20196;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">grep -w rabbit_receive\ $route_category &#24378;&#21046; PATTERN &#20165;&#23436;&#20840;&#21305;&#37197;&#23383;&#35789;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">grep -v grep &#22312;&#21015;&#20986;&#30340;&#36827;&#31243;&#20013;&#21435;&#38500;&#21547;&#26377;&#20851;&#38190;&#23383;&#8220;grep&#8221;&#30340;&#36827;&#31243;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">cut -c 9-15 &#25130;&#21462;&#36755;&#20837;&#34892;&#30340;&#31532;9&#20010;&#23383;&#31526;&#21040;&#31532;15&#20010;&#23383;&#31526;&#65292;&#32780;&#36825;&#27491;&#22909;&#26159;&#36827;&#31243;&#21495;PID</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">head -n $kill_number &#25351;&#23450;&#21015;&#20986;&#35201;kill&#30340;PID</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">xargs kill -9 xargs&#21629;&#20196;&#26159;&#29992;&#26469;&#25226;&#21069;&#38754;&#21629;&#20196;&#30340;&#36755;&#20986;&#32467;&#26524;&#65288;PID&#65289;&#20316;&#20026;&#8220;kill -9&#8221;&#21629;&#20196;&#30340;&#21442;&#25968;&#65292;&#24182;&#25191;&#34892;&#35813;&#21629;&#20196;</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"----------------------------------"</span>
+<span style="color: #FF1493;">if</span> [ -n <span style="color: #CDC673;">"$kill_number"</span> ] &amp;&amp; [ $<span style="color: #FF8C00;">kill_number</span> -gt 0 ]; <span style="color: #FF1493;">then</span>
+  ps -efw | grep -w rabbit_receive<span style="color: #CDC673;">\ </span>$<span style="color: #FF8C00;">route_category</span> | grep -v grep | cut -c 9-15 | head -n $<span style="color: #FF8C00;">kill_number</span> | xargs kill -9
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#24050; Kill $kill_number &#20010;&#28040;&#36153;&#32773;&#38431;&#21015;"</span>
+  <span style="color: #FF8C00;">last_number</span>=$(ps -efw | grep -w rabbit_receive<span style="color: #CDC673;">\ </span>$<span style="color: #FF8C00;">route_category</span> | grep -v grep | cut -c 9-15 | wc -l)
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#21097;&#20313; $last_number &#20010; $route_category &#28040;&#36153;&#32773;&#38431;&#21015;"</span>
+<span style="color: #FF1493;">else</span>
+  ps -efw | grep -w rabbit_receive<span style="color: #CDC673;">\ </span>$<span style="color: #FF8C00;">route_category</span> | grep -v grep | cut -c 9-15 | xargs kill -9
+  <span style="color: #FF8C00;">all_kill_number</span>=$(ps -efw | grep -w rabbit_receive<span style="color: #CDC673;">\ </span>$<span style="color: #FF8C00;">route_category</span> | grep -v grep | cut -c 9-15 | wc -l)
+  <span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"&#24050;Kill $all_kill_number &#20010; $route_category &#28040;&#36153;&#32773;&#38431;&#21015;&#65292;&#25152;&#26377; $route_category &#28040;&#36153;&#38431;&#21015;&#20840;&#37096;Kill&#23436;&#25104;"</span>
+<span style="color: #FF1493;">fi</span>
+<span style="color: #FF1493;">echo</span> <span style="color: #CDC673;">"----------------------------------"</span>
+
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org6bbd193" class="outline-2">
+<h2 id="org6bbd193"><span class="section-number-2">5</span> 参考资料</h2>
+</div>
