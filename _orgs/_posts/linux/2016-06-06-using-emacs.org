@@ -1243,6 +1243,20 @@ photos:
    : // 计算出本月第一天再减一个月
    : echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
    : #+END_SRC
+** ctrl+Z 挂起后，恢复命令
+   : $ fg
+** Org 写作 PlantUML 组件绘图生成过程
+   注意：在通过 PlantUML 组件画图时，目前的解决办法只能是：先指定生成图片的地址，执行生成操作，然后改为站点访问地址，最后执行发布。具体操作如下：
+   1. 先指定特定生成图片地址
+      : #+BEING_SRC plantuml :file ../../_assets/example.png 
+      : ...
+      : #+END_SRC
+   2. 执行生成操作
+      https://github.com/skuro/plantuml-mode
+   3. 改写为访问地址
+      : #+BEGIN_SRC plantuml :file {{site.url}}/assets/images/example.png
+      : ... 
+      : #+END_SRC
 * References
   + [[http://www.cnblogs.com/holbrook/archive/2012/04/12/2444992.html][org-mode: 最好的文档编辑利器]]
   + [[https://baike.baidu.com/item/emacs][emacs 百度百科]]
