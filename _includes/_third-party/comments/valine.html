@@ -1,0 +1,23 @@
+{% if site.valine.enable and site.valine.appid and site.valine.appkey %}
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = '{{ site.valine.guest_info }}';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: {{ site.valine.verify }},
+        notify: {{ site.valine.notify }},
+        appId: '{{ site.valine.appid }}',
+        appKey: '{{ site.valine.appkey }}',
+        placeholder: '{{ site.valine.placeholder }}',
+        avatar:'{{ site.valine.avatar }}',
+        guest_info:guest,
+        pageSize:'{{ site.valine.pageSize }}' || 10,
+    });
+  </script>
+{% endif %}
