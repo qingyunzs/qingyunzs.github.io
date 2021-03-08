@@ -1,0 +1,252 @@
+#+TITLE:     《高性能 MySQL（第3版）》阅读笔记
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://202.203.132.245/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://202.203.132.245/~20121156044/.org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: 《高性能 MySQL（第3版）》阅读笔记
+author: zrg
+comments: false
+description: 高性能 MySQL
+categories:
+- database
+tags:
+- MySQL
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+
+# (setq org-export-html-style nil)
+
+* 前言
+  1. MySQL为什么会这样做，而不是MySQL做了什么。
+  2. 给出MySQL的内部结构和操作，对于实际应用中能带来什么帮助？为什么能有这样的帮助？如何让MySQL适合（或者不适合）特定的需求？
+  3. 本书是如何组织的？
+     + 打造坚实基础
+       + i. 第1章，非常基础，在深入学习之前建议先熟悉一下这部分内容。
+       + ii. 第2章，讨论了基准测试的基础，例如服务器可以处理的工作负载的类型、处理特定任务的速度等。基准测试可用于评估服务器在不同负载下的表现，但也要明白在什么情况下基准测试不能发挥作用。
+       + iii. 第3章，介绍了常用于故障诊断和服务器性能问题分析的一种面向响应时间的方法。
+       + IV. 第4～6章，联系介绍了关于良好的数据库逻辑设计和物理设计基础的话题。第4章涵盖了不同数据类型的细节差别以及表设计的原则；第5章展开讨论了索引，这是数据库的物理设计；第6章则包含了分析MySQL的查询是如何执行的，以及如何利用查询优化器的话题。
+       + V. 到此为止，已经涵盖了关于数据库的基础内容：表、索引、数据和查询。
+       + VI. 第7章则在MySQL基础知识之外介绍了MySQL的高级特性是如何工作的。内容包括分区、存储引擎、触发器，以及字符集。
+     + 配置应用程序
+       + i. 第8～9章，讲述如何让MySQL、应用程序及硬件一起很好地工作。第8章介绍了如何配置MySQL，以便更好地利用硬件，达到更好的可靠性和鲁棒性。第9章解释了如何让操作系统和硬件工作得更好。另外也深入讨论了固态硬盘，为高可扩展性应用发挥更好的性能提供了硬件配置的建议。
+       + ii. 上面2章都一定程度地涉及了MySQL的内容知识。这将会是一个反复出现的主题，附录中也会有相关内容可以学习到MySQL的内部是如何实现的，理解了这些知识将帮助读者更好地理解某些现象背后的原理。
+     + 作为基础设施组件的MySQL
+       + i. 第10章，讨论了MySQL的杀手特性：能够设置多个服务器从一台服务器同步数据。如何让复制运行得更好？
+       + ii. 第11章，讨论了什么事可扩展性。
+       + iii. 第12章，如何保障MySQL稳定而正确地持续运行。
+       + iv. 第13章，当MySQL在云计算环境中运行时会有什么不同的事情发生。
+       + v. 第14章，解释了什么事全方位的优化（full-stack optimization），就是从前端到后端的整体优化，从用户体验开始直到数据库。
+       + vi. 第15章，讨论了MySQL数据库各种备份与恢复的场景。
+     + 其他有用的主题
+       + i. 第16章，探索了一些可以帮助用户更有效地管理和监控MySQL服务器的工具。
+       + ii. 附录A，介绍3个主要的非MySQL官方版本：我们公司在维护的产品，Percona Server，MongoDB
+       + iii. 附录B，演示了如何检查MySQL服务器。知道如何从服务器获取状态信息。
+       + iv. 附录C，演示了如何高效地讲大文件从一个地方复制到另一个地方。
+       + v. 附录D，演示了如何真正地使用并理解EXPLAIN命令。
+       + vi. 附录E，演示了如何破除不同查询所请求的锁互不干扰的问题。
+       + vii. 附录F，介绍了Sphinx，一个基于MySQL的高性能的全文索引系统。
+* 第1章 MySQL架构及历史
+  MySQL 既可以嵌入到应用程序中，也可以支持数据仓库、内容索引和部署软件、高可用的冗余系统、在线事务处理系统（OLTP）等各种应用类型。
+  \\
+  [[file:{{site.url}}/assets/images/high_mysql_1-1.png]]
+** MySQL 逻辑架构图
+   [[file:{{site.url}}/assets/images/high_mysql_1-2.png]]
+
+   + 最上层的服务并不是 MySQL 所独有的，大多数基于网络的客户端/服务器的工具或者服务都有类似的架构。比如连接处理、授权认证、安全等等。
+   + 第二层架构是 MySQL 的核心服务功能，包括查询解析、分析、优化、缓存以及所有的内置函数（例如日期、时间、数学和加密函数），所有跨存储引擎的功能都在该层：存储过程、触发器、视图等。
+   + 第三层包括了存储引擎，存储引擎负责 MySQL 中的数据的存储和提取。服务器通过 API 与存储引擎进行通信。但存储引擎不会去解析 SQL，不同存储引擎之间也不会相互通信，而只是简单地响应上层服务器的请求。
+
+** 并发控制
+   MySQL 在两个层面的并发控制：服务器层和存储引擎层。在处理并发读或写时，可以通过实现一个由两种类型的锁的锁组成的锁系统来解决问题。这两种类型的锁通常被称为共享锁（shared lock）和排他锁（exclusive lock），也叫读锁（read lock）和写锁（write lock）。
+   + 读锁是共享的，或者说互不阻塞，多个客户在同一时刻可以同时读取同一个资源，而互不干扰。
+   + 写锁则是排他的会阻塞其他的写锁或读锁。
+
+*** 锁粒度
+    + 锁策略：在锁的开销和数据的安全性之间寻求平衡，这种平衡当然也会影响到性能。
+    + 表锁（table lock）
+    + 行级锁（row lock）
+** 事务
+   事务就是一组原子性的 SQL 查询，或者说一个独立的工作单元。
+   \\
+   提示：如果已经熟悉了事务的 ACID 概念，直接跳转到 1.3.4 节。ACID：原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。
+   \\
+   *应用举例*
+   [[file:{{site.url}}/assets/images/high_mysql_1-3.png]]
+   事务 SQL 的样本如下：
+   [[file:{{site.url}}/assets/images/high_mysql_1-4.png]]
+
+*** 隔离级别
+    | 隔离级别                      | 脏读 | 不可重复读 | 幻读 | 加锁读 |
+    |-------------------------------+------+------------+------+--------|
+    | READ UNCOMMITED（未提交读RU） | Yes  | Yes        | Yes  | No     |
+    | READ COMMITED（提交读RC）     | No   | Yes        |      | No     |
+    | READ REPEATABLE（可重复读RR） | No   | No         |      | No     |
+    | SERIALIZABLE（序列化）        | No   | No         |      | Yes    |
+
+*** 死锁
+    指两个或多个事务在同一资源上相互占用，并请求锁定对方占用的资源，从而导致恶性循环的现象。
+    [[file:{{site.url}}/assets/images/high_mysql_1-5.png]]
+    说明：如果凑巧，两个事务都执行了第一条语句，更新了一行数据，同时也锁定了该行数据，接着每个事务都尝试去执行第二条语句，却发现该行已经被对方锁定，然后两个事务都等待对方释放锁，同时又持有对方需要的锁，则陷入死循环。
+    \\
+    为解决以上问题，数据库系统实现了各种死锁检测和死锁超时机制。InnoDB 目前处理死锁的方法是将持有最少行级排它锁的事务进行回滚。
+    \\
+    死锁发生以后只有部分或完全回滚其中一个事务才能打破死锁。对于事务型的系统，这是无法避免的，所以应用程序在设计时必须考虑如何处理死锁大多数情况下只需要重新执行因死锁回滚的事务即可。
+
+*** 事务日志
+    事务日志可以帮助提高事务的效率。
+*** MySQL 中的事务
+    1. MySQL 提供了两种事务型的存储引擎：InnoDB 和 NDB Cluster。另外还有第三方存储引擎也支持事务，例如 XtraDB 和 PBXT。
+    2. MySQL 默认采用自动提交（AUTOCOMMIT）模式。
+    3. InnoDB 采用的是两阶段锁定协议（two-phase locking protocol）。在事务执行过程中，随时都可以执行锁定，锁只有在执行 COMMIT 或 ROLLBACK 时才会释放，并且所有的锁是在同一时刻被释放。另外，InnoDB 也支持通过特定的语句进行显示锁定，这些语句不属于 SQL 规范（这些锁定经常被滥用，实际上应当尽量避免使用）。
+       + SELECT … LOCK IN SHARE MODE
+       + SELECT … FOR UPDATE
+    4. 注意事项：
+       [[file:{{site.url}}/assets/images/high_mysql_1-6.png]]
+
+** 多版本并发控制
+   1. MySQL的大多数事务型存储引擎实现的都不是简单的行级锁。基于提升并发性能的考虑，一般都同时实现了多版本并发控制(MVCC)。不仅是 MySQL，包括 Oracle、PostgreSQL等其他数据库系统也实现了，但各自的实现机制不尽相同，因为 MVCC 没有一个统一的实现标准。
+   2. 可以认为 MVCC 是行级锁的一个变种，但是它在很多情况下避免了加锁操作，因此开销更低。虽然实现机制有所不同，但大都实现了非阻塞的读操作，写操作也只锁定必要的行。
+   3. MVCC 的实现，是通过保存数据在某个时间点的快照来实现的。也就是说，不管需要执行多长时间每个事务看到的数据都是一致的。
+   4. 不同存储引擎的 MVCC 实现是不同的，典型的有：乐观（optimistic）并发控制和悲观（pessimistic）并发控制。
+   5. InnoDB 的MVCC，是通过在每行记录后面保存两个隐藏的列来实现的。这两列，一个保存了行的创建时间，一个保存行的过期时间（或删除时间）。当然存储的并不是实际的时机值，而是系统版本号。下面是是在 READ REPEATABLE 隔离级别下，MVCC 如何操作的：
+      [[file:{{site.url}}/assets/images/high_mysql_1-7.png]]
+      **注意：**
+      + MVCC 只在 READ REPEATABLE 和 READ COMMITED 两个隔离级别下工作。其他两个隔离级别都和 MVCC 不兼容，READ UNCOMMITED 总是读取最新的数据行，而不是符合当前事务版本的数据行。而 SERIALIZABLE 则会对所有读取的行都加锁。
+      + MVCC 并没有正式的规范，所以每个存储引擎和数据库系统的实现都是各异的，没有人能说其他的实现方式是错误的。
+** MySQL 的存储引擎
+   本节只是概要描述 MySQL 的存储引擎，而不会涉及太多细节。
+   \\
+   在文件系统中，MySQL 将每个数据库(也称为 schema)保存为数据目录下的一个子目录。
+   \\
+   不同存储引擎保存数据和索引的方式是不同的，但表的定义则是在 MySQL 服务层统一处理的。
+   \\
+   可以使用 SHOW TABLE STATUS 命令显示表的相关信息：
+   #+begin_src sql
+     ,***************************[ 1. row ]***************************
+     Name            | user
+     Engine          | InnoDB
+     Version         | 10
+     Row_format      | Dynamic
+     Rows            | 6
+     Avg_row_length  | 2730
+     Data_length     | 16384
+     Max_data_length | 0
+     Index_length    | 0
+     Data_free       | 4194304
+     Auto_increment  | <null>
+     Create_time     | 2021-02-02 14:40:36
+     Update_time     | <null>
+     Check_time      | <null>
+     Collation       | utf8_bin
+     Checksum        | <null>
+     Create_options  | row_format=DYNAMIC stats_persistent=0
+     Comment         | Users and global privileges
+
+     /*
+     Checksum，如果启用，保存的是整个表的实时校验和。
+     Create_options，创建表时指定的其他选项。
+     ,*/
+   #+end_src
+*** InnnoDB 存储引擎
+    1. InnoDB 是 MySQL 的默认事务型引擎。
+    2. InnoDB 的历史
+       + 2008 年，InnoDB plugin，适用于 MySQL 5.1 版本，但这是 Oracle 创建的下一代 InnoDB 引擎，其拥有者是 InnoDB 而不是 MySQL。
+       + MySQL 最开始默认选择了集成旧的 InnoDB 引擎。在 Oracle 收购了 Sun 公司后发布的 MySQL 5.5 中才彻底使用 InnoDB plugin 替代了旧版本的 InnoDB。
+    3. InnoDB 的数据存储在表空间(tablespace)中，表空间是由 InnoDB 管理的一个黑盒子，由一系列的数据文件组成。
+    4. InnoDB 采用 MVCC 来支持高并发，并且实现了四个标准的隔离级别。其默认级别是 REPEATABLE READ(可重复读)，并且通过间隙锁(next-key locking)策略防止幻读的出现。间隙锁使得 InnoDB 不仅仅锁定查询涉及的行，还会对索引中的间隙进行锁定，以防止幻影行的插入。
+    5. InnoDB 表是基于聚簇索引建立的，聚簇索引对查询有很高的性能，不过它的二级索引(secondary index，非主键索引)中必须包含主键列，所以如果主键列很大的话，其他的所有索引都会很大。因此，若表上的索引较多的话，主键应当尽可能的小。
+    6. InnoDB 内部做了很多优化，包括从磁盘读取数据时采用的可预测性预读，能够自动在内存中创建 hash 索引以加速读操作的自适应哈希索引(adaptive hash index)，以及能够加速插入操作的插入缓冲区(insert buffer)等。
+    7. 理解 InnoDB 建议：如果使用了 InnoDB 引擎，建议阅读官方手册中的“InnoDB 事务模型和锁”一节；如果应用程序基于 InnoDB 构建，则先了解 InnnoDB 的 MVCC 架构带来的一些微妙和细节之处是非常有必要的。
+    8. InnoDB 通过一些机制和工具支持真正的热备份，Oracle 提供 MySQL Enterprise Backup、Percona 提供的开源的 XtraBackup 都可以做到这一点。
+*** MyISAM 存储引擎
+    1. 在 MySQL 5.1 及之前的版本，MyISAM 是默认的存储引擎。MyISAM 提供了大量的特性，包括全文索引、压缩、空间函数(GIS)等，但 MyISAM 不支持事务和行级锁，且有一个缺陷就是崩溃后无法安全恢复。
+    2. MyISAM 会将表存储在两个文件中：数据文件和索引文件，分别以 .MYD 和 .MYI 为扩展名。
+    3. MyISAM 表可以包含动态或静态(长度固定)行，MySQL 会根据表的定义来决定采用何种行格式。
+    4. MyISAM 表的 MAX_ROWS 和 AVG_ROW_LENGTH 选项的值来实现，两者相乘就是表可能达到的最大大小。注意，修改这两个参数会导致重建整个表和表的所有索引，这可能花费很长时间。
+    5. MyISAM 特性
+       + 加锁与并发
+       + 修复
+       + 索引特性
+       + 延迟更新索引键(Delayed Key Write)
+    6. MyISAM 压缩表
+       : myisampack
+    7. MyISAM 性能
+       + MyISAM 引擎设计简单，数据以紧密格式存储，所以在某些场景下的性能很好。
+       + MyISAM 有一些服务器级别的性能扩展限制，比如对索引缓冲区(key cache)的 Mutex 锁，MariaDB 基于段(segment)的索引缓冲区机制来避免该问题。
+       + 但最典型的性能问题还是表锁的问题，如果发现所有查询长期处于“Locked”状态，那毫无疑问就是表锁的问题。
+*** MySQL 内建的其他存储引擎
+    1. Archive ::
+       适合日志和数据采集类应用，这类应用做数据分析时往往需要全表扫描。或者在一些需要更快速的 INSERT 操作的场合下也可以使用。
+    2. Blackhole ::
+       可以在一些特殊的复制架构和日志审核时。但这种应用方式有很多问题，不推荐。
+    3. CSV ::
+       可以作为一种数据交换机制。
+    4. Federated ::
+       MariaDB 使用了它的一个后续改进版本 FederatedX。
+    5. Memory
+       + 用于查找(lookup)或者映射(mapping)表，例如将邮编和州名映射的表。
+       + 用于缓存周期性聚合数据(periodically aggregated data)的结果。
+       + 用于保存数据分析中产生的中间数据。
+       + 临时表：临时表是指使用 CREATE TEMPORARY TABLE 语句创建的表，他可以使用任何存储引擎，因此和 Memory 表不是一回事。临时表只在单个链接中可见，当连接断开时，临时表也将不复存在。
+    6. Merge ::
+       已经被放弃
+    7. NDB 集群引擎 ::
+       作为 SQL 和 NDB 原生协议之间的接口。MySQL 服务器、NDB，以及分布式的、share-nothing 的、容灾的、高可用的 NDB 数据库的组合，被称为 MySQL 集群(MySQL Cluster)。
+*** 第三方存储引擎
+    1. OLTP 类引擎
+       + XtraDB
+       + PBXT
+       + TokuDB
+       + RethinkDB
+       + Falcon
+    2. 面向列的存储引擎
+       + Infobright
+       + InfiniDB
+    3. 社区存储引擎
+       + Aria
+       + Groonga
+       + OQGraph
+       + Q4M
+       + SphinxSE
+       + Spider
+       + VPForMySQL
+*** 选择合适的存储引擎
+*** MySQL 时间线(Timeline)
+    1. 3.23(2001)
+    2. 4.0(2003)
+    3. 4.1(2005)
+    4. 5.0(2006)
+    5. 5.1(2008)
+    6. 5.5(2010)
+    7. 5.6(2013)
+    8. 5.7(2015)
+    9. 8.0(2018)
+** MySQL 的时间线
+
+** MySQL 的开发模式
+
+** 总结
+   1. 如果能理解 MySQL 在存储引擎和服务层之间处理查询时如何通过 API 来回交互，就能抓住 MySQL 的核心基础架构的精髓。
+* 第2章 MySQL 基准测试
+
+* 第3章 服务器性能剖析
+
+* 第4章 Schema 与数据类型优化
+
+* 第5章 创建高性能的索引
