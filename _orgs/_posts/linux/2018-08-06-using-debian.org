@@ -42,12 +42,12 @@ photos:
     - 其四，作者承诺本册子会持续更新与完善，奉行“血不流干，死不休编”的宗旨，如果你认为作者有哪些地方需要改进，可直接发邮件到 zrg1390556487@gmail.com。
     - 最后，感谢您的认可和支持。
 *** 内容结构
-    本册子分为六大部分。
+    本册子分为以下几个部分。
     - 第一部分，Linux 入门。包括获取和安装 Linux 系统，Linux 系统的初步配置，Linux 文件、目录及磁盘操作。
-    - 第二部分，Linux 账号管理与 ACL 权限控制。
-    - 第三部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。
-    - 第四部分，Linux 系统管理员内容，包括系统日志，软件安装，基础系统配置与备份策略等等。
-    - 第五部分，问题解决篇，聚集常见开发、运维中遇到的各种问题的解决办法，该部分可理解为本书的附录或问题解决参考手册。
+    - 第二部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。
+    - 第三部分，Linux 系统管理，包括系统日志，软件安装，基础系统配置与备份策略等等。
+    - 第四部分，Linux 服务管理，常见服务环境简单介绍及部署应用。
+    - 第五部分，Linux 集群与虚拟化。
 
     *编写规范*
     - 章节编码级别限制为最大 6 级，但一般使用到 3 级。
@@ -78,7 +78,137 @@ photos:
        - Raspberry pi Debian;
    + *jsf* 的 Linux 学习之路（My road of learning Linux）    
 * Linux 入门
-** 安装
+** Linux 简介与安装
+*** 入门第一步，理解 Linux
+    1. 首先，以 Linux 的思维方式系统性思考问题。
+    2. Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
+    3. Linux 是一个以命令行为主要的管理方式的 OS。
+    4. Linux 的日志非常完善，也至关重要。
+    5. Linux 是一个以配置文件为管理基础的 OS。
+    6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
+*** Linux 内容划分
+    *Linux 可划分为以下四部分*
+    + Linux 内核
+    + GNU 工具
+    + 图形化桌面环境
+    + 应用软件
+
+    *深入探究 Linux 内核*
+    \\
+    Linus Torvalds：Linux 内核开发者。
+    \\
+    Linux 内核主要负责一下四种功能：
+    \\
+    1. 系统内存管理
+       - 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
+       - 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
+       - 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
+       - 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
+    2. 软件程序管理
+       + Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
+       + 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
+	 - 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
+	 - 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
+	 - 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
+	 - Linux 系统可以通过调整启动运行级来控制整个系统的功能。
+    3. 硬件设备管理
+       + 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
+	 - 编译进内核的设备驱动代码
+	 - 可插入内核的设备驱动模块
+	 : 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
+	 : 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
+	 - 设备文件有3种分类
+	   - 字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
+	   - 块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
+	   - 网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
+       + Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
+    4. 文件系统管理
+       Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
+       #+CAPTION: 文件系统类型 
+       | 文件系统 | 描述                                              |
+       |----------+---------------------------------------------------|
+       | ext      | Linux 扩展文件系统，最早的 Linux 文件系统         |
+       | ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能     |
+       | ext3     | 第三扩展文件系统，支持日志功能                    |
+       | ext4     | 第四扩展文件系统，支持高级日志功能                |
+       | hpfs     | OS/2高性能文件系统                                |
+       | jfs      | IBM日志文件系统                                   |
+       | iso9660  | ISO 9660文件系统（CD-ROM）                        |
+       | mimix    | MINIX文件系统                                     |
+       | msdos    | 微软的FAT16                                       |
+       | ncp      | Netware文件系统                                   |
+       | nfs      | 网络文件系统                                      |
+       | ntfs     | 支持Microsoft NT文件系统                          |
+       | proc     | 访问系统信息                                      |
+       | ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
+       | smb      | 支持网络访问的Samba SMB文件系统                   |
+       | sysv     | 较早期的Unix文件系统                              |
+       | ufs      | BSD文件系统                                       |
+       | umsdos   | 建立在msdos上的类Unix文件系统                     |
+       | vfat     | Windows95文件系统（FAT32）                        |
+       | XFS      | 高性能64位日志文件系统                            |
+       Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
+
+    *GNU工具*
+    1. 核心 GNU 工具：coreutils(coreutilities)软件包
+       GNU coreutils 软件包由三部分构成：
+       - 用以处理文件的工具
+       - 用以操作文本的工具
+       - 用以管理进程的工具
+    2. shell
+       #+CAPTION:Linux 中常见的shell
+       | shell           | 描述                                               |
+       |-----------------+----------------------------------------------------|
+       | <15>            | <50>                                               |
+       | bash            | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
+       | ash             | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。 |
+       | korn            | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。 |
+       | tcsh            | 一种将C语言中的一些元素引入到shell脚本中的shell。  |
+       | zsh             | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。 |
+       |-----------------+----------------------------------------------------|
+
+    *Linux 桌面环境*
+    1. X Window
+    2. KDE 桌面（K Desktop Environment，K 桌面系统）
+    3. GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
+    4. Unity 桌面
+    5. 其他桌面
+       #+CAPTION: 其他桌面
+       | 桌面    | 描述 |
+       |---------+------|
+       | Fluxbox |      |
+       | Xfce    |      |
+       | JWM     |      |
+       | Fvwm    |      |
+       | fvwm95  |      |
+       |---------+------|
+
+    *Linux 发行版*
+    \\
+    不同的 Linux 发行版通常归类为3种：
+    1. 完整的核心 Linux 发行版
+       #+CAPTION: 完整的核心 Linux 发行版
+       | Slackware | 最早的 Linux 发行版之一                            |
+       | Red Hat   | 商业发行版                                         |
+       | Fedora    | Red Hat 分离出的家用发行版                         |
+       | Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
+       | openSuse  | 商用和家用的发行版                                 |
+       | Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
+    2. 特定用途的发行版
+       #+CAPTION:特定用途的发行版 
+       | CentOS      | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
+       | Ubuntu      | 一款用于学校和家庭的免费发行版                       |
+       | PCLinuxOS   | 一款用于学校和办公的免费发行版                       |
+       | Mint        | 一款用于家庭娱乐的免费发行版                         |
+       | dyne:bolic  | 一款用于音频和MIDI应用的免费发型版                   |
+       | Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
+    3. LiveCD 测试发行版。
+       #+CAPTION: LiveCD 测试发行版。
+       | Knoppix     | 最早的 LiveCD Linux               |
+       | PCLinuxOS   | 一款成熟的 LiveCD                 |
+       | Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
+       | Slax        | 基于 Slackware Linux              |
+       | Pubby Linux | 为老旧 PC 设计的一款全功能 Linux  |
 *** 安装过程
     1. 安装准备
        \\
@@ -246,7 +376,7 @@ photos:
 	: logout
 *** 示例：Debian 快速安装指导
     [[https://github.com/zhaorengui/lecture-notes/blob/master/linux/tutorials/install/install.org][Debian 快速安装指导]]
-** 配置
+** Linux 简单配置
 *** su & sudo
     Linux 系统当中的身份变换，可能有以下几个原因：
     + 使用一般账号：系统平日操作的好习惯
@@ -378,137 +508,16 @@ photos:
 	5. 重启可用
     + 参考资料
       + [[https://wiki.debian.org/Locale][Locale debian wiki]]
-*** 参考资料
-    - https://en.wikipedia.org/wiki/Wi-Fi
-** 介绍
-   首先，明确一点：GNU Not's Unix.
-*** 入门第一步，理解 Linux
-    1. 首先，以 Linux 的思维方式系统性思考问题。
-    2. Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。
-    3. Linux 是一个以命令行为主要的管理方式的 OS。
-    4. Linux 的日志非常完善，也至关重要。
-    5. Linux 是一个以配置文件为管理基础的 OS。
-    6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
-*** Linux 内容划分
-    Linux 可划分为以下四部分
-    + Linux 内核
-    + GNU 工具
-    + 图形化桌面环境
-    + 应用软件
-    *深入探究 Linux 内核*
-    \\
-    Linus Torvalds：Linux 内核开发者。
-    \\
-    Linux 内核主要负责一下四种功能：
-    \\
-    1. 系统内存管理
-       - 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
-       - 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
-       - 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
-       - 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
-    2. 软件程序管理
-       + Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
-       + 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
-	 - 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
-	 - 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
-	 - 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
-	 - Linux 系统可以通过调整启动运行级来控制整个系统的功能。
-    3. 硬件设备管理
-       + 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
-	 - 编译进内核的设备驱动代码
-	 - 可插入内核的设备驱动模块
-	 : 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
-	 : 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
-	 - 设备文件有3种分类
-	   - 字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
-	   - 块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
-	   - 网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
-       + Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
-    4. 文件系统管理
-       Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
-       #+CAPTION: 文件系统类型 
-       | 文件系统 | 描述                                              |
-       |----------+---------------------------------------------------|
-       | ext      | Linux 扩展文件系统，最早的 Linux 文件系统         |
-       | ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能     |
-       | ext3     | 第三扩展文件系统，支持日志功能                    |
-       | ext4     | 第四扩展文件系统，支持高级日志功能                |
-       | hpfs     | OS/2高性能文件系统                                |
-       | jfs      | IBM日志文件系统                                   |
-       | iso9660  | ISO 9660文件系统（CD-ROM）                        |
-       | mimix    | MINIX文件系统                                     |
-       | msdos    | 微软的FAT16                                       |
-       | ncp      | Netware文件系统                                   |
-       | nfs      | 网络文件系统                                      |
-       | ntfs     | 支持Microsoft NT文件系统                          |
-       | proc     | 访问系统信息                                      |
-       | ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
-       | smb      | 支持网络访问的Samba SMB文件系统                   |
-       | sysv     | 较早期的Unix文件系统                              |
-       | ufs      | BSD文件系统                                       |
-       | umsdos   | 建立在msdos上的类Unix文件系统                     |
-       | vfat     | Windows95文件系统（FAT32）                        |
-       | XFS      | 高性能64位日志文件系统                            |
-       Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
-    *GNU工具*
-    1. 核心 GNU 工具：coreutils(coreutilities)软件包
-       GNU coreutils 软件包由三部分构成：
-       - 用以处理文件的工具
-       - 用以操作文本的工具
-       - 用以管理进程的工具
-    2. shell
-       #+CAPTION:Linux 中常见的shell
-       | shell           | 描述                                               |
-       |-----------------+----------------------------------------------------|
-       | <15>            | <50>                                               |
-       | bash            | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
-       | ash             | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。 |
-       | korn            | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。 |
-       | tcsh            | 一种将C语言中的一些元素引入到shell脚本中的shell。  |
-       | zsh             | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。 |
-       |-----------------+----------------------------------------------------|
-    *Linux 桌面环境*
-    1. X Window
-    2. KDE 桌面（K Desktop Environment，K 桌面系统）
-    3. GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
-    4. Unity 桌面
-    5. 其他桌面
-       #+CAPTION: 其他桌面
-       | 桌面    | 描述 |
-       |---------+------|
-       | Fluxbox |      |
-       | Xfce    |      |
-       | JWM     |      |
-       | Fvwm    |      |
-       | fvwm95  |      |
-       |---------+------|
-    *Linux 发行版*
-    \\
-    不同的 Linux 发行版通常归类为3种：
-    1. 完整的核心 Linux 发行版
-       #+CAPTION: 完整的核心 Linux 发行版
-       | Slackware | 最早的 Linux 发行版之一                            |
-       | Red Hat   | 商业发行版                                         |
-       | Fedora    | Red Hat 分离出的家用发行版                         |
-       | Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
-       | openSuse  | 商用和家用的发行版                                 |
-       | Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
-    2. 特定用途的发行版
-       #+CAPTION:特定用途的发行版 
-       | CentOS      | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
-       | Ubuntu      | 一款用于学校和家庭的免费发行版                       |
-       | PCLinuxOS   | 一款用于学校和办公的免费发行版                       |
-       | Mint        | 一款用于家庭娱乐的免费发行版                         |
-       | dyne:bolic  | 一款用于音频和MIDI应用的免费发型版                   |
-       | Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
-    3. LiveCD 测试发行版。
-       #+CAPTION: LiveCD 测试发行版。
-       | Knoppix     | 最早的 LiveCD Linux               |
-       | PCLinuxOS   | 一款成熟的 LiveCD                 |
-       | Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
-       | Slax        | 基于 Slackware Linux              |
-       | Pubby Linux | 为老旧 PC 设计的一款全功能 Linux  |
-*** Linux 基本网络配置
+*** 日期时间设置
+    Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
+    1. date 命令
+    2. hwclock 命令，查看硬件时间
+       : //设置硬件时间
+       : $ sudo hwclock -set -date='07/17/2017 20:00'
+    3. 硬件时间与系统时钟同步
+       : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+       : $ sudo hwclock -systohc
+*** 基本网络配置
     1. 安装网络工具
        : $ sudo apt-get install net-tools
     2. 配置网络
@@ -531,16 +540,37 @@ photos:
        + 显示路由表：ip route 命令
        + 追踪到达目标地址的网络路径：traceroute 命令
        + mtr 命令进行网络质量测试
-*** Linux 日期时间设置
-    Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-    1. date 命令
-    2. hwclock 命令，查看硬件时间
-       : //设置硬件时间
-       : $ sudo hwclock -set -date='07/17/2017 20:00'
-    3. 硬件时间与系统时钟同步
-       : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-       : $ sudo hwclock -systohc
-*** 获取帮助 & 问题解决 
+*** 参考资料
+    - https://en.wikipedia.org/wiki/Wi-Fi
+** Linux 常用命令
+   : // 上一节介绍的帮助命令
+   : info, help, main
+
+   : // 通过历史记录简化操作
+   | !!    | 重复前一个命令               |
+   | !字符 | 重复前一个以“字符”开头的命令 |
+   | !num  | 按照历史记录的序号执行命令   |
+   | !?abc | 重复之前包含 abc 的命令      |
+   | !-n   | 重复 n 个命令之前的那个命令  |
+
+   : // 日期时间
+   : date, hwclock, cal, uptime
+
+   : // 输出、查看命令
+   : echo, cat, head, tail, less, more
+   
+   : // 查看硬件信息
+   : lspci, lsusb, lsmod
+
+   : // 关机、重启
+   : shutdown, reboot, poweroff
+
+   : // 归档、压缩
+   : zip, unzip, gzip, tar
+
+   : // 查找
+   : locate, find
+*** 获取帮助 & 问题解决
     1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
     2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
     3. 检查相关日志。
@@ -591,6 +621,9 @@ photos:
     9. type
        \\
        查看命令类型(Display information about command type)
+** Linux 软件包管理
+*** 源代码与Tarbal
+*** 软件安装RPM、SRPM与YUM
 ** Linux 文件、目录和磁盘格式
 *** 文件权限(Permission)
 **** 理解
@@ -746,12 +779,20 @@ photos:
 
      : // 更新文件资料库：
      : $ updatedb
-**** which 和 where
-     用于查找某个命令(Locate a command)
-     : $ which ls
-     : $ where useradd
-**** wc
-** 压缩(Compression)和打包(Packaging)
+
+*** 磁盘格式
+    1. 自动挂载
+       \\
+       配置文件 /etc/fstab 用来定义需要自动挂载的文件系统，fstab 中每一行代表一个挂在配置，格式如下：
+       #+CAPTION: 自动挂载
+       | /dev/sda3      | /mnt   | ext4     | defaults | 0 0                |
+       |----------------+--------+----------+----------+--------------------|
+       | 需要挂载的设备 | 挂载点 | 文件系统 | 挂在选项 | dump、fsck相关选项 |
+    2. 
+*** 文件系统
+    : // 将 /dev/sda7 硬盘格式化为 ext3 格式。
+    : $ mkfs -t ext3 -c /dev/sda7
+** Linux 压缩(Compression)和打包(Packaging)
    #+CAPTION: File unzip
    #+ALTR_HTML: :alt cat/spider image :title :align center
    [[file:{{site.url}}/assets/images/tar.png]]
@@ -766,12 +807,7 @@ photos:
    : //解压到指定目录
    
    : $ unzip name.zip -d ./dir
-** 文件系统
-   : msfs
-*** mkfs
-    将 /dev/sda7 硬盘格式化为 ext3 格式。
-    : $ mkfs -t ext3 -c /dev/sda7
-** 文本处理
+** Linux 文本处理
    : grep,sed,awk
 *** grep
     : 语法格式：grep -iv [指定字符串][文件]
@@ -824,121 +860,125 @@ photos:
 
     : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
 * Linux 账号管理与 ACL 权限控制
-** Linux User
-*** /etc/passwd
-    : $ cat /etc/passwd
-    #+NAME:/etc/passwd
-    #+BEGIN_SRC shell
-      root:x:0:0:root:/root:/bin/bash
-      daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-      bin:x:2:2:bin:/bin:/usr/sbin/nologin
-      ...
-      zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
-    #+END_SRC
-    : /etc/passwd 文件的字段包含如下信息：
-    - 登录用户名
-    - 用户密码
-    - UID
-    - Group ID
-    - 描述
-    - HOME目录位置
-    - 默认shell
-      : /etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-      : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-*** /etc/shadow
-    : /etc/shadow 文件的每条记录都有9个字段：
-    - 与/etc/passwd文件对应的登录名
-    - 加密后的密码
-    - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
-    - 多少天后才能更改密码
-    - 多少天后必须更改密码
-    - 密码过期前提前多少天提醒用户更改密码
-    - 密码过期后多少天禁用用户帐目
-    - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
-    - 预留字段给将来使用
-*** 用户管理文件
-    - Home 目录
-      : 超级用户：/root/
-      : 普通用户：/home/zrg/
-    - /var/spool/mail/zrg/
-      : 用户邮箱目录
-    - /etc/skel
-      : 在创建用户时，默认复制该目录下的文件到用户的家目录。
-*** 新增、删除和修改用户
-    : //新增用户
-    : $ sudo useradd -D
-    : or
-    : $ sudo less /etc/default/useradd
-    : See below, the subsection "Changing the default values".
-    - GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
-    - HOME=/home //HOME目录位置
-    - INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
-    - EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
-    - SHELL=/bin/sh //将sh作为默认shell
-    - SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
-    - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
-      : //用上面的默认系统参数创建一个新用户账户
-      : $ sudo useradd test
-      : //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
-      : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+** Linux 用户管理
+*** Linux User
+**** /etc/passwd
+     : $ cat /etc/passwd
+     #+NAME:/etc/passwd
+     #+BEGIN_SRC shell
+       root:x:0:0:root:/root:/bin/bash
+       daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+       bin:x:2:2:bin:/bin:/usr/sbin/nologin
+       ...
+       zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+     #+END_SRC
+     : /etc/passwd 文件的字段包含如下信息：
+     - 登录用户名
+     - 用户密码
+     - UID
+     - Group ID
+     - 描述
+     - HOME目录位置
+     - 默认shell
+       : /etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+       : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
+**** /etc/shadow
+     : /etc/shadow 文件的每条记录都有9个字段：
+     - 与/etc/passwd文件对应的登录名
+     - 加密后的密码
+     - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+     - 多少天后才能更改密码
+     - 多少天后必须更改密码
+     - 密码过期前提前多少天提醒用户更改密码
+     - 密码过期后多少天禁用用户帐目
+     - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+     - 预留字段给将来使用
+**** 用户管理文件
+     - Home 目录
+       : 超级用户：/root/
+       : 普通用户：/home/zrg/
+     - /var/spool/mail/zrg/
+       : 用户邮箱目录
+     - /etc/skel
+       : 在创建用户时，默认复制该目录下的文件到用户的家目录。
+**** 新增、删除和修改用户
+     : //新增用户
+     : $ sudo useradd -D
+     : or
+     : $ sudo less /etc/default/useradd
+     : See below, the subsection "Changing the default values".
+     - GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
+     - HOME=/home //HOME目录位置
+     - INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
+     - EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
+     - SHELL=/bin/sh //将sh作为默认shell
+     - SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
+     - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+       : //用上面的默认系统参数创建一个新用户账户
+       : $ sudo useradd test
+       : //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
+       : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
 
-      : //删除用户
-      : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
-      : $ userdel -r test
-      : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+       : //删除用户
+       : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+       : $ userdel -r test
+       : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
 
-      : //修改用户
-      #+CAPTION: 用户账户修改工具
-      | 命令     | 描述                                               |
-      |----------+----------------------------------------------------|
-      | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
-      | passwd   | 修改已有用户的密码                                 |
-      | chpasswd | 从文件中读取登录名密码对，并更新密码               |
-      | chage    | 修改密码的过期时间                                 |
-      | chfn     | 修改用户账户的备注信息                             |
-      | chsh     | 修改用户账户的默认登录shell                        |
-*** 修改密码
-    : 修改用户密码的命令：passwd
-    + -S 查询用户密码的状态，仅root用户可用。
-    + -l 暂时锁定用户。仅root用户可用。
-    + -u 解锁用户。仅root用户可用。
-    + --stdin 通过管道符输出的数据作为用户的密码。
-*** 显示用户最近登录信息
-    : last,lastlog
-    : 列出目前/过去登入系统的用户信息
-    : last, lastb - show a listing of last logged in users
-    : last [options] [username...] [tty...]
-    : lastb [options] [username...] [tty...]
+       : //修改用户
+       #+CAPTION: 用户账户修改工具
+       | 命令     | 描述                                               |
+       |----------+----------------------------------------------------|
+       | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+       | passwd   | 修改已有用户的密码                                 |
+       | chpasswd | 从文件中读取登录名密码对，并更新密码               |
+       | chage    | 修改密码的过期时间                                 |
+       | chfn     | 修改用户账户的备注信息                             |
+       | chsh     | 修改用户账户的默认登录shell                        |
+**** 修改密码
+     : 修改用户密码的命令：passwd
+     + -S 查询用户密码的状态，仅root用户可用。
+     + -l 暂时锁定用户。仅root用户可用。
+     + -u 解锁用户。仅root用户可用。
+     + --stdin 通过管道符输出的数据作为用户的密码。
+**** 显示用户最近登录信息
+     : last,lastlog
+     : 列出目前/过去登入系统的用户信息
+     : last, lastb - show a listing of last logged in users
+     : last [options] [username...] [tty...]
+     : lastb [options] [username...] [tty...]
 
-    : 列出用户最后一次登录系统的信息
-    : lastlog - reports the most recent login of all users or of a given user
-** Linux Group
-   1. /etc/group
-      : /etc/group文件有4个字段：
-      - 组名
-      - 组密码
-      - GID
-      - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
-   2. /etc/gshadow
-      : /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
-      : /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
-      : 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
-      : 这时就要用到用户组密码。
+     : 列出用户最后一次登录系统的信息
+     : lastlog - reports the most recent login of all users or of a given user
+*** Linux Group
+    1. /etc/group
+       : /etc/group文件有4个字段：
+       - 组名
+       - 组密码
+       - GID
+       - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
+    2. /etc/gshadow
+       : /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
+       : /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
+       : 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
+       : 这时就要用到用户组密码。
 
-      : $ sudo less /etc/gshadow
-      - 组名：用户组的名称，由字母或数字构成。
-      - 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
-      - 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
-      - 组内用户列表：如果有多个成员，用,号分割 ;
-   3. 创建、修改和删除组
-      : $ sudo groupadd shared
-      : $ sudo groupmod -n sharing shared
-      : $ sudo groupdel shared
-   4. 加入组和从组里删除
-      : $ sudo gpasswd -a test tests
-      : $ sudo gpasswd -d test tests
-** ACL 权限控制
-*** Linux 权限规划(Authority Division)：ACL 权限控制
+       : $ sudo less /etc/gshadow
+       - 组名：用户组的名称，由字母或数字构成。
+       - 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+       - 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+       - 组内用户列表：如果有多个成员，用,号分割 ;
+    3. 创建、修改和删除组
+       : $ sudo groupadd shared
+       : $ sudo groupmod -n sharing shared
+       : $ sudo groupdel shared
+    4. 加入组和从组里删除
+       : $ sudo gpasswd -a test tests
+       : $ sudo gpasswd -d test tests
+*** Linux 用户信息传递
+    : 查询用户: w、who、last、lastlog
+    : 用户交流：write、mesg、wall
+    : 用户邮箱：mail
+** Linux 权限规划(Authority Division): ACL 权限控制
     1. 什么是 ACL？
        \\
        ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
@@ -985,14 +1025,97 @@ photos:
        + 针对默认权限和递归(针对目录/子目录下的所有文件)权限的设定
 	 : 配置规范：『 d:[ug]:使用者列表:[rwx] 』
 	 : # setfacl -m d:u:zhao:rx -R /project
-*** Linux 用户信息传递
-    : 查询用户: w、who、last、lastlog
-    : 用户交流：write、mesg、wall
-    : 用户邮箱：mail
 ** 磁盘配额和高级文件系统管理
 *** 磁盘配额(Disk Quota)应用实践
 *** 软件磁盘阵列(Software RAID)
 *** 逻辑卷管理器(Logical Volume Manager)
+** Linux 程序管理和 SELinux 初探
+*** 进程与程序
+*** 任务管理
+*** 进程管理
+    1. 常见进程管理命令
+       + top
+       + ps ::
+	 list the processes running on the system
+	 : // 查看
+	 : $ ps -ef
+       + kill & killall ::
+	 send a signal to one or more processes (usually to "kill" a process)
+       + jobs ::
+	 an alternate way of listing your own processes
+       + bg ::
+	 put a process in the background
+       + fg ::
+	 put a process in the forground
+*** 特殊文件与进程
+**** Linux 文件特殊权限
+     1. SetUID
+	+ SetUID 介绍
+	  + 只有可执行的二进制程序才能设定 SUID 权限；
+	  + 用户拥有该程序的可执行权限；
+	  + 在执行该程序时,获得该程序文件所属用户的身份；
+	  + SetUID 只在该程序执行过程中有效.
+	+ 设定和取消 SetUID
+	  : // 查看 passwd 命令的 SetUID
+	  : $ ll /usr/bin/passwd
+	  -rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
+
+	  : // 设定
+	  : $ sudo chmod 4755 abc.txt
+	  : or
+	  : $ sudo chmod u+s abc.txt
+
+	  : // 取消
+	  : $ sudo chmod 755 abc.txt
+	  : $ sudo chmod u-s abc.txt
+	+ 注意事项
+	  + 关键目录应严格控制写权限.如"/","/usr"
+	  + 对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.
+     2. SetGID
+	+ SetGID 介绍
+	  + 只有可执行的二进制程序才能设定 SUID 权限；
+	  + 用户拥有该程序的可执行权限；
+	  + 在执行该程序时,获得该程序文件所属组的身份；
+	  + SetGID 只在该程序执行过程中有效.
+	+ 设定 SetGID
+	  : $ sudo chmod 2755 abc.txt
+	  : $ sudo chmod g+s abc.txt
+	+ SetGID 针对目录的作用
+	  + 普通用户必须对此目录拥有r和x权限,才能进入次目录；
+	  + 普通用户在此目录中的有效组会变成次目录的属组；
+	  + 若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.
+     3. Stiky BIT
+	+ Stiky BIT 粘着位
+	  + 粘着位只对目录有效
+	  + 普通用户对该目录有w和x权限
+	  + 如果没有粘着位,普通用户可以删除此目录下所有文件, *一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件*
+	+ 设定 Stiky BIT
+	  : $ ll /tmp
+	  drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
+	  : $ sudo chmod 1755 /tmp
+	  : $ sudo chmod o+t /tmp
+
+	  : $ sudo chmod 777 /tmp
+	  : $ sudo chmod o-t /tmp
+     4. chattr
+	+ 命令格式
+	  : chattr [+-=] 选项 file/directory
+	  : + 新增权限
+	  : - 删除权限
+	  : = 等于某权限
+
+	  : // 查看文件chattr属性
+	  : 格式: lsattr 选项 file/directory
+	  : $ lsattr abc.txt
+	+ 选项
+	  + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
+	  + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
+*** SELinux
+**** 什么是SELinux
+**** SELinux的运行模式
+**** SELinux策略内的规则管理
+* Linux 系统管理
+** Linux 启动管理
 ** Linux 计划任务(例行性工作排程)
 *** 什么是计划任务
 **** 计划任务的种类
@@ -1102,92 +1225,317 @@ photos:
        | 可以让你以分钟级运行计划任务   | 只能让你以天为基础来运行计划任务                                     |
        | 普通用户和 root 用户都可以使用 | 只有 root 用户可以使用（使用特定的配置启动普通任务）                 |
     3. anacron 与 /etc/anacrontab
-** Linux 程序管理和 SELinux 初探
-*** 进程与程序
-*** 任务管理
-*** 进程管理
-    1. 常见进程管理命令
-       + top
-       + ps ::
-	 list the processes running on the system
-	 : // 查看
-	 : $ ps -ef
-       + kill & killall ::
-	 send a signal to one or more processes (usually to "kill" a process)
-       + jobs ::
-	 an alternate way of listing your own processes
-       + bg ::
-	 put a process in the background
-       + fg ::
-	 put a process in the forground
-*** 特殊文件与进程
-**** Linux 文件特殊权限
-     1. SetUID
-	+ SetUID 介绍
-	  + 只有可执行的二进制程序才能设定 SUID 权限；
-	  + 用户拥有该程序的可执行权限；
-	  + 在执行该程序时,获得该程序文件所属用户的身份；
-	  + SetUID 只在该程序执行过程中有效.
-	+ 设定和取消 SetUID
-	  : // 查看 passwd 命令的 SetUID
-	  : $ ll /usr/bin/passwd
-	  -rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
+** Linux 日志管理
+** Linux 基础系统配置与备份策略
+** Linux 内核编译与管理
+** Linux 防火墙
+*** 概念
+    + 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。防火墙就是通过制定一些有顺序的规则，并管制进入到我们网域内的主机资料封包的一种机制。
+    + 在公网与企业内网之间充当保护屏障的防火墙虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
+    + 防火墙分为硬件防火墙和软件防火墙。硬件防火墙是由厂商设计好的，其作业系统主要提供封包资料的过滤机制为主，并将其他不必要的功能拿掉。软件防火墙本身就是在保护系统网络安全的一种软件(称为机制)，例如 Netfilter, TCP Wrappers 都可以称为软件防火墙。
+    + 目前在 RHEL-7 系统中，firewalld 防火墙取代了 iptables 防火墙。其实，iptables 与 firewalld 都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
+    + iptables 服务会把配置好的防火墙策略交由内核层面的 netfilter 网络过滤器来处理，而 firewalld 服务则是把配置好的防火墙策略交由内核层面的 nftables 包过滤框架来处理。换句话说，当前在 Linux 系统中其实存在多个防火墙管理工具，旨在方便运维人员管理 Linux 系统中的防火墙策略，我们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
+    + iptables 组件是一种工具，也称为用户空间(userspace)，它使插入、修改和除去信息包过滤表中的规则变得容易。
+    + Netfilter 组件也称为内核空间(kernelspace)，是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
+*** 防火墙类别
+    按照防火墙管理的范围，将防火墙分为网域型与单一主机型的控管。在单一主机型的控管方面，主要的防火墙有封包过滤型的 Netfilter 与依照服务软件程式作为分析的 TCP Wrappers 两种。对于区域性防火墙而言，由于此类防火墙都是当作路由器角色，因此防火墙主要有封包过滤的 Netfilter 与利用代理服务器(proxy server)进行存取代理的方式。
+**** Netfilter
+     所谓的封包过滤，即分析进入主机的网络封包，将封包的表头信息提出来进行分析，已决定放行或禁止访问的机制。
+     \\
+     在 Linux 上面我们使用核心内建的 Netfilter 这个机制，而 Netfilter 提供了 iptables 这个软件来作为防火墙封包过滤的指令。
+**** TCP Wrappers
+     + 通过服务器程序的外挂 (tcpd) 来处置，与封包过滤不同的是， 这种机制主要是分析谁对某程序进行存取，然后透过规则去分析该服务器程序谁能够联机、谁不能联机。
+     + 与程序的名称有关，举例来说，FTP 可以启动在非正规的 port 21 进行监听，当你透过 Linux 内建的 TCP wrappers 限制 FTP 时， 那么你只要知道 FTP 的软件名称 (vsftpd) ，然后对他作限制，则不管 FTP 启动在哪个端口，都会被该规则管理的。
+     + TCP wrappers 就是透过 /etc/hosts.allow, /etc/hosts.deny 来管理的一个类似防火墙的机制， 但并非所有的软件都可以透过这两个文件来控管，只有底下的软件才能够透过这两个文件来管理防火墙规则，分别是：
+       + 由 super daemon (xinetd) 所管理的服务：就是配置文件在 /etc/xinetd.d/ 里面的服务
+       + 有支援 libwrap.so 模块的服务
+     + 
+**** Proxy Server
+     代理服务器是一种网络服务，它可以『代理』用户的需求，而代为前往服务器取得相关的资料。
+     \\
+     一般 proxy 主机通常仅开放 port 80, 21, 20 等 WWW 与 FTP 的埠口而已，而且通常 Proxy 就架设在路由器上面，因此可以完整的掌控局域网络内的对外联机。
 
-	  : // 设定
-	  : $ sudo chmod 4755 abc.txt
-	  : or
-	  : $ sudo chmod u+s abc.txt
+*** Linux 的封包过滤软件：iptables
+**** 历史背景
+     在早期的 Linux 系统中，默认使用的是 iptables 防火墙管理服务来配置防火墙。尽管新型的 firewalld 防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用 iptables。
+**** iptables 表与规则链
+     iptables 的表格与相关链示意图:
+     [[file:{{site.url}}/assets/images/iptables_02.png]]
 
-	  : // 取消
-	  : $ sudo chmod 755 abc.txt
-	  : $ sudo chmod u-s abc.txt
-	+ 注意事项
-	  + 关键目录应严格控制写权限.如"/","/usr"
-	  + 对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.
-     2. SetGID
-	+ SetGID 介绍
-	  + 只有可执行的二进制程序才能设定 SUID 权限；
-	  + 用户拥有该程序的可执行权限；
-	  + 在执行该程序时,获得该程序文件所属组的身份；
-	  + SetGID 只在该程序执行过程中有效.
-	+ 设定 SetGID
-	  : $ sudo chmod 2755 abc.txt
-	  : $ sudo chmod g+s abc.txt
-	+ SetGID 针对目录的作用
-	  + 普通用户必须对此目录拥有r和x权限,才能进入次目录；
-	  + 普通用户在此目录中的有效组会变成次目录的属组；
-	  + 若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.
-     3. Stiky BIT
-	+ Stiky BIT 粘着位
-	  + 粘着位只对目录有效
-	  + 普通用户对该目录有w和x权限
-	  + 如果没有粘着位,普通用户可以删除此目录下所有文件, *一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件*
-	+ 设定 Stiky BIT
-	  : $ ll /tmp
-	  drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
-	  : $ sudo chmod 1755 /tmp
-	  : $ sudo chmod o+t /tmp
+     iptables 预设的情况下，Linux 的 iptables 至少就有三个表格，包括管理本机进出的 filter 、管理后端主机 (防火墙内部的其他计算机) 的 nat 、管理特殊旗标使用的 mangle (较少使用) 。
+     + filter：主要和主机自身有关，主要负责防火墙功能过滤本机流入流出的数据包是默认使用的 table。
+       + INPUT：过滤进入主机的数据包。
+       + OUTPUT：主要与我们 Linux 本机所要送出的封包有关。
+       + FORWARD：负责转发流经主机但不进入本机的数据包，和 NAT table 关系很大。
+     + nat：是 Network Address Translation 的缩写， 这个表格主要在进行来源与目的之 IP 或 port 的转换，主要与 Linux 主机后的局域网络内计算机有相关。
+       + PREROUTING：在进行路由判断之前所要进行的规则(DNAT/REDIRECT)
+       + POSTROUTING：在进行路由判断之后所要进行的规则(SNAT/MASQUERADE)
+       + OUTPUT：与发送出去的封包有关
 
-	  : $ sudo chmod 777 /tmp
-	  : $ sudo chmod o-t /tmp
-     4. chattr
-	+ 命令格式
-	  : chattr [+-=] 选项 file/directory
-	  : + 新增权限
-	  : - 删除权限
-	  : = 等于某权限
+       \\
+       #+CAPTION: NAT 表
+       | snat | 地址转换   |
+       | dnat | 标地址转换 |
+       | pnat | 标端口转换 |
+     + mangle：这个表格主要是与特殊的封包的路由旗标有关，将报文拆开来并修改报文标志位，最后封装起来。早期仅有 PREROUTING 及 OUTPUT 链，不过从 kernel 2.4.18 之后加入了 INPUT 及 FORWARD 链。
 
-	  : // 查看文件chattr属性
-	  : 格式: lsattr 选项 file/directory
-	  : $ lsattr abc.txt
-	+ 选项
-	  + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
-	  + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
-*** SELinux
-**** 什么是SELinux
-**** SELinux的运行模式
-**** SELinux策略内的规则管理
-** Linux 网络
+     \\
+     所以说，如果你的 Linux 是作为 www 服务，那么要开放客户端对你的 www 要求有响应，就得要处理 filter 的 INPUT 链； 而如果你的 Linux 是作为局域网络的路由器，那么就得要分析 nat 的各个链以及 filter 的 FORWARD 链才行。也就是说， 其实各个表格的链结之间是有关系的！简单的关系可以由下图这么看：
+     [[file:{{site.url}}/assets/images/iptables_03.gif]]
+     从上面的图示可以看出 iptables 可以控制三种封包的流向：
+     + 封包进入 Linux 主机使用资源 (路径 A)： 在路由判断后确定是向 Linux 主机要求数据的封包，主要就会透过 filter 的 INPUT 链来进行控管；
+     + 封包经由 Linux 主机的转递，没有使用主机资源，而是向后端主机流动 (路径 B)： 在路由判断之前进行封包表头的修订作业后，发现到封包主要是要透过防火墙而去后端，此时封包就会透过路径 B 来跑动。 也就是说，该封包的目标并非我们的 Linux 本机。主要经过的链是 filter 的 FORWARD 以及 nat 的 POSTROUTING, PREROUTING。
+     + 封包由 Linux 本机发送出去 (路径 C)： 例如响应客户端的要求，或者是 Linux 本机主动送出的封包，都是透过路径 C 来跑的。先是透过路由判断， 决定了输出的路径后，再透过 filter 的 OUTPUT 链来传送的！当然，最终还是会经过 nat 的 POSTROUTING 链。
+
+     \\
+     由于 mangle 这个表格很少被使用，如果 mangle 拿掉的话，那就容易看的多了：
+     [[file:{{site.url}}/assets/images/iptables_04.gif]]
+      
+**** iptables 策略和语法
+***** 策略
+      防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
+      - 在进行路由选择前处理数据包（PREROUTING）；
+      - 处理流入的数据包（INPUT）；
+      - 处理流出的数据包（OUTPUT）；
+      - 处理转发的数据包（FORWARD）；
+      - 在进行路由选择后处理数据包（POSTROUTING）。
+
+	\\
+	一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
+
+	\\
+	*iptables 服务的术语：*
+	+ ACCEPT（允许流量通过）
+	+ REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"），把 Linux 系统中的防火墙策略设置为 REJECT 拒绝动作后，流量发送方会看到端口不可达的响应。
+	+ LOG（记录日志信息）
+	+ DROP（拒绝流量通过，直接将流量丢弃不响应）。把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线。
+***** 语法应用
+      1. 规则的查看和清除
+	 : # iptables [-t tables] [-L] [-nv]
+	 : 选项与参数：
+         : -t ：后面接 table ，例如 nat 或 filter ，若省略此项目，则使用默认的 filter
+         : -L ：列出目前的 table 的规则
+         : -n ：不进行 IP 与 HOSTNAME 的反查，显示讯息的速度会快很多！
+         : -v ：列出更多的信息，包括通过该规则的封包总位数、相关的网络接口等
+
+	 : // 范例：列出 filter table 三条链的规则
+	 : # iptables -L -n
+         #+begin_src emacs-lisp
+	   Chain INPUT (policy ACCEPT) <==针对 INPUT 链，且预设政策为可接受
+	   target     prot opt source               destination         
+	   ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:3306
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+	   ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+	   REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+	   Chain FORWARD (policy DROP) <==针对 FORWARD 链，且预设政策为可接受
+	   target     prot opt source               destination         
+	   DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0           
+	   DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+	   DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+	   DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+	   DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
+	   DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+	   REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+	   Chain OUTPUT (policy ACCEPT) <==针对 OUTPUT 链，且预设政策为可接受
+	   target     prot opt source               destination         
+
+	   Chain DOCKER (4 references) <==针对 DOCKER 链
+	   target     prot opt source               destination         
+	   ACCEPT     tcp  --  0.0.0.0/0            172.21.0.2           tcp dpt:80
+	   ACCEPT     tcp  --  0.0.0.0/0            172.18.0.2           tcp dpt:9021
+
+	   Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+	   target     prot opt source               destination         
+	   DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
+	   DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
+	   DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
+	   DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
+	   RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+	   Chain DOCKER-ISOLATION-STAGE-2 (4 references)
+	   target     prot opt source               destination         
+	   DROP       all  --  0.0.0.0/0            0.0.0.0/0           
+	   DROP       all  --  0.0.0.0/0            0.0.0.0/0           
+	   DROP       all  --  0.0.0.0/0            0.0.0.0/0           
+	   DROP       all  --  0.0.0.0/0            0.0.0.0/0           
+	   RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
+
+	   Chain DOCKER-USER (1 references)
+	   target     prot opt source               destination         
+	   RETURN     all  --  0.0.0.0/0            0.0.0.0/0
+         #+end_src
+	 *5个检查点（内置链）*
+         + PREROUTING
+	 + INPUT
+	 + FORWORD
+	 + OUTPUT
+	 + POSTROUTING
+
+	 *说明栏*
+	 + target：代表进行的动作， ACCEPT 是放行，而 REJECT 则是拒绝，此外，尚有 DROP (丢弃) 的项目！
+	 + prot：代表使用的封包协议，主要有 tcp, udp 及 icmp 三种封包格式；
+	 + opt：额外的选项说明；
+	 + source ：代表此规则是针对哪个『来源 IP』进行限制；
+	 + destination ：代表此规则是针对哪个『目标 IP』进行限制
+
+	 : // 范例：列出 nat table 三条链的规则
+	 : # iptables -t nat -L -n
+
+         : # iptables -nvL –line-number
+         : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
+         : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
+         : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+         : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+	 
+         : // 清空已有的防火墙规则链
+         : # iptables -F
+	 : # iptables -X
+	 : # iptables -Z
+       
+      2. 规则配置
+	 : // 把INPUT规则链的默认策略设置为拒绝
+	 : $ iptables -P INPUT DROP
+	 : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
+
+	 : //向INPUT链中添加允许ICMP流量进入的策略规则
+	 : $ iptables -I INPUT -p icmp -j ACCEPT
+	 : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
+	 : 这种ping命令检测行为。
+
+	 : // 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
+	 : $ iptables -D INPUT 1
+	 : $ iptables -P INPUT ACCEPT
+	 
+	 : // 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
+	 : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
+	 : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
+	 
+	 : // 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
+	 : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
+	 : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
+	 
+	 : // 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
+	 : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
+	 
+	 : // 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
+	 : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
+	 : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
+	 
+	 : // 保存防火墙策略命令，使其永久生效
+	 : $ service iptables save
+*** Linux 的封包过滤软件：Firewalld
+    1. 概念
+       \\
+       Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
+       
+       #+CAPTION:firewalld中常用的区域名称及策略规则
+       | 区域     | 默认规则策略                                                                                                            |
+       |----------+-------------------------------------------------------------------------------------------------------------------------|
+       | trusted  | 允许所有的数据包                                                                                                        |
+       | home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
+       | internal | 等同于home区域                                                                                                          |
+       | work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
+       | public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
+       | external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+       | dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
+       | block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+       | drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
+    2. 命令行管理工具(firewall-cmd)
+       \\
+       firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本。
+       #+CAPTION: firewall-cmd命令中使用的参数以及作用
+       | 参数                          | 作用                                                   |
+       |-------------------------------+--------------------------------------------------------|
+       | --get-default-zone            | 查询默认的区域名称                                     |
+       | --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
+       | --get-zones                   | 显示可用的区域                                         |
+       | --get-services                | 显示预先定义的服务                                     |
+       | --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
+       | --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
+       | --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
+       | --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
+       | --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
+       | --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
+       | --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
+       | --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
+       | --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
+       | --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
+       | --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
+       | --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
+       | --panic-on                    | 开启应急状况模式                                       |
+       | --panic-off                   | 关闭应急状况模式                                       |
+       
+       使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
+       - 查看firewalld服务当前所使用的区域
+	 : # firewall-cmd --get-default-zone
+       - 查询eno16777728网卡在firewalld服务中的区域
+	 : # firewall-cmd --get-zone-of-interface=eno16777728
+       - 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
+	 : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
+	 : # firewall-cmd --get-zone-of-interface=eno16777728
+	 : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
+       - 把firewalld服务的当前默认区域设置为public
+	 : # firewall-cmd --set-default-zone=public
+	 : # firewall-cmd --get-default-zone
+       - 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
+	 : # firewall-cmd --panic-on
+	 : # firewall-cmd --panic-off
+       - 查询public区域是否允许请求SSH和HTTPS协议的流量
+	 : # firewall-cmd --zone=public --query-service=ssh
+	 : # firewall-cmd --zone=public --query-service=https
+       - 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
+	 : # firewall-cmd --zone=public --add-service=https
+	 : # firewall-cmd --permanent --zone=public --add-service=https
+	 : # firewall-cmd --reload
+       - 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
+	 : # firewall-cmd --permanent --zone=public --remove-service=http
+	 : # firewall-cmd --reload 
+       - 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
+	 : # firewall-cmd --zone=public --add-port=8080-8081/tcp
+	 : # firewall-cmd --zone=public --list-ports
+       - 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
+	 : 流量转发命令格式为:
+	 : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
+
+	 : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
+	 : # firewall-cmd --reload
+       - firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
+	 : $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
+*** 服务的访问控制列表
+    TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
+    \\
+    TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
+    #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
+    | 客户端类型     | 示例                       | 满足示例的客户端列表               |
+    |----------------+----------------------------+------------------------------------|
+    | 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
+    | 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
+    | 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
+    | 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
+    | 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
+    | 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
+
+    : // 在配置TCP Wrappers服务时需要遵循两个原则：
+    +  编写拒绝策略规则时，填写的是服务名称，而非协议名称；
+    + 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
+* Linux 服务管理
+** Linux 网络基础
 *** Linux 常见网络命令
     : 网络参数设定命令：ifconfig,ifup,ifdown,route,ip,iwlist,iwconfig,dhclient
     : 网络检错与观察指令：wall,ping,traceroute,netstat,host,nslookup
@@ -1291,133 +1639,7 @@ photos:
 	  : 但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
      4. 参考资料
 	: https://blog.csdn.net/zhangxiao93/article/details/52705642
-*** 远程管理：SSH、VNC、XDMCP 和 RDP
-**** SSH & OpenSSH & SSL & OpenSSL
-     + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
-     + OpenSSL，对SSL的实现。
-     + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
-     + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-       + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
-**** SSH 配置
-     1. 配置持久连接
-	+ Server 端
-	  : $ sudo vim /etc/ssh/sshd_config
-	  #+NAME: sshd_config
-	  #+BEGIN_SRC shell
-	  #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	  ClientAliveInterval 60  
-	  #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	  ClientAliveCountMax 3
-	  #+END_SRC
-	+ Client 端
-	  : $ sudo vim /etc/ssh/ssh_config
-	  #+NAME: ssh_config
-	  #+BEGIN_SRC shell
-	  #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
-	  ServerAliveInterval 60  
-	  #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
-	  ServerAliveCountMax 3
-	  #+END_SRC
-     2. 使用OpenSSL生成密钥对
-	: // 生成私钥
-	: $ openssl genrsa -out rsa_private_key.pem 1024
-	参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
-
-	: // 从私钥中提取公钥
-	: $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-	参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-     3. 修改 SSH 默认端口号
-	: 首先，修改配置文件：
-	: $ vim /etc/ssh/sshd_config
-	Port 22 Port 6666   
-	: 注意事项：
-	- 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
-	- 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
-	- 
-
-     4. 通过密钥登录服务器
-	+ 第一步，生成密钥对
-	  : $ ssh-keygen
-	  #+NAME: 生成密钥对
-	  #+BEGIN_SRC emacs-lisp
-	    Generating public/private rsa key pair.
-	    Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-	    Enter passphrase (empty for no passphrase):
-	    Enter same passphrase again:
-	    Your identification has been saved in /home/zrg/.ssh/id_rsa.
-	    Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-	    The key fingerprint is:
-	    SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-	    The key's randomart image is:
-	    +---[RSA 2048]----+
-	    |    +*B==o o.oo=*|
-	    |   .o+o= .. . =o.|
-	    |     .+ o .o + E |
-	    |     . *   o= =  |
-	    |      = S . o+   |
-	    |       + o .     |
-	    |    o . =        |
-	    |   . + o .       |
-	    |    ..o          |
-	    +----[SHA256]-----+
-	  #+END_SRC
-
-	  如果客户端要访问多台服务器时，可进行如下操作：
-	  : 第一种方式：手动指定
-	  : $  ssh user@host -i ~/.ssh/id_rsa
-	  : 第二种方式：配置客户端，/etc/ssh/ssh_config
-	  #+BEGIN_SRC shell
-	    IdentityFile ~/.ssh/id_rsa
-	    IdentityFile ~/.ssh/github_id_rsa
-	  #+END_SRC
-	  : 第三种方式：使用 SSH Agent
-	  #+BEGIN_SRC shell
-	    # Default github user
-	    Host login-zrg
-	    HostName github.com
-	    User zrg
-	    IdentityFile ~/.ssh/id_rsa
-
-	    # jsf user
-	    Host login-jsf
-	    HostName github.com
-	    User jsf
-	    IdentityFile ~/.ssh/id_rsa_jsf
-	  #+END_SRC
-	+ 第二步，在服务器上配置上公钥
-	  将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
-	  : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
-	  : $ chmod 600 ~/.ssh/authorized_keys
-	  : $ chmod 700 ~/.ssh
-	+ 第三步，配置ssh，打开密钥登录功能
-	  : $ vim /etc/ssh/sshd_config
-	  #+NAME: 配置 ssh
-	  # 允许用户使用密钥登录
-	  RSAAuthentication yes
-	  PubkeyAuthentication yes
-	  # 允许 root 用户通过 SSH 登录
-	  PermitRootLogin yes
-	  # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
-	  PasswordAuthentication no
-	  #+END_SRC
-	+ 第四步，重启ssh服务
-	  配置完成后，重启 sshd 服务
-	  : $ systemctl restart sshd.service
-**** SCP 使用
-     使用scp上传或下载文件
-     + 从服务器上下载文件
-       : $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-       : 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
-     + 上传本地文件到服务器
-       : $ scp /path/filename username@servername:/path   
-       : 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
-     + 从服务器下载整个目录
-       : $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-       : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-     + 上传目录到服务器
-       : $ scp  -r local_dir username@servername:remote_dir
-       : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-*** 在server 上启用 HTTPS
+*** 启用 HTTPS
     - 创建一个 2048 位 RSA 公钥/私钥对。
     - 生成一个嵌入您的公钥的证书签名请求 (CSR)
     - 将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。
@@ -1428,771 +1650,590 @@ photos:
 
     : 参考资料：
     [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
-*** 防火墙
-**** 概念
-     + 众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。防火墙就是通过制定一些有顺序的规则，并管制进入到我们网域内的主机资料封包的一种机制。
-     + 在公网与企业内网之间充当保护屏障的防火墙虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。
-     + 防火墙分为硬件防火墙和软件防火墙。硬件防火墙是由厂商设计好的，其作业系统主要提供封包资料的过滤机制为主，并将其他不必要的功能拿掉。软件防火墙本身就是在保护系统网络安全的一种软件(称为机制)，例如 Netfilter, TCP Wrappers 都可以称为软件防火墙。
-     + 目前在 RHEL-7 系统中，firewalld 防火墙取代了 iptables 防火墙。其实，iptables 与 firewalld 都不是真正的防火墙，它们都只是用来定义防火墙策略的防火墙管理工具而已，或者说，它们只是一种服务。与 Linux 内核集成的 IP 信息包过滤系统。防火墙在做数据包过滤决定时，有一套遵循和组成的规则，这些规则存储在专用的数据包过滤表中，而这些表集成在 Linux 内核中。
-     + iptables 服务会把配置好的防火墙策略交由内核层面的 netfilter 网络过滤器来处理，而 firewalld 服务则是把配置好的防火墙策略交由内核层面的 nftables 包过滤框架来处理。换句话说，当前在 Linux 系统中其实存在多个防火墙管理工具，旨在方便运维人员管理 Linux 系统中的防火墙策略，我们只需要配置妥当其中的一个就足够了。虽然这些工具各有优劣，但它们在防火墙策略的配置思路上是保持一致的。
-     + iptables 组件是一种工具，也称为用户空间(userspace)，它使插入、修改和除去信息包过滤表中的规则变得容易。
-     + Netfilter 组件也称为内核空间(kernelspace)，是内核的一部分，由一些信息包过滤表组成，这些表包含内核用来控制信息包过滤处理的规则集。
-**** 防火墙类别
-     按照防火墙管理的范围，将防火墙分为网域型与单一主机型的控管。在单一主机型的控管方面，主要的防火墙有封包过滤型的 Netfilter 与依照服务软件程式作为分析的 TCP Wrappers 两种。对于区域性防火墙而言，由于此类防火墙都是当作路由器角色，因此防火墙主要有封包过滤的 Netfilter 与利用代理服务器(proxy server)进行存取代理的方式。
-***** Netfilter
-      所谓的封包过滤，即分析进入主机的网络封包，将封包的表头信息提出来进行分析，已决定放行或禁止访问的机制。
-      \\
-      在 Linux 上面我们使用核心内建的 Netfilter 这个机制，而 Netfilter 提供了 iptables 这个软件来作为防火墙封包过滤的指令。
-***** TCP Wrappers
-      + 通过服务器程序的外挂 (tcpd) 来处置，与封包过滤不同的是， 这种机制主要是分析谁对某程序进行存取，然后透过规则去分析该服务器程序谁能够联机、谁不能联机。
-      + 与程序的名称有关，举例来说，FTP 可以启动在非正规的 port 21 进行监听，当你透过 Linux 内建的 TCP wrappers 限制 FTP 时， 那么你只要知道 FTP 的软件名称 (vsftpd) ，然后对他作限制，则不管 FTP 启动在哪个端口，都会被该规则管理的。
-      + TCP wrappers 就是透过 /etc/hosts.allow, /etc/hosts.deny 来管理的一个类似防火墙的机制， 但并非所有的软件都可以透过这两个文件来控管，只有底下的软件才能够透过这两个文件来管理防火墙规则，分别是：
-	+ 由 super daemon (xinetd) 所管理的服务：就是配置文件在 /etc/xinetd.d/ 里面的服务
-	+ 有支援 libwrap.so 模块的服务
-      + 
-***** Proxy Server
-      代理服务器是一种网络服务，它可以『代理』用户的需求，而代为前往服务器取得相关的资料。
-      \\
-      一般 proxy 主机通常仅开放 port 80, 21, 20 等 WWW 与 FTP 的埠口而已，而且通常 Proxy 就架设在路由器上面，因此可以完整的掌控局域网络内的对外联机。
+** 远程工具：SSH、VNC、XDMCP 和 RDP
+*** SSH & OpenSSH & SSL & OpenSSL
+    + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
+    + OpenSSL，对SSL的实现。
+    + SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。
+    + OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+      + HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。
+*** SSH 配置
+    1. 配置持久连接
+       + Server 端
+	 : $ sudo vim /etc/ssh/sshd_config
+	 #+NAME: sshd_config
+	 #+BEGIN_SRC shell
+	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	 ClientAliveInterval 60  
+	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	 ClientAliveCountMax 3
+	 #+END_SRC
+       + Client 端
+	 : $ sudo vim /etc/ssh/ssh_config
+	 #+NAME: ssh_config
+	 #+BEGIN_SRC shell
+	 #server每隔60秒发送一次请求给client，然后client响应，从而保持连接
+	 ServerAliveInterval 60  
+	 #server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应。
+	 ServerAliveCountMax 3
+	 #+END_SRC
+    2. 使用OpenSSL生成密钥对
+       : // 生成私钥
+       : $ openssl genrsa -out rsa_private_key.pem 1024
+       参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
 
-**** Linux 的封包过滤软件：iptables
-***** 历史背景
-      在早期的 Linux 系统中，默认使用的是 iptables 防火墙管理服务来配置防火墙。尽管新型的 firewalld 防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用 iptables。
-***** iptables 表与规则链
-      iptables 的表格与相关链示意图:
-      [[file:{{site.url}}/assets/images/iptables_02.png]]
+       : // 从私钥中提取公钥
+       : $ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+       参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+    3. 修改 SSH 默认端口号
+       : 首先，修改配置文件：
+       : $ vim /etc/ssh/sshd_config
+       Port 22 Port 6666   
+       : 注意事项：
+       - 这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。
+       - 所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！
+       - 
 
-      iptables 预设的情况下，Linux 的 iptables 至少就有三个表格，包括管理本机进出的 filter 、管理后端主机 (防火墙内部的其他计算机) 的 nat 、管理特殊旗标使用的 mangle (较少使用) 。
-      + filter：主要和主机自身有关，主要负责防火墙功能过滤本机流入流出的数据包是默认使用的 table。
-	+ INPUT：过滤进入主机的数据包。
-	+ OUTPUT：主要与我们 Linux 本机所要送出的封包有关。
-	+ FORWARD：负责转发流经主机但不进入本机的数据包，和 NAT table 关系很大。
-      + nat：是 Network Address Translation 的缩写， 这个表格主要在进行来源与目的之 IP 或 port 的转换，主要与 Linux 主机后的局域网络内计算机有相关。
-	+ PREROUTING：在进行路由判断之前所要进行的规则(DNAT/REDIRECT)
-	+ POSTROUTING：在进行路由判断之后所要进行的规则(SNAT/MASQUERADE)
-	+ OUTPUT：与发送出去的封包有关
+    4. 通过密钥登录服务器
+       + 第一步，生成密钥对
+	 : $ ssh-keygen
+	 #+NAME: 生成密钥对
+	 #+BEGIN_SRC emacs-lisp
+	   Generating public/private rsa key pair.
+	   Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+	   Enter passphrase (empty for no passphrase):
+	   Enter same passphrase again:
+	   Your identification has been saved in /home/zrg/.ssh/id_rsa.
+	   Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+	   The key fingerprint is:
+	   SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+	   The key's randomart image is:
+	   +---[RSA 2048]----+
+	   |    +*B==o o.oo=*|
+	   |   .o+o= .. . =o.|
+	   |     .+ o .o + E |
+	   |     . *   o= =  |
+	   |      = S . o+   |
+	   |       + o .     |
+	   |    o . =        |
+	   |   . + o .       |
+	   |    ..o          |
+	   +----[SHA256]-----+
+	 #+END_SRC
 
-	\\
-	#+CAPTION: NAT 表
-	| snat | 地址转换   |
-	| dnat | 标地址转换 |
-	| pnat | 标端口转换 |
-      + mangle：这个表格主要是与特殊的封包的路由旗标有关，将报文拆开来并修改报文标志位，最后封装起来。早期仅有 PREROUTING 及 OUTPUT 链，不过从 kernel 2.4.18 之后加入了 INPUT 及 FORWARD 链。
+	 如果客户端要访问多台服务器时，可进行如下操作：
+	 : 第一种方式：手动指定
+	 : $  ssh user@host -i ~/.ssh/id_rsa
+	 : 第二种方式：配置客户端，/etc/ssh/ssh_config
+	 #+BEGIN_SRC shell
+	   IdentityFile ~/.ssh/id_rsa
+	   IdentityFile ~/.ssh/github_id_rsa
+	 #+END_SRC
+	 : 第三种方式：使用 SSH Agent
+	 #+BEGIN_SRC shell
+	   # Default github user
+	   Host login-zrg
+	   HostName github.com
+	   User zrg
+	   IdentityFile ~/.ssh/id_rsa
 
-      \\
-      所以说，如果你的 Linux 是作为 www 服务，那么要开放客户端对你的 www 要求有响应，就得要处理 filter 的 INPUT 链； 而如果你的 Linux 是作为局域网络的路由器，那么就得要分析 nat 的各个链以及 filter 的 FORWARD 链才行。也就是说， 其实各个表格的链结之间是有关系的！简单的关系可以由下图这么看：
-      [[file:{{site.url}}/assets/images/iptables_03.gif]]
-      从上面的图示可以看出 iptables 可以控制三种封包的流向：
-      + 封包进入 Linux 主机使用资源 (路径 A)： 在路由判断后确定是向 Linux 主机要求数据的封包，主要就会透过 filter 的 INPUT 链来进行控管；
-      + 封包经由 Linux 主机的转递，没有使用主机资源，而是向后端主机流动 (路径 B)： 在路由判断之前进行封包表头的修订作业后，发现到封包主要是要透过防火墙而去后端，此时封包就会透过路径 B 来跑动。 也就是说，该封包的目标并非我们的 Linux 本机。主要经过的链是 filter 的 FORWARD 以及 nat 的 POSTROUTING, PREROUTING。
-      + 封包由 Linux 本机发送出去 (路径 C)： 例如响应客户端的要求，或者是 Linux 本机主动送出的封包，都是透过路径 C 来跑的。先是透过路由判断， 决定了输出的路径后，再透过 filter 的 OUTPUT 链来传送的！当然，最终还是会经过 nat 的 POSTROUTING 链。
+	   # jsf user
+	   Host login-jsf
+	   HostName github.com
+	   User jsf
+	   IdentityFile ~/.ssh/id_rsa_jsf
+	 #+END_SRC
+       + 第二步，在服务器上配置上公钥
+	 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
+	 : $ cat ~/.ssh/id_rsa.pub >> authorized_keys
+	 : $ chmod 600 ~/.ssh/authorized_keys
+	 : $ chmod 700 ~/.ssh
+       + 第三步，配置ssh，打开密钥登录功能
+	 : $ vim /etc/ssh/sshd_config
+	 #+NAME: 配置 ssh
+	 # 允许用户使用密钥登录
+	 RSAAuthentication yes
+	 PubkeyAuthentication yes
+	 # 允许 root 用户通过 SSH 登录
+	 PermitRootLogin yes
+	 # 当完成全部设置，以密钥方式登录成功后，可以禁用密码登录
+	 PasswordAuthentication no
+	 #+END_SRC
+       + 第四步，重启ssh服务
+	 配置完成后，重启 sshd 服务
+	 : $ systemctl restart sshd.service
+*** SCP 使用
+    使用scp上传或下载文件
+    + 从服务器上下载文件
+      : $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
+      : 示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+    + 上传本地文件到服务器
+      : $ scp /path/filename username@servername:/path   
+      : 例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
+    + 从服务器下载整个目录
+      : $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+      : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
+    + 上传目录到服务器
+      : $ scp  -r local_dir username@servername:remote_dir
+      : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+** DNS
+** FTP：Vsftp
+  1. Download and Install
+     : https://security.appspot.com/vsftpd.html#download
+     : //yum
+     : yum install -y vsftpd
+  2. Change default dir
+     #+BEGIN_SRC emacs-lisp
+    #local user
+    local_root=/usr/share/nginx/html
+    #is_enable local view,default_setting is NO
+    chroot_local_user=NO
+    #anonymous user
+    anon_root=/var/ftp/pub
+     #+END_SRC
+  3. Configuring directory of access
+     #+BEGIN_SRC emacs-lisp
+    chroot_local_user=YES
+    chroot_list_enable=NO
+    allow_writeable_chroot=YES
 
-      \\
-      由于 mangle 这个表格很少被使用，如果 mangle 拿掉的话，那就容易看的多了：
-      [[file:{{site.url}}/assets/images/iptables_04.gif]]
+    报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
+       500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+
+    notice:
+     配置具体情况有以下几种：
+    1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
+    2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
+    3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
+    4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
+
+    5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
+     #+END_SRC
+  4. my vsftpd.conf
+     //CentOS 7, /etc/vsftpd/vsftpd.conf.
+     #+BEGIN_SRC emacs-lisp
+    # Example config file /etc/vsftpd/vsftpd.conf
+    # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+    anonymous_enable=NO
+    #
+    local_root=/srv/www/
+    #
+    # Uncomment this to allow local users to log in.
+    # When SELinux is enforcing check for SE bool ftp_home_dir
+    local_enable=YES
+    #
+    # Uncomment this to enable any form of FTP write command.
+    write_enable=YES
+    #
+    # Default umask for local users is 077. You may wish to change this to 022,
+    # if your users expect that (022 is used by most other ftpd's)
+    local_umask=022
+    #
+    # Uncomment this to allow the anonymous FTP user to upload files. This only
+    # has an effect if the above global write enable is activated. Also, you will
+    # obviously need to create a directory writable by the FTP user.
+    # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
+    #anon_upload_enable=YES
+    #
+    # Uncomment this if you want the anonymous FTP user to be able to create
+    # new directories.
+    #anon_mkdir_write_enable=YES
+    #
+    # Activate directory messages - messages given to remote users when they
+    # go into a certain directory.
+    dirmessage_enable=YES
+    #
+    # Activate logging of uploads/downloads.
+    xferlog_enable=YES
+    #
+    # Make sure PORT transfer connections originate from port 20 (ftp-data).
+    connect_from_port_20=YES
+    #
+    # If you want, you can arrange for uploaded anonymous files to be owned by
+    # a different user. Note! Using "root" for uploaded files is not
+    # recommended!
+    #chown_uploads=YES
+    #chown_username=whoever
+    #
+    # You may override where the log file goes if you like. The default is shown
+    # below.
+    #xferlog_file=/var/log/xferlog
+    #
+    # If you want, you can have your log file in standard ftpd xferlog format.
+    # Note that the default log file location is /var/log/xferlog in this case.
+    xferlog_std_format=YES
+    #
+    # You may change the default value for timing out an idle session.
+    #idle_session_timeout=600
+    #
+    # You may change the default value for timing out a data connection.
+    #data_connection_timeout=120
+    #
+    # It is recommended that you define on your system a unique user which the
+    # ftp server can use as a totally isolated and unprivileged user.
+    #nopriv_user=ftpsecure
+    #
+    # Enable this and the server will recognise asynchronous ABOR requests. Not
+    # recommended for security (the code is non-trivial). Not enabling it,
+    # however, may confuse older FTP clients.
+    #async_abor_enable=YES
+    #
+    # By default the server will pretend to allow ASCII mode but in fact ignore
+    # the request. Turn on the below options to have the server actually do ASCII
+    # mangling on files when in ASCII mode.
+    # Beware that on some FTP servers, ASCII support allows a denial of service
+    # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
+    # predicted this attack and has always been safe, reporting the size of the
+    # raw file.
+    # ASCII mangling is a horrible feature of the protocol.
+    #ascii_upload_enable=YES
+    #ascii_download_enable=YES
+    #
+    # You may fully customise the login banner string:
+    #ftpd_banner=Welcome to blah FTP service.
+    #
+    # You may specify a file of disallowed anonymous e-mail addresses. Apparently
+    # useful for combatting certain DoS attacks.
+    #deny_email_enable=YES
+    # (default follows)
+    #banned_email_file=/etc/vsftpd/banned_emails
+    #
+    # You may specify an explicit list of local users to chroot() to their home
+    # directory. If chroot_local_user is YES, then this list becomes a list of
+    # users to NOT chroot().
+    # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
+    # the user does not have write access to the top level directory within the
+    # chroot)
+    chroot_local_user=YES
+    chroot_list_enable=YES
+    allow_writeable_chroot=YES
+    # (default follows)
+    chroot_list_file=/etc/vsftpd/chroot_list
+    #
+    # You may activate the "-R" option to the builtin ls. This is disabled by
+    # default to avoid remote users being able to cause excessive I/O on large
+    # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
+    # the presence of the "-R" option, so there is a strong case for enabling it.
+    #ls_recurse_enable=YES
+    #
+    # When "listen" directive is enabled, vsftpd runs in standalone mode and
+    # listens on IPv4 sockets. This directive cannot be used in conjunction
+    # with the listen_ipv6 directive.
+    listen=NO
+    #
+    # This directive enables listening on IPv6 sockets. By default, listening
+    # on the IPv6 "any" address (::) will accept connections from both IPv6
+    # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
+    # sockets. If you want that (perhaps because you want to listen on specific
+    # addresses) then you must run two copies of vsftpd with two configuration
+    # files.
+    # Make sure, that one of the listen options is commented !!
+    listen_ipv6=YES
+
+    pam_service_name=vsftpd
+    userlist_enable=YES
+    tcp_wrappers=YES
+     #+END_SRC
+  5. References
+     : https://security.appspot.com/vsftpd.html
+     : https://en.wikipedia.org/wiki/Vsftpd
+     : http://baike.baidu.com/item/vsftpd
+** NFS
+** 文件共享：Samba
+** LAMP & LNMP 环境部署
+   [[https://zhaorengui.github.io/software/linux/php/database/2016/03/25/apache-nginx-mysql-php/]]
+** NIS 服务
+** NTP 服务
+** Proxy 服务
+** iSCSI 服务
+** Tomcat
+** 邮件服务：Postfix
+** ELK 日志分析服务
+** Rsync 同步服务
+* Linux 集群与虚拟化
+** 集群概念
+** MySQL 集群
+** NoSQL 集群
+** 虚拟化概述
+** Vcent
+** Docker
+** Openstack
+** Kubenetes(k8s)
+* 附录A：常见软件
+** GCC
+*** 简单编译
+    : $ gcc test.c -o test
+    实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
       
-***** iptables 策略和语法
-****** 策略
-       防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
-       - 在进行路由选择前处理数据包（PREROUTING）；
-       - 处理流入的数据包（INPUT）；
-       - 处理流出的数据包（OUTPUT）；
-       - 处理转发的数据包（FORWARD）；
-       - 在进行路由选择后处理数据包（POSTROUTING）。
+    1. Preprocessing
+       : $ gcc -E test.c -o test.i
+       : 或
+       : $ gcc -E test.c
+       gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
+    2. Compilation
+       : $ gcc -S test.i -o test.s
+       gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
+    3. Assembly
+       : $ gcc -c test.s -o test.o
+       对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
+    4. Linking
+       gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
+       \\
+       对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
+       : $ gcc test.o -o test
+*** 多个程序文件的编译
+    : $ gcc test1.c test2.c -o test
+*** 检错
+    : $ gcc -pedantic test.c -o test
+    : //警告信息
+    : $ gcc -Wall test.c -p test
+    -Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
+    : $ gcc -Werror test.c -o test
+*** 库文件连接
+    1. 编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
+       : $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
+    2. 链接。最后我们把所有目标文件链接成可执行文件:
+       : $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
+    3. 强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
+       : $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
+*** 其他
+    静态库链接时搜索路径顺序：
+    \\
+    1. ld 会去找GCC命令中的参数 -L
+    2. 再找 gcc 的环境变量 LIBRARY_PATH
+    3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
 
-	 \\
-	 一般来说，从内网向外网发送的流量一般都是可控且良性的，因此我们使用最多的就是INPUT规则链，该规则链可以增大黑客人员从外网入侵内网的难度。
-
-	 \\
-	 *iptables 服务的术语：*
-	 + ACCEPT（允许流量通过）
-	 + REJECT（拒绝流量通过，拒绝流量后再回复一条"您的信息已经收到，但是被扔掉了"），把 Linux 系统中的防火墙策略设置为 REJECT 拒绝动作后，流量发送方会看到端口不可达的响应。
-	 + LOG（记录日志信息）
-	 + DROP（拒绝流量通过，直接将流量丢弃不响应）。把Linux系统中的防火墙策略修改成DROP拒绝动作后，流量发送方会看到响应超时的提醒。但是流量发送方无法判断流量是被拒绝，还是接收方主机当前不在线。
-****** 语法应用
-       1. 规则的查看和清除
-	  : # iptables [-t tables] [-L] [-nv]
-	  : 选项与参数：
-          : -t ：后面接 table ，例如 nat 或 filter ，若省略此项目，则使用默认的 filter
-          : -L ：列出目前的 table 的规则
-          : -n ：不进行 IP 与 HOSTNAME 的反查，显示讯息的速度会快很多！
-          : -v ：列出更多的信息，包括通过该规则的封包总位数、相关的网络接口等
-
-	  : // 范例：列出 filter table 三条链的规则
-	  : # iptables -L -n
-          #+begin_src emacs-lisp
-	    Chain INPUT (policy ACCEPT) <==针对 INPUT 链，且预设政策为可接受
-	    target     prot opt source               destination         
-	    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:3306
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
-	    ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
-	    REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
-
-	    Chain FORWARD (policy DROP) <==针对 FORWARD 链，且预设政策为可接受
-	    target     prot opt source               destination         
-	    DOCKER-USER  all  --  0.0.0.0/0            0.0.0.0/0           
-	    DOCKER-ISOLATION-STAGE-1  all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
-	    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
-	    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
-	    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            ctstate RELATED,ESTABLISHED
-	    DOCKER     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
-	    REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
-
-	    Chain OUTPUT (policy ACCEPT) <==针对 OUTPUT 链，且预设政策为可接受
-	    target     prot opt source               destination         
-
-	    Chain DOCKER (4 references) <==针对 DOCKER 链
-	    target     prot opt source               destination         
-	    ACCEPT     tcp  --  0.0.0.0/0            172.21.0.2           tcp dpt:80
-	    ACCEPT     tcp  --  0.0.0.0/0            172.18.0.2           tcp dpt:9021
-
-	    Chain DOCKER-ISOLATION-STAGE-1 (1 references)
-	    target     prot opt source               destination         
-	    DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
-	    DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
-	    DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
-	    DOCKER-ISOLATION-STAGE-2  all  --  0.0.0.0/0            0.0.0.0/0           
-	    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
-
-	    Chain DOCKER-ISOLATION-STAGE-2 (4 references)
-	    target     prot opt source               destination         
-	    DROP       all  --  0.0.0.0/0            0.0.0.0/0           
-	    DROP       all  --  0.0.0.0/0            0.0.0.0/0           
-	    DROP       all  --  0.0.0.0/0            0.0.0.0/0           
-	    DROP       all  --  0.0.0.0/0            0.0.0.0/0           
-	    RETURN     all  --  0.0.0.0/0            0.0.0.0/0           
-
-	    Chain DOCKER-USER (1 references)
-	    target     prot opt source               destination         
-	    RETURN     all  --  0.0.0.0/0            0.0.0.0/0
-          #+end_src
-	  *5个检查点（内置链）*
-          + PREROUTING
-	  + INPUT
-	  + FORWORD
-	  + OUTPUT
-	  + POSTROUTING
-
-	  *说明栏*
-	  + target：代表进行的动作， ACCEPT 是放行，而 REJECT 则是拒绝，此外，尚有 DROP (丢弃) 的项目！
-	  + prot：代表使用的封包协议，主要有 tcp, udp 及 icmp 三种封包格式；
-	  + opt：额外的选项说明；
-	  + source ：代表此规则是针对哪个『来源 IP』进行限制；
-	  + destination ：代表此规则是针对哪个『目标 IP』进行限制
-
-	  : // 范例：列出 nat table 三条链的规则
-	  : # iptables -t nat -L -n
-
-          : # iptables -nvL –line-number
-          : -L 查看当前表的所有规则，默认查看的是filter表，如果要查看NAT表，可以加上-t NAT参数
-          : -n 不对ip地址进行反查，加上这个参数显示速度会快很多
-          : -v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
-          : –line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
-	 
-          : // 清空已有的防火墙规则链
-          : # iptables -F
-	  : # iptables -X
-	  : # iptables -Z
-       
-       2. 规则配置
-	  : // 把INPUT规则链的默认策略设置为拒绝
-	  : $ iptables -P INPUT DROP
-	  : 规则链的默认策略拒绝动作只能是DROP，而不能是REJECT。
-
-	  : //向INPUT链中添加允许ICMP流量进入的策略规则
-	  : $ iptables -I INPUT -p icmp -j ACCEPT
-	  : 在日常运维工作中，经常会使用ping命令来检查对方主机是否在线，而向防火墙的INPUT规则链中添加一条允许ICMP流量进入的策略规则就默认允许了
-	  : 这种ping命令检测行为。
-
-	  : // 删除INPUT规则链中刚刚加入的那条策略（允许ICMP流量），并把默认策略设置为允许
-	  : $ iptables -D INPUT 1
-	  : $ iptables -P INPUT ACCEPT
-	 
-	  : // 将INPUT规则链设置为只允许指定网段的主机访问本机的22端口，拒绝来自其他所有主机的流量
-	  : $ iptables -I INPUT -s 192.168.10.0/24 -p tcp --dport 22 -j ACCEPT
-	  : $ iptables -A INPUT -p tcp --dport 22 -j REJECT
-	 
-	  : // 向INPUT规则链中添加拒绝所有人访问本机12345端口的策略规则
-	  : $ iptables -I INPUT -p tcp --dport 12345 -j REJECT
-	  : $ iptables -I INPUT -p udp --dport 12345 -j REJECT
-	 
-	  : // 向INPUT规则链中添加拒绝192.168.10.5主机访问本机80端口（Web服务）的策略规则
-	  : $ iptables -I INPUT -p tcp -s 192.168.10.5 --dport 80 -j REJECT
-	 
-	  : // 向INPUT规则链中添加拒绝所有主机访问本机1000～1024端口的策略规则
-	  : $ iptables -A INPUT -p tcp --dport 1000:1024 -j REJECT
-	  : $ iptables -A INPUT -p udp --dport 1000:1024 -j REJECT
-	 
-	  : // 保存防火墙策略命令，使其永久生效
-	  : $ service iptables save
-**** Linux 的封包过滤软件：Firewalld
-     1. 概念
-	\\
-	Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火墙管理器)，服务是默认的防火墙配置管理工具，它拥有基于CLI（命令行界面）和基于GUI（图形用户界面）的两种管理方式。相较于传统的防火墙管理配置工具，firewalld支持动态更新技术并加入了区域（zone）的概念。简单来说，区域就是firewalld预先准备了几套防火墙策略集合（策略模板），用户可以根据生产场景的不同而选择合适的策略集合，从而实现防火墙策略之间的快速切换。
-       
-	#+CAPTION:firewalld中常用的区域名称及策略规则
-	| 区域     | 默认规则策略                                                                                                            |
-	|----------+-------------------------------------------------------------------------------------------------------------------------|
-	| trusted  | 允许所有的数据包                                                                                                        |
-	| home     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量 |
-	| internal | 等同于home区域                                                                                                          |
-	| work     | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量                    |
-	| public   | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量                                |
-	| external | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-	| dmz      | 拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量                                               |
-	| block    | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-	| drop     | 拒绝流入的流量，除非与流出的流量相关                                                                                    |
-     2. 命令行管理工具(firewall-cmd)
-	\\
-	firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本。
-	#+CAPTION: firewall-cmd命令中使用的参数以及作用
-	| 参数                          | 作用                                                   |
-	|-------------------------------+--------------------------------------------------------|
-	| --get-default-zone            | 查询默认的区域名称                                     |
-	| --set-default-zone=<区域名称> | 设置默认的区域，使其永久生效                           |
-	| --get-zones                   | 显示可用的区域                                         |
-	| --get-services                | 显示预先定义的服务                                     |
-	| --get-active-zones            | 显示当前正在使用的区域与网卡名称                       |
-	| --add-source=                 | 将源自此IP或子网的流量导向指定的区域                   |
-	| --remove-source=              | 不再将源自此IP或子网的流量导向某个指定区域             |
-	| --add-interface=<网卡名称>    | 将源自该网卡的所有流量都导向某个指定区域               |
-	| --change-interface=<网卡名称> | 将某个网卡与区域进行关联                               |
-	| --list-all                    | 显示当前区域的网卡配置参数、资源、端口以及服务等信息   |
-	| --list-all-zones              | 显示所有区域的网卡配置参数、资源、端口以及服务等信息   |
-	| --add-service=<服务名>        | 设置默认区域允许该服务的流量                           |
-	| --add-port=<端口号/协议>      | 设置默认区域允许该端口的流量                           |
-	| --remove-service=<服务名>     | 设置默认区域不再允许该服务的流量                       |
-	| --remove-port=<端口号/协议>   | 设置默认区域不再允许该端口的流量                       |
-	| --reload                      | 让“永久生效”的配置规则立即生效，并覆盖当前的配置规则 |
-	| --panic-on                    | 开启应急状况模式                                       |
-	| --panic-off                   | 关闭应急状况模式                                       |
-       
-	使用firewalld配置的防火墙策略默认为运行时（Runtime）模式，又称为当前生效模式，而且随着系统的重启会失效。如果想让配置策略一直存在，就需要使用永久（Permanent）模式了，方法就是在用firewall-cmd命令正常设置防火墙策略时添加--permanent参数，这样配置的防火墙策略就可以永久生效了。但是，永久生效模式有一个“不近人情”的特点，就是使用它设置的策略只有在系统重启之后才能自动生效。如果想让配置的策略立生效，需要手动执行firewall-cmd --reload命令。
-	- 查看firewalld服务当前所使用的区域
-	  : # firewall-cmd --get-default-zone
-	- 查询eno16777728网卡在firewalld服务中的区域
-	  : # firewall-cmd --get-zone-of-interface=eno16777728
-	- 把firewalld服务中eno16777728网卡的默认区域修改为external，并在系统重启后生效。分别查看当前与永久模式下的区域名称
-	  : # firewall-cmd --permanent --zone=external --change-interface=eno16777728
-	  : # firewall-cmd --get-zone-of-interface=eno16777728
-	  : # firewall-cmd --permanent --get-zone-of-interface=eno16777728
-	- 把firewalld服务的当前默认区域设置为public
-	  : # firewall-cmd --set-default-zone=public
-	  : # firewall-cmd --get-default-zone
-	- 启动/关闭firewalld防火墙服务的应急状况模式，阻断一切网络连接（当远程控制服务器时请慎用）
-	  : # firewall-cmd --panic-on
-	  : # firewall-cmd --panic-off
-	- 查询public区域是否允许请求SSH和HTTPS协议的流量
-	  : # firewall-cmd --zone=public --query-service=ssh
-	  : # firewall-cmd --zone=public --query-service=https
-	- 把firewalld服务中请求HTTPS协议的流量设置为永久允许，并立即生效
-	  : # firewall-cmd --zone=public --add-service=https
-	  : # firewall-cmd --permanent --zone=public --add-service=https
-	  : # firewall-cmd --reload
-	- 把firewalld服务中请求HTTP协议的流量设置为永久拒绝，并立即生效：
-	  : # firewall-cmd --permanent --zone=public --remove-service=http
-	  : # firewall-cmd --reload 
-	- 把在firewalld服务中访问8080和8081端口的流量策略设置为允许，但仅限当前生效
-	  : # firewall-cmd --zone=public --add-port=8080-8081/tcp
-	  : # firewall-cmd --zone=public --list-ports
-	- 把原本访问本机888端口的流量转发到22端口，要且求当前和长期均有效
-	  : 流量转发命令格式为:
-	  : # firewall-cmd --permanent --zone=<区域> --add-forward-port=port=<源端口号>:proto=<协议>:toport=<目标端口号>:toaddr=<目标IP地址>
-
-	  : # firewall-cmd --permanent --zone=public --add-forward-port=port=888:proto=tcp:toport=22:toaddr=192.168.10.10
-	  : # firewall-cmd --reload
-	- firewalld中的富规则表示更细致、更详细的防火墙策略配置，它可以针对系统服务、端口号、源地址和目标地址等诸多信息进行更有针对性的策略配置。它的优先级在所有的防火墙策略中也是最高的。比如，我们可以在firewalld服务中配置一条富规则，使其拒绝192.168.10.0/24网段的所有用户访问本机的ssh服务（22端口）：
-	  : $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4" source address="192.168.10.0/24" service name="ssh" reject"
-**** 服务的访问控制列表
-     TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
-     \\
-     TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
-     #+CAPTION:TCP Wrappers服务的控制列表文件中常用的参数
-     | 客户端类型     | 示例                       | 满足示例的客户端列表               |
-     |----------------+----------------------------+------------------------------------|
-     | 单一主机       | 192.168.10.10              | IP地址为192.168.10.10的主机        |
-     | 指定网段       | 192.168.10.                | IP段为192.168.10.0/24的主机        |
-     | 指定网段       | 192.168.10.0/255.255.255.0 | IP段为192.168.10.0/24的主机        |
-     | 指定DNS后缀    | .linuxprobe.com            | 所有DNS后缀为.linuxprobe.com的主机 |
-     | 指定主机名称   | www.linuxprobe.com         | 主机名称为www.linuxprobe.com的主机 |
-     | 指定所有客户端 | ALL                        | 所有主机全部包括在内               |
-
-     : // 在配置TCP Wrappers服务时需要遵循两个原则：
-     +  编写拒绝策略规则时，填写的是服务名称，而非协议名称；
-     + 建议先编写拒绝策略规则，再编写允许策略规则，以便直观地看到相应的效果。
-** 服务器架构
-*** DHCP 服务器
-*** 文件服务器：NFS 服务器
-*** 文件服务器：SAMBA 服务器
-*** 文件服务器：FTP 服务器
-*** NIS 服务器
-*** NTP 服务器
-*** Proxy 服务器
-*** iSCSI 服务器
-*** DNS 服务器
-*** Web 服务器
-*** 邮件服务器：Postfix
-* Linux 系统管理员
-** Linux 系统服务(daemon)
-*** systemctl
-** Linux 日志
-** 启动流程、模块管理与 loader
-** 基础系统配置与备份策略
-** 软件安装
-*** 源代码与Tarbal
-*** 软件安装RPM、SRPM与YUM
-*** 常见软件安装过程
-**** GCC
-***** 简单编译
-      : $ gcc test.c -o test
-      实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
+    动态链接时、执行时搜索路径顺序:
+    \\
+    1. 编译目标代码时指定的动态库搜索路径
+    2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
+    3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
+    4. 默认的动态库搜索路径 /lib
+    5. 默认的动态库搜索路径 /usr/lib
       
-      1. Preprocessing
-	 : $ gcc -E test.c -o test.i
-	 : 或
-	 : $ gcc -E test.c
-	 gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
-      2. Compilation
-	 : $ gcc -S test.i -o test.s
-	 gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
-      3. Assembly
-	 : $ gcc -c test.s -o test.o
-	 对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
-      4. Linking
-	 gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
-	 \\
-	 对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
-	 : $ gcc test.o -o test
-***** 多个程序文件的编译
-      : $ gcc test1.c test2.c -o test
-***** 检错
-      : $ gcc -pedantic test.c -o test
-      : //警告信息
-      : $ gcc -Wall test.c -p test
-      -Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
-      : $ gcc -Werror test.c -o test
-***** 库文件连接
-      1. 编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
-	 : $ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
-      2. 链接。最后我们把所有目标文件链接成可执行文件:
-	 : $ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
-      3. 强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
-	 : $ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
-***** 其他
-      静态库链接时搜索路径顺序：
-      \\
-      1. ld 会去找GCC命令中的参数 -L
-      2. 再找 gcc 的环境变量 LIBRARY_PATH
-      3. 再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的
+    \\
+    *有关环境变量*
+    : LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
+    : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
+** 系统状态监视命令：top & htop
+   1. top
+      #+CAPTION:
+      #+ALTR_HTML: :align center
+      [[file:{{site.url}}/assets/images/top.jpg]]
+   2. htop
+      + 下载及安装
+	: $ git clone https://github.com/hishamhm/htop 
+	: $ tar zxvf htop-2.0.2.tar.gz
+	: $ cd htop-2.0.2
+	: $ ./configure
+	: # make && make install
+   *错误解决*
+   : configure: error: missing libraries: libncurses
+   : Solving:
+   : $ sudo apt-get install nucurses-dev
+** 网络监视命令：iftop
+   : $ sudo apt-get install iftop
+   : 
+** wget vs axel
+   : 官方地址: http://axel.alioth.debian.org/
+   : 描述: 替换wget命令
+** Vim & Emacs
+   : 两个神器软件单独介绍，这里不重复叙写。
+** MPlayer
+   : // official：http://www.mplayerhq.hu/design7/news.html
+   : $ tar -Jxf MPlayer-1.1.1.tar.xz
+   : $ cd MPlayer-1.1.1
+   : $ sudo ./configure
+   : // 发现，需要安装一个依赖包:yasm
+   : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+   : // 安装完成后，重新配置、编译和安装
+   : $ sudo ./configure
+   : $ sudo make && make install
+** google-chrome & chromium
+   1. 添加安装源
+      : $ sudo vim /etc/apt/sources.list
+      : deb http://dl.google.com/linux/chrome/deb/ stable main
+   2. 添加公钥验证下载
+      : $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
+      : $ apt-key add linux_signing_key.pub
+   3. 执行安装
+      : $ sudo apt update
+      : // stable ersion
+      : $ sudo apt install google-chrome-stable
+      : // beta or unstable ersion
+      : $ sudo apt install google-chrome-beta
+      : $ sudo apt install google-chrome-unstable
+   4. 安装 chromium
+      : $ sudo apt-get update
+      : $ sudo apt-get install chromium chromium-l10n
+      : （chromium-l10n 是用于本地化界面的，是可选的软件包）
+      : 注意：chromium不支持PDF查看
+** Scrot：截图工具
+   1. 安装
+      : $ sudo apt-get install scrot
+   2. 使用方法
+      + 整个桌面截图(Full desktop)
+	: $ scrot
+	: $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+      + 特定区域截图（选择截取）(Specific area)
+	: $ scrot -s
+      + 延迟截图(temporize screenshot)
+	: $ scrot -s -d 5
+      + 截图调整质量(Adjust the quality of screenshots)
+	: $ scrot -q 50
+      + 截图调整大小(Adjust the screen size)
+	: $ scrot -t 10
+      + 将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+	: $ scrot -e 'mv $f ~/screenshots'
+   3. 参考资料(References)
+      : https://linux.cn/article-3197-1.html
+** rarcrack（压缩包密码破解工具）
+   : 支持格式：rar,7z,zip
+   : // install
+   : $ sudo apt-get install libxml2-dev build-essential
+   : $ sudo apt-get install rarcrack
+   : // use
+   : $ rarcrack --threads 10 --type rar test.rar
+** 宝塔面板
+   : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+** Cisco AnyConnect VPN Client
+   1. 问题解决
+      : $ sudo systemctl enable vpnagentd_init
+      : vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
+      : Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
+      : insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
+      : insserv: There is a loop between service bt and vpnagentd_init if stopped
+      : insserv:  loop involving service vpnagentd_init at depth 2
+      : insserv:  loop involving service bt at depth 1
+      : insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
+      : insserv: exiting now without changing boot order!
+      : update-rc.d: error: insserv rejected the script header
 
-      动态链接时、执行时搜索路径顺序:
-      \\
-      1. 编译目标代码时指定的动态库搜索路径
-      2. 环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径
-      3. 配置文件 /etc/ld.so.conf 中指定的动态库搜索路径
-      4. 默认的动态库搜索路径 /lib
-      5. 默认的动态库搜索路径 /usr/lib
-      
-      \\
-      *有关环境变量*
-      : LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
-      : LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
-**** 系统状态监视命令：top & htop
-     1. top
-	#+CAPTION:
-	#+ALTR_HTML: :align center
-	[[file:{{site.url}}/assets/images/top.jpg]]
-     2. htop
-	+ 下载及安装
-	  : $ git clone https://github.com/hishamhm/htop 
-	  : $ tar zxvf htop-2.0.2.tar.gz
-	  : $ cd htop-2.0.2
-	  : $ ./configure
-	  : # make && make install
-     *错误解决*
-     : configure: error: missing libraries: libncurses
-     : Solving:
-     : $ sudo apt-get install nucurses-dev
-**** 网络监视命令：iftop
-     : $ sudo apt-get install iftop
-     : 
-**** wget vs axel
-     : 官方地址: http://axel.alioth.debian.org/
-     : 描述: 替换wget命令
-**** VIM&Emacs
-     : 两个神器软件单独介绍，这里不重复叙写。
-**** MPlayer
-     : // official：http://www.mplayerhq.hu/design7/news.html
-     : $ tar -Jxf MPlayer-1.1.1.tar.xz
-     : $ cd MPlayer-1.1.1
-     : $ sudo ./configure
-     : // 发现，需要安装一个依赖包:yasm
-     : $ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
-     : // 安装完成后，重新配置、编译和安装
-     : $ sudo ./configure
-     : $ sudo make && make install
-**** google-chrome & chromium
-     1. 添加安装源
-	: $ sudo vim /etc/apt/sources.list
-	: deb http://dl.google.com/linux/chrome/deb/ stable main
-     2. 添加公钥验证下载
-	: $ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
-	: $ apt-key add linux_signing_key.pub
-     3. 执行安装
-	: $ sudo apt update
-	: // stable ersion
-	: $ sudo apt install google-chrome-stable
-	: // beta or unstable ersion
-	: $ sudo apt install google-chrome-beta
-	: $ sudo apt install google-chrome-unstable
-     4. 安装 chromium
-	: $ sudo apt-get update
-	: $ sudo apt-get install chromium chromium-l10n
-	: （chromium-l10n 是用于本地化界面的，是可选的软件包）
-	: 注意：chromium不支持PDF查看
-**** Scrot：截图工具
-     1. 安装
-	: $ sudo apt-get install scrot
-     2. 使用方法
-	+ 整个桌面截图(Full desktop)
-	  : $ scrot
-	  : $ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
-	+ 特定区域截图（选择截取）(Specific area)
-	  : $ scrot -s
-	+ 延迟截图(temporize screenshot)
-	  : $ scrot -s -d 5
-	+ 截图调整质量(Adjust the quality of screenshots)
-	  : $ scrot -q 50
-	+ 截图调整大小(Adjust the screen size)
-	  : $ scrot -t 10
-	+ 将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
-	  : $ scrot -e 'mv $f ~/screenshots'
-     3. 参考资料(References)
-	: https://linux.cn/article-3197-1.html
-**** rarcrack（压缩包密码破解工具）
-     : 支持格式：rar,7z,zip
-     : // install
-     : $ sudo apt-get install libxml2-dev build-essential
-     : $ sudo apt-get install rarcrack
-     : // use
-     : $ rarcrack --threads 10 --type rar test.rar
-**** 宝塔面板
-     : 一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
-**** Cisco AnyConnect VPN Client
-     1. 问题解决
-	: $ sudo systemctl enable vpnagentd_init
-	: vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
-	: Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
-	: insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
-	: insserv: There is a loop between service bt and vpnagentd_init if stopped
-	: insserv:  loop involving service vpnagentd_init at depth 2
-	: insserv:  loop involving service bt at depth 1
-	: insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
-	: insserv: exiting now without changing boot order!
-	: update-rc.d: error: insserv rejected the script header
+      : [solve]：$ sudo vim /etc/init.d/vpnagentd_init
+      #+BEGIN_SRC shell
+	#!/bin/sh
+	### BEGIN INIT INFO
+	# Provides: vpnagentd_init
+	# Required-Start: $remote_fs $syslog
+	# Required-Stop: $remote_fs $syslog
+	# Default-Start: 2 3 4 5
+	# Default-Stop: 0 1 6
+	# Short-Description: Start Cisco vpn agent daemon at boot time
+	# Description: Cisco vpn agent daemon
+	### END INIT INFO
+      #+END_SRC
+** Bind：DNS工具
+   1. 安装
+      : # yum install -y bind
+   2. 配置
+      : 1)# vim /etc/named.conf
+      : 修改内容如下：
+      :  将下面
+      :  listen-on port 53 { 127.0.0.1; };
+      :  allow-query { localhost; };
+      :  改为
+      :  listen-on port 53 { any; };
+      :  allow-query { any; };
 
-	: [solve]：$ sudo vim /etc/init.d/vpnagentd_init
-	#+BEGIN_SRC shell
-	  #!/bin/sh
-	  ### BEGIN INIT INFO
-	  # Provides: vpnagentd_init
-	  # Required-Start: $remote_fs $syslog
-	  # Required-Stop: $remote_fs $syslog
-	  # Default-Start: 2 3 4 5
-	  # Default-Stop: 0 1 6
-	  # Short-Description: Start Cisco vpn agent daemon at boot time
-	  # Description: Cisco vpn agent daemon
-	  ### END INIT INFO
-	#+END_SRC
-**** Bind：DNS工具
-     1. 安装
-	: # yum install -y bind
-     2. 配置
-	: 1)# vim /etc/named.conf
-	: 修改内容如下：
-	:  将下面
-	:  listen-on port 53 { 127.0.0.1; };
-	:  allow-query { localhost; };
-	:  改为
-	:  listen-on port 53 { any; };
-	:  allow-query { any; };
+      : 2)# vim named.rfc1912.zones
+      : 注意改动位置：
+      : zone "zrg.com.cn" IN {
+      : type master;
+      : file "named.zrg";
+      : allow-update { none; };
+      : };
 
-	: 2)# vim named.rfc1912.zones
-	: 注意改动位置：
-	: zone "zrg.com.cn" IN {
-	: type master;
-	: file "named.zrg";
-	: allow-update { none; };
-	: };
+      : 3)# cp /var/named/named.localhost /var/named/named.zrg
+      : //修改文件所属群组
+      : #chgrp named /var/named/named.zrg
 
-	: 3)# cp /var/named/named.localhost /var/named/named.zrg
-	: //修改文件所属群组
-	: #chgrp named /var/named/named.zrg
+      : 4)# vim /var/named/named.zrg
+      : 注意改动位置：
+      : $TTL 1D
+      : @ IN SOA @ dns.zrg.com.cn. root(
+      : 0 ; serial
+      : 1D ; refresh
+      : 1H ; retry
+      : 1W ; expire
+      : 3H ) ; minimum
+      : NS dns.zrg.com.cn.
+      : DNS A 192.168.120.166
+      : A 127.0.0.1
+      : AAAA ::1
 
-	: 4)# vim /var/named/named.zrg
-	: 注意改动位置：
-	: $TTL 1D
-	: @ IN SOA @ dns.zrg.com.cn. root(
-	: 0 ; serial
-	: 1D ; refresh
-	: 1H ; retry
-	: 1W ; expire
-	: 3H ) ; minimum
-	: NS dns.zrg.com.cn.
-	: DNS A 192.168.120.166
-	: A 127.0.0.1
-	: AAAA ::1
+      : 5)# /etc/init.d/named restart
+      : # chkconfig named on
 
-	: 5)# /etc/init.d/named restart
-	: # chkconfig named on
+      : 6)# vim /etc/sysconfig/network
+      : Network=yes
+      : Hostname=dns.zrg.com.cn
 
-	: 6)# vim /etc/sysconfig/network
-	: Network=yes
-	: Hostname=dns.zrg.com.cn
+      : 7)# vim /etc/resolv.conf
+      : Search zrg.com.cn
+      : Nameserver 192.168.120.166
 
-	: 7)# vim /etc/resolv.conf
-	: Search zrg.com.cn
-	: Nameserver 192.168.120.166
+      : 8)# /etc/init.d/named restart
+      : # ping zrg.com.cn
+      : # reboot
+** Composer
+   1. 安装
+      : 1.Download composer.phar file.
+      : 2.Excute:
+      : # php composer.phar
+      : 3.Global:
+      : # mv composer.phar /usr/local/bin/composer
+      : 4.Permission:
+      : # chmod 744 composer
+   2. 问题解决
+      : error: /usr/bin/env: php: No such file or directory
+      :  solve:Configuring php to become global variables
+** Cygwin：windows 下 Linux 模拟软件
+   1. 安装Cygwin
+      : 略
+      : 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
 
-	: 8)# /etc/init.d/named restart
-	: # ping zrg.com.cn
-	: # reboot
-**** Composer
-     1. 安装
-	: 1.Download composer.phar file.
-	: 2.Excute:
-	: # php composer.phar
-	: 3.Global:
-	: # mv composer.phar /usr/local/bin/composer
-	: 4.Permission:
-	: # chmod 744 composer
-     2. 问题解决
-	: error: /usr/bin/env: php: No such file or directory
-	:  solve:Configuring php to become global variables
-**** vsftpd
-     1. Download and Install
-	: https://security.appspot.com/vsftpd.html#download
-	: //yum
-	: yum install -y vsftpd
-     2. Change default dir
-	#+BEGIN_SRC emacs-lisp
-       #local user
-       local_root=/usr/share/nginx/html
-       #is_enable local view,default_setting is NO
-       chroot_local_user=NO
-       #anonymous user
-       anon_root=/var/ftp/pub
-	#+END_SRC
-     3. Configuring directory of access
-	#+BEGIN_SRC emacs-lisp
-       chroot_local_user=YES
-       chroot_list_enable=NO
-       allow_writeable_chroot=YES
+      : // 举例说明：安装及配置ssh
+      : 1.运行安装文件
+      : 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
+      : 3.安装完成后，打开Cygwin，输入ssh-host-config
+      : 当询问if privilege separation should be used 时输入 no . 
+      : 当询问if sshd should be installed as a service 时输入yes . 
+      : 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
+      : 其余询问均输入 no
+      : 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
+      : 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
+      : 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
+      : 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
+      : 8.输入 ssh localhost 启动SSH
+   2. 参考资料
+      : 1.Cygwin-Official Site:http://cygwin.com/
+      : 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
+      : 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
+      : 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
+** Wps for Linux
+   : 1. 从官网下载安装包，网址：http://www.wps.cn/
 
-       报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
-	  500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+   : 2. 安装
+   : $ sudo dpkg -i wps_office_10.xxx.deb
 
-       notice:
-	配置具体情况有以下几种：
-       1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
-       2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
-       3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
-       4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
-
-       5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
-	#+END_SRC
-     4. my vsftpd.conf
-	//CentOS 7, /etc/vsftpd/vsftpd.conf.
-	#+BEGIN_SRC emacs-lisp
-       # Example config file /etc/vsftpd/vsftpd.conf
-       # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
-       anonymous_enable=NO
-       #
-       local_root=/srv/www/
-       #
-       # Uncomment this to allow local users to log in.
-       # When SELinux is enforcing check for SE bool ftp_home_dir
-       local_enable=YES
-       #
-       # Uncomment this to enable any form of FTP write command.
-       write_enable=YES
-       #
-       # Default umask for local users is 077. You may wish to change this to 022,
-       # if your users expect that (022 is used by most other ftpd's)
-       local_umask=022
-       #
-       # Uncomment this to allow the anonymous FTP user to upload files. This only
-       # has an effect if the above global write enable is activated. Also, you will
-       # obviously need to create a directory writable by the FTP user.
-       # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
-       #anon_upload_enable=YES
-       #
-       # Uncomment this if you want the anonymous FTP user to be able to create
-       # new directories.
-       #anon_mkdir_write_enable=YES
-       #
-       # Activate directory messages - messages given to remote users when they
-       # go into a certain directory.
-       dirmessage_enable=YES
-       #
-       # Activate logging of uploads/downloads.
-       xferlog_enable=YES
-       #
-       # Make sure PORT transfer connections originate from port 20 (ftp-data).
-       connect_from_port_20=YES
-       #
-       # If you want, you can arrange for uploaded anonymous files to be owned by
-       # a different user. Note! Using "root" for uploaded files is not
-       # recommended!
-       #chown_uploads=YES
-       #chown_username=whoever
-       #
-       # You may override where the log file goes if you like. The default is shown
-       # below.
-       #xferlog_file=/var/log/xferlog
-       #
-       # If you want, you can have your log file in standard ftpd xferlog format.
-       # Note that the default log file location is /var/log/xferlog in this case.
-       xferlog_std_format=YES
-       #
-       # You may change the default value for timing out an idle session.
-       #idle_session_timeout=600
-       #
-       # You may change the default value for timing out a data connection.
-       #data_connection_timeout=120
-       #
-       # It is recommended that you define on your system a unique user which the
-       # ftp server can use as a totally isolated and unprivileged user.
-       #nopriv_user=ftpsecure
-       #
-       # Enable this and the server will recognise asynchronous ABOR requests. Not
-       # recommended for security (the code is non-trivial). Not enabling it,
-       # however, may confuse older FTP clients.
-       #async_abor_enable=YES
-       #
-       # By default the server will pretend to allow ASCII mode but in fact ignore
-       # the request. Turn on the below options to have the server actually do ASCII
-       # mangling on files when in ASCII mode.
-       # Beware that on some FTP servers, ASCII support allows a denial of service
-       # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
-       # predicted this attack and has always been safe, reporting the size of the
-       # raw file.
-       # ASCII mangling is a horrible feature of the protocol.
-       #ascii_upload_enable=YES
-       #ascii_download_enable=YES
-       #
-       # You may fully customise the login banner string:
-       #ftpd_banner=Welcome to blah FTP service.
-       #
-       # You may specify a file of disallowed anonymous e-mail addresses. Apparently
-       # useful for combatting certain DoS attacks.
-       #deny_email_enable=YES
-       # (default follows)
-       #banned_email_file=/etc/vsftpd/banned_emails
-       #
-       # You may specify an explicit list of local users to chroot() to their home
-       # directory. If chroot_local_user is YES, then this list becomes a list of
-       # users to NOT chroot().
-       # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
-       # the user does not have write access to the top level directory within the
-       # chroot)
-       chroot_local_user=YES
-       chroot_list_enable=YES
-       allow_writeable_chroot=YES
-       # (default follows)
-       chroot_list_file=/etc/vsftpd/chroot_list
-       #
-       # You may activate the "-R" option to the builtin ls. This is disabled by
-       # default to avoid remote users being able to cause excessive I/O on large
-       # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
-       # the presence of the "-R" option, so there is a strong case for enabling it.
-       #ls_recurse_enable=YES
-       #
-       # When "listen" directive is enabled, vsftpd runs in standalone mode and
-       # listens on IPv4 sockets. This directive cannot be used in conjunction
-       # with the listen_ipv6 directive.
-       listen=NO
-       #
-       # This directive enables listening on IPv6 sockets. By default, listening
-       # on the IPv6 "any" address (::) will accept connections from both IPv6
-       # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
-       # sockets. If you want that (perhaps because you want to listen on specific
-       # addresses) then you must run two copies of vsftpd with two configuration
-       # files.
-       # Make sure, that one of the listen options is commented !!
-       listen_ipv6=YES
-
-       pam_service_name=vsftpd
-       userlist_enable=YES
-       tcp_wrappers=YES
-	#+END_SRC
-     5. References
-	: https://security.appspot.com/vsftpd.html
-	: https://en.wikipedia.org/wiki/Vsftpd
-	: http://baike.baidu.com/item/vsftpd
-**** Cygwin：windows 下 Linux 模拟软件
-     1. 安装Cygwin
-	: 略
-	: 提示：安装软件时，可使用中国科技大学软件源mirrors.ustc.edu.cn/cygwin
-
-	: // 举例说明：安装及配置ssh
-	: 1.运行安装文件
-	: 2.搜索ssh，在Net类别下选上OpenSSH和OpenSSL两项
-	: 3.安装完成后，打开Cygwin，输入ssh-host-config
-	: 当询问if privilege separation should be used 时输入 no . 
-	: 当询问if sshd should be installed as a service 时输入yes . 
-	: 当询问about the value of CYGWIN environment variable enter 时输入 ntsec .
-	: 其余询问均输入 no
-	: 4.在cygwin中输入 cygrunsrv --start sshd 启动sshd
-	: 5.打开cygwin，输入 ssh-keygen，当询问要filenames 和 pass phrases 的时候都点回车，接受默认的值
-	: 6.命令结束后输入 cd ~/.ssh 转到.ssh目录，输入 ls –l 应该包含两个文件：id_rsa.pub 和 id_rsa
-	: 7.在第8步的窗口（当前目录在.ssh）中输入 cat id_rsa.pub >> authorized_keys
-	: 8.输入 ssh localhost 启动SSH
-     2. 参考资料
-	: 1.Cygwin-Official Site:http://cygwin.com/
-	: 2.Cygwin-Wikipedia:https://en.wikipedia.org/wiki/Cygwin
-	: 3.Cygwin-百度百科：http://baike.baidu.com/view/3968.htm
-	: 4.Cygwin在线安装指南：http://www.crifan.com/files/doc/docbook/cygwin_intro/release/htmls/install_cygwin_setup_exe.html
-**** Wps for Linux
-     : 1. 从官网下载安装包，网址：http://www.wps.cn/
-
-     : 2. 安装
-     : $ sudo dpkg -i wps_office_10.xxx.deb
-
-     : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
-     : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
-     : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
-     : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
-     : 或者直接 在win 中（C/WINDOWS/FONTS）
-     : 2) 执行以下命令,生成字体的索引信息：
-     : $ sudo mkfontscale
-     : $ sudo mkfontdir
-     : 3) 运行fc-cache命令更新字体缓存
-     : $ sudo fc-cache
-**** gnome-screenshots
-     1.  常用快捷键
-	: Prt Scrn to take a screenshot of the desktop.
-	: Alt+Prt Scrn to take a screenshot of a window.
-	: Shift+Prt Scrn to take a screenshot of an area you select.
-     2. 参考资料(References)
-	+ [[https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en][Screenshots and screencasts]]
-** X Window(X11)
-** Linux内核编译与管理
-* 常见问题收集
+   : 3. 安装完成后，提示“系统缺失字体symbol、wingdings、wingdings 2、wingdings 3、webding”的解决办法：
+   : 1) 下载缺失的字体文件，然后复制到Linux系统中的/usr/share/fonts文件夹中。
+   : 国外下载地址：https://www.dropbox.com/s/lfy4hvq95ilwyw5/wps_symbol_fonts.zip
+   : 国内下载地址：http://pan.baidu.com/s/1mh0lcbY
+   : 或者直接 在win 中（C/WINDOWS/FONTS）
+   : 2) 执行以下命令,生成字体的索引信息：
+   : $ sudo mkfontscale
+   : $ sudo mkfontdir
+   : 3) 运行fc-cache命令更新字体缓存
+   : $ sudo fc-cache
+** gnome-screenshots
+   1.  常用快捷键
+      : Prt Scrn to take a screenshot of the desktop.
+      : Alt+Prt Scrn to take a screenshot of a window.
+      : Shift+Prt Scrn to take a screenshot of an area you select.
+   2. 参考资料(References)
+      + [[https://help.gnome.org/users/gnome-help/stable/screen-shot-record.html.en][Screenshots and screencasts]]
+* 附录B：常见问题收集
 ** 命令行下不能输入中文标点符号
    : 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
 ** 不能在 Sublime 编辑器（Editor）中输入中文
