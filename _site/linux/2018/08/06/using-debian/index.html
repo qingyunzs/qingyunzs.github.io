@@ -478,7 +478,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  30365
+                  30479
                 </span>
               
 
@@ -553,14 +553,14 @@
 <h4 id="org89bdb67"><span class="section-number-4">1.1.2</span> 内容结构</h4>
 <div class="outline-text-4" id="text-1-1-2">
 <p>
-本册子分为六大部分。
+本册子分为以下几个部分。
 </p>
 <ul class="org-ul">
 <li>第一部分，Linux 入门。包括获取和安装 Linux 系统，Linux 系统的初步配置，Linux 文件、目录及磁盘操作。</li>
-<li>第二部分，Linux 账号管理与 ACL 权限控制。</li>
-<li>第三部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。</li>
-<li>第四部分，Linux 系统管理员内容，包括系统日志，软件安装，基础系统配置与备份策略等等。</li>
-<li>第五部分，问题解决篇，聚集常见开发、运维中遇到的各种问题的解决办法，该部分可理解为本书的附录或问题解决参考手册。</li>
+<li>第二部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。</li>
+<li>第三部分，Linux 系统管理，包括系统日志，软件安装，基础系统配置与备份策略等等。</li>
+<li>第四部分，Linux 服务管理，常见服务环境简单介绍及部署应用。</li>
+<li>第五部分，Linux 集群与虚拟化。</li>
 </ul>
 
 <p>
@@ -621,13 +621,459 @@
 <h2 id="org108caae"><span class="section-number-2">2</span> Linux 入门</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgfe0e081" class="outline-3">
-<h3 id="orgfe0e081"><span class="section-number-3">2.1</span> 安装</h3>
+<div id="outline-container-org5872a12" class="outline-3">
+<h3 id="org5872a12"><span class="section-number-3">2.1</span> Linux 简介与安装</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-orgbc07201" class="outline-4">
-<h4 id="orgbc07201"><span class="section-number-4">2.1.1</span> 安装过程</h4>
+<div id="outline-container-org40841dc" class="outline-4">
+<h4 id="org40841dc"><span class="section-number-4">2.1.1</span> 入门第一步，理解 Linux</h4>
 <div class="outline-text-4" id="text-2-1-1">
+<ol class="org-ol">
+<li>首先，以 Linux 的思维方式系统性思考问题。</li>
+<li>Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。</li>
+<li>Linux 是一个以命令行为主要的管理方式的 OS。</li>
+<li>Linux 的日志非常完善，也至关重要。</li>
+<li>Linux 是一个以配置文件为管理基础的 OS。</li>
+<li>Linux 的所有应用、管理和配置，都有很多程序来辅助完成。</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org0435a92" class="outline-4">
+<h4 id="org0435a92"><span class="section-number-4">2.1.2</span> Linux 内容划分</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+<b>Linux 可划分为以下四部分</b>
+</p>
+<ul class="org-ul">
+<li>Linux 内核</li>
+<li>GNU 工具</li>
+<li>图形化桌面环境</li>
+<li>应用软件</li>
+</ul>
+
+<p>
+<b>深入探究 Linux 内核</b>
+<br />
+Linus Torvalds：Linux 内核开发者。
+<br />
+Linux 内核主要负责一下四种功能：
+<br />
+</p>
+<ol class="org-ol">
+<li>系统内存管理
+<ul class="org-ul">
+<li>内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。</li>
+<li>内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。</li>
+<li>内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。</li>
+<li>内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。</li>
+</ul></li>
+<li>软件程序管理
+<ul class="org-ul">
+<li>Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。</li>
+<li>内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
+<ul class="org-ul">
+<li>运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。</li>
+<li>运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。</li>
+<li>运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。</li>
+<li>Linux 系统可以通过调整启动运行级来控制整个系统的功能。</li>
+</ul></li>
+</ul></li>
+<li>硬件设备管理
+<ul class="org-ul">
+<li><p>
+内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
+</p>
+<ul class="org-ul">
+<li>编译进内核的设备驱动代码</li>
+<li>可插入内核的设备驱动模块</li>
+</ul>
+<pre class="example">
+以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
+后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
+</pre>
+
+<ul class="org-ul">
+<li>设备文件有3种分类
+<ul class="org-ul">
+<li>字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。</li>
+<li>块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。</li>
+<li>网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。</li>
+</ul></li>
+</ul></li>
+<li>Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。</li>
+</ul></li>
+<li><p>
+文件系统管理
+Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> 文件系统类型</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">文件系统</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ext</td>
+<td class="org-left">Linux 扩展文件系统，最早的 Linux 文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">ext2</td>
+<td class="org-left">第二扩展文件系统，在ext的基础上提供更多的功能</td>
+</tr>
+
+<tr>
+<td class="org-left">ext3</td>
+<td class="org-left">第三扩展文件系统，支持日志功能</td>
+</tr>
+
+<tr>
+<td class="org-left">ext4</td>
+<td class="org-left">第四扩展文件系统，支持高级日志功能</td>
+</tr>
+
+<tr>
+<td class="org-left">hpfs</td>
+<td class="org-left">OS/2高性能文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">jfs</td>
+<td class="org-left">IBM日志文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">iso9660</td>
+<td class="org-left">ISO 9660文件系统（CD-ROM）</td>
+</tr>
+
+<tr>
+<td class="org-left">mimix</td>
+<td class="org-left">MINIX文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">msdos</td>
+<td class="org-left">微软的FAT16</td>
+</tr>
+
+<tr>
+<td class="org-left">ncp</td>
+<td class="org-left">Netware文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">nfs</td>
+<td class="org-left">网络文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">ntfs</td>
+<td class="org-left">支持Microsoft NT文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">proc</td>
+<td class="org-left">访问系统信息</td>
+</tr>
+
+<tr>
+<td class="org-left">ReiserFS</td>
+<td class="org-left">高级Linux文件系统，能提供更好的性能和硬盘恢复功能</td>
+</tr>
+
+<tr>
+<td class="org-left">smb</td>
+<td class="org-left">支持网络访问的Samba SMB文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">sysv</td>
+<td class="org-left">较早期的Unix文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">ufs</td>
+<td class="org-left">BSD文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">umsdos</td>
+<td class="org-left">建立在msdos上的类Unix文件系统</td>
+</tr>
+
+<tr>
+<td class="org-left">vfat</td>
+<td class="org-left">Windows95文件系统（FAT32）</td>
+</tr>
+
+<tr>
+<td class="org-left">XFS</td>
+<td class="org-left">高性能64位日志文件系统</td>
+</tr>
+</tbody>
+</table>
+<p>
+Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
+</p></li>
+</ol>
+
+<p>
+<b>GNU工具</b>
+</p>
+<ol class="org-ol">
+<li>核心 GNU 工具：coreutils(coreutilities)软件包
+GNU coreutils 软件包由三部分构成：
+<ul class="org-ul">
+<li>用以处理文件的工具</li>
+<li>用以操作文本的工具</li>
+<li>用以管理进程的工具</li>
+</ul></li>
+<li><p>
+shell
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> Linux 中常见的shell</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">shell</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">bash</td>
+<td class="org-left">bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。</td>
+</tr>
+
+<tr>
+<td class="org-left">ash</td>
+<td class="org-left">一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。</td>
+</tr>
+
+<tr>
+<td class="org-left">korn</td>
+<td class="org-left">一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。</td>
+</tr>
+
+<tr>
+<td class="org-left">tcsh</td>
+<td class="org-left">一种将C语言中的一些元素引入到shell脚本中的shell。</td>
+</tr>
+
+<tr>
+<td class="org-left">zsh</td>
+<td class="org-left">一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+
+<p>
+<b>Linux 桌面环境</b>
+</p>
+<ol class="org-ol">
+<li>X Window</li>
+<li>KDE 桌面（K Desktop Environment，K 桌面系统）</li>
+<li>GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）</li>
+<li>Unity 桌面</li>
+<li><p>
+其他桌面
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 3:</span> 其他桌面</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">桌面</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Fluxbox</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Xfce</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">JWM</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Fvwm</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">fvwm95</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+
+<p>
+<b>Linux 发行版</b>
+<br />
+不同的 Linux 发行版通常归类为3种：
+</p>
+<ol class="org-ol">
+<li><p>
+完整的核心 Linux 发行版
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 4:</span> 完整的核心 Linux 发行版</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Slackware</td>
+<td class="org-left">最早的 Linux 发行版之一</td>
+</tr>
+
+<tr>
+<td class="org-left">Red Hat</td>
+<td class="org-left">商业发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">Fedora</td>
+<td class="org-left">Red Hat 分离出的家用发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">Gentoo</td>
+<td class="org-left">为高级 Linux 用户设计的发行版，仅包含 Linux 源代码</td>
+</tr>
+
+<tr>
+<td class="org-left">openSuse</td>
+<td class="org-left">商用和家用的发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">Debian</td>
+<td class="org-left">Linux 专家和商用 Linux 产品中流行的发行版</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+特定用途的发行版
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 5:</span> 特定用途的发行版</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">CentOS</td>
+<td class="org-left">一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">Ubuntu</td>
+<td class="org-left">一款用于学校和家庭的免费发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">PCLinuxOS</td>
+<td class="org-left">一款用于学校和办公的免费发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">Mint</td>
+<td class="org-left">一款用于家庭娱乐的免费发行版</td>
+</tr>
+
+<tr>
+<td class="org-left">dyne:bolic</td>
+<td class="org-left">一款用于音频和MIDI应用的免费发型版</td>
+</tr>
+
+<tr>
+<td class="org-left">Puppy Linux</td>
+<td class="org-left">一款适用于老旧PC的小型免费发行版</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+LiveCD 测试发行版。
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 6:</span> LiveCD 测试发行版。</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Knoppix</td>
+<td class="org-left">最早的 LiveCD Linux</td>
+</tr>
+
+<tr>
+<td class="org-left">PCLinuxOS</td>
+<td class="org-left">一款成熟的 LiveCD</td>
+</tr>
+
+<tr>
+<td class="org-left">Ubuntu</td>
+<td class="org-left">为多种语言设计的世界级 Linux 项目</td>
+</tr>
+
+<tr>
+<td class="org-left">Slax</td>
+<td class="org-left">基于 Slackware Linux</td>
+</tr>
+
+<tr>
+<td class="org-left">Pubby Linux</td>
+<td class="org-left">为老旧 PC 设计的一款全功能 Linux</td>
+</tr>
+</tbody>
+</table></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgbc07201" class="outline-4">
+<h4 id="orgbc07201"><span class="section-number-4">2.1.3</span> 安装过程</h4>
+<div class="outline-text-4" id="text-2-1-3">
 <ol class="org-ol">
 <li>安装准备
 <br />
@@ -640,11 +1086,11 @@ Windows 下的刻录软件推荐使用 UltraISO（对于新手，建议在 Windo
 </div>
 </div>
 <div id="outline-container-org54c83f5" class="outline-4">
-<h4 id="org54c83f5"><span class="section-number-4">2.1.2</span> 主机规划与磁盘分区(Disk Partition)</h4>
+<h4 id="org54c83f5"><span class="section-number-4">2.1.4</span> 主机规划与磁盘分区(Disk Partition)</h4>
 </div>
 <div id="outline-container-orgd72b312" class="outline-4">
-<h4 id="orgd72b312"><span class="section-number-4">2.1.3</span> 安装后的常用操作</h4>
-<div class="outline-text-4" id="text-2-1-3">
+<h4 id="orgd72b312"><span class="section-number-4">2.1.5</span> 安装后的常用操作</h4>
+<div class="outline-text-4" id="text-2-1-5">
 <ul class="org-ul">
 <li><b>查看 Linux 发行版名称及版本号</b>
 <ul class="org-ul">
@@ -763,7 +1209,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org76b68d4">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org5d77c01">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;">#</span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -922,7 +1368,7 @@ $ sudo init 6
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 1:</span> 系统运行级别</caption>
+<caption class="t-above"><span class="table-number">Table 7:</span> 系统运行级别</caption>
 
 <colgroup>
 <col  class="org-right" />
@@ -991,16 +1437,16 @@ logout
 </div>
 </div>
 <div id="outline-container-org8f11eed" class="outline-4">
-<h4 id="org8f11eed"><span class="section-number-4">2.1.4</span> 示例：Debian 快速安装指导</h4>
-<div class="outline-text-4" id="text-2-1-4">
+<h4 id="org8f11eed"><span class="section-number-4">2.1.6</span> 示例：Debian 快速安装指导</h4>
+<div class="outline-text-4" id="text-2-1-6">
 <p>
 <a href="https://github.com/zhaorengui/lecture-notes/blob/master/linux/tutorials/install/install.org">Debian 快速安装指导</a>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org60f7a97" class="outline-3">
-<h3 id="org60f7a97"><span class="section-number-3">2.2</span> 配置</h3>
+<div id="outline-container-orgea4a88f" class="outline-3">
+<h3 id="orgea4a88f"><span class="section-number-3">2.2</span> Linux 简单配置</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
 <div id="outline-container-org2be2a35" class="outline-4">
@@ -1244,467 +1690,34 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 </ul>
 </div>
 </div>
-<div id="outline-container-orgedf33eb" class="outline-4">
-<h4 id="orgedf33eb"><span class="section-number-4">2.2.5</span> 参考资料</h4>
+<div id="outline-container-orgf93bf77" class="outline-4">
+<h4 id="orgf93bf77"><span class="section-number-4">2.2.5</span> 日期时间设置</h4>
 <div class="outline-text-4" id="text-2-2-5">
-<ul class="org-ul">
-<li><a href="https://en.wikipedia.org/wiki/Wi-Fi">https://en.wikipedia.org/wiki/Wi-Fi</a></li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-org3aecea5" class="outline-3">
-<h3 id="org3aecea5"><span class="section-number-3">2.3</span> 介绍</h3>
-<div class="outline-text-3" id="text-2-3">
 <p>
-首先，明确一点：GNU Not's Unix.
-</p>
-</div>
-<div id="outline-container-org40841dc" class="outline-4">
-<h4 id="org40841dc"><span class="section-number-4">2.3.1</span> 入门第一步，理解 Linux</h4>
-<div class="outline-text-4" id="text-2-3-1">
-<ol class="org-ol">
-<li>首先，以 Linux 的思维方式系统性思考问题。</li>
-<li>Linux 是一个面向文件的操作系统。所有的应用、管理是基于文件的。</li>
-<li>Linux 是一个以命令行为主要的管理方式的 OS。</li>
-<li>Linux 的日志非常完善，也至关重要。</li>
-<li>Linux 是一个以配置文件为管理基础的 OS。</li>
-<li>Linux 的所有应用、管理和配置，都有很多程序来辅助完成。</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org0435a92" class="outline-4">
-<h4 id="org0435a92"><span class="section-number-4">2.3.2</span> Linux 内容划分</h4>
-<div class="outline-text-4" id="text-2-3-2">
-<p>
-Linux 可划分为以下四部分
-</p>
-<ul class="org-ul">
-<li>Linux 内核</li>
-<li>GNU 工具</li>
-<li>图形化桌面环境</li>
-<li>应用软件</li>
-</ul>
-<p>
-<b>深入探究 Linux 内核</b>
-<br />
-Linus Torvalds：Linux 内核开发者。
-<br />
-Linux 内核主要负责一下四种功能：
-<br />
+Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
 </p>
 <ol class="org-ol">
-<li>系统内存管理
-<ul class="org-ul">
-<li>内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。</li>
-<li>内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。</li>
-<li>内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。</li>
-<li>内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。</li>
-</ul></li>
-<li>软件程序管理
-<ul class="org-ul">
-<li>Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。</li>
-<li>内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
-<ul class="org-ul">
-<li>运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。</li>
-<li>运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。</li>
-<li>运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。</li>
-<li>Linux 系统可以通过调整启动运行级来控制整个系统的功能。</li>
-</ul></li>
-</ul></li>
-<li>硬件设备管理
-<ul class="org-ul">
+<li>date 命令</li>
 <li><p>
-内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
+hwclock 命令，查看硬件时间
 </p>
-<ul class="org-ul">
-<li>编译进内核的设备驱动代码</li>
-<li>可插入内核的设备驱动模块</li>
-</ul>
 <pre class="example">
-以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
-后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
-</pre>
-
-<ul class="org-ul">
-<li>设备文件有3种分类
-<ul class="org-ul">
-<li>字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。</li>
-<li>块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。</li>
-<li>网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。</li>
-</ul></li>
-</ul></li>
-<li>Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。</li>
-</ul></li>
+//设置硬件时间
+$ sudo hwclock -set -date='07/17/2017 20:00'
+</pre></li>
 <li><p>
-文件系统管理
-Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
+硬件时间与系统时钟同步
 </p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 2:</span> 文件系统类型</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">文件系统</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">ext</td>
-<td class="org-left">Linux 扩展文件系统，最早的 Linux 文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">ext2</td>
-<td class="org-left">第二扩展文件系统，在ext的基础上提供更多的功能</td>
-</tr>
-
-<tr>
-<td class="org-left">ext3</td>
-<td class="org-left">第三扩展文件系统，支持日志功能</td>
-</tr>
-
-<tr>
-<td class="org-left">ext4</td>
-<td class="org-left">第四扩展文件系统，支持高级日志功能</td>
-</tr>
-
-<tr>
-<td class="org-left">hpfs</td>
-<td class="org-left">OS/2高性能文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">jfs</td>
-<td class="org-left">IBM日志文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">iso9660</td>
-<td class="org-left">ISO 9660文件系统（CD-ROM）</td>
-</tr>
-
-<tr>
-<td class="org-left">mimix</td>
-<td class="org-left">MINIX文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">msdos</td>
-<td class="org-left">微软的FAT16</td>
-</tr>
-
-<tr>
-<td class="org-left">ncp</td>
-<td class="org-left">Netware文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">nfs</td>
-<td class="org-left">网络文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">ntfs</td>
-<td class="org-left">支持Microsoft NT文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">proc</td>
-<td class="org-left">访问系统信息</td>
-</tr>
-
-<tr>
-<td class="org-left">ReiserFS</td>
-<td class="org-left">高级Linux文件系统，能提供更好的性能和硬盘恢复功能</td>
-</tr>
-
-<tr>
-<td class="org-left">smb</td>
-<td class="org-left">支持网络访问的Samba SMB文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">sysv</td>
-<td class="org-left">较早期的Unix文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">ufs</td>
-<td class="org-left">BSD文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">umsdos</td>
-<td class="org-left">建立在msdos上的类Unix文件系统</td>
-</tr>
-
-<tr>
-<td class="org-left">vfat</td>
-<td class="org-left">Windows95文件系统（FAT32）</td>
-</tr>
-
-<tr>
-<td class="org-left">XFS</td>
-<td class="org-left">高性能64位日志文件系统</td>
-</tr>
-</tbody>
-</table>
-<p>
-Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
-</p></li>
-</ol>
-<p>
-<b>GNU工具</b>
-</p>
-<ol class="org-ol">
-<li>核心 GNU 工具：coreutils(coreutilities)软件包
-GNU coreutils 软件包由三部分构成：
-<ul class="org-ul">
-<li>用以处理文件的工具</li>
-<li>用以操作文本的工具</li>
-<li>用以管理进程的工具</li>
-</ul></li>
-<li><p>
-shell
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 3:</span> Linux 中常见的shell</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">shell</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">bash</td>
-<td class="org-left">bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。</td>
-</tr>
-
-<tr>
-<td class="org-left">ash</td>
-<td class="org-left">一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。</td>
-</tr>
-
-<tr>
-<td class="org-left">korn</td>
-<td class="org-left">一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。</td>
-</tr>
-
-<tr>
-<td class="org-left">tcsh</td>
-<td class="org-left">一种将C语言中的一些元素引入到shell脚本中的shell。</td>
-</tr>
-
-<tr>
-<td class="org-left">zsh</td>
-<td class="org-left">一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。</td>
-</tr>
-</tbody>
-</table></li>
-</ol>
-<p>
-<b>Linux 桌面环境</b>
-</p>
-<ol class="org-ol">
-<li>X Window</li>
-<li>KDE 桌面（K Desktop Environment，K 桌面系统）</li>
-<li>GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）</li>
-<li>Unity 桌面</li>
-<li><p>
-其他桌面
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 4:</span> 其他桌面</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">桌面</th>
-<th scope="col" class="org-left">描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Fluxbox</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Xfce</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">JWM</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Fvwm</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">fvwm95</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table></li>
-</ol>
-<p>
-<b>Linux 发行版</b>
-<br />
-不同的 Linux 发行版通常归类为3种：
-</p>
-<ol class="org-ol">
-<li><p>
-完整的核心 Linux 发行版
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 5:</span> 完整的核心 Linux 发行版</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">Slackware</td>
-<td class="org-left">最早的 Linux 发行版之一</td>
-</tr>
-
-<tr>
-<td class="org-left">Red Hat</td>
-<td class="org-left">商业发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">Fedora</td>
-<td class="org-left">Red Hat 分离出的家用发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">Gentoo</td>
-<td class="org-left">为高级 Linux 用户设计的发行版，仅包含 Linux 源代码</td>
-</tr>
-
-<tr>
-<td class="org-left">openSuse</td>
-<td class="org-left">商用和家用的发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">Debian</td>
-<td class="org-left">Linux 专家和商用 Linux 产品中流行的发行版</td>
-</tr>
-</tbody>
-</table></li>
-<li><p>
-特定用途的发行版
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 6:</span> 特定用途的发行版</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">CentOS</td>
-<td class="org-left">一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">Ubuntu</td>
-<td class="org-left">一款用于学校和家庭的免费发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">PCLinuxOS</td>
-<td class="org-left">一款用于学校和办公的免费发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">Mint</td>
-<td class="org-left">一款用于家庭娱乐的免费发行版</td>
-</tr>
-
-<tr>
-<td class="org-left">dyne:bolic</td>
-<td class="org-left">一款用于音频和MIDI应用的免费发型版</td>
-</tr>
-
-<tr>
-<td class="org-left">Puppy Linux</td>
-<td class="org-left">一款适用于老旧PC的小型免费发行版</td>
-</tr>
-</tbody>
-</table></li>
-<li><p>
-LiveCD 测试发行版。
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 7:</span> LiveCD 测试发行版。</caption>
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">Knoppix</td>
-<td class="org-left">最早的 LiveCD Linux</td>
-</tr>
-
-<tr>
-<td class="org-left">PCLinuxOS</td>
-<td class="org-left">一款成熟的 LiveCD</td>
-</tr>
-
-<tr>
-<td class="org-left">Ubuntu</td>
-<td class="org-left">为多种语言设计的世界级 Linux 项目</td>
-</tr>
-
-<tr>
-<td class="org-left">Slax</td>
-<td class="org-left">基于 Slackware Linux</td>
-</tr>
-
-<tr>
-<td class="org-left">Pubby Linux</td>
-<td class="org-left">为老旧 PC 设计的一款全功能 Linux</td>
-</tr>
-</tbody>
-</table></li>
+<pre class="example">
+$ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+$ sudo hwclock -systohc
+</pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org24f45b2" class="outline-4">
-<h4 id="org24f45b2"><span class="section-number-4">2.3.3</span> Linux 基本网络配置</h4>
-<div class="outline-text-4" id="text-2-3-3">
+<div id="outline-container-org76a7e98" class="outline-4">
+<h4 id="org76a7e98"><span class="section-number-4">2.2.6</span> 基本网络配置</h4>
+<div class="outline-text-4" id="text-2-2-6">
 <ol class="org-ol">
 <li><p>
 安装网络工具
@@ -1749,34 +1762,102 @@ $ ifdown eth0
 </ol>
 </div>
 </div>
-<div id="outline-container-org8d8a5c8" class="outline-4">
-<h4 id="org8d8a5c8"><span class="section-number-4">2.3.4</span> Linux 日期时间设置</h4>
-<div class="outline-text-4" id="text-2-3-4">
-<p>
-Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-</p>
-<ol class="org-ol">
-<li>date 命令</li>
-<li><p>
-hwclock 命令，查看硬件时间
-</p>
-<pre class="example">
-//设置硬件时间
-$ sudo hwclock -set -date='07/17/2017 20:00'
-</pre></li>
-<li><p>
-硬件时间与系统时钟同步
-</p>
-<pre class="example">
-$ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-$ sudo hwclock -systohc
-</pre></li>
-</ol>
+<div id="outline-container-orgaf81156" class="outline-4">
+<h4 id="orgaf81156"><span class="section-number-4">2.2.7</span> 参考资料</h4>
+<div class="outline-text-4" id="text-2-2-7">
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/Wi-Fi">https://en.wikipedia.org/wiki/Wi-Fi</a></li>
+</ul>
 </div>
+</div>
+</div>
+<div id="outline-container-org3e47297" class="outline-3">
+<h3 id="org3e47297"><span class="section-number-3">2.3</span> Linux 常用命令</h3>
+<div class="outline-text-3" id="text-2-3">
+<pre class="example">
+// 上一节介绍的帮助命令
+info, help, main
+</pre>
+
+
+<pre class="example">
+// 通过历史记录简化操作
+</pre>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">!!</td>
+<td class="org-left">重复前一个命令</td>
+</tr>
+
+<tr>
+<td class="org-left">!字符</td>
+<td class="org-left">重复前一个以“字符”开头的命令</td>
+</tr>
+
+<tr>
+<td class="org-left">!num</td>
+<td class="org-left">按照历史记录的序号执行命令</td>
+</tr>
+
+<tr>
+<td class="org-left">!?abc</td>
+<td class="org-left">重复之前包含 abc 的命令</td>
+</tr>
+
+<tr>
+<td class="org-left">!-n</td>
+<td class="org-left">重复 n 个命令之前的那个命令</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+// 日期时间
+date, hwclock, cal, uptime
+</pre>
+
+
+<pre class="example">
+// 输出、查看命令
+echo, cat, head, tail, less, more
+</pre>
+
+
+<pre class="example">
+// 查看硬件信息
+lspci, lsusb, lsmod
+</pre>
+
+
+<pre class="example">
+// 关机、重启
+shutdown, reboot, poweroff
+</pre>
+
+
+<pre class="example">
+// 归档、压缩
+zip, unzip, gzip, tar
+</pre>
+
+
+<pre class="example">
+// 查找
+locate, find
+</pre>
 </div>
 <div id="outline-container-orgffc02b2" class="outline-4">
-<h4 id="orgffc02b2"><span class="section-number-4">2.3.5</span> 获取帮助 &amp; 问题解决</h4>
-<div class="outline-text-4" id="text-2-3-5">
+<h4 id="orgffc02b2"><span class="section-number-4">2.3.1</span> 获取帮助 &amp; 问题解决</h4>
+<div class="outline-text-4" id="text-2-3-1">
 <ol class="org-ol">
 <li>出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）</li>
 <li>当怀疑有黑客入侵或病毒的情况，马上做日志备份。</li>
@@ -1969,17 +2050,28 @@ $ man -k terminal
 </div>
 </div>
 </div>
-<div id="outline-container-orgbcb0635" class="outline-3">
-<h3 id="orgbcb0635"><span class="section-number-3">2.4</span> Linux 文件、目录和磁盘格式</h3>
+<div id="outline-container-org4810224" class="outline-3">
+<h3 id="org4810224"><span class="section-number-3">2.4</span> Linux 软件包管理</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
+<div id="outline-container-orgb25be84" class="outline-4">
+<h4 id="orgb25be84"><span class="section-number-4">2.4.1</span> 源代码与Tarbal</h4>
+</div>
+<div id="outline-container-orgaa88b6f" class="outline-4">
+<h4 id="orgaa88b6f"><span class="section-number-4">2.4.2</span> 软件安装RPM、SRPM与YUM</h4>
+</div>
+</div>
+<div id="outline-container-orgbcb0635" class="outline-3">
+<h3 id="orgbcb0635"><span class="section-number-3">2.5</span> Linux 文件、目录和磁盘格式</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
 <div id="outline-container-org9bb8dd1" class="outline-4">
-<h4 id="org9bb8dd1"><span class="section-number-4">2.4.1</span> 文件权限(Permission)</h4>
-<div class="outline-text-4" id="text-2-4-1">
+<h4 id="org9bb8dd1"><span class="section-number-4">2.5.1</span> 文件权限(Permission)</h4>
+<div class="outline-text-4" id="text-2-5-1">
 </div>
 <div id="outline-container-orgf8378c7" class="outline-5">
-<h5 id="orgf8378c7"><span class="section-number-5">2.4.1.1</span> 理解</h5>
-<div class="outline-text-5" id="text-2-4-1-1">
+<h5 id="orgf8378c7"><span class="section-number-5">2.5.1.1</span> 理解</h5>
+<div class="outline-text-5" id="text-2-5-1-1">
 <ol class="org-ol">
 <li><p>
 使用文件权限符
@@ -2121,8 +2213,8 @@ umask 命令用来设置所创建文件和目录的默认权限。</li>
 </div>
 </div>
 <div id="outline-container-orgf89c852" class="outline-5">
-<h5 id="orgf89c852"><span class="section-number-5">2.4.1.2</span> 共享文件(Share File)</h5>
-<div class="outline-text-5" id="text-2-4-1-2">
+<h5 id="orgf89c852"><span class="section-number-5">2.5.1.2</span> 共享文件(Share File)</h5>
+<div class="outline-text-5" id="text-2-5-1-2">
 <p>
 Linux 为每个文件和目录存储了3个额外的信息位。
 </p>
@@ -2213,8 +2305,8 @@ $ touch testfile
 </div>
 </div>
 <div id="outline-container-org252d7f1" class="outline-4">
-<h4 id="org252d7f1"><span class="section-number-4">2.4.2</span> 目录</h4>
-<div class="outline-text-4" id="text-2-4-2">
+<h4 id="org252d7f1"><span class="section-number-4">2.5.2</span> 目录</h4>
+<div class="outline-text-4" id="text-2-5-2">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/cs2.png" alt="cs2.png" />
@@ -2223,22 +2315,22 @@ $ touch testfile
 </div>
 </div>
 <div id="outline-container-org8ec0115" class="outline-4">
-<h4 id="org8ec0115"><span class="section-number-4">2.4.3</span> 文件搜索</h4>
-<div class="outline-text-4" id="text-2-4-3">
+<h4 id="org8ec0115"><span class="section-number-4">2.5.3</span> 文件搜索</h4>
+<div class="outline-text-4" id="text-2-5-3">
 <pre class="example">
 find,locate,which,where,wc
 </pre>
 </div>
 <div id="outline-container-orgb0b5a40" class="outline-5">
-<h5 id="orgb0b5a40"><span class="section-number-5">2.4.3.1</span> find</h5>
-<div class="outline-text-5" id="text-2-4-3-1">
+<h5 id="orgb0b5a40"><span class="section-number-5">2.5.3.1</span> find</h5>
+<div class="outline-text-5" id="text-2-5-3-1">
 <p>
 find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
 </p>
 </div>
 <div id="outline-container-orga0b3352" class="outline-6">
-<h6 id="orga0b3352"><span class="section-number-6">2.4.3.1.1</span> 根据文件名查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-1">
+<h6 id="orga0b3352"><span class="section-number-6">2.5.3.1.1</span> 根据文件名查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-1">
 <p>
 格式：find [搜索范围][匹配条件]
 </p>
@@ -2297,8 +2389,8 @@ $ sudo find /etc -name initab -exec ls -l {} \;
 </div>
 </div>
 <div id="outline-container-orgebed086" class="outline-6">
-<h6 id="orgebed086"><span class="section-number-6">2.4.3.1.2</span> 文件大小查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-2">
+<h6 id="orgebed086"><span class="section-number-6">2.5.3.1.2</span> 文件大小查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-2">
 <p>
 格式：+n 大于；-n 小于；n 等于
 </p>
@@ -2335,8 +2427,8 @@ $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
 </div>
 </div>
 <div id="outline-container-orgb87efbd" class="outline-6">
-<h6 id="orgb87efbd"><span class="section-number-6">2.4.3.1.3</span> 根据文件变动情况查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-3">
+<h6 id="orgb87efbd"><span class="section-number-6">2.5.3.1.3</span> 根据文件变动情况查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-3">
 <pre class="example">
 // 在/etc目录下查找5分钟内被修改过属性的文件和目录
 $ sudo /etc -cmin -5
@@ -2354,8 +2446,8 @@ $ find -newer ordinary_file
 </div>
 </div>
 <div id="outline-container-org6234abe" class="outline-6">
-<h6 id="org6234abe"><span class="section-number-6">2.4.3.1.4</span> 根据文件类型查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-4">
+<h6 id="org6234abe"><span class="section-number-6">2.5.3.1.4</span> 根据文件类型查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-4">
 <p>
 f 文件，d 目录，l 软链接，s socket文件
 </p>
@@ -2369,8 +2461,8 @@ $ find ./ -type d -name ".*"
 </div>
 </div>
 <div id="outline-container-org264030d" class="outline-6">
-<h6 id="org264030d"><span class="section-number-6">2.4.3.1.5</span> 根据文件权限、所属关系查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-5">
+<h6 id="org264030d"><span class="section-number-6">2.5.3.1.5</span> 根据文件权限、所属关系查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-5">
 <pre class="example">
 $ find /home -user zrg
 $ find /home -group zrg
@@ -2388,8 +2480,8 @@ $ find ./ -perm 040 -type f -exec ls -l {} \;
 </div>
 </div>
 <div id="outline-container-org8ec477c" class="outline-6">
-<h6 id="org8ec477c"><span class="section-number-6">2.4.3.1.6</span> 使用 inode 编号查找</h6>
-<div class="outline-text-6" id="text-2-4-3-1-6">
+<h6 id="org8ec477c"><span class="section-number-6">2.5.3.1.6</span> 使用 inode 编号查找</h6>
+<div class="outline-text-6" id="text-2-5-3-1-6">
 <p>
 任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
 </p>
@@ -2405,8 +2497,8 @@ $ find -inum 16187430 -exec rm {} \;
 </div>
 </div>
 <div id="outline-container-org268574a" class="outline-5">
-<h5 id="org268574a"><span class="section-number-5">2.4.3.2</span> locate</h5>
-<div class="outline-text-5" id="text-2-4-3-2">
+<h5 id="org268574a"><span class="section-number-5">2.5.3.2</span> locate</h5>
+<div class="outline-text-5" id="text-2-5-3-2">
 <p>
 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
 </p>
@@ -2429,26 +2521,67 @@ $ updatedb
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc5e9674" class="outline-5">
-<h5 id="orgc5e9674"><span class="section-number-5">2.4.3.3</span> which 和 where</h5>
-<div class="outline-text-5" id="text-2-4-3-3">
-<p>
-用于查找某个命令(Locate a command)
+</div>
+
+<div id="outline-container-org146126b" class="outline-4">
+<h4 id="org146126b"><span class="section-number-4">2.5.4</span> 磁盘格式</h4>
+<div class="outline-text-4" id="text-2-5-4">
+<ol class="org-ol">
+<li><p>
+自动挂载
+<br />
+配置文件 /etc/fstab 用来定义需要自动挂载的文件系统，fstab 中每一行代表一个挂在配置，格式如下：
 </p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 12:</span> 自动挂载</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">/dev/sda3</th>
+<th scope="col" class="org-left">/mnt</th>
+<th scope="col" class="org-left">ext4</th>
+<th scope="col" class="org-left">defaults</th>
+<th scope="col" class="org-left">0 0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">需要挂载的设备</td>
+<td class="org-left">挂载点</td>
+<td class="org-left">文件系统</td>
+<td class="org-left">挂在选项</td>
+<td class="org-left">dump、fsck相关选项</td>
+</tr>
+</tbody>
+</table></li>
+<li></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgff5b02c" class="outline-4">
+<h4 id="orgff5b02c"><span class="section-number-4">2.5.5</span> 文件系统</h4>
+<div class="outline-text-4" id="text-2-5-5">
 <pre class="example">
-$ which ls
-$ where useradd
+// 将 /dev/sda7 硬盘格式化为 ext3 格式。
+$ mkfs -t ext3 -c /dev/sda7
 </pre>
 </div>
 </div>
-<div id="outline-container-org96419c8" class="outline-5">
-<h5 id="org96419c8"><span class="section-number-5">2.4.3.4</span> wc</h5>
 </div>
-</div>
-</div>
-<div id="outline-container-org641cc0e" class="outline-3">
-<h3 id="org641cc0e"><span class="section-number-3">2.5</span> 压缩(Compression)和打包(Packaging)</h3>
-<div class="outline-text-3" id="text-2-5">
+<div id="outline-container-org355dbea" class="outline-3">
+<h3 id="org355dbea"><span class="section-number-3">2.6</span> Linux 压缩(Compression)和打包(Packaging)</h3>
+<div class="outline-text-3" id="text-2-6">
 
 <div class="figure">
 <p><img src="http://localhost:4000/assets/images/tar.png" alt="tar.png" />
@@ -2475,27 +2608,8 @@ $ unzip name.zip -d ./dir
 </pre>
 </div>
 </div>
-<div id="outline-container-orgff5b02c" class="outline-3">
-<h3 id="orgff5b02c"><span class="section-number-3">2.6</span> 文件系统</h3>
-<div class="outline-text-3" id="text-2-6">
-<pre class="example">
-msfs
-</pre>
-</div>
-<div id="outline-container-org8fa4afa" class="outline-4">
-<h4 id="org8fa4afa"><span class="section-number-4">2.6.1</span> mkfs</h4>
-<div class="outline-text-4" id="text-2-6-1">
-<p>
-将 /dev/sda7 硬盘格式化为 ext3 格式。
-</p>
-<pre class="example">
-$ mkfs -t ext3 -c /dev/sda7
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgf6b7e65" class="outline-3">
-<h3 id="orgf6b7e65"><span class="section-number-3">2.7</span> 文本处理</h3>
+<div id="outline-container-org2805fcb" class="outline-3">
+<h3 id="org2805fcb"><span class="section-number-3">2.7</span> Linux 文本处理</h3>
 <div class="outline-text-3" id="text-2-7">
 <pre class="example">
 grep,sed,awk
@@ -2614,19 +2728,23 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 <h2 id="org4b1d154"><span class="section-number-2">3</span> Linux 账号管理与 ACL 权限控制</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgf4dcd50" class="outline-3">
-<h3 id="orgf4dcd50"><span class="section-number-3">3.1</span> Linux User</h3>
+<div id="outline-container-orgd7ba4c0" class="outline-3">
+<h3 id="orgd7ba4c0"><span class="section-number-3">3.1</span> Linux 用户管理</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-orgac66af2" class="outline-4">
-<h4 id="orgac66af2"><span class="section-number-4">3.1.1</span> /etc/passwd</h4>
+<div id="outline-container-orgf4dcd50" class="outline-4">
+<h4 id="orgf4dcd50"><span class="section-number-4">3.1.1</span> Linux User</h4>
 <div class="outline-text-4" id="text-3-1-1">
+</div>
+<div id="outline-container-org50d5894" class="outline-5">
+<h5 id="org50d5894"><span class="section-number-5">3.1.1.1</span> /etc/passwd</h5>
+<div class="outline-text-5" id="text-3-1-1-1">
 <pre class="example">
 $ cat /etc/passwd
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgebd23c5">root:x:0:0:root:/root:/bin/bash
+<pre class="src src-shell" id="org8f08ee1">root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 ...
@@ -2654,9 +2772,9 @@ zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
 </ul>
 </div>
 </div>
-<div id="outline-container-orga5add5a" class="outline-4">
-<h4 id="orga5add5a"><span class="section-number-4">3.1.2</span> /etc/shadow</h4>
-<div class="outline-text-4" id="text-3-1-2">
+<div id="outline-container-orga5add5a" class="outline-5">
+<h5 id="orga5add5a"><span class="section-number-5">3.1.1.2</span> /etc/shadow</h5>
+<div class="outline-text-5" id="text-3-1-1-2">
 <pre class="example">
 /etc/shadow 文件的每条记录都有9个字段：
 </pre>
@@ -2674,9 +2792,9 @@ zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
 </ul>
 </div>
 </div>
-<div id="outline-container-org35c9226" class="outline-4">
-<h4 id="org35c9226"><span class="section-number-4">3.1.3</span> 用户管理文件</h4>
-<div class="outline-text-4" id="text-3-1-3">
+<div id="outline-container-org35c9226" class="outline-5">
+<h5 id="org35c9226"><span class="section-number-5">3.1.1.3</span> 用户管理文件</h5>
+<div class="outline-text-5" id="text-3-1-1-3">
 <ul class="org-ul">
 <li><p>
 Home 目录
@@ -2700,9 +2818,9 @@ Home 目录
 </ul>
 </div>
 </div>
-<div id="outline-container-orgdc6c36b" class="outline-4">
-<h4 id="orgdc6c36b"><span class="section-number-4">3.1.4</span> 新增、删除和修改用户</h4>
-<div class="outline-text-4" id="text-3-1-4">
+<div id="outline-container-orgdc6c36b" class="outline-5">
+<h5 id="orgdc6c36b"><span class="section-number-5">3.1.1.4</span> 新增、删除和修改用户</h5>
+<div class="outline-text-5" id="text-3-1-1-4">
 <pre class="example">
 //新增用户
 $ sudo useradd -D
@@ -2742,7 +2860,7 @@ $ userdel -r test
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 12:</span> 用户账户修改工具</caption>
+<caption class="t-above"><span class="table-number">Table 13:</span> 用户账户修改工具</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -2790,9 +2908,9 @@ $ userdel -r test
 </ul>
 </div>
 </div>
-<div id="outline-container-org2e2f554" class="outline-4">
-<h4 id="org2e2f554"><span class="section-number-4">3.1.5</span> 修改密码</h4>
-<div class="outline-text-4" id="text-3-1-5">
+<div id="outline-container-org2e2f554" class="outline-5">
+<h5 id="org2e2f554"><span class="section-number-5">3.1.1.5</span> 修改密码</h5>
+<div class="outline-text-5" id="text-3-1-1-5">
 <pre class="example">
 修改用户密码的命令：passwd
 </pre>
@@ -2805,9 +2923,9 @@ $ userdel -r test
 </ul>
 </div>
 </div>
-<div id="outline-container-org9901131" class="outline-4">
-<h4 id="org9901131"><span class="section-number-4">3.1.6</span> 显示用户最近登录信息</h4>
-<div class="outline-text-4" id="text-3-1-6">
+<div id="outline-container-org9901131" class="outline-5">
+<h5 id="org9901131"><span class="section-number-5">3.1.1.6</span> 显示用户最近登录信息</h5>
+<div class="outline-text-5" id="text-3-1-1-6">
 <pre class="example">
 last,lastlog
 列出目前/过去登入系统的用户信息
@@ -2824,9 +2942,9 @@ lastlog - reports the most recent login of all users or of a given user
 </div>
 </div>
 </div>
-<div id="outline-container-org33d91a5" class="outline-3">
-<h3 id="org33d91a5"><span class="section-number-3">3.2</span> Linux Group</h3>
-<div class="outline-text-3" id="text-3-2">
+<div id="outline-container-org33d91a5" class="outline-4">
+<h4 id="org33d91a5"><span class="section-number-4">3.1.2</span> Linux Group</h4>
+<div class="outline-text-4" id="text-3-1-2">
 <ol class="org-ol">
 <li><p>
 /etc/group
@@ -2880,13 +2998,20 @@ $ sudo gpasswd -d test tests
 </ol>
 </div>
 </div>
-<div id="outline-container-orgdfcf826" class="outline-3">
-<h3 id="orgdfcf826"><span class="section-number-3">3.3</span> ACL 权限控制</h3>
-<div class="outline-text-3" id="text-3-3">
+<div id="outline-container-org96e19c0" class="outline-4">
+<h4 id="org96e19c0"><span class="section-number-4">3.1.3</span> Linux 用户信息传递</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<pre class="example">
+查询用户: w、who、last、lastlog
+用户交流：write、mesg、wall
+用户邮箱：mail
+</pre>
 </div>
-<div id="outline-container-org58717fc" class="outline-4">
-<h4 id="org58717fc"><span class="section-number-4">3.3.1</span> Linux 权限规划(Authority Division)：ACL 权限控制</h4>
-<div class="outline-text-4" id="text-3-3-1">
+</div>
+</div>
+<div id="outline-container-orgf434d5f" class="outline-3">
+<h3 id="orgf434d5f"><span class="section-number-3">3.2</span> Linux 权限规划(Authority Division): ACL 权限控制</h3>
+<div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
 <li>什么是 ACL？
 <br />
@@ -2923,7 +3048,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgf33d5ae"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org48cd06b"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -2976,52 +3101,224 @@ $ sudo mount -o remount /
 </ol>
 </div>
 </div>
-<div id="outline-container-org96e19c0" class="outline-4">
-<h4 id="org96e19c0"><span class="section-number-4">3.3.2</span> Linux 用户信息传递</h4>
-<div class="outline-text-4" id="text-3-3-2">
-<pre class="example">
-查询用户: w、who、last、lastlog
-用户交流：write、mesg、wall
-用户邮箱：mail
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-org94c28b9" class="outline-3">
-<h3 id="org94c28b9"><span class="section-number-3">3.4</span> 磁盘配额和高级文件系统管理</h3>
-<div class="outline-text-3" id="text-3-4">
+<h3 id="org94c28b9"><span class="section-number-3">3.3</span> 磁盘配额和高级文件系统管理</h3>
+<div class="outline-text-3" id="text-3-3">
 </div>
 <div id="outline-container-org42bcee3" class="outline-4">
-<h4 id="org42bcee3"><span class="section-number-4">3.4.1</span> 磁盘配额(Disk Quota)应用实践</h4>
+<h4 id="org42bcee3"><span class="section-number-4">3.3.1</span> 磁盘配额(Disk Quota)应用实践</h4>
 </div>
 <div id="outline-container-orga1d9b81" class="outline-4">
-<h4 id="orga1d9b81"><span class="section-number-4">3.4.2</span> 软件磁盘阵列(Software RAID)</h4>
+<h4 id="orga1d9b81"><span class="section-number-4">3.3.2</span> 软件磁盘阵列(Software RAID)</h4>
 </div>
 <div id="outline-container-orga1fcee4" class="outline-4">
-<h4 id="orga1fcee4"><span class="section-number-4">3.4.3</span> 逻辑卷管理器(Logical Volume Manager)</h4>
+<h4 id="orga1fcee4"><span class="section-number-4">3.3.3</span> 逻辑卷管理器(Logical Volume Manager)</h4>
 </div>
+</div>
+<div id="outline-container-org7762863" class="outline-3">
+<h3 id="org7762863"><span class="section-number-3">3.4</span> Linux 程序管理和 SELinux 初探</h3>
+<div class="outline-text-3" id="text-3-4">
+</div>
+<div id="outline-container-org8683e1e" class="outline-4">
+<h4 id="org8683e1e"><span class="section-number-4">3.4.1</span> 进程与程序</h4>
+</div>
+<div id="outline-container-orge842aed" class="outline-4">
+<h4 id="orge842aed"><span class="section-number-4">3.4.2</span> 任务管理</h4>
+</div>
+<div id="outline-container-orgb813422" class="outline-4">
+<h4 id="orgb813422"><span class="section-number-4">3.4.3</span> 进程管理</h4>
+<div class="outline-text-4" id="text-3-4-3">
+<ol class="org-ol">
+<li>常见进程管理命令
+<ul class="org-ul">
+<li>top</li>
+<li id="ps"><p>
+list the processes running on the system
+</p>
+<pre class="example">
+// 查看
+$ ps -ef
+</pre></li>
+<li id="kill &amp; killall">send a signal to one or more processes (usually to "kill" a process)</li>
+<li id="jobs">an alternate way of listing your own processes</li>
+<li id="bg">put a process in the background</li>
+<li id="fg">put a process in the forground</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfd53179" class="outline-4">
+<h4 id="orgfd53179"><span class="section-number-4">3.4.4</span> 特殊文件与进程</h4>
+<div class="outline-text-4" id="text-3-4-4">
+</div>
+<div id="outline-container-org76d3141" class="outline-5">
+<h5 id="org76d3141"><span class="section-number-5">3.4.4.1</span> Linux 文件特殊权限</h5>
+<div class="outline-text-5" id="text-3-4-4-1">
+<ol class="org-ol">
+<li>SetUID
+<ul class="org-ul">
+<li>SetUID 介绍
+<ul class="org-ul">
+<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
+<li>用户拥有该程序的可执行权限；</li>
+<li>在执行该程序时,获得该程序文件所属用户的身份；</li>
+<li>SetUID 只在该程序执行过程中有效.</li>
+</ul></li>
+<li><p>
+设定和取消 SetUID
+</p>
+<pre class="example">
+// 查看 passwd 命令的 SetUID
+$ ll /usr/bin/passwd
+</pre>
+
+<p>
+-rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
+</p>
+
+<pre class="example">
+// 设定
+$ sudo chmod 4755 abc.txt
+or
+$ sudo chmod u+s abc.txt
+</pre>
+
+
+<pre class="example">
+// 取消
+$ sudo chmod 755 abc.txt
+$ sudo chmod u-s abc.txt
+</pre></li>
+<li>注意事项
+<ul class="org-ul">
+<li>关键目录应严格控制写权限.如"/","/usr"</li>
+<li>对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.</li>
+</ul></li>
+</ul></li>
+<li>SetGID
+<ul class="org-ul">
+<li>SetGID 介绍
+<ul class="org-ul">
+<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
+<li>用户拥有该程序的可执行权限；</li>
+<li>在执行该程序时,获得该程序文件所属组的身份；</li>
+<li>SetGID 只在该程序执行过程中有效.</li>
+</ul></li>
+<li><p>
+设定 SetGID
+</p>
+<pre class="example">
+$ sudo chmod 2755 abc.txt
+$ sudo chmod g+s abc.txt
+</pre></li>
+<li>SetGID 针对目录的作用
+<ul class="org-ul">
+<li>普通用户必须对此目录拥有r和x权限,才能进入次目录；</li>
+<li>普通用户在此目录中的有效组会变成次目录的属组；</li>
+<li>若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.</li>
+</ul></li>
+</ul></li>
+<li>Stiky BIT
+<ul class="org-ul">
+<li>Stiky BIT 粘着位
+<ul class="org-ul">
+<li>粘着位只对目录有效</li>
+<li>普通用户对该目录有w和x权限</li>
+<li>如果没有粘着位,普通用户可以删除此目录下所有文件, <b>一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件</b></li>
+</ul></li>
+<li><p>
+设定 Stiky BIT
+</p>
+<pre class="example">
+$ ll /tmp
+</pre>
+
+<p>
+drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
+</p>
+<pre class="example">
+$ sudo chmod 1755 /tmp
+$ sudo chmod o+t /tmp
+</pre>
+
+
+<pre class="example">
+$ sudo chmod 777 /tmp
+$ sudo chmod o-t /tmp
+</pre></li>
+</ul></li>
+<li>chattr
+<ul class="org-ul">
+<li><p>
+命令格式
+</p>
+<pre class="example">
+chattr [+-=] 选项 file/directory
++ 新增权限
+- 删除权限
+= 等于某权限
+</pre>
+
+
+<pre class="example">
+// 查看文件chattr属性
+格式: lsattr 选项 file/directory
+$ lsattr abc.txt
+</pre></li>
+<li>选项
+<dl class="org-dl">
+<dt>i</dt><dd>对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.</dd>
+<dt>a</dt><dd>对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.</dd>
+</dl></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org2153c2b" class="outline-4">
+<h4 id="org2153c2b"><span class="section-number-4">3.4.5</span> SELinux</h4>
+<div class="outline-text-4" id="text-3-4-5">
+</div>
+<div id="outline-container-orgbda89be" class="outline-5">
+<h5 id="orgbda89be"><span class="section-number-5">3.4.5.1</span> 什么是SELinux</h5>
+</div>
+<div id="outline-container-org3cad25d" class="outline-5">
+<h5 id="org3cad25d"><span class="section-number-5">3.4.5.2</span> SELinux的运行模式</h5>
+</div>
+<div id="outline-container-org8ce14a3" class="outline-5">
+<h5 id="org8ce14a3"><span class="section-number-5">3.4.5.3</span> SELinux策略内的规则管理</h5>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3ab0f47" class="outline-2">
+<h2 id="org3ab0f47"><span class="section-number-2">4</span> Linux 系统管理</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org1f48638" class="outline-3">
+<h3 id="org1f48638"><span class="section-number-3">4.1</span> Linux 启动管理</h3>
 </div>
 <div id="outline-container-org8b2881a" class="outline-3">
-<h3 id="org8b2881a"><span class="section-number-3">3.5</span> Linux 计划任务(例行性工作排程)</h3>
-<div class="outline-text-3" id="text-3-5">
+<h3 id="org8b2881a"><span class="section-number-3">4.2</span> Linux 计划任务(例行性工作排程)</h3>
+<div class="outline-text-3" id="text-4-2">
 </div>
 <div id="outline-container-orge6bfec3" class="outline-4">
-<h4 id="orge6bfec3"><span class="section-number-4">3.5.1</span> 什么是计划任务</h4>
-<div class="outline-text-4" id="text-3-5-1">
+<h4 id="orge6bfec3"><span class="section-number-4">4.2.1</span> 什么是计划任务</h4>
+<div class="outline-text-4" id="text-4-2-1">
 </div>
 <div id="outline-container-orgea786a9" class="outline-5">
-<h5 id="orgea786a9"><span class="section-number-5">3.5.1.1</span> 计划任务的种类</h5>
+<h5 id="orgea786a9"><span class="section-number-5">4.2.1.1</span> 计划任务的种类</h5>
 </div>
 <div id="outline-container-org1a15b5f" class="outline-5">
-<h5 id="org1a15b5f"><span class="section-number-5">3.5.1.2</span> 常见的例行性工作</h5>
+<h5 id="org1a15b5f"><span class="section-number-5">4.2.1.2</span> 常见的例行性工作</h5>
 </div>
 </div>
 <div id="outline-container-org94a9231" class="outline-4">
-<h4 id="org94a9231"><span class="section-number-4">3.5.2</span> 单一计划任务</h4>
+<h4 id="org94a9231"><span class="section-number-4">4.2.2</span> 单一计划任务</h4>
 </div>
 <div id="outline-container-org1ddf098" class="outline-4">
-<h4 id="org1ddf098"><span class="section-number-4">3.5.3</span> 循环计划任务</h4>
-<div class="outline-text-4" id="text-3-5-3">
+<h4 id="org1ddf098"><span class="section-number-4">4.2.3</span> 循环计划任务</h4>
+<div class="outline-text-4" id="text-4-2-3">
 <ol class="org-ol">
 <li><p>
 对于 Linux 用户
@@ -3069,7 +3366,7 @@ crontab 文件格式如下：
 crontab 基本格式
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 13:</span> 格式</caption>
+<caption class="t-above"><span class="table-number">Table 14:</span> 格式</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3226,15 +3523,15 @@ $rccron reload
 </div>
 </div>
 <div id="outline-container-org9fe0bcf" class="outline-4">
-<h4 id="org9fe0bcf"><span class="section-number-4">3.5.4</span> 唤醒式的工作任务</h4>
-<div class="outline-text-4" id="text-3-5-4">
+<h4 id="org9fe0bcf"><span class="section-number-4">4.2.4</span> 唤醒式的工作任务</h4>
+<div class="outline-text-4" id="text-4-2-4">
 <ol class="org-ol">
 <li>anacron 是什么？</li>
 <li><p>
 anacron 与 crontab
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 14:</span> anacron vs crontab</caption>
+<caption class="t-above"><span class="table-number">Table 15:</span> anacron vs crontab</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -3279,645 +3576,22 @@ anacron 与 crontab
 </div>
 </div>
 </div>
-<div id="outline-container-org7762863" class="outline-3">
-<h3 id="org7762863"><span class="section-number-3">3.6</span> Linux 程序管理和 SELinux 初探</h3>
-<div class="outline-text-3" id="text-3-6">
+<div id="outline-container-org1633c89" class="outline-3">
+<h3 id="org1633c89"><span class="section-number-3">4.3</span> Linux 日志管理</h3>
 </div>
-<div id="outline-container-org8683e1e" class="outline-4">
-<h4 id="org8683e1e"><span class="section-number-4">3.6.1</span> 进程与程序</h4>
+<div id="outline-container-org06b1333" class="outline-3">
+<h3 id="org06b1333"><span class="section-number-3">4.4</span> Linux 基础系统配置与备份策略</h3>
 </div>
-<div id="outline-container-orge842aed" class="outline-4">
-<h4 id="orge842aed"><span class="section-number-4">3.6.2</span> 任务管理</h4>
+<div id="outline-container-org56d8a72" class="outline-3">
+<h3 id="org56d8a72"><span class="section-number-3">4.5</span> Linux 内核编译与管理</h3>
 </div>
-<div id="outline-container-orgb813422" class="outline-4">
-<h4 id="orgb813422"><span class="section-number-4">3.6.3</span> 进程管理</h4>
-<div class="outline-text-4" id="text-3-6-3">
-<ol class="org-ol">
-<li>常见进程管理命令
-<ul class="org-ul">
-<li>top</li>
-<li id="ps"><p>
-list the processes running on the system
-</p>
-<pre class="example">
-// 查看
-$ ps -ef
-</pre></li>
-<li id="kill &amp; killall">send a signal to one or more processes (usually to "kill" a process)</li>
-<li id="jobs">an alternate way of listing your own processes</li>
-<li id="bg">put a process in the background</li>
-<li id="fg">put a process in the forground</li>
-</ul></li>
-</ol>
+<div id="outline-container-org1b5c6b7" class="outline-3">
+<h3 id="org1b5c6b7"><span class="section-number-3">4.6</span> Linux 防火墙</h3>
+<div class="outline-text-3" id="text-4-6">
 </div>
-</div>
-<div id="outline-container-orgfd53179" class="outline-4">
-<h4 id="orgfd53179"><span class="section-number-4">3.6.4</span> 特殊文件与进程</h4>
-<div class="outline-text-4" id="text-3-6-4">
-</div>
-<div id="outline-container-org76d3141" class="outline-5">
-<h5 id="org76d3141"><span class="section-number-5">3.6.4.1</span> Linux 文件特殊权限</h5>
-<div class="outline-text-5" id="text-3-6-4-1">
-<ol class="org-ol">
-<li>SetUID
-<ul class="org-ul">
-<li>SetUID 介绍
-<ul class="org-ul">
-<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
-<li>用户拥有该程序的可执行权限；</li>
-<li>在执行该程序时,获得该程序文件所属用户的身份；</li>
-<li>SetUID 只在该程序执行过程中有效.</li>
-</ul></li>
-<li><p>
-设定和取消 SetUID
-</p>
-<pre class="example">
-// 查看 passwd 命令的 SetUID
-$ ll /usr/bin/passwd
-</pre>
-
-<p>
--rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
-</p>
-
-<pre class="example">
-// 设定
-$ sudo chmod 4755 abc.txt
-or
-$ sudo chmod u+s abc.txt
-</pre>
-
-
-<pre class="example">
-// 取消
-$ sudo chmod 755 abc.txt
-$ sudo chmod u-s abc.txt
-</pre></li>
-<li>注意事项
-<ul class="org-ul">
-<li>关键目录应严格控制写权限.如"/","/usr"</li>
-<li>对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.</li>
-</ul></li>
-</ul></li>
-<li>SetGID
-<ul class="org-ul">
-<li>SetGID 介绍
-<ul class="org-ul">
-<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
-<li>用户拥有该程序的可执行权限；</li>
-<li>在执行该程序时,获得该程序文件所属组的身份；</li>
-<li>SetGID 只在该程序执行过程中有效.</li>
-</ul></li>
-<li><p>
-设定 SetGID
-</p>
-<pre class="example">
-$ sudo chmod 2755 abc.txt
-$ sudo chmod g+s abc.txt
-</pre></li>
-<li>SetGID 针对目录的作用
-<ul class="org-ul">
-<li>普通用户必须对此目录拥有r和x权限,才能进入次目录；</li>
-<li>普通用户在此目录中的有效组会变成次目录的属组；</li>
-<li>若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.</li>
-</ul></li>
-</ul></li>
-<li>Stiky BIT
-<ul class="org-ul">
-<li>Stiky BIT 粘着位
-<ul class="org-ul">
-<li>粘着位只对目录有效</li>
-<li>普通用户对该目录有w和x权限</li>
-<li>如果没有粘着位,普通用户可以删除此目录下所有文件, <b>一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件</b></li>
-</ul></li>
-<li><p>
-设定 Stiky BIT
-</p>
-<pre class="example">
-$ ll /tmp
-</pre>
-
-<p>
-drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
-</p>
-<pre class="example">
-$ sudo chmod 1755 /tmp
-$ sudo chmod o+t /tmp
-</pre>
-
-
-<pre class="example">
-$ sudo chmod 777 /tmp
-$ sudo chmod o-t /tmp
-</pre></li>
-</ul></li>
-<li>chattr
-<ul class="org-ul">
-<li><p>
-命令格式
-</p>
-<pre class="example">
-chattr [+-=] 选项 file/directory
-+ 新增权限
-- 删除权限
-= 等于某权限
-</pre>
-
-
-<pre class="example">
-// 查看文件chattr属性
-格式: lsattr 选项 file/directory
-$ lsattr abc.txt
-</pre></li>
-<li>选项
-<dl class="org-dl">
-<dt>i</dt><dd>对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.</dd>
-<dt>a</dt><dd>对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.</dd>
-</dl></li>
-</ul></li>
-</ol>
-</div>
-</div>
-</div>
-<div id="outline-container-org2153c2b" class="outline-4">
-<h4 id="org2153c2b"><span class="section-number-4">3.6.5</span> SELinux</h4>
-<div class="outline-text-4" id="text-3-6-5">
-</div>
-<div id="outline-container-orgbda89be" class="outline-5">
-<h5 id="orgbda89be"><span class="section-number-5">3.6.5.1</span> 什么是SELinux</h5>
-</div>
-<div id="outline-container-org3cad25d" class="outline-5">
-<h5 id="org3cad25d"><span class="section-number-5">3.6.5.2</span> SELinux的运行模式</h5>
-</div>
-<div id="outline-container-org8ce14a3" class="outline-5">
-<h5 id="org8ce14a3"><span class="section-number-5">3.6.5.3</span> SELinux策略内的规则管理</h5>
-</div>
-</div>
-</div>
-<div id="outline-container-org934ee70" class="outline-3">
-<h3 id="org934ee70"><span class="section-number-3">3.7</span> Linux 网络</h3>
-<div class="outline-text-3" id="text-3-7">
-</div>
-<div id="outline-container-org4fa915c" class="outline-4">
-<h4 id="org4fa915c"><span class="section-number-4">3.7.1</span> Linux 常见网络命令</h4>
-<div class="outline-text-4" id="text-3-7-1">
-<pre class="example">
-网络参数设定命令：ifconfig,ifup,ifdown,route,ip,iwlist,iwconfig,dhclient
-网络检错与观察指令：wall,ping,traceroute,netstat,host,nslookup
-连接指令：telnet,ftp,lftp,sftp
-文字浏览器：links
-下载器：wget,axel
-封包撷取：tcpdump,wireshark,nc,netcat,write
-邮件发送：mail
-</pre>
-</div>
-<div id="outline-container-orgd7c1e28" class="outline-5">
-<h5 id="orgd7c1e28"><span class="section-number-5">3.7.1.1</span> 网络参数设定命令</h5>
-<div class="outline-text-5" id="text-3-7-1-1">
-<pre class="example">
-ifconfig
-configure a network interface
-</pre>
-</div>
-</div>
-<div id="outline-container-org4aff407" class="outline-5">
-<h5 id="org4aff407"><span class="section-number-5">3.7.1.2</span> 网络参数设定命令</h5>
-</div>
-<div id="outline-container-org9cd8d8b" class="outline-5">
-<h5 id="org9cd8d8b"><span class="section-number-5">3.7.1.3</span> 封包撷取</h5>
-<div class="outline-text-5" id="text-3-7-1-3">
-<pre class="example">
-write
-# 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
-# 格式: write user [tty]
-</pre>
-</div>
-</div>
-<div id="outline-container-orge81f9a4" class="outline-5">
-<h5 id="orge81f9a4"><span class="section-number-5">3.7.1.4</span> 网络检错与观察指令</h5>
-<div class="outline-text-5" id="text-3-7-1-4">
-<pre class="example">
-wall
-# 发送广播信息(write a message to all users)
-# 格式: wall [-n] [-t timeout] [message | file]
-</pre>
-
-
-<pre class="example">
-ping
-# 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
-# 指定ping次数：$ ping -c 4 baidu.com
-</pre>
-
-
-<pre class="example">
-traceroute
-# 追踪数据包到主机间的路径
-traceroute - print the route packets trace to network host
-</pre>
-
-
-<pre class="example">
-netstat
-# 显示网络相关信息
-netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
-# 查看主机对外开放端口
-$ netstat -ntlp
-# 查看本机监听的端口
-$ netstat -tlun
-# 查看本机所有的网络连接
-$ netstat -ano
-# 查看本机路由表
-$ netstat -rn
-</pre>
-</div>
-</div>
-<div id="outline-container-orgdb2c6bf" class="outline-5">
-<h5 id="orgdb2c6bf"><span class="section-number-5">3.7.1.5</span> 神奇的 nc 命令</h5>
-<div class="outline-text-5" id="text-3-7-1-5">
-<ol class="org-ol">
-<li><p>
-介绍
-</p>
-<pre class="example">
-netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
-netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
-</pre></li>
-<li><p>
-安装
-</p>
-<pre class="example">
-// Redhat/CentOS/Fedora
-$ yum install nc
-// Debian/Ubuntu
-$ sudo apt-get install netcat
-</pre></li>
-<li><p>
-常见使用
-</p>
-<pre class="example">
-端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
-$ nc -z -v -n 172.31.100.7 21-25
-可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
-z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
-v 参数指使用冗余选项（译者注：即详细输出）
-n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
-</pre>
-
-
-<pre class="example">
-Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
-一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
-$ nc -v 172.31.100.7 21
-</pre>
-
-<ul class="org-ul">
-<li><p>
-聊天工具
-</p>
-<pre class="example">
-// Server
-$ nc -l 1234
-// Client
-$ nc 172.168.100.7 1234
-</pre></li>
-<li><p>
-文件传输
-</p>
-<pre class="example">
-// Server &gt; Client
-$ nc -l 1234 &gt; file.txt
-$ nc 172.168.100.7 1234 &lt;file.txt
-</pre></li>
-<li><p>
-目录传输
-</p>
-<pre class="example">
-// Server &gt; Client
-$ tar -cvf - dir_name | nc -l 1234
-$ nc -n 172.168.100.7 1234 | tar -xvf -
-这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
-在客户端我们下载该压缩包通过netcat 管道然后打开文件。
-如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
-// Server
-$ tar -cvf – dir_name| bzip2 -z | nc -l 1234
-// Client
-$ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
-</pre></li>
-<li><p>
-加密网络传输数据
-</p>
-<pre class="example">
-// Server
-$ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
-// Client
-$ mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
-</pre></li>
-<li><p>
-流视频
-</p>
-<pre class="example">
-// Server
-$ cat video.avi | nc -l 1234
-从一个视频文件中读入并重定向输出到netcat客户端
-// Client
-$ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
-从socket中读入数据并重定向到mplayer。
-</pre></li>
-<li><p>
-克隆一个设备
-</p>
-<pre class="example">
-已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
-假如你的系统在磁盘/dev/sda上:
-// Server
-$ dd if=/dev/sda | nc -l 1234
-// Client
-$ nc -n 172.31.100.7 1567 | dd of=/dev/sda
-dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
-但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
-</pre></li>
-</ul></li>
-<li><p>
-参考资料
-</p>
-<pre class="example">
-https://blog.csdn.net/zhangxiao93/article/details/52705642
-</pre></li>
-</ol>
-</div>
-</div>
-</div>
-<div id="outline-container-orgdb7e3f7" class="outline-4">
-<h4 id="orgdb7e3f7"><span class="section-number-4">3.7.2</span> 远程管理：SSH、VNC、XDMCP 和 RDP</h4>
-<div class="outline-text-4" id="text-3-7-2">
-</div>
-<div id="outline-container-org3118c96" class="outline-5">
-<h5 id="org3118c96"><span class="section-number-5">3.7.2.1</span> SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</h5>
-<div class="outline-text-5" id="text-3-7-2-1">
-<ul class="org-ul">
-<li>SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。</li>
-<li>OpenSSL，对SSL的实现。</li>
-<li>SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。</li>
-<li>OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-<ul class="org-ul">
-<li>HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。</li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org305987c" class="outline-5">
-<h5 id="org305987c"><span class="section-number-5">3.7.2.2</span> SSH 配置</h5>
-<div class="outline-text-5" id="text-3-7-2-2">
-<ol class="org-ol">
-<li>配置持久连接
-<ul class="org-ul">
-<li><p>
-Server 端
-</p>
-<pre class="example">
-$ sudo vim /etc/ssh/sshd_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell" id="orge5a9f9d"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
-ClientAliveInterval 60  
-<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
-ClientAliveCountMax 3
-</pre>
-</div></li>
-<li><p>
-Client 端
-</p>
-<pre class="example">
-$ sudo vim /etc/ssh/ssh_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell" id="orgf1cd1e9"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
-ServerAliveInterval 60  
-<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
-ServerAliveCountMax 3
-</pre>
-</div></li>
-</ul></li>
-<li><p>
-使用OpenSSL生成密钥对
-</p>
-<pre class="example">
-// 生成私钥
-$ openssl genrsa -out rsa_private_key.pem 1024
-</pre>
-
-<p>
-参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
-</p>
-
-<pre class="example">
-// 从私钥中提取公钥
-$ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-</pre>
-
-<p>
-参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-</p></li>
-<li><p>
-修改 SSH 默认端口号
-</p>
-<pre class="example">
-首先，修改配置文件：
-$ vim /etc/ssh/sshd_config
-</pre>
-
-<p>
-Port 22 Port 6666   
-</p>
-<pre class="example">
-注意事项：
-</pre>
-
-<ul class="org-ul">
-<li>这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。</li>
-<li>所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！</li>
-<li></li>
-</ul></li>
-
-<li>通过密钥登录服务器
-<ul class="org-ul">
-<li><p>
-第一步，生成密钥对
-</p>
-<pre class="example">
-$ ssh-keygen
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org7aa7fd7">Generating public/private rsa key pair.
-Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/zrg/.ssh/id_rsa.
-Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-The key's randomart image is:
-+---[RSA 2048]----+
-|    +*B==o o.oo=*|
-|   .o+o= .. . =o.|
-|     .+ o .o + E |
-|     . *   o= =  |
-|      = S . o+   |
-|       + o .     |
-|    o . =        |
-|   . + o .       |
-|    ..o          |
-+----[SHA256]-----+
-</pre>
-</div>
-
-<p>
-如果客户端要访问多台服务器时，可进行如下操作：
-</p>
-<pre class="example">
-第一种方式：手动指定
-$  ssh user@host -i ~/.ssh/id_rsa
-第二种方式：配置客户端，/etc/ssh/ssh_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell">IdentityFile ~/.ssh/id_rsa
-IdentityFile ~/.ssh/github_id_rsa
-</pre>
-</div>
-<pre class="example">
-第三种方式：使用 SSH Agent
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default github user</span>
-Host login-zrg
-HostName github.com
-User zrg
-IdentityFile ~/.ssh/id_rsa
-
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">jsf user</span>
-Host login-jsf
-HostName github.com
-User jsf
-IdentityFile ~/.ssh/id_rsa_jsf
-</pre>
-</div></li>
-<li><p>
-第二步，在服务器上配置上公钥
-将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
-</p>
-<pre class="example">
-$ cat ~/.ssh/id_rsa.pub &gt;&gt; authorized_keys
-$ chmod 600 ~/.ssh/authorized_keys
-$ chmod 700 ~/.ssh
-</pre></li>
-<li><p>
-第三步，配置ssh，打开密钥登录功能
-</p>
-<pre class="example">
-$ vim /etc/ssh/sshd_config
-</pre>
-
-<p>
-RSAAuthentication yes
-PubkeyAuthentication yes
-</p>
-
-<p>
-PermitRootLogin yes
-</p>
-
-<p>
-PasswordAuthentication no
-#+END_SRC
-</p></li>
-<li><p>
-第四步，重启ssh服务
-配置完成后，重启 sshd 服务
-</p>
-<pre class="example">
-$ systemctl restart sshd.service
-</pre></li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orga4d022e" class="outline-5">
-<h5 id="orga4d022e"><span class="section-number-5">3.7.2.3</span> SCP 使用</h5>
-<div class="outline-text-5" id="text-3-7-2-3">
-<p>
-使用scp上传或下载文件
-</p>
-<ul class="org-ul">
-<li><p>
-从服务器上下载文件
-</p>
-<pre class="example">
-$ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
-</pre></li>
-<li><p>
-上传本地文件到服务器
-</p>
-<pre class="example">
-$ scp /path/filename username@servername:/path   
-例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
-</pre></li>
-<li><p>
-从服务器下载整个目录
-</p>
-<pre class="example">
-$ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-</pre></li>
-<li><p>
-上传目录到服务器
-</p>
-<pre class="example">
-$ scp  -r local_dir username@servername:remote_dir
-例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-</pre></li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-org4f460d1" class="outline-4">
-<h4 id="org4f460d1"><span class="section-number-4">3.7.3</span> 在server 上启用 HTTPS</h4>
-<div class="outline-text-4" id="text-3-7-3">
-<ul class="org-ul">
-<li>创建一个 2048 位 RSA 公钥/私钥对。</li>
-<li>生成一个嵌入您的公钥的证书签名请求 (CSR)</li>
-<li>将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。</li>
-<li>将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。</li>
-</ul>
-<pre class="example">
-1. 生成密钥和证书签名请求
-此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
-
-</pre>
-
-
-<pre class="example">
-参考资料：
-</pre>
-
-<p>
-<a href="https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn">在服务器上启用 HTTPS</a>
-</p>
-</div>
-</div>
-<div id="outline-container-orgcc87e4e" class="outline-4">
-<h4 id="orgcc87e4e"><span class="section-number-4">3.7.4</span> 防火墙</h4>
-<div class="outline-text-4" id="text-3-7-4">
-</div>
-<div id="outline-container-org5b998c7" class="outline-5">
-<h5 id="org5b998c7"><span class="section-number-5">3.7.4.1</span> 概念</h5>
-<div class="outline-text-5" id="text-3-7-4-1">
+<div id="outline-container-org5b998c7" class="outline-4">
+<h4 id="org5b998c7"><span class="section-number-4">4.6.1</span> 概念</h4>
+<div class="outline-text-4" id="text-4-6-1">
 <ul class="org-ul">
 <li>众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。防火墙就是通过制定一些有顺序的规则，并管制进入到我们网域内的主机资料封包的一种机制。</li>
 <li>在公网与企业内网之间充当保护屏障的防火墙虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。</li>
@@ -3929,16 +3603,16 @@ $ scp  -r local_dir username@servername:remote_dir
 </ul>
 </div>
 </div>
-<div id="outline-container-org08ca402" class="outline-5">
-<h5 id="org08ca402"><span class="section-number-5">3.7.4.2</span> 防火墙类别</h5>
-<div class="outline-text-5" id="text-3-7-4-2">
+<div id="outline-container-org08ca402" class="outline-4">
+<h4 id="org08ca402"><span class="section-number-4">4.6.2</span> 防火墙类别</h4>
+<div class="outline-text-4" id="text-4-6-2">
 <p>
 按照防火墙管理的范围，将防火墙分为网域型与单一主机型的控管。在单一主机型的控管方面，主要的防火墙有封包过滤型的 Netfilter 与依照服务软件程式作为分析的 TCP Wrappers 两种。对于区域性防火墙而言，由于此类防火墙都是当作路由器角色，因此防火墙主要有封包过滤的 Netfilter 与利用代理服务器(proxy server)进行存取代理的方式。
 </p>
 </div>
-<div id="outline-container-org3b49e17" class="outline-6">
-<h6 id="org3b49e17"><span class="section-number-6">3.7.4.2.1</span> Netfilter</h6>
-<div class="outline-text-6" id="text-3-7-4-2-1">
+<div id="outline-container-org3b49e17" class="outline-5">
+<h5 id="org3b49e17"><span class="section-number-5">4.6.2.1</span> Netfilter</h5>
+<div class="outline-text-5" id="text-4-6-2-1">
 <p>
 所谓的封包过滤，即分析进入主机的网络封包，将封包的表头信息提出来进行分析，已决定放行或禁止访问的机制。
 <br />
@@ -3946,9 +3620,9 @@ $ scp  -r local_dir username@servername:remote_dir
 </p>
 </div>
 </div>
-<div id="outline-container-org60c366b" class="outline-6">
-<h6 id="org60c366b"><span class="section-number-6">3.7.4.2.2</span> TCP Wrappers</h6>
-<div class="outline-text-6" id="text-3-7-4-2-2">
+<div id="outline-container-org60c366b" class="outline-5">
+<h5 id="org60c366b"><span class="section-number-5">4.6.2.2</span> TCP Wrappers</h5>
+<div class="outline-text-5" id="text-4-6-2-2">
 <ul class="org-ul">
 <li>通过服务器程序的外挂 (tcpd) 来处置，与封包过滤不同的是， 这种机制主要是分析谁对某程序进行存取，然后透过规则去分析该服务器程序谁能够联机、谁不能联机。</li>
 <li>与程序的名称有关，举例来说，FTP 可以启动在非正规的 port 21 进行监听，当你透过 Linux 内建的 TCP wrappers 限制 FTP 时， 那么你只要知道 FTP 的软件名称 (vsftpd) ，然后对他作限制，则不管 FTP 启动在哪个端口，都会被该规则管理的。</li>
@@ -3961,9 +3635,9 @@ $ scp  -r local_dir username@servername:remote_dir
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc75f539" class="outline-6">
-<h6 id="orgc75f539"><span class="section-number-6">3.7.4.2.3</span> Proxy Server</h6>
-<div class="outline-text-6" id="text-3-7-4-2-3">
+<div id="outline-container-orgc75f539" class="outline-5">
+<h5 id="orgc75f539"><span class="section-number-5">4.6.2.3</span> Proxy Server</h5>
+<div class="outline-text-5" id="text-4-6-2-3">
 <p>
 代理服务器是一种网络服务，它可以『代理』用户的需求，而代为前往服务器取得相关的资料。
 <br />
@@ -3973,21 +3647,21 @@ $ scp  -r local_dir username@servername:remote_dir
 </div>
 </div>
 
-<div id="outline-container-orga12a79a" class="outline-5">
-<h5 id="orga12a79a"><span class="section-number-5">3.7.4.3</span> Linux 的封包过滤软件：iptables</h5>
-<div class="outline-text-5" id="text-3-7-4-3">
+<div id="outline-container-orga12a79a" class="outline-4">
+<h4 id="orga12a79a"><span class="section-number-4">4.6.3</span> Linux 的封包过滤软件：iptables</h4>
+<div class="outline-text-4" id="text-4-6-3">
 </div>
-<div id="outline-container-org7ed97a1" class="outline-6">
-<h6 id="org7ed97a1"><span class="section-number-6">3.7.4.3.1</span> 历史背景</h6>
-<div class="outline-text-6" id="text-3-7-4-3-1">
+<div id="outline-container-org7ed97a1" class="outline-5">
+<h5 id="org7ed97a1"><span class="section-number-5">4.6.3.1</span> 历史背景</h5>
+<div class="outline-text-5" id="text-4-6-3-1">
 <p>
 在早期的 Linux 系统中，默认使用的是 iptables 防火墙管理服务来配置防火墙。尽管新型的 firewalld 防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用 iptables。
 </p>
 </div>
 </div>
-<div id="outline-container-orga68803f" class="outline-6">
-<h6 id="orga68803f"><span class="section-number-6">3.7.4.3.2</span> iptables 表与规则链</h6>
-<div class="outline-text-6" id="text-3-7-4-3-2">
+<div id="outline-container-orga68803f" class="outline-5">
+<h5 id="orga68803f"><span class="section-number-5">4.6.3.2</span> iptables 表与规则链</h5>
+<div class="outline-text-5" id="text-4-6-3-2">
 <p>
 iptables 的表格与相关链示意图:
 <img src="http://localhost:4000/assets/images/iptables_02.png" alt="iptables_02.png" />
@@ -4016,7 +3690,7 @@ nat：是 Network Address Translation 的缩写， 这个表格主要在进行�
 <br />
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 15:</span> NAT 表</caption>
+<caption class="t-above"><span class="table-number">Table 16:</span> NAT 表</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4063,13 +3737,13 @@ nat：是 Network Address Translation 的缩写， 这个表格主要在进行�
 </div>
 </div>
 
-<div id="outline-container-org802d610" class="outline-6">
-<h6 id="org802d610"><span class="section-number-6">3.7.4.3.3</span> iptables 策略和语法</h6>
-<div class="outline-text-6" id="text-3-7-4-3-3">
+<div id="outline-container-org802d610" class="outline-5">
+<h5 id="org802d610"><span class="section-number-5">4.6.3.3</span> iptables 策略和语法</h5>
+<div class="outline-text-5" id="text-4-6-3-3">
 </div>
-<div id="outline-container-orgce6772d" class="outline-7">
-<h7 id="orgce6772d"><span class="section-number-7">3.7.4.3.3.1</span> 策略</h7>
-<div class="outline-text-7" id="text-3-7-4-3-3-1">
+<div id="outline-container-orgce6772d" class="outline-6">
+<h6 id="orgce6772d"><span class="section-number-6">4.6.3.3.1</span> 策略</h6>
+<div class="outline-text-6" id="text-4-6-3-3-1">
 <p>
 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
 </p>
@@ -4100,9 +3774,9 @@ nat：是 Network Address Translation 的缩写， 这个表格主要在进行�
 </ul>
 </div>
 </div>
-<div id="outline-container-org3a36545" class="outline-7">
-<h7 id="org3a36545"><span class="section-number-7">3.7.4.3.3.2</span> 语法应用</h7>
-<div class="outline-text-7" id="text-3-7-4-3-3-2">
+<div id="outline-container-org3a36545" class="outline-6">
+<h6 id="org3a36545"><span class="section-number-6">4.6.3.3.2</span> 语法应用</h6>
+<div class="outline-text-6" id="text-4-6-3-3-2">
 <ol class="org-ol">
 <li><p>
 规则的查看和清除
@@ -4288,9 +3962,9 @@ $ service iptables save
 </div>
 </div>
 </div>
-<div id="outline-container-orga9257b6" class="outline-5">
-<h5 id="orga9257b6"><span class="section-number-5">3.7.4.4</span> Linux 的封包过滤软件：Firewalld</h5>
-<div class="outline-text-5" id="text-3-7-4-4">
+<div id="outline-container-orga9257b6" class="outline-4">
+<h4 id="orga9257b6"><span class="section-number-4">4.6.4</span> Linux 的封包过滤软件：Firewalld</h4>
+<div class="outline-text-4" id="text-4-6-4">
 <ol class="org-ol">
 <li><p>
 概念
@@ -4299,7 +3973,7 @@ Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火�
 </p>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 16:</span> firewalld中常用的区域名称及策略规则</caption>
+<caption class="t-above"><span class="table-number">Table 17:</span> firewalld中常用的区域名称及策略规则</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4365,7 +4039,7 @@ Firewalld(Dynamic Firewall Manager of Linux systems, Linux系统的动态防火�
 firewall-cmd是firewalld防火墙配置管理工具的CLI（命令行界面）版本。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 17:</span> firewall-cmd命令中使用的参数以及作用</caption>
+<caption class="t-above"><span class="table-number">Table 18:</span> firewall-cmd命令中使用的参数以及作用</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4561,16 +4235,16 @@ $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4
 </ol>
 </div>
 </div>
-<div id="outline-container-org3b9f383" class="outline-5">
-<h5 id="org3b9f383"><span class="section-number-5">3.7.4.5</span> 服务的访问控制列表</h5>
-<div class="outline-text-5" id="text-3-7-4-5">
+<div id="outline-container-org3b9f383" class="outline-4">
+<h4 id="org3b9f383"><span class="section-number-4">4.6.5</span> 服务的访问控制列表</h4>
+<div class="outline-text-4" id="text-4-6-5">
 <p>
 TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
 <br />
 TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系统将会先检查允许控制列表文件（/etc/hosts.allow），如果匹配到相应的允许策略则放行流量；如果没有匹配，则去进一步匹配拒绝控制列表文件（/etc/hosts.deny），若找到匹配项则拒绝该流量。如果这两个文件全都没有匹配到，则默认放行流量。
 </p>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 18:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
+<caption class="t-above"><span class="table-number">Table 19:</span> TCP Wrappers服务的控制列表文件中常用的参数</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -4637,583 +4311,474 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 </div>
 </div>
 </div>
-<div id="outline-container-org60a50fd" class="outline-3">
-<h3 id="org60a50fd"><span class="section-number-3">3.8</span> 服务器架构</h3>
-<div class="outline-text-3" id="text-3-8">
+<div id="outline-container-org1293274" class="outline-2">
+<h2 id="org1293274"><span class="section-number-2">5</span> Linux 服务管理</h2>
+<div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org11631ef" class="outline-4">
-<h4 id="org11631ef"><span class="section-number-4">3.8.1</span> DHCP 服务器</h4>
+<div id="outline-container-org0c4827c" class="outline-3">
+<h3 id="org0c4827c"><span class="section-number-3">5.1</span> Linux 网络基础</h3>
+<div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-orgde40f7e" class="outline-4">
-<h4 id="orgde40f7e"><span class="section-number-4">3.8.2</span> 文件服务器：NFS 服务器</h4>
-</div>
-<div id="outline-container-org60c1a05" class="outline-4">
-<h4 id="org60c1a05"><span class="section-number-4">3.8.3</span> 文件服务器：SAMBA 服务器</h4>
-</div>
-<div id="outline-container-org88307ab" class="outline-4">
-<h4 id="org88307ab"><span class="section-number-4">3.8.4</span> 文件服务器：FTP 服务器</h4>
-</div>
-<div id="outline-container-orgf160277" class="outline-4">
-<h4 id="orgf160277"><span class="section-number-4">3.8.5</span> NIS 服务器</h4>
-</div>
-<div id="outline-container-org68b8d00" class="outline-4">
-<h4 id="org68b8d00"><span class="section-number-4">3.8.6</span> NTP 服务器</h4>
-</div>
-<div id="outline-container-orgda2872f" class="outline-4">
-<h4 id="orgda2872f"><span class="section-number-4">3.8.7</span> Proxy 服务器</h4>
-</div>
-<div id="outline-container-org0008458" class="outline-4">
-<h4 id="org0008458"><span class="section-number-4">3.8.8</span> iSCSI 服务器</h4>
-</div>
-<div id="outline-container-org0b74f19" class="outline-4">
-<h4 id="org0b74f19"><span class="section-number-4">3.8.9</span> DNS 服务器</h4>
-</div>
-<div id="outline-container-org394742f" class="outline-4">
-<h4 id="org394742f"><span class="section-number-4">3.8.10</span> Web 服务器</h4>
-</div>
-<div id="outline-container-org58c55fe" class="outline-4">
-<h4 id="org58c55fe"><span class="section-number-4">3.8.11</span> 邮件服务器：Postfix</h4>
-</div>
-</div>
-</div>
-<div id="outline-container-org45a17fd" class="outline-2">
-<h2 id="org45a17fd"><span class="section-number-2">4</span> Linux 系统管理员</h2>
-<div class="outline-text-2" id="text-4">
-</div>
-<div id="outline-container-org4de7cec" class="outline-3">
-<h3 id="org4de7cec"><span class="section-number-3">4.1</span> Linux 系统服务(daemon)</h3>
-<div class="outline-text-3" id="text-4-1">
-</div>
-<div id="outline-container-orgd779f10" class="outline-4">
-<h4 id="orgd779f10"><span class="section-number-4">4.1.1</span> systemctl</h4>
-</div>
-</div>
-<div id="outline-container-org9683d89" class="outline-3">
-<h3 id="org9683d89"><span class="section-number-3">4.2</span> Linux 日志</h3>
-</div>
-<div id="outline-container-org2f1564b" class="outline-3">
-<h3 id="org2f1564b"><span class="section-number-3">4.3</span> 启动流程、模块管理与 loader</h3>
-</div>
-<div id="outline-container-org022ece1" class="outline-3">
-<h3 id="org022ece1"><span class="section-number-3">4.4</span> 基础系统配置与备份策略</h3>
-</div>
-<div id="outline-container-org6345242" class="outline-3">
-<h3 id="org6345242"><span class="section-number-3">4.5</span> 软件安装</h3>
-<div class="outline-text-3" id="text-4-5">
-</div>
-<div id="outline-container-orgb25be84" class="outline-4">
-<h4 id="orgb25be84"><span class="section-number-4">4.5.1</span> 源代码与Tarbal</h4>
-</div>
-<div id="outline-container-orgaa88b6f" class="outline-4">
-<h4 id="orgaa88b6f"><span class="section-number-4">4.5.2</span> 软件安装RPM、SRPM与YUM</h4>
-</div>
-<div id="outline-container-orge95233b" class="outline-4">
-<h4 id="orge95233b"><span class="section-number-4">4.5.3</span> 常见软件安装过程</h4>
-<div class="outline-text-4" id="text-4-5-3">
-</div>
-<div id="outline-container-org2ce87f2" class="outline-5">
-<h5 id="org2ce87f2"><span class="section-number-5">4.5.3.1</span> GCC</h5>
-<div class="outline-text-5" id="text-4-5-3-1">
-</div>
-<div id="outline-container-org4e5ec98" class="outline-6">
-<h6 id="org4e5ec98"><span class="section-number-6">4.5.3.1.1</span> 简单编译</h6>
-<div class="outline-text-6" id="text-4-5-3-1-1">
+<div id="outline-container-org4fa915c" class="outline-4">
+<h4 id="org4fa915c"><span class="section-number-4">5.1.1</span> Linux 常见网络命令</h4>
+<div class="outline-text-4" id="text-5-1-1">
 <pre class="example">
-$ gcc test.c -o test
+网络参数设定命令：ifconfig,ifup,ifdown,route,ip,iwlist,iwconfig,dhclient
+网络检错与观察指令：wall,ping,traceroute,netstat,host,nslookup
+连接指令：telnet,ftp,lftp,sftp
+文字浏览器：links
+下载器：wget,axel
+封包撷取：tcpdump,wireshark,nc,netcat,write
+邮件发送：mail
+</pre>
+</div>
+<div id="outline-container-orgf9aa0df" class="outline-5">
+<h5 id="orgf9aa0df"><span class="section-number-5">5.1.1.1</span> 网络参数设定命令</h5>
+<div class="outline-text-5" id="text-5-1-1-1">
+<pre class="example">
+ifconfig
+configure a network interface
+</pre>
+</div>
+</div>
+<div id="outline-container-org7411c8e" class="outline-5">
+<h5 id="org7411c8e"><span class="section-number-5">5.1.1.2</span> 网络参数设定命令</h5>
+</div>
+<div id="outline-container-org9cd8d8b" class="outline-5">
+<h5 id="org9cd8d8b"><span class="section-number-5">5.1.1.3</span> 封包撷取</h5>
+<div class="outline-text-5" id="text-5-1-1-3">
+<pre class="example">
+write
+# 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
+# 格式: write user [tty]
+</pre>
+</div>
+</div>
+<div id="outline-container-orge81f9a4" class="outline-5">
+<h5 id="orge81f9a4"><span class="section-number-5">5.1.1.4</span> 网络检错与观察指令</h5>
+<div class="outline-text-5" id="text-5-1-1-4">
+<pre class="example">
+wall
+# 发送广播信息(write a message to all users)
+# 格式: wall [-n] [-t timeout] [message | file]
 </pre>
 
-<p>
-实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
-</p>
 
+<pre class="example">
+ping
+# 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
+# 指定ping次数：$ ping -c 4 baidu.com
+</pre>
+
+
+<pre class="example">
+traceroute
+# 追踪数据包到主机间的路径
+traceroute - print the route packets trace to network host
+</pre>
+
+
+<pre class="example">
+netstat
+# 显示网络相关信息
+netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
+# 查看主机对外开放端口
+$ netstat -ntlp
+# 查看本机监听的端口
+$ netstat -tlun
+# 查看本机所有的网络连接
+$ netstat -ano
+# 查看本机路由表
+$ netstat -rn
+</pre>
+</div>
+</div>
+<div id="outline-container-orgdb2c6bf" class="outline-5">
+<h5 id="orgdb2c6bf"><span class="section-number-5">5.1.1.5</span> 神奇的 nc 命令</h5>
+<div class="outline-text-5" id="text-5-1-1-5">
 <ol class="org-ol">
 <li><p>
-Preprocessing
+介绍
 </p>
 <pre class="example">
-$ gcc -E test.c -o test.i
-或
-$ gcc -E test.c
-</pre>
-
-<p>
-gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
-</p></li>
-<li><p>
-Compilation
-</p>
-<pre class="example">
-$ gcc -S test.i -o test.s
-</pre>
-
-<p>
-gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
-</p></li>
-<li><p>
-Assembly
-</p>
-<pre class="example">
-$ gcc -c test.s -o test.o
-</pre>
-
-<p>
-对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
-</p></li>
-<li><p>
-Linking
-gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
-<br />
-对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
-</p>
-<pre class="example">
-$ gcc test.o -o test
+netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
+netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
 </pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org578d8af" class="outline-6">
-<h6 id="org578d8af"><span class="section-number-6">4.5.3.1.2</span> 多个程序文件的编译</h6>
-<div class="outline-text-6" id="text-4-5-3-1-2">
-<pre class="example">
-$ gcc test1.c test2.c -o test
-</pre>
-</div>
-</div>
-<div id="outline-container-orgf3c3c34" class="outline-6">
-<h6 id="orgf3c3c34"><span class="section-number-6">4.5.3.1.3</span> 检错</h6>
-<div class="outline-text-6" id="text-4-5-3-1-3">
-<pre class="example">
-$ gcc -pedantic test.c -o test
-//警告信息
-$ gcc -Wall test.c -p test
-</pre>
-
-<p>
--Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
-</p>
-<pre class="example">
-$ gcc -Werror test.c -o test
-</pre>
-</div>
-</div>
-<div id="outline-container-orgfd66201" class="outline-6">
-<h6 id="orgfd66201"><span class="section-number-6">4.5.3.1.4</span> 库文件连接</h6>
-<div class="outline-text-6" id="text-4-5-3-1-4">
-<ol class="org-ol">
-<li><p>
-编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
-</p>
-<pre class="example">
-$ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
-</pre></li>
-<li><p>
-链接。最后我们把所有目标文件链接成可执行文件:
-</p>
-<pre class="example">
-$ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
-</pre></li>
-<li><p>
-强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
-</p>
-<pre class="example">
-$ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org5a52df0" class="outline-6">
-<h6 id="org5a52df0"><span class="section-number-6">4.5.3.1.5</span> 其他</h6>
-<div class="outline-text-6" id="text-4-5-3-1-5">
-<p>
-静态库链接时搜索路径顺序：
-<br />
-</p>
-<ol class="org-ol">
-<li>ld 会去找GCC命令中的参数 -L</li>
-<li>再找 gcc 的环境变量 LIBRARY_PATH</li>
-<li>再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的</li>
-</ol>
-
-<p>
-动态链接时、执行时搜索路径顺序:
-<br />
-</p>
-<ol class="org-ol">
-<li>编译目标代码时指定的动态库搜索路径</li>
-<li>环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径</li>
-<li>配置文件 /etc/ld.so.conf 中指定的动态库搜索路径</li>
-<li>默认的动态库搜索路径 /lib</li>
-<li>默认的动态库搜索路径 /usr/lib</li>
-</ol>
-
-<p>
-<br />
-<b>有关环境变量</b>
-</p>
-<pre class="example">
-LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
-LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgcbeef9b" class="outline-5">
-<h5 id="orgcbeef9b"><span class="section-number-5">4.5.3.2</span> 系统状态监视命令：top &amp; htop</h5>
-<div class="outline-text-5" id="text-4-5-3-2">
-<ol class="org-ol">
-<li><p>
-top
-</p>
-
-<div class="figure">
-<p><img src="http://localhost:4000/assets/images/top.jpg" alt="top.jpg" />
-</p>
-</div></li>
-<li>htop
-<ul class="org-ul">
-<li><p>
-下载及安装
-</p>
-<pre class="example">
-$ git clone https://github.com/hishamhm/htop 
-$ tar zxvf htop-2.0.2.tar.gz
-$ cd htop-2.0.2
-$ ./configure
-# make &amp;&amp; make install
-</pre></li>
-</ul></li>
-</ol>
-<p>
-<b>错误解决</b>
-</p>
-<pre class="example">
-configure: error: missing libraries: libncurses
-Solving:
-$ sudo apt-get install nucurses-dev
-</pre>
-</div>
-</div>
-<div id="outline-container-orga522792" class="outline-5">
-<h5 id="orga522792"><span class="section-number-5">4.5.3.3</span> 网络监视命令：iftop</h5>
-<div class="outline-text-5" id="text-4-5-3-3">
-<pre class="example">
-$ sudo apt-get install iftop
-
-</pre>
-</div>
-</div>
-<div id="outline-container-orgdd95a52" class="outline-5">
-<h5 id="orgdd95a52"><span class="section-number-5">4.5.3.4</span> wget vs axel</h5>
-<div class="outline-text-5" id="text-4-5-3-4">
-<pre class="example">
-官方地址: http://axel.alioth.debian.org/
-描述: 替换wget命令
-</pre>
-</div>
-</div>
-<div id="outline-container-org01f904d" class="outline-5">
-<h5 id="org01f904d"><span class="section-number-5">4.5.3.5</span> VIM&amp;Emacs</h5>
-<div class="outline-text-5" id="text-4-5-3-5">
-<pre class="example">
-两个神器软件单独介绍，这里不重复叙写。
-</pre>
-</div>
-</div>
-<div id="outline-container-org08e48d2" class="outline-5">
-<h5 id="org08e48d2"><span class="section-number-5">4.5.3.6</span> MPlayer</h5>
-<div class="outline-text-5" id="text-4-5-3-6">
-<pre class="example">
-// official：http://www.mplayerhq.hu/design7/news.html
-$ tar -Jxf MPlayer-1.1.1.tar.xz
-$ cd MPlayer-1.1.1
-$ sudo ./configure
-// 发现，需要安装一个依赖包:yasm
-$ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
-// 安装完成后，重新配置、编译和安装
-$ sudo ./configure
-$ sudo make &amp;&amp; make install
-</pre>
-</div>
-</div>
-<div id="outline-container-org0221d50" class="outline-5">
-<h5 id="org0221d50"><span class="section-number-5">4.5.3.7</span> google-chrome &amp; chromium</h5>
-<div class="outline-text-5" id="text-4-5-3-7">
-<ol class="org-ol">
-<li><p>
-添加安装源
-</p>
-<pre class="example">
-$ sudo vim /etc/apt/sources.list
-deb http://dl.google.com/linux/chrome/deb/ stable main
-</pre></li>
-<li><p>
-添加公钥验证下载
-</p>
-<pre class="example">
-$ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
-$ apt-key add linux_signing_key.pub
-</pre></li>
-<li><p>
-执行安装
-</p>
-<pre class="example">
-$ sudo apt update
-// stable ersion
-$ sudo apt install google-chrome-stable
-// beta or unstable ersion
-$ sudo apt install google-chrome-beta
-$ sudo apt install google-chrome-unstable
-</pre></li>
-<li><p>
-安装 chromium
-</p>
-<pre class="example">
-$ sudo apt-get update
-$ sudo apt-get install chromium chromium-l10n
-（chromium-l10n 是用于本地化界面的，是可选的软件包）
-注意：chromium不支持PDF查看
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org860ad0c" class="outline-5">
-<h5 id="org860ad0c"><span class="section-number-5">4.5.3.8</span> Scrot：截图工具</h5>
-<div class="outline-text-5" id="text-4-5-3-8">
-<ol class="org-ol">
 <li><p>
 安装
 </p>
 <pre class="example">
-$ sudo apt-get install scrot
+// Redhat/CentOS/Fedora
+$ yum install nc
+// Debian/Ubuntu
+$ sudo apt-get install netcat
 </pre></li>
-<li>使用方法
+<li><p>
+常见使用
+</p>
+<pre class="example">
+端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
+$ nc -z -v -n 172.31.100.7 21-25
+可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
+z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
+v 参数指使用冗余选项（译者注：即详细输出）
+n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
+</pre>
+
+
+<pre class="example">
+Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
+一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
+$ nc -v 172.31.100.7 21
+</pre>
+
 <ul class="org-ul">
 <li><p>
-整个桌面截图(Full desktop)
+聊天工具
 </p>
 <pre class="example">
-$ scrot
-$ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+// Server
+$ nc -l 1234
+// Client
+$ nc 172.168.100.7 1234
 </pre></li>
 <li><p>
-特定区域截图（选择截取）(Specific area)
+文件传输
 </p>
 <pre class="example">
-$ scrot -s
+// Server &gt; Client
+$ nc -l 1234 &gt; file.txt
+$ nc 172.168.100.7 1234 &lt;file.txt
 </pre></li>
 <li><p>
-延迟截图(temporize screenshot)
+目录传输
 </p>
 <pre class="example">
-$ scrot -s -d 5
+// Server &gt; Client
+$ tar -cvf - dir_name | nc -l 1234
+$ nc -n 172.168.100.7 1234 | tar -xvf -
+这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
+在客户端我们下载该压缩包通过netcat 管道然后打开文件。
+如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
+// Server
+$ tar -cvf – dir_name| bzip2 -z | nc -l 1234
+// Client
+$ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
 </pre></li>
 <li><p>
-截图调整质量(Adjust the quality of screenshots)
+加密网络传输数据
 </p>
 <pre class="example">
-$ scrot -q 50
+// Server
+$ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
+// Client
+$ mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
 </pre></li>
 <li><p>
-截图调整大小(Adjust the screen size)
+流视频
 </p>
 <pre class="example">
-$ scrot -t 10
+// Server
+$ cat video.avi | nc -l 1234
+从一个视频文件中读入并重定向输出到netcat客户端
+// Client
+$ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
+从socket中读入数据并重定向到mplayer。
 </pre></li>
 <li><p>
-将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+克隆一个设备
 </p>
 <pre class="example">
-$ scrot -e 'mv $f ~/screenshots'
+已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
+假如你的系统在磁盘/dev/sda上:
+// Server
+$ dd if=/dev/sda | nc -l 1234
+// Client
+$ nc -n 172.31.100.7 1567 | dd of=/dev/sda
+dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
+但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
 </pre></li>
 </ul></li>
 <li><p>
-参考资料(References)
+参考资料
 </p>
 <pre class="example">
-https://linux.cn/article-3197-1.html
+https://blog.csdn.net/zhangxiao93/article/details/52705642
 </pre></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org62bf110" class="outline-5">
-<h5 id="org62bf110"><span class="section-number-5">4.5.3.9</span> rarcrack（压缩包密码破解工具）</h5>
-<div class="outline-text-5" id="text-4-5-3-9">
+</div>
+<div id="outline-container-orge832787" class="outline-4">
+<h4 id="orge832787"><span class="section-number-4">5.1.2</span> 启用 HTTPS</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<ul class="org-ul">
+<li>创建一个 2048 位 RSA 公钥/私钥对。</li>
+<li>生成一个嵌入您的公钥的证书签名请求 (CSR)</li>
+<li>将 CSR 与证书颁发机构 (CA) 共享以接收最终证书或证书链。</li>
+<li>将最终证书安装在非网络可访问的位置，例如 /etc/ssl（Linux 和 Unix）或 IIS 需要它的位置 (Windows)。</li>
+</ul>
 <pre class="example">
-支持格式：rar,7z,zip
-// install
-$ sudo apt-get install libxml2-dev build-essential
-$ sudo apt-get install rarcrack
-// use
-$ rarcrack --threads 10 --type rar test.rar
+1. 生成密钥和证书签名请求
+此部分使用 openssl 命令行程序（大部分 Linux、BSD 和 Mac OS X 系统均附带此程序）来生成私钥/公钥和 CSR。
+
 </pre>
-</div>
-</div>
-<div id="outline-container-org9951ba9" class="outline-5">
-<h5 id="org9951ba9"><span class="section-number-5">4.5.3.10</span> 宝塔面板</h5>
-<div class="outline-text-5" id="text-4-5-3-10">
+
+
 <pre class="example">
-一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+参考资料：
 </pre>
+
+<p>
+<a href="https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn">在服务器上启用 HTTPS</a>
+</p>
 </div>
 </div>
-<div id="outline-container-orgd819432" class="outline-5">
-<h5 id="orgd819432"><span class="section-number-5">4.5.3.11</span> Cisco AnyConnect VPN Client</h5>
-<div class="outline-text-5" id="text-4-5-3-11">
+</div>
+<div id="outline-container-org0dc947a" class="outline-3">
+<h3 id="org0dc947a"><span class="section-number-3">5.2</span> 远程工具：SSH、VNC、XDMCP 和 RDP</h3>
+<div class="outline-text-3" id="text-5-2">
+</div>
+<div id="outline-container-org3118c96" class="outline-4">
+<h4 id="org3118c96"><span class="section-number-4">5.2.1</span> SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<ul class="org-ul">
+<li>SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。</li>
+<li>OpenSSL，对SSL的实现。</li>
+<li>SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。</li>
+<li>OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+<ul class="org-ul">
+<li>HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org305987c" class="outline-4">
+<h4 id="org305987c"><span class="section-number-4">5.2.2</span> SSH 配置</h4>
+<div class="outline-text-4" id="text-5-2-2">
 <ol class="org-ol">
+<li>配置持久连接
+<ul class="org-ul">
 <li><p>
-问题解决
+Server 端
 </p>
 <pre class="example">
-$ sudo systemctl enable vpnagentd_init
-vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
-Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
-insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
-insserv: There is a loop between service bt and vpnagentd_init if stopped
-insserv:  loop involving service vpnagentd_init at depth 2
-insserv:  loop involving service bt at depth 1
-insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
-insserv: exiting now without changing boot order!
-update-rc.d: error: insserv rejected the script header
-</pre>
-
-
-<pre class="example">
-[solve]：$ sudo vim /etc/init.d/vpnagentd_init
+$ sudo vim /etc/ssh/sshd_config
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
-<span style="color: #8B8878;">### </span><span style="color: #8B8878;">BEGIN INIT INFO</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Provides: vpnagentd_init</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Required-Start: $remote_fs $syslog</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Required-Stop: $remote_fs $syslog</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default-Start: 2 3 4 5</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default-Stop: 0 1 6</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Short-Description: Start Cisco vpn agent daemon at boot time</span>
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Description: Cisco vpn agent daemon</span>
-<span style="color: #8B8878;">### </span><span style="color: #8B8878;">END INIT INFO</span>
+<pre class="src src-shell" id="orge5a9f9d"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
+ClientAliveInterval 60  
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
+ClientAliveCountMax 3
 </pre>
 </div></li>
+<li><p>
+Client 端
+</p>
+<pre class="example">
+$ sudo vim /etc/ssh/ssh_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgf1cd1e9"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
+ServerAliveInterval 60  
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
+ServerAliveCountMax 3
+</pre>
+</div></li>
+</ul></li>
+<li><p>
+使用OpenSSL生成密钥对
+</p>
+<pre class="example">
+// 生成私钥
+$ openssl genrsa -out rsa_private_key.pem 1024
+</pre>
+
+<p>
+参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+</p>
+
+<pre class="example">
+// 从私钥中提取公钥
+$ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+</pre>
+
+<p>
+参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+</p></li>
+<li><p>
+修改 SSH 默认端口号
+</p>
+<pre class="example">
+首先，修改配置文件：
+$ vim /etc/ssh/sshd_config
+</pre>
+
+<p>
+Port 22 Port 6666   
+</p>
+<pre class="example">
+注意事项：
+</pre>
+
+<ul class="org-ul">
+<li>这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。</li>
+<li>所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！</li>
+<li></li>
+</ul></li>
+
+<li>通过密钥登录服务器
+<ul class="org-ul">
+<li><p>
+第一步，生成密钥对
+</p>
+<pre class="example">
+$ ssh-keygen
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org7aa7fd7">Generating public/private rsa key pair.
+Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/zrg/.ssh/id_rsa.
+Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+The key's randomart image is:
++---[RSA 2048]----+
+|    +*B==o o.oo=*|
+|   .o+o= .. . =o.|
+|     .+ o .o + E |
+|     . *   o= =  |
+|      = S . o+   |
+|       + o .     |
+|    o . =        |
+|   . + o .       |
+|    ..o          |
++----[SHA256]-----+
+</pre>
+</div>
+
+<p>
+如果客户端要访问多台服务器时，可进行如下操作：
+</p>
+<pre class="example">
+第一种方式：手动指定
+$  ssh user@host -i ~/.ssh/id_rsa
+第二种方式：配置客户端，/etc/ssh/ssh_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell">IdentityFile ~/.ssh/id_rsa
+IdentityFile ~/.ssh/github_id_rsa
+</pre>
+</div>
+<pre class="example">
+第三种方式：使用 SSH Agent
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default github user</span>
+Host login-zrg
+HostName github.com
+User zrg
+IdentityFile ~/.ssh/id_rsa
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">jsf user</span>
+Host login-jsf
+HostName github.com
+User jsf
+IdentityFile ~/.ssh/id_rsa_jsf
+</pre>
+</div></li>
+<li><p>
+第二步，在服务器上配置上公钥
+将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
+</p>
+<pre class="example">
+$ cat ~/.ssh/id_rsa.pub &gt;&gt; authorized_keys
+$ chmod 600 ~/.ssh/authorized_keys
+$ chmod 700 ~/.ssh
+</pre></li>
+<li><p>
+第三步，配置ssh，打开密钥登录功能
+</p>
+<pre class="example">
+$ vim /etc/ssh/sshd_config
+</pre>
+
+<p>
+RSAAuthentication yes
+PubkeyAuthentication yes
+</p>
+
+<p>
+PermitRootLogin yes
+</p>
+
+<p>
+PasswordAuthentication no
+#+END_SRC
+</p></li>
+<li><p>
+第四步，重启ssh服务
+配置完成后，重启 sshd 服务
+</p>
+<pre class="example">
+$ systemctl restart sshd.service
+</pre></li>
+</ul></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org76c9b1c" class="outline-5">
-<h5 id="org76c9b1c"><span class="section-number-5">4.5.3.12</span> Bind：DNS工具</h5>
-<div class="outline-text-5" id="text-4-5-3-12">
-<ol class="org-ol">
+<div id="outline-container-orga4d022e" class="outline-4">
+<h4 id="orga4d022e"><span class="section-number-4">5.2.3</span> SCP 使用</h4>
+<div class="outline-text-4" id="text-5-2-3">
+<p>
+使用scp上传或下载文件
+</p>
+<ul class="org-ul">
 <li><p>
-安装
+从服务器上下载文件
 </p>
 <pre class="example">
-# yum install -y bind
+$ scp username@servername:/path/filename /var/www/local_dir（本地目录）
+示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
 </pre></li>
 <li><p>
-配置
+上传本地文件到服务器
 </p>
 <pre class="example">
-1)# vim /etc/named.conf
-修改内容如下：
- 将下面
- listen-on port 53 { 127.0.0.1; };
- allow-query { localhost; };
- 改为
- listen-on port 53 { any; };
- allow-query { any; };
-</pre>
-
-
-<pre class="example">
-2)# vim named.rfc1912.zones
-注意改动位置：
-zone "zrg.com.cn" IN {
-type master;
-file "named.zrg";
-allow-update { none; };
-};
-</pre>
-
-
-<pre class="example">
-3)# cp /var/named/named.localhost /var/named/named.zrg
-//修改文件所属群组
-#chgrp named /var/named/named.zrg
-</pre>
-
-
-<pre class="example">
-4)# vim /var/named/named.zrg
-注意改动位置：
-$TTL 1D
-@ IN SOA @ dns.zrg.com.cn. root(
-0 ; serial
-1D ; refresh
-1H ; retry
-1W ; expire
-3H ) ; minimum
-NS dns.zrg.com.cn.
-DNS A 192.168.120.166
-A 127.0.0.1
-AAAA ::1
-</pre>
-
-
-<pre class="example">
-5)# /etc/init.d/named restart
-# chkconfig named on
-</pre>
-
-
-<pre class="example">
-6)# vim /etc/sysconfig/network
-Network=yes
-Hostname=dns.zrg.com.cn
-</pre>
-
-
-<pre class="example">
-7)# vim /etc/resolv.conf
-Search zrg.com.cn
-Nameserver 192.168.120.166
-</pre>
-
-
-<pre class="example">
-8)# /etc/init.d/named restart
-# ping zrg.com.cn
-# reboot
-</pre></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgb65c69d" class="outline-5">
-<h5 id="orgb65c69d"><span class="section-number-5">4.5.3.13</span> Composer</h5>
-<div class="outline-text-5" id="text-4-5-3-13">
-<ol class="org-ol">
-<li><p>
-安装
-</p>
-<pre class="example">
-1.Download composer.phar file.
-2.Excute:
-# php composer.phar
-3.Global:
-# mv composer.phar /usr/local/bin/composer
-4.Permission:
-# chmod 744 composer
+$ scp /path/filename username@servername:/path   
+例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
 </pre></li>
 <li><p>
-问题解决
+从服务器下载整个目录
 </p>
 <pre class="example">
-error: /usr/bin/env: php: No such file or directory
- solve:Configuring php to become global variables
+$ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
 </pre></li>
-</ol>
+<li><p>
+上传目录到服务器
+</p>
+<pre class="example">
+$ scp  -r local_dir username@servername:remote_dir
+例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+</pre></li>
+</ul>
 </div>
 </div>
-<div id="outline-container-org76525b8" class="outline-5">
-<h5 id="org76525b8"><span class="section-number-5">4.5.3.14</span> vsftpd</h5>
-<div class="outline-text-5" id="text-4-5-3-14">
+</div>
+<div id="outline-container-org0c5fc75" class="outline-3">
+<h3 id="org0c5fc75"><span class="section-number-3">5.3</span> DNS</h3>
+</div>
+<div id="outline-container-org57426f0" class="outline-3">
+<h3 id="org57426f0"><span class="section-number-3">5.4</span> FTP：Vsftp</h3>
+<div class="outline-text-3" id="text-5-4">
 <ol class="org-ol">
 <li><p>
 Download and Install
@@ -5395,9 +4960,581 @@ http://baike.baidu.com/item/vsftpd
 </ol>
 </div>
 </div>
-<div id="outline-container-org3c2c1cf" class="outline-5">
-<h5 id="org3c2c1cf"><span class="section-number-5">4.5.3.15</span> Cygwin：windows 下 Linux 模拟软件</h5>
-<div class="outline-text-5" id="text-4-5-3-15">
+<div id="outline-container-orgc4e833d" class="outline-3">
+<h3 id="orgc4e833d"><span class="section-number-3">5.5</span> NFS</h3>
+</div>
+<div id="outline-container-org8699d12" class="outline-3">
+<h3 id="org8699d12"><span class="section-number-3">5.6</span> 文件共享：Samba</h3>
+</div>
+<div id="outline-container-orgf2089c2" class="outline-3">
+<h3 id="orgf2089c2"><span class="section-number-3">5.7</span> LAMP &amp; LNMP 环境部署</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+<a href="https://zhaorengui.github.io/software/linux/php/database/2016/03/25/apache-nginx-mysql-php/">https://zhaorengui.github.io/software/linux/php/database/2016/03/25/apache-nginx-mysql-php/</a>
+</p>
+</div>
+</div>
+<div id="outline-container-orgc359cb9" class="outline-3">
+<h3 id="orgc359cb9"><span class="section-number-3">5.8</span> NIS 服务</h3>
+</div>
+<div id="outline-container-org5106a38" class="outline-3">
+<h3 id="org5106a38"><span class="section-number-3">5.9</span> NTP 服务</h3>
+</div>
+<div id="outline-container-org1c0ff32" class="outline-3">
+<h3 id="org1c0ff32"><span class="section-number-3">5.10</span> Proxy 服务</h3>
+</div>
+<div id="outline-container-orgf4c5dc9" class="outline-3">
+<h3 id="orgf4c5dc9"><span class="section-number-3">5.11</span> iSCSI 服务</h3>
+</div>
+<div id="outline-container-orgf62f74d" class="outline-3">
+<h3 id="orgf62f74d"><span class="section-number-3">5.12</span> Tomcat</h3>
+</div>
+<div id="outline-container-org485dca8" class="outline-3">
+<h3 id="org485dca8"><span class="section-number-3">5.13</span> 邮件服务：Postfix</h3>
+</div>
+<div id="outline-container-orgb758d08" class="outline-3">
+<h3 id="orgb758d08"><span class="section-number-3">5.14</span> ELK 日志分析服务</h3>
+</div>
+<div id="outline-container-org9564837" class="outline-3">
+<h3 id="org9564837"><span class="section-number-3">5.15</span> Rsync 同步服务</h3>
+</div>
+</div>
+<div id="outline-container-org2731ff7" class="outline-2">
+<h2 id="org2731ff7"><span class="section-number-2">6</span> Linux 集群与虚拟化</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org57518d1" class="outline-3">
+<h3 id="org57518d1"><span class="section-number-3">6.1</span> 集群概念</h3>
+</div>
+<div id="outline-container-orgbddca1b" class="outline-3">
+<h3 id="orgbddca1b"><span class="section-number-3">6.2</span> MySQL 集群</h3>
+</div>
+<div id="outline-container-org7665ccb" class="outline-3">
+<h3 id="org7665ccb"><span class="section-number-3">6.3</span> NoSQL 集群</h3>
+</div>
+<div id="outline-container-orgd297c4a" class="outline-3">
+<h3 id="orgd297c4a"><span class="section-number-3">6.4</span> 虚拟化概述</h3>
+</div>
+<div id="outline-container-org727630a" class="outline-3">
+<h3 id="org727630a"><span class="section-number-3">6.5</span> Vcent</h3>
+</div>
+<div id="outline-container-org6b29017" class="outline-3">
+<h3 id="org6b29017"><span class="section-number-3">6.6</span> Docker</h3>
+</div>
+<div id="outline-container-orgeb69098" class="outline-3">
+<h3 id="orgeb69098"><span class="section-number-3">6.7</span> Openstack</h3>
+</div>
+<div id="outline-container-orga60cf6a" class="outline-3">
+<h3 id="orga60cf6a"><span class="section-number-3">6.8</span> Kubenetes(k8s)</h3>
+</div>
+</div>
+<div id="outline-container-org2393572" class="outline-2">
+<h2 id="org2393572"><span class="section-number-2">7</span> 附录A：常见软件</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-org2ce87f2" class="outline-3">
+<h3 id="org2ce87f2"><span class="section-number-3">7.1</span> GCC</h3>
+<div class="outline-text-3" id="text-7-1">
+</div>
+<div id="outline-container-org4e5ec98" class="outline-4">
+<h4 id="org4e5ec98"><span class="section-number-4">7.1.1</span> 简单编译</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<pre class="example">
+$ gcc test.c -o test
+</pre>
+
+<p>
+实质上，以上这条命令编译过程分为四个阶段进行的，即预处理（预编译，Preprocessing）、编译（Compilation）、汇编（Assembly）和连接（Linking）。
+</p>
+
+<ol class="org-ol">
+<li><p>
+Preprocessing
+</p>
+<pre class="example">
+$ gcc -E test.c -o test.i
+或
+$ gcc -E test.c
+</pre>
+
+<p>
+gcc 的 -E 选项，可以让编译器在预处理后停止，并输出预处理结果。在本例中，预处理结果就是将 stdio.h 文件中的内容插入到 test.c 中了。
+</p></li>
+<li><p>
+Compilation
+</p>
+<pre class="example">
+$ gcc -S test.i -o test.s
+</pre>
+
+<p>
+gcc 的 -S 选项，表示在程序编译期间，在生成汇编代码后，停止，-o 输出汇编代码文件。
+</p></li>
+<li><p>
+Assembly
+</p>
+<pre class="example">
+$ gcc -c test.s -o test.o
+</pre>
+
+<p>
+对于上一小节中生成的汇编代码文件 test.s，gas 汇编器负责将其编译为目标文件
+</p></li>
+<li><p>
+Linking
+gcc 连接器是 gas 提供的，负责将程序的目标文件与所需的所有附加的目标文件连接起来，最终生成可执行文件。附加的目标文件包括静态连接库和动态连接库。
+<br />
+对于上一小节中生成的 test.o，将其与 Ｃ 标准输入输出库进行连接，最终生成程序 test
+</p>
+<pre class="example">
+$ gcc test.o -o test
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org578d8af" class="outline-4">
+<h4 id="org578d8af"><span class="section-number-4">7.1.2</span> 多个程序文件的编译</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<pre class="example">
+$ gcc test1.c test2.c -o test
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf3c3c34" class="outline-4">
+<h4 id="orgf3c3c34"><span class="section-number-4">7.1.3</span> 检错</h4>
+<div class="outline-text-4" id="text-7-1-3">
+<pre class="example">
+$ gcc -pedantic test.c -o test
+//警告信息
+$ gcc -Wall test.c -p test
+</pre>
+
+<p>
+-Werror 选项，那么 GCC 会在所有产生警告的地方停止编译，迫使程序员对自己的代码进行修改
+</p>
+<pre class="example">
+$ gcc -Werror test.c -o test
+</pre>
+</div>
+</div>
+<div id="outline-container-orgfd66201" class="outline-4">
+<h4 id="orgfd66201"><span class="section-number-4">7.1.4</span> 库文件连接</h4>
+<div class="outline-text-4" id="text-7-1-4">
+<ol class="org-ol">
+<li><p>
+编译可执行文件。首先我们要进行编译 test.c 为目标文件，这个时候需要执行
+</p>
+<pre class="example">
+$ gcc  –c –I /usr/dev/mysql/include test.c –o test.o
+</pre></li>
+<li><p>
+链接。最后我们把所有目标文件链接成可执行文件:
+</p>
+<pre class="example">
+$ gcc –L /usr/dev/mysql/lib –lmysqlclient test.o –o test
+</pre></li>
+<li><p>
+强制链接时使用静态链接库。默认情况下， GCC 在链接时优先使用动态链接库，只有当动态链接库不存在时才考虑使用静态链接库，如果需要的话可以在编译时加上 -static 选项，强制使用静态链接库。
+</p>
+<pre class="example">
+$ gcc –L /usr/dev/mysql/lib –static –lmysqlclient test.o –o test
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org5a52df0" class="outline-4">
+<h4 id="org5a52df0"><span class="section-number-4">7.1.5</span> 其他</h4>
+<div class="outline-text-4" id="text-7-1-5">
+<p>
+静态库链接时搜索路径顺序：
+<br />
+</p>
+<ol class="org-ol">
+<li>ld 会去找GCC命令中的参数 -L</li>
+<li>再找 gcc 的环境变量 LIBRARY_PATH</li>
+<li>再找内定目录 /lib /usr/lib /usr/local/lib 这是当初 compile gcc 时写在程序内的</li>
+</ol>
+
+<p>
+动态链接时、执行时搜索路径顺序:
+<br />
+</p>
+<ol class="org-ol">
+<li>编译目标代码时指定的动态库搜索路径</li>
+<li>环境变量 LD_LIBRARY_PATH 指定的动态库搜索路径</li>
+<li>配置文件 /etc/ld.so.conf 中指定的动态库搜索路径</li>
+<li>默认的动态库搜索路径 /lib</li>
+<li>默认的动态库搜索路径 /usr/lib</li>
+</ol>
+
+<p>
+<br />
+<b>有关环境变量</b>
+</p>
+<pre class="example">
+LIBRARY_PATH 环境变量：指定程序静态链接库文件搜索路径
+LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbeef9b" class="outline-3">
+<h3 id="orgcbeef9b"><span class="section-number-3">7.2</span> 系统状态监视命令：top &amp; htop</h3>
+<div class="outline-text-3" id="text-7-2">
+<ol class="org-ol">
+<li><p>
+top
+</p>
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/top.jpg" alt="top.jpg" />
+</p>
+</div></li>
+<li>htop
+<ul class="org-ul">
+<li><p>
+下载及安装
+</p>
+<pre class="example">
+$ git clone https://github.com/hishamhm/htop 
+$ tar zxvf htop-2.0.2.tar.gz
+$ cd htop-2.0.2
+$ ./configure
+# make &amp;&amp; make install
+</pre></li>
+</ul></li>
+</ol>
+<p>
+<b>错误解决</b>
+</p>
+<pre class="example">
+configure: error: missing libraries: libncurses
+Solving:
+$ sudo apt-get install nucurses-dev
+</pre>
+</div>
+</div>
+<div id="outline-container-orga522792" class="outline-3">
+<h3 id="orga522792"><span class="section-number-3">7.3</span> 网络监视命令：iftop</h3>
+<div class="outline-text-3" id="text-7-3">
+<pre class="example">
+$ sudo apt-get install iftop
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgdd95a52" class="outline-3">
+<h3 id="orgdd95a52"><span class="section-number-3">7.4</span> wget vs axel</h3>
+<div class="outline-text-3" id="text-7-4">
+<pre class="example">
+官方地址: http://axel.alioth.debian.org/
+描述: 替换wget命令
+</pre>
+</div>
+</div>
+<div id="outline-container-org0e7f242" class="outline-3">
+<h3 id="org0e7f242"><span class="section-number-3">7.5</span> Vim &amp; Emacs</h3>
+<div class="outline-text-3" id="text-7-5">
+<pre class="example">
+两个神器软件单独介绍，这里不重复叙写。
+</pre>
+</div>
+</div>
+<div id="outline-container-org08e48d2" class="outline-3">
+<h3 id="org08e48d2"><span class="section-number-3">7.6</span> MPlayer</h3>
+<div class="outline-text-3" id="text-7-6">
+<pre class="example">
+// official：http://www.mplayerhq.hu/design7/news.html
+$ tar -Jxf MPlayer-1.1.1.tar.xz
+$ cd MPlayer-1.1.1
+$ sudo ./configure
+// 发现，需要安装一个依赖包:yasm
+$ wget http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz
+// 安装完成后，重新配置、编译和安装
+$ sudo ./configure
+$ sudo make &amp;&amp; make install
+</pre>
+</div>
+</div>
+<div id="outline-container-org0221d50" class="outline-3">
+<h3 id="org0221d50"><span class="section-number-3">7.7</span> google-chrome &amp; chromium</h3>
+<div class="outline-text-3" id="text-7-7">
+<ol class="org-ol">
+<li><p>
+添加安装源
+</p>
+<pre class="example">
+$ sudo vim /etc/apt/sources.list
+deb http://dl.google.com/linux/chrome/deb/ stable main
+</pre></li>
+<li><p>
+添加公钥验证下载
+</p>
+<pre class="example">
+$ wget https://dl-ssl.google.com/linux/linux_signing_key.pub
+$ apt-key add linux_signing_key.pub
+</pre></li>
+<li><p>
+执行安装
+</p>
+<pre class="example">
+$ sudo apt update
+// stable ersion
+$ sudo apt install google-chrome-stable
+// beta or unstable ersion
+$ sudo apt install google-chrome-beta
+$ sudo apt install google-chrome-unstable
+</pre></li>
+<li><p>
+安装 chromium
+</p>
+<pre class="example">
+$ sudo apt-get update
+$ sudo apt-get install chromium chromium-l10n
+（chromium-l10n 是用于本地化界面的，是可选的软件包）
+注意：chromium不支持PDF查看
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org860ad0c" class="outline-3">
+<h3 id="org860ad0c"><span class="section-number-3">7.8</span> Scrot：截图工具</h3>
+<div class="outline-text-3" id="text-7-8">
+<ol class="org-ol">
+<li><p>
+安装
+</p>
+<pre class="example">
+$ sudo apt-get install scrot
+</pre></li>
+<li>使用方法
+<ul class="org-ul">
+<li><p>
+整个桌面截图(Full desktop)
+</p>
+<pre class="example">
+$ scrot
+$ scrot ~/Downloads/my_desktop.png //Saving to specified directory.
+</pre></li>
+<li><p>
+特定区域截图（选择截取）(Specific area)
+</p>
+<pre class="example">
+$ scrot -s
+</pre></li>
+<li><p>
+延迟截图(temporize screenshot)
+</p>
+<pre class="example">
+$ scrot -s -d 5
+</pre></li>
+<li><p>
+截图调整质量(Adjust the quality of screenshots)
+</p>
+<pre class="example">
+$ scrot -q 50
+</pre></li>
+<li><p>
+截图调整大小(Adjust the screen size)
+</p>
+<pre class="example">
+$ scrot -t 10
+</pre></li>
+<li><p>
+将截图发送给其他命令(Deliver the intercepted screenshots to other commands)
+</p>
+<pre class="example">
+$ scrot -e 'mv $f ~/screenshots'
+</pre></li>
+</ul></li>
+<li><p>
+参考资料(References)
+</p>
+<pre class="example">
+https://linux.cn/article-3197-1.html
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org62bf110" class="outline-3">
+<h3 id="org62bf110"><span class="section-number-3">7.9</span> rarcrack（压缩包密码破解工具）</h3>
+<div class="outline-text-3" id="text-7-9">
+<pre class="example">
+支持格式：rar,7z,zip
+// install
+$ sudo apt-get install libxml2-dev build-essential
+$ sudo apt-get install rarcrack
+// use
+$ rarcrack --threads 10 --type rar test.rar
+</pre>
+</div>
+</div>
+<div id="outline-container-org9951ba9" class="outline-3">
+<h3 id="org9951ba9"><span class="section-number-3">7.10</span> 宝塔面板</h3>
+<div class="outline-text-3" id="text-7-10">
+<pre class="example">
+一款使用方便、功能强大且终身免费的服务器管理软件。详见官网:http://www.bt.cn/
+</pre>
+</div>
+</div>
+<div id="outline-container-orgd819432" class="outline-3">
+<h3 id="orgd819432"><span class="section-number-3">7.11</span> Cisco AnyConnect VPN Client</h3>
+<div class="outline-text-3" id="text-7-11">
+<ol class="org-ol">
+<li><p>
+问题解决
+</p>
+<pre class="example">
+$ sudo systemctl enable vpnagentd_init
+vpnagentd_init.service is not a native service, redirecting to systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable vpnagentd_init
+insserv: warning: script 'vpnagentd_init' missing LSB tags and overrides
+insserv: There is a loop between service bt and vpnagentd_init if stopped
+insserv:  loop involving service vpnagentd_init at depth 2
+insserv:  loop involving service bt at depth 1
+insserv: Stopping vpnagentd_init depends on bt and therefore on system facility `$all' which can not be true!
+insserv: exiting now without changing boot order!
+update-rc.d: error: insserv rejected the script header
+</pre>
+
+
+<pre class="example">
+[solve]：$ sudo vim /etc/init.d/vpnagentd_init
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
+<span style="color: #8B8878;">### </span><span style="color: #8B8878;">BEGIN INIT INFO</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Provides: vpnagentd_init</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Required-Start: $remote_fs $syslog</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Required-Stop: $remote_fs $syslog</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default-Start: 2 3 4 5</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default-Stop: 0 1 6</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Short-Description: Start Cisco vpn agent daemon at boot time</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Description: Cisco vpn agent daemon</span>
+<span style="color: #8B8878;">### </span><span style="color: #8B8878;">END INIT INFO</span>
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org76c9b1c" class="outline-3">
+<h3 id="org76c9b1c"><span class="section-number-3">7.12</span> Bind：DNS工具</h3>
+<div class="outline-text-3" id="text-7-12">
+<ol class="org-ol">
+<li><p>
+安装
+</p>
+<pre class="example">
+# yum install -y bind
+</pre></li>
+<li><p>
+配置
+</p>
+<pre class="example">
+1)# vim /etc/named.conf
+修改内容如下：
+ 将下面
+ listen-on port 53 { 127.0.0.1; };
+ allow-query { localhost; };
+ 改为
+ listen-on port 53 { any; };
+ allow-query { any; };
+</pre>
+
+
+<pre class="example">
+2)# vim named.rfc1912.zones
+注意改动位置：
+zone "zrg.com.cn" IN {
+type master;
+file "named.zrg";
+allow-update { none; };
+};
+</pre>
+
+
+<pre class="example">
+3)# cp /var/named/named.localhost /var/named/named.zrg
+//修改文件所属群组
+#chgrp named /var/named/named.zrg
+</pre>
+
+
+<pre class="example">
+4)# vim /var/named/named.zrg
+注意改动位置：
+$TTL 1D
+@ IN SOA @ dns.zrg.com.cn. root(
+0 ; serial
+1D ; refresh
+1H ; retry
+1W ; expire
+3H ) ; minimum
+NS dns.zrg.com.cn.
+DNS A 192.168.120.166
+A 127.0.0.1
+AAAA ::1
+</pre>
+
+
+<pre class="example">
+5)# /etc/init.d/named restart
+# chkconfig named on
+</pre>
+
+
+<pre class="example">
+6)# vim /etc/sysconfig/network
+Network=yes
+Hostname=dns.zrg.com.cn
+</pre>
+
+
+<pre class="example">
+7)# vim /etc/resolv.conf
+Search zrg.com.cn
+Nameserver 192.168.120.166
+</pre>
+
+
+<pre class="example">
+8)# /etc/init.d/named restart
+# ping zrg.com.cn
+# reboot
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb65c69d" class="outline-3">
+<h3 id="orgb65c69d"><span class="section-number-3">7.13</span> Composer</h3>
+<div class="outline-text-3" id="text-7-13">
+<ol class="org-ol">
+<li><p>
+安装
+</p>
+<pre class="example">
+1.Download composer.phar file.
+2.Excute:
+# php composer.phar
+3.Global:
+# mv composer.phar /usr/local/bin/composer
+4.Permission:
+# chmod 744 composer
+</pre></li>
+<li><p>
+问题解决
+</p>
+<pre class="example">
+error: /usr/bin/env: php: No such file or directory
+ solve:Configuring php to become global variables
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3c2c1cf" class="outline-3">
+<h3 id="org3c2c1cf"><span class="section-number-3">7.14</span> Cygwin：windows 下 Linux 模拟软件</h3>
+<div class="outline-text-3" id="text-7-14">
 <ol class="org-ol">
 <li><p>
 安装Cygwin
@@ -5435,9 +5572,9 @@ http://baike.baidu.com/item/vsftpd
 </ol>
 </div>
 </div>
-<div id="outline-container-org75eb043" class="outline-5">
-<h5 id="org75eb043"><span class="section-number-5">4.5.3.16</span> Wps for Linux</h5>
-<div class="outline-text-5" id="text-4-5-3-16">
+<div id="outline-container-org75eb043" class="outline-3">
+<h3 id="org75eb043"><span class="section-number-3">7.15</span> Wps for Linux</h3>
+<div class="outline-text-3" id="text-7-15">
 <pre class="example">
 1. 从官网下载安装包，网址：http://www.wps.cn/
 </pre>
@@ -5463,9 +5600,9 @@ $ sudo fc-cache
 </pre>
 </div>
 </div>
-<div id="outline-container-orgdc57247" class="outline-5">
-<h5 id="orgdc57247"><span class="section-number-5">4.5.3.17</span> gnome-screenshots</h5>
-<div class="outline-text-5" id="text-4-5-3-17">
+<div id="outline-container-orgdc57247" class="outline-3">
+<h3 id="orgdc57247"><span class="section-number-3">7.16</span> gnome-screenshots</h3>
+<div class="outline-text-3" id="text-7-16">
 <ol class="org-ol">
 <li><p>
 常用快捷键
@@ -5483,29 +5620,21 @@ Shift+Prt Scrn to take a screenshot of an area you select.
 </div>
 </div>
 </div>
-</div>
-<div id="outline-container-org46ac933" class="outline-3">
-<h3 id="org46ac933"><span class="section-number-3">4.6</span> X Window(X11)</h3>
-</div>
-<div id="outline-container-orga9a8cd0" class="outline-3">
-<h3 id="orga9a8cd0"><span class="section-number-3">4.7</span> Linux内核编译与管理</h3>
-</div>
-</div>
-<div id="outline-container-org6859714" class="outline-2">
-<h2 id="org6859714"><span class="section-number-2">5</span> 常见问题收集</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-org3577942" class="outline-2">
+<h2 id="org3577942"><span class="section-number-2">8</span> 附录B：常见问题收集</h2>
+<div class="outline-text-2" id="text-8">
 </div>
 <div id="outline-container-orgd9fad23" class="outline-3">
-<h3 id="orgd9fad23"><span class="section-number-3">5.1</span> 命令行下不能输入中文标点符号</h3>
-<div class="outline-text-3" id="text-5-1">
+<h3 id="orgd9fad23"><span class="section-number-3">8.1</span> 命令行下不能输入中文标点符号</h3>
+<div class="outline-text-3" id="text-8-1">
 <pre class="example">
 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
 </pre>
 </div>
 </div>
 <div id="outline-container-org231ca86" class="outline-3">
-<h3 id="org231ca86"><span class="section-number-3">5.2</span> 不能在 Sublime 编辑器（Editor）中输入中文</h3>
-<div class="outline-text-3" id="text-5-2">
+<h3 id="org231ca86"><span class="section-number-3">8.2</span> 不能在 Sublime 编辑器（Editor）中输入中文</h3>
+<div class="outline-text-3" id="text-8-2">
 <ol class="org-ol">
 <li><p>
 下载（Download）
@@ -5540,8 +5669,8 @@ http://www.jianshu.com/p/bf05fb3a4709
 </div>
 </div>
 <div id="outline-container-orgcfa83a7" class="outline-3">
-<h3 id="orgcfa83a7"><span class="section-number-3">5.3</span> 解决系统不能支持加密算法：chacha20</h3>
-<div class="outline-text-3" id="text-5-3">
+<h3 id="orgcfa83a7"><span class="section-number-3">8.3</span> 解决系统不能支持加密算法：chacha20</h3>
+<div class="outline-text-3" id="text-8-3">
 <pre class="example">
 $ sudo apt-get install m2crypto gcc -y
 $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
@@ -5558,8 +5687,8 @@ $ ldconfig
 </div>
 </div>
 <div id="outline-container-orge112525" class="outline-3">
-<h3 id="orge112525"><span class="section-number-3">5.4</span> 软件源配置不全，导致软件不能安装</h3>
-<div class="outline-text-3" id="text-5-4">
+<h3 id="orge112525"><span class="section-number-3">8.4</span> 软件源配置不全，导致软件不能安装</h3>
+<div class="outline-text-3" id="text-8-4">
 <pre class="example">
 //Error: Can't fix the error because you are asking some packages to stay the same, that is they break the dependencies between the packages.
 //翻译：无法修正错误,因为您要求某些软件包保持现状,就是它们破坏了软件包间的依赖关系
@@ -5570,12 +5699,12 @@ $ sudo apt-get update
 </div>
 </div>
 <div id="outline-container-org7ede71e" class="outline-3">
-<h3 id="org7ede71e"><span class="section-number-3">5.5</span> .deb 转换为 .rpm</h3>
-<div class="outline-text-3" id="text-5-5">
+<h3 id="org7ede71e"><span class="section-number-3">8.5</span> .deb 转换为 .rpm</h3>
+<div class="outline-text-3" id="text-8-5">
 </div>
 <div id="outline-container-org3833d5e" class="outline-4">
-<h4 id="org3833d5e"><span class="section-number-4">5.5.1</span> 下载及安装 alien</h4>
-<div class="outline-text-4" id="text-5-5-1">
+<h4 id="org3833d5e"><span class="section-number-4">8.5.1</span> 下载及安装 alien</h4>
+<div class="outline-text-4" id="text-8-5-1">
 <pre class="example">
 1.下载:
 $ wget https://packages.debian.org/unstable/source/alien
@@ -5591,8 +5720,8 @@ $ make &amp;&amp; make install
 </div>
 </div>
 <div id="outline-container-org45c52b6" class="outline-4">
-<h4 id="org45c52b6"><span class="section-number-4">5.5.2</span> 转换(Conversion)</h4>
-<div class="outline-text-4" id="text-5-5-2">
+<h4 id="org45c52b6"><span class="section-number-4">8.5.2</span> 转换(Conversion)</h4>
+<div class="outline-text-4" id="text-8-5-2">
 <pre class="example">
 $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
 </pre>
@@ -5600,12 +5729,12 @@ $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
 </div>
 </div>
 <div id="outline-container-org264c2bc" class="outline-3">
-<h3 id="org264c2bc"><span class="section-number-3">5.6</span> 软件自启动脚本实例</h3>
-<div class="outline-text-3" id="text-5-6">
+<h3 id="org264c2bc"><span class="section-number-3">8.6</span> 软件自启动脚本实例</h3>
+<div class="outline-text-3" id="text-8-6">
 </div>
 <div id="outline-container-orgb42b0fd" class="outline-4">
-<h4 id="orgb42b0fd"><span class="section-number-4">5.6.1</span> 实例：php-fpm 服务启动脚本</h4>
-<div class="outline-text-4" id="text-5-6-1">
+<h4 id="orgb42b0fd"><span class="section-number-4">8.6.1</span> 实例：php-fpm 服务启动脚本</h4>
+<div class="outline-text-4" id="text-8-6-1">
 <ol class="org-ol">
 <li>$ sudo vim /etc/init.d/php-fpm</li>
 </ol>
@@ -5739,8 +5868,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-orgdabaabf" class="outline-4">
-<h4 id="orgdabaabf"><span class="section-number-4">5.6.2</span> References</h4>
-<div class="outline-text-4" id="text-5-6-2">
+<h4 id="orgdabaabf"><span class="section-number-4">8.6.2</span> References</h4>
+<div class="outline-text-4" id="text-8-6-2">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>
 </ul>
@@ -5748,8 +5877,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-org98bfa04" class="outline-3">
-<h3 id="org98bfa04"><span class="section-number-3">5.7</span> 解决 dpkg: warning: files list file for package 'x' missing 问题</h3>
-<div class="outline-text-3" id="text-5-7">
+<h3 id="org98bfa04"><span class="section-number-3">8.7</span> 解决 dpkg: warning: files list file for package 'x' missing 问题</h3>
+<div class="outline-text-3" id="text-8-7">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span></label><pre class="src src-shell"><span style="color: #FF1493;">for</span> package<span style="color: #FF1493;"> in</span> $(apt-get upgrade 2&gt;&amp;1 |<span style="color: #CDC673; font-weight: bold;">\</span>
                  grep <span style="color: #CDC673;">"warning: files list file for package '"</span> |<span style="color: #CDC673; font-weight: bold;">\</span>
@@ -5761,8 +5890,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-org26de4b5" class="outline-3">
-<h3 id="org26de4b5"><span class="section-number-3">5.8</span> dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</h3>
-<div class="outline-text-3" id="text-5-8">
+<h3 id="org26de4b5"><span class="section-number-3">8.8</span> dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</h3>
+<div class="outline-text-3" id="text-8-8">
 <pre class="example">
 $ sudo dpkg --configure -a
 $ sudo apt-get -f install
@@ -5777,8 +5906,8 @@ $ sudo apt-get autoremove
 </div>
 </div>
 <div id="outline-container-org700d121" class="outline-3">
-<h3 id="org700d121"><span class="section-number-3">5.9</span> CentOS 7关闭firewall，安装iptables</h3>
-<div class="outline-text-3" id="text-5-9">
+<h3 id="org700d121"><span class="section-number-3">8.9</span> CentOS 7关闭firewall，安装iptables</h3>
+<div class="outline-text-3" id="text-8-9">
 <pre class="example">
 1. 查看安装和状态
 $ yum installed firewalld iptables
@@ -5837,9 +5966,9 @@ $ iptables -L
 </div>
 </div>
 </div>
-<div id="outline-container-org5a8e510" class="outline-2">
-<h2 id="org5a8e510"><span class="section-number-2">6</span> 参考资料</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-orge17fec0" class="outline-2">
+<h2 id="orge17fec0"><span class="section-number-2">9</span> 参考资料</h2>
+<div class="outline-text-2" id="text-9">
 <ul class="org-ul">
 <li><a href="http://linux.vbird.org/linux_basic/">鳥哥的 Linux 私房菜</a></li>
 <li><a href="https://github.com/wx672/lecture-notes">wx672's lecture-notes</a></li>
@@ -5988,7 +6117,7 @@ $ iptables -L
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -6103,7 +6232,7 @@ $ iptables -L
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd71c10e"> <span class="nav-text">1 前言</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc277ea0"> <span class="nav-text">1.1 导读</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8382850"> <span class="nav-text">1.1.1 简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org89bdb67"> <span class="nav-text">1.1.2 内容结构</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.2 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaa31277"> <span class="nav-text">1.3 作者</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org108caae"> <span class="nav-text">2 Linux 入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgfe0e081"> <span class="nav-text">2.1 安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbc07201"> <span class="nav-text">2.1.1 安装过程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org54c83f5"> <span class="nav-text">2.1.2 主机规划与磁盘分区(Disk Partition)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd72b312"> <span class="nav-text">2.1.3 安装后的常用操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8f11eed"> <span class="nav-text">2.1.4 示例：Debian 快速安装指导</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org60f7a97"> <span class="nav-text">2.2 配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2be2a35"> <span class="nav-text">2.2.1 su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf49c6e"> <span class="nav-text">2.2.2 Wifi 连接配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbb72d44"> <span class="nav-text">2.2.3 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org520d79e"> <span class="nav-text">2.2.4 配置系统支持中文</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgedf33eb"> <span class="nav-text">2.2.5 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3aecea5"> <span class="nav-text">2.3 介绍</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.3.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0435a92"> <span class="nav-text">2.3.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org24f45b2"> <span class="nav-text">2.3.3 Linux 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8d8a5c8"> <span class="nav-text">2.3.4 Linux 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgffc02b2"> <span class="nav-text">2.3.5 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbcb0635"> <span class="nav-text">2.4 Linux 文件、目录和磁盘格式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9bb8dd1"> <span class="nav-text">2.4.1 文件权限(Permission)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf8378c7"> <span class="nav-text">2.4.1.1 理解</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf89c852"> <span class="nav-text">2.4.1.2 共享文件(Share File)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org252d7f1"> <span class="nav-text">2.4.2 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8ec0115"> <span class="nav-text">2.4.3 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb0b5a40"> <span class="nav-text">2.4.3.1 find</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orga0b3352"> <span class="nav-text">2.4.3.1.1 根据文件名查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgebed086"> <span class="nav-text">2.4.3.1.2 文件大小查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgb87efbd"> <span class="nav-text">2.4.3.1.3 根据文件变动情况查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org6234abe"> <span class="nav-text">2.4.3.1.4 根据文件类型查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org264030d"> <span class="nav-text">2.4.3.1.5 根据文件权限、所属关系查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org8ec477c"> <span class="nav-text">2.4.3.1.6 使用 inode 编号查找</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org268574a"> <span class="nav-text">2.4.3.2 locate</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc5e9674"> <span class="nav-text">2.4.3.3 which 和 where</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org96419c8"> <span class="nav-text">2.4.3.4 wc</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org641cc0e"> <span class="nav-text">2.5 压缩(Compression)和打包(Packaging)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgff5b02c"> <span class="nav-text">2.6 文件系统</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8fa4afa"> <span class="nav-text">2.6.1 mkfs</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf6b7e65"> <span class="nav-text">2.7 文本处理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">2.7.1 grep</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">2.7.2 sed</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">2.7.3 awk</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b1d154"> <span class="nav-text">3 Linux 账号管理与 ACL 权限控制</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4dcd50"> <span class="nav-text">3.1 Linux User</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgac66af2"> <span class="nav-text">3.1.1 /etc/passwd</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga5add5a"> <span class="nav-text">3.1.2 /etc/shadow</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org35c9226"> <span class="nav-text">3.1.3 用户管理文件</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdc6c36b"> <span class="nav-text">3.1.4 新增、删除和修改用户</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2e2f554"> <span class="nav-text">3.1.5 修改密码</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9901131"> <span class="nav-text">3.1.6 显示用户最近登录信息</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33d91a5"> <span class="nav-text">3.2 Linux Group</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdfcf826"> <span class="nav-text">3.3 ACL 权限控制</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org58717fc"> <span class="nav-text">3.3.1 Linux 权限规划(Authority Division)：ACL 权限控制</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96e19c0"> <span class="nav-text">3.3.2 Linux 用户信息传递</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94c28b9"> <span class="nav-text">3.4 磁盘配额和高级文件系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org42bcee3"> <span class="nav-text">3.4.1 磁盘配额(Disk Quota)应用实践</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1d9b81"> <span class="nav-text">3.4.2 软件磁盘阵列(Software RAID)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1fcee4"> <span class="nav-text">3.4.3 逻辑卷管理器(Logical Volume Manager)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8b2881a"> <span class="nav-text">3.5 Linux 计划任务(例行性工作排程)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge6bfec3"> <span class="nav-text">3.5.1 什么是计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">3.5.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">3.5.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">3.5.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">3.5.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">3.5.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7762863"> <span class="nav-text">3.6 Linux 程序管理和 SELinux 初探</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">3.6.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">3.6.2 任务管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">3.6.3 进程管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">3.6.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">3.6.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">3.6.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">3.6.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">3.6.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">3.6.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org934ee70"> <span class="nav-text">3.7 Linux 网络</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">3.7.1 Linux 常见网络命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd7c1e28"> <span class="nav-text">3.7.1.1 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4aff407"> <span class="nav-text">3.7.1.2 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9cd8d8b"> <span class="nav-text">3.7.1.3 封包撷取</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge81f9a4"> <span class="nav-text">3.7.1.4 网络检错与观察指令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">3.7.1.5 神奇的 nc 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdb7e3f7"> <span class="nav-text">3.7.2 远程管理：SSH、VNC、XDMCP 和 RDP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3118c96"> <span class="nav-text">3.7.2.1 SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org305987c"> <span class="nav-text">3.7.2.2 SSH 配置</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga4d022e"> <span class="nav-text">3.7.2.3 SCP 使用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4f460d1"> <span class="nav-text">3.7.3 在server 上启用 HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcc87e4e"> <span class="nav-text">3.7.4 防火墙</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5b998c7"> <span class="nav-text">3.7.4.1 概念</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org08ca402"> <span class="nav-text">3.7.4.2 防火墙类别</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org3b49e17"> <span class="nav-text">3.7.4.2.1 Netfilter</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org60c366b"> <span class="nav-text">3.7.4.2.2 TCP Wrappers</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgc75f539"> <span class="nav-text">3.7.4.2.3 Proxy Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga12a79a"> <span class="nav-text">3.7.4.3 Linux 的封包过滤软件：iptables</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org7ed97a1"> <span class="nav-text">3.7.4.3.1 历史背景</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orga68803f"> <span class="nav-text">3.7.4.3.2 iptables 表与规则链</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org802d610"> <span class="nav-text">3.7.4.3.3 iptables 策略和语法</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga9257b6"> <span class="nav-text">3.7.4.4 Linux 的封包过滤软件：Firewalld</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3b9f383"> <span class="nav-text">3.7.4.5 服务的访问控制列表</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org60a50fd"> <span class="nav-text">3.8 服务器架构</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org11631ef"> <span class="nav-text">3.8.1 DHCP 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgde40f7e"> <span class="nav-text">3.8.2 文件服务器：NFS 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org60c1a05"> <span class="nav-text">3.8.3 文件服务器：SAMBA 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org88307ab"> <span class="nav-text">3.8.4 文件服务器：FTP 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf160277"> <span class="nav-text">3.8.5 NIS 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org68b8d00"> <span class="nav-text">3.8.6 NTP 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgda2872f"> <span class="nav-text">3.8.7 Proxy 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0008458"> <span class="nav-text">3.8.8 iSCSI 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0b74f19"> <span class="nav-text">3.8.9 DNS 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org394742f"> <span class="nav-text">3.8.10 Web 服务器</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org58c55fe"> <span class="nav-text">3.8.11 邮件服务器：Postfix</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org45a17fd"> <span class="nav-text">4 Linux 系统管理员</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4de7cec"> <span class="nav-text">4.1 Linux 系统服务(daemon)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd779f10"> <span class="nav-text">4.1.1 systemctl</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9683d89"> <span class="nav-text">4.2 Linux 日志</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2f1564b"> <span class="nav-text">4.3 启动流程、模块管理与 loader</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org022ece1"> <span class="nav-text">4.4 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6345242"> <span class="nav-text">4.5 软件安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb25be84"> <span class="nav-text">4.5.1 源代码与Tarbal</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa88b6f"> <span class="nav-text">4.5.2 软件安装RPM、SRPM与YUM</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge95233b"> <span class="nav-text">4.5.3 常见软件安装过程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">4.5.3.1 GCC</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org4e5ec98"> <span class="nav-text">4.5.3.1.1 简单编译</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org578d8af"> <span class="nav-text">4.5.3.1.2 多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgf3c3c34"> <span class="nav-text">4.5.3.1.3 检错</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgfd66201"> <span class="nav-text">4.5.3.1.4 库文件连接</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org5a52df0"> <span class="nav-text">4.5.3.1.5 其他</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">4.5.3.2 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga522792"> <span class="nav-text">4.5.3.3 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">4.5.3.4 wget vs axel</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org01f904d"> <span class="nav-text">4.5.3.5 VIM&amp;Emacs</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">4.5.3.6 MPlayer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">4.5.3.7 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">4.5.3.8 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">4.5.3.9 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">4.5.3.10 宝塔面板</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">4.5.3.11 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">4.5.3.12 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">4.5.3.13 Composer</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76525b8"> <span class="nav-text">4.5.3.14 vsftpd</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">4.5.3.15 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">4.5.3.16 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">4.5.3.17 gnome-screenshots</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org46ac933"> <span class="nav-text">4.6 X Window(X11)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga9a8cd0"> <span class="nav-text">4.7 Linux内核编译与管理</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org6859714"> <span class="nav-text">5 常见问题收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">5.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">5.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">5.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">5.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">5.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">5.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">5.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">5.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">5.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">5.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">5.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">5.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">5.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org5a8e510"> <span class="nav-text">6 参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd71c10e"> <span class="nav-text">1 前言</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc277ea0"> <span class="nav-text">1.1 导读</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8382850"> <span class="nav-text">1.1.1 简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org89bdb67"> <span class="nav-text">1.1.2 内容结构</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.2 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgaa31277"> <span class="nav-text">1.3 作者</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org108caae"> <span class="nav-text">2 Linux 入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5872a12"> <span class="nav-text">2.1 Linux 简介与安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.1.1 入门第一步，理解 Linux</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org0435a92"> <span class="nav-text">2.1.2 Linux 内容划分</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbc07201"> <span class="nav-text">2.1.3 安装过程</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org54c83f5"> <span class="nav-text">2.1.4 主机规划与磁盘分区(Disk Partition)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgd72b312"> <span class="nav-text">2.1.5 安装后的常用操作</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8f11eed"> <span class="nav-text">2.1.6 示例：Debian 快速安装指导</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgea4a88f"> <span class="nav-text">2.2 Linux 简单配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2be2a35"> <span class="nav-text">2.2.1 su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgcf49c6e"> <span class="nav-text">2.2.2 Wifi 连接配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgbb72d44"> <span class="nav-text">2.2.3 配置安装源(source)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org520d79e"> <span class="nav-text">2.2.4 配置系统支持中文</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf93bf77"> <span class="nav-text">2.2.5 日期时间设置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org76a7e98"> <span class="nav-text">2.2.6 基本网络配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaf81156"> <span class="nav-text">2.2.7 参考资料</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e47297"> <span class="nav-text">2.3 Linux 常用命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgffc02b2"> <span class="nav-text">2.3.1 获取帮助 &amp; 问题解决</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4810224"> <span class="nav-text">2.4 Linux 软件包管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb25be84"> <span class="nav-text">2.4.1 源代码与Tarbal</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaa88b6f"> <span class="nav-text">2.4.2 软件安装RPM、SRPM与YUM</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbcb0635"> <span class="nav-text">2.5 Linux 文件、目录和磁盘格式</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9bb8dd1"> <span class="nav-text">2.5.1 文件权限(Permission)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf8378c7"> <span class="nav-text">2.5.1.1 理解</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf89c852"> <span class="nav-text">2.5.1.2 共享文件(Share File)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org252d7f1"> <span class="nav-text">2.5.2 目录</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8ec0115"> <span class="nav-text">2.5.3 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb0b5a40"> <span class="nav-text">2.5.3.1 find</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orga0b3352"> <span class="nav-text">2.5.3.1.1 根据文件名查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgebed086"> <span class="nav-text">2.5.3.1.2 文件大小查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgb87efbd"> <span class="nav-text">2.5.3.1.3 根据文件变动情况查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org6234abe"> <span class="nav-text">2.5.3.1.4 根据文件类型查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org264030d"> <span class="nav-text">2.5.3.1.5 根据文件权限、所属关系查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org8ec477c"> <span class="nav-text">2.5.3.1.6 使用 inode 编号查找</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org268574a"> <span class="nav-text">2.5.3.2 locate</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org146126b"> <span class="nav-text">2.5.4 磁盘格式</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgff5b02c"> <span class="nav-text">2.5.5 文件系统</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org355dbea"> <span class="nav-text">2.6 Linux 压缩(Compression)和打包(Packaging)</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2805fcb"> <span class="nav-text">2.7 Linux 文本处理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">2.7.1 grep</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">2.7.2 sed</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">2.7.3 awk</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b1d154"> <span class="nav-text">3 Linux 账号管理与 ACL 权限控制</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd7ba4c0"> <span class="nav-text">3.1 Linux 用户管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf4dcd50"> <span class="nav-text">3.1.1 Linux User</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org50d5894"> <span class="nav-text">3.1.1.1 /etc/passwd</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga5add5a"> <span class="nav-text">3.1.1.2 /etc/shadow</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org35c9226"> <span class="nav-text">3.1.1.3 用户管理文件</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdc6c36b"> <span class="nav-text">3.1.1.4 新增、删除和修改用户</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2e2f554"> <span class="nav-text">3.1.1.5 修改密码</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9901131"> <span class="nav-text">3.1.1.6 显示用户最近登录信息</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org33d91a5"> <span class="nav-text">3.1.2 Linux Group</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96e19c0"> <span class="nav-text">3.1.3 Linux 用户信息传递</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf434d5f"> <span class="nav-text">3.2 Linux 权限规划(Authority Division): ACL 权限控制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94c28b9"> <span class="nav-text">3.3 磁盘配额和高级文件系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org42bcee3"> <span class="nav-text">3.3.1 磁盘配额(Disk Quota)应用实践</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1d9b81"> <span class="nav-text">3.3.2 软件磁盘阵列(Software RAID)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1fcee4"> <span class="nav-text">3.3.3 逻辑卷管理器(Logical Volume Manager)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7762863"> <span class="nav-text">3.4 Linux 程序管理和 SELinux 初探</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">3.4.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">3.4.2 任务管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">3.4.3 进程管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">3.4.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">3.4.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">3.4.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">3.4.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">3.4.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">3.4.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3ab0f47"> <span class="nav-text">4 Linux 系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1f48638"> <span class="nav-text">4.1 Linux 启动管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8b2881a"> <span class="nav-text">4.2 Linux 计划任务(例行性工作排程)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge6bfec3"> <span class="nav-text">4.2.1 什么是计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">4.2.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">4.2.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">4.2.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">4.2.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">4.2.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1633c89"> <span class="nav-text">4.3 Linux 日志管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org06b1333"> <span class="nav-text">4.4 Linux 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org56d8a72"> <span class="nav-text">4.5 Linux 内核编译与管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1b5c6b7"> <span class="nav-text">4.6 Linux 防火墙</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5b998c7"> <span class="nav-text">4.6.1 概念</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org08ca402"> <span class="nav-text">4.6.2 防火墙类别</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3b49e17"> <span class="nav-text">4.6.2.1 Netfilter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org60c366b"> <span class="nav-text">4.6.2.2 TCP Wrappers</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc75f539"> <span class="nav-text">4.6.2.3 Proxy Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga12a79a"> <span class="nav-text">4.6.3 Linux 的封包过滤软件：iptables</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org7ed97a1"> <span class="nav-text">4.6.3.1 历史背景</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga68803f"> <span class="nav-text">4.6.3.2 iptables 表与规则链</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org802d610"> <span class="nav-text">4.6.3.3 iptables 策略和语法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgce6772d"> <span class="nav-text">4.6.3.3.1 策略</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org3a36545"> <span class="nav-text">4.6.3.3.2 语法应用</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga9257b6"> <span class="nav-text">4.6.4 Linux 的封包过滤软件：Firewalld</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b9f383"> <span class="nav-text">4.6.5 服务的访问控制列表</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1293274"> <span class="nav-text">5 Linux 服务管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c4827c"> <span class="nav-text">5.1 Linux 网络基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">5.1.1 Linux 常见网络命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf9aa0df"> <span class="nav-text">5.1.1.1 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org7411c8e"> <span class="nav-text">5.1.1.2 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9cd8d8b"> <span class="nav-text">5.1.1.3 封包撷取</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge81f9a4"> <span class="nav-text">5.1.1.4 网络检错与观察指令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">5.1.1.5 神奇的 nc 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge832787"> <span class="nav-text">5.1.2 启用 HTTPS</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0dc947a"> <span class="nav-text">5.2 远程工具：SSH、VNC、XDMCP 和 RDP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3118c96"> <span class="nav-text">5.2.1 SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org305987c"> <span class="nav-text">5.2.2 SSH 配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga4d022e"> <span class="nav-text">5.2.3 SCP 使用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c5fc75"> <span class="nav-text">5.3 DNS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57426f0"> <span class="nav-text">5.4 FTP：Vsftp</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc4e833d"> <span class="nav-text">5.5 NFS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8699d12"> <span class="nav-text">5.6 文件共享：Samba</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf2089c2"> <span class="nav-text">5.7 LAMP &amp; LNMP 环境部署</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc359cb9"> <span class="nav-text">5.8 NIS 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5106a38"> <span class="nav-text">5.9 NTP 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c0ff32"> <span class="nav-text">5.10 Proxy 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4c5dc9"> <span class="nav-text">5.11 iSCSI 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf62f74d"> <span class="nav-text">5.12 Tomcat</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org485dca8"> <span class="nav-text">5.13 邮件服务：Postfix</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb758d08"> <span class="nav-text">5.14 ELK 日志分析服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9564837"> <span class="nav-text">5.15 Rsync 同步服务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2731ff7"> <span class="nav-text">6 Linux 集群与虚拟化</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57518d1"> <span class="nav-text">6.1 集群概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbddca1b"> <span class="nav-text">6.2 MySQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7665ccb"> <span class="nav-text">6.3 NoSQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd297c4a"> <span class="nav-text">6.4 虚拟化概述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org727630a"> <span class="nav-text">6.5 Vcent</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6b29017"> <span class="nav-text">6.6 Docker</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeb69098"> <span class="nav-text">6.7 Openstack</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga60cf6a"> <span class="nav-text">6.8 Kubenetes(k8s)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2393572"> <span class="nav-text">7 附录A：常见软件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">7.1 GCC</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e5ec98"> <span class="nav-text">7.1.1 简单编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org578d8af"> <span class="nav-text">7.1.2 多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf3c3c34"> <span class="nav-text">7.1.3 检错</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd66201"> <span class="nav-text">7.1.4 库文件连接</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5a52df0"> <span class="nav-text">7.1.5 其他</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">7.2 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga522792"> <span class="nav-text">7.3 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">7.4 wget vs axel</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0e7f242"> <span class="nav-text">7.5 Vim &amp; Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">7.6 MPlayer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">7.7 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">7.8 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">7.9 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">7.10 宝塔面板</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">7.11 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">7.12 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">7.13 Composer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">7.14 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">7.15 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">7.16 gnome-screenshots</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3577942"> <span class="nav-text">8 附录B：常见问题收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">8.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">8.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">8.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">8.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">8.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">8.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">8.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">8.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">8.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">8.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">8.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">8.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">8.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orge17fec0"> <span class="nav-text">9 参考资料</span> </a> </li>
     </ol>
   </div>
             
