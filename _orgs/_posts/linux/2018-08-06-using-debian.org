@@ -7,7 +7,7 @@
 #+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://202.203.132.245/~20121156044/.org-info.js />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://202.203.132.245/~20121156044/.org-manual.css" />
 #+EXPORT_SELECT_TAGS: export
-#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+HTML_HEAD_EXTRA: <style>body {font-size:12pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
 #+EXPORT_EXCLUDE_TAGS: noexport
 #+LINK_UP:   
 #+LINK_HOME: 
@@ -30,53 +30,44 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
-本文题目应该是“Linux 操作系统”，只因平时都是使用 Debian，所以 Title 就是“Debian GNU/Linu”）。以下就是我从开始接触 Linux 到现在的一些使用笔记。
+
 # (setq org-export-html-style nil)
 
 * 前言
 ** 导读
-*** 简介
-    - 首先，需要说明的是：和其他大全指南图书不一样，本书旨在以实践的方式介绍 Linux 基础、Linux 服务架构以及 Linux 实用技巧等内容。
-    - 其次，本书中每个章节中的重要知识点都会提供相关的参考资料，可供读者扩展阅读。
-    - 其三，本书可以作为 Linux 的操作参考工具书，当然，我们假定读者对于类 Unix 系列的操作系统已经有一些了解。
-    - 其四，作者承诺本册子会持续更新与完善，奉行“血不流干，死不休编”的宗旨，如果你认为作者有哪些地方需要改进，可直接发邮件到 zrg1390556487@gmail.com。
-    - 最后，感谢您的认可和支持。
-*** 内容结构
-    本册子分为以下几个部分。
-    - 第一部分，Linux 入门。包括获取和安装 Linux 系统，Linux 系统的初步配置，Linux 文件、目录及磁盘操作。
-    - 第二部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。
-    - 第三部分，Linux 系统管理，包括系统日志，软件安装，基础系统配置与备份策略等等。
-    - 第四部分，Linux 服务管理，常见服务环境简单介绍及部署应用。
-    - 第五部分，Linux 集群与虚拟化。
+   *简介*
+   1. 需要说明的是：和其他大全指南教程不一样，本文旨在以实践的方式介绍 Linux 基础、Linux 服务架构以及 Linux 实用技巧等内容。
+   2. 本文中每个章节中的重要知识点都会提供相关的参考资料，可供读者扩展读。
+   3. 本文可以作为 Linux 的操作参考工具书，当然，我们假定读者对于类 Unix/Linux 系列的操作系统已经有一些了解。
+   4. 作者承诺本册子会持续更新与完善，奉行“血不流干，死不休编”的宗旨，如果你认为作者有哪些地方需要改进，可直接发邮件到 zrg1390556487@gmail.com。
 
-    *编写规范*
-    - 章节编码级别限制为最大 6 级，但一般使用到 3 级。
+   *内容结构*
+   - 第一部分，Linux 入门。包括获取和安装 Linux 系统，Linux 系统的初步配置，Linux 文件、目录及磁盘操作。
+   - 第二部分，Linux 账号管理与 ACL 权限控制。该篇对于 Linux 系统管理员比较实用，主要介绍 Linux 帐号管理及 ACL 权限控制，Linux 定时任务，Linux 网络，一些常见服务软件的架设。
+   - 第三部分，Linux 系统管理，包括系统日志，软件安装，基础系统配置与备份策略等等。
+   - 第四部分，Linux 服务管理，常见服务环境简单介绍及部署应用。
+   - 第五部分，Linux 集群与虚拟化。
 
-    *阅读提示*
-    - 阅读本文时，每个章节除了部分实际操作章节外，都会有“参考资料|References”的章节。
-    - 所有内容以笔记的形式编写，非权威指南类型，仅供参考。
-    - 本文将会省去一些有关 Linux 的常识性介绍，比如 Unix/Linux 发展史等，更多的是以过往的经验来介绍学习 Linux 的方法或建议，试图对一些 Linux 常见、实用的实践操作进行更详尽的说明，便于后来者学习。
+   *编写规范*
+   - 章节编码级别限制为最大 6 级，但一般使用到 3 级。
+   - 每个章节的内容都会从实际操作开始，然后进一步由浅入深的拓展相应内容。
+   - 每个章节除了部分实际操作章节外，都会有“参考资料”章节。
+
+   *阅读提示*
+   - 本文所有内容以笔记的形式编写，非权威指南类型，仅供参考。
+   - 如果你只要结果，阅读时，标记为扩展阅读的章节可跳过
+   - 本文将会省去一些有关 Linux 的常识性介绍，比如 Unix/Linux 发展史等，更多的是以过往的经验来介绍使用 Linux 的方法或建议，并且试图对一些 Linux 常见、实用的实践操作进行更详尽的说明，便于后来者学习。
 ** 读者对象
    - Linux 系统管理员 ::
      如果你是 Linux 环境下的系统管理员，那么本册子也许能为你提供一定的帮助。
    - Linux 爱好者 ::
      如果你是 Linux 爱好者，本册子将告诉你部分问题的解决办法及原因。
-** 作者
-   + *zrg* 的 Linux 学习之路（My road of learning Linux）
-     - 记得第一次接触 Linux 是在大二上学期的 Linux 基础课，但是，我并没有喜欢上这门课或是这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。
-     - 后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。
-     - 再后来，就是现在了，能使用它搭建一些服务，使我的生活更加方便，并将一些网站之类的放在上面，下面就是平时使用 Linux 的总结，仅供参考！
-     - 尽管工作的大部分时间都在用 Windows 操作系统，但是对 Linux 系列的折腾从未停止过。
-     - 现在好了，今年（2018年）1月换了一份工作，公司使用的技术基本都是 Linux 上构建的，除了正常必要性开发，使用 Windows，使用 Linux 的时间将占据工作时间的 1/3。
-     - 今年5月（2019年），来深圳入职了，团队比较开放，现在我的大部分开发工作都在 Linux 下完成。
-     - 那些年用过的 Linux 操作系统
-       - Ubuntu 12.04/14.04/16.04/18.04;
-       - CentOS 6.x/7.x;
-       - RedHat 7;
-       - Debian 7/8/9;
-       - SUSE Linux Enterprise server 11/12;
-       - Raspberry pi Debian;
-   + *jsf* 的 Linux 学习之路（My road of learning Linux）    
+** 作者心路旅程
+   1. 初识 Linux。记得第一次接触 Linux 是在大二上学期的 Linux 基础课，但是，我并没有喜欢上这门课或是这个系统，因为关于 Linux 的一切，对我来说都是陌生的，我在想我既然已经对 Windows 操作系统，又何必去瞎折腾呢，况且 Windows 可以完成 Linux 上的所有事情（后来，我发现我错了）；另一方面，可能是由于授课老师的坚毅个性，让我不想再去学习它，尽管当时我自己是多么幼稚，多么可笑。
+   2. 进一步学习 Linux。后来，当我在听说 Linux 用来当服务器使用很好的时候，我开始尝试使用它来完成一些工作的时候，开始我有点喜欢 Linux 操作系统，不断的尝试（学习）使用 Linux，发现使用 Linux 来完成编程开发越来越完美了。能使用 Linux 搭建一些服务，使我的工作更加方便，并将一些网站之类的放在上面。尽管工作的大部分时间都在用 Windows 操作系统，但是对 Linux 系列的折腾从未停止过。
+   3. 现在好了，今年（2018年）1月换了一份工作，公司使用的技术基本都是 Linux 上构建的，除了正常必要性开发，使用 Windows，使用 Linux 的时间将占据工作时间的 1/3。
+   4. 今年5月（2019年），来深圳工作了，团队比较开放，现在我的大部分开发工作都在 Linux 下完成。
+   5. 时间如梭，现在已经是 2021 年 3 月了，最近快速在一台个人主机上安装了 CentOS 系统，然后按照我写的这个教程，进行一波快速配置，发现该教程并不太好用。计划重新调整一下内容结构，把一些理论性内容放到“扩展阅读:*”章节，让它更具实用性。
 * Linux 入门
 ** Linux 简介与安装
 *** 入门第一步，理解 Linux
@@ -86,546 +77,449 @@ photos:
     4. Linux 的日志非常完善，也至关重要。
     5. Linux 是一个以配置文件为管理基础的 OS。
     6. Linux 的所有应用、管理和配置，都有很多程序来辅助完成。
-*** Linux 内容划分
-    *Linux 可划分为以下四部分*
-    + Linux 内核
-    + GNU 工具
-    + 图形化桌面环境
-    + 应用软件
+**** 扩展阅读：Linux 内容划分
+     *Linux 可划分为以下四部分*
 
-    *深入探究 Linux 内核*
-    \\
-    Linus Torvalds：Linux 内核开发者。
-    \\
-    Linux 内核主要负责一下四种功能：
-    \\
-    1. 系统内存管理
-       - 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
-       - 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
-       - 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
-       - 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
-    2. 软件程序管理
-       + Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
-       + 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
-	 - 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
-	 - 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
-	 - 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
-	 - Linux 系统可以通过调整启动运行级来控制整个系统的功能。
-    3. 硬件设备管理
-       + 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
-	 - 编译进内核的设备驱动代码
-	 - 可插入内核的设备驱动模块
-	 : 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
-	 : 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
-	 - 设备文件有3种分类
-	   - 字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
-	   - 块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
-	   - 网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
-       + Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
-    4. 文件系统管理
-       Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
-       #+CAPTION: 文件系统类型 
-       | 文件系统 | 描述                                              |
-       |----------+---------------------------------------------------|
-       | ext      | Linux 扩展文件系统，最早的 Linux 文件系统         |
-       | ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能     |
-       | ext3     | 第三扩展文件系统，支持日志功能                    |
-       | ext4     | 第四扩展文件系统，支持高级日志功能                |
-       | hpfs     | OS/2高性能文件系统                                |
-       | jfs      | IBM日志文件系统                                   |
-       | iso9660  | ISO 9660文件系统（CD-ROM）                        |
-       | mimix    | MINIX文件系统                                     |
-       | msdos    | 微软的FAT16                                       |
-       | ncp      | Netware文件系统                                   |
-       | nfs      | 网络文件系统                                      |
-       | ntfs     | 支持Microsoft NT文件系统                          |
-       | proc     | 访问系统信息                                      |
-       | ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
-       | smb      | 支持网络访问的Samba SMB文件系统                   |
-       | sysv     | 较早期的Unix文件系统                              |
-       | ufs      | BSD文件系统                                       |
-       | umsdos   | 建立在msdos上的类Unix文件系统                     |
-       | vfat     | Windows95文件系统（FAT32）                        |
-       | XFS      | 高性能64位日志文件系统                            |
-       Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
+     + Linux 内核
+     + GNU 工具
+     + 图形化桌面环境
+     + 应用软件
 
-    *GNU工具*
-    1. 核心 GNU 工具：coreutils(coreutilities)软件包
-       GNU coreutils 软件包由三部分构成：
-       - 用以处理文件的工具
-       - 用以操作文本的工具
-       - 用以管理进程的工具
-    2. shell
-       #+CAPTION:Linux 中常见的shell
-       | shell           | 描述                                               |
-       |-----------------+----------------------------------------------------|
-       | <15>            | <50>                                               |
-       | bash            | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
-       | ash             | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。 |
-       | korn            | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。 |
-       | tcsh            | 一种将C语言中的一些元素引入到shell脚本中的shell。  |
-       | zsh             | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。 |
-       |-----------------+----------------------------------------------------|
-
-    *Linux 桌面环境*
-    1. X Window
-    2. KDE 桌面（K Desktop Environment，K 桌面系统）
-    3. GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
-    4. Unity 桌面
-    5. 其他桌面
-       #+CAPTION: 其他桌面
-       | 桌面    | 描述 |
-       |---------+------|
-       | Fluxbox |      |
-       | Xfce    |      |
-       | JWM     |      |
-       | Fvwm    |      |
-       | fvwm95  |      |
-       |---------+------|
-
-    *Linux 发行版*
-    \\
-    不同的 Linux 发行版通常归类为3种：
-    1. 完整的核心 Linux 发行版
-       #+CAPTION: 完整的核心 Linux 发行版
-       | Slackware | 最早的 Linux 发行版之一                            |
-       | Red Hat   | 商业发行版                                         |
-       | Fedora    | Red Hat 分离出的家用发行版                         |
-       | Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
-       | openSuse  | 商用和家用的发行版                                 |
-       | Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
-    2. 特定用途的发行版
-       #+CAPTION:特定用途的发行版 
-       | CentOS      | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
-       | Ubuntu      | 一款用于学校和家庭的免费发行版                       |
-       | PCLinuxOS   | 一款用于学校和办公的免费发行版                       |
-       | Mint        | 一款用于家庭娱乐的免费发行版                         |
-       | dyne:bolic  | 一款用于音频和MIDI应用的免费发型版                   |
-       | Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
-    3. LiveCD 测试发行版。
-       #+CAPTION: LiveCD 测试发行版。
-       | Knoppix     | 最早的 LiveCD Linux               |
-       | PCLinuxOS   | 一款成熟的 LiveCD                 |
-       | Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
-       | Slax        | 基于 Slackware Linux              |
-       | Pubby Linux | 为老旧 PC 设计的一款全功能 Linux  |
-*** 安装过程
-    1. 安装准备
-       \\
-       首先，准备一个U盘，用来刻录系统（刻录命令：dd，用法格式：sudo dd if=xxx.iso of=/dev/sdb），到 https://www.debian.org/ 下载 iso 镜像，注意有最小版和完整版。
-       \\
-       Windows 下的刻录软件推荐使用 UltraISO（对于新手，建议在 Windows 下完成刻录）。
-    2. 插入U盘，开机，开始选择安装。
-    3. 
-*** 主机规划与磁盘分区(Disk Partition)
-*** 安装后的常用操作
-    + *查看 Linux 发行版名称及版本号*
-      - 查看 Linux 内核版本
-	: // 方式一
-	: $ cat /proc/version
-	: // 方式二
-	: $ uname -a
-      - 查看 Linux 系统版本
-	: // 方式一
-	: $ lsb_release -a //这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。
-	: // 方式二
-	: $ cat /etc/redhat-release //这种方法只适合Redhat系的Linux
-	: // 方式三
-	: $ cat /etc/issue //使用所有Linux版本
-    + *Linux 上挂载NTFS格式文件系统*
-      - 方案A（Scheme A）：使用linux-ntfs
-	1. 获取安装
-	   : $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-	   : $ sudo rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
-	2. 检查 ntfs 模块是否被加载进系统
-	   : $ /sbin/modprobe ntfs
-	   : [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
-	   : $ cat /proc/filesystems
-	   : [ntfs应该出现在列表中]
-	3. 查看NTFS系统的编号
-	   : /sbin/fdisk -l |grep NTFS 
-	4. 创建目录
-	   : $ sudo mkdir -p /mnt/win_ntfs
-	   : $ sudo mount -t ntfs /dev/sda1 /mnt/win_ntfs
-      - 方案B（Scheme B）：使用fuse和ntfs-3g
-	1. 获取
-	   : $ wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
-	   : $ wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
-	2. 编译安装
-	   : $ tar -zxf fuse-2.7.4.tar.gz
-	   : $ ./configure --prefix=/usr/local/fuse-2.7.4
-	   : $ sudo make 
-	   : $ sudo make install
-	   : $ tar -zxf ntfs-3g-2009.4.4.tgz
-	   : $ ./configure --prefix=/usr/local/ntfs-3
-	   : $ sudo make 
-	   : $ sudo make install 
-	3. 检查fuse模块是否被加载进系统
-	   : $ /sbin/modprobe fuse
-	   : [没有输出则代表存在；否则将会有错误信息报出]
-	   : $ cat /proc/filesystems
-	   : [fuse应该出现在列表中]
-	4. 查看NTFS系统的编号 
-	   : $ sudo fdisk -l |grep NTFS 
-	5. 挂载
-	   : $ mount ntfs-3g /dev/sda1 /mnt/win_ntfs
-      - 自动挂载 NTFS 格式硬盘
-	1. 安装 ntfs-3g
-	   : $ sudo apt-get install ntfs-3g
-	2. 步骤1：编辑/etc/fstab
-	   : $ sudo vim /etc/fstab
-	   #+NAME:/etc/fstab
-	   #+BEGIN_SRC shell
-	   /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0	  
-	   #Notice:
-	   # If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
-	   #翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符）
-	   # Note down the UUID value and update /etc/fstab as follows:
-	   # 翻译：记录下 UUID，更新 /etc/fstab 文件。
-	   # syntax
-	   # UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-	   UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
-	   # Owning entire file system
-	   UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
-	   #+END_SRC
-	   下面是查看 UUID 的命令。
-	   : $ sudo /sbin/blkid /dev/sda1
-	   : 保存关闭文件
-	3. 步骤2：创建目录
-	   : $ sudo mkdir -p /mnt/ntfs
-	4. 步骤3：测试（Test）可用性
-	   : $ sudo mount -a
-	   : $ df -h
-	   : $ cd /mnt/ntfs
-	   : $ ls -l
-	5. 步骤4：卸载NTFS分区
-	   : $ sudo umount /mnt/ntfs
-	   : // or
-	   : $ sudo umount /dev/sda1
-	6. 注意错误信息：“Read-only file system”提示
-	   : $ sudo  mv 05Music/ /mnt/sda/sda2/
-	   : /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
-	   解决（Solving）：配置 /etc/fstab
-      - 参考资料
-	[[https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/][How To Debian/Ubuntu Linux Auto Mount Windows NTFS File System]]
-	[[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]]
-	[[https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)][fstab (简体中文)]]
-	[[https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)][NTFS-3G (简体中文)]]
-    + *boot 加载选项修改*
-      : $ sudo chmod +w /boot/grub/grub.cfg
-      : $ sudo vim /boot/grub/grub.cfg
-      注释不需要的加载项！
-    + *改变 Home 目录下的目录中文名称为英文*
-      - 方法1
-	: $ vim ~/.config/user-dirs.dirs
-	#+BEGIN_SRC shell
-	XDG_DESKTOP_DIR="$HOME/Desktop"
-	XDG_DOWNLOAD_DIR="$HOME/Download"
-	XDG_TEMPLATES_DIR="$HOME/Template"
-	XDG_PUBLICSHARE_DIR="$HOME/Public"
-	XDG_DOCUMENTS_DIR="$HOME/Document"
-	XDG_MUSIC_DIR="$HOME/Music"
-	XDG_PICTURES_DIR="$HOME/Picture"
-	XDG_VIDEOS_DIR="$HOME/Video"
-	#+END_SRC
-      - 方法2
-	: $ export LANG=en_US
-	: xdg-user-dirs-gtk-update
-    + *电脑没有声音问题解决*
-      1. 安装驱动软件
-	 : $ sudo apt-get install alsa-utils
-	 : $ sudo apt-get install alsa-oos
-         : $ sudo apt-get install esound
-         : $ sudo apt-get install gnome-audio
-      2. 检查声卡驱动
-	 : $ lspci |grep Audio
-      3. 检查内核模块
-	 : $ lsmod |grep snd
-      4. 检查系统音量
-	 : $ alsamixer
-	 alsamixer 是 alsa 驱动的一个插件,是一个命令行下的图形设置工具。alsamixer 命令，00 表示音量正常，MM表示此声道静音。可以通过M键切换。
-      5. 初始化声卡
-	 : $ sudo alsactl init
-      6. 参考资料
-	 - [[https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/][解決 Ubuntu Linux 16.04 耳機輸出沒有聲音的問題]]
-    + *关机和重启命令*
-      + shutdown
+     *Linux 内核主要负责一下四种功能：*
+     1. 系统内存管理
 	\\
-	关机、重启计算机(Halt, power-off or reboot the machine)
-	: $ sudo shutdown -r now
-	: // 其他重启命令
-	: $ sudo reboot
-	: $ sudo init 6
-	#+CAPTION:系统运行级别
-	| 级别 | 描述                           |
-	|------+--------------------------------|
-	|    0 | 关机，不允许设置为初始化默认值 |
-	|    1 | 单用户模式                     |
-	|    2 | 不完全多用户，不含NFS服务      |
-	|    3 | 完全多用户                     |
-	|    4 | 未分配                         |
-	|    5 | 图形界面                       |
-	|    6 | 重启，不允许设置为初始化默认值 |
-	: $ cat /etc/initable
-	: // 查看系统运行级别
-	: $ sudo runlevel
-      + 其他关机/注销命令
-	: halt
-	: poweroff
-	: init 0
-	: logout
-*** 示例：Debian 快速安装指导
-    [[https://github.com/zhaorengui/lecture-notes/blob/master/linux/tutorials/install/install.org][Debian 快速安装指导]]
-** Linux 简单配置
-*** su & sudo
-    Linux 系统当中的身份变换，可能有以下几个原因：
-    + 使用一般账号：系统平日操作的好习惯
-    + 用较低权限启动系统服务
-    + 软件本身的限制
+	- 内核不仅管理服务器上的可用物理内存，还可以创建和管理虚拟内存。
+	- 内核通过硬盘上的存储空间来实现虚拟内存，这块区域称为交换空间（swap space）。内核不断地交换空间和实际的物理内存之间反复交换虚拟内存中的内容。这使得系统以为它拥有比物理内存更多的可用内存。
+	- 内存存储单元按组划分成很多块，这些块称作页面（page）。内核将每个内存页面放在物理内存或交换空间。然后，内核会维护一个内存页面表，指明哪些页面位于物理内存内，哪些页面被换到了磁盘上。
+	- 内核会记录哪些内存页面正在使用中，并自动把一段时间未访问的内存页面复制到交换空间区域（称为换出，swapping out）——即使还有可用内存。
+     2. 软件程序管理
+	\\
+	+ Linux 操作系统将运行中的程序称为进程。内核控制着 Linux 系统如何管理运行在系统上的所有进程。
+	+ 内核创建了第一个进程（称为 init 进程）来启动系统上所有其他进程。Linux 操作系统的 init 系统采用了运行级。Linux 操作系统有 5个启动运行级。
+	  - 运行级为 1 时，只启动基本的系统进程以及一个控制台终端进程，我们称之为单用户模式。单用户模式通常用来在系统有问题时进行紧急的文件系统维护。显然，这种模式下，仅有一个人（通常是系统管理员）能登录到系统上操作数据。
+	  - 运行级为 3 时，大多数应用软件，比如网络支持程序，都会启动。
+	  - 运行级为 5 时，系统会启动 X Window 系统，允许用户通过图形化桌面窗口登录系统。
+	  - Linux 系统可以通过调整启动运行级来控制整个系统的功能。
+     3. 硬件设备管理
+	\\
+	+ 内核的另一职责是管理硬件设备。任何 Linux 系统需要与之通信的设备，都需要在内核代码中加入驱动程序代码。在 Linux 内核中有两种方法用于插入设备驱动程序代码：
+	  - 编译进内核的设备驱动代码
+	  - 可插入内核的设备驱动模块
+	  : 以前，插入设备驱动代码的唯一途径是重新编译内核。随着 Linux 内核支持的硬件设备越来越多，这个过程变得越来越低效。
+	  : 后来，开发人员提出了内核模块的概念。它允许将驱动代码插入到运行中的内核而无需重新编译内核。Linux 系统将硬件设备当成特殊的文件，称为设备文件。
+	  - 设备文件有3种分类
+	    - 字符型设备文件：指处理数据时每次只能处理一个字符的设备。大多数类型的调制解调器和终端都是作为字符型设备文件创建的。
+	    - 块设备文件：指处理数据时每次能处理大块大数据的设备，比如硬盘。
+	    - 网络设备文件：指采用数据包发送和接受数据的设备，包括各种网卡和一个特殊的回环设备。这个回环设备允许 Linux 系统使用常见的网络编程协议同自身通讯。
+	+ Linux 为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供 Linux 内核标识它。数值对包括一个主设备号和一个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
+     4. 文件系统管理
+	\\
+	Linux 内核支持通过不同类型的文件系统从硬盘中读写数据。内核必须在编译时就加入对所有可能用到的文件系统的支持。下表是 Linux 系统用来读写数据的标准文件系统
+	#+CAPTION: 文件系统类型 
+	| 文件系统 | 描述                                              |
+	|----------+---------------------------------------------------|
+	| ext      | Linux 扩展文件系统，最早的 Linux 文件系统         |
+	| ext2     | 第二扩展文件系统，在ext的基础上提供更多的功能     |
+	| ext3     | 第三扩展文件系统，支持日志功能                    |
+	| ext4     | 第四扩展文件系统，支持高级日志功能                |
+	| hpfs     | OS/2高性能文件系统                                |
+	| jfs      | IBM日志文件系统                                   |
+	| iso9660  | ISO 9660文件系统（CD-ROM）                        |
+	| mimix    | MINIX文件系统                                     |
+	| msdos    | 微软的FAT16                                       |
+	| ncp      | Netware文件系统                                   |
+	| nfs      | 网络文件系统                                      |
+	| ntfs     | 支持Microsoft NT文件系统                          |
+	| proc     | 访问系统信息                                      |
+	| ReiserFS | 高级Linux文件系统，能提供更好的性能和硬盘恢复功能 |
+	| smb      | 支持网络访问的Samba SMB文件系统                   |
+	| sysv     | 较早期的Unix文件系统                              |
+	| ufs      | BSD文件系统                                       |
+	| umsdos   | 建立在msdos上的类Unix文件系统                     |
+	| vfat     | Windows95文件系统（FAT32）                        |
+	| XFS      | 高性能64位日志文件系统                            |
+	Linux 内核采用虚拟文件系统（Virtual File System,VFS）作为和每个文件系统交互的接口。     
 
-    su 是最简单的身份切换命令。
-    + -：单纯使用 - 如『 su - 』代表使用 login-shell 的变量文件读取方式来登陆系统；若使用者名称没有加上去，则代表切换为 root 的身份。
-    + -l：与 - 类似，但后面需要加欲切换的使用者账号！也是 login-shell 的方式。
-    + -m：-m 与 -p 是一样的，表示『使用目前的环境配置，而不读取新使用者的配置文件』
-    + -c：仅进行一次命令，所以 -c 后面可以加上命令喔！
+     *GNU工具*
+     1. 核心 GNU 工具：coreutils(coreutilities)软件包
+	GNU coreutils 软件包由三部分构成：
+	- 用以处理文件的工具
+	- 用以操作文本的工具
+	- 用以管理进程的工具
+     2. shell
+	#+CAPTION:Linux 中常见的shell
+	| shell           | 描述                                               |
+	|-----------------+----------------------------------------------------|
+	| <15>            | <50>                                               |
+	| bash            | bash shell 是 Bourne shell 的一个免费版本，它是最早的 Unix shell，bash还有一个特点，可以通过help命令来查看帮助。包含的功能几乎可以涵盖shell所具有的功能，所以一般的shell脚本都会指定它为执行路径。 |
+	| ash             | 一种运行在内存受限环境中简单的轻量级shell，但与bash shell完全兼容。 |
+	| korn            | 一种与 Bourne shell，但支持如关联数组和浮点运算等一些高级的编程特性。 |
+	| tcsh            | 一种将C语言中的一些元素引入到shell脚本中的shell。  |
+	| zsh             | 一种结合了bash、tcsh和korn的特性，同时提供高级编程特性、共享历史文件和主题化提示符的高级shell。 |
+	|-----------------+----------------------------------------------------|
 
-    并非所有人都能够运行 sudo，而是仅有规范到 /etc/sudoers 内的用户才能够运行 sudo 这个命令。同时， /etc/sudoers 可以修改默认的 timeout。
-    #+NAME:/etc/sudoers
-    #+BEGIN_SRC shell
-    Defaults        env_reset
-    Defaults        timestamp_timeout=60
-    ...
-    root    ALL=(ALL:ALL) ALL
-    zrg     ALL=(ALL:ALL) ALL
-    # 指定用户不用输入密码
-    zrg     ALL=(ALL:ALL)NOPASSWD: ALL
-    # 授权 zrg_test 用户执行重启命令
-    zrg_test ALL=/sbin/shutdown -r now
-    # Allow members of group sudo to execute any command
-    %sudo   ALL=(ALL:ALL) ALL
-    #+END_SRC
-*** Wifi 连接配置
-    完成安装第一步，当然是先解决网络。
-    1. 查看无线（wireless）网卡（LAN）驱动（driver）
-       : $ sudo lsmod | grep iw
-    2. 安装（Installing）无线网卡驱动
-       : $ sudo apt-get install firmware-iwlwifi wireless-tools
-    3. 向内核（kernel）中加载/移除模块（modules）
-       : $  modprobe iwl4965
-    4. 重启系统
-       : $ reboot
-    5. 配置无线网络
-       : //查看无线网口（nerwork port）
-       : $ sudo iwconfig
-       : //开启无线网口
-       : $ sudo ifconfig wlan0 up
-       : //扫描（scaning）无线网络
-       : $ sudo iwlist wlan0 scan
-       : //连接无线网络
-       : $ sudo iwconfig wlan0 ESSID "wifi-name" KEY "password" open
-       : //执行上面的命令（command）后，发现并不能成功！！！
-       : //于是，通过如下命令继续配置
-       : //格式：wpa_passphrase <ssid> [passphrase]
-       : $ sudo wpa_passphrase "wifi-name" "passowrd">/etc/wpa_supplicant.conf
-       : $ sudo wpa_passphrase -B -i wlan0 -Dwext -c /etc/wpa_supplicant.conf
-       : //查看wlan0无线网口
-       : $ sudo iwconfig wlan0
-       : //执行命令获取到IP地址，成功连上WiFi
-       : $ sudo dhclient wlan0
-    6. 开机自动连接WiFi配置
-       : $ sudo vim /etc/network/interfaces.d/wlan0
+     *Linux 桌面环境*
+     1. X Window
+     2. KDE 桌面（K Desktop Environment，K 桌面系统）
+     3. GNOME 桌面（the GNU Network Object Model Environment，GNU 网络对象模型桌面）
+     4. Unity 桌面
+     5. 其他桌面
+	#+CAPTION: 其他桌面
+	| 桌面    | 描述 |
+	|---------+------|
+	| Fluxbox |      |
+	| Xfce    |      |
+	| JWM     |      |
+	| Fvwm    |      |
+	| fvwm95  |      |
+	|---------+------|
+
+     *Linux 发行版*
+     不同的 Linux 发行版通常归类为3种：
+     1. 完整的核心 Linux 发行版
+	#+CAPTION: 完整的核心 Linux 发行版
+	| Slackware | 最早的 Linux 发行版之一                            |
+	| Red Hat   | 商业发行版                                         |
+	| Fedora    | Red Hat 分离出的家用发行版                         |
+	| Gentoo    | 为高级 Linux 用户设计的发行版，仅包含 Linux 源代码 |
+	| openSuse  | 商用和家用的发行版                                 |
+	| Debian    | Linux 专家和商用 Linux 产品中流行的发行版          |
+     2. 特定用途的发行版
+	#+CAPTION:特定用途的发行版 
+	| CentOS      | 一款基于 Red Hat 企业版 Linux 源代码构建的免费发行版 |
+	| Ubuntu      | 一款用于学校和家庭的免费发行版                       |
+	| PCLinuxOS   | 一款用于学校和办公的免费发行版                       |
+	| Mint        | 一款用于家庭娱乐的免费发行版                         |
+	| dyne:bolic  | 一款用于音频和MIDI应用的免费发型版                   |
+	| Puppy Linux | 一款适用于老旧PC的小型免费发行版                     |
+     3. LiveCD 测试发行版。
+	#+CAPTION: LiveCD 测试发行版。
+	| Knoppix     | 最早的 LiveCD Linux               |
+	| PCLinuxOS   | 一款成熟的 LiveCD                 |
+	| Ubuntu      | 为多种语言设计的世界级 Linux 项目 |
+	| Slax        | 基于 Slackware Linux              |
+	| Pubby Linux | 为老旧 PC 设计的一款全功能 Linux  |
+*** Linux 安装
+    1. 安装准备
+       + 首先，准备一个U盘，用来刻录系统（刻录命令：dd，用法格式：sudo dd if=xxx.iso of=/dev/sdb），到 https://www.debian.org/ 下载 iso 镜像，注意有最小版和完整版。
+       + Windows 下的刻录软件推荐使用 UltraISO（对于新手，建议在 Windows 下完成刻录）。
+    2. 插入U盘，开机，开始选择安装。
+    3. 详细安装步骤，可参考 [[https://github.com/zhaorengui/lecture-notes/blob/master/linux/tutorials/install/install.org][Debian 快速安装指导]]
+    4. 安装完成后，查看 Linux 版本
+       : // 查看 Linux 内核版本
+       : $ cat /proc/version
+       : $ uname -a
+
+       : 查看 Linux 系统版本
+       : $ lsb_release -a //这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。
+       : $ cat /etc/redhat-release //这种方法只适合Redhat系的Linux
+       : $ cat /etc/issue //使用所有Linux版本
+**** 扩展阅读：主机规划与磁盘分区(Disk Partition)
+     : 待补充
+**** 扩展阅读：磁盘格式
+     1. 自动挂载
+	\\
+	配置文件 /etc/fstab 用来定义需要自动挂载的文件系统，fstab 中每一行代表一个挂在配置，格式如下：
+	#+CAPTION: 自动挂载
+	| /dev/sda3      | /mnt   | ext4     | defaults | 0 0                |
+	|----------------+--------+----------+----------+--------------------|
+	| 需要挂载的设备 | 挂载点 | 文件系统 | 挂在选项 | dump、fsck相关选项 |
+     2. 
+**** 扩展阅读：文件系统
+     : // 将 /dev/sda7 硬盘格式化为 ext3 格式。
+     : $ mkfs -t ext3 -c /dev/sda7
+*** Linux 安装后的常见配置
+**** su & sudo
+     : // 先给 sudoers 文件加上写权限
+     : $ sudo chmod +w /etc/sudoers
+     : // 编辑，然后配置如下，根据个人喜好自行设定
+     : $ vim /etc/sudoers
+     #+BEGIN_SRC shell
+     # Default timeout
+     Defaults        env_reset
+     Defaults        timestamp_timeout=60
+     # ...
+     root    ALL=(ALL:ALL) ALL
+     zrg     ALL=(ALL:ALL) ALL
+     # Allow user nopasswd
+     zrg     ALL=(ALL:ALL)NOPASSWD: ALL
+     # Allow zrg_test user to execute reboot command
+     zrg_test ALL=/sbin/shutdown -r now
+     # Allow members of group sudo to execute any command
+     %sudo   ALL=(ALL:ALL) ALL
+     #+END_SRC
+
+     *Linux 系统当中的身份变换，可能有以下几个原因：*
+     + 使用一般账号：系统平日操作的好习惯
+     + 用较低权限启动系统服务
+     + 软件本身的限制
+
+     *su 是最简单的身份切换命令*
+     + -：单纯使用 - 如『 su - 』代表使用 login-shell 的变量文件读取方式来登陆系统；若使用者名称没有加上去，则代表切换为 root 的身份。
+     + -l：与 - 类似，但后面需要加欲切换的使用者账号！也是 login-shell 的方式。
+     + -m：-m 与 -p 是一样的，表示『使用目前的环境配置，而不读取新使用者的配置文件』
+     + -c：仅进行一次命令，所以 -c 后面可以加上命令喔！
+**** 配置 Wifi
+     1. 查看无线（wireless）网卡（LAN）驱动（driver）
+	: $ sudo lsmod | grep iw
+     2. 安装（Installing）无线网卡驱动
+	: $ sudo apt-get install firmware-iwlwifi wireless-tools
+     3. 向内核（kernel）中加载/移除模块（modules）
+	: $  modprobe iwl4965
+     4. 重启系统
+	: $ reboot
+     5. 配置无线网络
+	: //查看无线网口（nerwork port）
+	: $ sudo iwconfig
+	: //开启无线网口
+	: $ sudo ifconfig wlan0 up
+	: //扫描（scaning）无线网络
+	: $ sudo iwlist wlan0 scan
+	: //连接无线网络
+	: $ sudo iwconfig wlan0 ESSID "wifi-name" KEY "password" open
+	: //执行上面的命令（command）后，发现并不能成功！！！
+	: //于是，通过如下命令继续配置
+	: //格式：wpa_passphrase <ssid> [passphrase]
+	: $ sudo wpa_passphrase "wifi-name" "passowrd">/etc/wpa_supplicant.conf
+	: $ sudo wpa_passphrase -B -i wlan0 -Dwext -c /etc/wpa_supplicant.conf
+	: //查看wlan0无线网口
+	: $ sudo iwconfig wlan0
+	: //执行命令获取到IP地址，成功连上WiFi
+	: $ sudo dhclient wlan0
+     6. 开机自动连接WiFi配置
+	: $ sudo vim /etc/network/interfaces.d/wlan0
+	#+BEGIN_SRC shell
+	auto wlan0
+	allow-hotplug wlan0
+	iface wlan0 inet dhcp
+       	 wpa-conf /etc/wpa_supplicant.conf 
+	#+END_SRC
+**** 配置软件安装源(source)
+     + 以配置163源举例说明
+       : 1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
+       : 2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
+       : 3. 复制安装源文本到 /etc/apt/source.list 中。
+
+       #+NAME: 163源配置
        #+BEGIN_SRC shell
-       auto wlan0
-       allow-hotplug wlan0
-       iface wlan0 inet dhcp
-       	wpa-conf /etc/wpa_supplicant.conf 
+       # mirrors.163.com
+       deb http://mirrors.163.com/debian/ jessie main non-free contrib
+       deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+       deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+       deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+       deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+       deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+       deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+       deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
        #+END_SRC
-*** 配置安装源(source)
-    + 以配置163源举例说明
-      1. 访问域名:mirrors.163.com，找到镜像名为debian的目录，点击debian使用帮助。
-      2. 根据最新的debian版本进行选择jessie，wheezy，squeeze。从最新版本到最低版本选择源
-      3. 复制安装源文本到 /etc/apt/source.list 中。
-      #+NAME: 163源配置
-      #+BEGIN_SRC shell
-      # mirrors.163.com
-      deb http://mirrors.163.com/debian/ jessie main non-free contrib
-      deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-      deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-      deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
-      deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-      deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-      deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
-      deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
-      #+END_SRC
-    + 其他安装源
-      - [[https://mirrors.ustc.edu.cn/][中国科学技术大学开源软件镜像站]]
-      - [[https://mirrors.tuna.tsinghua.edu.cn/][清华大学开源软件镜像站]]
-      - [[http://mirror.hust.edu.cn/][华中科技大学开源镜像站]]
-      - [[https://mirrors.aliyun.com][阿里云开源镜像站]]
-*** 配置系统支持中文
-    + 安装及配置
-      1. 查看并设置环境变量
-	 : $ echo $LANG
-	 : $ export LANG=en_US.UTF-8
-      2. 没有安装 locales,先安装 locales
-	 : $ sudo aptitude install locales
-      3. 配置中文编码
-	 : $ sudo dpkg-reconfigure locales
-	 : //选择编码（encode），space选择
-	 : en_US.UTF-8
-         : zh_CN.GB2312
-	 : zh_CN.GB18030
-	 : zh_CN.GBK
-	 : zh_CN.UTF-8
-      4. 文件配置
-	 : $ sudo vim /etc/default/locate
-	 #+BEGIN_SRC shell
-	 # LANG="zh_CN.UTF-8"
-	 # LANGUAGE="zh_CN:zh"
-	 LANG="en_US.UTF-8"
-	 LANGUAGE="en_US:en"
-	 #+END_SRC
-    + 安装中文输入法
-      ibus & UIM & SCIM & Fcitx
-      - [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
-      - [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
-    + Fcitx 输入法补充
-      - [[https://blog.csdn.net/qq_21397217/article/details/52447263][Ubuntu安装Fcitx以及Fcitx输入中文不显示候选词框的解决办法]]
-	1. 安装 fcitx 组件（module）
-	   : $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
-	2. 安装 fcitx 输入法
-	   : $ sudo apt install fcitx-pinyin
-	   : $ sudo apt install fcitx-googlepinyin
-	   : $ sudo apt install fcitx-table //五笔
-	3. 设置并运行
-	   : $ export LANG=zh_CN.utf8
-	   : $ export LC_CTYPE=zh_CN.utf8
-	   : $ export LC_ALL=zh_CN.utf8
-	   : $ export XMODIFIERS=@im=fcitx
-	   : $ fcitx &
-	4. ui 动态库的支持:
-	   : $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
-	5. 重启可用
-    + 参考资料
-      + [[https://wiki.debian.org/Locale][Locale debian wiki]]
-*** 日期时间设置
-    Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-    1. date 命令
-    2. hwclock 命令，查看硬件时间
-       : //设置硬件时间
-       : $ sudo hwclock -set -date='07/17/2017 20:00'
-    3. 硬件时间与系统时钟同步
-       : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-       : $ sudo hwclock -systohc
-*** 基本网络配置
-    1. 安装网络工具
-       : $ sudo apt-get install net-tools
-    2. 配置网络
-       + 在 Linux 中，以太网接口被命名为：eth0、eth1等。
-       + lspci 命令可以查看网卡硬件信息（如果是 usb 网卡，则需要使用 lsusb 命令）
-       + ifconfig 命令：查看接口信息
-	 : $ ifconfig -a
-	 : $ ifconfig eth0
-       + ifup,ifdown 命令：启用、禁用一个接口
-	 : $ ifup eth0
-	 : $ ifdown eth0
-    3. 相关配置文件
-       + 网卡配置文件：/etc/sysconfig/network-scripts/ifcfg-eth0
-       + DNS 配置文件：/etc/resolv.conf
-       +  主机名配置文件：/etc/sysconfig/network
-       + 静态主机名配置文件：/etc/hosts
-    4. 网络测试
-       + 测试网路连通性：ping 命令
-       + 测试DNS解析：host,dig 命令
-       + 显示路由表：ip route 命令
-       + 追踪到达目标地址的网络路径：traceroute 命令
-       + mtr 命令进行网络质量测试
-*** 参考资料
-    - https://en.wikipedia.org/wiki/Wi-Fi
+     + 其他安装源
+       - [[https://mirrors.ustc.edu.cn/][中国科学技术大学开源软件镜像站]]
+       - [[https://mirrors.tuna.tsinghua.edu.cn/][清华大学开源软件镜像站]]
+       - [[http://mirror.hust.edu.cn/][华中科技大学开源镜像站]]
+       - [[https://mirrors.aliyun.com][阿里云开源镜像站]]
+**** 中文支持及中文输入法的配置
+     1. 中文环境配置
+	: // 查看并设置环境变量
+	: $ echo $LANG
+	: $ export LANG=en_US.UTF-8
+        : // 没有安装 locales,先安装 locales
+	: $ sudo aptitude install locales
+
+        : // 配置中文编码
+	: $ sudo dpkg-reconfigure locales
+	: //选择编码（encode），space选择
+	: en_US.UTF-8
+        : zh_CN.GB2312
+	: zh_CN.GB18030
+	: zh_CN.GBK
+	: zh_CN.UTF-8
+
+        : // 文件配置
+	: $ sudo vim /etc/default/locate
+	#+BEGIN_SRC shell
+	  # LANG="zh_CN.UTF-8"
+	  # LANGUAGE="zh_CN:zh"
+	  LANG="en_US.UTF-8"
+	  LANGUAGE="en_US:en"
+	#+END_SRC
+     2. 安装中文输入法
+	: ibus 或 UIM 或 SCIM 或 Fcitx
+	- [[https://wiki.debian.org/gnome-chinese-input][gnome-chinese-input]]
+	- [[https://wiki.debian.org/I18n/ibus][i18n ibus]]
+	- [[https://wiki.debian.org/Locale][Locale debian wiki]]
+     3. 问题处理：Debian/Ubuntu 安装 Fcitx 及 Fcitx 输入中文不显示候选词框的解决办法
+	: // 安装 fcitx 组件（module）
+	: $ sudo apt-get install fcitx-tools fcitx-config* fcitx-data fcitx-frontend* fcitx-libs fcitx-module* fcitx-ui* presage
+
+	: // 安装 fcitx 输入法
+	: $ sudo apt install fcitx-pinyin
+	: $ sudo apt install fcitx-googlepinyin
+	: $ sudo apt install fcitx-table //五笔
+
+	: // 设置并运行
+	: $ export LANG=zh_CN.utf8
+	: $ export LC_CTYPE=zh_CN.utf8
+	: $ export LC_ALL=zh_CN.utf8
+	: $ export XMODIFIERS=@im=fcitx
+	: $ fcitx &
+        : ui 动态库的支持:
+	: $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
+
+	: 重启可用
+**** Linux 上挂载NTFS格式文件系统
+     - 方案A：使用linux-ntfs
+       : // 1. 获取安装
+       : $ wget http://prdownloads.sourceforge.net/linux-ntfs/kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+       : $ sudo rpm -ivh kernel-module-ntfs-2.6.18-92.el5-2.1.27-0.rr.10.11.x86_64.rpm
+
+       : // 2. 检查 ntfs 模块是否被加载进系统
+       : $ /sbin/modprobe ntfs
+       : [没有输出则代表存在；否则（otherwise）将会有错误信息（error message）报出（report）]
+       : $ cat /proc/filesystems
+       : [ntfs应该出现在列表中]
+
+       : // 3. 查看NTFS系统的编号
+       : /sbin/fdisk -l |grep NTFS 
+
+       : // 4. 创建目录
+       : $ sudo mkdir -p /mnt/win_ntfs
+       : $ sudo mount -t ntfs /dev/sda1 /mnt/win_ntfs
+     - 方案B：使用fuse和ntfs-3g
+       : // 1. 获取
+       : $ wget http://downloads.sourceforge.net/project/fuse/fuse-2.X/2.7.4/fuse-2.7.4.tar.gz?use_mirror=ncu
+       : $ wget http://www.ntfs-3g.org/ntfs-3g-2009.4.4.tgz
+
+       : // 2. 编译安装
+       : $ tar -zxf fuse-2.7.4.tar.gz
+       : $ ./configure --prefix=/usr/local/fuse-2.7.4
+       : $ sudo make 
+       : $ sudo make install
+       : $ tar -zxf ntfs-3g-2009.4.4.tgz
+       : $ ./configure --prefix=/usr/local/ntfs-3
+       : $ sudo make 
+       : $ sudo make install 
+
+       : // 3. 检查fuse模块是否被加载进系统
+       : $ /sbin/modprobe fuse
+       : [没有输出则代表存在；否则将会有错误信息报出]
+       : $ cat /proc/filesystems
+       : [fuse应该出现在列表中]
+
+       : // 4. 查看NTFS系统的编号 
+       : $ sudo fdisk -l |grep NTFS 
+
+       : // 5. 挂载
+       : $ mount ntfs-3g /dev/sda1 /mnt/win_ntfs
+     - 方案C：自动挂载 NTFS 格式硬盘
+       : // 1. 安装 ntfs-3g
+       : $ sudo apt-get install ntfs-3g
+
+       : // 2. 编辑 /etc/fstab
+       : // 先查看磁盘 UUID
+       : $ sudo /sbin/blkid /dev/sda1
+       : $ sudo vim /etc/fstab
+       #+NAME:/etc/fstab
+       #+BEGIN_SRC shell
+	 /dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0	  
+	 # Notice:
+	 # If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:
+	 # 翻译：/dev/sdb1 路径会随着系统配置而改变，建议使用 UUID （通用唯一标识符）
+	 # Note down the UUID value and update /etc/fstab as follows:
+	 # 翻译：记录下 UUID，更新 /etc/fstab 文件。
+	 # syntax
+	 # UUID="YOUR-UID-HERE" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+	 UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0
+	 # Owning entire file system
+	 UUID="c2dbc0c5-a8fc-439e-aa93-51b0a61372e8" /mnt/ntfs/ ntfs uid-1000,gid-1000 0 0
+       #+END_SRC
+
+       : // 3. 创建目录
+       : $ sudo mkdir -p /mnt/ntfs
+
+       : // 4. 测试（Test）可用性
+       : $ sudo mount -a
+       : $ df -h
+       : $ cd /mnt/ntfs
+       : $ ls -l
+
+       : // 5. 卸载NTFS分区
+       : $ sudo umount /mnt/ntfs
+       : // or
+       : $ sudo umount /dev/sda1
+
+       : // 6. 注意错误信息：“Read-only file system”提示
+       : $ sudo  mv 05Music/ /mnt/sda/sda2/
+       : /bin/mv: inter-device move failed: '05Music/' to '/mnt/sda/sda2/05Music'; unable to remove target: Read-only file system
+       : 解决办法：参照第2步
+     - 参考资料
+       [[https://www.cyberciti.biz/faq/debian-ubuntu-linux-auto-mounting-windows-ntfs-file-system/][How To Debian/Ubuntu Linux Auto Mount Windows NTFS File System]]
+       [[https://wiki.archlinux.org/index.php/NTFS-3G][NTFS-3G]]
+       [[https://wiki.archlinux.org/index.php/Fstab_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)][fstab (简体中文)]]
+       [[https://wiki.archlinux.org/index.php/NTFS-3G_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)][NTFS-3G (简体中文)]]
+**** boot 加载选项修改
+     : // 注释不需要的加载项！
+     : $ sudo chmod +w /boot/grub/grub.cfg
+     : $ sudo vim /boot/grub/grub.cfg
+**** 改变 Home 目录下的目录中文名称为英文
+     - 方法1
+       : $ vim ~/.config/user-dirs.dirs
+       #+BEGIN_SRC shell
+       XDG_DESKTOP_DIR="$HOME/Desktop"
+       XDG_DOWNLOAD_DIR="$HOME/Download"
+       XDG_TEMPLATES_DIR="$HOME/Template"
+       XDG_PUBLICSHARE_DIR="$HOME/Public"
+       XDG_DOCUMENTS_DIR="$HOME/Document"
+       XDG_MUSIC_DIR="$HOME/Music"
+       XDG_PICTURES_DIR="$HOME/Picture"
+       XDG_VIDEOS_DIR="$HOME/Video"
+       #+END_SRC
+     - 方法2
+       : $ export LANG=en_US
+       : xdg-user-dirs-gtk-update
+**** 电脑没有声音问题解决
+     1. 安装驱动软件
+	: $ sudo apt-get install alsa-utils
+	: $ sudo apt-get install alsa-oos
+	: $ sudo apt-get install esound
+	: $ sudo apt-get install gnome-audio
+     2. 检查声卡驱动
+	: $ lspci |grep Audio
+     3. 检查内核模块
+	: $ lsmod |grep snd
+     4. 检查系统音量
+	: $ alsamixer
+	alsamixer 是 alsa 驱动的一个插件,是一个命令行下的图形设置工具。alsamixer 命令，00 表示音量正常，MM表示此声道静音。可以通过M键切换。
+     5. 初始化声卡
+	: $ sudo alsactl init
+     6. 参考资料
+	- [[https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/][解決 Ubuntu Linux 16.04 耳機輸出沒有聲音的問題]]
+**** 日期时间设置
+     : // Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
+     : // hwclock 用于查看硬件时间。设置硬件时间：
+     : $ sudo hwclock -set -date='07/17/2017 20:00'
+     : // 设置硬件时间与系统时钟同步。
+     : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+     : $ sudo hwclock -systohc
+** Linux 目录结构
+   #+CAPTION:Linux Directory
+   #+ALTR_HTML: :alt cat/spider image :align center
+   [[file:{{site.url}}/assets/images/cs2.png]]
 ** Linux 常用命令
-   : // 上一节介绍的帮助命令
-   : info, help, main
-
-   : // 通过历史记录简化操作
-   | !!    | 重复前一个命令               |
-   | !字符 | 重复前一个以“字符”开头的命令 |
-   | !num  | 按照历史记录的序号执行命令   |
-   | !?abc | 重复之前包含 abc 的命令      |
-   | !-n   | 重复 n 个命令之前的那个命令  |
-
+   : // 获取帮助的命令
+   : info, help, man, type
    : // 日期时间
    : date, hwclock, cal, uptime
-
    : // 输出、查看命令
    : echo, cat, head, tail, less, more
-   
    : // 查看硬件信息
    : lspci, lsusb, lsmod
-
-   : // 关机、重启
-   : shutdown, reboot, poweroff
-
+   : // 关机、重启、注销
+   : shutdown, reboot, poweroff, init, logout
    : // 归档、压缩
    : zip, unzip, gzip, tar
-
    : // 查找
-   : locate, find
-*** 获取帮助 & 问题解决
-    1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
-    2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
-    3. 检查相关日志。
-    4. 对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
-    5. 使用网络
-    6. 使用搜索命令：find，locate，whereis。。。
-    7. man
-       查看在线帮助手册(an interface to the on-line reference manuals)，如果不记得命令名怎么办？可以使用关键字搜索手册页。
-       : $ man -k terminal
-       #+CAPTION: Linux 手册页惯用的节名
-       | 节            | 描述                     |
-       |---------------+--------------------------|
-       | Name          | 显示命令和一段简短的描述 |
-       | Synopsis      | 命令的语法               |
-       | Configuration | 命令配置信息             |
-       | Description   | 命令的一般性描述         |
-       | Options       | 命令选项描述             |
-       | Exit Status   | 命令的推出状态指示       |
-       | Return Value  | 命令的返回值             |
-       | Errors        | 命令的错误信息           |
-       | Environment   | 描述所使用的环境变量     |
-       | Files         | 命令用到的文件           |
-       | Versions      | 命令的版本信息           |
-       | Conforming To | 命令所遵从的标准         |
-       | Notes         | 其他有帮助的资料         |
-       | Bugs          | 提供提交Bug的途径        |
-       | Example       | 展示命令的用法           |
-       | Authors       | 命令开发人员的信息       |
-       | Copyright     | 命令源代码的版权状况     |
-       | See Also      | 与该命令类似的其他命令   |
-       |---------------+--------------------------|
-       #+CAPTION: Linux 手册页的内容区域
-       | 区域号 | 所涵盖的内容             |
-       |--------+--------------------------|
-       |      1 | 可执行程序或shell命令    |
-       |      2 | 系统调用                 |
-       |      3 | 库调用                   |
-       |      4 | 特殊文件                 |
-       |      5 | 文件格式与约定           |
-       |      6 | 游戏                     |
-       |      7 | 概览、约定及杂项         |
-       |      8 | 超级用户和系统管理员命令 |
-       |      9 | 内核例程                 |
-       |--------+--------------------------|
-    8. help
-       \\
-       查看命令帮助信息(Display information about builtin commands.)
-    9. type
-       \\
-       查看命令类型(Display information about command type)
-** Linux 软件包管理
-*** 源代码与Tarbal
-*** 软件安装RPM、SRPM与YUM
-** Linux 文件、目录和磁盘格式
-*** 文件权限(Permission)
+   : find,locate,which,where,wc
+*** Linux 文件权限(Permission)
 **** 理解
      1. 使用文件权限符
 	: $ ls -lh
@@ -669,12 +563,22 @@ photos:
      : $ umask 002
      : $ cd testdir
      : $ touch testfile
-*** 目录
-    #+CAPTION:Linux Directory
-    #+ALTR_HTML: :alt cat/spider image :align center
-    [[file:{{site.url}}/assets/images/cs2.png]]
-*** 文件搜索
-    : find,locate,which,where,wc
+*** Linux 压缩(Compression)和打包(Packaging)
+    #+CAPTION: File unzip
+    #+ALTR_HTML: :alt cat/spider image :title :align center
+    [[file:{{site.url}}/assets/images/tar.png]]
+
+    : 另外还有不常见的，但时有遇到的：
+    : .tar.xz
+    : $ tar xpvf file.tar.xz
+
+    : .tgz
+    : $ tar zxf  name.tgz
+    : 
+    : //解压到指定目录
+   
+    : $ unzip name.zip -d ./dir
+*** Linux 文件搜索
 **** find
      find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
 ***** 根据文件名查找
@@ -779,86 +683,135 @@ photos:
 
      : // 更新文件资料库：
      : $ updatedb
+*** Linux 文本处理
+    : grep,sed,awk
+**** grep
+     : 语法格式：grep -iv [指定字符串][文件]
+     : -i 不区分大小写
+     : -o 正则匹配指定内容
+     : -v 排除指定字符串
 
-*** 磁盘格式
-    1. 自动挂载
-       \\
-       配置文件 /etc/fstab 用来定义需要自动挂载的文件系统，fstab 中每一行代表一个挂在配置，格式如下：
-       #+CAPTION: 自动挂载
-       | /dev/sda3      | /mnt   | ext4     | defaults | 0 0                |
-       |----------------+--------+----------+----------+--------------------|
-       | 需要挂载的设备 | 挂载点 | 文件系统 | 挂在选项 | dump、fsck相关选项 |
-    2. 
-*** 文件系统
-    : // 将 /dev/sda7 硬盘格式化为 ext3 格式。
-    : $ mkfs -t ext3 -c /dev/sda7
-** Linux 压缩(Compression)和打包(Packaging)
-   #+CAPTION: File unzip
-   #+ALTR_HTML: :alt cat/spider image :title :align center
-   [[file:{{site.url}}/assets/images/tar.png]]
+     : // 查找指定字符串的行并显示
+     : $ grep 123 test.txt
 
-   : 另外还有不常见的，但时有遇到的：
-   : .tar.xz
-   : $ tar xpvf file.tar.xz
+     : // 查找匹配到的内容
+     : $ grep -o 'engine\[\0-9a-z]*\]'
 
-   : .tgz
-   : $ tar zxf  name.tgz
-   : 
-   : //解压到指定目录
-   
-   : $ unzip name.zip -d ./dir
-** Linux 文本处理
-   : grep,sed,awk
-*** grep
-    : 语法格式：grep -iv [指定字符串][文件]
-    : -i 不区分大小写
-    : -o 正则匹配指定内容
-    : -v 排除指定字符串
+     : // 打印没有匹配到的行
+     : $ grep -v ^# config.txt
+**** sed
+     \\
+     一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
+     : // 查看文件的第2行
+     : $ sed -n '2p' test.txt
 
-    : // 查找指定字符串的行并显示
-    : $ grep 123 test.txt
+     : // 删除从第2行到第4行的数据
+     : $ sed '2,4d' test.txt
 
-    : // 查找匹配到的内容
-    : $ grep -o 'engine\[\0-9a-z]*\]'
+     : // 在第2行追加hello
+     : $ sed '2a hello' test.txt
 
-    : // 打印没有匹配到的行
-    : $ grep -v ^# config.txt
-*** sed
-    \\
-    一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
-    : // 查看文件的第2行
-    : $ sed -n '2p' test.txt
+     : // 在第2行前插入两行数据
+     : $ sed '2i hello \
+     : wold' test.txt
 
-    : // 删除从第2行到第4行的数据
-    : $ sed '2,4d' test.txt
+     : // 数据替换
+     : $ sed '2c No such person' test.txt
 
-    : // 在第2行追加hello
-    : $ sed '2a hello' test.txt
-
-    : // 在第2行前插入两行数据
-    : $ sed '2i hello \
-    : wold' test.txt
-
-    : // 数据替换
-    : $ sed '2c No such person' test.txt
-
-    *字符串替换*
-    : // g 表示全文替换
-    : $ sed 's/oldStr/newStr/g' fileName
-    : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
-    : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
-*** awk
-    \\
-    对文件内容进行统计，适合处理格式化数据，比如表格
-    : // 打印第一切片和第四切片内容
-    : $ awk '{print $1,$4}' netstat.txt
+     *字符串替换*
+     : // g 表示全文替换
+     : $ sed 's/oldStr/newStr/g' fileName
+     : // 将某个目录下的所有文件中的某个字符进行替换成新字符串，格式如下：
+     : $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
+**** awk
+     \\
+     对文件内容进行统计，适合处理格式化数据，比如表格
+     : // 打印第一切片和第四切片内容
+     : $ awk '{print $1,$4}' netstat.txt
        
-    : // 打印以逗号为分隔符分隔，并打印第二列
-    : $ awk -F "," '{print $2}' test.txt
+     : // 打印以逗号为分隔符分隔，并打印第二列
+     : $ awk -F "," '{print $2}' test.txt
 
-    : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
+     : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
 
-    : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+     : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+*** 扩展阅读：关机和重启及系统运行级别
+    1. 关机/重启命令
+       : $ sudo shutdown -r now
+       : // 其他重启命令
+       : halt, poweroff, init 0
+       : $ sudo reboot
+       : $ sudo init 6
+       : // 注销命令
+       : logout
+    2. 系统运行级别
+       #+CAPTION:系统运行级别
+       | 级别 | 描述                           |
+       |------+--------------------------------|
+       |    0 | 关机，不允许设置为初始化默认值 |
+       |    1 | 单用户模式                     |
+       |    2 | 不完全多用户，不含NFS服务      |
+       |    3 | 完全多用户                     |
+       |    4 | 未分配                         |
+       |    5 | 图形界面                       |
+       |    6 | 重启，不允许设置为初始化默认值 |
+    
+       : $ cat /etc/initable
+       : // 查看系统运行级别
+       : $ sudo runlevel
+*** 扩展阅读：解决问题 & 获取帮助
+**** man 命令
+     查看在线帮助手册(an interface to the on-line reference manuals)，如果不记得命令名怎么办？可以使用关键字搜索手册页。
+     : $ man -k terminal
+     #+CAPTION: Linux 手册页惯用的节名
+     | 节            | 描述                     |
+     |---------------+--------------------------|
+     | Name          | 显示命令和一段简短的描述 |
+     | Synopsis      | 命令的语法               |
+     | Configuration | 命令配置信息             |
+     | Description   | 命令的一般性描述         |
+     | Options       | 命令选项描述             |
+     | Exit Status   | 命令的推出状态指示       |
+     | Return Value  | 命令的返回值             |
+     | Errors        | 命令的错误信息           |
+     | Environment   | 描述所使用的环境变量     |
+     | Files         | 命令用到的文件           |
+     | Versions      | 命令的版本信息           |
+     | Conforming To | 命令所遵从的标准         |
+     | Notes         | 其他有帮助的资料         |
+     | Bugs          | 提供提交Bug的途径        |
+     | Example       | 展示命令的用法           |
+     | Authors       | 命令开发人员的信息       |
+     | Copyright     | 命令源代码的版权状况     |
+     | See Also      | 与该命令类似的其他命令   |
+     |---------------+--------------------------|
+
+     #+CAPTION: Linux 手册页的内容区域
+     | 区域号 | 所涵盖的内容             |
+     |--------+--------------------------|
+     |      1 | 可执行程序或shell命令    |
+     |      2 | 系统调用                 |
+     |      3 | 库调用                   |
+     |      4 | 特殊文件                 |
+     |      5 | 文件格式与约定           |
+     |      6 | 游戏                     |
+     |      7 | 概览、约定及杂项         |
+     |      8 | 超级用户和系统管理员命令 |
+     |      9 | 内核例程                 |
+     |--------+--------------------------|
+**** 解决问题思路
+     1. 出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）
+     2. 当怀疑有黑客入侵或病毒的情况，马上做日志备份。
+     3. 检查相关日志。
+     4. 对于新的操作或配置造成的问题，最好是养成定期备份重要文件的习惯。
+     5. 使用网络
+     6. 使用搜索命令：find,locate,whereis,...
+*** 扩展阅读：通过历史记录简化操作
+    | !!    | 重复前一个命令               |
+    | !字符 | 重复前一个以“字符”开头的命令 |
+    | !num  | 按照历史记录的序号执行命令   |
+    | !?abc | 重复之前包含 abc 的命令      |
+    | !-n   | 重复 n 个命令之前的那个命令  |
 * Linux 账号管理与 ACL 权限控制
 ** Linux 用户管理
 *** Linux User
@@ -979,52 +932,52 @@ photos:
     : 用户交流：write、mesg、wall
     : 用户邮箱：mail
 ** Linux 权限规划(Authority Division): ACL 权限控制
-    1. 什么是 ACL？
-       \\
-       ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
-       \\
-       ACL 主要可以针对哪些方面来控制权限呢？它主要可以针对以下几个项目：
-       - 使用者 (user)：可以针对使用者来配置权限；
-       - 群组 (group)：针对群组为对象来配置其权限；
-       - 默认属性 (mask)：还可以针对在该目录下在创建新文件/目录时，规范新数据的默认权限；
-    2. 如何开启 ACL？
-       \\
-       查看 /dev/sdb1 分区 ACL 权限是否开启。
-       : $ sudo dumpe2fs -h /dev/sdb1
-       : //找到"Default mount options"，查看是否有临时开启分区 ACL 权限
-       重新挂载根分区，并挂载加入 acl 权限。
-       : $ sudo mount -o remount,acl /
-       永久开启分区 ACL 权限
-       : $ sudo vim /etc/fstab
-       #+NAME:/etc/fstab
-       #+BEGIN_SRC shell
-       UUID=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
-       #+END_SRC
-       注意：目前多数 Linux 系统 defaults 默认已经支持 acl 开启了，所以只需要添加 defaults 选项就可以了。重新挂载文件系统或重启系统，使修改生效。
-       : $ sudo mount -o remount /
-    3. 设定 ACL 权限
-       + 使用 setfacl 命令设定 ACL 权限
-	 \\
-	 示例：构建听课权限组，为特定用户设定 ACL 权限
-	 : # useradd wang
-	 : # useradd li
-	 : # useradd zhao
-	 : # groupadd coursegroup
-	 : # mkdir /project
-	 : # chown root:coursegroup /project/
-	 : # chmod 770 /project
-	 : # setfacl -m u:zhao:rwx /project
-       + 使用 getfacl 命令获取 ACL 设定信息
-	 : 格式: getfacl filename
-	 : # getfacl abc.txt
-       + 针对有效权限(effective permission) mask 的设定
-	 \\
-	 *有效权限* : 使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
-	 : 配置规范：『 m:[rwx] 』，例如针对某个文件规范为仅有 rx ：
-	 : # setfacl -m m:rx /project/testfile
-       + 针对默认权限和递归(针对目录/子目录下的所有文件)权限的设定
-	 : 配置规范：『 d:[ug]:使用者列表:[rwx] 』
-	 : # setfacl -m d:u:zhao:rx -R /project
+   1. 什么是 ACL？
+      \\
+      ACL 是 Access Control List 的缩写，主要的目的是在提供传统的 owner,group,others 的 read,write,execute 权限之外的细部权限配置。
+      \\
+      ACL 主要可以针对哪些方面来控制权限呢？它主要可以针对以下几个项目：
+      - 使用者 (user)：可以针对使用者来配置权限；
+      - 群组 (group)：针对群组为对象来配置其权限；
+      - 默认属性 (mask)：还可以针对在该目录下在创建新文件/目录时，规范新数据的默认权限；
+   2. 如何开启 ACL？
+      \\
+      查看 /dev/sdb1 分区 ACL 权限是否开启。
+      : $ sudo dumpe2fs -h /dev/sdb1
+      : //找到"Default mount options"，查看是否有临时开启分区 ACL 权限
+      重新挂载根分区，并挂载加入 acl 权限。
+      : $ sudo mount -o remount,acl /
+      永久开启分区 ACL 权限
+      : $ sudo vim /etc/fstab
+      #+NAME:/etc/fstab
+      #+BEGIN_SRC shell
+      UUID=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+      #+END_SRC
+      注意：目前多数 Linux 系统 defaults 默认已经支持 acl 开启了，所以只需要添加 defaults 选项就可以了。重新挂载文件系统或重启系统，使修改生效。
+      : $ sudo mount -o remount /
+   3. 设定 ACL 权限
+      + 使用 setfacl 命令设定 ACL 权限
+	\\
+	示例：构建听课权限组，为特定用户设定 ACL 权限
+	: # useradd wang
+	: # useradd li
+	: # useradd zhao
+	: # groupadd coursegroup
+	: # mkdir /project
+	: # chown root:coursegroup /project/
+	: # chmod 770 /project
+	: # setfacl -m u:zhao:rwx /project
+      + 使用 getfacl 命令获取 ACL 设定信息
+	: 格式: getfacl filename
+	: # getfacl abc.txt
+      + 针对有效权限(effective permission) mask 的设定
+	\\
+	*有效权限* : 使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
+	: 配置规范：『 m:[rwx] 』，例如针对某个文件规范为仅有 rx ：
+	: # setfacl -m m:rx /project/testfile
+      + 针对默认权限和递归(针对目录/子目录下的所有文件)权限的设定
+	: 配置规范：『 d:[ug]:使用者列表:[rwx] 』
+	: # setfacl -m d:u:zhao:rx -R /project
 ** 磁盘配额和高级文件系统管理
 *** 磁盘配额(Disk Quota)应用实践
 *** 软件磁盘阵列(Software RAID)
@@ -1650,6 +1603,29 @@ photos:
 
     : 参考资料：
     [[https://developers.google.com/web/fundamentals/security/encrypt-in-transit/enable-https?hl=zh-cn][在服务器上启用 HTTPS]]
+*** 基本网络配置
+    1. 安装网络工具
+       : $ sudo apt-get install net-tools
+    2. 配置网络
+       + 在 Linux 中，以太网接口被命名为：eth0、eth1等。
+       + lspci 命令可以查看网卡硬件信息（如果是 usb 网卡，则需要使用 lsusb 命令）
+       + ifconfig 命令：查看接口信息
+	 : $ ifconfig -a
+	 : $ ifconfig eth0
+       + ifup,ifdown 命令：启用、禁用一个接口
+	 : $ ifup eth0
+	 : $ ifdown eth0
+    3. 相关配置文件
+       + 网卡配置文件：/etc/sysconfig/network-scripts/ifcfg-eth0
+       + DNS 配置文件：/etc/resolv.conf
+       +  主机名配置文件：/etc/sysconfig/network
+       + 静态主机名配置文件：/etc/hosts
+    4. 网络测试
+       + 测试网路连通性：ping 命令
+       + 测试DNS解析：host,dig 命令
+       + 显示路由表：ip route 命令
+       + 追踪到达目标地址的网络路径：traceroute 命令
+       + mtr 命令进行网络质量测试
 ** 远程工具：SSH、VNC、XDMCP 和 RDP
 *** SSH & OpenSSH & SSL & OpenSSL
     + SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。
@@ -1778,166 +1754,166 @@ photos:
       : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
 ** DNS
 ** FTP：Vsftp
-  1. Download and Install
-     : https://security.appspot.com/vsftpd.html#download
-     : //yum
-     : yum install -y vsftpd
-  2. Change default dir
-     #+BEGIN_SRC emacs-lisp
-    #local user
-    local_root=/usr/share/nginx/html
-    #is_enable local view,default_setting is NO
-    chroot_local_user=NO
-    #anonymous user
-    anon_root=/var/ftp/pub
-     #+END_SRC
-  3. Configuring directory of access
-     #+BEGIN_SRC emacs-lisp
-    chroot_local_user=YES
-    chroot_list_enable=NO
-    allow_writeable_chroot=YES
+   1. Download and Install
+      : https://security.appspot.com/vsftpd.html#download
+      : //yum
+      : yum install -y vsftpd
+   2. Change default dir
+      #+BEGIN_SRC emacs-lisp
+     #local user
+     local_root=/usr/share/nginx/html
+     #is_enable local view,default_setting is NO
+     chroot_local_user=NO
+     #anonymous user
+     anon_root=/var/ftp/pub
+      #+END_SRC
+   3. Configuring directory of access
+      #+BEGIN_SRC emacs-lisp
+     chroot_local_user=YES
+     chroot_list_enable=NO
+     allow_writeable_chroot=YES
 
-    报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
-       500 OOPS: vsftpd: refusing to run with writable root inside chroot()
+     报如下错误，是因为没有添加上面的第三条语句，导致用户无法锁定自己的目录。
+	500 OOPS: vsftpd: refusing to run with writable root inside chroot()
 
-    notice:
-     配置具体情况有以下几种：
-    1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
-    2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
-    3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
-    4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
+     notice:
+      配置具体情况有以下几种：
+     1）当 chroot_list_enable=yes，chroot_local_user=yes时，在/etc/vsftpd/chroot_list文件 中列出的用户，可以切换到上级目录；未在文件中列出的用户，不能切换到站点根目录的上级目录。
+     2）当 chroot_list_enable=yes，chroot_local_user=no时，在/etc/vsftpd/chroot_list文件中 列出的用户，不能切换到站点根目录的上级目录；未在文件中列出的用户，可以切换到上级目录。
+     3）当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录。
+     4）当 chroot_list_enable=no，chroot_local_user=no时，所有用户均可以切换到上级目录。
 
-    5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
-     #+END_SRC
-  4. my vsftpd.conf
-     //CentOS 7, /etc/vsftpd/vsftpd.conf.
-     #+BEGIN_SRC emacs-lisp
-    # Example config file /etc/vsftpd/vsftpd.conf
-    # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
-    anonymous_enable=NO
-    #
-    local_root=/srv/www/
-    #
-    # Uncomment this to allow local users to log in.
-    # When SELinux is enforcing check for SE bool ftp_home_dir
-    local_enable=YES
-    #
-    # Uncomment this to enable any form of FTP write command.
-    write_enable=YES
-    #
-    # Default umask for local users is 077. You may wish to change this to 022,
-    # if your users expect that (022 is used by most other ftpd's)
-    local_umask=022
-    #
-    # Uncomment this to allow the anonymous FTP user to upload files. This only
-    # has an effect if the above global write enable is activated. Also, you will
-    # obviously need to create a directory writable by the FTP user.
-    # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
-    #anon_upload_enable=YES
-    #
-    # Uncomment this if you want the anonymous FTP user to be able to create
-    # new directories.
-    #anon_mkdir_write_enable=YES
-    #
-    # Activate directory messages - messages given to remote users when they
-    # go into a certain directory.
-    dirmessage_enable=YES
-    #
-    # Activate logging of uploads/downloads.
-    xferlog_enable=YES
-    #
-    # Make sure PORT transfer connections originate from port 20 (ftp-data).
-    connect_from_port_20=YES
-    #
-    # If you want, you can arrange for uploaded anonymous files to be owned by
-    # a different user. Note! Using "root" for uploaded files is not
-    # recommended!
-    #chown_uploads=YES
-    #chown_username=whoever
-    #
-    # You may override where the log file goes if you like. The default is shown
-    # below.
-    #xferlog_file=/var/log/xferlog
-    #
-    # If you want, you can have your log file in standard ftpd xferlog format.
-    # Note that the default log file location is /var/log/xferlog in this case.
-    xferlog_std_format=YES
-    #
-    # You may change the default value for timing out an idle session.
-    #idle_session_timeout=600
-    #
-    # You may change the default value for timing out a data connection.
-    #data_connection_timeout=120
-    #
-    # It is recommended that you define on your system a unique user which the
-    # ftp server can use as a totally isolated and unprivileged user.
-    #nopriv_user=ftpsecure
-    #
-    # Enable this and the server will recognise asynchronous ABOR requests. Not
-    # recommended for security (the code is non-trivial). Not enabling it,
-    # however, may confuse older FTP clients.
-    #async_abor_enable=YES
-    #
-    # By default the server will pretend to allow ASCII mode but in fact ignore
-    # the request. Turn on the below options to have the server actually do ASCII
-    # mangling on files when in ASCII mode.
-    # Beware that on some FTP servers, ASCII support allows a denial of service
-    # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
-    # predicted this attack and has always been safe, reporting the size of the
-    # raw file.
-    # ASCII mangling is a horrible feature of the protocol.
-    #ascii_upload_enable=YES
-    #ascii_download_enable=YES
-    #
-    # You may fully customise the login banner string:
-    #ftpd_banner=Welcome to blah FTP service.
-    #
-    # You may specify a file of disallowed anonymous e-mail addresses. Apparently
-    # useful for combatting certain DoS attacks.
-    #deny_email_enable=YES
-    # (default follows)
-    #banned_email_file=/etc/vsftpd/banned_emails
-    #
-    # You may specify an explicit list of local users to chroot() to their home
-    # directory. If chroot_local_user is YES, then this list becomes a list of
-    # users to NOT chroot().
-    # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
-    # the user does not have write access to the top level directory within the
-    # chroot)
-    chroot_local_user=YES
-    chroot_list_enable=YES
-    allow_writeable_chroot=YES
-    # (default follows)
-    chroot_list_file=/etc/vsftpd/chroot_list
-    #
-    # You may activate the "-R" option to the builtin ls. This is disabled by
-    # default to avoid remote users being able to cause excessive I/O on large
-    # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
-    # the presence of the "-R" option, so there is a strong case for enabling it.
-    #ls_recurse_enable=YES
-    #
-    # When "listen" directive is enabled, vsftpd runs in standalone mode and
-    # listens on IPv4 sockets. This directive cannot be used in conjunction
-    # with the listen_ipv6 directive.
-    listen=NO
-    #
-    # This directive enables listening on IPv6 sockets. By default, listening
-    # on the IPv6 "any" address (::) will accept connections from both IPv6
-    # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
-    # sockets. If you want that (perhaps because you want to listen on specific
-    # addresses) then you must run two copies of vsftpd with two configuration
-    # files.
-    # Make sure, that one of the listen options is commented !!
-    listen_ipv6=YES
+     5）当用户不允许切换到上级目录时，登录后ftp站点的根目录“/”是该ftp账户的主目录，即文件的系统的/var/ftp目录。
+      #+END_SRC
+   4. my vsftpd.conf
+      //CentOS 7, /etc/vsftpd/vsftpd.conf.
+      #+BEGIN_SRC emacs-lisp
+     # Example config file /etc/vsftpd/vsftpd.conf
+     # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+     anonymous_enable=NO
+     #
+     local_root=/srv/www/
+     #
+     # Uncomment this to allow local users to log in.
+     # When SELinux is enforcing check for SE bool ftp_home_dir
+     local_enable=YES
+     #
+     # Uncomment this to enable any form of FTP write command.
+     write_enable=YES
+     #
+     # Default umask for local users is 077. You may wish to change this to 022,
+     # if your users expect that (022 is used by most other ftpd's)
+     local_umask=022
+     #
+     # Uncomment this to allow the anonymous FTP user to upload files. This only
+     # has an effect if the above global write enable is activated. Also, you will
+     # obviously need to create a directory writable by the FTP user.
+     # When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
+     #anon_upload_enable=YES
+     #
+     # Uncomment this if you want the anonymous FTP user to be able to create
+     # new directories.
+     #anon_mkdir_write_enable=YES
+     #
+     # Activate directory messages - messages given to remote users when they
+     # go into a certain directory.
+     dirmessage_enable=YES
+     #
+     # Activate logging of uploads/downloads.
+     xferlog_enable=YES
+     #
+     # Make sure PORT transfer connections originate from port 20 (ftp-data).
+     connect_from_port_20=YES
+     #
+     # If you want, you can arrange for uploaded anonymous files to be owned by
+     # a different user. Note! Using "root" for uploaded files is not
+     # recommended!
+     #chown_uploads=YES
+     #chown_username=whoever
+     #
+     # You may override where the log file goes if you like. The default is shown
+     # below.
+     #xferlog_file=/var/log/xferlog
+     #
+     # If you want, you can have your log file in standard ftpd xferlog format.
+     # Note that the default log file location is /var/log/xferlog in this case.
+     xferlog_std_format=YES
+     #
+     # You may change the default value for timing out an idle session.
+     #idle_session_timeout=600
+     #
+     # You may change the default value for timing out a data connection.
+     #data_connection_timeout=120
+     #
+     # It is recommended that you define on your system a unique user which the
+     # ftp server can use as a totally isolated and unprivileged user.
+     #nopriv_user=ftpsecure
+     #
+     # Enable this and the server will recognise asynchronous ABOR requests. Not
+     # recommended for security (the code is non-trivial). Not enabling it,
+     # however, may confuse older FTP clients.
+     #async_abor_enable=YES
+     #
+     # By default the server will pretend to allow ASCII mode but in fact ignore
+     # the request. Turn on the below options to have the server actually do ASCII
+     # mangling on files when in ASCII mode.
+     # Beware that on some FTP servers, ASCII support allows a denial of service
+     # attack (DoS) via the command "SIZE /big/file" in ASCII mode. vsftpd
+     # predicted this attack and has always been safe, reporting the size of the
+     # raw file.
+     # ASCII mangling is a horrible feature of the protocol.
+     #ascii_upload_enable=YES
+     #ascii_download_enable=YES
+     #
+     # You may fully customise the login banner string:
+     #ftpd_banner=Welcome to blah FTP service.
+     #
+     # You may specify a file of disallowed anonymous e-mail addresses. Apparently
+     # useful for combatting certain DoS attacks.
+     #deny_email_enable=YES
+     # (default follows)
+     #banned_email_file=/etc/vsftpd/banned_emails
+     #
+     # You may specify an explicit list of local users to chroot() to their home
+     # directory. If chroot_local_user is YES, then this list becomes a list of
+     # users to NOT chroot().
+     # (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
+     # the user does not have write access to the top level directory within the
+     # chroot)
+     chroot_local_user=YES
+     chroot_list_enable=YES
+     allow_writeable_chroot=YES
+     # (default follows)
+     chroot_list_file=/etc/vsftpd/chroot_list
+     #
+     # You may activate the "-R" option to the builtin ls. This is disabled by
+     # default to avoid remote users being able to cause excessive I/O on large
+     # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
+     # the presence of the "-R" option, so there is a strong case for enabling it.
+     #ls_recurse_enable=YES
+     #
+     # When "listen" directive is enabled, vsftpd runs in standalone mode and
+     # listens on IPv4 sockets. This directive cannot be used in conjunction
+     # with the listen_ipv6 directive.
+     listen=NO
+     #
+     # This directive enables listening on IPv6 sockets. By default, listening
+     # on the IPv6 "any" address (::) will accept connections from both IPv6
+     # and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
+     # sockets. If you want that (perhaps because you want to listen on specific
+     # addresses) then you must run two copies of vsftpd with two configuration
+     # files.
+     # Make sure, that one of the listen options is commented !!
+     listen_ipv6=YES
 
-    pam_service_name=vsftpd
-    userlist_enable=YES
-    tcp_wrappers=YES
-     #+END_SRC
-  5. References
-     : https://security.appspot.com/vsftpd.html
-     : https://en.wikipedia.org/wiki/Vsftpd
-     : http://baike.baidu.com/item/vsftpd
+     pam_service_name=vsftpd
+     userlist_enable=YES
+     tcp_wrappers=YES
+      #+END_SRC
+   5. References
+      : https://security.appspot.com/vsftpd.html
+      : https://en.wikipedia.org/wiki/Vsftpd
+      : http://baike.baidu.com/item/vsftpd
 ** NFS
 ** 文件共享：Samba
 ** LAMP & LNMP 环境部署
@@ -2035,8 +2011,18 @@ photos:
    : $ sudo apt-get install iftop
    : 
 ** wget vs axel
-   : 官方地址: http://axel.alioth.debian.org/
-   : 描述: 替换wget命令
+   : // yum 源安装
+   : # yum install axel
+   : // 会存在以下问题，原因是安装的版本不是最新的。
+   : too many directs.
+
+   : // 针对以上问题，采用源码安装
+   : // 依赖安装：
+   : # yum install -y gcc openssl-devel
+   : # wget https://github.com/axel-download-accelerator/axel/releases/download/v2.17.5/axel-2.17.5.tar.gz
+   : # tar zxvf axel-2.17.5.tar.gz
+   : # ./configure && make && sudo make install
+   : # cp axel /usr/bin
 ** Vim & Emacs
    : 两个神器软件单独介绍，这里不重复叙写。
 ** MPlayer
