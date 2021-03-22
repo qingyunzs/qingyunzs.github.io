@@ -478,7 +478,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  30422
+                  32249
                 </span>
               
 
@@ -525,7 +525,11 @@
 
       
         
-  <div id="outline-container-orgd71c10e" class="outline-2">
+  <p>
+我不生产代码，我只是代码的搬运工
+</p>
+
+<div id="outline-container-orgd71c10e" class="outline-2">
 <h2 id="orgd71c10e"><span class="section-number-2">1</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 </div>
@@ -1139,6 +1143,15 @@ $ mkfs -t ext3 -c /dev/sda7
 </pre>
 </div>
 </div>
+<div id="outline-container-org028965a" class="outline-5">
+<h5 id="org028965a"><span class="section-number-5">2.1.2.4</span> 扩展阅读：磁盘配额(Disk Quota)应用实践</h5>
+</div>
+<div id="outline-container-org6732b45" class="outline-5">
+<h5 id="org6732b45"><span class="section-number-5">2.1.2.5</span> 扩展阅读：软件磁盘阵列(Software RAID)</h5>
+</div>
+<div id="outline-container-orgc2c64e2" class="outline-5">
+<h5 id="orgc2c64e2"><span class="section-number-5">2.1.2.6</span> 扩展阅读：逻辑卷管理器(Logical Volume Manager)</h5>
+</div>
 </div>
 <div id="outline-container-org9d81238" class="outline-4">
 <h4 id="org9d81238"><span class="section-number-4">2.1.3</span> Linux 安装后的常见配置</h4>
@@ -1473,7 +1486,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org2e4ded5">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org657db69">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -1657,6 +1670,12 @@ shutdown, reboot, poweroff, init, logout
 zip, unzip, gzip, tar
 // 查找
 find,locate,which,where,wc
+// 查询用户
+w、who、last、lastlog
+// 用户交流
+write、mesg、wall
+// 用户邮箱
+mail
 </pre>
 </div>
 <div id="outline-container-org52f7ada" class="outline-4">
@@ -1898,84 +1917,50 @@ $ touch testfile
 </div>
 </div>
 </div>
-<div id="outline-container-org355dbea" class="outline-4">
-<h4 id="org355dbea"><span class="section-number-4">2.3.2</span> Linux 压缩(Compression)和打包(Packaging)</h4>
-<div class="outline-text-4" id="text-2-3-2">
-
-<div class="figure">
-<p><img src="http://localhost:4000/assets/images/tar.png" alt="tar.png" />
-</p>
-</div>
-
-<pre class="example">
-另外还有不常见的，但时有遇到的：
-.tar.xz
-$ tar xpvf file.tar.xz
-</pre>
-
-
-<pre class="example">
-.tgz
-$ tar zxf  name.tgz
-
-//解压到指定目录
-</pre>
-
-
-<pre class="example">
-$ unzip name.zip -d ./dir
-</pre>
-</div>
-</div>
 <div id="outline-container-org25f1fc8" class="outline-4">
-<h4 id="org25f1fc8"><span class="section-number-4">2.3.3</span> Linux 文件搜索</h4>
-<div class="outline-text-4" id="text-2-3-3">
+<h4 id="org25f1fc8"><span class="section-number-4">2.3.2</span> Linux 文件搜索</h4>
+<div class="outline-text-4" id="text-2-3-2">
 </div>
-<div id="outline-container-orgb0b5a40" class="outline-5">
-<h5 id="orgb0b5a40"><span class="section-number-5">2.3.3.1</span> find</h5>
-<div class="outline-text-5" id="text-2-3-3-1">
+<div id="outline-container-org9c64417" class="outline-5">
+<h5 id="org9c64417"><span class="section-number-5">2.3.2.1</span> find 命令</h5>
+<div class="outline-text-5" id="text-2-3-2-1">
 <p>
-find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
+find 命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则 find 命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
 </p>
-</div>
-<div id="outline-container-orga0b3352" class="outline-6">
-<h6 id="orga0b3352"><span class="section-number-6">2.3.3.1.1</span> 根据文件名查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-1">
-<p>
+<ul class="org-ul">
+<li><p>
+根据文件名查找
+</p>
+<pre class="example">
 格式：find [搜索范围][匹配条件]
-</p>
+</pre>
+
+
 <pre class="example">
 // 默认在当前目录下搜索
 $ find -name "MyCProgram.c"
-</pre>
-
-
-<pre class="example">
 // 忽略大小写
 $ find -iname "MyCProgram.c"
-</pre>
-
-
-<pre class="example">
 // 查找以my开头，后面包含三个字符的文件
 $ find -name my??? 
 </pre>
 
 
-<p>
-<b>深度查找</b>
-</p>
 <pre class="example">
+// 深度查找
 // 在 root 目录及其子目录下查找 passwd 文件。
 $ sudo find / -maxdepth 2 -name passwd
 // 在第二层子目录和第四层子目录之间查找 passwd 文件。
 $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
+</pre>
+
+
+<pre class="example">
 // 找到 home 目录及子目录下所有的空文件(0字节文件) 
-// 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
 $ find ~/ -empty
-//列出你 home 目录里的空文件。
+// 列出你 home 目录里的空文件。
 $ find ~/ -maxdepth 1 -empty
-//列出 home目录下的非隐藏空文件。
+// 列出 home目录下的非隐藏空文件。
 $ find ~/ -maxdepth 1 -empty -not -name ".*"
 </pre>
 
@@ -1993,21 +1978,17 @@ $ find -maxdepth 1 -not -iname "MyCProgram.c"
 $ find -iname "MyCProgram.c" -exec md5sum {} \;
 // 在 /etc 目录下查找 inittab 文件并显示其详细属性
 $ sudo find /etc -name initab -exec ls -l {} \;
-注意：{} 将会被当前文件名取代。
+// 注意：{} 将会被当前文件名取代。
 -exec/-ok &lt;command&gt; {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
-</pre>
-</div>
-</div>
-<div id="outline-container-orgebed086" class="outline-6">
-<h6 id="orgebed086"><span class="section-number-6">2.3.3.1.2</span> 文件大小查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-2">
-<p>
-格式：+n 大于；-n 小于；n 等于
+</pre></li>
+<li><p>
+文件大小查找
 </p>
 <pre class="example">
+格式：+n 大于；-n 小于；n 等于
 // 在 root 目录下查找大于100MB的文件
 $ sudo find / -size +204800
-注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
+// 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
 </pre>
 
 
@@ -2020,11 +2001,11 @@ $ sudo find /etc -size +163840 -a size -204800
 
 
 <pre class="example">
-//列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
+// 列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
 $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
-//查找 5个最小的文件
+// 查找 5个最小的文件
 $ find . -type f -exec ls -s {} \; | sort -n  | head -5
-//上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
+// 上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
 $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
 </pre>
 
@@ -2032,13 +2013,11 @@ $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
 <pre class="example">
 //查找并删除大于 100M 的 *.zip 文件。
 $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
-注意：{} 和 \ 之间是有空格的！
-</pre>
-</div>
-</div>
-<div id="outline-container-orgb87efbd" class="outline-6">
-<h6 id="orgb87efbd"><span class="section-number-6">2.3.3.1.3</span> 根据文件变动情况查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-3">
+// 注意：{} 和 \ 之间是有空格的！
+</pre></li>
+<li><p>
+根据文件变动情况查找
+</p>
 <pre class="example">
 // 在/etc目录下查找5分钟内被修改过属性的文件和目录
 $ sudo /etc -cmin -5
@@ -2052,27 +2031,25 @@ $ sudo /etc -cmin -5
 // 显示所有的在 ordinary_file 之后创建修改的文件。
 $ ls -lrt
 $ find -newer ordinary_file
-</pre>
-</div>
-</div>
-<div id="outline-container-org6234abe" class="outline-6">
-<h6 id="org6234abe"><span class="section-number-6">2.3.3.1.4</span> 根据文件类型查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-4">
-<p>
-f 文件，d 目录，l 软链接，s socket文件
+</pre></li>
+<li><p>
+根据文件类型查找
 </p>
 <pre class="example">
-//查找所有的一般文件
+// f 文件，d 目录，l 软链接，s socket文件
+// 查找所有的一般文件
 $ find ./ -type f
-//查找所有的隐藏文件和目录
+</pre>
+
+
+<pre class="example">
+// 查找所有的隐藏文件和目录
 $ find ./ -type f -name ".*"
 $ find ./ -type d -name ".*"
-</pre>
-</div>
-</div>
-<div id="outline-container-org264030d" class="outline-6">
-<h6 id="org264030d"><span class="section-number-6">2.3.3.1.5</span> 根据文件权限、所属关系查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-5">
+</pre></li>
+<li><p>
+根据文件权限、所属关系查找
+</p>
 <pre class="example">
 $ find /home -user zrg
 $ find /home -group zrg
@@ -2086,29 +2063,25 @@ $ find ./ -perm -g=r -type f -exec ls -l {} \;
 $find ./ -perm g=r -type f -exec ls -l {} \;  
 // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
 $ find ./ -perm 040 -type f -exec ls -l {} \;
-</pre>
-</div>
-</div>
-<div id="outline-container-org8ec477c" class="outline-6">
-<h6 id="org8ec477c"><span class="section-number-6">2.3.3.1.6</span> 使用 inode 编号查找</h6>
-<div class="outline-text-6" id="text-2-3-3-1-6">
-<p>
-任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+</pre></li>
+<li><p>
+使用 inode 编号查找
 </p>
 <pre class="example">
-//使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
+// 任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+// 使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
 $ ls -i1 test*
 16187429 test-file-name
 16187430 test-file-name
-//使用 inode 编号来删除那些具有特殊符号的文件名。
+// 使用 inode 编号来删除那些具有特殊符号的文件名。
 $ find -inum 16187430 -exec rm {} \;
-</pre>
+</pre></li>
+</ul>
 </div>
 </div>
-</div>
-<div id="outline-container-org268574a" class="outline-5">
-<h5 id="org268574a"><span class="section-number-5">2.3.3.2</span> locate</h5>
-<div class="outline-text-5" id="text-2-3-3-2">
+<div id="outline-container-orgc1acf6b" class="outline-5">
+<h5 id="orgc1acf6b"><span class="section-number-5">2.3.2.2</span> locate 命令</h5>
+<div class="outline-text-5" id="text-2-3-2-2">
 <p>
 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
 </p>
@@ -2121,7 +2094,7 @@ $ sudo apt install mlocate
 <pre class="example">
 // 使用
 $ locate init
-注意：locate 命令不会查找/tmp目录下内容。
+// 注意：locate 命令不会查找 /tmp 目录下内容。
 </pre>
 
 
@@ -2133,15 +2106,15 @@ $ updatedb
 </div>
 </div>
 <div id="outline-container-org2805fcb" class="outline-4">
-<h4 id="org2805fcb"><span class="section-number-4">2.3.4</span> Linux 文本处理</h4>
-<div class="outline-text-4" id="text-2-3-4">
+<h4 id="org2805fcb"><span class="section-number-4">2.3.3</span> Linux 文本处理</h4>
+<div class="outline-text-4" id="text-2-3-3">
 <pre class="example">
 grep,sed,awk
 </pre>
 </div>
 <div id="outline-container-orged4d180" class="outline-5">
-<h5 id="orged4d180"><span class="section-number-5">2.3.4.1</span> grep</h5>
-<div class="outline-text-5" id="text-2-3-4-1">
+<h5 id="orged4d180"><span class="section-number-5">2.3.3.1</span> grep</h5>
+<div class="outline-text-5" id="text-2-3-3-1">
 <pre class="example">
 语法格式：grep -iv [指定字符串][文件]
 -i 不区分大小写
@@ -2169,8 +2142,8 @@ $ grep -v ^# config.txt
 </div>
 </div>
 <div id="outline-container-orgb74429b" class="outline-5">
-<h5 id="orgb74429b"><span class="section-number-5">2.3.4.2</span> sed</h5>
-<div class="outline-text-5" id="text-2-3-4-2">
+<h5 id="orgb74429b"><span class="section-number-5">2.3.3.2</span> sed</h5>
+<div class="outline-text-5" id="text-2-3-3-2">
 <p>
 <br />
 一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
@@ -2218,8 +2191,8 @@ $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
 </div>
 </div>
 <div id="outline-container-orga0f302f" class="outline-5">
-<h5 id="orga0f302f"><span class="section-number-5">2.3.4.3</span> awk</h5>
-<div class="outline-text-5" id="text-2-3-4-3">
+<h5 id="orga0f302f"><span class="section-number-5">2.3.3.3</span> awk</h5>
+<div class="outline-text-5" id="text-2-3-3-3">
 <p>
 <br />
 对文件内容进行统计，适合处理格式化数据，比如表格
@@ -2245,6 +2218,35 @@ $ awk '$1=="tcp" &amp;&amp; $2==1 {print $0}' netstat.txt
 $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-org355dbea" class="outline-4">
+<h4 id="org355dbea"><span class="section-number-4">2.3.4</span> Linux 压缩(Compression)和打包(Packaging)</h4>
+<div class="outline-text-4" id="text-2-3-4">
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/tar.png" alt="tar.png" />
+</p>
+</div>
+
+<pre class="example">
+另外还有不常见的，但时有遇到：
+.tar.xz
+$ tar xpvf file.tar.xz
+</pre>
+
+
+<pre class="example">
+.tgz
+$ tar zxf  name.tgz
+
+//解压到指定目录
+</pre>
+
+
+<pre class="example">
+$ unzip name.zip -d ./dir
+</pre>
 </div>
 </div>
 <div id="outline-container-org9a97b20" class="outline-4">
@@ -2574,131 +2576,27 @@ $ man -k terminal
 <h3 id="orgd7ba4c0"><span class="section-number-3">3.1</span> Linux 用户管理</h3>
 <div class="outline-text-3" id="text-3-1">
 </div>
-<div id="outline-container-orgf4dcd50" class="outline-4">
-<h4 id="orgf4dcd50"><span class="section-number-4">3.1.1</span> Linux User</h4>
+<div id="outline-container-org45a5396" class="outline-4">
+<h4 id="org45a5396"><span class="section-number-4">3.1.1</span> Linux User &amp; Group</h4>
 <div class="outline-text-4" id="text-3-1-1">
-</div>
-<div id="outline-container-orgaffabfc" class="outline-5">
-<h5 id="orgaffabfc"><span class="section-number-5">3.1.1.1</span> /etc/passwd</h5>
-<div class="outline-text-5" id="text-3-1-1-1">
 <pre class="example">
-$ cat /etc/passwd
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell" id="org4623336">root:x:0:0:root:/root:/bin/bash
-daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-...
-zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
-</pre>
-</div>
-<pre class="example">
-/etc/passwd 文件的字段包含如下信息：
-</pre>
-
-<ul class="org-ul">
-<li>登录用户名</li>
-<li>用户密码</li>
-<li>UID</li>
-<li>Group ID</li>
-<li>描述</li>
-<li>HOME目录位置</li>
-<li><p>
-默认shell
-</p>
-<pre class="example">
-/etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-</pre></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orga5add5a" class="outline-5">
-<h5 id="orga5add5a"><span class="section-number-5">3.1.1.2</span> /etc/shadow</h5>
-<div class="outline-text-5" id="text-3-1-1-2">
-<pre class="example">
-/etc/shadow 文件的每条记录都有9个字段：
-</pre>
-
-<ul class="org-ul">
-<li>与/etc/passwd文件对应的登录名</li>
-<li>加密后的密码</li>
-<li>自上次修改密码后过去的天数密码（自1970年1月1日开始计算）</li>
-<li>多少天后才能更改密码</li>
-<li>多少天后必须更改密码</li>
-<li>密码过期前提前多少天提醒用户更改密码</li>
-<li>密码过期后多少天禁用用户帐目</li>
-<li>用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）</li>
-<li>预留字段给将来使用</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org35c9226" class="outline-5">
-<h5 id="org35c9226"><span class="section-number-5">3.1.1.3</span> 用户管理文件</h5>
-<div class="outline-text-5" id="text-3-1-1-3">
-<ul class="org-ul">
-<li><p>
-Home 目录
-</p>
-<pre class="example">
-超级用户：/root/
-普通用户：/home/zrg/
-</pre></li>
-<li><p>
-<i>var/spool/mail/zrg</i>
-</p>
-<pre class="example">
-用户邮箱目录
-</pre></li>
-<li><p>
-/etc/skel
-</p>
-<pre class="example">
-在创建用户时，默认复制该目录下的文件到用户的家目录。
-</pre></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgdc6c36b" class="outline-5">
-<h5 id="orgdc6c36b"><span class="section-number-5">3.1.1.4</span> 新增、删除和修改用户</h5>
-<div class="outline-text-5" id="text-3-1-1-4">
-<pre class="example">
-//新增用户
-$ sudo useradd -D
-or
-$ sudo less /etc/default/useradd
-See below, the subsection "Changing the default values".
-</pre>
-
-<ul class="org-ul">
-<li>GROUP=100 //用户默认组，新用户被添加到GID为100的公共组</li>
-<li>HOME=/home //HOME目录位置</li>
-<li>INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用</li>
-<li>EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。</li>
-<li>SHELL=/bin/sh //将sh作为默认shell</li>
-<li>SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下</li>
-<li><p>
-CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
-</p>
-<pre class="example">
-//用上面的默认系统参数创建一个新用户账户
+// 新增一个用户
 $ sudo useradd test
-//要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
+// 新建一个用户，指定默认值或默认行为
 $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
 </pre>
 
 
 <pre class="example">
-//删除用户
-默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+// 删除用户
+// 注意：默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
 $ userdel -r test
-加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
+// 加上 -r 参数，userdel 会删除用户的 HOME 目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序的重要文件）。
 </pre>
 
 
 <pre class="example">
-//修改用户
+// 修改用户信息
 </pre>
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
@@ -2746,15 +2644,10 @@ $ userdel -r test
 <td class="org-left">修改用户账户的默认登录shell</td>
 </tr>
 </tbody>
-</table></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org2e2f554" class="outline-5">
-<h5 id="org2e2f554"><span class="section-number-5">3.1.1.5</span> 修改密码</h5>
-<div class="outline-text-5" id="text-3-1-1-5">
+</table>
+
 <pre class="example">
-修改用户密码的命令：passwd
+// 修改用户密码
 </pre>
 
 <ul class="org-ul">
@@ -2763,38 +2656,107 @@ $ userdel -r test
 <li>-u 解锁用户。仅root用户可用。</li>
 <li>&#x2013;stdin 通过管道符输出的数据作为用户的密码。</li>
 </ul>
-</div>
-</div>
-<div id="outline-container-org9901131" class="outline-5">
-<h5 id="org9901131"><span class="section-number-5">3.1.1.6</span> 显示用户最近登录信息</h5>
-<div class="outline-text-5" id="text-3-1-1-6">
+
 <pre class="example">
+// 显示用户最近登录信息
 last,lastlog
-列出目前/过去登入系统的用户信息
-last, lastb - show a listing of last logged in users
-last [options] [username...] [tty...]
-lastb [options] [username...] [tty...]
+// 列出目前/过去登入系统的用户信息
+last, lastb
 </pre>
 
 
 <pre class="example">
-列出用户最后一次登录系统的信息
-lastlog - reports the most recent login of all users or of a given user
+// 创建、修改和删除组
+$ sudo groupadd shared
+$ sudo groupmod -n sharing shared
+$ sudo groupdel shared
+</pre>
+
+
+<pre class="example">
+// 加入组和从组里删除
+$ sudo gpasswd -a test tests
+$ sudo gpasswd -d test tests   
 </pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org33d91a5" class="outline-4">
-<h4 id="org33d91a5"><span class="section-number-4">3.1.2</span> Linux Group</h4>
+<div id="outline-container-org96a9554" class="outline-4">
+<h4 id="org96a9554"><span class="section-number-4">3.1.2</span> 扩展阅读：user/group 文件</h4>
 <div class="outline-text-4" id="text-3-1-2">
 <ol class="org-ol">
 <li><p>
-/etc/group
+/etc/passwd
 </p>
 <pre class="example">
-/etc/group文件有4个字段：
+$ cat /etc/passwd
 </pre>
 
+<div class="org-src-container">
+<pre class="src src-shell" id="org6e30615">root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">...</span>
+zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
+</pre>
+</div>
+
+<p>
+<b>/etc/passwd 字段信息</b>
+</p>
+<ul class="org-ul">
+<li>登录用户名</li>
+<li>用户密码</li>
+<li>UID</li>
+<li>Group ID</li>
+<li>描述</li>
+<li>HOME目录位置</li>
+<li>默认shell</li>
+</ul>
+
+<p>
+<b>特别说明</b>
+</p>
+<ul class="org-ul">
+<li>/etc/passwd 文件中的密码字段都被设置成了x，多数 Linux 系统都将用户密码保存在 /etc/shadow 文件中，只有特定的程序（比如登录程序）才能访问这个文件。</li>
+<li>一般情况下，不建议直接手动在 /etc/passwd 文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的 Linux 用户管理工具去执行这些操作就会安全许多。</li>
+</ul></li>
+<li>/etc/shadow
+<br />
+<b>/etc/shadow 字段信息</b>
+<ul class="org-ul">
+<li>与/etc/passwd文件对应的登录名</li>
+<li>加密后的密码</li>
+<li>自上次修改密码后过去的天数密码（自1970年1月1日开始计算）</li>
+<li>多少天后才能更改密码</li>
+<li>多少天后必须更改密码</li>
+<li>密码过期前提前多少天提醒用户更改密码</li>
+<li>密码过期后多少天禁用用户帐目</li>
+<li>用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）</li>
+<li>预留字段给将来使用</li>
+</ul></li>
+<li><p>
+/etc/default/useradd
+</p>
+<pre class="example">
+// See below, the subsection "Changing the default values".
+$ sudo useradd -D
+or
+$ sudo less /etc/default/useradd
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #FF8C00;">GROUP</span>=100 //&#29992;&#25143;&#40664;&#35748;&#32452;&#65292;&#26032;&#29992;&#25143;&#34987;&#28155;&#21152;&#21040;GID&#20026;100&#30340;&#20844;&#20849;&#32452;
+<span style="color: #FF8C00;">HOME</span>=/home //HOME&#30446;&#24405;&#20301;&#32622;
+<span style="color: #FF8C00;">INACTIVE</span>=-1 //&#23494;&#30721;&#36807;&#26399;&#23485;&#38480;&#22825;&#25968;&#65292;&#23494;&#30721;&#36807;&#26399;&#21518;&#19981;&#20250;&#34987;&#31105;&#29992;
+<span style="color: #FF8C00;">EXPIRE</span>= //&#23494;&#30721;&#22833;&#25928;&#26102;&#38388;&#65292;&#26410;&#34987;&#35774;&#32622;&#36807;&#26399;&#26085;&#26399;&#65292;&#23494;&#30721;&#22833;&#25928;&#19982; /etc/login.defs &#40664;&#35748;&#25991;&#20214;&#30456;&#20851;&#12290;
+<span style="color: #FF8C00;">SHELL</span>=/bin/sh //&#23558;sh&#20316;&#20026;&#40664;&#35748;shell
+<span style="color: #FF8C00;">SKEL</span>=/etc/skel //&#27169;&#26495;&#30446;&#24405;&#65292;&#20250;&#23558;/etc/skel&#30446;&#24405;&#19979;&#30340;&#20869;&#23481;&#22797;&#21046;&#21040;&#29992;&#25143;&#30340;HOME&#30446;&#24405;&#19979;
+<span style="color: #FF8C00;">CREATE_MAIL_SPOOL</span>=no //&#26159;&#21542;&#20026;&#35813;&#29992;&#25143;&#36134;&#25143;&#22312;mail&#30446;&#24405;&#19979;&#21019;&#24314;&#19968;&#20010;&#29992;&#20110;&#25509;&#25910;&#37038;&#20214;&#30340;&#25991;&#20214;
+</pre>
+</div></li>
+<li>/etc/group
+<br />
+<b>字段信息</b>
 <ul class="org-ul">
 <li>组名</li>
 <li>组密码</li>
@@ -2804,50 +2766,42 @@ lastlog - reports the most recent login of all users or of a given user
 <li><p>
 /etc/gshadow
 </p>
-<pre class="example">
-/etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
-/etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
-必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
-这时就要用到用户组密码。
-</pre>
+<ul class="org-ul">
+<li>/etc/group 的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。</li>
+<li>/etc/gshadow 和/etc/group 是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，这时就要用到用户组密码。</li>
+</ul>
 
-
+<p>
+<b>字段信息</b>
+</p>
 <pre class="example">
 $ sudo less /etc/gshadow
+组名：用户组的名称，由字母或数字构成。
+口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+组内用户列表：如果有多个成员，用,号分割 ;
+</pre></li>
+<li><p>
+其他文件
+</p>
+<pre class="example">
+Home 目录
+超级用户：/root/
+普通用户：/home/zrg/
 </pre>
 
-<ul class="org-ul">
-<li>组名：用户组的名称，由字母或数字构成。</li>
-<li>口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。</li>
-<li>组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。</li>
-<li>组内用户列表：如果有多个成员，用,号分割 ;</li>
-</ul></li>
-<li><p>
-创建、修改和删除组
-</p>
+
 <pre class="example">
-$ sudo groupadd shared
-$ sudo groupmod -n sharing shared
-$ sudo groupdel shared
-</pre></li>
-<li><p>
-加入组和从组里删除
-</p>
+用户邮箱目录
+/var/spool/mail/zrg/
+</pre>
+
+
 <pre class="example">
-$ sudo gpasswd -a test tests
-$ sudo gpasswd -d test tests
+在创建用户时，默认复制该目录下的文件到用户的家目录。
+/etc/skel
 </pre></li>
 </ol>
-</div>
-</div>
-<div id="outline-container-org96e19c0" class="outline-4">
-<h4 id="org96e19c0"><span class="section-number-4">3.1.3</span> Linux 用户信息传递</h4>
-<div class="outline-text-4" id="text-3-1-3">
-<pre class="example">
-查询用户: w、who、last、lastlog
-用户交流：write、mesg、wall
-用户邮箱：mail
-</pre>
 </div>
 </div>
 </div>
@@ -2890,7 +2844,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgac5d503"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org516a37f"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -2941,195 +2895,6 @@ $ sudo mount -o remount /
 </pre></li>
 </ul></li>
 </ol>
-</div>
-</div>
-<div id="outline-container-org94c28b9" class="outline-3">
-<h3 id="org94c28b9"><span class="section-number-3">3.3</span> 磁盘配额和高级文件系统管理</h3>
-<div class="outline-text-3" id="text-3-3">
-</div>
-<div id="outline-container-org42bcee3" class="outline-4">
-<h4 id="org42bcee3"><span class="section-number-4">3.3.1</span> 磁盘配额(Disk Quota)应用实践</h4>
-</div>
-<div id="outline-container-orga1d9b81" class="outline-4">
-<h4 id="orga1d9b81"><span class="section-number-4">3.3.2</span> 软件磁盘阵列(Software RAID)</h4>
-</div>
-<div id="outline-container-orga1fcee4" class="outline-4">
-<h4 id="orga1fcee4"><span class="section-number-4">3.3.3</span> 逻辑卷管理器(Logical Volume Manager)</h4>
-</div>
-</div>
-<div id="outline-container-org7762863" class="outline-3">
-<h3 id="org7762863"><span class="section-number-3">3.4</span> Linux 程序管理和 SELinux 初探</h3>
-<div class="outline-text-3" id="text-3-4">
-</div>
-<div id="outline-container-org8683e1e" class="outline-4">
-<h4 id="org8683e1e"><span class="section-number-4">3.4.1</span> 进程与程序</h4>
-</div>
-<div id="outline-container-orge842aed" class="outline-4">
-<h4 id="orge842aed"><span class="section-number-4">3.4.2</span> 任务管理</h4>
-</div>
-<div id="outline-container-orgb813422" class="outline-4">
-<h4 id="orgb813422"><span class="section-number-4">3.4.3</span> 进程管理</h4>
-<div class="outline-text-4" id="text-3-4-3">
-<ol class="org-ol">
-<li>常见进程管理命令
-<ul class="org-ul">
-<li>top</li>
-<li id="ps"><p>
-list the processes running on the system
-</p>
-<pre class="example">
-// 查看
-$ ps -ef
-</pre></li>
-<li id="kill &amp; killall">send a signal to one or more processes (usually to "kill" a process)</li>
-<li id="jobs">an alternate way of listing your own processes</li>
-<li id="bg">put a process in the background</li>
-<li id="fg">put a process in the forground</li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgfd53179" class="outline-4">
-<h4 id="orgfd53179"><span class="section-number-4">3.4.4</span> 特殊文件与进程</h4>
-<div class="outline-text-4" id="text-3-4-4">
-</div>
-<div id="outline-container-org76d3141" class="outline-5">
-<h5 id="org76d3141"><span class="section-number-5">3.4.4.1</span> Linux 文件特殊权限</h5>
-<div class="outline-text-5" id="text-3-4-4-1">
-<ol class="org-ol">
-<li>SetUID
-<ul class="org-ul">
-<li>SetUID 介绍
-<ul class="org-ul">
-<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
-<li>用户拥有该程序的可执行权限；</li>
-<li>在执行该程序时,获得该程序文件所属用户的身份；</li>
-<li>SetUID 只在该程序执行过程中有效.</li>
-</ul></li>
-<li><p>
-设定和取消 SetUID
-</p>
-<pre class="example">
-// 查看 passwd 命令的 SetUID
-$ ll /usr/bin/passwd
-</pre>
-
-<p>
--rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
-</p>
-
-<pre class="example">
-// 设定
-$ sudo chmod 4755 abc.txt
-or
-$ sudo chmod u+s abc.txt
-</pre>
-
-
-<pre class="example">
-// 取消
-$ sudo chmod 755 abc.txt
-$ sudo chmod u-s abc.txt
-</pre></li>
-<li>注意事项
-<ul class="org-ul">
-<li>关键目录应严格控制写权限.如"/","/usr"</li>
-<li>对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.</li>
-</ul></li>
-</ul></li>
-<li>SetGID
-<ul class="org-ul">
-<li>SetGID 介绍
-<ul class="org-ul">
-<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
-<li>用户拥有该程序的可执行权限；</li>
-<li>在执行该程序时,获得该程序文件所属组的身份；</li>
-<li>SetGID 只在该程序执行过程中有效.</li>
-</ul></li>
-<li><p>
-设定 SetGID
-</p>
-<pre class="example">
-$ sudo chmod 2755 abc.txt
-$ sudo chmod g+s abc.txt
-</pre></li>
-<li>SetGID 针对目录的作用
-<ul class="org-ul">
-<li>普通用户必须对此目录拥有r和x权限,才能进入次目录；</li>
-<li>普通用户在此目录中的有效组会变成次目录的属组；</li>
-<li>若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.</li>
-</ul></li>
-</ul></li>
-<li>Stiky BIT
-<ul class="org-ul">
-<li>Stiky BIT 粘着位
-<ul class="org-ul">
-<li>粘着位只对目录有效</li>
-<li>普通用户对该目录有w和x权限</li>
-<li>如果没有粘着位,普通用户可以删除此目录下所有文件, <b>一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件</b></li>
-</ul></li>
-<li><p>
-设定 Stiky BIT
-</p>
-<pre class="example">
-$ ll /tmp
-</pre>
-
-<p>
-drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
-</p>
-<pre class="example">
-$ sudo chmod 1755 /tmp
-$ sudo chmod o+t /tmp
-</pre>
-
-
-<pre class="example">
-$ sudo chmod 777 /tmp
-$ sudo chmod o-t /tmp
-</pre></li>
-</ul></li>
-<li>chattr
-<ul class="org-ul">
-<li><p>
-命令格式
-</p>
-<pre class="example">
-chattr [+-=] 选项 file/directory
-+ 新增权限
-- 删除权限
-= 等于某权限
-</pre>
-
-
-<pre class="example">
-// 查看文件chattr属性
-格式: lsattr 选项 file/directory
-$ lsattr abc.txt
-</pre></li>
-<li>选项
-<dl class="org-dl">
-<dt>i</dt><dd>对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.</dd>
-<dt>a</dt><dd>对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.</dd>
-</dl></li>
-</ul></li>
-</ol>
-</div>
-</div>
-</div>
-<div id="outline-container-org2153c2b" class="outline-4">
-<h4 id="org2153c2b"><span class="section-number-4">3.4.5</span> SELinux</h4>
-<div class="outline-text-4" id="text-3-4-5">
-</div>
-<div id="outline-container-orgbda89be" class="outline-5">
-<h5 id="orgbda89be"><span class="section-number-5">3.4.5.1</span> 什么是SELinux</h5>
-</div>
-<div id="outline-container-org3cad25d" class="outline-5">
-<h5 id="org3cad25d"><span class="section-number-5">3.4.5.2</span> SELinux的运行模式</h5>
-</div>
-<div id="outline-container-org8ce14a3" class="outline-5">
-<h5 id="org8ce14a3"><span class="section-number-5">3.4.5.3</span> SELinux策略内的规则管理</h5>
-</div>
 </div>
 </div>
 </div>
@@ -3424,16 +3189,191 @@ anacron 与 crontab
 <div id="outline-container-org06b1333" class="outline-3">
 <h3 id="org06b1333"><span class="section-number-3">4.4</span> Linux 基础系统配置与备份策略</h3>
 </div>
+<div id="outline-container-org7762863" class="outline-3">
+<h3 id="org7762863"><span class="section-number-3">4.5</span> Linux 程序管理和 SELinux 初探</h3>
+<div class="outline-text-3" id="text-4-5">
+</div>
+<div id="outline-container-org8683e1e" class="outline-4">
+<h4 id="org8683e1e"><span class="section-number-4">4.5.1</span> 进程与程序</h4>
+</div>
+<div id="outline-container-orge842aed" class="outline-4">
+<h4 id="orge842aed"><span class="section-number-4">4.5.2</span> 任务管理</h4>
+</div>
+<div id="outline-container-orgb813422" class="outline-4">
+<h4 id="orgb813422"><span class="section-number-4">4.5.3</span> 进程管理</h4>
+<div class="outline-text-4" id="text-4-5-3">
+<ol class="org-ol">
+<li>常见进程管理命令
+<ul class="org-ul">
+<li>top</li>
+<li id="ps"><p>
+list the processes running on the system
+</p>
+<pre class="example">
+// 查看
+$ ps -ef
+</pre></li>
+<li id="kill &amp; killall">send a signal to one or more processes (usually to "kill" a process)</li>
+<li id="jobs">an alternate way of listing your own processes</li>
+<li id="bg">put a process in the background</li>
+<li id="fg">put a process in the forground</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgfd53179" class="outline-4">
+<h4 id="orgfd53179"><span class="section-number-4">4.5.4</span> 特殊文件与进程</h4>
+<div class="outline-text-4" id="text-4-5-4">
+</div>
+<div id="outline-container-org76d3141" class="outline-5">
+<h5 id="org76d3141"><span class="section-number-5">4.5.4.1</span> Linux 文件特殊权限</h5>
+<div class="outline-text-5" id="text-4-5-4-1">
+<ol class="org-ol">
+<li>SetUID
+<ul class="org-ul">
+<li>SetUID 介绍
+<ul class="org-ul">
+<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
+<li>用户拥有该程序的可执行权限；</li>
+<li>在执行该程序时,获得该程序文件所属用户的身份；</li>
+<li>SetUID 只在该程序执行过程中有效.</li>
+</ul></li>
+<li><p>
+设定和取消 SetUID
+</p>
+<pre class="example">
+// 查看 passwd 命令的 SetUID
+$ ll /usr/bin/passwd
+</pre>
+
+<p>
+-rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
+</p>
+
+<pre class="example">
+// 设定
+$ sudo chmod 4755 abc.txt
+or
+$ sudo chmod u+s abc.txt
+</pre>
+
+
+<pre class="example">
+// 取消
+$ sudo chmod 755 abc.txt
+$ sudo chmod u-s abc.txt
+</pre></li>
+<li>注意事项
+<ul class="org-ul">
+<li>关键目录应严格控制写权限.如"/","/usr"</li>
+<li>对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.</li>
+</ul></li>
+</ul></li>
+<li>SetGID
+<ul class="org-ul">
+<li>SetGID 介绍
+<ul class="org-ul">
+<li>只有可执行的二进制程序才能设定 SUID 权限；</li>
+<li>用户拥有该程序的可执行权限；</li>
+<li>在执行该程序时,获得该程序文件所属组的身份；</li>
+<li>SetGID 只在该程序执行过程中有效.</li>
+</ul></li>
+<li><p>
+设定 SetGID
+</p>
+<pre class="example">
+$ sudo chmod 2755 abc.txt
+$ sudo chmod g+s abc.txt
+</pre></li>
+<li>SetGID 针对目录的作用
+<ul class="org-ul">
+<li>普通用户必须对此目录拥有r和x权限,才能进入次目录；</li>
+<li>普通用户在此目录中的有效组会变成次目录的属组；</li>
+<li>若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.</li>
+</ul></li>
+</ul></li>
+<li>Stiky BIT
+<ul class="org-ul">
+<li>Stiky BIT 粘着位
+<ul class="org-ul">
+<li>粘着位只对目录有效</li>
+<li>普通用户对该目录有w和x权限</li>
+<li>如果没有粘着位,普通用户可以删除此目录下所有文件, <b>一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件</b></li>
+</ul></li>
+<li><p>
+设定 Stiky BIT
+</p>
+<pre class="example">
+$ ll /tmp
+</pre>
+
+<p>
+drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
+</p>
+<pre class="example">
+$ sudo chmod 1755 /tmp
+$ sudo chmod o+t /tmp
+</pre>
+
+
+<pre class="example">
+$ sudo chmod 777 /tmp
+$ sudo chmod o-t /tmp
+</pre></li>
+</ul></li>
+<li>chattr
+<ul class="org-ul">
+<li><p>
+命令格式
+</p>
+<pre class="example">
+chattr [+-=] 选项 file/directory
++ 新增权限
+- 删除权限
+= 等于某权限
+</pre>
+
+
+<pre class="example">
+// 查看文件chattr属性
+格式: lsattr 选项 file/directory
+$ lsattr abc.txt
+</pre></li>
+<li>选项
+<dl class="org-dl">
+<dt>i</dt><dd>对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.</dd>
+<dt>a</dt><dd>对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.</dd>
+</dl></li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org2153c2b" class="outline-4">
+<h4 id="org2153c2b"><span class="section-number-4">4.5.5</span> SELinux</h4>
+<div class="outline-text-4" id="text-4-5-5">
+</div>
+<div id="outline-container-orgbda89be" class="outline-5">
+<h5 id="orgbda89be"><span class="section-number-5">4.5.5.1</span> 什么是SELinux</h5>
+</div>
+<div id="outline-container-org3cad25d" class="outline-5">
+<h5 id="org3cad25d"><span class="section-number-5">4.5.5.2</span> SELinux的运行模式</h5>
+</div>
+<div id="outline-container-org8ce14a3" class="outline-5">
+<h5 id="org8ce14a3"><span class="section-number-5">4.5.5.3</span> SELinux策略内的规则管理</h5>
+</div>
+</div>
+</div>
 <div id="outline-container-org56d8a72" class="outline-3">
-<h3 id="org56d8a72"><span class="section-number-3">4.5</span> Linux 内核编译与管理</h3>
+<h3 id="org56d8a72"><span class="section-number-3">4.6</span> Linux 内核编译与管理</h3>
 </div>
 <div id="outline-container-org1b5c6b7" class="outline-3">
-<h3 id="org1b5c6b7"><span class="section-number-3">4.6</span> Linux 防火墙</h3>
-<div class="outline-text-3" id="text-4-6">
+<h3 id="org1b5c6b7"><span class="section-number-3">4.7</span> Linux 防火墙</h3>
+<div class="outline-text-3" id="text-4-7">
 </div>
 <div id="outline-container-org5b998c7" class="outline-4">
-<h4 id="org5b998c7"><span class="section-number-4">4.6.1</span> 概念</h4>
-<div class="outline-text-4" id="text-4-6-1">
+<h4 id="org5b998c7"><span class="section-number-4">4.7.1</span> 概念</h4>
+<div class="outline-text-4" id="text-4-7-1">
 <ul class="org-ul">
 <li>众所周知，企业内网和外部公网相比，外部的公网环境更加恶劣，罪恶丛生。防火墙就是通过制定一些有顺序的规则，并管制进入到我们网域内的主机资料封包的一种机制。</li>
 <li>在公网与企业内网之间充当保护屏障的防火墙虽然有软件或硬件之分，但主要功能都是依据策略对穿越防火墙自身的流量进行过滤。防火墙策略可以基于流量的源地址、端口号、协议、应用等信息来定制，然后防火墙使用预先定制的策略规则监控出入的流量，若流量与某一条策略规则相匹配，则执行相应的处理，反之则丢弃。这样一来，就可以保证仅有合法的流量在企业内网和外部公网之间流动了。</li>
@@ -3446,15 +3386,15 @@ anacron 与 crontab
 </div>
 </div>
 <div id="outline-container-org08ca402" class="outline-4">
-<h4 id="org08ca402"><span class="section-number-4">4.6.2</span> 防火墙类别</h4>
-<div class="outline-text-4" id="text-4-6-2">
+<h4 id="org08ca402"><span class="section-number-4">4.7.2</span> 防火墙类别</h4>
+<div class="outline-text-4" id="text-4-7-2">
 <p>
 按照防火墙管理的范围，将防火墙分为网域型与单一主机型的控管。在单一主机型的控管方面，主要的防火墙有封包过滤型的 Netfilter 与依照服务软件程式作为分析的 TCP Wrappers 两种。对于区域性防火墙而言，由于此类防火墙都是当作路由器角色，因此防火墙主要有封包过滤的 Netfilter 与利用代理服务器(proxy server)进行存取代理的方式。
 </p>
 </div>
 <div id="outline-container-org3b49e17" class="outline-5">
-<h5 id="org3b49e17"><span class="section-number-5">4.6.2.1</span> Netfilter</h5>
-<div class="outline-text-5" id="text-4-6-2-1">
+<h5 id="org3b49e17"><span class="section-number-5">4.7.2.1</span> Netfilter</h5>
+<div class="outline-text-5" id="text-4-7-2-1">
 <p>
 所谓的封包过滤，即分析进入主机的网络封包，将封包的表头信息提出来进行分析，已决定放行或禁止访问的机制。
 <br />
@@ -3463,8 +3403,8 @@ anacron 与 crontab
 </div>
 </div>
 <div id="outline-container-org60c366b" class="outline-5">
-<h5 id="org60c366b"><span class="section-number-5">4.6.2.2</span> TCP Wrappers</h5>
-<div class="outline-text-5" id="text-4-6-2-2">
+<h5 id="org60c366b"><span class="section-number-5">4.7.2.2</span> TCP Wrappers</h5>
+<div class="outline-text-5" id="text-4-7-2-2">
 <ul class="org-ul">
 <li>通过服务器程序的外挂 (tcpd) 来处置，与封包过滤不同的是， 这种机制主要是分析谁对某程序进行存取，然后透过规则去分析该服务器程序谁能够联机、谁不能联机。</li>
 <li>与程序的名称有关，举例来说，FTP 可以启动在非正规的 port 21 进行监听，当你透过 Linux 内建的 TCP wrappers 限制 FTP 时， 那么你只要知道 FTP 的软件名称 (vsftpd) ，然后对他作限制，则不管 FTP 启动在哪个端口，都会被该规则管理的。</li>
@@ -3478,8 +3418,8 @@ anacron 与 crontab
 </div>
 </div>
 <div id="outline-container-orgc75f539" class="outline-5">
-<h5 id="orgc75f539"><span class="section-number-5">4.6.2.3</span> Proxy Server</h5>
-<div class="outline-text-5" id="text-4-6-2-3">
+<h5 id="orgc75f539"><span class="section-number-5">4.7.2.3</span> Proxy Server</h5>
+<div class="outline-text-5" id="text-4-7-2-3">
 <p>
 代理服务器是一种网络服务，它可以『代理』用户的需求，而代为前往服务器取得相关的资料。
 <br />
@@ -3490,20 +3430,20 @@ anacron 与 crontab
 </div>
 
 <div id="outline-container-orga12a79a" class="outline-4">
-<h4 id="orga12a79a"><span class="section-number-4">4.6.3</span> Linux 的封包过滤软件：iptables</h4>
-<div class="outline-text-4" id="text-4-6-3">
+<h4 id="orga12a79a"><span class="section-number-4">4.7.3</span> Linux 的封包过滤软件：iptables</h4>
+<div class="outline-text-4" id="text-4-7-3">
 </div>
 <div id="outline-container-org7ed97a1" class="outline-5">
-<h5 id="org7ed97a1"><span class="section-number-5">4.6.3.1</span> 历史背景</h5>
-<div class="outline-text-5" id="text-4-6-3-1">
+<h5 id="org7ed97a1"><span class="section-number-5">4.7.3.1</span> 历史背景</h5>
+<div class="outline-text-5" id="text-4-7-3-1">
 <p>
 在早期的 Linux 系统中，默认使用的是 iptables 防火墙管理服务来配置防火墙。尽管新型的 firewalld 防火墙管理服务已经被投入使用多年，但是大量的企业在生产环境中依然出于各种原因而继续使用 iptables。
 </p>
 </div>
 </div>
 <div id="outline-container-orga68803f" class="outline-5">
-<h5 id="orga68803f"><span class="section-number-5">4.6.3.2</span> iptables 表与规则链</h5>
-<div class="outline-text-5" id="text-4-6-3-2">
+<h5 id="orga68803f"><span class="section-number-5">4.7.3.2</span> iptables 表与规则链</h5>
+<div class="outline-text-5" id="text-4-7-3-2">
 <p>
 iptables 的表格与相关链示意图:
 <img src="http://localhost:4000/assets/images/iptables_02.png" alt="iptables_02.png" />
@@ -3580,12 +3520,12 @@ nat：是 Network Address Translation 的缩写， 这个表格主要在进行�
 </div>
 
 <div id="outline-container-org802d610" class="outline-5">
-<h5 id="org802d610"><span class="section-number-5">4.6.3.3</span> iptables 策略和语法</h5>
-<div class="outline-text-5" id="text-4-6-3-3">
+<h5 id="org802d610"><span class="section-number-5">4.7.3.3</span> iptables 策略和语法</h5>
+<div class="outline-text-5" id="text-4-7-3-3">
 </div>
 <div id="outline-container-orgce6772d" class="outline-6">
-<h6 id="orgce6772d"><span class="section-number-6">4.6.3.3.1</span> 策略</h6>
-<div class="outline-text-6" id="text-4-6-3-3-1">
+<h6 id="orgce6772d"><span class="section-number-6">4.7.3.3.1</span> 策略</h6>
+<div class="outline-text-6" id="text-4-7-3-3-1">
 <p>
 防火墙会从上至下的顺序来读取配置的策略规则，在找到匹配项后就立即结束匹配工作并去执行匹配项中定义的行为（即放行或阻止）。如果在读取完所有的策略规则之后没有匹配项，就去执行默认的策略。防火墙策略规则的设置有两种：一种是“通”（即放行），一种是“堵”（即阻止iptables服务把用于处理或过滤流量的策略条目称之为规则，多条规则可以组成一个规则链，而规则链则依据数据包处理位置的不同进行分类，具体如下：
 </p>
@@ -3617,8 +3557,8 @@ nat：是 Network Address Translation 的缩写， 这个表格主要在进行�
 </div>
 </div>
 <div id="outline-container-org3a36545" class="outline-6">
-<h6 id="org3a36545"><span class="section-number-6">4.6.3.3.2</span> 语法应用</h6>
-<div class="outline-text-6" id="text-4-6-3-3-2">
+<h6 id="org3a36545"><span class="section-number-6">4.7.3.3.2</span> 语法应用</h6>
+<div class="outline-text-6" id="text-4-7-3-3-2">
 <ol class="org-ol">
 <li><p>
 规则的查看和清除
@@ -3805,8 +3745,8 @@ $ service iptables save
 </div>
 </div>
 <div id="outline-container-orga9257b6" class="outline-4">
-<h4 id="orga9257b6"><span class="section-number-4">4.6.4</span> Linux 的封包过滤软件：Firewalld</h4>
-<div class="outline-text-4" id="text-4-6-4">
+<h4 id="orga9257b6"><span class="section-number-4">4.7.4</span> Linux 的封包过滤软件：Firewalld</h4>
+<div class="outline-text-4" id="text-4-7-4">
 <ol class="org-ol">
 <li><p>
 概念
@@ -4078,8 +4018,8 @@ $ sudo firewall-cmd --permanent --zone=public --add-rich-rule="rule family="ipv4
 </div>
 </div>
 <div id="outline-container-org3b9f383" class="outline-4">
-<h4 id="org3b9f383"><span class="section-number-4">4.6.5</span> 服务的访问控制列表</h4>
-<div class="outline-text-4" id="text-4-6-5">
+<h4 id="org3b9f383"><span class="section-number-4">4.7.5</span> 服务的访问控制列表</h4>
+<div class="outline-text-4" id="text-4-7-5">
 <p>
 TCP Wrappers是RHEL 7系统中默认启用的一款流量监控程序，它能够根据来访主机的地址与本机的目标服务程序作出允许或拒绝的操作。换句话说，Linux系统中其实有两个层面的防火墙，第一种是前面讲到的基于TCP/IP协议的流量过滤工具，而TCP Wrappers服务则是能允许或禁止Linux系统提供服务的防火墙，从而在更高层面保护了Linux系统的安全运行。
 <br />
@@ -4174,8 +4114,8 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 邮件发送：mail
 </pre>
 </div>
-<div id="outline-container-org465419b" class="outline-5">
-<h5 id="org465419b"><span class="section-number-5">5.1.1.1</span> 网络参数设定命令</h5>
+<div id="outline-container-org5091457" class="outline-5">
+<h5 id="org5091457"><span class="section-number-5">5.1.1.1</span> 网络参数设定命令</h5>
 <div class="outline-text-5" id="text-5-1-1-1">
 <pre class="example">
 ifconfig
@@ -4183,8 +4123,8 @@ configure a network interface
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb15484f" class="outline-5">
-<h5 id="orgb15484f"><span class="section-number-5">5.1.1.2</span> 网络参数设定命令</h5>
+<div id="outline-container-orgf2d4cfc" class="outline-5">
+<h5 id="orgf2d4cfc"><span class="section-number-5">5.1.1.2</span> 网络参数设定命令</h5>
 </div>
 <div id="outline-container-org9cd8d8b" class="outline-5">
 <h5 id="org9cd8d8b"><span class="section-number-5">5.1.1.3</span> 封包撷取</h5>
@@ -4903,12 +4843,147 @@ http://baike.baidu.com/item/vsftpd
 </div>
 <div id="outline-container-orgd297c4a" class="outline-3">
 <h3 id="orgd297c4a"><span class="section-number-3">6.4</span> 虚拟化概述</h3>
+<div class="outline-text-3" id="text-6-4">
+<ol class="org-ol">
+<li><p>
+虚拟化（virtualization）技术是一个通用的概念，在不同领域有不同的理解。在计算领域，一般指的是计算虚拟化（computing virtualization），或通常说的服务器虚拟化。
+</p>
+<pre class="example">
+维基百科上的定义如下：“在计算机技术中，虚拟化是一种资源管理技术，是将计算机的各种实体资源，如服务器、网络、内存及存储等，予以抽象、转换后呈现出来，打破实体结构间的不可切割的障碍，使用户可以用比原本的组态更好的方式来应用这些资源。”
+</pre></li>
+<li>从大类上分，虚拟化技术可分为基于硬件的虚拟化和基于软件的虚拟化。基于软件的虚拟化从对象所在的层次，又可以分为应用虚拟化和平台虚拟化（通常说的虚拟机技术即属于这个范畴）。前者一般指的是一些模拟设备或诸如Wine这样的软件，后者又可以细分为几个子类：
+<dl class="org-dl">
+<dt>完全虚拟化</dt><dd>虚拟机模拟完整的底层硬件环境和特权指令的执行过程，客户操作系统无须进行修改。例如IBM p和z系列的虚拟化、VMware Workstation、VirtualBox、QEMU等；</dd>
+<dt>硬件辅助虚拟化</dt><dd>利用硬件（主要是CPU）辅助支持（目前x86体系结构上可用的硬件辅助虚拟化技术包括Intel-VT和AMD-V）处理敏感指令来实现完全虚拟化的功能，客户操作系统无须修改，例如VMware Workstation, Xen, KVM；</dd>
+<dt>部分虚拟化</dt><dd>只针对部分硬件资源进行虚拟化，客户操作系统需要进行修改。现在有些虚拟化技术的早期版本仅支持部分虚拟化；</dd>
+<dt>超虚拟化（paravirtualization）</dt><dd>部分硬件接口以软件的形式提供给客户机操作系统，客户操作系统需要进行修改，例如早期的Xen；</dd>
+<dt>操作系统级虚拟化</dt><dd>内核通过创建多个虚拟的操作系统实例（内核和库）来隔离不同的进程。容器相关技术即在这个范畴。Docker 以及其他容器技术都属于操作系统虚拟化这个范畴，操作系统虚拟化最大的特点就是不需要额外的 supervisor 支持。Docker 虚拟化方式之所以有众多优势，跟操作系统虚拟化技术自身的设计和实现是分不开的。</dd>
+</dl></li>
+</ol>
 </div>
-<div id="outline-container-org727630a" class="outline-3">
-<h3 id="org727630a"><span class="section-number-3">6.5</span> Vcent</h3>
 </div>
 <div id="outline-container-org6b29017" class="outline-3">
-<h3 id="org6b29017"><span class="section-number-3">6.6</span> Docker</h3>
+<h3 id="org6b29017"><span class="section-number-3">6.5</span> Docker</h3>
+<div class="outline-text-3" id="text-6-5">
+</div>
+<div id="outline-container-org11ad2a8" class="outline-4">
+<h4 id="org11ad2a8"><span class="section-number-4">6.5.1</span> 简介</h4>
+<div class="outline-text-4" id="text-6-5-1">
+<ol class="org-ol">
+<li>Docker 是个划时代的开源项目，它彻底释放了计算虚拟化的威力，极大提高了应用的维护效率，降低了云计算应用开发的成本！使用 Docker，可以让应用的部署、测试和分发都变得前所未有的高效和轻松！</li>
+<li><p>
+Docker 和传统虚拟化方式的区别
+<img src="http://localhost:4000/assets/images/virtualization-01.png" alt="virtualization-01.png" />
+</p>
+
+
+<div class="figure">
+<p><img src="http://localhost:4000/assets/images/docker-01.png" alt="docker-01.png" />
+</p>
+</div>
+
+<p>
+<b>对比虚拟机</b>
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">特性</th>
+<th scope="col" class="org-left">容器</th>
+<th scope="col" class="org-left">虚拟机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">启动速度</td>
+<td class="org-left">秒级</td>
+<td class="org-left">分钟级</td>
+</tr>
+
+<tr>
+<td class="org-left">性能</td>
+<td class="org-left">接近原生</td>
+<td class="org-left">较弱</td>
+</tr>
+
+<tr>
+<td class="org-left">内存代价</td>
+<td class="org-left">很小</td>
+<td class="org-left">很大</td>
+</tr>
+
+<tr>
+<td class="org-left">硬盘使用</td>
+<td class="org-left">一般为MB</td>
+<td class="org-left">一般为GB</td>
+</tr>
+
+<tr>
+<td class="org-left">运行密度</td>
+<td class="org-left">单机支持上千个容器</td>
+<td class="org-left">一般几十个</td>
+</tr>
+
+<tr>
+<td class="org-left">隔离性</td>
+<td class="org-left">安全隔离</td>
+<td class="org-left">完全隔离</td>
+</tr>
+
+<tr>
+<td class="org-left">迁移性</td>
+<td class="org-left">优秀</td>
+<td class="org-left">一般</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<b>Docker architecture</b>
+<img src="http://localhost:4000/assets/images/architecture-01.png" alt="architecture-01.png" />
+</p></li>
+<li>传统方式是在硬件层面实现虚拟化，需要有额外的虚拟机管理应用和虚拟机操作系统层。Docker容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，因此更加轻量级。</li>
+<li>Docker的构想是要实现“Build, Ship and Run Any App, Anywhere”，即通过对应用的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）生命周期进行管理，达到应用组件级别的“一次封装，到处运行”。这里的应用组件，既可以是一个Web应用、一个编译环境，也可以是一套数据库平台服务，甚至是一个操作系统或集群。</li>
+<li>IBM DeveloperWorks网站关于容器技术的描述十分准确：“容器有效地将由单个操作系统管理的资源划分到孤立的组中，以更好地在孤立的组之间平衡有冲突的资源使用需求。与虚拟化相比，这样既不需要指令级模拟，也不需要即时编译。容器可以在核心CPU本地运行指令，而不需要任何专门的解释机制。此外，也避免了准虚拟化（para-virtualization）和系统调用替换中的复杂性。”</li>
+<li>为什么要用 docker？
+<ul class="org-ul">
+<li>更高效的利用系统资源</li>
+<li>更快速的启动时间</li>
+<li>一致的运行环境</li>
+<li>持续交付和部署</li>
+<li>更轻松的迁移</li>
+<li>更轻松的维护和扩展</li>
+<li>对比传统虚拟机总结</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org542c82f" class="outline-4">
+<h4 id="org542c82f"><span class="section-number-4">6.5.2</span> 基本概念</h4>
+<div class="outline-text-4" id="text-6-5-2">
+</div>
+<div id="outline-container-orgbd9b1ce" class="outline-5">
+<h5 id="orgbd9b1ce"><span class="section-number-5">6.5.2.1</span> 镜像(Image)</h5>
+</div>
+<div id="outline-container-org058712a" class="outline-5">
+<h5 id="org058712a"><span class="section-number-5">6.5.2.2</span> 容器(Container)</h5>
+</div>
+<div id="outline-container-orgef5de56" class="outline-5">
+<h5 id="orgef5de56"><span class="section-number-5">6.5.2.3</span> 仓库(Repository)</h5>
+</div>
+</div>
+</div>
+<div id="outline-container-org727630a" class="outline-3">
+<h3 id="org727630a"><span class="section-number-3">6.6</span> Vcent</h3>
 </div>
 <div id="outline-container-orgeb69098" class="outline-3">
 <h3 id="orgeb69098"><span class="section-number-3">6.7</span> Openstack</h3>
@@ -6134,7 +6209,7 @@ $ iptables -L
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd71c10e"> <span class="nav-text">1 前言</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc277ea0"> <span class="nav-text">1.1 导读</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.2 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c5e53e"> <span class="nav-text">1.3 作者心路旅程</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org108caae"> <span class="nav-text">2 Linux 入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5872a12"> <span class="nav-text">2.1 Linux 简介与安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.1.1 入门第一步，理解 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4b0ac12"> <span class="nav-text">2.1.1.1 扩展阅读：Linux 内容划分</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org92b2ce4"> <span class="nav-text">2.1.2 Linux 安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2fc309c"> <span class="nav-text">2.1.2.1 扩展阅读：主机规划与磁盘分区(Disk Partition)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc3fcd56"> <span class="nav-text">2.1.2.2 扩展阅读：磁盘格式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org902e20e"> <span class="nav-text">2.1.2.3 扩展阅读：文件系统</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9d81238"> <span class="nav-text">2.1.3 Linux 安装后的常见配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2be2a35"> <span class="nav-text">2.1.3.1 su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd6fec80"> <span class="nav-text">2.1.3.2 配置 Wifi</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org73b0e4d"> <span class="nav-text">2.1.3.3 配置软件安装源(source)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbe9fd47"> <span class="nav-text">2.1.3.4 中文支持及中文输入法的配置</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org98ba0b9"> <span class="nav-text">2.1.3.5 Linux 上挂载NTFS格式文件系统</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org6182685"> <span class="nav-text">2.1.3.6 boot 加载选项修改</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf69ccc0"> <span class="nav-text">2.1.3.7 改变 Home 目录下的目录中文名称为英文</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc441813"> <span class="nav-text">2.1.3.8 电脑没有声音问题解决</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf93bf77"> <span class="nav-text">2.1.3.9 日期时间设置</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga64b63a"> <span class="nav-text">2.2 Linux 目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e47297"> <span class="nav-text">2.3 Linux 常用命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org52f7ada"> <span class="nav-text">2.3.1 Linux 文件权限(Permission)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf8378c7"> <span class="nav-text">2.3.1.1 理解</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf89c852"> <span class="nav-text">2.3.1.2 共享文件(Share File)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org355dbea"> <span class="nav-text">2.3.2 Linux 压缩(Compression)和打包(Packaging)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org25f1fc8"> <span class="nav-text">2.3.3 Linux 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb0b5a40"> <span class="nav-text">2.3.3.1 find</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orga0b3352"> <span class="nav-text">2.3.3.1.1 根据文件名查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgebed086"> <span class="nav-text">2.3.3.1.2 文件大小查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgb87efbd"> <span class="nav-text">2.3.3.1.3 根据文件变动情况查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org6234abe"> <span class="nav-text">2.3.3.1.4 根据文件类型查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org264030d"> <span class="nav-text">2.3.3.1.5 根据文件权限、所属关系查找</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org8ec477c"> <span class="nav-text">2.3.3.1.6 使用 inode 编号查找</span> </a> </li> </ol> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org268574a"> <span class="nav-text">2.3.3.2 locate</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2805fcb"> <span class="nav-text">2.3.4 Linux 文本处理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">2.3.4.1 grep</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">2.3.4.2 sed</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">2.3.4.3 awk</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9a97b20"> <span class="nav-text">2.3.5 扩展阅读：关机和重启及系统运行级别</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaf6e266"> <span class="nav-text">2.3.6 扩展阅读：解决问题 &amp; 获取帮助</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0c6015e"> <span class="nav-text">2.3.6.1 man 命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd3f9e77"> <span class="nav-text">2.3.6.2 解决问题思路</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4556cf0"> <span class="nav-text">2.3.7 扩展阅读：通过历史记录简化操作</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b1d154"> <span class="nav-text">3 Linux 账号管理与 ACL 权限控制</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd7ba4c0"> <span class="nav-text">3.1 Linux 用户管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf4dcd50"> <span class="nav-text">3.1.1 Linux User</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgaffabfc"> <span class="nav-text">3.1.1.1 /etc/passwd</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga5add5a"> <span class="nav-text">3.1.1.2 /etc/shadow</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org35c9226"> <span class="nav-text">3.1.1.3 用户管理文件</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdc6c36b"> <span class="nav-text">3.1.1.4 新增、删除和修改用户</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2e2f554"> <span class="nav-text">3.1.1.5 修改密码</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9901131"> <span class="nav-text">3.1.1.6 显示用户最近登录信息</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org33d91a5"> <span class="nav-text">3.1.2 Linux Group</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96e19c0"> <span class="nav-text">3.1.3 Linux 用户信息传递</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf434d5f"> <span class="nav-text">3.2 Linux 权限规划(Authority Division): ACL 权限控制</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org94c28b9"> <span class="nav-text">3.3 磁盘配额和高级文件系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org42bcee3"> <span class="nav-text">3.3.1 磁盘配额(Disk Quota)应用实践</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1d9b81"> <span class="nav-text">3.3.2 软件磁盘阵列(Software RAID)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga1fcee4"> <span class="nav-text">3.3.3 逻辑卷管理器(Logical Volume Manager)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7762863"> <span class="nav-text">3.4 Linux 程序管理和 SELinux 初探</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">3.4.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">3.4.2 任务管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">3.4.3 进程管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">3.4.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">3.4.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">3.4.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">3.4.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">3.4.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">3.4.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3ab0f47"> <span class="nav-text">4 Linux 系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1f48638"> <span class="nav-text">4.1 Linux 启动管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8b2881a"> <span class="nav-text">4.2 Linux 计划任务(例行性工作排程)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge6bfec3"> <span class="nav-text">4.2.1 什么是计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">4.2.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">4.2.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">4.2.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">4.2.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">4.2.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1633c89"> <span class="nav-text">4.3 Linux 日志管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org06b1333"> <span class="nav-text">4.4 Linux 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org56d8a72"> <span class="nav-text">4.5 Linux 内核编译与管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1b5c6b7"> <span class="nav-text">4.6 Linux 防火墙</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5b998c7"> <span class="nav-text">4.6.1 概念</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org08ca402"> <span class="nav-text">4.6.2 防火墙类别</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3b49e17"> <span class="nav-text">4.6.2.1 Netfilter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org60c366b"> <span class="nav-text">4.6.2.2 TCP Wrappers</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc75f539"> <span class="nav-text">4.6.2.3 Proxy Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga12a79a"> <span class="nav-text">4.6.3 Linux 的封包过滤软件：iptables</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org7ed97a1"> <span class="nav-text">4.6.3.1 历史背景</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga68803f"> <span class="nav-text">4.6.3.2 iptables 表与规则链</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org802d610"> <span class="nav-text">4.6.3.3 iptables 策略和语法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgce6772d"> <span class="nav-text">4.6.3.3.1 策略</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org3a36545"> <span class="nav-text">4.6.3.3.2 语法应用</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga9257b6"> <span class="nav-text">4.6.4 Linux 的封包过滤软件：Firewalld</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b9f383"> <span class="nav-text">4.6.5 服务的访问控制列表</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1293274"> <span class="nav-text">5 Linux 服务管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c4827c"> <span class="nav-text">5.1 Linux 网络基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">5.1.1 Linux 常见网络命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org465419b"> <span class="nav-text">5.1.1.1 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb15484f"> <span class="nav-text">5.1.1.2 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9cd8d8b"> <span class="nav-text">5.1.1.3 封包撷取</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge81f9a4"> <span class="nav-text">5.1.1.4 网络检错与观察指令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">5.1.1.5 神奇的 nc 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge832787"> <span class="nav-text">5.1.2 启用 HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org76a7e98"> <span class="nav-text">5.1.3 基本网络配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0dc947a"> <span class="nav-text">5.2 远程工具：SSH、VNC、XDMCP 和 RDP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3118c96"> <span class="nav-text">5.2.1 SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org305987c"> <span class="nav-text">5.2.2 SSH 配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga4d022e"> <span class="nav-text">5.2.3 SCP 使用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c5fc75"> <span class="nav-text">5.3 DNS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57426f0"> <span class="nav-text">5.4 FTP：Vsftp</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc4e833d"> <span class="nav-text">5.5 NFS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8699d12"> <span class="nav-text">5.6 文件共享：Samba</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf2089c2"> <span class="nav-text">5.7 LAMP &amp; LNMP 环境部署</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc359cb9"> <span class="nav-text">5.8 NIS 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5106a38"> <span class="nav-text">5.9 NTP 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c0ff32"> <span class="nav-text">5.10 Proxy 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4c5dc9"> <span class="nav-text">5.11 iSCSI 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf62f74d"> <span class="nav-text">5.12 Tomcat</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org485dca8"> <span class="nav-text">5.13 邮件服务：Postfix</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb758d08"> <span class="nav-text">5.14 ELK 日志分析服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9564837"> <span class="nav-text">5.15 Rsync 同步服务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2731ff7"> <span class="nav-text">6 Linux 集群与虚拟化</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57518d1"> <span class="nav-text">6.1 集群概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbddca1b"> <span class="nav-text">6.2 MySQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7665ccb"> <span class="nav-text">6.3 NoSQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd297c4a"> <span class="nav-text">6.4 虚拟化概述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org727630a"> <span class="nav-text">6.5 Vcent</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6b29017"> <span class="nav-text">6.6 Docker</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeb69098"> <span class="nav-text">6.7 Openstack</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga60cf6a"> <span class="nav-text">6.8 Kubenetes(k8s)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2393572"> <span class="nav-text">7 附录A：常见软件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">7.1 GCC</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e5ec98"> <span class="nav-text">7.1.1 简单编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org578d8af"> <span class="nav-text">7.1.2 多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf3c3c34"> <span class="nav-text">7.1.3 检错</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd66201"> <span class="nav-text">7.1.4 库文件连接</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5a52df0"> <span class="nav-text">7.1.5 其他</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">7.2 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga522792"> <span class="nav-text">7.3 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">7.4 wget vs axel</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0e7f242"> <span class="nav-text">7.5 Vim &amp; Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">7.6 MPlayer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">7.7 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">7.8 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">7.9 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">7.10 宝塔面板</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">7.11 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">7.12 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">7.13 Composer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">7.14 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">7.15 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">7.16 gnome-screenshots</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3577942"> <span class="nav-text">8 附录B：常见问题收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">8.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">8.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">8.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">8.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">8.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">8.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">8.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">8.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">8.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">8.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">8.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">8.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">8.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org470658d"> <span class="nav-text">9 参考资料</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orgd71c10e"> <span class="nav-text">1 前言</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc277ea0"> <span class="nav-text">1.1 导读</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8d8ad0d"> <span class="nav-text">1.2 读者对象</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5c5e53e"> <span class="nav-text">1.3 作者心路旅程</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org108caae"> <span class="nav-text">2 Linux 入门</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5872a12"> <span class="nav-text">2.1 Linux 简介与安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org40841dc"> <span class="nav-text">2.1.1 入门第一步，理解 Linux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org4b0ac12"> <span class="nav-text">2.1.1.1 扩展阅读：Linux 内容划分</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org92b2ce4"> <span class="nav-text">2.1.2 Linux 安装</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2fc309c"> <span class="nav-text">2.1.2.1 扩展阅读：主机规划与磁盘分区(Disk Partition)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc3fcd56"> <span class="nav-text">2.1.2.2 扩展阅读：磁盘格式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org902e20e"> <span class="nav-text">2.1.2.3 扩展阅读：文件系统</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org028965a"> <span class="nav-text">2.1.2.4 扩展阅读：磁盘配额(Disk Quota)应用实践</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org6732b45"> <span class="nav-text">2.1.2.5 扩展阅读：软件磁盘阵列(Software RAID)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc2c64e2"> <span class="nav-text">2.1.2.6 扩展阅读：逻辑卷管理器(Logical Volume Manager)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9d81238"> <span class="nav-text">2.1.3 Linux 安装后的常见配置</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org2be2a35"> <span class="nav-text">2.1.3.1 su &amp; sudo</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd6fec80"> <span class="nav-text">2.1.3.2 配置 Wifi</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org73b0e4d"> <span class="nav-text">2.1.3.3 配置软件安装源(source)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbe9fd47"> <span class="nav-text">2.1.3.4 中文支持及中文输入法的配置</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org98ba0b9"> <span class="nav-text">2.1.3.5 Linux 上挂载NTFS格式文件系统</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org6182685"> <span class="nav-text">2.1.3.6 boot 加载选项修改</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf69ccc0"> <span class="nav-text">2.1.3.7 改变 Home 目录下的目录中文名称为英文</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc441813"> <span class="nav-text">2.1.3.8 电脑没有声音问题解决</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf93bf77"> <span class="nav-text">2.1.3.9 日期时间设置</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga64b63a"> <span class="nav-text">2.2 Linux 目录结构</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3e47297"> <span class="nav-text">2.3 Linux 常用命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org52f7ada"> <span class="nav-text">2.3.1 Linux 文件权限(Permission)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf8378c7"> <span class="nav-text">2.3.1.1 理解</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf89c852"> <span class="nav-text">2.3.1.2 共享文件(Share File)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org25f1fc8"> <span class="nav-text">2.3.2 Linux 文件搜索</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9c64417"> <span class="nav-text">2.3.2.1 find 命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc1acf6b"> <span class="nav-text">2.3.2.2 locate 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2805fcb"> <span class="nav-text">2.3.3 Linux 文本处理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orged4d180"> <span class="nav-text">2.3.3.1 grep</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgb74429b"> <span class="nav-text">2.3.3.2 sed</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga0f302f"> <span class="nav-text">2.3.3.3 awk</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org355dbea"> <span class="nav-text">2.3.4 Linux 压缩(Compression)和打包(Packaging)</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9a97b20"> <span class="nav-text">2.3.5 扩展阅读：关机和重启及系统运行级别</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgaf6e266"> <span class="nav-text">2.3.6 扩展阅读：解决问题 &amp; 获取帮助</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org0c6015e"> <span class="nav-text">2.3.6.1 man 命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgd3f9e77"> <span class="nav-text">2.3.6.2 解决问题思路</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4556cf0"> <span class="nav-text">2.3.7 扩展阅读：通过历史记录简化操作</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org4b1d154"> <span class="nav-text">3 Linux 账号管理与 ACL 权限控制</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd7ba4c0"> <span class="nav-text">3.1 Linux 用户管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45a5396"> <span class="nav-text">3.1.1 Linux User &amp; Group</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org96a9554"> <span class="nav-text">3.1.2 扩展阅读：user/group 文件</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf434d5f"> <span class="nav-text">3.2 Linux 权限规划(Authority Division): ACL 权限控制</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3ab0f47"> <span class="nav-text">4 Linux 系统管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1f48638"> <span class="nav-text">4.1 Linux 启动管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8b2881a"> <span class="nav-text">4.2 Linux 计划任务(例行性工作排程)</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge6bfec3"> <span class="nav-text">4.2.1 什么是计划任务</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgea786a9"> <span class="nav-text">4.2.1.1 计划任务的种类</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org1a15b5f"> <span class="nav-text">4.2.1.2 常见的例行性工作</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org94a9231"> <span class="nav-text">4.2.2 单一计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org1ddf098"> <span class="nav-text">4.2.3 循环计划任务</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org9fe0bcf"> <span class="nav-text">4.2.4 唤醒式的工作任务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1633c89"> <span class="nav-text">4.3 Linux 日志管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org06b1333"> <span class="nav-text">4.4 Linux 基础系统配置与备份策略</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7762863"> <span class="nav-text">4.5 Linux 程序管理和 SELinux 初探</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org8683e1e"> <span class="nav-text">4.5.1 进程与程序</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge842aed"> <span class="nav-text">4.5.2 任务管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb813422"> <span class="nav-text">4.5.3 进程管理</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd53179"> <span class="nav-text">4.5.4 特殊文件与进程</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org76d3141"> <span class="nav-text">4.5.4.1 Linux 文件特殊权限</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org2153c2b"> <span class="nav-text">4.5.5 SELinux</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbda89be"> <span class="nav-text">4.5.5.1 什么是SELinux</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3cad25d"> <span class="nav-text">4.5.5.2 SELinux的运行模式</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org8ce14a3"> <span class="nav-text">4.5.5.3 SELinux策略内的规则管理</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org56d8a72"> <span class="nav-text">4.6 Linux 内核编译与管理</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1b5c6b7"> <span class="nav-text">4.7 Linux 防火墙</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5b998c7"> <span class="nav-text">4.7.1 概念</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org08ca402"> <span class="nav-text">4.7.2 防火墙类别</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org3b49e17"> <span class="nav-text">4.7.2.1 Netfilter</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org60c366b"> <span class="nav-text">4.7.2.2 TCP Wrappers</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgc75f539"> <span class="nav-text">4.7.2.3 Proxy Server</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga12a79a"> <span class="nav-text">4.7.3 Linux 的封包过滤软件：iptables</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org7ed97a1"> <span class="nav-text">4.7.3.1 历史背景</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orga68803f"> <span class="nav-text">4.7.3.2 iptables 表与规则链</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org802d610"> <span class="nav-text">4.7.3.3 iptables 策略和语法</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-6"> <a class="nav-link" href="#orgce6772d"> <span class="nav-text">4.7.3.3.1 策略</span> </a> </li> <li class="nav-item nav-level-6"> <a class="nav-link" href="#org3a36545"> <span class="nav-text">4.7.3.3.2 语法应用</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga9257b6"> <span class="nav-text">4.7.4 Linux 的封包过滤软件：Firewalld</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3b9f383"> <span class="nav-text">4.7.5 服务的访问控制列表</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org1293274"> <span class="nav-text">5 Linux 服务管理</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c4827c"> <span class="nav-text">5.1 Linux 网络基础</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4fa915c"> <span class="nav-text">5.1.1 Linux 常见网络命令</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org5091457"> <span class="nav-text">5.1.1.1 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgf2d4cfc"> <span class="nav-text">5.1.1.2 网络参数设定命令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org9cd8d8b"> <span class="nav-text">5.1.1.3 封包撷取</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orge81f9a4"> <span class="nav-text">5.1.1.4 网络检错与观察指令</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgdb2c6bf"> <span class="nav-text">5.1.1.5 神奇的 nc 命令</span> </a> </li> </ol> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orge832787"> <span class="nav-text">5.1.2 启用 HTTPS</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org76a7e98"> <span class="nav-text">5.1.3 基本网络配置</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0dc947a"> <span class="nav-text">5.2 远程工具：SSH、VNC、XDMCP 和 RDP</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3118c96"> <span class="nav-text">5.2.1 SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org305987c"> <span class="nav-text">5.2.2 SSH 配置</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orga4d022e"> <span class="nav-text">5.2.3 SCP 使用</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0c5fc75"> <span class="nav-text">5.3 DNS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57426f0"> <span class="nav-text">5.4 FTP：Vsftp</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc4e833d"> <span class="nav-text">5.5 NFS</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org8699d12"> <span class="nav-text">5.6 文件共享：Samba</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf2089c2"> <span class="nav-text">5.7 LAMP &amp; LNMP 环境部署</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgc359cb9"> <span class="nav-text">5.8 NIS 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5106a38"> <span class="nav-text">5.9 NTP 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org1c0ff32"> <span class="nav-text">5.10 Proxy 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf4c5dc9"> <span class="nav-text">5.11 iSCSI 服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgf62f74d"> <span class="nav-text">5.12 Tomcat</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org485dca8"> <span class="nav-text">5.13 邮件服务：Postfix</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb758d08"> <span class="nav-text">5.14 ELK 日志分析服务</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9564837"> <span class="nav-text">5.15 Rsync 同步服务</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2731ff7"> <span class="nav-text">6 Linux 集群与虚拟化</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org57518d1"> <span class="nav-text">6.1 集群概念</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgbddca1b"> <span class="nav-text">6.2 MySQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7665ccb"> <span class="nav-text">6.3 NoSQL 集群</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd297c4a"> <span class="nav-text">6.4 虚拟化概述</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org6b29017"> <span class="nav-text">6.5 Docker</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org11ad2a8"> <span class="nav-text">6.5.1 简介</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org542c82f"> <span class="nav-text">6.5.2 基本概念</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgbd9b1ce"> <span class="nav-text">6.5.2.1 镜像(Image)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#org058712a"> <span class="nav-text">6.5.2.2 容器(Container)</span> </a> </li> <li class="nav-item nav-level-5"> <a class="nav-link" href="#orgef5de56"> <span class="nav-text">6.5.2.3 仓库(Repository)</span> </a> </li> </ol> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org727630a"> <span class="nav-text">6.6 Vcent</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgeb69098"> <span class="nav-text">6.7 Openstack</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga60cf6a"> <span class="nav-text">6.8 Kubenetes(k8s)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org2393572"> <span class="nav-text">7 附录A：常见软件</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org2ce87f2"> <span class="nav-text">7.1 GCC</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org4e5ec98"> <span class="nav-text">7.1.1 简单编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org578d8af"> <span class="nav-text">7.1.2 多个程序文件的编译</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgf3c3c34"> <span class="nav-text">7.1.3 检错</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgfd66201"> <span class="nav-text">7.1.4 库文件连接</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org5a52df0"> <span class="nav-text">7.1.5 其他</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcbeef9b"> <span class="nav-text">7.2 系统状态监视命令：top &amp; htop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga522792"> <span class="nav-text">7.3 网络监视命令：iftop</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdd95a52"> <span class="nav-text">7.4 wget vs axel</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0e7f242"> <span class="nav-text">7.5 Vim &amp; Emacs</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org08e48d2"> <span class="nav-text">7.6 MPlayer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org0221d50"> <span class="nav-text">7.7 google-chrome &amp; chromium</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org860ad0c"> <span class="nav-text">7.8 Scrot：截图工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org62bf110"> <span class="nav-text">7.9 rarcrack（压缩包密码破解工具）</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org9951ba9"> <span class="nav-text">7.10 宝塔面板</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd819432"> <span class="nav-text">7.11 Cisco AnyConnect VPN Client</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org76c9b1c"> <span class="nav-text">7.12 Bind：DNS工具</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgb65c69d"> <span class="nav-text">7.13 Composer</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org3c2c1cf"> <span class="nav-text">7.14 Cygwin：windows 下 Linux 模拟软件</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org75eb043"> <span class="nav-text">7.15 Wps for Linux</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgdc57247"> <span class="nav-text">7.16 gnome-screenshots</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org3577942"> <span class="nav-text">8 附录B：常见问题收集</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgd9fad23"> <span class="nav-text">8.1 命令行下不能输入中文标点符号</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org231ca86"> <span class="nav-text">8.2 不能在 Sublime 编辑器（Editor）中输入中文</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orgcfa83a7"> <span class="nav-text">8.3 解决系统不能支持加密算法：chacha20</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orge112525"> <span class="nav-text">8.4 软件源配置不全，导致软件不能安装</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org7ede71e"> <span class="nav-text">8.5 .deb 转换为 .rpm</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org3833d5e"> <span class="nav-text">8.5.1 下载及安装 alien</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#org45c52b6"> <span class="nav-text">8.5.2 转换(Conversion)</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org264c2bc"> <span class="nav-text">8.6 软件自启动脚本实例</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgb42b0fd"> <span class="nav-text">8.6.1 实例：php-fpm 服务启动脚本</span> </a> </li> <li class="nav-item nav-level-4"> <a class="nav-link" href="#orgdabaabf"> <span class="nav-text">8.6.2 References</span> </a> </li> </ol> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org98bfa04"> <span class="nav-text">8.7 解决 dpkg: warning: files list file for package 'x' missing 问题</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org26de4b5"> <span class="nav-text">8.8 dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org700d121"> <span class="nav-text">8.9 CentOS 7关闭firewall，安装iptables</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org470658d"> <span class="nav-text">9 参考资料</span> </a> </li>
     </ol>
   </div>
             
