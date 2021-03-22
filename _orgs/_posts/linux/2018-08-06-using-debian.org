@@ -30,7 +30,7 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
-
+我不生产代码，我只是代码的搬运工
 # (setq org-export-html-style nil)
 
 * 前言
@@ -228,6 +228,9 @@ photos:
 **** 扩展阅读：文件系统
      : // 将 /dev/sda7 硬盘格式化为 ext3 格式。
      : $ mkfs -t ext3 -c /dev/sda7
+**** 扩展阅读：磁盘配额(Disk Quota)应用实践
+**** 扩展阅读：软件磁盘阵列(Software RAID)
+**** 扩展阅读：逻辑卷管理器(Logical Volume Manager)
 *** Linux 安装后的常见配置
 **** su & sudo
      : // 先给 sudoers 文件加上写权限
@@ -519,6 +522,12 @@ photos:
    : zip, unzip, gzip, tar
    : // 查找
    : find,locate,which,where,wc
+   : // 查询用户
+   : w、who、last、lastlog
+   : // 用户交流
+   : write、mesg、wall
+   : // 用户邮箱
+   : mail
 *** Linux 文件权限(Permission)
 **** 理解
      1. 使用文件权限符
@@ -563,123 +572,108 @@ photos:
      : $ umask 002
      : $ cd testdir
      : $ touch testfile
-*** Linux 压缩(Compression)和打包(Packaging)
-    #+CAPTION: File unzip
-    #+ALTR_HTML: :alt cat/spider image :title :align center
-    [[file:{{site.url}}/assets/images/tar.png]]
-
-    : 另外还有不常见的，但时有遇到的：
-    : .tar.xz
-    : $ tar xpvf file.tar.xz
-
-    : .tgz
-    : $ tar zxf  name.tgz
-    : 
-    : //解压到指定目录
-   
-    : $ unzip name.zip -d ./dir
 *** Linux 文件搜索
-**** find
-     find命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则find命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
-***** 根据文件名查找
-      格式：find [搜索范围][匹配条件]
-      : // 默认在当前目录下搜索
-      : $ find -name "MyCProgram.c"
-     
-      : // 忽略大小写
-      : $ find -iname "MyCProgram.c"
-     
-      : // 查找以my开头，后面包含三个字符的文件
-      : $ find -name my??? 
-     
-      *深度查找*
-      : // 在 root 目录及其子目录下查找 passwd 文件。
-      : $ sudo find / -maxdepth 2 -name passwd
-      : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
-      : $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
-      : // 找到 home 目录及子目录下所有的空文件(0字节文件) 
-      : // 下面命令的输出文件绝大多数都是锁定文件盒其他程序创建的 place hoders
-      : $ find ~/ -empty
-      : //列出你 home 目录里的空文件。
-      : $ find ~/ -maxdepth 1 -empty
-      : //列出 home目录下的非隐藏空文件。
-      : $ find ~/ -maxdepth 1 -empty -not -name ".*"
-     
-      : // 相反匹配
-      : // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
-      : $ find -maxdepth 1 -not -iname "MyCProgram.c"
-     
-      : // 在查找到的文件上执行命令
-      : // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
-      : $ find -iname "MyCProgram.c" -exec md5sum {} \;
-      : // 在 /etc 目录下查找 inittab 文件并显示其详细属性
-      : $ sudo find /etc -name initab -exec ls -l {} \;
-      : 注意：{} 将会被当前文件名取代。
-      : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
-***** 文件大小查找
-      格式：+n 大于；-n 小于；n 等于
-      : // 在 root 目录下查找大于100MB的文件
-      : $ sudo find / -size +204800
-      : 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
+**** find 命令
+     find 命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则 find 命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
+     + 根据文件名查找
+       : 格式：find [搜索范围][匹配条件]
 
-      : // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
-      : $ sudo find /etc -size +163840 -a size -204800
-      : -a 表示两个条件同时满足
-      : -o 表示两个条件满足一个即可
+       : // 默认在当前目录下搜索
+       : $ find -name "MyCProgram.c"
+       : // 忽略大小写
+       : $ find -iname "MyCProgram.c"
+       : // 查找以my开头，后面包含三个字符的文件
+       : $ find -name my??? 
+     
+       : // 深度查找
+       : // 在 root 目录及其子目录下查找 passwd 文件。
+       : $ sudo find / -maxdepth 2 -name passwd
+       : // 在第二层子目录和第四层子目录之间查找 passwd 文件。
+       : $ sudo find / -mindepth 3 -maxdepth 5 -name passwd
+       
+       : // 找到 home 目录及子目录下所有的空文件(0字节文件) 
+       : $ find ~/ -empty
+       : // 列出你 home 目录里的空文件。
+       : $ find ~/ -maxdepth 1 -empty
+       : // 列出 home目录下的非隐藏空文件。
+       : $ find ~/ -maxdepth 1 -empty -not -name ".*"
+     
+       : // 相反匹配
+       : // 显示所有的名字不是 MyCProgram.c 的文件或者目录。
+       : $ find -maxdepth 1 -not -iname "MyCProgram.c"
+     
+       : // 在查找到的文件上执行命令
+       : // 在查找到名为“MyCProgram.c”的文件上计算 MD5 验证和。
+       : $ find -iname "MyCProgram.c" -exec md5sum {} \;
+       : // 在 /etc 目录下查找 inittab 文件并显示其详细属性
+       : $ sudo find /etc -name initab -exec ls -l {} \;
+       : // 注意：{} 将会被当前文件名取代。
+       : -exec/-ok <command> {} \; 对搜索结果执行操作，使用 -ok 会询问是否确认。
+     + 文件大小查找
+       : 格式：+n 大于；-n 小于；n 等于
+       : // 在 root 目录下查找大于100MB的文件
+       : $ sudo find / -size +204800
+       : // 注意：在 Linux 里面，1 数据块 = 512 byte = 0.5 KB，100 MB = 102400 KB = 204800 数据块
 
-      : //列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
-      : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
-      : //查找 5个最小的文件
-      : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
-      : //上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
-      : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
+       : // 在 /etc 目录下查找大于 80MB 小于 100MB 的文件
+       : $ sudo find /etc -size +163840 -a size -204800
+       : -a 表示两个条件同时满足
+       : -o 表示两个条件满足一个即可
 
-      : //查找并删除大于 100M 的 *.zip 文件。
-      : $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
-      : 注意：{} 和 \ 之间是有空格的！
-***** 根据文件变动情况查找
-      : // 在/etc目录下查找5分钟内被修改过属性的文件和目录
-      : $ sudo /etc -cmin -5
-      : -amin 访问时间 access
-      : -cmin 文件属性 change
-      : -mmin 文件内容 modify
+       : // 列出当前目录及子目录下的 5个最大的文件。这会需要一点时间，取决于命令需要处理的文件数量。
+       : $ find . -type f -exec ls -s {} \; | sort -n -r | head -5
+       : // 查找 5个最小的文件
+       : $ find . -type f -exec ls -s {} \; | sort -n  | head -5
+       : // 上面的命令中，很可能你看到的只是空文件(0字节文件)。因此，你可以使用下面的命令列出最小的文件，而不是 0字节文件。
+       : $ find . -not -empty -type f -exec ls -s {} \; | sort -n  | head -5
 
-      : // 显示所有的在 ordinary_file 之后创建修改的文件。
-      : $ ls -lrt
-      : $ find -newer ordinary_file
-***** 根据文件类型查找
-      f 文件，d 目录，l 软链接，s socket文件
-      : //查找所有的一般文件
-      : $ find ./ -type f
-      : //查找所有的隐藏文件和目录
-      : $ find ./ -type f -name ".*"
-      : $ find ./ -type d -name ".*"
-***** 根据文件权限、所属关系查找
-      : $ find /home -user zrg
-      : $ find /home -group zrg
+       : //查找并删除大于 100M 的 *.zip 文件。
+       : $ find / -type f -name *.zip -size +100M -exec rm -i {} \;
+       : // 注意：{} 和 \ 之间是有空格的！
+     + 根据文件变动情况查找
+       : // 在/etc目录下查找5分钟内被修改过属性的文件和目录
+       : $ sudo /etc -cmin -5
+       : -amin 访问时间 access
+       : -cmin 文件属性 change
+       : -mmin 文件内容 modify
 
-      : // 查到当前目录下对同组用户具有读权限的文件
-      : $ find ./ -perm -g=r -type f -exec ls -l {} \;
-      : // 找到对组用户具有只读权限的文件。
-      : $find ./ -perm g=r -type f -exec ls -l {} \;  
-      : // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
-      : $ find ./ -perm 040 -type f -exec ls -l {} \;
-***** 使用 inode 编号查找
-      任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
-      : //使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
-      : $ ls -i1 test*
-      : 16187429 test-file-name
-      : 16187430 test-file-name
-      : //使用 inode 编号来删除那些具有特殊符号的文件名。
-      : $ find -inum 16187430 -exec rm {} \;
-**** locate
+       : // 显示所有的在 ordinary_file 之后创建修改的文件。
+       : $ ls -lrt
+       : $ find -newer ordinary_file
+     + 根据文件类型查找
+       : // f 文件，d 目录，l 软链接，s socket文件
+       : // 查找所有的一般文件
+       : $ find ./ -type f
+
+       : // 查找所有的隐藏文件和目录
+       : $ find ./ -type f -name ".*"
+       : $ find ./ -type d -name ".*"
+     + 根据文件权限、所属关系查找
+       : $ find /home -user zrg
+       : $ find /home -group zrg
+
+       : // 查到当前目录下对同组用户具有读权限的文件
+       : $ find ./ -perm -g=r -type f -exec ls -l {} \;
+       : // 找到对组用户具有只读权限的文件。
+       : $find ./ -perm g=r -type f -exec ls -l {} \;  
+       : // 找到对组用户具有只读权限的文件(使用八进制权限形式)。
+       : $ find ./ -perm 040 -type f -exec ls -l {} \;
+     + 使用 inode 编号查找
+       : // 任何一个文件都有一个独一无二的 inode 编号，借此我们可以区分文件。
+       : // 使用选项 -i，可以看到文件的 inode 编号，借此可以区分这两个文件。
+       : $ ls -i1 test*
+       : 16187429 test-file-name
+       : 16187430 test-file-name
+       : // 使用 inode 编号来删除那些具有特殊符号的文件名。
+       : $ find -inum 16187430 -exec rm {} \;
+**** locate 命令
      该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
      : // 安装：
      : $ sudo apt install mlocate
 
      : // 使用
      : $ locate init
-     : 注意：locate 命令不会查找/tmp目录下内容。
+     : // 注意：locate 命令不会查找 /tmp 目录下内容。
 
      : // 更新文件资料库：
      : $ updatedb
@@ -735,6 +729,21 @@ photos:
      : $ awk '$1=="tcp" && $2==1 {print $0}' netstat.txt
 
      : $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginearr[$1]++}END{for(i in enginearr)print i "\t" enginearr[i]}'
+*** Linux 压缩(Compression)和打包(Packaging)
+    #+CAPTION: File unzip
+    #+ALTR_HTML: :alt cat/spider image :title :align center
+    [[file:{{site.url}}/assets/images/tar.png]]
+
+    : 另外还有不常见的，但时有遇到：
+    : .tar.xz
+    : $ tar xpvf file.tar.xz
+
+    : .tgz
+    : $ tar zxf  name.tgz
+    : 
+    : //解压到指定目录
+   
+    : $ unzip name.zip -d ./dir
 *** 扩展阅读：关机和重启及系统运行级别
     1. 关机/重启命令
        : $ sudo shutdown -r now
@@ -814,123 +823,124 @@ photos:
     | !-n   | 重复 n 个命令之前的那个命令  |
 * Linux 账号管理与 ACL 权限控制
 ** Linux 用户管理
-*** Linux User
-**** /etc/passwd
-     : $ cat /etc/passwd
-     #+NAME:/etc/passwd
-     #+BEGIN_SRC shell
+*** Linux User & Group
+   : // 新增一个用户
+   : $ sudo useradd test
+   : // 新建一个用户，指定默认值或默认行为
+   : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+
+   : // 删除用户
+   : // 注意：默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
+   : $ userdel -r test
+   : // 加上 -r 参数，userdel 会删除用户的 HOME 目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序的重要文件）。
+
+   : // 修改用户信息
+   #+CAPTION: 用户账户修改工具
+   | 命令     | 描述                                               |
+   |----------+----------------------------------------------------|
+   | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
+   | passwd   | 修改已有用户的密码                                 |
+   | chpasswd | 从文件中读取登录名密码对，并更新密码               |
+   | chage    | 修改密码的过期时间                                 |
+   | chfn     | 修改用户账户的备注信息                             |
+   | chsh     | 修改用户账户的默认登录shell                        |
+   
+   : // 修改用户密码
+   + -S 查询用户密码的状态，仅root用户可用。
+   + -l 暂时锁定用户。仅root用户可用。
+   + -u 解锁用户。仅root用户可用。
+   + --stdin 通过管道符输出的数据作为用户的密码。
+
+   : // 显示用户最近登录信息
+   : last,lastlog
+   : // 列出目前/过去登入系统的用户信息
+   : last, lastb
+
+   : // 创建、修改和删除组
+   : $ sudo groupadd shared
+   : $ sudo groupmod -n sharing shared
+   : $ sudo groupdel shared
+
+   : // 加入组和从组里删除
+   : $ sudo gpasswd -a test tests
+   : $ sudo gpasswd -d test tests   
+*** 扩展阅读：user/group 文件
+    1. /etc/passwd
+       : $ cat /etc/passwd
+       #+NAME:/etc/passwd
+       #+BEGIN_SRC shell
        root:x:0:0:root:/root:/bin/bash
        daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
        bin:x:2:2:bin:/bin:/usr/sbin/nologin
-       ...
+       # ...
        zrg:x:1000:1000:zrg,,,:/home/zrg:/bin/bash
-     #+END_SRC
-     : /etc/passwd 文件的字段包含如下信息：
-     - 登录用户名
-     - 用户密码
-     - UID
-     - Group ID
-     - 描述
-     - HOME目录位置
-     - 默认shell
-       : /etc/passwd 文件中的密码字段都被设置成了x，多数Linux系统都将用户密码保存在/etc/shadow文件中，只有特定的程序（比如登录程序）才能访问这个文件。
-       : 一般情况下，不建议直接手动在/etc/passwd文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的Linux用户管理工具去执行这些操作就会安全许多。
-**** /etc/shadow
-     : /etc/shadow 文件的每条记录都有9个字段：
-     - 与/etc/passwd文件对应的登录名
-     - 加密后的密码
-     - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
-     - 多少天后才能更改密码
-     - 多少天后必须更改密码
-     - 密码过期前提前多少天提醒用户更改密码
-     - 密码过期后多少天禁用用户帐目
-     - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
-     - 预留字段给将来使用
-**** 用户管理文件
-     - Home 目录
-       : 超级用户：/root/
-       : 普通用户：/home/zrg/
-     - /var/spool/mail/zrg/
-       : 用户邮箱目录
-     - /etc/skel
-       : 在创建用户时，默认复制该目录下的文件到用户的家目录。
-**** 新增、删除和修改用户
-     : //新增用户
-     : $ sudo useradd -D
-     : or
-     : $ sudo less /etc/default/useradd
-     : See below, the subsection "Changing the default values".
-     - GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
-     - HOME=/home //HOME目录位置
-     - INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
-     - EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
-     - SHELL=/bin/sh //将sh作为默认shell
-     - SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
-     - CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
-       : //用上面的默认系统参数创建一个新用户账户
-       : $ sudo useradd test
-       : //要想在创建用户时改变默认值或默认行为，可以使用命令参数，比如:
-       : $ sudo useradd -u 666 -G root,bin -c "test user" -d /home/test -s /bin/bash test
+       #+END_SRC
+     
+       */etc/passwd 字段信息*
+       - 登录用户名
+       - 用户密码
+       - UID
+       - Group ID
+       - 描述
+       - HOME目录位置
+       - 默认shell
 
-       : //删除用户
-       : 默认情况下，userdel命令只会删除/etc/passwd文件中的用户信息，而不会删除系统中属于该账户的任何文件。
-       : $ userdel -r test
-       : 加上-r参数，userdel会删除用户的HOME目录以及邮件目录，但必须在删除之前检查清楚（比如是否存放了其他用户或其他程序要使用的重要文件）
-
-       : //修改用户
-       #+CAPTION: 用户账户修改工具
-       | 命令     | 描述                                               |
-       |----------+----------------------------------------------------|
-       | usermod  | 修改用户账户的字段，指定主要组以及附加组的所属关系 |
-       | passwd   | 修改已有用户的密码                                 |
-       | chpasswd | 从文件中读取登录名密码对，并更新密码               |
-       | chage    | 修改密码的过期时间                                 |
-       | chfn     | 修改用户账户的备注信息                             |
-       | chsh     | 修改用户账户的默认登录shell                        |
-**** 修改密码
-     : 修改用户密码的命令：passwd
-     + -S 查询用户密码的状态，仅root用户可用。
-     + -l 暂时锁定用户。仅root用户可用。
-     + -u 解锁用户。仅root用户可用。
-     + --stdin 通过管道符输出的数据作为用户的密码。
-**** 显示用户最近登录信息
-     : last,lastlog
-     : 列出目前/过去登入系统的用户信息
-     : last, lastb - show a listing of last logged in users
-     : last [options] [username...] [tty...]
-     : lastb [options] [username...] [tty...]
-
-     : 列出用户最后一次登录系统的信息
-     : lastlog - reports the most recent login of all users or of a given user
-*** Linux Group
-    1. /etc/group
-       : /etc/group文件有4个字段：
+       *特别说明*
+       + /etc/passwd 文件中的密码字段都被设置成了x，多数 Linux 系统都将用户密码保存在 /etc/shadow 文件中，只有特定的程序（比如登录程序）才能访问这个文件。
+       + 一般情况下，不建议直接手动在 /etc/passwd 文件里进行用户管理（比如添加、修改或删除用户账户）。用标准的 Linux 用户管理工具去执行这些操作就会安全许多。
+    2. /etc/shadow
+       \\
+       */etc/shadow 字段信息*
+       - 与/etc/passwd文件对应的登录名
+       - 加密后的密码
+       - 自上次修改密码后过去的天数密码（自1970年1月1日开始计算）
+       - 多少天后才能更改密码
+       - 多少天后必须更改密码
+       - 密码过期前提前多少天提醒用户更改密码
+       - 密码过期后多少天禁用用户帐目
+       - 用户账户被禁用的日期（用自1970年1月1日到当天的天数表示）
+       - 预留字段给将来使用
+    3. /etc/default/useradd
+       : // See below, the subsection "Changing the default values".
+       : $ sudo useradd -D
+       : or
+       : $ sudo less /etc/default/useradd
+       #+begin_src shell
+	 GROUP=100 //用户默认组，新用户被添加到GID为100的公共组
+	 HOME=/home //HOME目录位置
+	 INACTIVE=-1 //密码过期宽限天数，密码过期后不会被禁用
+	 EXPIRE= //密码失效时间，未被设置过期日期，密码失效与 /etc/login.defs 默认文件相关。
+	 SHELL=/bin/sh //将sh作为默认shell
+	 SKEL=/etc/skel //模板目录，会将/etc/skel目录下的内容复制到用户的HOME目录下
+	 CREATE_MAIL_SPOOL=no //是否为该用户账户在mail目录下创建一个用于接收邮件的文件
+       #+end_src
+    4. /etc/group
+       \\
+       *字段信息*
        - 组名
        - 组密码
        - GID
        - 属于该组的用户列表，当一个用户在/etc/passwd文件中指定某个组作为默认组时，用户账户不会作为该组成员再出现在/etc/group文件中。
-    2. /etc/gshadow
-       : /etc/group的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
-       : /etc/gshadow和/etc/group是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有
-       : 必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，
-       : 这时就要用到用户组密码。
+    5. /etc/gshadow
+       + /etc/group 的加密资讯文件，比如用户组（Group）管理密码就是存放在这个文件。
+       + /etc/gshadow 和/etc/group 是互补的两个文件；对于大型服务器，针对很多用户和组，定制一些关系结构比较复杂的权限模型，设置用户组密码是极有必要的。比如我们不想让一些非用户组成员永久拥有用户组的权限和特性，这时我们可以通过密码验证的方式来让某些用户临时拥有一些用户组特性，这时就要用到用户组密码。
 
+       *字段信息*
        : $ sudo less /etc/gshadow
-       - 组名：用户组的名称，由字母或数字构成。
-       - 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
-       - 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
-       - 组内用户列表：如果有多个成员，用,号分割 ;
-    3. 创建、修改和删除组
-       : $ sudo groupadd shared
-       : $ sudo groupmod -n sharing shared
-       : $ sudo groupdel shared
-    4. 加入组和从组里删除
-       : $ sudo gpasswd -a test tests
-       : $ sudo gpasswd -d test tests
-*** Linux 用户信息传递
-    : 查询用户: w、who、last、lastlog
-    : 用户交流：write、mesg、wall
-    : 用户邮箱：mail
+       : 组名：用户组的名称，由字母或数字构成。
+       : 口令：用户组密码，这个段可以是空的或!，如果是空的或有!，表示没有密码。
+       : 组管理者：这个字段也可为空，如果有多个用户组管理者，用,号分割。
+       : 组内用户列表：如果有多个成员，用,号分割 ;
+    6. 其他文件
+       : Home 目录
+       : 超级用户：/root/
+       : 普通用户：/home/zrg/
+       
+       : 用户邮箱目录
+       : /var/spool/mail/zrg/
+
+       : 在创建用户时，默认复制该目录下的文件到用户的家目录。
+       : /etc/skel
 ** Linux 权限规划(Authority Division): ACL 权限控制
    1. 什么是 ACL？
       \\
@@ -978,95 +988,6 @@ photos:
       + 针对默认权限和递归(针对目录/子目录下的所有文件)权限的设定
 	: 配置规范：『 d:[ug]:使用者列表:[rwx] 』
 	: # setfacl -m d:u:zhao:rx -R /project
-** 磁盘配额和高级文件系统管理
-*** 磁盘配额(Disk Quota)应用实践
-*** 软件磁盘阵列(Software RAID)
-*** 逻辑卷管理器(Logical Volume Manager)
-** Linux 程序管理和 SELinux 初探
-*** 进程与程序
-*** 任务管理
-*** 进程管理
-    1. 常见进程管理命令
-       + top
-       + ps ::
-	 list the processes running on the system
-	 : // 查看
-	 : $ ps -ef
-       + kill & killall ::
-	 send a signal to one or more processes (usually to "kill" a process)
-       + jobs ::
-	 an alternate way of listing your own processes
-       + bg ::
-	 put a process in the background
-       + fg ::
-	 put a process in the forground
-*** 特殊文件与进程
-**** Linux 文件特殊权限
-     1. SetUID
-	+ SetUID 介绍
-	  + 只有可执行的二进制程序才能设定 SUID 权限；
-	  + 用户拥有该程序的可执行权限；
-	  + 在执行该程序时,获得该程序文件所属用户的身份；
-	  + SetUID 只在该程序执行过程中有效.
-	+ 设定和取消 SetUID
-	  : // 查看 passwd 命令的 SetUID
-	  : $ ll /usr/bin/passwd
-	  -rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
-
-	  : // 设定
-	  : $ sudo chmod 4755 abc.txt
-	  : or
-	  : $ sudo chmod u+s abc.txt
-
-	  : // 取消
-	  : $ sudo chmod 755 abc.txt
-	  : $ sudo chmod u-s abc.txt
-	+ 注意事项
-	  + 关键目录应严格控制写权限.如"/","/usr"
-	  + 对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.
-     2. SetGID
-	+ SetGID 介绍
-	  + 只有可执行的二进制程序才能设定 SUID 权限；
-	  + 用户拥有该程序的可执行权限；
-	  + 在执行该程序时,获得该程序文件所属组的身份；
-	  + SetGID 只在该程序执行过程中有效.
-	+ 设定 SetGID
-	  : $ sudo chmod 2755 abc.txt
-	  : $ sudo chmod g+s abc.txt
-	+ SetGID 针对目录的作用
-	  + 普通用户必须对此目录拥有r和x权限,才能进入次目录；
-	  + 普通用户在此目录中的有效组会变成次目录的属组；
-	  + 若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.
-     3. Stiky BIT
-	+ Stiky BIT 粘着位
-	  + 粘着位只对目录有效
-	  + 普通用户对该目录有w和x权限
-	  + 如果没有粘着位,普通用户可以删除此目录下所有文件, *一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件*
-	+ 设定 Stiky BIT
-	  : $ ll /tmp
-	  drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
-	  : $ sudo chmod 1755 /tmp
-	  : $ sudo chmod o+t /tmp
-
-	  : $ sudo chmod 777 /tmp
-	  : $ sudo chmod o-t /tmp
-     4. chattr
-	+ 命令格式
-	  : chattr [+-=] 选项 file/directory
-	  : + 新增权限
-	  : - 删除权限
-	  : = 等于某权限
-
-	  : // 查看文件chattr属性
-	  : 格式: lsattr 选项 file/directory
-	  : $ lsattr abc.txt
-	+ 选项
-	  + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
-	  + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
-*** SELinux
-**** 什么是SELinux
-**** SELinux的运行模式
-**** SELinux策略内的规则管理
 * Linux 系统管理
 ** Linux 启动管理
 ** Linux 计划任务(例行性工作排程)
@@ -1180,6 +1101,91 @@ photos:
     3. anacron 与 /etc/anacrontab
 ** Linux 日志管理
 ** Linux 基础系统配置与备份策略
+** Linux 程序管理和 SELinux 初探
+*** 进程与程序
+*** 任务管理
+*** 进程管理
+    1. 常见进程管理命令
+       + top
+       + ps ::
+	 list the processes running on the system
+	 : // 查看
+	 : $ ps -ef
+       + kill & killall ::
+	 send a signal to one or more processes (usually to "kill" a process)
+       + jobs ::
+	 an alternate way of listing your own processes
+       + bg ::
+	 put a process in the background
+       + fg ::
+	 put a process in the forground
+*** 特殊文件与进程
+**** Linux 文件特殊权限
+     1. SetUID
+	+ SetUID 介绍
+	  + 只有可执行的二进制程序才能设定 SUID 权限；
+	  + 用户拥有该程序的可执行权限；
+	  + 在执行该程序时,获得该程序文件所属用户的身份；
+	  + SetUID 只在该程序执行过程中有效.
+	+ 设定和取消 SetUID
+	  : // 查看 passwd 命令的 SetUID
+	  : $ ll /usr/bin/passwd
+	  -rwsr-xr-x 1 root root 59640 3月  23 03:05 /usr/bin/passwd*
+
+	  : // 设定
+	  : $ sudo chmod 4755 abc.txt
+	  : or
+	  : $ sudo chmod u+s abc.txt
+
+	  : // 取消
+	  : $ sudo chmod 755 abc.txt
+	  : $ sudo chmod u-s abc.txt
+	+ 注意事项
+	  + 关键目录应严格控制写权限.如"/","/usr"
+	  + 对系统中默认应该具有 SetUID 权限的文件的统一列表,定期检查.
+     2. SetGID
+	+ SetGID 介绍
+	  + 只有可执行的二进制程序才能设定 SUID 权限；
+	  + 用户拥有该程序的可执行权限；
+	  + 在执行该程序时,获得该程序文件所属组的身份；
+	  + SetGID 只在该程序执行过程中有效.
+	+ 设定 SetGID
+	  : $ sudo chmod 2755 abc.txt
+	  : $ sudo chmod g+s abc.txt
+	+ SetGID 针对目录的作用
+	  + 普通用户必须对此目录拥有r和x权限,才能进入次目录；
+	  + 普通用户在此目录中的有效组会变成次目录的属组；
+	  + 若普通用户对此目录拥有w权限,新建的文件默认属组是这个目录的属组.
+     3. Stiky BIT
+	+ Stiky BIT 粘着位
+	  + 粘着位只对目录有效
+	  + 普通用户对该目录有w和x权限
+	  + 如果没有粘着位,普通用户可以删除此目录下所有文件, *一旦赋予了粘着位,除了root用户可以删除所有文件,普通用户只能删除自己建立的文件*
+	+ 设定 Stiky BIT
+	  : $ ll /tmp
+	  drwxrwxrwt 20 root    root    12288 7月   6 18:02 ./
+	  : $ sudo chmod 1755 /tmp
+	  : $ sudo chmod o+t /tmp
+
+	  : $ sudo chmod 777 /tmp
+	  : $ sudo chmod o-t /tmp
+     4. chattr
+	+ 命令格式
+	  : chattr [+-=] 选项 file/directory
+	  : + 新增权限
+	  : - 删除权限
+	  : = 等于某权限
+
+	  : // 查看文件chattr属性
+	  : 格式: lsattr 选项 file/directory
+	  : $ lsattr abc.txt
+	+ 选项
+	  + i :: 对文件: 不允许进行删除或改名, 也不能添加或修改数据; 对目录: 只能修改目录下文件的数据, 但不允许建立和删除文件.
+	  + a :: 对文件: 只能在文件中添加数据, 但不能删除或修改数据; 对目录: 只允许创建或修改文件, 但不允许删除文件.
+*** SELinux
+**** 什么是SELinux
+**** SELinux的运行模式
+**** SELinux策略内的规则管理
 ** Linux 内核编译与管理
 ** Linux 防火墙
 *** 概念
@@ -1931,8 +1937,56 @@ photos:
 ** MySQL 集群
 ** NoSQL 集群
 ** 虚拟化概述
-** Vcent
+   1. 虚拟化（virtualization）技术是一个通用的概念，在不同领域有不同的理解。在计算领域，一般指的是计算虚拟化（computing virtualization），或通常说的服务器虚拟化。
+      : 维基百科上的定义如下：“在计算机技术中，虚拟化是一种资源管理技术，是将计算机的各种实体资源，如服务器、网络、内存及存储等，予以抽象、转换后呈现出来，打破实体结构间的不可切割的障碍，使用户可以用比原本的组态更好的方式来应用这些资源。”
+   2. 从大类上分，虚拟化技术可分为基于硬件的虚拟化和基于软件的虚拟化。基于软件的虚拟化从对象所在的层次，又可以分为应用虚拟化和平台虚拟化（通常说的虚拟机技术即属于这个范畴）。前者一般指的是一些模拟设备或诸如Wine这样的软件，后者又可以细分为几个子类：
+      + 完全虚拟化 ::
+	虚拟机模拟完整的底层硬件环境和特权指令的执行过程，客户操作系统无须进行修改。例如IBM p和z系列的虚拟化、VMware Workstation、VirtualBox、QEMU等；
+      + 硬件辅助虚拟化 ::
+	利用硬件（主要是CPU）辅助支持（目前x86体系结构上可用的硬件辅助虚拟化技术包括Intel-VT和AMD-V）处理敏感指令来实现完全虚拟化的功能，客户操作系统无须修改，例如VMware Workstation, Xen, KVM；
+      + 部分虚拟化 ::
+	只针对部分硬件资源进行虚拟化，客户操作系统需要进行修改。现在有些虚拟化技术的早期版本仅支持部分虚拟化；
+      + 超虚拟化（paravirtualization） ::
+	部分硬件接口以软件的形式提供给客户机操作系统，客户操作系统需要进行修改，例如早期的Xen；
+      + 操作系统级虚拟化 ::
+	内核通过创建多个虚拟的操作系统实例（内核和库）来隔离不同的进程。容器相关技术即在这个范畴。Docker 以及其他容器技术都属于操作系统虚拟化这个范畴，操作系统虚拟化最大的特点就是不需要额外的 supervisor 支持。Docker 虚拟化方式之所以有众多优势，跟操作系统虚拟化技术自身的设计和实现是分不开的。
 ** Docker
+*** 简介
+   1. Docker 是个划时代的开源项目，它彻底释放了计算虚拟化的威力，极大提高了应用的维护效率，降低了云计算应用开发的成本！使用 Docker，可以让应用的部署、测试和分发都变得前所未有的高效和轻松！
+   2. Docker 和传统虚拟化方式的区别
+      [[file:{{site.url}}/assets/images/virtualization-01.png]]
+
+      [[file:{{site.url}}/assets/images/docker-01.png]]
+
+      *对比虚拟机*
+      | 特性     | 容器               | 虚拟机     |
+      |----------+--------------------+------------|
+      | 启动速度 | 秒级               | 分钟级     |
+      | 性能     | 接近原生           | 较弱       |
+      | 内存代价 | 很小               | 很大       |
+      | 硬盘使用 | 一般为MB           | 一般为GB   |
+      | 运行密度 | 单机支持上千个容器 | 一般几十个 |
+      | 隔离性   | 安全隔离           | 完全隔离   |
+      | 迁移性   | 优秀               | 一般       |
+
+      *Docker architecture*
+      [[file:{{site.url}}/assets/images/architecture-01.png]]
+   3. 传统方式是在硬件层面实现虚拟化，需要有额外的虚拟机管理应用和虚拟机操作系统层。Docker容器是在操作系统层面上实现虚拟化，直接复用本地主机的操作系统，因此更加轻量级。
+   4. Docker的构想是要实现“Build, Ship and Run Any App, Anywhere”，即通过对应用的封装（Packaging）、分发（Distribution）、部署（Deployment）、运行（Runtime）生命周期进行管理，达到应用组件级别的“一次封装，到处运行”。这里的应用组件，既可以是一个Web应用、一个编译环境，也可以是一套数据库平台服务，甚至是一个操作系统或集群。
+   5. IBM DeveloperWorks网站关于容器技术的描述十分准确：“容器有效地将由单个操作系统管理的资源划分到孤立的组中，以更好地在孤立的组之间平衡有冲突的资源使用需求。与虚拟化相比，这样既不需要指令级模拟，也不需要即时编译。容器可以在核心CPU本地运行指令，而不需要任何专门的解释机制。此外，也避免了准虚拟化（para-virtualization）和系统调用替换中的复杂性。”
+   6. 为什么要用 docker？
+      + 更高效的利用系统资源
+      + 更快速的启动时间
+      + 一致的运行环境
+      + 持续交付和部署
+      + 更轻松的迁移
+      + 更轻松的维护和扩展
+      + 对比传统虚拟机总结
+*** 基本概念
+**** 镜像(Image)
+**** 容器(Container)
+**** 仓库(Repository)
+** Vcent
 ** Openstack
 ** Kubenetes(k8s)
 * 附录A：常见软件
