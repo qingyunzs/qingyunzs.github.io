@@ -880,9 +880,22 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 </ol>
 </div>
 </div>
-<div id="outline-container-org98ba0b9" class="outline-5">
-<h5 id="org98ba0b9"><span class="section-number-5">2.1.3.5</span> Linux 上挂载NTFS格式文件系统</h5>
+<div id="outline-container-orgf93bf77" class="outline-5">
+<h5 id="orgf93bf77"><span class="section-number-5">2.1.3.5</span> 日期时间设置</h5>
 <div class="outline-text-5" id="text-2-1-3-5">
+<pre class="example">
+// Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
+// hwclock 用于查看硬件时间。设置硬件时间：
+$ sudo hwclock -set -date='07/17/2017 20:00'
+// 设置硬件时间与系统时钟同步。
+$ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+$ sudo hwclock -systohc
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc9bce4d" class="outline-5">
+<h5 id="orgc9bce4d"><span class="section-number-5">2.1.3.6</span> Linux 上挂载 NTFS 格式文件系统</h5>
+<div class="outline-text-5" id="text-2-1-3-6">
 <ul class="org-ul">
 <li><p>
 方案A：使用linux-ntfs
@@ -973,7 +986,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org657db69">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org516a37f">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -1025,8 +1038,8 @@ $ sudo  mv 05Music/ /mnt/sda/sda2/
 </div>
 </div>
 <div id="outline-container-org6182685" class="outline-5">
-<h5 id="org6182685"><span class="section-number-5">2.1.3.6</span> boot 加载选项修改</h5>
-<div class="outline-text-5" id="text-2-1-3-6">
+<h5 id="org6182685"><span class="section-number-5">2.1.3.7</span> boot 加载选项修改</h5>
+<div class="outline-text-5" id="text-2-1-3-7">
 <pre class="example">
 // 注释不需要的加载项！
 $ sudo chmod +w /boot/grub/grub.cfg
@@ -1034,9 +1047,251 @@ $ sudo vim /boot/grub/grub.cfg
 </pre>
 </div>
 </div>
+<div id="outline-container-org2ccb318" class="outline-5">
+<h5 id="org2ccb318"><span class="section-number-5">2.1.3.8</span> 使用 ssh 远程连接常见配置</h5>
+<div class="outline-text-5" id="text-2-1-3-8">
+</div>
+<div id="outline-container-orga6b5dcc" class="outline-6">
+<h6 id="orga6b5dcc"><span class="section-number-6">2.1.3.8.1</span> 配置 SSH 持久连接 Server</h6>
+<div class="outline-text-6" id="text-2-1-3-8-1">
+<ul class="org-ul">
+<li><p>
+Server 端
+</p>
+<pre class="example">
+$ sudo vim /etc/ssh/sshd_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orge5a9f9d"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
+ClientAliveInterval 60  
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
+ClientAliveCountMax 3
+</pre>
+</div></li>
+<li><p>
+Client 端
+</p>
+<pre class="example">
+$ sudo vim /etc/ssh/ssh_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgf1cd1e9"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
+ServerAliveInterval 60  
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
+ServerAliveCountMax 3
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org79aaec0" class="outline-6">
+<h6 id="org79aaec0"><span class="section-number-6">2.1.3.8.2</span> 如何使用 OpenSSL 生成密钥对？</h6>
+<div class="outline-text-6" id="text-2-1-3-8-2">
+<pre class="example">
+// 生成私钥
+$ openssl genrsa -out rsa_private_key.pem 1024
+参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
+</pre>
+
+
+<pre class="example">
+// 从私钥中提取公钥
+$ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
+</pre>
+</div>
+</div>
+<div id="outline-container-org430537f" class="outline-6">
+<h6 id="org430537f"><span class="section-number-6">2.1.3.8.3</span> 修改 SSH 默认端口号</h6>
+<div class="outline-text-6" id="text-2-1-3-8-3">
+<pre class="example">
+// 首先，修改配置文件：
+$ vim /etc/ssh/sshd_config
+Port 22 Port 6666   
+</pre>
+
+
+<p>
+<b>注意事项</b>
+</p>
+<ul class="org-ul">
+<li>这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。</li>
+<li>所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e3d372" class="outline-6">
+<h6 id="org9e3d372"><span class="section-number-6">2.1.3.8.4</span> 通过密钥登录服务器</h6>
+<div class="outline-text-6" id="text-2-1-3-8-4">
+<ol class="org-ol">
+<li><p>
+第一步，生成密钥对
+</p>
+<pre class="example">
+$ ssh-keygen
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org7aa7fd7">Generating public/private rsa key pair.
+Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/zrg/.ssh/id_rsa.
+Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
+The key's randomart image is:
++---[RSA 2048]----+
+|    +*B==o o.oo=*|
+|   .o+o= .. . =o.|
+|     .+ o .o + E |
+|     . *   o= =  |
+|      = S . o+   |
+|       + o .     |
+|    o . =        |
+|   . + o .       |
+|    ..o          |
++----[SHA256]-----+
+</pre>
+</div>
+
+<pre class="example">
+// 如果客户端要访问多台服务器时，可进行如下操作：
+// 第一种方式：手动指定
+$ ssh user@host -i ~/.ssh/id_rsa
+</pre>
+
+
+<pre class="example">
+// 第二种方式：配置客户端，/etc/ssh/ssh_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell">IdentityFile ~/.ssh/id_rsa
+IdentityFile ~/.ssh/github_id_rsa
+</pre>
+</div>
+
+<pre class="example">
+// 第三种方式：使用 SSH Agent
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default github user</span>
+Host login-zrg
+HostName github.com
+User zrg
+IdentityFile ~/.ssh/id_rsa
+
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">jsf user</span>
+Host login-jsf
+HostName github.com
+User jsf
+IdentityFile ~/.ssh/id_rsa_jsf
+</pre>
+</div></li>
+<li><p>
+第二步，在服务器上配置上公钥
+</p>
+<pre class="example">
+// 将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
+$ cat ~/.ssh/id_rsa.pub &gt;&gt; authorized_keys
+$ chmod 600 ~/.ssh/authorized_keys
+$ chmod 700 ~/.ssh
+</pre></li>
+<li><p>
+第三步，配置ssh，打开密钥登录功能
+</p>
+<pre class="example">
+$ vim /etc/ssh/sshd_config
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org449dcbd"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20801;&#35768;&#29992;&#25143;&#20351;&#29992;&#23494;&#38053;&#30331;&#24405;</span>
+RSAAuthentication yes
+PubkeyAuthentication yes
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20801;&#35768; root &#29992;&#25143;&#36890;&#36807; SSH &#30331;&#24405;</span>
+PermitRootLogin yes
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#24403;&#23436;&#25104;&#20840;&#37096;&#35774;&#32622;&#65292;&#20197;&#23494;&#38053;&#26041;&#24335;&#30331;&#24405;&#25104;&#21151;&#21518;&#65292;&#21487;&#20197;&#31105;&#29992;&#23494;&#30721;&#30331;&#24405;</span>
+PasswordAuthentication no
+</pre>
+</div></li>
+<li><p>
+第四步，重启ssh服务
+</p>
+<pre class="example">
+// 配置完成后，重启 sshd 服务
+$ systemctl restart sshd.service     
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga435b1f" class="outline-6">
+<h6 id="orga435b1f"><span class="section-number-6">2.1.3.8.5</span> 扩展阅读：SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL 的关系</h6>
+<div class="outline-text-6" id="text-2-1-3-8-5">
+<ul class="org-ul">
+<li>SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。</li>
+<li>OpenSSL，对SSL的实现。</li>
+<li>SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。</li>
+<li>OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
+<ul class="org-ul">
+<li>HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org62bd4d3" class="outline-6">
+<h6 id="org62bd4d3"><span class="section-number-6">2.1.3.8.6</span> 扩展阅读：其他远程连接工具</h6>
+<div class="outline-text-6" id="text-2-1-3-8-6">
+<pre class="example">
+VNC、XDMCP 和 RDP
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9aec165" class="outline-5">
+<h5 id="org9aec165"><span class="section-number-5">2.1.3.9</span> 使用 scp 命令上传下载文件</h5>
+<div class="outline-text-5" id="text-2-1-3-9">
+<ul class="org-ul">
+<li><p>
+从服务器上下载文件
+</p>
+<pre class="example">
+$ scp username@servername:/path/filename /var/www/local_dir（本地目录）
+// 示例：从 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+$ scp root@192.168.0.101:/var/www/test.txt
+</pre></li>
+<li><p>
+上传本地文件到服务器
+</p>
+<pre class="example">
+$ scp /path/filename username@servername:/path   
+例如把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
+$ scp /var/www/test.php  root@192.168.0.101:/var/www/
+</pre></li>
+<li><p>
+从服务器下载整个目录
+</p>
+<pre class="example">
+$ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
+例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
+</pre></li>
+<li><p>
+上传目录到服务器
+</p>
+<pre class="example">
+$ scp  -r local_dir username@servername:remote_dir
+例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
+</pre></li>
+</ul>
+</div>
+</div>
 <div id="outline-container-orgf69ccc0" class="outline-5">
-<h5 id="orgf69ccc0"><span class="section-number-5">2.1.3.7</span> 改变 Home 目录下的目录中文名称为英文</h5>
-<div class="outline-text-5" id="text-2-1-3-7">
+<h5 id="orgf69ccc0"><span class="section-number-5">2.1.3.10</span> 改变 Home 目录下的目录中文名称为英文</h5>
+<div class="outline-text-5" id="text-2-1-3-10">
 <ul class="org-ul">
 <li><p>
 方法1
@@ -1066,67 +1321,6 @@ xdg-user-dirs-gtk-update
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc441813" class="outline-5">
-<h5 id="orgc441813"><span class="section-number-5">2.1.3.8</span> 电脑没有声音问题解决</h5>
-<div class="outline-text-5" id="text-2-1-3-8">
-<ol class="org-ol">
-<li><p>
-安装驱动软件
-</p>
-<pre class="example">
-$ sudo apt-get install alsa-utils
-$ sudo apt-get install alsa-oos
-$ sudo apt-get install esound
-$ sudo apt-get install gnome-audio
-</pre></li>
-<li><p>
-检查声卡驱动
-</p>
-<pre class="example">
-$ lspci |grep Audio
-</pre></li>
-<li><p>
-检查内核模块
-</p>
-<pre class="example">
-$ lsmod |grep snd
-</pre></li>
-<li><p>
-检查系统音量
-</p>
-<pre class="example">
-$ alsamixer
-</pre>
-
-<p>
-alsamixer 是 alsa 驱动的一个插件,是一个命令行下的图形设置工具。alsamixer 命令，00 表示音量正常，MM表示此声道静音。可以通过M键切换。
-</p></li>
-<li><p>
-初始化声卡
-</p>
-<pre class="example">
-$ sudo alsactl init
-</pre></li>
-<li>参考资料
-<ul class="org-ul">
-<li><a href="https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/">解決 Ubuntu Linux 16.04 耳機輸出沒有聲音的問題</a></li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orgf93bf77" class="outline-5">
-<h5 id="orgf93bf77"><span class="section-number-5">2.1.3.9</span> 日期时间设置</h5>
-<div class="outline-text-5" id="text-2-1-3-9">
-<pre class="example">
-// Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-// hwclock 用于查看硬件时间。设置硬件时间：
-$ sudo hwclock -set -date='07/17/2017 20:00'
-// 设置硬件时间与系统时钟同步。
-$ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-$ sudo hwclock -systohc
-</pre>
-</div>
-</div>
 </div>
 </div>
 <div id="outline-container-orga64b63a" class="outline-3">
@@ -1139,9 +1333,13 @@ $ sudo hwclock -systohc
 </div>
 </div>
 </div>
-<div id="outline-container-org3e47297" class="outline-3">
-<h3 id="org3e47297"><span class="section-number-3">2.3</span> Linux 常用命令</h3>
+<div id="outline-container-orgf865b35" class="outline-3">
+<h3 id="orgf865b35"><span class="section-number-3">2.3</span> Linux 命令</h3>
 <div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org3e47297" class="outline-4">
+<h4 id="org3e47297"><span class="section-number-4">2.3.1</span> Linux 常用命令</h4>
+<div class="outline-text-4" id="text-2-3-1">
 <pre class="example">
 // 获取帮助的命令
 info, help, man, type
@@ -1165,13 +1363,158 @@ write、mesg、wall
 mail
 </pre>
 </div>
+</div>
+<div id="outline-container-org4fa915c" class="outline-4">
+<h4 id="org4fa915c"><span class="section-number-4">2.3.2</span> Linux 常见网络命令</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<pre class="example">
+网络参数设定命令：ifconfig,ifup,ifdown,route,ip,iwlist,iwconfig,dhclient
+网络检错与观察指令：wall（发送广播信息）,ping,traceroute（追踪数据包到主机间的路径）,netstat,host,nslookup
+连接指令：telnet,ftp,lftp,sftp
+文字浏览器：links
+下载器：wget,axel
+封包撷取：tcpdump,wireshark,nc,netcat,write
+邮件发送：mail
+</pre>
+</div>
+<div id="outline-container-org462ccb3" class="outline-5">
+<h5 id="org462ccb3"><span class="section-number-5">2.3.2.1</span> netstat 命令</h5>
+<div class="outline-text-5" id="text-2-3-2-1">
+<pre class="example">
+# 查看主机对外开放端口
+$ netstat -ntlp
+# 查看本机监听的端口
+$ netstat -tlun
+# 查看本机所有的网络连接
+$ netstat -ano
+# 查看本机路由表
+$ netstat -rn
+</pre>
+</div>
+</div>
+<div id="outline-container-org5f9e88d" class="outline-5">
+<h5 id="org5f9e88d"><span class="section-number-5">2.3.2.2</span> nc 命令</h5>
+<div class="outline-text-5" id="text-2-3-2-2">
+<ol class="org-ol">
+<li><p>
+介绍
+</p>
+<pre class="example">
+netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
+netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
+</pre></li>
+<li><p>
+安装
+</p>
+<pre class="example">
+// Redhat/CentOS/Fedora
+$ yum install nc
+// Debian/Ubuntu
+$ sudo apt-get install netcat
+</pre></li>
+<li><p>
+常见使用
+</p>
+<pre class="example">
+端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
+$ nc -z -v -n 172.31.100.7 21-25
+可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
+z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
+v 参数指使用冗余选项（译者注：即详细输出）
+n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
+</pre>
+
+
+<pre class="example">
+Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
+一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
+$ nc -v 172.31.100.7 21
+</pre>
+
+<ul class="org-ul">
+<li><p>
+聊天工具
+</p>
+<pre class="example">
+// Server
+$ nc -l 1234
+// Client
+$ nc 172.168.100.7 1234
+</pre></li>
+<li><p>
+文件传输
+</p>
+<pre class="example">
+// Server &gt; Client
+$ nc -l 1234 &gt; file.txt
+$ nc 172.168.100.7 1234 &lt;file.txt
+</pre></li>
+<li><p>
+目录传输
+</p>
+<pre class="example">
+// Server &gt; Client
+$ tar -cvf - dir_name | nc -l 1234
+$ nc -n 172.168.100.7 1234 | tar -xvf -
+这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
+在客户端我们下载该压缩包通过netcat 管道然后打开文件。
+如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
+// Server
+$ tar -cvf – dir_name| bzip2 -z | nc -l 1234
+// Client
+$ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
+</pre></li>
+<li><p>
+加密网络传输数据
+</p>
+<pre class="example">
+// Server
+$ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
+// Client
+$ mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
+</pre></li>
+<li><p>
+流视频
+</p>
+<pre class="example">
+// Server
+$ cat video.avi | nc -l 1234
+从一个视频文件中读入并重定向输出到netcat客户端
+// Client
+$ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
+从socket中读入数据并重定向到mplayer。
+</pre></li>
+<li><p>
+克隆一个设备
+</p>
+<pre class="example">
+已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
+假如你的系统在磁盘/dev/sda上:
+// Server
+$ dd if=/dev/sda | nc -l 1234
+// Client
+$ nc -n 172.31.100.7 1567 | dd of=/dev/sda
+dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
+但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
+</pre></li>
+</ul></li>
+<li><p>
+参考资料
+</p>
+<pre class="example">
+https://blog.csdn.net/zhangxiao93/article/details/52705642
+</pre></li>
+</ol>
+</div>
+</div>
+</div>
 <div id="outline-container-org52f7ada" class="outline-4">
-<h4 id="org52f7ada"><span class="section-number-4">2.3.1</span> Linux 文件权限(Permission)</h4>
-<div class="outline-text-4" id="text-2-3-1">
+<h4 id="org52f7ada"><span class="section-number-4">2.3.3</span> Linux 文件权限(Permission)</h4>
+<div class="outline-text-4" id="text-2-3-3">
 </div>
 <div id="outline-container-orgf8378c7" class="outline-5">
-<h5 id="orgf8378c7"><span class="section-number-5">2.3.1.1</span> 理解</h5>
-<div class="outline-text-5" id="text-2-3-1-1">
+<h5 id="orgf8378c7"><span class="section-number-5">2.3.3.1</span> 理解</h5>
+<div class="outline-text-5" id="text-2-3-3-1">
 <ol class="org-ol">
 <li><p>
 使用文件权限符
@@ -1313,8 +1656,8 @@ umask 命令用来设置所创建文件和目录的默认权限。</li>
 </div>
 </div>
 <div id="outline-container-orgf89c852" class="outline-5">
-<h5 id="orgf89c852"><span class="section-number-5">2.3.1.2</span> 共享文件(Share File)</h5>
-<div class="outline-text-5" id="text-2-3-1-2">
+<h5 id="orgf89c852"><span class="section-number-5">2.3.3.2</span> 共享文件(Share File)</h5>
+<div class="outline-text-5" id="text-2-3-3-2">
 <p>
 Linux 为每个文件和目录存储了3个额外的信息位。
 </p>
@@ -1405,12 +1748,12 @@ $ touch testfile
 </div>
 </div>
 <div id="outline-container-org25f1fc8" class="outline-4">
-<h4 id="org25f1fc8"><span class="section-number-4">2.3.2</span> Linux 文件搜索</h4>
-<div class="outline-text-4" id="text-2-3-2">
+<h4 id="org25f1fc8"><span class="section-number-4">2.3.4</span> Linux 文件搜索</h4>
+<div class="outline-text-4" id="text-2-3-4">
 </div>
 <div id="outline-container-org9c64417" class="outline-5">
-<h5 id="org9c64417"><span class="section-number-5">2.3.2.1</span> find 命令</h5>
-<div class="outline-text-5" id="text-2-3-2-1">
+<h5 id="org9c64417"><span class="section-number-5">2.3.4.1</span> find 命令</h5>
+<div class="outline-text-5" id="text-2-3-4-1">
 <p>
 find 命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则 find 命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
 </p>
@@ -1567,8 +1910,8 @@ $ find -inum 16187430 -exec rm {} \;
 </div>
 </div>
 <div id="outline-container-orgc1acf6b" class="outline-5">
-<h5 id="orgc1acf6b"><span class="section-number-5">2.3.2.2</span> locate 命令</h5>
-<div class="outline-text-5" id="text-2-3-2-2">
+<h5 id="orgc1acf6b"><span class="section-number-5">2.3.4.2</span> locate 命令</h5>
+<div class="outline-text-5" id="text-2-3-4-2">
 <p>
 该命令建立了一个文件资料库，查找文件时直接在资料库中查找。类似 Windows 下的 Everything 工具。
 </p>
@@ -1593,15 +1936,15 @@ $ updatedb
 </div>
 </div>
 <div id="outline-container-org2805fcb" class="outline-4">
-<h4 id="org2805fcb"><span class="section-number-4">2.3.3</span> Linux 文本处理</h4>
-<div class="outline-text-4" id="text-2-3-3">
+<h4 id="org2805fcb"><span class="section-number-4">2.3.5</span> Linux 文本处理</h4>
+<div class="outline-text-4" id="text-2-3-5">
 <pre class="example">
 grep,sed,awk
 </pre>
 </div>
 <div id="outline-container-orged4d180" class="outline-5">
-<h5 id="orged4d180"><span class="section-number-5">2.3.3.1</span> grep</h5>
-<div class="outline-text-5" id="text-2-3-3-1">
+<h5 id="orged4d180"><span class="section-number-5">2.3.5.1</span> grep</h5>
+<div class="outline-text-5" id="text-2-3-5-1">
 <pre class="example">
 语法格式：grep -iv [指定字符串][文件]
 -i 不区分大小写
@@ -1629,8 +1972,8 @@ $ grep -v ^# config.txt
 </div>
 </div>
 <div id="outline-container-orgb74429b" class="outline-5">
-<h5 id="orgb74429b"><span class="section-number-5">2.3.3.2</span> sed</h5>
-<div class="outline-text-5" id="text-2-3-3-2">
+<h5 id="orgb74429b"><span class="section-number-5">2.3.5.2</span> sed</h5>
+<div class="outline-text-5" id="text-2-3-5-2">
 <p>
 <br />
 一款几乎包括所有 UNIX 体系的轻量级流编辑器，主要用来进行数据的提取、替换、删除、新增。
@@ -1678,8 +2021,8 @@ $ sed -i 's/oldStr/newStr/g' `grep oldStr -rl /path`
 </div>
 </div>
 <div id="outline-container-orga0f302f" class="outline-5">
-<h5 id="orga0f302f"><span class="section-number-5">2.3.3.3</span> awk</h5>
-<div class="outline-text-5" id="text-2-3-3-3">
+<h5 id="orga0f302f"><span class="section-number-5">2.3.5.3</span> awk</h5>
+<div class="outline-text-5" id="text-2-3-5-3">
 <p>
 <br />
 对文件内容进行统计，适合处理格式化数据，比如表格
@@ -1708,8 +2051,8 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 </div>
 </div>
 <div id="outline-container-org355dbea" class="outline-4">
-<h4 id="org355dbea"><span class="section-number-4">2.3.4</span> Linux 压缩(Compression)和打包(Packaging)</h4>
-<div class="outline-text-4" id="text-2-3-4">
+<h4 id="org355dbea"><span class="section-number-4">2.3.6</span> Linux 压缩(Compression)和打包(Packaging)</h4>
+<div class="outline-text-4" id="text-2-3-6">
 
 <div class="figure">
 <p><img src="{{site.url}}/assets/images/tar.png" alt="tar.png" />
@@ -1737,8 +2080,8 @@ $ unzip name.zip -d ./dir
 </div>
 </div>
 <div id="outline-container-org9a97b20" class="outline-4">
-<h4 id="org9a97b20"><span class="section-number-4">2.3.5</span> 扩展阅读：关机和重启及系统运行级别</h4>
-<div class="outline-text-4" id="text-2-3-5">
+<h4 id="org9a97b20"><span class="section-number-4">2.3.7</span> 扩展阅读：关机和重启及系统运行级别</h4>
+<div class="outline-text-4" id="text-2-3-7">
 <ol class="org-ol">
 <li><p>
 关机/重启命令
@@ -1816,12 +2159,12 @@ $ sudo runlevel
 </div>
 </div>
 <div id="outline-container-orgaf6e266" class="outline-4">
-<h4 id="orgaf6e266"><span class="section-number-4">2.3.6</span> 扩展阅读：解决问题 &amp; 获取帮助</h4>
-<div class="outline-text-4" id="text-2-3-6">
+<h4 id="orgaf6e266"><span class="section-number-4">2.3.8</span> 扩展阅读：解决问题 &amp; 获取帮助</h4>
+<div class="outline-text-4" id="text-2-3-8">
 </div>
 <div id="outline-container-org0c6015e" class="outline-5">
-<h5 id="org0c6015e"><span class="section-number-5">2.3.6.1</span> man 命令</h5>
-<div class="outline-text-5" id="text-2-3-6-1">
+<h5 id="org0c6015e"><span class="section-number-5">2.3.8.1</span> man 命令</h5>
+<div class="outline-text-5" id="text-2-3-8-1">
 <p>
 查看在线帮助手册(an interface to the on-line reference manuals)，如果不记得命令名怎么办？可以使用关键字搜索手册页。
 </p>
@@ -2000,8 +2343,8 @@ $ man -k terminal
 </div>
 </div>
 <div id="outline-container-orgd3f9e77" class="outline-5">
-<h5 id="orgd3f9e77"><span class="section-number-5">2.3.6.2</span> 解决问题思路</h5>
-<div class="outline-text-5" id="text-2-3-6-2">
+<h5 id="orgd3f9e77"><span class="section-number-5">2.3.8.2</span> 解决问题思路</h5>
+<div class="outline-text-5" id="text-2-3-8-2">
 <ol class="org-ol">
 <li>出现问题，先保护现场。（问题一种是已正确运行的系统出问题，另一种是新的操作或配置造成了问题）</li>
 <li>当怀疑有黑客入侵或病毒的情况，马上做日志备份。</li>
@@ -2014,8 +2357,8 @@ $ man -k terminal
 </div>
 </div>
 <div id="outline-container-org4556cf0" class="outline-4">
-<h4 id="org4556cf0"><span class="section-number-4">2.3.7</span> 扩展阅读：通过历史记录简化操作</h4>
-<div class="outline-text-4" id="text-2-3-7">
+<h4 id="org4556cf0"><span class="section-number-4">2.3.9</span> 扩展阅读：通过历史记录简化操作</h4>
+<div class="outline-text-4" id="text-2-3-9">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -2331,7 +2674,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org516a37f"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org4f741e7"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -2366,10 +2709,9 @@ $ sudo mount -o remount /
 </pre></li>
 <li><p>
 针对有效权限(effective permission) mask 的设定
-<br />
-<b>有效权限</b> : 使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
 </p>
 <pre class="example">
+有效权限: 使用者或群组所配置的权限必须要存在于 mask 的权限配置范围内才会生效。
 配置规范：『 m:[rwx] 』，例如针对某个文件规范为仅有 rx ：
 # setfacl -m m:rx /project/testfile
 </pre></li>
@@ -2396,23 +2738,9 @@ $ sudo mount -o remount /
 <h3 id="org8b2881a"><span class="section-number-3">4.2</span> Linux 计划任务(例行性工作排程)</h3>
 <div class="outline-text-3" id="text-4-2">
 </div>
-<div id="outline-container-orge6bfec3" class="outline-4">
-<h4 id="orge6bfec3"><span class="section-number-4">4.2.1</span> 什么是计划任务</h4>
+<div id="outline-container-orgbc6a539" class="outline-4">
+<h4 id="orgbc6a539"><span class="section-number-4">4.2.1</span> crontab</h4>
 <div class="outline-text-4" id="text-4-2-1">
-</div>
-<div id="outline-container-orgea786a9" class="outline-5">
-<h5 id="orgea786a9"><span class="section-number-5">4.2.1.1</span> 计划任务的种类</h5>
-</div>
-<div id="outline-container-org1a15b5f" class="outline-5">
-<h5 id="org1a15b5f"><span class="section-number-5">4.2.1.2</span> 常见的例行性工作</h5>
-</div>
-</div>
-<div id="outline-container-org94a9231" class="outline-4">
-<h4 id="org94a9231"><span class="section-number-4">4.2.2</span> 单一计划任务</h4>
-</div>
-<div id="outline-container-org1ddf098" class="outline-4">
-<h4 id="org1ddf098"><span class="section-number-4">4.2.3</span> 循环计划任务</h4>
-<div class="outline-text-4" id="text-4-2-3">
 <ol class="org-ol">
 <li><p>
 对于 Linux 用户
@@ -2423,22 +2751,19 @@ $ sudo mount -o remount /
      而中午 12:00 希望 Linux 可以发一封信到你的邮件信箱，提醒你可以去吃午餐了；
      另外，在每年你爱人生日的前一天，先发封信提醒你，以免忘记这么重要的一天。
 </pre></li>
-<li>crontab 简单介绍 
-crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
-<ol class="org-ol">
 <li><p>
-/etc/crontab 文件
+crontab 简单介绍 
 </p>
 <pre class="example">
-在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。
+crontab 命令的功能是在一定的时间间隔调度一些命令的执行。
+</pre>
 
-cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。
-
-用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
-
-</pre></li>
-<li><p>
-crontab 文件格式如下：
+<dl class="org-dl">
+<dt>/etc/crontab</dt><dd><p>
+<br />
+在 /etc 目录下有一个 crontab 文件，这里存放有系统运行的一些调度程序。每个用户可以建立自己的调度 crontab(在 /var/spool/cron 目录下)。cron 服务每分钟不仅要读一次 /var/spool/cron 内的所有文件，还需要读一次 /etc/crontab，因此我们配置这个文件也能运用 cron 服务做一些事情。用 crontab 配置是针对某个用户的，而编辑 /etc/crontab 是针对系统的任务。
+<br />
+<b>crontab 文件格式</b>
 </p>
 <div class="org-src-container">
 <pre class="src src-shell" id="org8327c2e"><span style="color: #FF8C00;">SHELL</span>=/bin/bash
@@ -2448,14 +2773,16 @@ crontab 文件格式如下：
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">run-parts</span>
 </pre>
 </div>
-<pre class="example">
-注意到"run-parts"这个参数，后面可以写要运行的某个脚本。
 
-另外：
-/usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。
-/usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。
-</pre></li>
-</ol></li>
+<p>
+<b>注意</b>
+</p>
+<ul class="org-ul">
+<li>"run-parts"这个参数，后面可以写要运行的某个脚本。</li>
+<li>/usr/lib/cron/cron.allow 表示谁能使用 crontab 命令。如果它是一个空文件表明没有一个用户能安排作业。如果这个文件不存在，而有另外一个文件。</li>
+<li>/usr/lib/cron/cron.deny,则只有不包括在这个文件中的用户才可以使用 crontab 命令。如果它是一个空文件表明任何用户都可安排作业。两个文件同时存在时，cron.allow 优先，如果都不存在，只有超级用户可以安排作业。</li>
+</ul></dd>
+</dl></li>
 <li><p>
 crontab 基本格式
 </p>
@@ -2511,19 +2838,20 @@ crontab 基本格式
 </tbody>
 </table>
 
-<pre class="example">
-“ * ”表示任意时刻
-“ , ”表示分割
-“ - ”表示一个段
-“ /n ”表示每 n 的单位执行一次
-</pre>
+<ul class="org-ul">
+<li>“ * ”表示任意时刻</li>
+<li>“ , ”表示分割</li>
+<li>“ - ”表示一个段</li>
+<li>“ /n ”表示每 n 的单位执行一次</li>
+</ul>
 
-
 <pre class="example">
-命令后面加上 &gt;/dev/null 2&gt;&amp;1  ,标准错误重定向到标准输出
+设置时，命令后面加上 &gt;/dev/null 2&gt;&amp;1  ,标准错误重定向到标准输出
 </pre></li>
+<li>举例说明
+<ul class="org-ul">
 <li><p>
-实例1：实现两个周备份一次 /var/ftp 目录下的内容
+两个周定时备份一次 /var/ftp 目录下的内容
 </p>
 <pre class="example">
 具体实现方法如下:
@@ -2543,12 +2871,11 @@ c.运行：
 
 d.需要进行重启，配置文件生效： sudo systemctl restart crond.service
 </pre></li>
-<li>实例2：实现定时插入数据
-<ol class="org-ol">
 <li><p>
-新建 crontab.sh 脚本文件
+定时插入数据
 </p>
 <pre class="example">
+// 新建 crontab.sh 脚本文件
 $ vim crontab.sh
 </pre>
 
@@ -2556,35 +2883,32 @@ $ vim crontab.sh
 <pre class="src src-shell"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">sh</span>
 /usr/bin/php /home/zrg/.crontab/crontab.php
 </pre>
-</div></li>
-<li>编辑 php 文件</li>
-<li><p>
-设置定时任务
-</p>
+</div>
+
 <pre class="example">
+// 设置定时任务
 $ crontab -e
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell">*/2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
+<pre class="src src-emacs-lisp">*/2 * * * * /bin/bash /home/zrg/.crontab/crontab.sh
 </pre>
-</div></li>
-<li><p>
-查看定时任务
-</p>
+</div>
+
 <pre class="example">
+// 查看定时任务
 $ crontab -l
-重启服务使生效：sudo systemctl restart cron.service
-</pre></li>
-<li><p>
-移除定时服务
-</p>
+// 重启服务
+sudo systemctl restart cron.service
+</pre>
+
+
 <pre class="example">
+// 移除定时服务
 $ crontab -r
 </pre></li>
-</ol></li>
 <li><p>
-示例3：备份 mysql 数据
+定时备份 mysql 数据
 </p>
 <pre class="example">
 $ sudo vim cron.sh
@@ -2596,13 +2920,21 @@ $ sudo vim cron.sh
 mysqldump -u root -proot testdb&gt;/home/zrg/crontab/$<span style="color: #FF8C00;">filename</span>.sql
 </pre>
 </div>
+
 <pre class="example">
 $ crontab -e
-0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">0 2 * * *  /bin/bash /home/zrg/crontab/cron.sh
+</pre>
+</div>
+
+<pre class="example">
 $rccron reload
 </pre></li>
 <li><p>
-一些简单示例
+其他简单示例
 </p>
 <pre class="example">
 43 21 * * * 21:43 执行
@@ -2613,12 +2945,13 @@ $rccron reload
 0,10,20,30,40,50 * * * *　每隔10分 执行
 2 8-20/3 * * *　　　　　　8:02,11:02,14:02,17:02,20:02 执行
 </pre></li>
+</ul></li>
 </ol>
 </div>
 </div>
-<div id="outline-container-org9fe0bcf" class="outline-4">
-<h4 id="org9fe0bcf"><span class="section-number-4">4.2.4</span> 唤醒式的工作任务</h4>
-<div class="outline-text-4" id="text-4-2-4">
+<div id="outline-container-orgaa28452" class="outline-4">
+<h4 id="orgaa28452"><span class="section-number-4">4.2.2</span> 扩展阅读：唤醒式的工作任务</h4>
+<div class="outline-text-4" id="text-4-2-2">
 <ol class="org-ol">
 <li>anacron 是什么？</li>
 <li><p>
@@ -2670,25 +3003,19 @@ anacron 与 crontab
 </div>
 </div>
 </div>
-<div id="outline-container-org1633c89" class="outline-3">
-<h3 id="org1633c89"><span class="section-number-3">4.3</span> Linux 日志管理</h3>
-</div>
-<div id="outline-container-org06b1333" class="outline-3">
-<h3 id="org06b1333"><span class="section-number-3">4.4</span> Linux 基础系统配置与备份策略</h3>
-</div>
 <div id="outline-container-org7762863" class="outline-3">
-<h3 id="org7762863"><span class="section-number-3">4.5</span> Linux 程序管理和 SELinux 初探</h3>
-<div class="outline-text-3" id="text-4-5">
+<h3 id="org7762863"><span class="section-number-3">4.3</span> Linux 程序管理和 SELinux 初探</h3>
+<div class="outline-text-3" id="text-4-3">
 </div>
 <div id="outline-container-org8683e1e" class="outline-4">
-<h4 id="org8683e1e"><span class="section-number-4">4.5.1</span> 进程与程序</h4>
+<h4 id="org8683e1e"><span class="section-number-4">4.3.1</span> 进程与程序</h4>
 </div>
 <div id="outline-container-orge842aed" class="outline-4">
-<h4 id="orge842aed"><span class="section-number-4">4.5.2</span> 任务管理</h4>
+<h4 id="orge842aed"><span class="section-number-4">4.3.2</span> 任务管理</h4>
 </div>
 <div id="outline-container-orgb813422" class="outline-4">
-<h4 id="orgb813422"><span class="section-number-4">4.5.3</span> 进程管理</h4>
-<div class="outline-text-4" id="text-4-5-3">
+<h4 id="orgb813422"><span class="section-number-4">4.3.3</span> 进程管理</h4>
+<div class="outline-text-4" id="text-4-3-3">
 <ol class="org-ol">
 <li>常见进程管理命令
 <ul class="org-ul">
@@ -2709,12 +3036,12 @@ $ ps -ef
 </div>
 </div>
 <div id="outline-container-orgfd53179" class="outline-4">
-<h4 id="orgfd53179"><span class="section-number-4">4.5.4</span> 特殊文件与进程</h4>
-<div class="outline-text-4" id="text-4-5-4">
+<h4 id="orgfd53179"><span class="section-number-4">4.3.4</span> 特殊文件与进程</h4>
+<div class="outline-text-4" id="text-4-3-4">
 </div>
 <div id="outline-container-org76d3141" class="outline-5">
-<h5 id="org76d3141"><span class="section-number-5">4.5.4.1</span> Linux 文件特殊权限</h5>
-<div class="outline-text-5" id="text-4-5-4-1">
+<h5 id="org76d3141"><span class="section-number-5">4.3.4.1</span> Linux 文件特殊权限</h5>
+<div class="outline-text-5" id="text-4-3-4-1">
 <ol class="org-ol">
 <li>SetUID
 <ul class="org-ul">
@@ -2837,19 +3164,25 @@ $ lsattr abc.txt
 </div>
 </div>
 <div id="outline-container-org2153c2b" class="outline-4">
-<h4 id="org2153c2b"><span class="section-number-4">4.5.5</span> SELinux</h4>
-<div class="outline-text-4" id="text-4-5-5">
+<h4 id="org2153c2b"><span class="section-number-4">4.3.5</span> SELinux</h4>
+<div class="outline-text-4" id="text-4-3-5">
 </div>
 <div id="outline-container-orgbda89be" class="outline-5">
-<h5 id="orgbda89be"><span class="section-number-5">4.5.5.1</span> 什么是SELinux</h5>
+<h5 id="orgbda89be"><span class="section-number-5">4.3.5.1</span> 什么是SELinux</h5>
 </div>
 <div id="outline-container-org3cad25d" class="outline-5">
-<h5 id="org3cad25d"><span class="section-number-5">4.5.5.2</span> SELinux的运行模式</h5>
+<h5 id="org3cad25d"><span class="section-number-5">4.3.5.2</span> SELinux的运行模式</h5>
 </div>
 <div id="outline-container-org8ce14a3" class="outline-5">
-<h5 id="org8ce14a3"><span class="section-number-5">4.5.5.3</span> SELinux策略内的规则管理</h5>
+<h5 id="org8ce14a3"><span class="section-number-5">4.3.5.3</span> SELinux策略内的规则管理</h5>
 </div>
 </div>
+</div>
+<div id="outline-container-org1633c89" class="outline-3">
+<h3 id="org1633c89"><span class="section-number-3">4.4</span> Linux 日志管理</h3>
+</div>
+<div id="outline-container-org06b1333" class="outline-3">
+<h3 id="org06b1333"><span class="section-number-3">4.5</span> Linux 基础系统配置与备份策略</h3>
 </div>
 <div id="outline-container-org56d8a72" class="outline-3">
 <h3 id="org56d8a72"><span class="section-number-3">4.6</span> Linux 内核编译与管理</h3>
@@ -3588,199 +3921,9 @@ TCP Wrappers服务的防火墙策略由两个控制列表文件所控制。系�
 <h3 id="org0c4827c"><span class="section-number-3">5.1</span> Linux 网络基础</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-org4fa915c" class="outline-4">
-<h4 id="org4fa915c"><span class="section-number-4">5.1.1</span> Linux 常见网络命令</h4>
-<div class="outline-text-4" id="text-5-1-1">
-<pre class="example">
-网络参数设定命令：ifconfig,ifup,ifdown,route,ip,iwlist,iwconfig,dhclient
-网络检错与观察指令：wall,ping,traceroute,netstat,host,nslookup
-连接指令：telnet,ftp,lftp,sftp
-文字浏览器：links
-下载器：wget,axel
-封包撷取：tcpdump,wireshark,nc,netcat,write
-邮件发送：mail
-</pre>
-</div>
-<div id="outline-container-org5091457" class="outline-5">
-<h5 id="org5091457"><span class="section-number-5">5.1.1.1</span> 网络参数设定命令</h5>
-<div class="outline-text-5" id="text-5-1-1-1">
-<pre class="example">
-ifconfig
-configure a network interface
-</pre>
-</div>
-</div>
-<div id="outline-container-orgf2d4cfc" class="outline-5">
-<h5 id="orgf2d4cfc"><span class="section-number-5">5.1.1.2</span> 网络参数设定命令</h5>
-</div>
-<div id="outline-container-org9cd8d8b" class="outline-5">
-<h5 id="org9cd8d8b"><span class="section-number-5">5.1.1.3</span> 封包撷取</h5>
-<div class="outline-text-5" id="text-5-1-1-3">
-<pre class="example">
-write
-# 给指定用户发送信息(send a message to another user)，Ctrl+D 保存结束
-# 格式: write user [tty]
-</pre>
-</div>
-</div>
-<div id="outline-container-orge81f9a4" class="outline-5">
-<h5 id="orge81f9a4"><span class="section-number-5">5.1.1.4</span> 网络检错与观察指令</h5>
-<div class="outline-text-5" id="text-5-1-1-4">
-<pre class="example">
-wall
-# 发送广播信息(write a message to all users)
-# 格式: wall [-n] [-t timeout] [message | file]
-</pre>
-
-
-<pre class="example">
-ping
-# 测试网络联通性(send ICMP ECHO_REQUEST to network hosts)
-# 指定ping次数：$ ping -c 4 baidu.com
-</pre>
-
-
-<pre class="example">
-traceroute
-# 追踪数据包到主机间的路径
-traceroute - print the route packets trace to network host
-</pre>
-
-
-<pre class="example">
-netstat
-# 显示网络相关信息
-netstat - Print network connections, routing tables, interface statistics, masquerade connections, and multicast memberships
-# 查看主机对外开放端口
-$ netstat -ntlp
-# 查看本机监听的端口
-$ netstat -tlun
-# 查看本机所有的网络连接
-$ netstat -ano
-# 查看本机路由表
-$ netstat -rn
-</pre>
-</div>
-</div>
-<div id="outline-container-orgdb2c6bf" class="outline-5">
-<h5 id="orgdb2c6bf"><span class="section-number-5">5.1.1.5</span> 神奇的 nc 命令</h5>
-<div class="outline-text-5" id="text-5-1-1-5">
-<ol class="org-ol">
-<li><p>
-介绍
-</p>
-<pre class="example">
-netcat是网络工具中的瑞士军刀，它能通过TCP和UDP在网络中读写数据。通过与其他工具结合和重定向。
-netcat所做的就是在两台电脑之间建立链接并返回两个数据流。你能建立一个服务器，传输文件，与朋友聊天，传输流媒体或者用它作为其它协议的独立客户端。
-</pre></li>
-<li><p>
-安装
-</p>
-<pre class="example">
-// Redhat/CentOS/Fedora
-$ yum install nc
-// Debian/Ubuntu
-$ sudo apt-get install netcat
-</pre></li>
-<li><p>
-常见使用
-</p>
-<pre class="example">
-端口扫描经常被系统管理员和黑客用来发现在一些机器上开放的端口，帮助他们识别系统中的漏洞。
-$ nc -z -v -n 172.31.100.7 21-25
-可以运行在TCP或者UDP模式，默认是TCP，-u参数调整为udp.
-z 参数告诉netcat使用0 IO,连接成功后立即关闭连接， 不进行数据交换(谢谢@jxing 指点)
-v 参数指使用冗余选项（译者注：即详细输出）
-n 参数告诉netcat 不要使用DNS反向查询IP地址的域名
-</pre>
-
-
-<pre class="example">
-Banner是一个文本，Banner是一个你连接的服务发送给你的文本信息。
-一旦你发现开放的端口，你可以容易的使用netcat 连接服务抓取他们的banner。
-$ nc -v 172.31.100.7 21
-</pre>
-
-<ul class="org-ul">
-<li><p>
-聊天工具
-</p>
-<pre class="example">
-// Server
-$ nc -l 1234
-// Client
-$ nc 172.168.100.7 1234
-</pre></li>
-<li><p>
-文件传输
-</p>
-<pre class="example">
-// Server &gt; Client
-$ nc -l 1234 &gt; file.txt
-$ nc 172.168.100.7 1234 &lt;file.txt
-</pre></li>
-<li><p>
-目录传输
-</p>
-<pre class="example">
-// Server &gt; Client
-$ tar -cvf - dir_name | nc -l 1234
-$ nc -n 172.168.100.7 1234 | tar -xvf -
-这里在A服务器上，我们创建一个tar归档包并且通过-在控制台重定向它，然后使用管道，重定向给netcat，netcat可以通过网络发送它。
-在客户端我们下载该压缩包通过netcat 管道然后打开文件。
-如果想要节省带宽传输压缩包，我们可以使用bzip2或者其他工具压缩。
-// Server
-$ tar -cvf – dir_name| bzip2 -z | nc -l 1234
-// Client
-$ nc -n 172.31.100.7 1234 | bzip2 -d |tar -xvf -
-</pre></li>
-<li><p>
-加密网络传输数据
-</p>
-<pre class="example">
-// Server
-$ nc localhost 1234 | mcrypt –flush –bare -F -q -d -m ecb &gt; file.txt
-// Client
-$ mcrypt –flush –bare -F -q -m ecb &lt; file.txt | nc -l 1234
-</pre></li>
-<li><p>
-流视频
-</p>
-<pre class="example">
-// Server
-$ cat video.avi | nc -l 1234
-从一个视频文件中读入并重定向输出到netcat客户端
-// Client
-$ nc 172.31.100.7 1234 | mplayer -vo x11 -cache 3000 -
-从socket中读入数据并重定向到mplayer。
-</pre></li>
-<li><p>
-克隆一个设备
-</p>
-<pre class="example">
-已经安装配置一台Linux机器并且需要重复同样的操作对其他的机器，而你不想在重复配置一遍。
-假如你的系统在磁盘/dev/sda上:
-// Server
-$ dd if=/dev/sda | nc -l 1234
-// Client
-$ nc -n 172.31.100.7 1567 | dd of=/dev/sda
-dd是一个从磁盘读取原始数据的工具，我通过netcat服务器重定向它的输出流到其他机器并且写入到磁盘中，它会随着分区表拷贝所有的信息。
-但是如果我们已经做过分区并且只需要克隆root分区，我们可以根据我们系统root分区的位置，更改sda 为sda1，sda2.等等。
-</pre></li>
-</ul></li>
-<li><p>
-参考资料
-</p>
-<pre class="example">
-https://blog.csdn.net/zhangxiao93/article/details/52705642
-</pre></li>
-</ol>
-</div>
-</div>
-</div>
 <div id="outline-container-orge832787" class="outline-4">
-<h4 id="orge832787"><span class="section-number-4">5.1.2</span> 启用 HTTPS</h4>
-<div class="outline-text-4" id="text-5-1-2">
+<h4 id="orge832787"><span class="section-number-4">5.1.1</span> 启用 HTTPS</h4>
+<div class="outline-text-4" id="text-5-1-1">
 <ul class="org-ul">
 <li>创建一个 2048 位 RSA 公钥/私钥对。</li>
 <li>生成一个嵌入您的公钥的证书签名请求 (CSR)</li>
@@ -3804,8 +3947,8 @@ https://blog.csdn.net/zhangxiao93/article/details/52705642
 </div>
 </div>
 <div id="outline-container-org76a7e98" class="outline-4">
-<h4 id="org76a7e98"><span class="section-number-4">5.1.3</span> 基本网络配置</h4>
-<div class="outline-text-4" id="text-5-1-3">
+<h4 id="org76a7e98"><span class="section-number-4">5.1.2</span> 基本网络配置</h4>
+<div class="outline-text-4" id="text-5-1-2">
 <ol class="org-ol">
 <li><p>
 安装网络工具
@@ -3851,250 +3994,12 @@ $ ifdown eth0
 </div>
 </div>
 </div>
-<div id="outline-container-org0dc947a" class="outline-3">
-<h3 id="org0dc947a"><span class="section-number-3">5.2</span> 远程工具：SSH、VNC、XDMCP 和 RDP</h3>
-<div class="outline-text-3" id="text-5-2">
-</div>
-<div id="outline-container-org3118c96" class="outline-4">
-<h4 id="org3118c96"><span class="section-number-4">5.2.1</span> SSH &amp; OpenSSH &amp; SSL &amp; OpenSSL</h4>
-<div class="outline-text-4" id="text-5-2-1">
-<ul class="org-ul">
-<li>SSL(Secure Sockets Layer)，是网络通信提供安全及数据完整性的一种安全协议，它涉及所有TC/IP应用程序。SSL协议使用通讯双方的客户证书以及CA根证书，允许客户/服务器应用以一种不能被偷听的方式通讯，在通讯双方间建立起了一条安全的、可信任的通讯通道。它具备以下基本特征：信息保密性、信息完整性、相互鉴定。 主要用于提高应用程序之间数据的安全系数。</li>
-<li>OpenSSL，对SSL的实现。</li>
-<li>SSH(Secure Shell)，意为“安全外壳协议”，是一种可以为远程登录提供安全保障的协议。使用SSH，可以把所有传输的数据进行加密，“中间人”攻击方式就不可能实现，能防止DNS欺骗和IP欺骗。</li>
-<li>OpenSSH，对SSH的实现。依赖于OpenSSL，没有OpenSSL的话OpenSSH就编译不过去，也运行不了。
-<ul class="org-ul">
-<li>HTTPS(Hypertext Transfer Protocol Secure，超文本传输安全协议)，是一种透过计算器网上进行安全通信的传输协议。HTTPS经由HTTP进行通信，但利用SSL/TLS来加密数据包。HTTPS开发的主要目的，是提供对网站服务器的身份认证，保护交换数据的隐私与完整性。</li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="outline-container-org305987c" class="outline-4">
-<h4 id="org305987c"><span class="section-number-4">5.2.2</span> SSH 配置</h4>
-<div class="outline-text-4" id="text-5-2-2">
-<ol class="org-ol">
-<li>配置持久连接
-<ul class="org-ul">
-<li><p>
-Server 端
-</p>
-<pre class="example">
-$ sudo vim /etc/ssh/sshd_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell" id="orge5a9f9d"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
-ClientAliveInterval 60  
-<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
-ClientAliveCountMax 3
-</pre>
-</div></li>
-<li><p>
-Client 端
-</p>
-<pre class="example">
-$ sudo vim /etc/ssh/ssh_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell" id="orgf1cd1e9"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#27599;&#38548;60&#31186;&#21457;&#36865;&#19968;&#27425;&#35831;&#27714;&#32473;client&#65292;&#28982;&#21518;client&#21709;&#24212;&#65292;&#20174;&#32780;&#20445;&#25345;&#36830;&#25509;</span>
-ServerAliveInterval 60  
-<span style="color: #8B8878;">#</span><span style="color: #8B8878;">server&#21457;&#20986;&#35831;&#27714;&#21518;&#65292;&#23458;&#25143;&#31471;&#27809;&#26377;&#21709;&#24212;&#24471;&#27425;&#25968;&#36798;&#21040;3&#65292;&#23601;&#33258;&#21160;&#26029;&#24320;&#36830;&#25509;&#65292;&#27491;&#24120;&#24773;&#20917;&#19979;&#65292;client&#19981;&#20250;&#19981;&#21709;&#24212;&#12290;</span>
-ServerAliveCountMax 3
-</pre>
-</div></li>
-</ul></li>
-<li><p>
-使用OpenSSL生成密钥对
-</p>
-<pre class="example">
-// 生成私钥
-$ openssl genrsa -out rsa_private_key.pem 1024
-</pre>
-
-<p>
-参数:genrsa 生成密钥   -out 输出到文件  rsa_private_key.pem 文件名  1024 长度
-</p>
-
-<pre class="example">
-// 从私钥中提取公钥
-$ openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-</pre>
-
-<p>
-参数: rsa 提取公钥  -in 从文件中读入  rsa_private_key.pem 文件名   -pubout  输出   -out 到文件  rsa_public_key.pem  文件名
-</p></li>
-<li><p>
-修改 SSH 默认端口号
-</p>
-<pre class="example">
-首先，修改配置文件：
-$ vim /etc/ssh/sshd_config
-</pre>
-
-<p>
-Port 22 Port 6666   
-</p>
-<pre class="example">
-注意事项：
-</pre>
-
-<ul class="org-ul">
-<li>这里添加6666端口，测试成功连接后，再去除22端口配置。这样可以避免修改不成功无法正常登录。</li>
-<li>所修改的端口需要事先查明未被其他服务占用，以免造成不可估计的后果！</li>
-<li></li>
-</ul></li>
-
-<li>通过密钥登录服务器
-<ul class="org-ul">
-<li><p>
-第一步，生成密钥对
-</p>
-<pre class="example">
-$ ssh-keygen
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp" id="org7aa7fd7">Generating public/private rsa key pair.
-Enter file in which to save the key (/home/zrg/.ssh/id_rsa):
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/zrg/.ssh/id_rsa.
-Your public key has been saved in /home/zrg/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:OEEJVicOORWU5awcPz7oYPtldQwQXdwuPFyUcVY0umU zrg@DESKTOP-5IIDIKQ
-The key's randomart image is:
-+---[RSA 2048]----+
-|    +*B==o o.oo=*|
-|   .o+o= .. . =o.|
-|     .+ o .o + E |
-|     . *   o= =  |
-|      = S . o+   |
-|       + o .     |
-|    o . =        |
-|   . + o .       |
-|    ..o          |
-+----[SHA256]-----+
-</pre>
-</div>
-
-<p>
-如果客户端要访问多台服务器时，可进行如下操作：
-</p>
-<pre class="example">
-第一种方式：手动指定
-$  ssh user@host -i ~/.ssh/id_rsa
-第二种方式：配置客户端，/etc/ssh/ssh_config
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell">IdentityFile ~/.ssh/id_rsa
-IdentityFile ~/.ssh/github_id_rsa
-</pre>
-</div>
-<pre class="example">
-第三种方式：使用 SSH Agent
-</pre>
-
-<div class="org-src-container">
-<pre class="src src-shell"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">Default github user</span>
-Host login-zrg
-HostName github.com
-User zrg
-IdentityFile ~/.ssh/id_rsa
-
-<span style="color: #8B8878;"># </span><span style="color: #8B8878;">jsf user</span>
-Host login-jsf
-HostName github.com
-User jsf
-IdentityFile ~/.ssh/id_rsa_jsf
-</pre>
-</div></li>
-<li><p>
-第二步，在服务器上配置上公钥
-将生成的公钥存入服务器的 ~/.ssh/authorized_keys 文件中，多个换行。
-</p>
-<pre class="example">
-$ cat ~/.ssh/id_rsa.pub &gt;&gt; authorized_keys
-$ chmod 600 ~/.ssh/authorized_keys
-$ chmod 700 ~/.ssh
-</pre></li>
-<li><p>
-第三步，配置ssh，打开密钥登录功能
-</p>
-<pre class="example">
-$ vim /etc/ssh/sshd_config
-</pre>
-
-<p>
-RSAAuthentication yes
-PubkeyAuthentication yes
-</p>
-
-<p>
-PermitRootLogin yes
-</p>
-
-<p>
-PasswordAuthentication no
-#+END_SRC
-</p></li>
-<li><p>
-第四步，重启ssh服务
-配置完成后，重启 sshd 服务
-</p>
-<pre class="example">
-$ systemctl restart sshd.service
-</pre></li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-orga4d022e" class="outline-4">
-<h4 id="orga4d022e"><span class="section-number-4">5.2.3</span> SCP 使用</h4>
-<div class="outline-text-4" id="text-5-2-3">
-<p>
-使用scp上传或下载文件
-</p>
-<ul class="org-ul">
-<li><p>
-从服务器上下载文件
-</p>
-<pre class="example">
-$ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-示例：scp root@192.168.0.101:/var/www/test.txt  把 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
-</pre></li>
-<li><p>
-上传本地文件到服务器
-</p>
-<pre class="example">
-$ scp /path/filename username@servername:/path   
-例如 scp /var/www/test.php  root@192.168.0.101:/var/www/  把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
-</pre></li>
-<li><p>
-从服务器下载整个目录
-</p>
-<pre class="example">
-$ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-</pre></li>
-<li><p>
-上传目录到服务器
-</p>
-<pre class="example">
-$ scp  -r local_dir username@servername:remote_dir
-例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-</pre></li>
-</ul>
-</div>
-</div>
-</div>
 <div id="outline-container-org0c5fc75" class="outline-3">
-<h3 id="org0c5fc75"><span class="section-number-3">5.3</span> DNS</h3>
+<h3 id="org0c5fc75"><span class="section-number-3">5.2</span> DNS</h3>
 </div>
 <div id="outline-container-org57426f0" class="outline-3">
-<h3 id="org57426f0"><span class="section-number-3">5.4</span> FTP：Vsftp</h3>
-<div class="outline-text-3" id="text-5-4">
+<h3 id="org57426f0"><span class="section-number-3">5.3</span> FTP：Vsftp</h3>
+<div class="outline-text-3" id="text-5-3">
 <ol class="org-ol">
 <li><p>
 Download and Install
@@ -4277,42 +4182,42 @@ http://baike.baidu.com/item/vsftpd
 </div>
 </div>
 <div id="outline-container-orgc4e833d" class="outline-3">
-<h3 id="orgc4e833d"><span class="section-number-3">5.5</span> NFS</h3>
+<h3 id="orgc4e833d"><span class="section-number-3">5.4</span> NFS</h3>
 </div>
 <div id="outline-container-org8699d12" class="outline-3">
-<h3 id="org8699d12"><span class="section-number-3">5.6</span> 文件共享：Samba</h3>
+<h3 id="org8699d12"><span class="section-number-3">5.5</span> 文件共享：Samba</h3>
 </div>
 <div id="outline-container-orgf2089c2" class="outline-3">
-<h3 id="orgf2089c2"><span class="section-number-3">5.7</span> LAMP &amp; LNMP 环境部署</h3>
-<div class="outline-text-3" id="text-5-7">
+<h3 id="orgf2089c2"><span class="section-number-3">5.6</span> LAMP &amp; LNMP 环境部署</h3>
+<div class="outline-text-3" id="text-5-6">
 <p>
 <a href="https://zhaorengui.github.io/software/linux/php/database/2016/03/25/apache-nginx-mysql-php/">https://zhaorengui.github.io/software/linux/php/database/2016/03/25/apache-nginx-mysql-php/</a>
 </p>
 </div>
 </div>
 <div id="outline-container-orgc359cb9" class="outline-3">
-<h3 id="orgc359cb9"><span class="section-number-3">5.8</span> NIS 服务</h3>
+<h3 id="orgc359cb9"><span class="section-number-3">5.7</span> NIS 服务</h3>
 </div>
 <div id="outline-container-org5106a38" class="outline-3">
-<h3 id="org5106a38"><span class="section-number-3">5.9</span> NTP 服务</h3>
+<h3 id="org5106a38"><span class="section-number-3">5.8</span> NTP 服务</h3>
 </div>
 <div id="outline-container-org1c0ff32" class="outline-3">
-<h3 id="org1c0ff32"><span class="section-number-3">5.10</span> Proxy 服务</h3>
+<h3 id="org1c0ff32"><span class="section-number-3">5.9</span> Proxy 服务</h3>
 </div>
 <div id="outline-container-orgf4c5dc9" class="outline-3">
-<h3 id="orgf4c5dc9"><span class="section-number-3">5.11</span> iSCSI 服务</h3>
+<h3 id="orgf4c5dc9"><span class="section-number-3">5.10</span> iSCSI 服务</h3>
 </div>
 <div id="outline-container-orgf62f74d" class="outline-3">
-<h3 id="orgf62f74d"><span class="section-number-3">5.12</span> Tomcat</h3>
+<h3 id="orgf62f74d"><span class="section-number-3">5.11</span> Tomcat</h3>
 </div>
 <div id="outline-container-org485dca8" class="outline-3">
-<h3 id="org485dca8"><span class="section-number-3">5.13</span> 邮件服务：Postfix</h3>
+<h3 id="org485dca8"><span class="section-number-3">5.12</span> 邮件服务：Postfix</h3>
 </div>
 <div id="outline-container-orgb758d08" class="outline-3">
-<h3 id="orgb758d08"><span class="section-number-3">5.14</span> ELK 日志分析服务</h3>
+<h3 id="orgb758d08"><span class="section-number-3">5.13</span> ELK 日志分析服务</h3>
 </div>
 <div id="outline-container-org9564837" class="outline-3">
-<h3 id="org9564837"><span class="section-number-3">5.15</span> Rsync 同步服务</h3>
+<h3 id="org9564837"><span class="section-number-3">5.14</span> Rsync 同步服务</h3>
 </div>
 </div>
 <div id="outline-container-org2731ff7" class="outline-2">
@@ -4696,12 +4601,128 @@ too many directs.
 </pre>
 </div>
 </div>
-<div id="outline-container-org0e7f242" class="outline-3">
-<h3 id="org0e7f242"><span class="section-number-3">7.5</span> Vim &amp; Emacs</h3>
+<div id="outline-container-org3d79d3d" class="outline-3">
+<h3 id="org3d79d3d"><span class="section-number-3">7.5</span> 使用 you-get 和 youtube-dl 下载 YouTube 视频列表</h3>
 <div class="outline-text-3" id="text-7-5">
+</div>
+<div id="outline-container-orge1eb1c7" class="outline-4">
+<h4 id="orge1eb1c7"><span class="section-number-4">7.5.1</span> you-get</h4>
+<div class="outline-text-4" id="text-7-5-1">
 <pre class="example">
-两个神器软件单独介绍，这里不重复叙写。
+// 官网
 </pre>
+
+<ul class="org-ul">
+<li><a href="https://github.com/soimort/you-get">https://github.com/soimort/you-get</a></li>
+<li><a href="https://you-get.org/">https://you-get.org/</a></li>
+</ul>
+
+<pre class="example">
+// 安装
+$ pip3 install you-get
+</pre>
+
+
+<pre class="example">
+// 示例
+$ you-get 'https://www.youtube.com/watch?v=FwbIeCf19jM'
+</pre>
+
+
+<pre class="example">
+// you-get 下载YouTube视频时，最近突然会出现编码问题，描述如下：
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">root@localhost:~# you-get https://www.youtube.com/watch?v=FwbIeCf19jM
+[1] 12406
+[2] 12407
+root@ubuntu-512mb-sgp1-01:~# site:                YouTube
+stream:
+    - itag:          43
+      container:     webm
+      quality:       medium
+      size:          238.7 MiB (12305670 bytes)
+    # download-with: you-get --itag=43 [URL]
+
+you-get: [error] oops, the current environment does not seem to support Unicode.
+you-get: please set it to a UTF-8-aware locale first,
+you-get: so as to save the video (with some Unicode characters) correctly.
+you-get: you can do it like this:
+you-get:     (Windows)    % chcp 65001 
+you-get:     (Linux)      $ LC_CTYPE=en_US.UTF-8
+</pre>
+</div>
+<pre class="example">
+解决：
+$ LC_CTYPE=en_US.UTF-8
+</pre>
+</div>
+</div>
+<div id="outline-container-org7d62672" class="outline-4">
+<h4 id="org7d62672"><span class="section-number-4">7.5.2</span> youtube-dl</h4>
+<div class="outline-text-4" id="text-7-5-2">
+<pre class="example">
+// Youtube更新了视频格式后，很多高清晰度格式都是音频视频文件分离的，需要使用ffmpeg自动和并起来，所以除了安装youtube-dl，还要安装ffmpeg。
+</pre>
+
+
+<pre class="example">
+// 安装
+$ sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+$ sudo chmod a+rx /usr/local/bin/youtube-dl
+</pre>
+
+
+<pre class="example">
+// 更新youtube-dl
+$ sudo youtube-dl -U
+</pre>
+
+
+<pre class="example">
+// 安装 ffmpeg 以支持视频和音频合成
+// 安装所需的2个Repo
+$ sudo dnf localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm
+$ sudo dnf install --nogpgcheck https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
+// 安装ffmpeg
+$ sudo dnf install ffmpeg ffmpeg-devel
+// 安装完毕后验证版本
+$ rpm -qi ffmpeg
+$ ffmpeg -version
+</pre>
+
+
+<pre class="example">
+// 示例
+$ youtube-dl https://www.youtube.com/watch?v=9o6mAYxm5CQ
+$ youtube-dl https://www.youtube.com/watch?v=9o6mAYxm5CQ -o newname.mp4
+// 下载多个文件
+$ youtube-dl url1 url2 url3
+$ youtube-dl -a url.txt
+// 查看所有格式以及选择格式下载
+$ youtube-dl -F &lt;url&gt;
+// 只下载音频
+$ youtube-dl -f format_code url
+$ youtube-dl -x https://www.youtube.com/watch?v=9o6mAYxm5CQ
+// 下载字幕
+# --all-subs 下载所有语言的字幕
+$ youtube-dl -f 134+140 --all-subs https://www.youtube.com/watch?v=pffIsZ1hBvM
+# 查看所有字幕信息（未下载）
+$ youtube-dl --list-subs https://www.youtube.com/watch?v=pffIsZ1hBvM
+# 只下载某种语言的字幕，加--sub-lang zh-Hans来下载中文字幕
+$ youtube-dl --write-sub --sub-lang zh-Hans --skip-download  https://www.youtube.com/watch?v=pffIsZ1hBvM
+</pre>
+</div>
+</div>
+<div id="outline-container-org470658d" class="outline-4">
+<h4 id="org470658d"><span class="section-number-4">7.5.3</span> 参考资料</h4>
+<div class="outline-text-4" id="text-7-5-3">
+<ul class="org-ul">
+<li><a href="https://zangchuantao.com/tech-zh/2020/use-you-get-to-download-youtube-playlist/">使用you-get 和 youtube-dl下载YouTube视频列表</a></li>
+<li><a href="https://www.jianshu.com/p/7bb23d9bae55">https://www.jianshu.com/p/7bb23d9bae55</a></li>
+</ul>
+</div>
 </div>
 </div>
 <div id="outline-container-org08e48d2" class="outline-3">
@@ -5088,17 +5109,65 @@ Shift+Prt Scrn to take a screenshot of an area you select.
 <h2 id="org3577942"><span class="section-number-2">8</span> 附录B：常见问题收集</h2>
 <div class="outline-text-2" id="text-8">
 </div>
-<div id="outline-container-orgd9fad23" class="outline-3">
-<h3 id="orgd9fad23"><span class="section-number-3">8.1</span> 命令行下不能输入中文标点符号</h3>
+<div id="outline-container-orgc441813" class="outline-3">
+<h3 id="orgc441813"><span class="section-number-3">8.1</span> 电脑没有声音问题解决</h3>
 <div class="outline-text-3" id="text-8-1">
+<ol class="org-ol">
+<li><p>
+安装驱动软件
+</p>
+<pre class="example">
+$ sudo apt-get install alsa-utils
+$ sudo apt-get install alsa-oos
+$ sudo apt-get install esound
+$ sudo apt-get install gnome-audio
+</pre></li>
+<li><p>
+检查声卡驱动
+</p>
+<pre class="example">
+$ lspci |grep Audio
+</pre></li>
+<li><p>
+检查内核模块
+</p>
+<pre class="example">
+$ lsmod |grep snd
+</pre></li>
+<li><p>
+检查系统音量
+</p>
+<pre class="example">
+$ alsamixer
+</pre>
+
+<p>
+alsamixer 是 alsa 驱动的一个插件,是一个命令行下的图形设置工具。alsamixer 命令，00 表示音量正常，MM表示此声道静音。可以通过M键切换。
+</p></li>
+<li><p>
+初始化声卡
+</p>
+<pre class="example">
+$ sudo alsactl init
+</pre></li>
+<li>参考资料
+<ul class="org-ul">
+<li><a href="https://blog.gtwang.org/linux/ubuntu-16-04-headphone-speakers-sound-problem/">解決 Ubuntu Linux 16.04 耳機輸出沒有聲音的問題</a></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd9fad23" class="outline-3">
+<h3 id="orgd9fad23"><span class="section-number-3">8.2</span> 命令行下不能输入中文标点符号</h3>
+<div class="outline-text-3" id="text-8-2">
 <pre class="example">
 使用快捷键 Ctrl+. 一个是lation 符号，一个是全角符号。
 </pre>
 </div>
 </div>
 <div id="outline-container-org231ca86" class="outline-3">
-<h3 id="org231ca86"><span class="section-number-3">8.2</span> 不能在 Sublime 编辑器（Editor）中输入中文</h3>
-<div class="outline-text-3" id="text-8-2">
+<h3 id="org231ca86"><span class="section-number-3">8.3</span> 不能在 Sublime 编辑器（Editor）中输入中文</h3>
+<div class="outline-text-3" id="text-8-3">
 <ol class="org-ol">
 <li><p>
 下载（Download）
@@ -5133,8 +5202,8 @@ http://www.jianshu.com/p/bf05fb3a4709
 </div>
 </div>
 <div id="outline-container-orgcfa83a7" class="outline-3">
-<h3 id="orgcfa83a7"><span class="section-number-3">8.3</span> 解决系统不能支持加密算法：chacha20</h3>
-<div class="outline-text-3" id="text-8-3">
+<h3 id="orgcfa83a7"><span class="section-number-3">8.4</span> 解决系统不能支持加密算法：chacha20</h3>
+<div class="outline-text-3" id="text-8-4">
 <pre class="example">
 $ sudo apt-get install m2crypto gcc -y
 $ wget -N --no-check-certificate https://download.libsodium.org/libsodium/releases/libsodium-1.0.8.tar.gz
@@ -5151,8 +5220,8 @@ $ ldconfig
 </div>
 </div>
 <div id="outline-container-orge112525" class="outline-3">
-<h3 id="orge112525"><span class="section-number-3">8.4</span> 软件源配置不全，导致软件不能安装</h3>
-<div class="outline-text-3" id="text-8-4">
+<h3 id="orge112525"><span class="section-number-3">8.5</span> 软件源配置不全，导致软件不能安装</h3>
+<div class="outline-text-3" id="text-8-5">
 <pre class="example">
 //Error: Can't fix the error because you are asking some packages to stay the same, that is they break the dependencies between the packages.
 //翻译：无法修正错误,因为您要求某些软件包保持现状,就是它们破坏了软件包间的依赖关系
@@ -5163,12 +5232,12 @@ $ sudo apt-get update
 </div>
 </div>
 <div id="outline-container-org7ede71e" class="outline-3">
-<h3 id="org7ede71e"><span class="section-number-3">8.5</span> .deb 转换为 .rpm</h3>
-<div class="outline-text-3" id="text-8-5">
+<h3 id="org7ede71e"><span class="section-number-3">8.6</span> .deb 转换为 .rpm</h3>
+<div class="outline-text-3" id="text-8-6">
 </div>
 <div id="outline-container-org3833d5e" class="outline-4">
-<h4 id="org3833d5e"><span class="section-number-4">8.5.1</span> 下载及安装 alien</h4>
-<div class="outline-text-4" id="text-8-5-1">
+<h4 id="org3833d5e"><span class="section-number-4">8.6.1</span> 下载及安装 alien</h4>
+<div class="outline-text-4" id="text-8-6-1">
 <pre class="example">
 1.下载:
 $ wget https://packages.debian.org/unstable/source/alien
@@ -5184,8 +5253,8 @@ $ make &amp;&amp; make install
 </div>
 </div>
 <div id="outline-container-org45c52b6" class="outline-4">
-<h4 id="org45c52b6"><span class="section-number-4">8.5.2</span> 转换(Conversion)</h4>
-<div class="outline-text-4" id="text-8-5-2">
+<h4 id="org45c52b6"><span class="section-number-4">8.6.2</span> 转换(Conversion)</h4>
+<div class="outline-text-4" id="text-8-6-2">
 <pre class="example">
 $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
 </pre>
@@ -5193,12 +5262,12 @@ $ alien -r kuaipan4uk_2.0.0.5_amd64.deb
 </div>
 </div>
 <div id="outline-container-org264c2bc" class="outline-3">
-<h3 id="org264c2bc"><span class="section-number-3">8.6</span> 软件自启动脚本实例</h3>
-<div class="outline-text-3" id="text-8-6">
+<h3 id="org264c2bc"><span class="section-number-3">8.7</span> 软件自启动脚本实例</h3>
+<div class="outline-text-3" id="text-8-7">
 </div>
 <div id="outline-container-orgb42b0fd" class="outline-4">
-<h4 id="orgb42b0fd"><span class="section-number-4">8.6.1</span> 实例：php-fpm 服务启动脚本</h4>
-<div class="outline-text-4" id="text-8-6-1">
+<h4 id="orgb42b0fd"><span class="section-number-4">8.7.1</span> 实例：php-fpm 服务启动脚本</h4>
+<div class="outline-text-4" id="text-8-7-1">
 <ol class="org-ol">
 <li>$ sudo vim /etc/init.d/php-fpm</li>
 </ol>
@@ -5332,8 +5401,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-orgdabaabf" class="outline-4">
-<h4 id="orgdabaabf"><span class="section-number-4">8.6.2</span> References</h4>
-<div class="outline-text-4" id="text-8-6-2">
+<h4 id="orgdabaabf"><span class="section-number-4">8.7.2</span> References</h4>
+<div class="outline-text-4" id="text-8-7-2">
 <ul class="org-ul">
 <li><a href="http://www.ttlsa.com/php/php-fpm-service-scripts/">http://www.ttlsa.com/php/php-fpm-service-scripts/</a></li>
 </ul>
@@ -5341,8 +5410,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-org98bfa04" class="outline-3">
-<h3 id="org98bfa04"><span class="section-number-3">8.7</span> 解决 dpkg: warning: files list file for package 'x' missing 问题</h3>
-<div class="outline-text-3" id="text-8-7">
+<h3 id="org98bfa04"><span class="section-number-3">8.8</span> 解决 dpkg: warning: files list file for package 'x' missing 问题</h3>
+<div class="outline-text-3" id="text-8-8">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 1: </span></label><pre class="src src-shell"><span style="color: #FF1493;">for</span> package<span style="color: #FF1493;"> in</span> $(apt-get upgrade 2&gt;&amp;1 |<span style="color: #CDC673; font-weight: bold;">\</span>
                  grep <span style="color: #CDC673;">"warning: files list file for package '"</span> |<span style="color: #CDC673; font-weight: bold;">\</span>
@@ -5354,8 +5423,8 @@ service php-fpm start/stop/restart/reload
 </div>
 </div>
 <div id="outline-container-org26de4b5" class="outline-3">
-<h3 id="org26de4b5"><span class="section-number-3">8.8</span> dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</h3>
-<div class="outline-text-3" id="text-8-8">
+<h3 id="org26de4b5"><span class="section-number-3">8.9</span> dpkg: error: failed to open package info file `/var/lib/dpkg/available' for reading</h3>
+<div class="outline-text-3" id="text-8-9">
 <pre class="example">
 $ sudo dpkg --configure -a
 $ sudo apt-get -f install
@@ -5370,8 +5439,8 @@ $ sudo apt-get autoremove
 </div>
 </div>
 <div id="outline-container-org700d121" class="outline-3">
-<h3 id="org700d121"><span class="section-number-3">8.9</span> CentOS 7关闭firewall，安装iptables</h3>
-<div class="outline-text-3" id="text-8-9">
+<h3 id="org700d121"><span class="section-number-3">8.10</span> CentOS 7关闭firewall，安装iptables</h3>
+<div class="outline-text-3" id="text-8-10">
 <pre class="example">
 1. 查看安装和状态
 $ yum installed firewalld iptables
@@ -5430,8 +5499,8 @@ $ iptables -L
 </div>
 </div>
 </div>
-<div id="outline-container-org470658d" class="outline-2">
-<h2 id="org470658d"><span class="section-number-2">9</span> 参考资料</h2>
+<div id="outline-container-orgbd8b58a" class="outline-2">
+<h2 id="orgbd8b58a"><span class="section-number-2">9</span> 参考资料</h2>
 <div class="outline-text-2" id="text-9">
 <ul class="org-ul">
 <li><a href="http://linux.vbird.org/linux_basic/">鳥哥的 Linux 私房菜</a></li>
