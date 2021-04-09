@@ -30,9 +30,10 @@ photos:
 #+END_EXPORT
 
 # (setq org-export-html-use-infojs nil)
+[[file:{{site.url}}/assets/images/vim.png]]
 # (setq org-export-html-style nil)
 
-* Vim Keyboard
+* Vim Command
   #+CAPTION: Vim Keyboard
   | Command                  | Description                                                                                           |
   |--------------------------+-------------------------------------------------------------------------------------------------------|
@@ -140,8 +141,8 @@ photos:
   | :n1,n2s/^#//g            | 连续行注释                                                                                            |
   | :n1,n2s/^/\/\//g         | 连续行注释                                                                                            |
   | :ab mymail zrg@gmail.com | 替换，输入mymail，自动变成zrg@gmail.com                                                               |
-* Highlight Setting
-** Color
+* Vim Configuration
+** Set Theme
 1. 查看当前主题 
    : :color 
    : :colorscheme 
@@ -214,6 +215,59 @@ photos:
 + 设置生效
   : Notice: 设置完成后，发现功能没有起作用，检查一下系统下是否安装了vim-enhanced包，查询命令为： 
   : $ rpm -q vim-enhanced
+** Install Plugin
+   1. Install vundle
+      : $ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+   2. Configure vundle
+      : $ vim ~/.vimrc
+      #+begin_src shell
+	set nocompatible              " be iMproved, required
+	filetype off                  " required
+
+	" set the runtime path to include Vundle and initialize
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
+	" alternatively, pass a path where Vundle should install plugins
+	"call vundle#begin('~/some/path/here')
+
+	" let Vundle manage Vundle, required
+	Plugin 'VundleVim/Vundle.vim'
+
+	" The following are examples of different formats supported.
+	" Keep Plugin commands between vundle#begin/end.
+	" plugin on GitHub repo
+	Plugin 'tpope/vim-fugitive'
+	" plugin from http://vim-scripts.org/vim/scripts.html
+	" Plugin 'L9'
+	" Git plugin not hosted on GitHub
+	Plugin 'git://git.wincent.com/command-t.git'
+	" git repos on your local machine (i.e. when working on your own plugin)
+	Plugin 'file:///home/gmarik/path/to/plugin'
+	" The sparkup vim script is in a subdirectory of this repo called vim.
+	" Pass the path to set the runtimepath properly.
+	Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+	" Install L9 and avoid a Naming conflict if you've already installed a
+	" different version somewhere else.
+	" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+	" All of your Plugins must be added before the following line
+	call vundle#end()            " required
+	filetype plugin indent on    " required
+	" To ignore plugin indent changes, instead use:
+	"filetype plugin on
+	"
+	" Brief help
+	" :PluginList       - lists configured plugins
+	" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+	" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+	" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+	"
+	" see :h vundle for more details or wiki for FAQ
+	" Put your non-Plugin stuff after this line
+      #+end_src
+   3. Install Plugins
+      + Launch vim and run :PluginInstall
+      + To install from command line: vim +PluginInstall +qall
 * Problems
 ** MacOS 下backspace键失效，不能向左删除
    在默认状态下，delete（backspace）按下只会删除本次插入模式下插入的文本，这跟backspace的模式设置有关，其模式可以设置为以下三种模式： \\
