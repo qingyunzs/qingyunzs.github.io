@@ -119,9 +119,11 @@
 <meta property="og:site_name" content="Knowledge Has No Limit">
 <meta property="og:description" content="Vim 是一个类似于Vi的著名的功能强大、高度可定制的文本编辑器，在Vi的基础上改进和增加了很多特性。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://localhost:4000/assets/images/vim.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vim">
 <meta name="twitter:description" content="Vim 是一个类似于Vi的著名的功能强大、高度可定制的文本编辑器，在Vi的基础上改进和增加了很多特性。">
+<meta name="twitter:image" content="http://localhost:4000/assets/images/vim.png">
 
 
 <script type="text/javascript" id="hexo.configurations">
@@ -476,7 +478,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2158
+                  2417
                 </span>
               
 
@@ -505,8 +507,13 @@
 
       
         
-  <div id="outline-container-orga2d89b1" class="outline-2">
-<h2 id="orga2d89b1"><span class="section-number-2">1</span> Vim Keyboard</h2>
+  <div class="figure">
+<p><img src="http://localhost:4000/assets/images/vim.png" alt="vim.png" />
+</p>
+</div>
+
+<div id="outline-container-org37d7496" class="outline-2">
+<h2 id="org37d7496"><span class="section-number-2">1</span> Vim Command</h2>
 <div class="outline-text-2" id="text-1">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> Vim Keyboard</caption>
@@ -1008,12 +1015,12 @@
 </table>
 </div>
 </div>
-<div id="outline-container-orga5776a9" class="outline-2">
-<h2 id="orga5776a9"><span class="section-number-2">2</span> Highlight Setting</h2>
+<div id="outline-container-org844d3e7" class="outline-2">
+<h2 id="org844d3e7"><span class="section-number-2">2</span> Vim Configuration</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-org288bbd3" class="outline-3">
-<h3 id="org288bbd3"><span class="section-number-3">2.1</span> Color</h3>
+<div id="outline-container-org4180aec" class="outline-3">
+<h3 id="org4180aec"><span class="section-number-3">2.1</span> Set Theme</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li><p>
@@ -1159,6 +1166,77 @@ Notice: 设置完成后，发现功能没有起作用，检查一下系统下是
 $ rpm -q vim-enhanced
 </pre></li>
 </ul>
+</div>
+</div>
+<div id="outline-container-orga587937" class="outline-3">
+<h3 id="orga587937"><span class="section-number-3">2.3</span> Install Plugin</h3>
+<div class="outline-text-3" id="text-2-3">
+<ol class="org-ol">
+<li><p>
+Install vundle
+</p>
+<pre class="example">
+$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</pre></li>
+<li><p>
+Configure vundle
+</p>
+<pre class="example">
+$ vim ~/.vimrc
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #FF1493;">set</span> nocompatible              <span style="color: #CDC673;">" be iMproved, required</span>
+<span style="color: #CDC673;">filetype off                  "</span> required
+
+<span style="color: #CDC673;">" set the runtime path to include Vundle and initialize</span>
+<span style="color: #CDC673;">set rtp+=~/.vim/bundle/Vundle.vim</span>
+<span style="color: #CDC673;">call vundle#begin()</span>
+<span style="color: #CDC673;">"</span> alternatively, pass a path where Vundle should install plugins
+<span style="color: #CDC673;">"call vundle#begin('~/some/path/here')</span>
+
+<span style="color: #CDC673;">"</span> let Vundle manage Vundle, required
+Plugin <span style="color: #CDC673;">'VundleVim/Vundle.vim'</span>
+
+<span style="color: #CDC673;">" The following are examples of different formats supported.</span>
+<span style="color: #CDC673;">"</span> Keep Plugin commands between vundle#begin/end.
+<span style="color: #CDC673;">" plugin on GitHub repo</span>
+<span style="color: #CDC673;">Plugin 'tpope/vim-fugitive'</span>
+<span style="color: #CDC673;">"</span> plugin from http://vim-scripts.org/vim/scripts.html
+<span style="color: #CDC673;">" Plugin 'L9'</span>
+<span style="color: #CDC673;">"</span> Git plugin not hosted on GitHub
+Plugin <span style="color: #CDC673;">'git://git.wincent.com/command-t.git'</span>
+<span style="color: #CDC673;">" git repos on your local machine (i.e. when working on your own plugin)</span>
+<span style="color: #CDC673;">Plugin 'file:///home/gmarik/path/to/plugin'</span>
+<span style="color: #CDC673;">"</span> The sparkup vim script is<span style="color: #FF1493;"> in</span> a subdirectory of this repo called vim.
+<span style="color: #CDC673;">" Pass the path to set the runtimepath properly.</span>
+<span style="color: #CDC673;">Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}</span>
+<span style="color: #CDC673;">"</span> Install L9 and avoid a Naming conflict if you<span style="color: #CDC673;">'ve already installed a</span>
+<span style="color: #CDC673;">" different version somewhere else.</span>
+<span style="color: #CDC673;">" Plugin '</span>ascenator/L9<span style="color: #CDC673;">', {'</span>name<span style="color: #CDC673;">': '</span>newL9<span style="color: #CDC673;">'}</span>
+
+<span style="color: #CDC673;">" All of your Plugins must be added before the following line</span>
+<span style="color: #CDC673;">call vundle#end()            " required</span>
+<span style="color: #CDC673;">filetype plugin indent on    " required</span>
+<span style="color: #CDC673;">" To ignore plugin indent changes, instead use:</span>
+<span style="color: #CDC673;">"filetype plugin on</span>
+<span style="color: #CDC673;">"</span>
+<span style="color: #CDC673;">" Brief help</span>
+<span style="color: #CDC673;">" :PluginList       - lists configured plugins</span>
+<span style="color: #CDC673;">" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate</span>
+<span style="color: #CDC673;">" :PluginSearch foo - searches for foo; append `!` to refresh local cache</span>
+<span style="color: #CDC673;">" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal</span>
+<span style="color: #CDC673;">"</span>
+<span style="color: #CDC673;">" see :h vundle for more details or wiki for FAQ</span>
+<span style="color: #CDC673;">" Put your non-Plugin stuff after this line</span>
+</pre>
+</div></li>
+<li>Install Plugins
+<ul class="org-ul">
+<li>Launch vim and run :PluginInstall</li>
+<li>To install from command line: vim +PluginInstall +qall</li>
+</ul></li>
+</ol>
 </div>
 </div>
 </div>
@@ -1388,17 +1466,6 @@ set backspace=2
                 </a>
               </span>
             
-              
-              
-              <span class="links-of-author-item">
-                <a href="https://weibo.com/zhaorengui" target="_blank" title="Weibo">
-                  
-                    <i class="fa fa-fw fa-weibo"></i>
-                  
-                  Weibo
-                </a>
-              </span>
-            
           
         </div>
 
@@ -1417,7 +1484,13 @@ set backspace=2
                 
                 
                 <li class="links-of-blogroll-item">
-                  <a href="https://jiangshengfei.github.io/" title="JiangShengfei" target="_blank">JiangShengfei</a>
+                  <a href="https://jiangshengfei.github.io/" title="jiangshengfei.github.io" target="_blank">jiangshengfei.github.io</a>
+                </li>
+              
+                
+                
+                <li class="links-of-blogroll-item">
+                  <a href="https://puqiyuan.github.io/" title="puqiyuan.github.io" target="_blank">puqiyuan.github.io</a>
                 </li>
               
             </ul>
@@ -1448,7 +1521,7 @@ set backspace=2
             
               <div class="post-toc-content">
     <ol class=nav>
-      <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga2d89b1"> <span class="nav-text">1 Vim Keyboard</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#orga5776a9"> <span class="nav-text">2 Highlight Setting</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org288bbd3"> <span class="nav-text">2.1 Color</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33402ef"> <span class="nav-text">2.2 Enable and Disable Highlight</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org516a7ff"> <span class="nav-text">3 Problems</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5dfbc49"> <span class="nav-text">3.1 MacOS 下backspace键失效，不能向左删除</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org668a98e"> <span class="nav-text">4 References</span> </a> </li>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#org37d7496"> <span class="nav-text">1 Vim Command</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org844d3e7"> <span class="nav-text">2 Vim Configuration</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org4180aec"> <span class="nav-text">2.1 Set Theme</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org33402ef"> <span class="nav-text">2.2 Enable and Disable Highlight</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#orga587937"> <span class="nav-text">2.3 Install Plugin</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org516a7ff"> <span class="nav-text">3 Problems</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#org5dfbc49"> <span class="nav-text">3.1 MacOS 下backspace键失效，不能向左删除</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#org668a98e"> <span class="nav-text">4 References</span> </a> </li>
     </ol>
   </div>
             
