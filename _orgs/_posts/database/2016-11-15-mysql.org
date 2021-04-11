@@ -32,20 +32,18 @@ photos:
 # (setq org-export-html-style nil)
 
 * MySQL 概述
-** 什么是 SQL
-** 什么是 MySQL
+  *什么是 SQL*
+  *什么是 MySQL*
 * MySQL 基本操作
-** 创建数据库
-   #+BEGIN_SRC sql
-     -- Create database
-     create database dbname;
+  #+name: 操作数据库、数据表
+  #+begin_src sql
+    -- 创建数据库
+    create database dbname;
 
-     -- delete database
-     drop database dbname;
-   #+END_SRC
-** 创建数据表
-   #+BEGIN_SRC sql
-    -- Create table
+    -- 删除数据库
+    drop database dbname;
+
+    -- 创建数据表
     create table TableName(
 	   id int(10) not null primary key auto_increment,
 	   name varchar(20) not null,
@@ -53,43 +51,45 @@ photos:
 	   sex int(4) not null default '0',
     );
 
-    -- Alter table
+    -- 修改数据库
     alter table TableName
     characiter set=utf8mb4,
     collate=utf8mb4_general_ci
-   #+END_SRC
+  #+end_src
 
-** 数据操作
-*** SELECT 语句
-**** LIMIT 子句
-**** ORDER BY 子句
-**** WHERE 子句
-***** AND & OR 操作符
-***** IN 操作符
-***** NOT 操作符
-***** LIKE 操作符
-      1. 百分号 % 通配符
-      2. 下划线 _ 通配符
-***** 正则表达式(Regular Expression)
-      #+BEGIN_SRC sql
-    -- Find all data of containing 'mar' string in the name field
-    select name from person where name regexp 'mar'
-    -- Find all data in the name field that starts with a vowel character or ends with a string of 'ok'
-    select name from person where name regexp '^[aeiou]|ok$'
-      #+END_SRC
-**** GROUP BY 子句和 HAVING 子句
-**** 子查询
-**** 关联查询
-**** 组合查询
-*** 数据处理函数
-**** 文本处理函数
-**** 日期和时间处理函数
-**** 数值处理函数
-**** 聚合函数
-*** 全文搜索
-*** INSERT 语句
-*** UPDATE 语句
-*** DELETE 语句
+  #+name: 增删改查
+  #+begin_src sql
+     -- 数据操作
+     -- SELECT 语句
+     -- LIMIT 子句，ORDER BY 子句，GROUP BY 子句，HAVING 子句
+     -- WHERE 子句
+     -- AND & OR 操作符，IN 操作符，NOT 操作符，LIKE 操作符
+     -- 子查询，关联查询，组合查询
+     
+     -- 正则表达式(Regular Expression)
+     -- Find all data of containing 'mar' string in the name field
+     select name from person where name regexp 'mar'
+     -- Find all data in the name field that starts with a vowel character or ends with a string of 'ok'
+     select name from person where name regexp '^[aeiou]|ok$'
+
+     -- 数据处理函数：
+     -- 文本处理函数
+     -- 日期和时间处理函数
+     -- 数值处理函数
+     -- 聚合函数
+     -- 全文搜索
+
+     -- INSERT 语句
+     insert into TableName(id,name,password) values('1','孙悟空','sduwe9uifsdddssdf23qfuieqwerq');
+
+     -- UPDATE 语句
+     update TableName set name='孙悟空' where id='1'
+
+     -- DELETE 语句
+     delete from TableName where id='1';
+     -- 清空数据表
+     truncate table TableName;
+  #+end_src
 * MySQL 高级特性 
 ** 视图
 ** 存储过程
@@ -188,11 +188,11 @@ photos:
 **** tmp_table_size
      通过设置 tmp_table_size 选项来增加一张临时表的大小，例如做高级 GROUP BY 操作生成的临时表。如果调高该值，MySQL 同时将增加 heap 表的大小，可达到提高联接查询速度的效果，建议尽量优化查询，要确保查询过程中生成的临时表在内存中，避免临时表过大导致生成基于硬盘的 MyISAM 表。
      \\
-    可以复用的保存在中的线程的数量。如果有，新的线程从缓存中取得，当断开连接的时候如果有空间，客户的线置在缓存中。如果有很多新的线程，为了提高性能可以这个变量值。
-    \\
-    通过比较 Connections和Threads_created状态的变量，可以看到这个变量的作用。
-    \\
-    默认值为110，可调优为80。
+     可以复用的保存在中的线程的数量。如果有，新的线程从缓存中取得，当断开连接的时候如果有空间，客户的线置在缓存中。如果有很多新的线程，为了提高性能可以这个变量值。
+     \\
+     通过比较 Connections和Threads_created状态的变量，可以看到这个变量的作用。
+     \\
+     默认值为110，可调优为80。
 **** thread_concurrency
      推荐设置为服务器 CPU 核数的2倍，例如双核的 CPU, 那么 thread_concurrency 的应该为4；2个双核的 cpu, thread_concurrency 的值应为8。默认为8
 **** wait_timeout
@@ -325,6 +325,28 @@ exec sp_msforeachtable "truncate table ?"
     #+END_SRC
     该方法可以一次清空所有表,但不能加过滤条件.
     : 附-删除表：exec sp_msforeachtable 'DROP table ?'
+** SQL Server修改表名前的用户
+1.只修改表前用户
+#+BEGIN_SRC
+EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
+#+END_SRC
+2.用户表/存储过程/视图/触发器/自定义函数一起改
+#+BEGIN_SRC
+declare tb cursor local for
+select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
+from sysobjects 
+where xtype in('U','V','P','TR','FN','IF','TF') and status>=0
+open tb
+declare @s nvarchar(4000)
+fetch tb into @s
+while @@fetch_status=0
+begin
+exec(@s)
+fetch tb into @s
+end
+close tb
+deallocate tb
+#+END_SRC
 * 参考资料
   + http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
 * 附-EXPLAIN
