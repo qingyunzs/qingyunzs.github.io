@@ -27,75 +27,216 @@ tags:
 photos:
 ---
 #+END_EXPORT
-x
+
 # (setq org-export-html-use-infojs nil)
 # (setq org-export-html-style nil)
 
-* Java 概念
-** 重写(override)和重载(overload)
-   1. 概念
-      - Override：子类中和父类中的方法声明一模一样。
-      - Overload：方法一样，参数或参数类型不一样。
-   2. 使用注意事项
-      - 父类中私有方法不能被重写
-      - 子类重写父类方法时，访问权限不能更低
-      - 父类静态方法，子类也必须通过静态方法进行重写。（算不上重写）
-      - 推荐：重写时，最好声明一模一样。
-** == vs equals
-   1. 对于==，如果作用于基本数据类型的变量（byte,short,char,int,long,float,double,boolean ），则直接比较其存储的"值"是否相等；如果作用于引用类型的变量（String），则比较的是所指向的对象的地址（即是否指向同一个对象）。
-   2. equals方法是基类Object中的方法，因此对于所有的继承于Object的类都会有该方法。在Object类中，equals方法是用来比较两个对象的引用是否相等，即是否指向同一个对象。
-   3. 对于equals方法注意：equals方法不能作用于基本数据类型的变量。如果没有对equals方法进行重写，则比较的是引用类型的变量所指向的对象的地址；而String类对equals方法进行了重写，用来比较指向的字符串对象所存储的字符串是否相等。其他的一些类诸如Double，Date，Integer等，都对equals方法进行了重写用来比较指向的对象所存储的内容是否相等。
-** 反射 & 范型
-   1. 概念
-      - 反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。
-      - 范型：在日常生活中，橡皮泥通过外力可以改变其形状，其形状是不固 定的。在Java中，通过泛型可以给开发带来方便，通过参数的指 定，可以改变其类型。
-
-   2. 使用范型的优缺点
-      - 使代码看起来灵活，代码量减少，容易管理 ，不容易产生错误；
-      - 使用泛型在代码编译的时候能进行类型的检查并自动转换，使代码的运行效率得到提高；
-      - 使用泛型在编译进行自动转换的时候出现了错误，会进行错误提示；
-      -（缺点）在性能上不如数组快。
-** 值传递 vs 引用传递
-   1. 错误理解
-      - 值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。
-      - Java是引用传递
-      - 传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。
-
-   2. 实参和形参
-      - 形式参数：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数。
-      - 实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。
-
-   3. 值传递和引用传递
-      - 值传递（pass by value）是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。
-      - 引用传递（pass by reference）是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。
-
-      *举例：*
-      [[file:{{site.url}}/assets/images/value-example.png]]
-
-   4. 总结
-      - 值传递：会创建副本，在函数中无法改变原始对象。
-      - 引用传递：引用传递不会创建副本，函数中可以改变原始对象。
-      - Java中其实还是值传递的，只不过对于对象参数，值的内容是对象的引用。可以说，Java中的传递只有值传递。
-** Class<T> vs Class<?>
-*** 提前了解
-    - 使用大写字母A,B,C,D......X,Y,Z定义的，就都是泛型，把T换成A也一样，这里T只是名字上的意义而已。
-    - ？ 表示不确定的java类型
-    - T (type) 表示具体的一个java类型
-    - K V (key value) 分别代表java键值中的Key Value
-    - E (element) 代表Element
-    - ?和T区别是：？是一个不确定类，？和T都表示不确定的类型 ，但如果是T的话，函数里面可以对T进行操作，比方 T car = getCar()，而不能用？ car = getCar()。
-    - Object和T不同点在于，Object是一个实打实的类,并没有泛指谁，可以直接给List中 add(new Object())
-*** Class<T>，Class<?>区别
-    1. Class是什么呢，Class也是一个类，但Class是存放上面String,List,Map......类信息的一个类，有点抽象。
-    2. 如何获取到Class类呢，有三种方式:
+* Java 基础
+** Java 基本语法
+*** 自动装箱、拆箱
+    1. 什么是自动装箱、拆箱
+       简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。如下所示：
        #+begin_src java
-	 List list = null;
-	 Class clazz = list.getClass();
-	 Class clazz = Class.forName("com.lyang.demo.fanxing.People");
-	 Class clazz = List.class;
+	 //自动装箱
+	 Integer total = 99;
+
+	 //自动拆箱
+	 int totalprim = total;
        #+end_src
-    3. 使用Class<T>和Class<?>多发生在反射场景下，如果我们不使用泛型，反射创建一个类是什么样的:
+
+       反编译class文件之后得到如下内容：
+
+       : javap -c StringTest
+      
        #+begin_src java
+	 Integer total = 99; 
+	 // 执行上面那句代码的时候，系统为我们执行了： 
+	 Integer total = Integer.valueOf(99);
+
+	 int totalprim = total; 
+	 // 执行上面那句代码的时候，系统为我们执行了： 
+	 int totalprim = total.intValue();
+
+	 /**
+	  ,* 进而以Integer为例，分析源码
+	  ,*/
+	 // Integer.valueOf函数
+	 public static Integer valueOf(int i) {
+	     return  i >= 128 || i < -128 ? new Integer(i) : SMALL_VALUES[i + 128];
+	 }
+
+	 // Integer的构造函数：
+	 private final int value;
+
+	 // 定义了一个value变量，创建一个Integer对象，就会给这个变量初始化。
+	 public Integer(int value) {
+	     this.value = value;
+	 }
+
+	 // 传入的是一个String变量，它会先把它转换成一个int值，然后进行初始化。
+	 public Integer(String string) throws NumberFormatException {
+	     this(parseInt(string));
+	 }
+
+	 // SMALL_VALUES[i + 128]，它是一个静态的Integer数组对象，也就是说最终valueOf返回的都是一个Integer对象。
+	 private static final Integer[] SMALL_VALUES = new Integer[256];
+       #+end_src
+      
+       小结：装箱的过程会创建对应的对象，这个会消耗内存，所以装箱的过程会增加内存的消耗，影响性能。
+    2. 进一步了解
+       在Integer的构造函数中，它分两种情况：
+       : i >= 128 || i < -128 =====> new Integer(i)
+       : i < 128 && i >= -128 =====> SMALL_VALUES[i + 128]
+      
+       : private static final Integer[] SMALL_VALUES = new Integer[256];
+
+       SMALL_VALUES本来已经被创建好，也就是说在i >= 128 || i < -128是会创建不同的对象，在i < 128 && i >= -128会根据i的值返回已经创建好的指定的对象。下面举例说明：
+       #+begin_src java
+	 public class Main {
+	     public static void main(String[] args) {
+
+		 Integer i1 = 100;
+		 Integer i2 = 100;
+		 Integer i3 = 200;
+		 Integer i4 = 200;
+
+		 System.out.println(i1==i2);  //true
+		 System.out.println(i3==i4);  //false
+	     }
+	 }
+       #+end_src
+      
+       - i1和i2会进行自动装箱，执行了valueOf函数，它们的值在(-128,128]这个范围内，它们会拿到SMALL_VALUES数组里面的同一个对象SMALL_VALUES[228]，它们引用到了同一个Integer对象，所以它们肯定是相等的。
+       - i3和i4也会进行自动装箱，执行了valueOf函数，它们的值大于128，所以会执行new Integer(200)，也就是说它们会分别创建两个不同的对象，所以它们肯定不等。
+
+       *举例2:*
+       #+begin_src java
+	 public class Main {
+	     public static void main(String[] args) {
+
+		 Double i1 = 100.0;
+		 Double i2 = 100.0;
+		 Double i3 = 200.0;
+		 Double i4 = 200.0;
+
+		 System.out.println(i1==i2); //false
+		 System.out.println(i3==i4); //false
+	     }
+	 }
+       #+end_src
+       看看上面的执行结果，跟Integer不一样，对于Integer，在(-128,128]之间只有固定的256个值，所以为了避免多次创建对象，我们事先就创建好一个大小为256的Integer数组SMALL_VALUES，所以如果值在这个范围内，就可以直接返回我们事先创建好的对象就可以了。
+       \\
+       但是对于Double类型来说，因为它在这个范围内个数是无限的。所以在Double里面的做法很直接，就是直接创建一个对象，所以每次创建的对象都不一样。
+       #+begin_src java
+	 public static Double valueOf(double d) {
+	      return new Double(d);
+	 }
+       #+end_src
+
+       下面我们进行一个归类：
+       - Integer派别：Integer、Short、Byte、Character、Long这几个类的valueOf方法的实现是类似的。 
+       - Double派别：Double、Float的valueOf方法的实现是类似的。每次都返回不同的对象。
+    3. 其他情况
+       - Boolean
+	 #+begin_src java
+	  public class Main {
+	      public static void main(String[] args) {
+
+		  Boolean i1 = false;
+		  Boolean i2 = false;
+		  Boolean i3 = true;
+		  Boolean i4 = true;
+
+		  System.out.println(i1==i2);//true
+		  System.out.println(i3==i4);//true
+	      }
+	  }
+
+	  // 返回的都是true，也就是它们执行valueOf返回的都是相同的对象。
+	  public static Boolean valueOf(boolean b) {
+	      return b ? Boolean.TRUE : Boolean.FALSE;
+	  }
+
+	  // 可以看到它并没有创建对象，因为在内部已经提前创建好两个对象，因为它只有两种情况，这样也是为了避免重复创建太多的对象。
+	  public static final Boolean TRUE = new Boolean(true);
+
+	  public static final Boolean FALSE = new Boolean(false);
+	 #+end_src
+       - 拆箱操作
+         #+begin_src java
+	   Integer num1 = 400;
+	   int num2 = 400;
+	   System.out.println(num1 == num2); //true
+	   System.out.println(num1.equals(num2));  //true
+	 #+end_src
+	
+	 equals 源码：
+         #+begin_src java
+	   @Override
+	   public boolean equals(Object o) {
+	       return (o instanceof Integer) && (((Integer) o).value == value);
+	   }
+	 #+end_src
+	 说明：指定equal比较的是内容本身，并且我也可看到 equals 的参数是一个Object对象，我们传入的是一个 int 类型，所以首先会进行装箱，然后比较。之所以返回 true，是由于它比较的是对象里面的 value 值。
+	
+         #+begin_src java
+	   Integer num1 = 100;
+	   int num2 = 100;
+	   Long num3 = 200l;
+	   System.out.println(num1 + num2);  //200
+	   System.out.println(num3 == (num1 + num2));  //true
+	   System.out.println(num3.equals(num1 + num2));  //false
+	 #+end_src
+	 说明：当一个基础数据类型与封装类进行==、+、-、*、/运算时，会将封装类进行拆箱，对基础数据类型进行运算。 对于num3.equals(num1 + num2)为false的原因，根据代码实现来说明。
+         #+begin_src java
+	   @Override
+	   public boolean equals(Object o) {
+	       return (o instanceof Long) && (((Long) o).value == value);
+	   }
+	 #+end_src
+	 所以，对于num3.equals(num1 + num2)为false的原因就是类型不同。
+       - 陷阱
+         #+begin_src java
+	   Integer integer100=null;
+	   int int100=integer100;
+	 #+end_src
+	 这两行代码是完全合法的，完全能够通过编译的，但是在运行时，就会抛出空指针异常。其中，integer100为Integer类型的对象，它当然可以指向null。但在第二行时，就会对integer100进行拆箱，也就是对一个null对象执行intValue()方法，当然会抛出空指针异常。所以，有拆箱操作时一定要特别注意封装类对象是否为null。
+*** 重写(override)和重载(overload)
+    1. 概念
+       - Override：子类中和父类中的方法声明一模一样。
+       - Overload：方法一样，参数或参数类型不一样。
+    2. 使用注意事项
+       - 父类中私有方法不能被重写
+       - 子类重写父类方法时，访问权限不能更低
+       - 父类静态方法，子类也必须通过静态方法进行重写。（算不上重写）
+       - 推荐：重写时，最好声明一模一样。
+*** 范型
+    1. 概念
+       - 范型：在日常生活中，橡皮泥通过外力可以改变其形状，其形状是不固 定的。在Java中，通过泛型可以给开发带来方便，通过参数的指 定，可以改变其类型。
+    2. 使用范型的优缺点
+       - 使代码看起来灵活，代码量减少，容易管理 ，不容易产生错误；
+       - 使用泛型在代码编译的时候能进行类型的检查并自动转换，使代码的运行效率得到提高；
+       - 使用泛型在编译进行自动转换的时候出现了错误，会进行错误提示；
+       -（缺点）在性能上不如数组快。
+    3. 常用通配符
+       - 使用大写字母A,B,C,D......X,Y,Z定义的，就都是泛型，把T换成A也一样，这里T只是名字上的意义而已。
+       - ？ 表示不确定的java类型
+       - T (type) 表示具体的一个java类型
+       - K V (key value) 分别代表java键值中的Key Value
+       - E (element) 代表Element
+       - ?和T区别是：？是一个不确定类，？和T都表示不确定的类型 ，但如果是T的话，函数里面可以对T进行操作，比方 T car = getCar()，而不能用？ car = getCar()。
+       - Object和T不同点在于，Object是一个实打实的类,并没有泛指谁，可以直接给List中 add(new Object())
+    4. Class<T> vs Class<?>
+       + Class是什么呢，Class也是一个类，但Class是存放上面String,List,Map......类信息的一个类，有点抽象。
+       + 如何获取到Class类呢，有三种方式:
+	 #+begin_src java
+	  List list = null;
+	  Class clazz = list.getClass();
+	  Class clazz = Class.forName("com.lyang.demo.fanxing.People");
+	  Class clazz = List.class;
+	 #+end_src
+       + 使用Class<T>和Class<?>多发生在反射场景下，如果我们不使用泛型，反射创建一个类是什么样的:
+         #+begin_src java
 	 People people = (People) Class.forName("com.lyang.demo.fanxing.People").newInstance();
 	 // 需要强转，如果反射的类型不是People类，就会报java.lang.ClassCastException错误。
 
@@ -110,197 +251,145 @@ x
 		     People people= createInstance(People.class);
 	     }
 	 }
-       #+end_src
-    4. 结论：
-       - Class<T>在实例化的时候，T要替换成具体类
-       - Class<?>它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况
+         #+end_src
+       + 结论：
+	 - Class<T>在实例化的时候，T要替换成具体类
+	 - Class<?>它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况
+	   #+begin_src java
+	    // 可以这样声明
+	    public Class<?> clazz;
+	    // 但不可以这样
+	    public Class<T> clazz;
+	   #+end_src
+*** Java 参数传递问题
+    参考链接：https://blog.csdn.net/bjweimengshu/article/details/79799485
+    \\
+    
+    1. 误解
+       - （1）值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。
+       - （2）Java是引用传递。
+       - （3）传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。
+    2. 实参和形参
+       - 形式参数：是在定义函数名和函数体的时候使用的参数，目的是用来接收调用该函数时传入的参数。
+       - 实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。
+    3. 值传递和引用传递
+       - 值传递（pass by value）是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。
+       - 引用传递（pass by reference）是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。
+    
+       \\
+       #+CAPTION: 值传递和引用传递
+       |          | 值传递                 | 引用传递               |
+       | 根本区别 | 会创建副本             | 不创建副本             |
+       | 结论     | 函数中无法改变原始对象 | 函数中可以改变原始对象 |
 
-       #+begin_src java
-	 // 可以这样声明
-	 public Class<?> clazz;
-	 // 但不可以这样
-	 public Class<T> clazz;
-       #+end_src
-** String vs StringBuffer vs StringBuilder
-   1. 都是final类，都不允许被继承；
-   2. String类长度是不可变的，StringBuffer和StringBuilder类长度是可以改变的；
-   3. StringBuffer类是线程安全的，StringBuilder不是线程安全的；
-   4. String类型和StringBuffer类型的主要性能区别：
-      - String是不可变的对象，因此每次在对String类进行改变的时候都会生成一个新的string对象，然后将指针指向新的string对象，所以经常要改变字符串长度的话不要使用string，因为每次生成对象都会对系统性能产生影响，特别是当内存中引用的对象多了以后，JVM的GC就会开始工作，性能就会降低；
-      - 使用StringBuffer类时，每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用，所以多数情况下推荐使用StringBuffer，特别是字符串对象经常要改变的情况；
-      - 在某些情况下，String对象的字符串拼接其实是被Java Compiler编译成了StringBuffer对象的拼接，所以这些时候String对象的速度并不会比StringBuffer对象慢。
-   5. StringBuilder是5.0新增的，此类提供一个与 StringBuffer 兼容的 API，但不保证同步。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同；
-   6. 使用策略：
-      - 基本原则：如果要操作少量的数据，用String ；单线程操作大量数据，用StringBuilder ；多线程操作大量数据，用StringBuffer。
-      - 不要使用String类的”+”来进行频繁的拼接，因为那样的性能极差的，应该使用StringBuffer或StringBuilder类，这在Java的优化上是一条比较重要的原则。
-      - StringBuilder一般使用在方法内部来完成类似”+”功能，因为是线程不安全的，所以用完以后可以丢弃。StringBuffer主要用在全局变量中。
-      - 相同情况下，使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。而在现实的模块化编程中，负责某一模块的程序员不一定能清晰地判断该模块是否会放入多线程的环境中运行，因此：除非确定系统的瓶颈是在 StringBuffer 上，并且确定你的模块不会运行在多线程模式下，才可以采用StringBuilder；否则还是用StringBuffer。
-** 自动装箱、拆箱
-   1. 什么是自动装箱、拆箱
-      简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。如下所示：
-      #+begin_src java
-	//自动装箱
-	Integer total = 99;
+       \\
+       *举例：*
+       [[file:{{site.url}}/assets/images/value-example.png]]
+    4. Java 为什么只有值传递？
+       
+    5. 总结
+       - Java中其实还是值传递的，只不过对于对象参数，值的内容是对象的引用。可以说，Java中的传递只有值传递。
+       - 无论是值传递还是引用传递，其实都是一种求值策略(Evaluation strategy)。在求值策略中，还有一种叫做按共享传递(call by sharing)。其实Java中的参数传递严格意义上说应该是按共享传递。
+       - 共享传递：指在调用函数时，传递给函数的是实参的地址的拷贝（如果实参在栈中，则直接拷贝该值）。在函数内部对参数进行操作时，需要先拷贝的地址寻找到具体的值，再进行操作。如果该值在栈中，那么因为是直接拷贝的值，所以函数内部对参数进行操作不会对外部变量产生影响。如果原来拷贝的是原值在堆中的地址，那么需要先根据该地址找到堆中对应的位置，再进行操作。因为传递的是地址的拷贝所以函数内对值的操作对外部变量是可见的。
+*** 深拷贝和浅拷贝
+*** 反射
+    - 反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。
+** Java 面向对象
+*** String vs StringBuffer vs StringBuilder
+    1. 不可变性
+       + String 类长度是不可变的，因为 String 类中使用 final 关键字修饰数组来保存字符串，所以 String 对象不可变。
+	 #+NAME: String 类
+         #+begin_src java
+	   private final char value[];
+         #+end_src	 
+       + StringBuffer 和 StringBuilder 类都继承自 ﻿AbstractStringBuilder 类，也是使用字符数组来保存字符串 char[] value，但是没有final关键字修饰，所以两种对象是可改变的。
+    2. 线程安全性
+       + StringBuffer 对方法加了同步锁或着对调用的方法加了同步锁，所以 StringBuffer 是线程安全的；
+       + StringBuilder 并没有对方法加同步锁，所以 StringBuilder 是非线程安全。
+    3. 性能方面
+       - String 是不可变的对象，因此每次在对 String 类进行改变的时候都会生成一个新的 String 对象，然后将指针指向新的 String 对象，所以经常要改变字符串长度的话不要使用 String，因为每次生成对象都会对系统性能产生影响，特别是当内存中引用的对象多了以后，JVM 的 GC 就会开始工作，性能就会降低；
+       - 使用 StringBuffer 类时，每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用，所以多数情况下推荐使用 StringBuffer，特别是字符串对象经常要改变的情况；
+       - 在某些情况下，String 对象的字符串拼接其实是被 Java Compiler 编译成了 StringBuffer 对象的拼接，所以这时 String 对象的速度并不会比 StringBuffer 对象慢。
+       - 相同情况下，使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。而在现实的模块化编程中，负责某一模块的程序员不一定能清晰地判断该模块是否会放入多线程的环境中运行，因此：除非确定系统的瓶颈是在 StringBuffer 上，并且确定你的模块不会运行在多线程模式下，才可以采用StringBuilder；否则还是用StringBuffer。
+    4. StringBuilder 是 5.0 新增的，此类提供一个与 StringBuffer 兼容的 API，但不保证同步。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同；
+    5. 使用策略：
+       - 基本原则：如果要操作少量的数据，用 String 。
+       - 单线程操作大量数据，用 StringBuilder 。
+       - 多线程操作大量数据，用 StringBuffer。
+       - 不要使用 String 类的”+”来进行频繁的拼接，因为那样的性能极差的，应该使用 StringBuffer 或 StringBuilder 类。
+       - StringBuilder 一般使用在方法内部来完成类似”+”功能，因为是线程不安全的，所以用完以后可以丢弃。StringBuffer 主要用在全局变量中。
+*** == vs equals
+    1. ==：判断两个对象的地址是不是相等。即判断两个对象是不是同一个对象(基本数据类型==比较的是值，引用数据类型==比较的是内存地址)。
+    2. equals 方法是基类 Object 中的方法，因此对于所有的继承于 Object 的类都会有该方法。在 Object 类中，equals 方法是用来比较两个对象的引用是否相等，即是否指向同一个对象。它一般分两种使用情况：
+       + 情况1：如果没有对 equals 方法进行重写，则比较的是引用类型的变量所指向的对象的地址，等价于通过“==”比较。
+       + 情况2：如果对 equals 方法进行了重写，用来比较两个对象的内容（所存储的字符串）是否相等，相等则返回 true。其他的一些类诸如 Double，Date，Integer 等，都对 equals 方法进行了重写，用来比较指向的对象所存储的内容是否相等。
+*** hashCode 和 equals	 
+    : 面试问题：“你重写过 hashcode 和 equals 么，为什么重写 equals 时必须重写 hashCode 方法？”
+    1. hashCode（）介绍
+       + hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。hashCode() 定义在 JDK 的 Object.java 中，这就意味着 Java 中的任何类都包含有 hashCode() 函数。
+       + 散列表存储的是键值对(key-value)，它的特点是：能根据 key 快速的检索出对应的 value。这其中就利用到了哈希码！（可以快速找到所需要的对象）
+    2. 为什么要有 hashCode
+       + 以“HashSet 如何检查重复”为例子来说明为什么要有 hashCode ::
+         当把对象加入 HashSet 时，HashSet 会先计算对象的 hashcode 值来判断对象加入的位置，同时也会与该位置其他已经加入的对象的 hashcode 值作比较，如果没有相符的 hashcode，HashSet 会假设对象没有重复出现。但是如果发现有相同 hashcode 值的对象，这时会调用 equals() 方法来检查 hashcode 相等的对象是否真的相同。如果两者相同，HashSet 就不会让其加入操作成功。如果不同的话，就会重新散列到其他位置。（摘自我的 Java 启蒙书《Head first java》第二版）。这样我们就大大减少了 equals 的次数，相应就大大提高了执行速度。
+       + 可以看出： hashCode() 的作用就是获取哈希码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。 hashCode() 在散列表中才有用，在其它情况下没用。在散列表中 hashCode() 的作用是获取对象的散列码，进而确定该对象在散列表中的位置。
+    3. hashCode（）与 equals（）约定
+       + 如果两个对象相等，则 hashcode 一定也是相同的。
+       + 两个对象相等,对两个对象分别调用 equals 方法都返回 true。
+       + 两个对象有相同的 hashcode 值，它们也不一定是相等的。
+       + equals 方法被覆盖过，则 hashCode 方法也必须被覆盖。
+       + hashCode() 的默认行为是对堆上的对象产生独特值。如果没有重写 hashCode()，则该 class 的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）。
+*** Java 序列化中如果有些字段不想进行序列化，怎么办？
+    1. 对于不想进行序列化的变量，使用 transient 关键字修饰。
+    2. transient 关键字的作用是：阻止实例中那些用此关键字修饰的的变量序列化；当对象被反序列化时，被 transient 修饰的变量值不会被持久化和恢复。transient 只能修饰变量，不能修饰类和方法。
+*** 获取用键盘输入常用的两种方法
+    *方法 1：通过 Scanner*
+    #+begin_src java
+      Scanner input = new Scanner(System.in);
+      tring s = input.nextLine();
+      input.close();
+    #+end_src
 
-	//自动拆箱
-	int totalprim = total;
-      #+end_src
-
-      反编译class文件之后得到如下内容：
-
-      : javap -c StringTest
-      
-      #+begin_src java
-	Integer total = 99; 
-	// 执行上面那句代码的时候，系统为我们执行了： 
-	Integer total = Integer.valueOf(99);
-
-	int totalprim = total; 
-	// 执行上面那句代码的时候，系统为我们执行了： 
-	int totalprim = total.intValue();
-
-	/**
-	 ,* 进而以Integer为例，分析源码
-	 ,*/
-	// Integer.valueOf函数
-	public static Integer valueOf(int i) {
-	    return  i >= 128 || i < -128 ? new Integer(i) : SMALL_VALUES[i + 128];
-	}
-
-	// Integer的构造函数：
-	private final int value;
-
-	// 定义了一个value变量，创建一个Integer对象，就会给这个变量初始化。
-	public Integer(int value) {
-	    this.value = value;
-	}
-
-	// 传入的是一个String变量，它会先把它转换成一个int值，然后进行初始化。
-	public Integer(String string) throws NumberFormatException {
-	    this(parseInt(string));
-	}
-
-	// SMALL_VALUES[i + 128]，它是一个静态的Integer数组对象，也就是说最终valueOf返回的都是一个Integer对象。
-	private static final Integer[] SMALL_VALUES = new Integer[256];
-      #+end_src
-      
-      小结：装箱的过程会创建对应的对象，这个会消耗内存，所以装箱的过程会增加内存的消耗，影响性能。
-   2. 进一步了解
-      在Integer的构造函数中，它分两种情况：
-      : i >= 128 || i < -128 =====> new Integer(i)
-      : i < 128 && i >= -128 =====> SMALL_VALUES[i + 128]
-      
-      : private static final Integer[] SMALL_VALUES = new Integer[256];
-
-      SMALL_VALUES本来已经被创建好，也就是说在i >= 128 || i < -128是会创建不同的对象，在i < 128 && i >= -128会根据i的值返回已经创建好的指定的对象。下面举例说明：
-      #+begin_src java
-	public class Main {
-	    public static void main(String[] args) {
-
-		Integer i1 = 100;
-		Integer i2 = 100;
-		Integer i3 = 200;
-		Integer i4 = 200;
-
-		System.out.println(i1==i2);  //true
-		System.out.println(i3==i4);  //false
-	    }
-	}
-      #+end_src
-      
-      - i1和i2会进行自动装箱，执行了valueOf函数，它们的值在(-128,128]这个范围内，它们会拿到SMALL_VALUES数组里面的同一个对象SMALL_VALUES[228]，它们引用到了同一个Integer对象，所以它们肯定是相等的。
-      - i3和i4也会进行自动装箱，执行了valueOf函数，它们的值大于128，所以会执行new Integer(200)，也就是说它们会分别创建两个不同的对象，所以它们肯定不等。
-
-      *举例2:*
-      #+begin_src java
-	public class Main {
-	    public static void main(String[] args) {
-
-		Double i1 = 100.0;
-		Double i2 = 100.0;
-		Double i3 = 200.0;
-		Double i4 = 200.0;
-
-		System.out.println(i1==i2); //false
-		System.out.println(i3==i4); //false
-	    }
-	}
-      #+end_src
-      看看上面的执行结果，跟Integer不一样，对于Integer，在(-128,128]之间只有固定的256个值，所以为了避免多次创建对象，我们事先就创建好一个大小为256的Integer数组SMALL_VALUES，所以如果值在这个范围内，就可以直接返回我们事先创建好的对象就可以了。
-      \\
-      但是对于Double类型来说，因为它在这个范围内个数是无限的。所以在Double里面的做法很直接，就是直接创建一个对象，所以每次创建的对象都不一样。
-      #+begin_src java
-	public static Double valueOf(double d) {
-	     return new Double(d);
-	}
-      #+end_src
-
-      下面我们进行一个归类：
-      - Integer派别：Integer、Short、Byte、Character、Long这几个类的valueOf方法的实现是类似的。 
-      - Double派别：Double、Float的valueOf方法的实现是类似的。每次都返回不同的对象。
-   3. 其他情况
-      - Boolean
-	#+begin_src java
-	 public class Main {
-	     public static void main(String[] args) {
-
-		 Boolean i1 = false;
-		 Boolean i2 = false;
-		 Boolean i3 = true;
-		 Boolean i4 = true;
-
-		 System.out.println(i1==i2);//true
-		 System.out.println(i3==i4);//true
-	     }
-	 }
-
-	 // 返回的都是true，也就是它们执行valueOf返回的都是相同的对象。
-	 public static Boolean valueOf(boolean b) {
-	     return b ? Boolean.TRUE : Boolean.FALSE;
-	 }
-
-	 // 可以看到它并没有创建对象，因为在内部已经提前创建好两个对象，因为它只有两种情况，这样也是为了避免重复创建太多的对象。
-	 public static final Boolean TRUE = new Boolean(true);
-
-	 public static final Boolean FALSE = new Boolean(false);
-	#+end_src
-      - 拆箱操作
-        #+begin_src java
-	  Integer num1 = 400;
-	  int num2 = 400;
-	  System.out.println(num1 == num2); //true
-	  System.out.println(num1.equals(num2));  //true
-	#+end_src
-	
-	equals 源码：
-        #+begin_src java
-	  @Override
-	  public boolean equals(Object o) {
-	      return (o instanceof Integer) && (((Integer) o).value == value);
-	  }
-	#+end_src
-	说明：指定equal比较的是内容本身，并且我也可看到 equals 的参数是一个Object对象，我们传入的是一个 int 类型，所以首先会进行装箱，然后比较。之所以返回 true，是由于它比较的是对象里面的 value 值。
-	
-        #+begin_src java
-	  Integer num1 = 100;
-	  int num2 = 100;
-	  Long num3 = 200l;
-	  System.out.println(num1 + num2);  //200
-	  System.out.println(num3 == (num1 + num2));  //true
-	  System.out.println(num3.equals(num1 + num2));  //false
-	#+end_src
-	说明：当一个基础数据类型与封装类进行==、+、-、*、/运算时，会将封装类进行拆箱，对基础数据类型进行运算。 对于num3.equals(num1 + num2)为false的原因，根据代码实现来说明。
-        #+begin_src java
-	  @Override
-	  public boolean equals(Object o) {
-	      return (o instanceof Long) && (((Long) o).value == value);
-	  }
-	#+end_src
-	所以，对于num3.equals(num1 + num2)为false的原因就是类型不同。
-      - 陷阱
-        #+begin_src java
-	  Integer integer100=null;
-	  int int100=integer100;
-	#+end_src
-	这两行代码是完全合法的，完全能够通过编译的，但是在运行时，就会抛出空指针异常。其中，integer100为Integer类型的对象，它当然可以指向null。但在第二行时，就会对integer100进行拆箱，也就是对一个null对象执行intValue()方法，当然会抛出空指针异常。所以，有拆箱操作时一定要特别注意封装类对象是否为null。
-*   
+    *方法 2：通过 BufferedReader*
+    #+begin_src java
+      BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+      String s = input.readLine();
+    #+end_src
+** Java 核心技术
+*** 集合
+*** 错误与异常
+*** 多线程
+*** I/O流：BIO,NIO,AIO 有什么区别?
+    1. BIO (Blocking I/O): 同步阻塞 I/O 模式，数据的读取写入必须阻塞在一个线程内等待其完成。在活动连接数不是特别高（小于单机 1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I/O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题。线程池本身就是一个天然的漏斗，可以缓冲一些系统处理不了的连接或请求。但是，当面对十万甚至百万级连接的时候，传统的 BIO 模型是无能为力的。因此，我们需要一种更高效的 I/O 处理模型来应对更高的并发量。
+    2. NIO (Non-blocking/New I/O): NIO 是一种同步非阻塞的 I/O 模型，在 Java 1.4 中引入了 NIO 框架，对应 java.nio 包，提供了 Channel , Selector，Buffer 等抽象。NIO 中的 N 可以理解为 Nonblocking，不单纯是 New。它支持面向缓冲的，基于通道的 I/O 操作方法。 NIO 提供了与传统BIO 模型中的 Socket 和 ServerSocket 相对应的 SocketChannel 和 ServerSocketChannel 两种不同的套接字通道实现,两种通道都支持阻塞和非阻塞两种模式。阻塞模式使用就像传统中的支持一样，比较简单，但是性能和可靠性都不好；非阻塞模式正好与之相反。对于低负载、低并发的应用程序，可以使用同步阻塞 I/O 来提升开发速率和更好的维护性；对于高负载、高并发的（网络）应用，应使用 NIO 的非阻塞模式来开发
+    3. AIO (Asynchronous I/O): AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,它是异步非阻塞的 IO 模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。AIO 是异步 IO 的缩写，虽然 NIO 在网络操作中，提供了非阻塞的方法，但是 NIO 的 IO 行为还是同步的。对于NIO 来说，我们的业务线程是在 IO 操作准备好时，得到通知，接着就由这个线程自行进行 IO 操作，IO 操作本身是同步的。查阅网上相关资料，我发现就目前来说 AIO 的应用还不是很广泛，Netty 之前也尝试使用过 AIO，不过又放弃了。
+* Java 容器
+** ArrayList
+** LinkedList
+** HashMap
+** TreeMap
+* Java 并发编程
+** JDK 提供的并发容器
+** 线程池
+** 乐观锁和悲观锁
+** Aomic 原子类
+** AQS
+* Java 虚拟机（JVM）
+* Java 常用应用技术
+** Spring 系列框架
+** ORM 框架
+** Java + MySQL
+** Java + Redis
+** 认证授权（JWT，SSO）
+** 分布式
+*** 相关概念
+*** Dubbo
+*** 消息队列
+*** 消息中间件：RabbitMQ
+*** 消息中间件：RocketMQ
+*** 消息系统：Kafaka
+*** API 网关
+*** 分布式ID
+*** 限流算法
+*** 分布式协调服务框架：Zookeeper
+** 微服务
+*** Spring Cloud
