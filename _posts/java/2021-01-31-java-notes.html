@@ -10,205 +10,18 @@ tags:
 - Java
 photos:
 ---
-<p>
-x
-</p>
 
-<div id="outline-container-org900f0ca" class="outline-2">
-<h2 id="org900f0ca"><span class="section-number-2">1</span> Java 概念</h2>
+<div id="outline-container-org03accb3" class="outline-2">
+<h2 id="org03accb3"><span class="section-number-2">1</span> Java 基础</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-orgde20516" class="outline-3">
-<h3 id="orgde20516"><span class="section-number-3">1.1</span> 重写(override)和重载(overload)</h3>
+<div id="outline-container-org62e1f0b" class="outline-3">
+<h3 id="org62e1f0b"><span class="section-number-3">1.1</span> Java 基本语法</h3>
 <div class="outline-text-3" id="text-1-1">
-<ol class="org-ol">
-<li>概念
-<ul class="org-ul">
-<li>Override：子类中和父类中的方法声明一模一样。</li>
-<li>Overload：方法一样，参数或参数类型不一样。</li>
-</ul></li>
-<li>使用注意事项
-<ul class="org-ul">
-<li>父类中私有方法不能被重写</li>
-<li>子类重写父类方法时，访问权限不能更低</li>
-<li>父类静态方法，子类也必须通过静态方法进行重写。（算不上重写）</li>
-<li>推荐：重写时，最好声明一模一样。</li>
-</ul></li>
-</ol>
 </div>
-</div>
-<div id="outline-container-org2b606cb" class="outline-3">
-<h3 id="org2b606cb"><span class="section-number-3">1.2</span> == vs equals</h3>
-<div class="outline-text-3" id="text-1-2">
-<ol class="org-ol">
-<li>对于==，如果作用于基本数据类型的变量（byte,short,char,int,long,float,double,boolean ），则直接比较其存储的"值"是否相等；如果作用于引用类型的变量（String），则比较的是所指向的对象的地址（即是否指向同一个对象）。</li>
-<li>equals方法是基类Object中的方法，因此对于所有的继承于Object的类都会有该方法。在Object类中，equals方法是用来比较两个对象的引用是否相等，即是否指向同一个对象。</li>
-<li>对于equals方法注意：equals方法不能作用于基本数据类型的变量。如果没有对equals方法进行重写，则比较的是引用类型的变量所指向的对象的地址；而String类对equals方法进行了重写，用来比较指向的字符串对象所存储的字符串是否相等。其他的一些类诸如Double，Date，Integer等，都对equals方法进行了重写用来比较指向的对象所存储的内容是否相等。</li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org0af0c65" class="outline-3">
-<h3 id="org0af0c65"><span class="section-number-3">1.3</span> 反射 &amp; 范型</h3>
-<div class="outline-text-3" id="text-1-3">
-<ol class="org-ol">
-<li>概念
-<ul class="org-ul">
-<li>反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。</li>
-<li>范型：在日常生活中，橡皮泥通过外力可以改变其形状，其形状是不固 定的。在Java中，通过泛型可以给开发带来方便，通过参数的指 定，可以改变其类型。</li>
-</ul></li>
-
-<li><p>
-使用范型的优缺点
-</p>
-<ul class="org-ul">
-<li>使代码看起来灵活，代码量减少，容易管理 ，不容易产生错误；</li>
-<li>使用泛型在代码编译的时候能进行类型的检查并自动转换，使代码的运行效率得到提高；</li>
-<li>使用泛型在编译进行自动转换的时候出现了错误，会进行错误提示；</li>
-</ul>
-<p>
--（缺点）在性能上不如数组快。
-</p></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org1da7301" class="outline-3">
-<h3 id="org1da7301"><span class="section-number-3">1.4</span> 值传递 vs 引用传递</h3>
-<div class="outline-text-3" id="text-1-4">
-<ol class="org-ol">
-<li>错误理解
-<ul class="org-ul">
-<li>值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。</li>
-<li>Java是引用传递</li>
-<li>传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。</li>
-</ul></li>
-
-<li>实参和形参
-<ul class="org-ul">
-<li>形式参数：是在定义函数名和函数体的时候使用的参数,目的是用来接收调用该函数时传入的参数。</li>
-<li>实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。</li>
-</ul></li>
-
-<li><p>
-值传递和引用传递
-</p>
-<ul class="org-ul">
-<li>值传递（pass by value）是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。</li>
-<li>引用传递（pass by reference）是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。</li>
-</ul>
-
-<p>
-<b>举例：</b>
-<img src="{{site.url}}/assets/images/value-example.png" alt="value-example.png" />
-</p></li>
-
-<li>总结
-<ul class="org-ul">
-<li>值传递：会创建副本，在函数中无法改变原始对象。</li>
-<li>引用传递：引用传递不会创建副本，函数中可以改变原始对象。</li>
-<li>Java中其实还是值传递的，只不过对于对象参数，值的内容是对象的引用。可以说，Java中的传递只有值传递。</li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org4c42cef" class="outline-3">
-<h3 id="org4c42cef"><span class="section-number-3">1.5</span> Class&lt;T&gt; vs Class&lt;?&gt;</h3>
-<div class="outline-text-3" id="text-1-5">
-</div>
-<div id="outline-container-org9f20da1" class="outline-4">
-<h4 id="org9f20da1"><span class="section-number-4">1.5.1</span> 提前了解</h4>
-<div class="outline-text-4" id="text-1-5-1">
-<ul class="org-ul">
-<li>使用大写字母A,B,C,D&#x2026;&#x2026;X,Y,Z定义的，就都是泛型，把T换成A也一样，这里T只是名字上的意义而已。</li>
-<li>？ 表示不确定的java类型</li>
-<li>T (type) 表示具体的一个java类型</li>
-<li>K V (key value) 分别代表java键值中的Key Value</li>
-<li>E (element) 代表Element</li>
-<li>?和T区别是：？是一个不确定类，？和T都表示不确定的类型 ，但如果是T的话，函数里面可以对T进行操作，比方 T car = getCar()，而不能用？ car = getCar()。</li>
-<li>Object和T不同点在于，Object是一个实打实的类,并没有泛指谁，可以直接给List中 add(new Object())</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgfaf1e87" class="outline-4">
-<h4 id="orgfaf1e87"><span class="section-number-4">1.5.2</span> Class&lt;T&gt;，Class&lt;?&gt;区别</h4>
-<div class="outline-text-4" id="text-1-5-2">
-<ol class="org-ol">
-<li>Class是什么呢，Class也是一个类，但Class是存放上面String,List,Map&#x2026;&#x2026;类信息的一个类，有点抽象。</li>
-<li><p>
-如何获取到Class类呢，有三种方式:
-</p>
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #5FD7FF;">List</span> <span style="color: #FF8C00;">list</span> = <span style="color: #AF87FF;">null</span>;
-<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = list.getClass();
-<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>);
-<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = List.<span style="color: #FF1493;">class</span>;
-</pre>
-</div></li>
-<li><p>
-使用Class&lt;T&gt;和Class&lt;?&gt;多发生在反射场景下，如果我们不使用泛型，反射创建一个类是什么样的:
-</p>
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span> = (<span style="color: #5FD7FF;">People</span>) Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>).newInstance();
-<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#38656;&#35201;&#24378;&#36716;&#65292;&#22914;&#26524;&#21453;&#23556;&#30340;&#31867;&#22411;&#19981;&#26159;People&#31867;&#65292;&#23601;&#20250;&#25253;java.lang.ClassCastException&#38169;&#35823;&#12290;</span>
-
-<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20351;&#29992;Class&lt;T&gt;&#27867;&#22411;&#21518;&#65292;&#19981;&#29992;&#24378;&#36716;&#20102;</span>
-<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Test</span> {
-    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">T</span> <span style="color: #87D700;">createInstance</span>(<span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>) <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span> {
-        <span style="color: #FF1493;">return</span> clazz.newInstance();
-    }
-
-    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>)  <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span>  {
-            <span style="color: #5FD7FF;">Fruit</span> <span style="color: #FF8C00;">fruit</span>= createInstance(Fruit .<span style="color: #FF1493;">class</span>);
-            <span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span>= createInstance(People.<span style="color: #FF1493;">class</span>);
-    }
-}
-</pre>
-</div></li>
-<li><p>
-结论：
-</p>
-<ul class="org-ul">
-<li>Class&lt;T&gt;在实例化的时候，T要替换成具体类</li>
-<li>Class&lt;?&gt;它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况</li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21487;&#20197;&#36825;&#26679;&#22768;&#26126;</span>
-<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;?&gt; <span style="color: #FF8C00;">clazz</span>;
-<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20294;&#19981;&#21487;&#20197;&#36825;&#26679;</span>
-<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>;
-</pre>
-</div></li>
-</ol>
-</div>
-</div>
-</div>
-<div id="outline-container-orga9594db" class="outline-3">
-<h3 id="orga9594db"><span class="section-number-3">1.6</span> String vs StringBuffer vs StringBuilder</h3>
-<div class="outline-text-3" id="text-1-6">
-<ol class="org-ol">
-<li>都是final类，都不允许被继承；</li>
-<li>String类长度是不可变的，StringBuffer和StringBuilder类长度是可以改变的；</li>
-<li>StringBuffer类是线程安全的，StringBuilder不是线程安全的；</li>
-<li>String类型和StringBuffer类型的主要性能区别：
-<ul class="org-ul">
-<li>String是不可变的对象，因此每次在对String类进行改变的时候都会生成一个新的string对象，然后将指针指向新的string对象，所以经常要改变字符串长度的话不要使用string，因为每次生成对象都会对系统性能产生影响，特别是当内存中引用的对象多了以后，JVM的GC就会开始工作，性能就会降低；</li>
-<li>使用StringBuffer类时，每次都会对StringBuffer对象本身进行操作，而不是生成新的对象并改变对象引用，所以多数情况下推荐使用StringBuffer，特别是字符串对象经常要改变的情况；</li>
-<li>在某些情况下，String对象的字符串拼接其实是被Java Compiler编译成了StringBuffer对象的拼接，所以这些时候String对象的速度并不会比StringBuffer对象慢。</li>
-</ul></li>
-<li>StringBuilder是5.0新增的，此类提供一个与 StringBuffer 兼容的 API，但不保证同步。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用的时候（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同；</li>
-<li>使用策略：
-<ul class="org-ul">
-<li>基本原则：如果要操作少量的数据，用String ；单线程操作大量数据，用StringBuilder ；多线程操作大量数据，用StringBuffer。</li>
-<li>不要使用String类的”+”来进行频繁的拼接，因为那样的性能极差的，应该使用StringBuffer或StringBuilder类，这在Java的优化上是一条比较重要的原则。</li>
-<li>StringBuilder一般使用在方法内部来完成类似”+”功能，因为是线程不安全的，所以用完以后可以丢弃。StringBuffer主要用在全局变量中。</li>
-<li>相同情况下，使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。而在现实的模块化编程中，负责某一模块的程序员不一定能清晰地判断该模块是否会放入多线程的环境中运行，因此：除非确定系统的瓶颈是在 StringBuffer 上，并且确定你的模块不会运行在多线程模式下，才可以采用StringBuilder；否则还是用StringBuffer。</li>
-</ul></li>
-</ol>
-</div>
-</div>
-<div id="outline-container-org3424245" class="outline-3">
-<h3 id="org3424245"><span class="section-number-3">1.7</span> 自动装箱、拆箱</h3>
-<div class="outline-text-3" id="text-1-7">
+<div id="outline-container-org3424245" class="outline-4">
+<h4 id="org3424245"><span class="section-number-4">1.1.1</span> 自动装箱、拆箱</h4>
+<div class="outline-text-4" id="text-1-1-1">
 <ol class="org-ol">
 <li><p>
 什么是自动装箱、拆箱
@@ -438,7 +251,438 @@ System.out.println(num3.equals(num1 + num2));  <span style="color: #8B8878;">//<
 </ol>
 </div>
 </div>
+<div id="outline-container-orgde20516" class="outline-4">
+<h4 id="orgde20516"><span class="section-number-4">1.1.2</span> 重写(override)和重载(overload)</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ol class="org-ol">
+<li>概念
+<ul class="org-ul">
+<li>Override：子类中和父类中的方法声明一模一样。</li>
+<li>Overload：方法一样，参数或参数类型不一样。</li>
+</ul></li>
+<li>使用注意事项
+<ul class="org-ul">
+<li>父类中私有方法不能被重写</li>
+<li>子类重写父类方法时，访问权限不能更低</li>
+<li>父类静态方法，子类也必须通过静态方法进行重写。（算不上重写）</li>
+<li>推荐：重写时，最好声明一模一样。</li>
+</ul></li>
+</ol>
 </div>
-<div id="outline-container-org5afaddf" class="outline-2">
-<h2 id="org5afaddf"><span class="section-number-2">2</span> </h2>
+</div>
+<div id="outline-container-orgb959636" class="outline-4">
+<h4 id="orgb959636"><span class="section-number-4">1.1.3</span> 范型</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ol class="org-ol">
+<li>概念
+<ul class="org-ul">
+<li>范型：在日常生活中，橡皮泥通过外力可以改变其形状，其形状是不固 定的。在Java中，通过泛型可以给开发带来方便，通过参数的指 定，可以改变其类型。</li>
+</ul></li>
+<li><p>
+使用范型的优缺点
+</p>
+<ul class="org-ul">
+<li>使代码看起来灵活，代码量减少，容易管理 ，不容易产生错误；</li>
+<li>使用泛型在代码编译的时候能进行类型的检查并自动转换，使代码的运行效率得到提高；</li>
+<li>使用泛型在编译进行自动转换的时候出现了错误，会进行错误提示；</li>
+</ul>
+<p>
+-（缺点）在性能上不如数组快。
+</p></li>
+<li>常用通配符
+<ul class="org-ul">
+<li>使用大写字母A,B,C,D&#x2026;&#x2026;X,Y,Z定义的，就都是泛型，把T换成A也一样，这里T只是名字上的意义而已。</li>
+<li>？ 表示不确定的java类型</li>
+<li>T (type) 表示具体的一个java类型</li>
+<li>K V (key value) 分别代表java键值中的Key Value</li>
+<li>E (element) 代表Element</li>
+<li>?和T区别是：？是一个不确定类，？和T都表示不确定的类型 ，但如果是T的话，函数里面可以对T进行操作，比方 T car = getCar()，而不能用？ car = getCar()。</li>
+<li>Object和T不同点在于，Object是一个实打实的类,并没有泛指谁，可以直接给List中 add(new Object())</li>
+</ul></li>
+<li>Class&lt;T&gt; vs Class&lt;?&gt;
+<ul class="org-ul">
+<li>Class是什么呢，Class也是一个类，但Class是存放上面String,List,Map&#x2026;&#x2026;类信息的一个类，有点抽象。</li>
+<li><p>
+如何获取到Class类呢，有三种方式:
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">List</span> <span style="color: #FF8C00;">list</span> = <span style="color: #AF87FF;">null</span>;
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = list.getClass();
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>);
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = List.<span style="color: #FF1493;">class</span>;
+</pre>
+</div></li>
+<li><p>
+使用Class&lt;T&gt;和Class&lt;?&gt;多发生在反射场景下，如果我们不使用泛型，反射创建一个类是什么样的:
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span> = (<span style="color: #5FD7FF;">People</span>) Class.forName(<span style="color: #CDC673;">"com.lyang.demo.fanxing.People"</span>).newInstance();
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#38656;&#35201;&#24378;&#36716;&#65292;&#22914;&#26524;&#21453;&#23556;&#30340;&#31867;&#22411;&#19981;&#26159;People&#31867;&#65292;&#23601;&#20250;&#25253;java.lang.ClassCastException&#38169;&#35823;&#12290;</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20351;&#29992;Class&lt;T&gt;&#27867;&#22411;&#21518;&#65292;&#19981;&#29992;&#24378;&#36716;&#20102;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Test</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">T</span> <span style="color: #87D700;">createInstance</span>(<span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>) <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span> {
+        <span style="color: #FF1493;">return</span> clazz.newInstance();
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>)  <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IllegalAccessException</span>, <span style="color: #5FD7FF;">InstantiationException</span>  {
+            <span style="color: #5FD7FF;">Fruit</span> <span style="color: #FF8C00;">fruit</span>= createInstance(Fruit .<span style="color: #FF1493;">class</span>);
+            <span style="color: #5FD7FF;">People</span> <span style="color: #FF8C00;">people</span>= createInstance(People.<span style="color: #FF1493;">class</span>);
+    }
+}
+</pre>
+</div></li>
+<li>结论：
+<ul class="org-ul">
+<li>Class&lt;T&gt;在实例化的时候，T要替换成具体类</li>
+<li><p>
+Class&lt;?&gt;它是个通配泛型，?可以代表任何类型，主要用于声明时的限制情况
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21487;&#20197;&#36825;&#26679;&#22768;&#26126;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;?&gt; <span style="color: #FF8C00;">clazz</span>;
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20294;&#19981;&#21487;&#20197;&#36825;&#26679;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Class</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #FF8C00;">clazz</span>;
+</pre>
+</div></li>
+</ul></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgbb41963" class="outline-4">
+<h4 id="orgbb41963"><span class="section-number-4">1.1.4</span> Java 参数传递问题</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+参考链接：<a href="https://blog.csdn.net/bjweimengshu/article/details/79799485">https://blog.csdn.net/bjweimengshu/article/details/79799485</a>
+<br />
+</p>
+
+<ol class="org-ol">
+<li>误解
+<ul class="org-ul">
+<li>（1）值传递和引用传递，区分的条件是传递的内容，如果是个值，就是值传递。如果是个引用，就是引用传递。</li>
+<li>（2）Java是引用传递。</li>
+<li>（3）传递的参数如果是普通类型，那就是值传递，如果是对象，那就是引用传递。</li>
+</ul></li>
+<li>实参和形参
+<ul class="org-ul">
+<li>形式参数：是在定义函数名和函数体的时候使用的参数，目的是用来接收调用该函数时传入的参数。</li>
+<li>实际参数：在调用有参函数时，主调函数和被调函数之间有数据传递关系。在主调函数中调用一个函数时，函数名后面括号中的参数称为“实际参数”。</li>
+</ul></li>
+<li><p>
+值传递和引用传递
+</p>
+<ul class="org-ul">
+<li>值传递（pass by value）是指在调用函数时将实际参数复制一份传递到函数中，这样在函数中如果对参数进行修改，将不会影响到实际参数。</li>
+<li>引用传递（pass by reference）是指在调用函数时将实际参数的地址直接传递到函数中，那么在函数中对参数所进行的修改，将影响到实际参数。</li>
+</ul>
+
+<p>
+<br />
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> 值传递和引用传递</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">值传递</td>
+<td class="org-left">引用传递</td>
+</tr>
+
+<tr>
+<td class="org-left">根本区别</td>
+<td class="org-left">会创建副本</td>
+<td class="org-left">不创建副本</td>
+</tr>
+
+<tr>
+<td class="org-left">结论</td>
+<td class="org-left">函数中无法改变原始对象</td>
+<td class="org-left">函数中可以改变原始对象</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<br />
+<b>举例：</b>
+<img src="{{site.url}}/assets/images/value-example.png" alt="value-example.png" />
+</p></li>
+<li>Java 为什么只有值传递？</li>
+
+<li>总结
+<ul class="org-ul">
+<li>Java中其实还是值传递的，只不过对于对象参数，值的内容是对象的引用。可以说，Java中的传递只有值传递。</li>
+<li>无论是值传递还是引用传递，其实都是一种求值策略(Evaluation strategy)。在求值策略中，还有一种叫做按共享传递(call by sharing)。其实Java中的参数传递严格意义上说应该是按共享传递。</li>
+<li>共享传递：指在调用函数时，传递给函数的是实参的地址的拷贝（如果实参在栈中，则直接拷贝该值）。在函数内部对参数进行操作时，需要先拷贝的地址寻找到具体的值，再进行操作。如果该值在栈中，那么因为是直接拷贝的值，所以函数内部对参数进行操作不会对外部变量产生影响。如果原来拷贝的是原值在堆中的地址，那么需要先根据该地址找到堆中对应的位置，再进行操作。因为传递的是地址的拷贝所以函数内对值的操作对外部变量是可见的。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge8f592c" class="outline-4">
+<h4 id="orge8f592c"><span class="section-number-4">1.1.5</span> 深拷贝和浅拷贝</h4>
+</div>
+<div id="outline-container-org1003d31" class="outline-4">
+<h4 id="org1003d31"><span class="section-number-4">1.1.6</span> 反射</h4>
+<div class="outline-text-4" id="text-1-1-6">
+<ul class="org-ul">
+<li>反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdfe35ae" class="outline-3">
+<h3 id="orgdfe35ae"><span class="section-number-3">1.2</span> Java 面向对象</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orga9594db" class="outline-4">
+<h4 id="orga9594db"><span class="section-number-4">1.2.1</span> String vs StringBuffer vs StringBuilder</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ol class="org-ol">
+<li>不可变性
+<ul class="org-ul">
+<li><p>
+String 类长度是不可变的，因为 String 类中使用 final 关键字修饰数组来保存字符串，所以 String 对象不可变。
+</p>
+<div class="org-src-container">
+<pre class="src src-java" id="org533494f"><span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">char</span> <span style="color: #FF8C00;">value</span>[];
+</pre>
+</div></li>
+<li>StringBuffer 和 StringBuilder 类都继承自 ﻿AbstractStringBuilder 类，也是使用字符数组来保存字符串 char[] value，但是没有final关键字修饰，所以两种对象是可改变的。</li>
+</ul></li>
+<li>线程安全性
+<ul class="org-ul">
+<li>StringBuffer 对方法加了同步锁或着对调用的方法加了同步锁，所以 StringBuffer 是线程安全的；</li>
+<li>StringBuilder 并没有对方法加同步锁，所以 StringBuilder 是非线程安全。</li>
+</ul></li>
+<li>性能方面
+<ul class="org-ul">
+<li>String 是不可变的对象，因此每次在对 String 类进行改变的时候都会生成一个新的 String 对象，然后将指针指向新的 String 对象，所以经常要改变字符串长度的话不要使用 String，因为每次生成对象都会对系统性能产生影响，特别是当内存中引用的对象多了以后，JVM 的 GC 就会开始工作，性能就会降低；</li>
+<li>使用 StringBuffer 类时，每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用，所以多数情况下推荐使用 StringBuffer，特别是字符串对象经常要改变的情况；</li>
+<li>在某些情况下，String 对象的字符串拼接其实是被 Java Compiler 编译成了 StringBuffer 对象的拼接，所以这时 String 对象的速度并不会比 StringBuffer 对象慢。</li>
+<li>相同情况下，使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。而在现实的模块化编程中，负责某一模块的程序员不一定能清晰地判断该模块是否会放入多线程的环境中运行，因此：除非确定系统的瓶颈是在 StringBuffer 上，并且确定你的模块不会运行在多线程模式下，才可以采用StringBuilder；否则还是用StringBuffer。</li>
+</ul></li>
+<li>StringBuilder 是 5.0 新增的，此类提供一个与 StringBuffer 兼容的 API，但不保证同步。该类被设计用作 StringBuffer 的一个简易替换，用在字符串缓冲区被单个线程使用（这种情况很普遍）。如果可能，建议优先采用该类，因为在大多数实现中，它比 StringBuffer 要快。两者的方法基本相同；</li>
+<li>使用策略：
+<ul class="org-ul">
+<li>基本原则：如果要操作少量的数据，用 String 。</li>
+<li>单线程操作大量数据，用 StringBuilder 。</li>
+<li>多线程操作大量数据，用 StringBuffer。</li>
+<li>不要使用 String 类的”+”来进行频繁的拼接，因为那样的性能极差的，应该使用 StringBuffer 或 StringBuilder 类。</li>
+<li>StringBuilder 一般使用在方法内部来完成类似”+”功能，因为是线程不安全的，所以用完以后可以丢弃。StringBuffer 主要用在全局变量中。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org2b606cb" class="outline-4">
+<h4 id="org2b606cb"><span class="section-number-4">1.2.2</span> == vs equals</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ol class="org-ol">
+<li>==：判断两个对象的地址是不是相等。即判断两个对象是不是同一个对象(基本数据类型==比较的是值，引用数据类型==比较的是内存地址)。</li>
+<li>equals 方法是基类 Object 中的方法，因此对于所有的继承于 Object 的类都会有该方法。在 Object 类中，equals 方法是用来比较两个对象的引用是否相等，即是否指向同一个对象。它一般分两种使用情况：
+<ul class="org-ul">
+<li>情况1：如果没有对 equals 方法进行重写，则比较的是引用类型的变量所指向的对象的地址，等价于通过“==”比较。</li>
+<li>情况2：如果对 equals 方法进行了重写，用来比较两个对象的内容（所存储的字符串）是否相等，相等则返回 true。其他的一些类诸如 Double，Date，Integer 等，都对 equals 方法进行了重写，用来比较指向的对象所存储的内容是否相等。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgeae939b" class="outline-4">
+<h4 id="orgeae939b"><span class="section-number-4">1.2.3</span> hashCode 和 equals</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<pre class="example">
+面试问题：“你重写过 hashcode 和 equals 么，为什么重写 equals 时必须重写 hashCode 方法？”
+</pre>
+
+<ol class="org-ol">
+<li>hashCode（）介绍
+<ul class="org-ul">
+<li>hashCode() 的作用是获取哈希码，也称为散列码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。hashCode() 定义在 JDK 的 Object.java 中，这就意味着 Java 中的任何类都包含有 hashCode() 函数。</li>
+<li>散列表存储的是键值对(key-value)，它的特点是：能根据 key 快速的检索出对应的 value。这其中就利用到了哈希码！（可以快速找到所需要的对象）</li>
+</ul></li>
+<li>为什么要有 hashCode
+<dl class="org-dl">
+<dt>以“HashSet 如何检查重复”为例子来说明为什么要有 hashCode</dt><dd>当把对象加入 HashSet 时，HashSet 会先计算对象的 hashcode 值来判断对象加入的位置，同时也会与该位置其他已经加入的对象的 hashcode 值作比较，如果没有相符的 hashcode，HashSet 会假设对象没有重复出现。但是如果发现有相同 hashcode 值的对象，这时会调用 equals() 方法来检查 hashcode 相等的对象是否真的相同。如果两者相同，HashSet 就不会让其加入操作成功。如果不同的话，就会重新散列到其他位置。（摘自我的 Java 启蒙书《Head first java》第二版）。这样我们就大大减少了 equals 的次数，相应就大大提高了执行速度。</dd>
+<dt>(no term)</dt><dd>可以看出： hashCode() 的作用就是获取哈希码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。 hashCode() 在散列表中才有用，在其它情况下没用。在散列表中 hashCode() 的作用是获取对象的散列码，进而确定该对象在散列表中的位置。</dd>
+</dl></li>
+<li>hashCode（）与 equals（）约定
+<ul class="org-ul">
+<li>如果两个对象相等，则 hashcode 一定也是相同的。</li>
+<li>两个对象相等,对两个对象分别调用 equals 方法都返回 true。</li>
+<li>两个对象有相同的 hashcode 值，它们也不一定是相等的。</li>
+<li>equals 方法被覆盖过，则 hashCode 方法也必须被覆盖。</li>
+<li>hashCode() 的默认行为是对堆上的对象产生独特值。如果没有重写 hashCode()，则该 class 的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）。</li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga5dbd2b" class="outline-4">
+<h4 id="orga5dbd2b"><span class="section-number-4">1.2.4</span> Java 序列化中如果有些字段不想进行序列化，怎么办？</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ol class="org-ol">
+<li>对于不想进行序列化的变量，使用 transient 关键字修饰。</li>
+<li>transient 关键字的作用是：阻止实例中那些用此关键字修饰的的变量序列化；当对象被反序列化时，被 transient 修饰的变量值不会被持久化和恢复。transient 只能修饰变量，不能修饰类和方法。</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd928e67" class="outline-4">
+<h4 id="orgd928e67"><span class="section-number-4">1.2.5</span> 获取用键盘输入常用的两种方法</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<p>
+<b>方法 1：通过 Scanner</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">Scanner</span> <span style="color: #FF8C00;">input</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Scanner</span>(System.in);
+<span style="color: #5FD7FF;">tring</span> <span style="color: #FF8C00;">s</span> = input.nextLine();
+input.close();
+</pre>
+</div>
+
+<p>
+<b>方法 2：通过 BufferedReader</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">BufferedReader</span> <span style="color: #FF8C00;">input</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">BufferedReader</span>(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">InputStreamReader</span>(System.in));
+<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">s</span> = input.readLine();
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org018f591" class="outline-3">
+<h3 id="org018f591"><span class="section-number-3">1.3</span> Java 核心技术</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org581ca8e" class="outline-4">
+<h4 id="org581ca8e"><span class="section-number-4">1.3.1</span> 集合</h4>
+</div>
+<div id="outline-container-org5f3b918" class="outline-4">
+<h4 id="org5f3b918"><span class="section-number-4">1.3.2</span> 错误与异常</h4>
+</div>
+<div id="outline-container-org4787a89" class="outline-4">
+<h4 id="org4787a89"><span class="section-number-4">1.3.3</span> 多线程</h4>
+</div>
+<div id="outline-container-orge9c1c42" class="outline-4">
+<h4 id="orge9c1c42"><span class="section-number-4">1.3.4</span> I/O流：BIO,NIO,AIO 有什么区别?</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ol class="org-ol">
+<li>BIO (Blocking I/O): 同步阻塞 I/O 模式，数据的读取写入必须阻塞在一个线程内等待其完成。在活动连接数不是特别高（小于单机 1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I/O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题。线程池本身就是一个天然的漏斗，可以缓冲一些系统处理不了的连接或请求。但是，当面对十万甚至百万级连接的时候，传统的 BIO 模型是无能为力的。因此，我们需要一种更高效的 I/O 处理模型来应对更高的并发量。</li>
+<li>NIO (Non-blocking/New I/O): NIO 是一种同步非阻塞的 I/O 模型，在 Java 1.4 中引入了 NIO 框架，对应 java.nio 包，提供了 Channel , Selector，Buffer 等抽象。NIO 中的 N 可以理解为 Nonblocking，不单纯是 New。它支持面向缓冲的，基于通道的 I/O 操作方法。 NIO 提供了与传统BIO 模型中的 Socket 和 ServerSocket 相对应的 SocketChannel 和 ServerSocketChannel 两种不同的套接字通道实现,两种通道都支持阻塞和非阻塞两种模式。阻塞模式使用就像传统中的支持一样，比较简单，但是性能和可靠性都不好；非阻塞模式正好与之相反。对于低负载、低并发的应用程序，可以使用同步阻塞 I/O 来提升开发速率和更好的维护性；对于高负载、高并发的（网络）应用，应使用 NIO 的非阻塞模式来开发</li>
+<li>AIO (Asynchronous I/O): AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,它是异步非阻塞的 IO 模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。AIO 是异步 IO 的缩写，虽然 NIO 在网络操作中，提供了非阻塞的方法，但是 NIO 的 IO 行为还是同步的。对于NIO 来说，我们的业务线程是在 IO 操作准备好时，得到通知，接着就由这个线程自行进行 IO 操作，IO 操作本身是同步的。查阅网上相关资料，我发现就目前来说 AIO 的应用还不是很广泛，Netty 之前也尝试使用过 AIO，不过又放弃了。</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org08c4443" class="outline-2">
+<h2 id="org08c4443"><span class="section-number-2">2</span> Java 容器</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orge72d0e4" class="outline-3">
+<h3 id="orge72d0e4"><span class="section-number-3">2.1</span> ArrayList</h3>
+</div>
+<div id="outline-container-org09f5c8c" class="outline-3">
+<h3 id="org09f5c8c"><span class="section-number-3">2.2</span> LinkedList</h3>
+</div>
+<div id="outline-container-orgc252a17" class="outline-3">
+<h3 id="orgc252a17"><span class="section-number-3">2.3</span> HashMap</h3>
+</div>
+<div id="outline-container-org6fb9653" class="outline-3">
+<h3 id="org6fb9653"><span class="section-number-3">2.4</span> TreeMap</h3>
+</div>
+</div>
+<div id="outline-container-org9dc70af" class="outline-2">
+<h2 id="org9dc70af"><span class="section-number-2">3</span> Java 并发编程</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgdb46620" class="outline-3">
+<h3 id="orgdb46620"><span class="section-number-3">3.1</span> JDK 提供的并发容器</h3>
+</div>
+<div id="outline-container-org7814cd6" class="outline-3">
+<h3 id="org7814cd6"><span class="section-number-3">3.2</span> 线程池</h3>
+</div>
+<div id="outline-container-org76e1d88" class="outline-3">
+<h3 id="org76e1d88"><span class="section-number-3">3.3</span> 乐观锁和悲观锁</h3>
+</div>
+<div id="outline-container-orga157e28" class="outline-3">
+<h3 id="orga157e28"><span class="section-number-3">3.4</span> Aomic 原子类</h3>
+</div>
+<div id="outline-container-org9a7cee1" class="outline-3">
+<h3 id="org9a7cee1"><span class="section-number-3">3.5</span> AQS</h3>
+</div>
+</div>
+<div id="outline-container-orgdce5edd" class="outline-2">
+<h2 id="orgdce5edd"><span class="section-number-2">4</span> Java 虚拟机（JVM）</h2>
+</div>
+<div id="outline-container-org300f9ed" class="outline-2">
+<h2 id="org300f9ed"><span class="section-number-2">5</span> Java 常用应用技术</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org1e0ab1d" class="outline-3">
+<h3 id="org1e0ab1d"><span class="section-number-3">5.1</span> Spring 系列框架</h3>
+</div>
+<div id="outline-container-org9789d8a" class="outline-3">
+<h3 id="org9789d8a"><span class="section-number-3">5.2</span> ORM 框架</h3>
+</div>
+<div id="outline-container-orgbe82a1a" class="outline-3">
+<h3 id="orgbe82a1a"><span class="section-number-3">5.3</span> Java + MySQL</h3>
+</div>
+<div id="outline-container-orgc435609" class="outline-3">
+<h3 id="orgc435609"><span class="section-number-3">5.4</span> Java + Redis</h3>
+</div>
+<div id="outline-container-org2b81efe" class="outline-3">
+<h3 id="org2b81efe"><span class="section-number-3">5.5</span> 认证授权（JWT，SSO）</h3>
+</div>
+<div id="outline-container-org5e6a44c" class="outline-3">
+<h3 id="org5e6a44c"><span class="section-number-3">5.6</span> 分布式</h3>
+<div class="outline-text-3" id="text-5-6">
+</div>
+<div id="outline-container-orgf077e9c" class="outline-4">
+<h4 id="orgf077e9c"><span class="section-number-4">5.6.1</span> 相关概念</h4>
+</div>
+<div id="outline-container-orgdcdd5c0" class="outline-4">
+<h4 id="orgdcdd5c0"><span class="section-number-4">5.6.2</span> Dubbo</h4>
+</div>
+<div id="outline-container-org97ceb24" class="outline-4">
+<h4 id="org97ceb24"><span class="section-number-4">5.6.3</span> 消息队列</h4>
+</div>
+<div id="outline-container-org762f8a2" class="outline-4">
+<h4 id="org762f8a2"><span class="section-number-4">5.6.4</span> 消息中间件：RabbitMQ</h4>
+</div>
+<div id="outline-container-org33854f5" class="outline-4">
+<h4 id="org33854f5"><span class="section-number-4">5.6.5</span> 消息中间件：RocketMQ</h4>
+</div>
+<div id="outline-container-orga4bfe45" class="outline-4">
+<h4 id="orga4bfe45"><span class="section-number-4">5.6.6</span> 消息系统：Kafaka</h4>
+</div>
+<div id="outline-container-org59db963" class="outline-4">
+<h4 id="org59db963"><span class="section-number-4">5.6.7</span> API 网关</h4>
+</div>
+<div id="outline-container-orga263580" class="outline-4">
+<h4 id="orga263580"><span class="section-number-4">5.6.8</span> 分布式ID</h4>
+</div>
+<div id="outline-container-org3f4f785" class="outline-4">
+<h4 id="org3f4f785"><span class="section-number-4">5.6.9</span> 限流算法</h4>
+</div>
+<div id="outline-container-org7c19c5b" class="outline-4">
+<h4 id="org7c19c5b"><span class="section-number-4">5.6.10</span> 分布式协调服务框架：Zookeeper</h4>
+</div>
+</div>
+<div id="outline-container-orgc19f2f2" class="outline-3">
+<h3 id="orgc19f2f2"><span class="section-number-3">5.7</span> 微服务</h3>
+<div class="outline-text-3" id="text-5-7">
+</div>
+<div id="outline-container-orgc77e771" class="outline-4">
+<h4 id="orgc77e771"><span class="section-number-4">5.7.1</span> Spring Cloud</h4>
+</div>
+</div>
 </div>
