@@ -37,7 +37,12 @@ photos:
   \\
   *什么是 MySQL*
 * MySQL 基本操作
-  1. 数据库、数据表操作
+  1. 连接 MySQL 数据库
+     #+begin_src sql
+       /* 连接与断开服务器 */
+       mysql -h 地址 -P 端口 -u 用户名 -p 密码
+     #+end_src
+  2. 数据库、数据表操作
      #+begin_src sql
        /* Windows服务 */
        -- 启动MySQL
@@ -46,8 +51,6 @@ photos:
        -- 创建Windows服务
        sc create mysql binPath= mysqld_bin_path(注意：等号与值之间有空格)
 
-       /* 连接与断开服务器 */
-       mysql -h 地址 -P 端口 -u 用户名 -p 密码
        SHOW PROCESSLIST -- 显示哪些线程正在运行
        SHOW VARIABLES -- 显示系统变量信息
 
@@ -175,7 +178,7 @@ photos:
        -- 分析表
        ANALYZE [LOCAL | NO_WRITE_TO_BINLOG] TABLE tbl_name [, tbl_name] ...
      #+end_src
-  2. 数据操作
+  3. 数据操作
      #+begin_src sql
        -- 数据操作
        -- 查：SELECT 语句
@@ -231,7 +234,7 @@ photos:
        3，truncate 不知道删除了几条，而delete知道。
        4，当被用于带分区的表时，truncate 会保留分区
      #+end_src
-  3. 字符集编码
+  4. 字符集编码
      #+begin_src sql
        /* 字符集编码 */ ------------------
        -- MySQL、数据库、表、字段均可设置编码
@@ -256,7 +259,7 @@ photos:
        CHARSET 字符集编码 设置字符集编码
        COLLATE 校对集编码 设置校对集编码
      #+end_src
-  4. 数据类型(列类型)
+  5. 数据类型(列类型)
      #+begin_src sql
        /* 数据类型（列类型） */ ------------------
        1. 数值类型
@@ -375,7 +378,7 @@ photos:
        -- 最多可以有64个不同的成员。以bigint存储，共8个字节。采取位运算的形式。
        -- 当创建表时，SET成员值的尾部空格将自动被删除。
      #+end_src
-  5. 列属性(列约束)
+  6. 列属性(列约束)
      #+begin_src sql
        /* 列属性（列约束） */ ------------------
        1. PRIMARY 主键
@@ -436,7 +439,7 @@ photos:
        -- 3. restrict，拒绝父表删除和更新。
        -- 注意，外键只被InnoDB存储引擎所支持。其他引擎是不支持的。
      #+end_src
-  6. 建表规范
+  7. 建表规范
      #+begin_src sql
        /* 建表规范 */ ------------------
        -- Normal Format, NF
@@ -456,7 +459,7 @@ photos:
        -- 某个字段依赖于主键，而有其他字段依赖于该字段。这就是传递依赖。
        -- 将一个实体信息的数据放在一个表内实现。
      #+end_src
-  7. SELECT
+  8. SELECT
      #+begin_src sql
        /* SELECT */ ------------------
        SELECT [ALL|DISTINCT] select_expr FROM -> WHERE -> GROUP BY [合计函数] -> HAVING
@@ -528,7 +531,7 @@ photos:
        distinct 去除重复记录
        默认为 all, 全部记录
      #+end_src
-  8. UNION
+  9. UNION
      #+begin_src sql
        /* UNION */ ------------------
        将多个select查询的结果组合成一个结果集合。
@@ -540,43 +543,43 @@ photos:
        需要各select查询的字段数量一样。
        每个select查询的字段列表(数量、类型)应一致，因为结果中的字段名以第一条select语句为准。
      #+end_src
-  9. 子查询
-     #+begin_src sql
-       /* 子查询 */ ------------------
-       - 子查询需用括号包裹。
-       -- from型
-       from后要求是一个表，必须给子查询结果取个别名。
-       - 简化每个查询内的条件。
-       - from型需将结果生成一个临时表格，可用以原表的锁定的释放。
-       - 子查询返回一个表，表型子查询。
-       select * from (select * from tb where id>0) as subfrom where id>1;
+  10. 子查询
+      #+begin_src sql
+	/* 子查询 */ ------------------
+	- 子查询需用括号包裹。
+	-- from型
+	from后要求是一个表，必须给子查询结果取个别名。
+	- 简化每个查询内的条件。
+	- from型需将结果生成一个临时表格，可用以原表的锁定的释放。
+	- 子查询返回一个表，表型子查询。
+	select * from (select * from tb where id>0) as subfrom where id>1;
 
-       -- where型
-       - 子查询返回一个值，标量子查询。
-       - 不需要给子查询取别名。
-       - where子查询内的表，不能直接用以更新。
-       select * from tb where money = (select max(money) from tb);
+	-- where型
+	- 子查询返回一个值，标量子查询。
+	- 不需要给子查询取别名。
+	- where子查询内的表，不能直接用以更新。
+	select * from tb where money = (select max(money) from tb);
 
-       -- 列子查询
-       如果子查询结果返回的是一列。
-       使用 in 或 not in 完成查询
-       exists 和 not exists 条件
-       如果子查询返回数据，则返回1或0。常用于判断条件。
-       select column1 from t1 where exists (select * from t2);
+	-- 列子查询
+	如果子查询结果返回的是一列。
+	使用 in 或 not in 完成查询
+	exists 和 not exists 条件
+	如果子查询返回数据，则返回1或0。常用于判断条件。
+	select column1 from t1 where exists (select * from t2);
 
-       -- 行子查询
-       查询条件是一个行。
-       select * from t1 where (id, gender) in (select id, gender from t2);
-       行构造符：(col1, col2, ...) 或 ROW(col1, col2, ...)
-       行构造符通常用于与对能返回两个或两个以上列的子查询进行比较。
+	-- 行子查询
+	查询条件是一个行。
+	select * from t1 where (id, gender) in (select id, gender from t2);
+	行构造符：(col1, col2, ...) 或 ROW(col1, col2, ...)
+	行构造符通常用于与对能返回两个或两个以上列的子查询进行比较。
 
-       -- 特殊运算符
-       != all() 相当于 not in
-       = some() 相当于 in。any 是 some 的别名
-       != some() 不等同于 not in，不等于其中某一个。
-       all, some 可以配合其他运算符一起使用。
-     #+end_src
-  10. 连接查询(join)
+	-- 特殊运算符
+	!= all() 相当于 not in
+	= some() 相当于 in。any 是 some 的别名
+	!= some() 不等同于 not in，不等于其中某一个。
+	all, some 可以配合其他运算符一起使用。
+      #+end_src
+  11. 连接查询(join)
       #+begin_src sql
 	/* 连接查询(join) */ ------------------
 	将多个表的字段进行连接，可以指定连接条件。
@@ -605,7 +608,7 @@ photos:
 	natural right join
 	select info.id, info.name, info.stu_num, extra_info.hobby, extra_info.sex from info, extra_info where info.stu_num = extra_info.stu_id;
       #+end_src
-  11. 其他杂项
+  12. 其他杂项
       #+begin_src sql
 	/* 杂项 */ ------------------
 	-- 1. 可用反引号（`）为标识符（库名、表名、字段名、索引、别名）包裹，以避免与关键字重名！中文也可以作为标识符！
@@ -1206,130 +1209,9 @@ photos:
      推荐设置为 2*(NumCPUs+NumDisks)，默认一般为8
 ** 操作系统和硬件优化
 * 集群
-** 复制
+** 复制(Replication)
 ** 扩展
 ** 高可用性
-* 实际应用查询
-** MySQL 命令
-   #+BEGIN_SRC sql
-  --显示数据库列表
-  >show databases;
-  --显示表的列表
-  >show tables;
-  >show columns from table_name;
-  --用以显示服务器状态信息
-  >show status;
-  >SHOW STATUS LIKE '%变量名% ';
-  --显示创建特定数据库或表的MySQL语句
-  >show create database;
-  >show create table;
-  --显示授予用户（所有用户或特定用户）的安全权限
-  >show grants;
-  --显示错误或警告信息
-  >show errors;
-  >show warnings;
-  --显示系统变量
-  >SHOW VARIABLES;
-
-  -- 查看服务器版本信息
-  SELECT VERSION()
-  -- 当前数据库名 (或者返回空)
-  SELECT DATABASE()
-  -- 当前用户名
-  SELECT USER()
-   #+END_SRC
-** 以某个字段进行分组查询，每组前n条记录
-   #+BEGIN_SRC sql
-  select res.* from(
-   select * from View_ArticleChannel a
-   where a.ID in(
-	  select top 3 ID from View_ArticleChannel where a.ChannelName=ChannelName order by a.ChannelName DESC
-   )
-  ) as res
-  where res.ChannelName in('物流公司','云仓公告')
-  -- group by res.ID,res.ChannelName,res.Title
-  order by res.ChannelName
-   #+END_SRC
-** 根据当天日期判断使用哪个字段排序
-   #+BEGIN_SRC sql
-select card_no
-from Customer_V_InTruckInfo
-where card_no like '%dm16%'
-order by (
-  case
-     when 19%2=0 then name
-     else truck_no end
-)
--- 如果使用C#代码，19可替换为:"+DateTime.Now.Day+"
-   #+END_SRC
-** 分组获取记录的第一条数据
-   #+BEGIN_SRC sql
-select * from(
-SELECT   ROW_NUMBER()over(partition by VehicleId order by CreateTime DESC) as RowNumber,ID, VehicleId, VehicleNo, Driver, DriverPhone, ContactType,
-                (CASE ContactType WHEN '1' THEN '短信' WHEN '2' THEN '电话' END) AS ContactType_ex, ContactContent, CreateUser,
-                CreateTime, ModifyUser, ModifyTime, ContactResult,
-                (CASE ContactResult WHEN '1' THEN '有意向' WHEN '2' THEN '无意向' WHEN '3' THEN '停卡' END)
-                AS ContactResult_ex, NextContactTime, ContactPersonIdea, IsDelete, ExtendField1, ExtendField2, ExtendField3,
-                ExtendField4, ExtendField5
-FROM      dbo.VehicleTrackInfo) AS track
-where track.RowNumber=1
-and track.VehicleId='95654e2ffb134f6581f94aa5ed178529'
-   #+END_SRC
-** 使用SQL语句清空数据库中所有表的数据
-   表非常多,一张一张的清空,实在麻烦,想利用SQL语句一次清空所有数据.找到了三种方法进行清空.使用的数据库为MS SQL SERVER.
-*** Method 1:搜索出所有表名,构造为一条SQL语句
-    #+BEGIN_SRC sql
-declare @trun_name varchar(8000)
-set @trun_name=''
-select @trun_name=@trun_name + 'truncate table ' + [name] + ' ' from sysobjects where xtype='U' and status > 0
-exec (@trun_name)
-    #+END_SRC
-    该方法适合表不是非常多的情况,否则表数量过多,超过字符串的长度,不能进行完全清理.
-*** Method 2:利用游标清理所有表
-    #+BEGIN_SRC sql
-declare @trun_name varchar(50)
-declare name_cursor cursor for
-select 'truncate table' + name from sysobjects where xtype='U' and status > 0
-open name_cursor
-fetch next from name_cursor into @trun_name
-while @@FETCH_STATUS = 0
-begin
-  exec (@trun_name)
-  print 'truncated table' + @trun_name
-  fetch next from name_cursor into @trun_name
-end
-close name_cursor
-deallocate name_cursor
-    #+END_SRC
-    可以做为存储过程调用, 能够一次清空所有表的数据,并且还可以进行有选择的清空表.
-*** Method 3:利用微软未公开的存储过程
-    #+BEGIN_SRC sql
-exec sp_msforeachtable "truncate table ?"
-    #+END_SRC
-    该方法可以一次清空所有表,但不能加过滤条件.
-    : 附-删除表：exec sp_msforeachtable 'DROP table ?'
-** SQL Server修改表名前的用户
-   1.只修改表前用户
-   #+BEGIN_SRC
-EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
-   #+END_SRC
-   2.用户表/存储过程/视图/触发器/自定义函数一起改
-   #+BEGIN_SRC
-declare tb cursor local for
-select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
-from sysobjects 
-where xtype in('U','V','P','TR','FN','IF','TF') and status>=0
-open tb
-declare @s nvarchar(4000)
-fetch tb into @s
-while @@fetch_status=0
-begin
-exec(@s)
-fetch tb into @s
-end
-close tb
-deallocate tb
-   #+END_SRC
 * 参考资料
   + http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html
 * 附-EXPLAIN
@@ -1346,3 +1228,4 @@ deallocate tb
   | +                    | 匹配前面的子表达式一次或多次。例如，'zo+' 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。          |
   | {n}	n         | 是一个非负整数。匹配确定的 n 次。例如，'o{2}' 不能匹配 "Bob" 中的 'o'，但是能匹配 "food" 中的两个 o。      |
   | {n,m}                | m 和 n 均为非负整数，其中n <= m。最少匹配 n 次且最多匹配 m 次。                                            |
+* 附-MySQL 存储引擎

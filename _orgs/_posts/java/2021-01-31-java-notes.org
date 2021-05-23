@@ -35,6 +35,7 @@ photos:
 ** Java 基本语法
 *** 自动装箱、拆箱
     1. 什么是自动装箱、拆箱
+       \\
        简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。如下所示：
        #+begin_src java
 	 //自动装箱
@@ -84,6 +85,7 @@ photos:
       
        小结：装箱的过程会创建对应的对象，这个会消耗内存，所以装箱的过程会增加内存的消耗，影响性能。
     2. 进一步了解
+       \\
        在Integer的构造函数中，它分两种情况：
        : i >= 128 || i < -128 =====> new Integer(i)
        : i < 128 && i >= -128 =====> SMALL_VALUES[i + 128]
@@ -292,8 +294,227 @@ photos:
        - 无论是值传递还是引用传递，其实都是一种求值策略(Evaluation strategy)。在求值策略中，还有一种叫做按共享传递(call by sharing)。其实Java中的参数传递严格意义上说应该是按共享传递。
        - 共享传递：指在调用函数时，传递给函数的是实参的地址的拷贝（如果实参在栈中，则直接拷贝该值）。在函数内部对参数进行操作时，需要先拷贝的地址寻找到具体的值，再进行操作。如果该值在栈中，那么因为是直接拷贝的值，所以函数内部对参数进行操作不会对外部变量产生影响。如果原来拷贝的是原值在堆中的地址，那么需要先根据该地址找到堆中对应的位置，再进行操作。因为传递的是地址的拷贝所以函数内对值的操作对外部变量是可见的。
 *** 深拷贝和浅拷贝
+**** 概念
+     + 浅拷贝（浅复制/浅克隆） :: 
+       被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。换言之，浅复制仅仅复制所拥有的对象，而不复制它所引用的对象。
+     + 深拷贝（深复制/深复制） :: 
+       被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。
+**** java Cloneable 接口（浅拷贝）
+     1. clone()
+	\\
+	clone方法将对象复制了一份并返回给调用者。一般而言，clone() 方法满足：
+	- 对任何的对象x，都有x.clone() !=x//克隆对象与原对象不是同一个对象
+	- 对任何的对象x，都有x.clone().getClass()==x.getClass()//克隆对象与原对象的类型一样
+	- 如果对象x的equals()方法定义恰当，那么x.clone().equals(x)应该成立。
+
+     2. Java中对象的克隆
+	- 为了获取对象的一份拷贝，我们可以利用Object类的clone()方法。
+	- 在派生类中覆盖基类的clone()方法，并声明为public。
+	- 在派生类的clone()方法中，调用super.clone()。
+	- 在派生类中实现Cloneable接口。
+     3. 代码实现
+	\\
+	基于Object#clone方法实现对象复制，但是Object#clone是protected方法，在覆写时，需要改成public修饰。
+        #+begin_src java
+	  class Address implements Cloneable {
+	      private String street;
+	      private String city;
+	      private String country;
+	      // standard constructors, getters and setters
+
+	      // ... ...
+
+	      @Override public Object clone(){
+		  try {
+		      return super.clone();
+		  } catch (CloneNotSupportedException e) {
+		      return new Address(this.street, this.getCity(), this.getCountry());
+		  }
+	      }
+	  }
+
+	  class User implements Cloneable {
+	      private String name;
+	      private Address address;
+
+	      //standard constructors, getters and setters
+
+	      // ... ...
+
+	      @Override public Object clone() {
+		  User user;
+		  try {
+		      // super.clone方法实现的是浅拷贝，因此返回的为浅拷贝对象。我们需要对于可变对象的属性，重新设置新的值。
+		      user = (User) super.clone();
+		  } catch (CloneNotSupportedException e) {
+		      user = new User(this.getName(), this.getAddress());
+		  }
+		  user.address = (Address) this.address.clone();
+		  return user;
+	      }
+	  }
+        #+end_src
+
+        #+begin_src java
+	  import static org.junit.Assert.assertThat;
+
+	  Address address = new Address("西湖区丰潭路380号", "杭州", "中国");
+	  User origin = new User("嗨皮的孩子", address);
+	  User shallowCopy = (User) origin.clone();
+	  address.setStreet("西湖区丰潭路381号");
+	  assertThat(shallowCopy.getAddress().getStreet(), not(equalTo(origin.getAddress().getStreet())));
+        #+end_src
+**** 序列化方式（深拷贝）
+     1. 概念
+	\\
+	把对象写到流里的过程是串行化（Serilization）过程；而把对象从流中读出来是并行化（Deserialization）过程。
+     2. 源代码
+	#+begin_src java
+	  public Object deepClone() {    
+	      // 将对象写到流里    
+	      ByteArrayOutoutStream bo=new ByteArrayOutputStream();    
+	      ObjectOutputStream oo=new ObjectOutputStream(bo);    
+	      oo.writeObject(this);    
+
+	      // 从流里读出来    
+	      ByteArrayInputStream bi=new ByteArrayInputStream(bo.toByteArray());    
+	      ObjectInputStream oi=new ObjectInputStream(bi);    
+	      return(oi.readObject());    
+	  } 
+        #+end_src
+**** 第三方库：使用 Apache Commons Lang（深拷贝，推荐）
+     Apache Commons Lang有SerializationUtils#clone方法，使用该方法可以深度复制出对象图中所有实现Serializable接口对象。此方法要求对象中的类都实现Serializable接口，否则会抛出SerializationException。
+     #+name: Address
+     #+begin_src java
+       class Address implements Serializable, Cloneable {
+	   private String street;
+	   private String city;
+	   private String country;
+	   // standard constructors, getters and setters
+
+	   // ... ...
+
+	   @Override
+	   public Object clone() {
+	       try {
+		   return super.clone();
+	       } catch (CloneNotSupportedException e) {
+		   return new Address(this.street, this.getCity(), this.getCountry());
+	       }
+	   }
+       }
+
+       class User implements Serializable, Cloneable {
+	   private String name;
+	   private Address address;
+
+	   //standard constructors, getters and setters
+
+	   // ... ...
+    
+	   @Override public Object clone() {
+	       User user;
+	       try {
+		   user = (User) super.clone();
+	       } catch (CloneNotSupportedException e) {
+		   user = new User(this.getName(), this.getAddress());
+	       }
+	       user.address = (Address) this.address.clone();
+	       return user;
+	   }
+       }
+     #+end_src
+
+     #+name: SerializationUtils
+     #+begin_src java
+       import org.apache.commons.lang.SerializationUtils;
+
+       Address address = new Address("西湖区丰潭路380号", "杭州", "中国");
+       User origin = new User("嗨皮的孩子", address);
+       User shallowCopy = (User) SerializationUtils.clone(origin);
+       address.setStreet("西湖区丰潭路381号");
+     #+end_src
+**** 第三方库：使用 Gson 的 JSON 系列化（深拷贝，推荐）
+     使用 Json 系列化方式，也可以的达到深度复制，Gson 库可以用来将对象转为 JSON，或从 JSON 转为对象。Gson 不要求类实现 Serializable 接口。
+     #+name: Gson
+     #+begin_src java
+       import com.google.gson.Gson;
+
+       Address address = new Address("西湖区丰潭路380号", "杭州", "中国");
+       User origin = new User("嗨皮的孩子", address);
+       Gson gson = new Gson();
+       User shallowCopy = gson.fromJson(gson.toJson(origin), User.class);
+       address.setStreet("西湖区丰潭路381号");
+     #+end_src
+**** 第三方库：使用 Jackson 的 JSON 系列化（深拷贝，推荐）
+     Jackson 实现上类似于 Gson，但是我们需要给类提供默认构造函数。
+     #+name: Jackjson
+     #+begin_src java
+       import com.fasterxml.jackson.databind.ObjectMapper;
+       Invoice invoice = new Invoice("id123","blue");
+
+       ObjectMapper objectMapper = new ObjectMapper();
+       // 加入此行代码，解决 "Cannot construct instance of `java.time.LocalDateTime` (no Creators, like default construct, exist):
+       // cannot deserialize from Object value (no delegate- or property-based Creator)"
+       // Stack Overflow：https://stackoverflow.com/questions/45863678/json-parse-error-can-not-construct-instance-of-java-time-localdate-no-string-a
+       objectMapper.registerModule(new JavaTimeModule());
+       String writeValueAsString = objectMapper.writeValueAsString(invoice);
+       Invoice invoiceCopy = objectMapper.readValue(writeValueAsString, Invoice.class);
+     #+end_src
 *** 反射
-    - 反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。
+    反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。
+    #+name: code example of reflect
+    #+begin_src java
+      /**
+       * Java 反射
+       */
+      // 获取class（方式1）
+      String path = "com.zrg.myReflection.bean.User";
+      Class clazz = Class.forName(path);
+      // 获取class（方式2）
+      Class clazz = User.class;
+      // 获取class（方式3）
+      User user = new User();
+      Class clazz = user.getClass();
+
+      // 获取类名
+      String strName01 = clazz.getName();// 获取完整类名com.zrg.myReflection.bean.User
+      String strName02 = clazz.getSimpleName();// 直接获取类名 User
+
+      // 获取普通方法
+      Method[] Method01 = clazz.getDeclaredMethods(); // 返回public方法
+      Method method = clazz.getDeclaredMethod("getId", null); // 返回getId这个方法，如果没有参数，就默认为null
+      // 获取构造方法
+      User u1 = (User) clazz.newInstance(); // 获取无参的构造函数这里的前提的保证类中应该有无参的构造函数
+      // 获取参数为(int,String,int)的构造函数
+      Constructor c2 = clazz.getDeclaredConstructor(int.class, String.class, int.class);
+      // 通过有参构造函数创建对象
+      User u2 = (User) c2.newInstance(1001, "小小", 18);
+
+      // 通过反射调用普通方法
+      User u3 = (User) clazz.newInstance();
+      Method method03 = clazz.getDeclaredMethod("setId", int.class);
+      method.invoke(u3, 1002); // 把对象u3的id设置为1002
+
+      // 通过反射操作普通的属性
+      User u4 = (User) clazz.newInstance();
+      Field f = clazz.getDeclaredField("name");
+      f.setAccessible(true); // 设置属性可以直接的进行访问
+      f.set(u4, "石头");
+
+      // 获取属性、属性值
+      Field[] fields = clazz.getDeclaredFields(); // 返回所有的属性
+      Field[] fields = clazz.getFields(); // 返回属性为public的字段
+      Field field = clazz.getDeclaredField("id"); // 获取属性为id的字段
+      for (String field : fields) {
+	  try {
+	      field.setAccessible(true); // 设置私有属性允许访问
+	      Object value = field.get(clazz); // 获取属性值
+	  }catch(Exception e){
+	      e.printStackTrace();
+	  }
+      }
+    #+end_src
 ** Java 面向对象
 *** String vs StringBuffer vs StringBuilder
     1. 不可变性
@@ -376,6 +597,202 @@ photos:
 * Java 虚拟机（JVM）
 * Java 常用应用技术
 ** Spring 系列框架
+*** Spring Validation参数校验
+    1. Valid 和 Validated 的区别
+      |              | Valid                                           | Validated               |
+      |--------------+-------------------------------------------------+-------------------------|
+      | 提供者       | JSR-303规范                                     | Spring                  |
+      | 是否支持分组 | 不支持                                          | 支持                    |
+      | 标注位置     | METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE | TYPE, METHOD, PARAMETER |
+      | 嵌套校验     | 支持                                            | 不支持                  |
+    2. 引入依赖
+       : 如果spring-boot版本小于2.3.x，spring-boot-starter-web会自动传入hibernate-validator依赖。
+       : 如果spring-boot版本大于2.3.x，则需要手动引入依赖：
+       #+begin_src xml
+	 <dependency>
+	     <groupId>org.hibernate</groupId>
+	     <artifactId>hibernate-validator</artifactId>
+	     <version>6.0.1.Final</version>
+	 </dependency>
+       #+end_src
+    3. 预定义对象的说明
+       + 接口统一返回Result定义 ::
+         #+begin_src java
+	   import lombok.Data;
+	   import lombok.experimental.Accessors;
+
+	   /**
+	    ,* Return Result
+	    ,*
+	    ,*/
+	   @Data
+	   @Accessors(chain = true)
+	   public class ReturnResult<T> {
+	       private int code;
+	       private String message;
+	       private T data;
+
+	       public boolean ok() {
+		   return this.code == 0;
+	       }
+
+	       public static <T> Result<T> success() {
+		   return new Result<T>().setCode(0).setMessage("SUCCESS");
+	       }
+
+	       public static <T> Result<T> success(T data) {
+		   return new Result<T>().setCode(0).setMessage("SUCCESS").setData(data);
+	       }
+
+	       public static <T> Result<T> failure() {
+		   return new Result<T>().setCode(-1).setMessage("FAILURE");
+	       }
+
+	       public static <T> Result<T> failure(int code, String msg) {
+		   return new Result<T>().setCode(code).setMessage(msg);
+	       }
+
+	       public static <T> Result<T> failure(int code, String msg, T data) {
+		   return new Result<T>().setCode(-1).setMessage("FAILURE").setData(data);
+	       }
+	   }
+         #+end_src
+       + ErrorCode :: 
+         #+begin_src java
+	   /**
+	    ,* Error Code
+	    ,*
+	    ,*/
+	   public final class ErrorCode {
+	       /**
+		,* Normal
+		,*/
+	       public static final int NORMAL = 200;
+	       /**
+		,* Request error
+		,*/
+	       public static final int REQUEST_ERROR = 400;
+	       /**
+		,* Server refuse request
+		,*/
+	       public static final int SERVER_REFUSE_REQUEST = 403;
+	       /**
+		,* Server internal error
+		,*/
+	       public static final int SERVER_INTERNAL_ERROR = 500;
+	       /**
+		,* Argument valid failure
+		,*/
+	       public static final int ARGUMENT_VALID_FAILURE = 1001;
+        
+	   }
+         #+end_src
+    4. 常用参数校验
+       | 限制                      | 说明                                                                                |
+       |---------------------------+-------------------------------------------------------------------------------------|
+       | @Null                     | 限制只能为null                                                                      |
+       | @NotNull                  |                                                                                     |
+       | @AssertFalse              |                                                                                     |
+       | @AssertTrue               |                                                                                     |
+       | @DecimalMax(value)        |                                                                                     |
+       | @DecimalMin(value)        |                                                                                     |
+       | @Digits(integer,fraction) | 限制必须为一个小数，且整数部分的位数不能超过integer，小数部分的位数不能超过fraction |
+       | @Future                   |                                                                                     |
+       | @Max(value)               |                                                                                     |
+       | @Min(value)               |                                                                                     |
+       | @Pattern(value)           | 必须符合指定的正则表达式                                                            |
+       | @Size(max,min)            |                                                                                     |
+       | @NotEmpty                 |                                                                                     |
+       | @NotBlank                 |                                                                                     |
+       | @Email                    |                                                                                     |
+    5. RequestBody校验
+       #+begin_src java
+	 /**
+	  ,* RequestBody 参数校验
+	  ,* 校验失败会抛出 MethodArgumentNotValidException 异常
+	  ,*
+	  ,*/
+	 @RequestMapping("/api/user")
+	 @RestController
+	 public class UserController {
+
+	     /**
+	      ,* RequestBody 参数校验
+	      ,* 使用 @Valid 和 @Validated 都可以
+	      ,*/
+	     @PostMapping("/save/1")
+	     public ReturnResult saveUser(@RequestBody @Validated UserDTO userDTO) {
+		 return ReturnResult.success();
+	     }
+
+	     @PostMapping("/save/2")
+	     public ReturnResult save2User(@RequestBody @Valid UserDTO userDTO) {
+		 return ReturnResult.success();
+	     }
+	 }
+       #+end_src
+    6. RequestParam / PathVariable 校验
+       #+begin_src java
+	 /**
+	  ,* RequestMapping / PathVariable 参数校验
+	  ,* 校验失败会抛出 ConstraintViolationException 异常
+	  ,* 
+	  ,* 此时必须在Controller上标注 @Validated 注解，并在入参上声明约束注解
+	  ,*/
+	 @RequestMapping("/api/user")
+	 @RestController
+	 @Validated
+	 public class UserController {
+	     /**
+	      ,* 路径变量
+	      ,* 添加约束注解 @Min
+	      ,*/
+	     @GetMapping("{userId}")
+	     public ReturnResult detail(@PathVariable("userId") @Min(10000000000000000L) Long userId) {
+		 // 校验通过，才会执行业务逻辑处理
+	     }
+
+	     /**
+	      ,* 查询参数
+	      ,* 添加约束注解 @Length @NotNull
+	      ,*/
+	     @GetMapping("getByAccount")
+	     public ReturnResult getByAccount(@Length(min = 6, max = 20) @NotNull String  account) {
+		 // 校验通过，才会执行业务逻辑处理
+	     }
+	 }
+
+       #+end_src
+    7. 全局异常处理
+       : 在实际项目开发中，通常会用统一异常处理来返回一个更友好的提示。
+       #+begin_src java
+	 /**
+	  ,* 统一异常处理
+	  ,*
+	  ,*/
+	 @RestControllerAdvice
+	 public class GlobalExceptionHandler {
+	     @ExceptionHandler({MethodArgumentNotValidException.class})
+	     @ResponseStatus(HttpStatus.OK)
+	     @ResponseBody
+	     public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+		 BindingResult bindingResult = ex.getBindingResult();
+		 StringBuilder sb = new StringBuilder("校验失败:");
+		 for (FieldError fieldError : bindingResult.getFieldErrors()) {
+		     sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
+		 }
+		 String msg = sb.toString();
+		 return ReturnResult.failure(ErrorCode.ARGUMENT_VALID_FAILURE, msg);
+	     }
+
+	     @ExceptionHandler({ConstraintViolationException.class})
+	     @ResponseStatus(HttpStatus.OK)
+	     @ResponseBody
+	     public Result handleConstraintViolationException(ConstraintViolationException ex) {
+		 return ReturnResult.failure(ErrorCode.ARGUMENT_VALID_FAILURE, ex.getMessage());
+	     }
+	 }
+       #+end_src
 ** ORM 框架
 ** Java + MySQL
 ** Java + Redis

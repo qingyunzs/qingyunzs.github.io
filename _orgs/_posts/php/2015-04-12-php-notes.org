@@ -33,206 +33,210 @@ photos:
 如果你有任何问题或疑问，请发送Email至zrg1390556487@gmail.com！
 # (setq org-export-html-style nil)
 
-* PHP 应用记录
-** PHP vs Java vs C
-   1. C/C++，编译成机器语言（二进制）来运行
-   2.Java，编译成.class文件，称为bytecode，由jvm来运行，Java语言不垮平台，是JVM跨平台。
-   3. 严格说，PHP是一门编译语言，由 zend 虚拟机编译成 opcode，在执行 opcode
-   4. Opcode 能缓存吗？
-      : 答：PHP本身不支持，但是 apc，xcache 等加速器实现了。
-   5. PHP 是弱类型语言。C、Java是强类型语言
-** echo & print & printf & sprintf & var_dump & print_r
-   1. echo函数：
-      : 输出函数，是命令，不能返回值。echo后面可以跟很多个参数，之间用分号隔开。
-      : echo比print稍快，因为它不返回任何值
-   2. print函数：
-      : 是函数，可以返回一个值，只能有一个参数。
-   3. printf函数：
-      : 把文字格式化以后输出，如：
-      : $name="hunte";
-      : $age=25;
-      : printf("my name is %s, age %d", $name, $age);
-   4. sprintf函数：
-      : 跟printf相似，但不打印，而是返回格式化后的文字，其他的与printf一样。
+* PHP 入门
+** 基础入门
+*** PHP vs Java vs C
+    1. C/C++，编译成机器语言（二进制）来运行
+    2. Java 编译成.class文件，称为 bytecode，由 jvm 来运行，Java 语言不垮平台，是 JVM 跨平台。
+    3. 严格说，PHP是一门编译语言，由 zend 虚拟机编译成 opcode，在执行 opcode
+    4. Opcode 能缓存吗？
+       : 答：PHP本身不支持，但是 apc，xcache 等加速器实现了。
+    5. PHP 是弱类型语言。C、Java是强类型语言
+*** echo & print & printf & sprintf & var_dump & print_r
+    1. echo
+       : 输出函数，是命令，不能返回值。echo后面可以跟很多个参数，之间用分号隔开。
+       : echo比print稍快，因为它不返回任何值
+    2. print
+       : 是函数，可以返回一个值，只能有一个参数。
+    3. printf
+       : 把文字格式化以后输出，如：
+       : $name="hunte";
+       : $age=25;
+       : printf("my name is %s, age %d", $name, $age);
+    4. sprintf
+       : 跟printf相似，但不打印，而是返回格式化后的文字，其他的与printf一样。
+*** 单引号和双引号的区别
+    : 单引号不支持变量的解析和转义字符，而双引号可以直接解析变量和转义字符！
+*** isset vs empty vs is_null
+    1. empty
+       : 判断一个变量是否为空
+       : null、false、00、0、’0′、』。都会返回true。
+    2. isset
+       : 判断一个变量是否设置
+       : 0、00、’0′、』、’ ‘、false、’false’、’null’都返回true。 
+       : 只有值為null的变量返回true
+    3. if 判断式
+       : 0、00、0.0、’0′、』、false、null返回false 
+       : ‘00′、’0.0′、’null’、’false’、’ ‘返回true
+    4. is_null 判断变量是否为NULL
+       : is_null，我们可以把它看成是!isset，是isset的一个逆操作，下面一张表可以很清楚的说明他们之间的关系：
+       #+caption: empty vs isset vs is_null
+       | 变量       | empty | is_null | isset |
+       |------------+-------+---------+-------|
+       | $a=""      | true  | false   | true  |
+       | $a=null    | true  | true    | false |
+       | var $a     | true  | true    | false |
+       | $a=array() | true  | false   | true  |
+       | $a=false   | true  | false   | true  |
+       | $a=15      | false | false   | true  |
+       | $a=1       | false | false   | true  |
+       | $a=0       | true  | false   | true  |
+       | $a="0"     | true  | false   | true  |
+       | $a="true"  | false | false   | true  |
+       | $a="false" | false | false   | true  |
 
-** 单引号和双引号的区别
-   : 单引号不支持变量的解析和转义字符！而双引号可以直接解析变量和转义字符！
-** isset vs empty vs is_null
-   1. empty
-      : 判断一个变量是否为空
-      : null、false、00、0、’0′、』。都会返回true。
-   2. isset
-      : 判断一个变量是否设置
-      : 0、00、’0′、』、’ ‘、false、’false’、’null’都返回true。 
-      : 只有值為null的变量返回true
-   3. if 判断式
-      : 0、00、0.0、’0′、』、false、null返回false 
-      : ‘00′、’0.0′、’null’、’false’、’ ‘返回true
-   4. is_null 判断变量是否为NULL
-      : is_null，我们可以把它看成是!isset，是isset的一个逆操作，下面一张表可以很清楚的说明他们之间的关系：
-      #+caption: empty vs isset vs is_null
-      | 变量       | empty | is_null | isset |
-      |------------+-------+---------+-------|
-      | $a=""      | true  | false   | true  |
-      | $a=null    | true  | true    | false |
-      | var $a     | true  | true    | false |
-      | $a=array() | true  | false   | true  |
-      | $a=false   | true  | false   | true  |
-      | $a=15      | false | false   | true  |
-      | $a=1       | false | false   | true  |
-      | $a=0       | true  | false   | true  |
-      | $a="0"     | true  | false   | true  |
-      | $a="true"  | false | false   | true  |
-      | $a="false" | false | false   | true  |
-
-      *总结*
-      + 只要变量是否为” “或者0，或者是 false 和 null，只要是这些值 empty 都会返回 true
-      + isset是判断变量是否存在，只要你这个变量不是null或未赋值，返回结果都是true
-      + is_null正好是isset的反结果 
-** exit vs die
-   1. die()是exit()函数的别名。功能上，die() 就等同于 exit();
-   2. 使用场景：
-      : 当传递给exit和die函数的值为0时，意味着提前终止脚本的执行，通常用exit()
-      : 当程序出错时，可以给它传递一个字符串，它会原样输出在系统终端上，通常使用die()
-** include vs require vs include_once vs require_once
-   + require will produce a fatal error (E_COMPILE_ERROR) and stop the script（致命错误）
-   + include will only produce a warning (E_WARNING) and the script will continue（警告）
-** stripslashes, htmlspecialchars, htmlentities, and strip_tags 区别
-   1. stripslashes——Un-quotes a quoted string
-      : 清理字符串中的反斜杠 \
-      : 与之相反的是 addslashes，在字符串中的单引号（'）,双引号（"）,反斜杠（\），NULL前面添加反斜杠。通常默认的，php会对所有的GET，POST和COOKIE数据自动运行addslashes()
-   2. htmlspecialchars——Convert special characters to HTML entities
-   3. htmlentities——Convert all applicable characters to HTML entities
-   4. strip_tags——Strip HTML and PHP tags from a string
-   5. Strip 去除的意思
-** static, self, parent, and $this 区别
-   1. static
-      + static关键字声明一个属性或方法是和类相关的，而不是和类的某个特定的实例相关，因此，这类属性或方法也称为“类属性”或“类方法”。
-      + static的属性，在内存中只有一份，为所有的实例共用。也就是说，在内存中即使有多个实例，静态的属性也只有一份。
-      + static关键字可以用来修饰变量、方法。
-      + 通过static关键字定义的属性或方法（例如static $web），只能由当前类通过【self::$web】来访问，其他类和子类是无法访问的。
-   2. $this指的是实例化的对象，而不是类本身
-   3. self指的是类本身，而不是实例化的对象
-   4. 在PHP中，子类继承父类并改写了父类中的方法，但是依然想要调用父类中的方法，就用parent
-** return, break, and continue 区别
-   1. return，立即停止执行函数内部的代码，然后继续执行下面的代码
-   2. break，立即停止执行本循环体内的所有循环，最常见的switch循环。
-   3. continue与break都是用于终止循环执行，所不同的是，break是彻底终止循环体的执行，而continue是结束本次循环，继续下一次的循环。
-** 值传递和引用传递的区别
-   #+begin_src php
-     /**
-      ,* 值传递
-      ,* @param [type]
-      ,*/
-     function add($a){
-	     $a++;
-	     $res = $a;
-	     return $res;
-     }
-     $a = 100;
-     echo $a.'<br />'; 	// 100
-     echo add($a).'<br />';  // 101
-     echo $a.'<br />'; 	// 100
+       *总结*
+       + 只要变量是否为” “或者0，或者是 false 和 null，只要是这些值 empty 都会返回 true
+       + isset是判断变量是否存在，只要你这个变量不是null或未赋值，返回结果都是true
+       + is_null正好是isset的反结果 
+*** exit vs die
+    1. die()是exit()函数的别名。功能上，die() 就等同于 exit();
+    2. 使用场景：
+       : 当传递给exit和die函数的值为0时，意味着提前终止脚本的执行，通常用exit()
+       : 当程序出错时，可以给它传递一个字符串，它会原样输出在系统终端上，通常使用die()
+*** include vs require vs include_once vs require_once
+    + require will produce a fatal error (E_COMPILE_ERROR) and stop the script（致命错误）
+    + include will only produce a warning (E_WARNING) and the script will continue（警告）
+*** stripslashes, htmlspecialchars, htmlentities, and strip_tags
+    1. stripslashes——Un-quotes a quoted string
+       : 清理字符串中的反斜杠 \
+       : 与之相反的是 addslashes，在字符串中的单引号（'）,双引号（"）,反斜杠（\），NULL前面添加反斜杠。通常默认的，php会对所有的GET，POST和COOKIE数据自动运行addslashes()
+    2. htmlspecialchars——Convert special characters to HTML entities
+    3. htmlentities——Convert all applicable characters to HTML entities
+    4. strip_tags——Strip HTML and PHP tags from a string
+    5. Strip 去除的意思
+*** return, break, and continue
+    1. return，立即停止执行函数内部的代码，然后继续执行下面的代码
+    2. break，立即停止执行本循环体内的所有循环，最常见的switch循环。
+    3. continue与break都是用于终止循环执行，所不同的是，break是彻底终止循环体的执行，而continue是结束本次循环，继续下一次的循环。
+*** 值传递和引用传递的区别
+    #+begin_src php
+      /**
+       ,* 值传递
+       ,* @param [type]
+       ,*/
+      function add($a){
+	      $a++;
+	      $res = $a;
+	      return $res;
+      }
+      $a = 100;
+      echo $a.'<br />'; 	// 100
+      echo add($a).'<br />';  // 101
+      echo $a.'<br />'; 	// 100
 
 
-     /**
-      ,* 引用传递
-      ,* @param [type]
-      ,*/
-     function add(&$a){
-	     $a++;
-	     $res = $a;
-	     return $res;
-     }
-     $a = 100;
-     echo $a.'<br />'; 	// 100
-     echo add($a).'<br />';  // 101
-     echo $a.'<br />'; 	// 101
+      /**
+       ,* 引用传递
+       ,* @param [type]
+       ,*/
+      function add(&$a){
+	      $a++;
+	      $res = $a;
+	      return $res;
+      }
+      $a = 100;
+      echo $a.'<br />'; 	// 100
+      echo add($a).'<br />';  // 101
+      echo $a.'<br />'; 	// 101
 
 
-     // 对象的引用
-     class A{
-	 var $abc="ABC";
-     }
-     $b =new A();
-     $c =$b; // 等效于 $c=&$b;
-     echo $b->abc;//这里输出ABC
-     echo "<br />";
-     echo $c->abc="DEF";//这里输出ABC $b->abc="DEF";
-     echo "<br />";
-     echo $c->abc;//这里输出 DEF
-     $d1 = clone $c;
-     echo "<br />";
-     echo $d1->abc="GHI"; //这里输出 GHI $d1->abc="GHI";
-     echo "<br />";
-     echo $d1->abc;//这里输出 GHI
-     echo "<br />";
-     echo $c->abc;//这里输出 DEF
+      // 对象的引用
+      class A{
+	  var $abc="ABC";
+      }
+      $b =new A();
+      $c =$b; // 等效于 $c=&$b;
+      echo $b->abc;//这里输出ABC
+      echo "<br />";
+      echo $c->abc="DEF";//这里输出ABC $b->abc="DEF";
+      echo "<br />";
+      echo $c->abc;//这里输出 DEF
+      $d1 = clone $c;
+      echo "<br />";
+      echo $d1->abc="GHI"; //这里输出 GHI $d1->abc="GHI";
+      echo "<br />";
+      echo $d1->abc;//这里输出 GHI
+      echo "<br />";
+      echo $c->abc;//这里输出 DEF
 
-     // 函数的引用
-     function &test2(){
-	 static $b=0;//申明一个静态变量
-	 $b=$b+1;
-	 echo $b;
-	 return $b;
-     }
-     $a=test2();//这条语句会输出　$b的值　为１
-     echo "<br />";
-     $a=5;
-     $a=test2();//这条语句会输出　$b的值　为2
-     echo "<br />";
-     $a=&test2();//这条语句会输出　$b的值　为3。将return $b 中的 $b 变量的内存地址与 $a 变量的内存地址指向了同一个地方。
-     echo "<br />";
-     $a=5;
-     $a=test2();//这条语句会输出　$b的值　为6
+      // 函数的引用
+      function &test2(){
+	  static $b=0;//申明一个静态变量
+	  $b=$b+1;
+	  echo $b;
+	  return $b;
+      }
+      $a=test2();//这条语句会输出　$b的值　为１
+      echo "<br />";
+      $a=5;
+      $a=test2();//这条语句会输出　$b的值　为2
+      echo "<br />";
+      $a=&test2();//这条语句会输出　$b的值　为3。将return $b 中的 $b 变量的内存地址与 $a 变量的内存地址指向了同一个地方。
+      echo "<br />";
+      $a=5;
+      $a=test2();//这条语句会输出　$b的值　为6
 
-     // 函数地址引用
-     function test1(&$a){
-	 $a=$a+100;
-     }
-     $b=1;
-     test1($b);
-     echo $b;//输出１01
-     //这里$b传递给函数的其实是$b的内存地址，通过在函数里改变$a的值，就可以改变$b的值
-     // 变量
-     $a="ABC";
-     $b =&$a;
-     echo $a;//这里输出:ABC
-     echo "<br />";
-     echo $b;//这里输出:ABC
-     $b="EFG";
-     echo "<br />";
-     echo $a;//这里$a的值变为EFG 所以输出EFG echo $b;//这里输出EFG
-     ?>
+      // 函数地址引用
+      function test1(&$a){
+	  $a=$a+100;
+      }
+      $b=1;
+      test1($b);
+      echo $b;//输出１01
+      //这里$b传递给函数的其实是$b的内存地址，通过在函数里改变$a的值，就可以改变$b的值
+      // 变量
+      $a="ABC";
+      $b =&$a;
+      echo $a;//这里输出:ABC
+      echo "<br />";
+      echo $b;//这里输出:ABC
+      $b="EFG";
+      echo "<br />";
+      echo $a;//这里$a的值变为EFG 所以输出EFG echo $b;//这里输出EFG
+      ?>
+    #+end_src
+*** 构造函数 vs 析构函数
+    1. 构造函数
+       + 类的构造函数是类的一种特殊的成员函数，它会在每次创建类的新对象时执行。
+       + Java、C++ 构造函数的名称与类的名称是完全相同的，PHP 语言目前普遍用法是使用 __construct() 代替。
+       + 构造函数不会返回任何类型，也不会返回 void。
+    2. 析构函数
+       + 类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。
+       + Java、C++ 析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。PHP 语言普遍用法是使用 __desctruct() 代替。
+       + 析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。
+       + 试图在析构函数（在脚本终止时被调用）中抛出一个异常会导致致命错误。
+*** public, protected, private and final
+    1. public 用于声明可以外部调用类或方法
+    2. protected 声明只能被继承子类调用
+    3. private 用于定义私有属性或方法，仅供内部类调用
+    4. final 指定某个类不允许被继承或者是某个方法不允许被修改
+*** PHP 命令传参
+    #+begin_src php
+      // 1. 使用 $argc $argv 接受参数
+      echo "接收到{$argc}个参数";
+      print_r($argv);
 
-   #+end_src
-** 构造函数 vs 析构函数
-   1. 构造函数
-      + 类的构造函数是类的一种特殊的成员函数，它会在每次创建类的新对象时执行。
-      + Java、C++ 构造函数的名称与类的名称是完全相同的，PHP 语言目前普遍用法是使用 __construct() 代替。
-      + 构造函数不会返回任何类型，也不会返回 void。
-   2. 析构函数
-      + 类的析构函数是类的一种特殊的成员函数，它会在每次删除所创建的对象时执行。
-      + Java、C++ 析构函数的名称与类的名称是完全相同的，只是在前面加了个波浪号（~）作为前缀，它不会返回任何值，也不能带有任何参数。PHP 语言普遍用法是使用 __desctruct() 代替。
-      + 析构函数有助于在跳出程序（比如关闭文件、释放内存等）前释放资源。
-      + 试图在析构函数（在脚本终止时被调用）中抛出一个异常会导致致命错误。
-** public, protected, private and final 区别
-   1. public 用于声明可以外部调用类或方法
-   2. protected 声明只能被继承子类调用
-   3. private 用于定义私有属性或方法，仅供内部类调用
-   4. final 指定某个类不允许被继承或者是某个方法不允许被修改
-** implode vs explode
-   #+begin_src php
-     // 将数组元素组合为字符串
-     $array = array('姓名', '电话', '电子邮箱');
-     $char = implode("^", $array);
-     echo $char;
+      // 2. 使用getopt函数
+      $param_arr = getopt('name:age:');//只接受name和age两个参数
+      print_r($param_arr);
+      // $ php test.php -name john
 
-     // 将字符串转化为数组
-     $str = '姓名^电话^电子邮箱';
-     $arr = explode('^',$str);
-     print_r($arr);
-   #+end_src
+      // 3. 通过 php 系统定义 CLI 的常量：STDIN , STDOUT , STDERR
+      $fs = true;
+      $username = '';
+      do {
+	  if ($fs) {
+	      fwrite(STDOUT, '请输入用户名：');
+	      $fs = false;
+	  } else {
+	      fwrite(STDOUT, '抱歉，用户名不能为空，请重新输入：');
+	  }
+	      $username = trim(fgets(STDIN));
+      } while (!$username);
+      echo '您输入的用户名是：' . $username . "\r\n";
+
+    #+end_src
 ** 字符串操作
 *** 字符串大小写切换以及翻转和加密
     #+begin_src php
@@ -370,6 +374,74 @@ photos:
       echo htmlspecialchars($str);//不转换【中文】
       echo htmlspecialchars_decode($str);//疯行西月
     #+end_src
+*** implode vs explode
+    #+begin_src php
+      // 将数组元素组合为字符串
+      $array = array('姓名', '电话', '电子邮箱');
+      $char = implode("^", $array);
+      echo $char;
+
+      // 将字符串转化为数组
+      $str = '姓名^电话^电子邮箱';
+      $arr = explode('^',$str);
+      print_r($arr);
+    #+end_src
+*** 在字符串指定位置插入字符串
+    #+BEGIN_SRC php
+      function str_insert($str,$i,$subStr){
+	  for($j=0;$j<$i;$j++){
+	  $startStr .=$str[$j];
+	  }
+	  for($j=$i;$j<strlen($str);$j++){
+	  $lastStr .= $str[$j];
+	  }
+	  $newStr = $startStr.$subStr.$lastStr;
+	  return $newStr;
+      }
+    #+END_SRC
+** 时间操作
+*** 获取上个月第一天及最后一天
+    #+BEGIN_SRC php
+      echo date('Y-m-01', strtotime('-1 month'));
+      echo date('Y-m-t', strtotime('-1 month'));
+      // 上个月第一天,  计算出本月第一天再减一个月
+      echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
+      // 上个月最后一天,// 计算出本月第一天再减一天
+      echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 day'));
+    #+END_SRC
+*** 获取当月第一天及最后一天
+    #+BEGIN_SRC php
+      $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
+      echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
+    #+END_SRC
+*** 获取当前年份、月份、日、天数
+    #+BEGIN_SRC php
+      echo " 本月共有:".date("t")."天";
+      echo " 当前年份".date('Y');
+      echo " 当前月份".date('m');
+      echo " 当前几号".date('d');
+    #+END_SRC
+*** 日期转时间戳，时间戳转日期
+    #+BEGIN_SRC php
+      strtotime('2010-03-24 08:15:42');
+      date('Y-m-d H:i:s', 1156219870);
+    #+END_SRC
+*** 计算已成为会员多少天或距离某活动还剩余多少天
+    #+BEGIN_SRC php
+      function get_days_calc($calcTime, $currentTime, $differOrSurplus){
+	  switch ($differOrSurplus) {
+	  case 1:
+	      return round(($currentTime-$calcTime)/3600/24);
+	      break;
+	  case 2:
+	      return round(($calcTime-$currentTime)/3600/24);
+	      break;
+	  default:
+	      return round(($currentTime-$calcTime)/3600/24);
+	      break;
+	  }
+      }
+    #+END_SRC
 ** 数组操作
 *** 向二位数组中添加键值对
     #+BEGIN_SRC php
@@ -542,286 +614,342 @@ photos:
 	  return $ret;
       }
     #+end_src
-** 魔术方法
-   1. __construct()，类的构造函数
-   2. __destruct()，类的析构函数
-   3. __call()，在对象中调用一个不可访问方法时调用
-      : 实例化的对象执行没有定义的方法或无权限访问的方法会报错，但是通过__call方法可以避免报错，并输出一些提示信息！
-      #+begin_src php
-	class C{
-	    public function show(){
-		echo 'show';
-	    }
-	    function __call($methodName/*方法名*/,$args/*参数*/){
-		echo $methodName;
-	    }
-	}
-	$c = new C();
-	$c->go();
-      #+end_src
-   4. __callStatic()，用静态方式中调用一个不可访问方法时调用
-   5. __get()，获得一个类的成员变量时调用，通过它可以在对象的外部获取私有成员属性的值。
-      : 当调用一个权限上不允许调用的属性或不存在的属性时，__get魔术方法会自动调用，并且自动传参，参数值是属性名。
-      #+begin_src php
-	class Person{
-	    public $name = 'fxxy';
-	    protected $age = 23;
-	    private $sex = 'man';
-	    function __get($var){
-		echo '你想访问我的'.$var.'属性';
-	    }
-	}
-	$person = new Person();
-	echo $person->name;//fxxy
-	echo $person->age;//你想访问我的age属性
-	echo $person->sex;//你想访问我的sex属性
-	echo '<pre/>';
-	print_r($person);
-      #+end_src
-   6. __set()，设置一个类的成员变量时调用，用来设置私有属性值。
-      : 当给一个权限上不允许直接访问或者是不存在的属性设置属性值时，__set魔术方法会自动调用
-      #+begin_src php
-	class Person{
-	    public $name;
-	    protected $age;
-	    private $sex;
-	    public function __set($a,$b){
-		echo '你想给我的'.$a.'赋值'.'并且值是'.$b.'<br/>';
-	    }
-	}
-	$person = new Person();
-	$person->name = 'fxxy';//fxxy
-	$person->age = '28';//你想给我的age赋值并且值是28
-	$person->sex = 'man';//你想给我的sex赋值并且值是man
-	echo $person->name.'<br/>';
-      #+end_src
-   7. __isset()，当对private属性调用isset()或empty()时调用。
-      : 用isset()判断某个某个属性属性是否存在时，__isset()自动执行。
-   8. __unset()，当对private属性调用unset()时被调用。
-      : 用unset()清除一个权限上不允许访问或者是不存在的属性时，__unset()自动执行。
-   9. __sleep()，执行serialize()时，先会调用这个函数，然后才执行序列化操作。这个方法返回一个数组，数组元素就是类属性，可以包括全部的类属性，也可以随便包括其中的几个。
-   10. __wakeup()，执行unserialize()时，先会调用这个函数，unserialize()函数可以重新还原一个被serialize()函数序列化的对象，__wakeup()方法则是恢复在序列中可能丢失的数据库连接及相关工作！
-       因为对象是存储在内存中的，为了提高程序运行效率，当某个对象使用完成之后，就会被垃圾回收机制回收，所以它不可能永久的保存在内存中，这样的话如果其他页面也需要用到这个对象，就比较困难了，这个时候可以把对象利用serialiaze()方法序列化，然后保存在到一个或数据库中，这样的话其他页面就可以随时调用了，然后想要删除这个序列化的对象也是很简单的。
+** 文件操作
+*** 下载文件
+    #+BEGIN_SRC php
+      header("Content-type:text/html;charset=utf-8");
+      /**
+       ,* 文件下载
+       ,* @param  [type] $file_url [绝对路径，如:$_SERVER['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]
+       ,* @param  [type] $new_name [指定文件名称]
+       ,* @return [type] [description]
+       ,*/
+      function downloadFile($file_url,$new_name=''){
+	  if(!isset($file_url)||trim($file_url) == ''){
+	  echo '500';
+	  }
+	  //检查文件是否存在
+	  if(!file_exists($file_url)){
+	  echo '404';
+	  }
+	  $file_name=basename($file_url);
+	  $file_type=explode('.',$file_url);
+	  $file_type=$file_type[count($file_type)-1];
+	  $file_name=trim($new_name=='')?$file_name:urlencode($new_name);
+	  $file_type=fopen($file_url,'r'); //打开文件
+	  //输入文件标签
+	  header("Content-type: application/octet-stream");
+	  header("Accept-Ranges: bytes");
+	  header("Accept-Length: ".filesize($file_url));
+	  header("Content-Disposition: attachment; filename=".$file_name);
+	  //输出文件内容
+	  echo fread($file_type,filesize($file_url));
+	  fclose($file_type);
+      }
+    #+END_SRC
+    
+    *几点注意事项*
+    + header("Content-type:text/html;charset=utf-8")的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。
+    + 关于file_exists()函数不支持中文路径的问题:因为php函数比较早，不支持中文，所以如果被下载的文件名是中文的话，需要对其进行字符编码转换，否则file_exists()函数不能识别，可以使用iconv()函数进行编码转换。
+    + $file_sub_path() 我使用的是绝对路径，执行效率要比相对路径高。
+    + Header("Content-type: application/octet-stream")的作用：通过这句代码客户端浏览器就能知道服务端返回的文件形式。
+    + Header("Accept-Ranges: bytes")的作用：告诉客户端浏览器返回的文件大小是按照字节进行计算的。
+    + Header("Accept-Length:".$file_size)的作用：告诉浏览器返回的文件大小。
+    + Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。
+    + 以上四个Header()是必需的。
+    + fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区
+    **参考资料**
+    [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
+    [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
+*** 获取当前URL
+    #+BEGIN_SRC php
+      function getCurrentPageURL()
+      {
+	  $pageURL = 'http';
+	  if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
+	  {
+	      $pageURL .= "s";
+	  }
+	  $pageURL .= "://";
+	  if ($_SERVER["SERVER_PORT"] != "80")
+	  {
+	      $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+	  }
+	  else
+	  {
+	      $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+	  }
+	  return $pageURL;
+      }
+    #+END_SRC
+*** curl 请求处理
+    #+BEGIN_SRC php
+      function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$response_header = false,$exec_time = 5,$connect_time = 5 )
+      {
+	  $method = strtoupper( $method );
+	  $ch = curl_init();
+	  // 设置请求url
+	  curl_setopt( $ch,CURLOPT_URL,$url );
+	  // 设置请求方法,默认执行GET请求，无需设置
+	  if( 'POST' == $method ){
+	      curl_setopt( $ch, CURLOPT_POST,1 );
+	  }elseif( 'GET' != $method ){
+	      curl_setopt( $ch, CURLOPT_CUSTOMREQUEST,$method );
+	  }
+	  // 设置请求头
+	  if( null != $header && is_array($header) ){
+	      curl_setopt( $ch,CURLOPT_HTTPHEADER,array_map(function($field,$value){
+		  return $field . ':' . $value;
+	      }, array_keys($header), $header) );
+	  }
+	  // 设置请请求数据
+	  if( null != $req_data && 'GET' != $method ){
+	      if ( is_array($req_data) && !isset($req_data['isfile']) ){
+		  $req_data = http_build_query($req_data);
+	      }
+	      curl_setopt( $ch,CURLOPT_POSTFIELDS,$req_data );
+	  }
+	  //设置输出数据中包含http header
+	  curl_setopt( $ch, CURLOPT_HEADER,$response_header );
+	  // 将curl_exec()获取的信息以字符串返回，而不是直接输出
+	  curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true );
+	  // 允许 cURL 函数执行的最长秒数。
+	  curl_setopt( $ch,CURLOPT_TIMEOUT,$exec_time );
+	  //在尝试连接时等待的秒数。设置为0，则无限等待
+	  curl_setopt( $ch,CURLOPT_CONNECTTIMEOUT,$connect_time );
+	  // 执行curl请求
+	  $response = curl_exec($ch);
+	  //获取状态码
+	  $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	  //关闭curl回话并释放资源
+	  curl_close($ch);
+	  //分离header与body
+	  if( $response_header ){
+	      $tmp         = explode("\r\n\r\n", $response);
+	      $resp_header = $tmp[0];
+	      $data        = $tmp[1];
+	  } else {
+	      $resp_header = null;
+	      $data        = $response;
+	  }
+	  $result['errcode'] = $status;
+	  $result['header']  = $resp_header;
+	  $result['data']    = $data;
+	  return $result;
+      }
+    #+END_SRC
+** 面向对象
+*** 面向对象方法get_object_vars、is_subclass_of、interface_exists
+    1. get_object_vars($obj) 获得对象的属性，以关联数组形式返回。
+    2. get_parent_class()，参数是对象或者是类名，获得父类。
+    3. is_subclass_of($obj,$class)：判断对象是否是某个类的子类实例化产生的。
+    4. interface_exists():判断接口是否存在。
+    5. get_class():获得当前对象是哪个类实例化出来的。
+    6. get_declared_classes()：以数组形式返回当前脚本中所有的类。
+    7. get_declared_interfaces()：以数组形式返回当前脚本中的所有接口。
+    8. method_exists():判断某个类中是否存在某个方法，也就是检查类的方法是否存在。
+    9. property_exists():判断某个类中是否存在某个属性，也就是检查类的属性是否存在。
+    10. instanceof:判断某个对象是否是某个类实例化产生的。
+    11. 
+*** static, self, parent, and this
+    1. static
+       + static关键字声明一个属性或方法是和类相关的，而不是和类的某个特定的实例相关，因此，这类属性或方法也称为“类属性”或“类方法”。
+       + static的属性，在内存中只有一份，为所有的实例共用。也就是说，在内存中即使有多个实例，静态的属性也只有一份。
+       + static关键字可以用来修饰变量、方法。
+       + 通过static关键字定义的属性或方法（例如static $web），只能由当前类通过【self::$web】来访问，其他类和子类是无法访问的。
+    2. $this指的是实例化的对象，而不是类本身
+    3. self指的是类本身，而不是实例化的对象
+    4. 在PHP中，子类继承父类并改写了父类中的方法，但是依然想要调用父类中的方法，就用parent
+*** trait
+*** 魔术方法
+    1. __construct()，类的构造函数
+    2. __destruct()，类的析构函数
+    3. __call()，在对象中调用一个不可访问方法时调用
+       : 实例化的对象执行没有定义的方法或无权限访问的方法会报错，但是通过__call方法可以避免报错，并输出一些提示信息！
+       #+begin_src php
+	 class C{
+	     public function show(){
+		 echo 'show';
+	     }
+	     function __call($methodName/*方法名*/,$args/*参数*/){
+		 echo $methodName;
+	     }
+	 }
+	 $c = new C();
+	 $c->go();
+       #+end_src
+    4. __callStatic()，用静态方式中调用一个不可访问方法时调用
+    5. __get()，获得一个类的成员变量时调用，通过它可以在对象的外部获取私有成员属性的值。
+       : 当调用一个权限上不允许调用的属性或不存在的属性时，__get魔术方法会自动调用，并且自动传参，参数值是属性名。
+       #+begin_src php
+	 class Person{
+	     public $name = 'fxxy';
+	     protected $age = 23;
+	     private $sex = 'man';
+	     function __get($var){
+		 echo '你想访问我的'.$var.'属性';
+	     }
+	 }
+	 $person = new Person();
+	 echo $person->name;//fxxy
+	 echo $person->age;//你想访问我的age属性
+	 echo $person->sex;//你想访问我的sex属性
+	 echo '<pre/>';
+	 print_r($person);
+       #+end_src
+    6. __set()，设置一个类的成员变量时调用，用来设置私有属性值。
+       : 当给一个权限上不允许直接访问或者是不存在的属性设置属性值时，__set魔术方法会自动调用
        #+begin_src php
 	 class Person{
 	     public $name;
-	     public $sex;
-	     private $age;
-	     public function __construct($name,$sex,$age){
-		 $this->name = $name;
-		 $this->sex = $sex;
-		 $this->age = $age;
-	     }
-	     public function __sleep(){
-		 return array('name','age');
-	     }
-	     public function __wakeup(){
-		 $age+=1;
-		 return $this->name;
+	     protected $age;
+	     private $sex;
+	     public function __set($a,$b){
+		 echo '你想给我的'.$a.'赋值'.'并且值是'.$b.'<br/>';
 	     }
 	 }
-	 $person = new Person('fxxy','man',28);
-	 $p1 = serialize($person);
-	 echo $p1.'<br/>';
-	 $p2 = unserialize($p1);
-	 echo $p2->name;
+	 $person = new Person();
+	 $person->name = 'fxxy';//fxxy
+	 $person->age = '28';//你想给我的age赋值并且值是28
+	 $person->sex = 'man';//你想给我的sex赋值并且值是man
+	 echo $person->name.'<br/>';
        #+end_src
-   11. __toString()，类被当成字符串时的回应方法
-       : 实例化的对象不可以直接用echo输出，但是如果类中有__toString方法，就可以输出相应的信息。
-       #+begin_src php
-	 class B{
-	     private $host;
-	     private $dbname;
-	     private $user;
-	     private $pwd;
-	     function __construct($host,$dbname,$user,$pwd){
-		 $this->host = $host;
-		 $this->dbname = $dbname;
-		 $this->user = $user;
-		 $this->pwd = $pwd;
-	     }
-	     public function connect(){
-		 echo '连接数据库';
-	     }
-	     public function gettable(){
-		 echo '获得表名';
-	     }
-	     public function insert(){
-		 echo '插入数据库';
-	     }
-	     function __toString(){
-		 $method = get_class_methods(__CLASS__);//获得当前类的所有方法（数组形式）
-		 $methodString = implode('、',$method);
-		 //return $methodString;//__construct、connect、gettable、insert、__toString
+    7. __isset()，当对private属性调用isset()或empty()时调用。
+       : 用isset()判断某个某个属性属性是否存在时，__isset()自动执行。
+    8. __unset()，当对private属性调用unset()时被调用。
+       : 用unset()清除一个权限上不允许访问或者是不存在的属性时，__unset()自动执行。
+    9. __sleep()，执行serialize()时，先会调用这个函数，然后才执行序列化操作。这个方法返回一个数组，数组元素就是类属性，可以包括全部的类属性，也可以随便包括其中的几个。
+    10. __wakeup()，执行unserialize()时，先会调用这个函数，unserialize()函数可以重新还原一个被serialize()函数序列化的对象，__wakeup()方法则是恢复在序列中可能丢失的数据库连接及相关工作！
+	因为对象是存储在内存中的，为了提高程序运行效率，当某个对象使用完成之后，就会被垃圾回收机制回收，所以它不可能永久的保存在内存中，这样的话如果其他页面也需要用到这个对象，就比较困难了，这个时候可以把对象利用serialiaze()方法序列化，然后保存在到一个或数据库中，这样的话其他页面就可以随时调用了，然后想要删除这个序列化的对象也是很简单的。
+	#+begin_src php
+	  class Person{
+	      public $name;
+	      public $sex;
+	      private $age;
+	      public function __construct($name,$sex,$age){
+		  $this->name = $name;
+		  $this->sex = $sex;
+		  $this->age = $age;
+	      }
+	      public function __sleep(){
+		  return array('name','age');
+	      }
+	      public function __wakeup(){
+		  $age+=1;
+		  return $this->name;
+	      }
+	  }
+	  $person = new Person('fxxy','man',28);
+	  $p1 = serialize($person);
+	  echo $p1.'<br/>';
+	  $p2 = unserialize($p1);
+	  echo $p2->name;
+	#+end_src
+    11. __toString()，类被当成字符串时的回应方法
+	: 实例化的对象不可以直接用echo输出，但是如果类中有__toString方法，就可以输出相应的信息。
+	#+begin_src php
+	  class B{
+	      private $host;
+	      private $dbname;
+	      private $user;
+	      private $pwd;
+	      function __construct($host,$dbname,$user,$pwd){
+		  $this->host = $host;
+		  $this->dbname = $dbname;
+		  $this->user = $user;
+		  $this->pwd = $pwd;
+	      }
+	      public function connect(){
+		  echo '连接数据库';
+	      }
+	      public function gettable(){
+		  echo '获得表名';
+	      }
+	      public function insert(){
+		  echo '插入数据库';
+	      }
+	      function __toString(){
+		  $method = get_class_methods(__CLASS__);//获得当前类的所有方法（数组形式）
+		  $methodString = implode('、',$method);
+		  //return $methodString;//__construct、connect、gettable、insert、__toString
 
-		 $vars = get_object_vars($this);//获得当前对象的所有属性（数组形式）
-		 $varsString = implode('、',$vars);
-		 return $varsString;//localhost、mydb、admin、admin
-	     }
-	 }
-	 $b = new B('localhost','mydb','admin','admin');
-	 echo $b;//如果类中没有__toString方法会报错
+		  $vars = get_object_vars($this);//获得当前对象的所有属性（数组形式）
+		  $varsString = implode('、',$vars);
+		  return $varsString;//localhost、mydb、admin、admin
+	      }
+	  }
+	  $b = new B('localhost','mydb','admin','admin');
+	  echo $b;//如果类中没有__toString方法会报错
 
-	 // 如果没有toString()方法，直接输出对象对发生致命性错误。
-	 // 注意：echo或print_r函数后面直接跟输出的对象，中间不要加其他多余的字符，否则__toString()方法不会被执行，例如这种情况：echo '输出对象'.$obj;
-       #+end_src
-   12. __invoke()，调用函数的方式调用一个对象时的回应方法。
-   13. __set_state()，调用var_export()导出类时，此静态方法会被调用。
-   14. __clone()，当对象复制完成时调用（一个对象克隆另一个对象的时候）。
-       : __clone()里边的$this代表副本中的对象。$that代表原对象。
-       #+begin_src php
-	 class A{
-	     public $num = 1;
-	     public function show(){
-		 echo $this->num;//1
-	     }
-	     function __clone(){
-		 echo ++$this->num;//2
-	     }
-	 }
-	 $a = new A();
+	  // 如果没有toString()方法，直接输出对象对发生致命性错误。
+	  // 注意：echo或print_r函数后面直接跟输出的对象，中间不要加其他多余的字符，否则__toString()方法不会被执行，例如这种情况：echo '输出对象'.$obj;
+	#+end_src
+    12. __invoke()，调用函数的方式调用一个对象时的回应方法。
+    13. __set_state()，调用var_export()导出类时，此静态方法会被调用。
+    14. __clone()，当对象复制完成时调用（一个对象克隆另一个对象的时候）。
+	: __clone()里边的$this代表副本中的对象。$that代表原对象。
+	#+begin_src php
+	  class A{
+	      public $num = 1;
+	      public function show(){
+		  echo $this->num;//1
+	      }
+	      function __clone(){
+		  echo ++$this->num;//2
+	      }
+	  }
+	  $a = new A();
 
-	 $b = $a;
-	 echo intval($a===$b);//1
+	  $b = $a;
+	  echo intval($a===$b);//1
 
-	 echo $a->show();
-	 $b = clone $a;
-	 //echo intval($a===$b);//0,内容虽然一样，但是在内存中的地址不同
-       #+end_src
-   15. __autoload()，尝试加载未定义的类
-       : 其他的魔术方法都是在类中添加起作用，这是一个唯一不在类中添加的方法。
-       : 只要在页面中使用到一个类，只要用到类名，就会自动将类名传给__autoload()的参数。
-       *代码示例*
-       #+begin_src php
-	 // test.php
-	 function __autoload($className){
-	     include $className.'.class.php';
-	 }
-	 $one = new OneAction();
-	 $two = new TwoAction();
-	 $three = new ThreeAction();
+	  echo $a->show();
+	  $b = clone $a;
+	  //echo intval($a===$b);//0,内容虽然一样，但是在内存中的地址不同
+	#+end_src
+    15. __autoload()，尝试加载未定义的类
+	: 其他的魔术方法都是在类中添加起作用，这是一个唯一不在类中添加的方法。
+	: 只要在页面中使用到一个类，只要用到类名，就会自动将类名传给__autoload()的参数。
+	*代码示例*
+	#+begin_src php
+	  // test.php
+	  function __autoload($className){
+	      include $className.'.class.php';
+	  }
+	  $one = new OneAction();
+	  $two = new TwoAction();
+	  $three = new ThreeAction();
 
-	 // OneAction.class.php
-	 class OneAction{
-	     public function __construct(){
-		 echo 'oneAction'.'<br/>';
-	     }
-	 }
+	  // OneAction.class.php
+	  class OneAction{
+	      public function __construct(){
+		  echo 'oneAction'.'<br/>';
+	      }
+	  }
 
-	 // TwoAction.class.php
-	 class TwoAction{
-	     public function __construct(){
-		 echo 'twoAction'.'<br/>';
-	     }
-	 }
+	  // TwoAction.class.php
+	  class TwoAction{
+	      public function __construct(){
+		  echo 'twoAction'.'<br/>';
+	      }
+	  }
 
-	 // ThreeAction.class.php
-	 class ThreeAction{
-	     public function __construct(){
-		 echo 'threeAction'.'<br/>';
-	     }
-	 }
+	  // ThreeAction.class.php
+	  class ThreeAction{
+	      public function __construct(){
+		  echo 'threeAction'.'<br/>';
+	      }
+	  }
 
-       #+end_src
-   16. __debugInfo()，打印所需调试信息
-** 面向对象方法get_object_vars、is_subclass_of、interface_exists
-   1. get_object_vars($obj) 获得对象的属性，以关联数组形式返回。
-   2. get_parent_class()，参数是对象或者是类名，获得父类。
-   3. is_subclass_of($obj,$class)：判断对象是否是某个类的子类实例化产生的。
-   4. interface_exists():判断接口是否存在。
-   5. get_class():获得当前对象是哪个类实例化出来的。
-   6. get_declared_classes()：以数组形式返回当前脚本中所有的类。
-   7. get_declared_interfaces()：以数组形式返回当前脚本中的所有接口。
-   8. method_exists():判断某个类中是否存在某个方法，也就是检查类的方法是否存在。
-   9. property_exists():判断某个类中是否存在某个属性，也就是检查类的属性是否存在。
-   10. instanceof:判断某个对象是否是某个类实例化产生的。
-   11. 
-** mysql, mysqli, pdo 区别
-** PHP 命令传参
-   #+begin_src php
-     // 1. 使用 $argc $argv 接受参数
-     echo "接收到{$argc}个参数";
-     print_r($argv);
+	#+end_src
+    16. __debugInfo()，打印所需调试信息
+** 数据库
+*** mysql, mysqli, pdo 区别
+** PHP 常用操作
+*** PHP 生成唯一标识的方法
+    : md5(time() . uniqid("", true));
 
-     // 2. 使用getopt函数
-     $param_arr = getopt('name:age:');//只接受name和age两个参数
-     print_r($param_arr);
-     // $ php test.php -name john
-
-     // 3. 通过 php 系统定义 CLI 的常量：STDIN , STDOUT , STDERR
-     $fs = true;
-     $username = '';
-     do {
-	 if ($fs) {
-	     fwrite(STDOUT, '请输入用户名：');
-	     $fs = false;
-	 } else {
-	     fwrite(STDOUT, '抱歉，用户名不能为空，请重新输入：');
-	 }
-	     $username = trim(fgets(STDIN));
-     } while (!$username);
-     echo '您输入的用户名是：' . $username . "\r\n";
-
-   #+end_src
-** PHP生成唯一标识的方法
-   : md5(time() . uniqid("", true));
-** PHP手机号码中间4位加密
-   #+begin_src php
-     /**
-      ,* 中间加密 字符串截取法
-      ,*/
-     public static function encryptTel($tel) {
-	     $new_tel = substr($tel, 0, 3).'****'.substr($tel, 7);
-	     return $new_tel;
-     }
-     /**
-      ,* 中间加密 替换字符串的子串
-      ,*/
-     public static function encryptTel($tel) {
-	     $new_tel = substr_replace($tel, '****', 3, 4);
-	     return $new_tel;
-     }
-     /**
-      ,* 中间加密 用正则
-      ,*/
-     public static function encryptTel($tel) {
-	     $new_tel = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
-	     return $new_tel;
-     }
-
-   #+end_src
-** 在字符串指定位置插入字符串
-   #+BEGIN_SRC php
-     function str_insert($str,$i,$subStr){
-	 for($j=0;$j<$i;$j++){
-	 $startStr .=$str[$j];
-	 }
-	 for($j=$i;$j<strlen($str);$j++){
-	 $lastStr .= $str[$j];
-	 }
-	 $newStr = $startStr.$subStr.$lastStr;
-	 return $newStr;
-     }
-   #+END_SRC
-** 数值中去除无效的0
-   #+BEGIN_SRC php
-     /**
-      ,* 去除多余的0
-      ,*/
-     function del0($s)
-     {
-	 $s = trim(strval($s));
-	 if (preg_match('#^-?\d+?\.0+$#', $s)) {
-	     return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);
-	 }
-	 if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
-	     return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);
-	 }
-	 return $s;
-     }
-   #+END_SRC
-** PHP 生成UUID我唯一序列
-   #+BEGIN_SRC php
+    #+BEGIN_SRC php
      function uuid($prefix ='')
      {
 	 $chars = md5(uniqid(mt_rand(), true));
@@ -837,250 +965,199 @@ photos:
      > insert into Price( Name, UUID, Price) values('FEIFEI_TEST', uuid(), 32);
 
    #+END_SRC
-** 获取上个月第一天及最后一天
-   #+BEGIN_SRC php
-     echo date('Y-m-01', strtotime('-1 month'));
-     echo date('Y-m-t', strtotime('-1 month'));
-     // 上个月第一天,  计算出本月第一天再减一个月
-     echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 month'));
-     // 上个月最后一天,// 计算出本月第一天再减一天
-     echo date('Y-m-d', strtotime(date('Y-m-01') . ' -1 day'));
-   #+END_SRC
-** 获取当月第一天及最后一天
-   #+BEGIN_SRC php
-     $BeginDate=date('Y-m-01', strtotime(date("Y-m-d")));
-     echo date('Y-m-d', strtotime("$BeginDate +1 month -1 day"));
-   #+END_SRC
-** 获取当前年份、月份、日、天数
-   #+BEGIN_SRC php
-     echo " 本月共有:".date("t")."天";
-     echo " 当前年份".date('Y');
-     echo " 当前月份".date('m');
-     echo " 当前几号".date('d');
-   #+END_SRC
-** 日期转时间戳，时间戳转日期
-   #+BEGIN_SRC php
-     strtotime('2010-03-24 08:15:42');
-     date('Y-m-d H:i:s', 1156219870);
-   #+END_SRC
-** 计算已成为会员多少天或距离某活动还剩余多少天
-   #+BEGIN_SRC php
-     function get_days_calc($calcTime, $currentTime, $differOrSurplus){
-	 switch ($differOrSurplus) {
-	 case 1:
-	     return round(($currentTime-$calcTime)/3600/24);
-	     break;
-	 case 2:
-	     return round(($calcTime-$currentTime)/3600/24);
-	     break;
-	 default:
-	     return round(($currentTime-$calcTime)/3600/24);
-	     break;
-	 }
-     }
-   #+END_SRC
-** 下载文件
-   #+BEGIN_SRC php
-     header("Content-type:text/html;charset=utf-8");
-     /**
-      ,* 文件下载
-      ,* @param  [type] $file_url [绝对路径，如:$_SERVER['DOCUMENT_ROOT'].'/upload/file/2019/01/18/test.png';]
-      ,* @param  [type] $new_name [指定文件名称]
-      ,* @return [type] [description]
-      ,*/
-     function downloadFile($file_url,$new_name=''){
-	 if(!isset($file_url)||trim($file_url) == ''){
-	 echo '500';
-	 }
-	 //检查文件是否存在
-	 if(!file_exists($file_url)){
-	 echo '404';
-	 }
-	 $file_name=basename($file_url);
-	 $file_type=explode('.',$file_url);
-	 $file_type=$file_type[count($file_type)-1];
-	 $file_name=trim($new_name=='')?$file_name:urlencode($new_name);
-	 $file_type=fopen($file_url,'r'); //打开文件
-	 //输入文件标签
-	 header("Content-type: application/octet-stream");
-	 header("Accept-Ranges: bytes");
-	 header("Accept-Length: ".filesize($file_url));
-	 header("Content-Disposition: attachment; filename=".$file_name);
-	 //输出文件内容
-	 echo fread($file_type,filesize($file_url));
-	 fclose($file_type);
-     }
-   #+END_SRC
-   *几点注意事项*
-   + header("Content-type:text/html;charset=utf-8")的作用：在服务器响应浏览器的请求时，告诉浏览器以编码格式为UTF-8的编码显示该内容。
-   + 关于file_exists()函数不支持中文路径的问题:因为php函数比较早，不支持中文，所以如果被下载的文件名是中文的话，需要对其进行字符编码转换，否则file_exists()函数不能识别，可以使用iconv()函数进行编码转换。
-   + $file_sub_path() 我使用的是绝对路径，执行效率要比相对路径高。
-   + Header("Content-type: application/octet-stream")的作用：通过这句代码客户端浏览器就能知道服务端返回的文件形式。
-   + Header("Accept-Ranges: bytes")的作用：告诉客户端浏览器返回的文件大小是按照字节进行计算的。
-   + Header("Accept-Length:".$file_size)的作用：告诉浏览器返回的文件大小。
-   + Header("Content-Disposition: attachment; filename=".$file_name)的作用:告诉浏览器返回的文件的名称。
-   + 以上四个Header()是必需的。
-   + fclose($fp)可以把缓冲区内最后剩余的数据输出到磁盘文件中，并释放文件指针和有关的缓冲区
-*** 参考资料
-    [[http://www.cnblogs.com/hongfei/archive/2012/06/12/2546929.html][Php如何实现下载功能超详细流程分析]]
-    [[https://blog.csdn.net/hj960511/article/details/51837990][php实现当前页面点击下载文件实例]]
-** 获取当前URL
-   #+BEGIN_SRC php
-     function getCurrentPageURL()
-     {
-	 $pageURL = 'http';
-	 if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
-	 {
-	     $pageURL .= "s";
-	 }
-	 $pageURL .= "://";
-	 if ($_SERVER["SERVER_PORT"] != "80")
-	 {
-	     $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
-	 }
-	 else
-	 {
-	     $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-	 }
-	 return $pageURL;
-     }
-   #+END_SRC
-** curl 请求处理
-   #+BEGIN_SRC php
-     function curl( $url = '',$method = 'GET',$req_data = false,$header = false,$response_header = false,$exec_time = 5,$connect_time = 5 )
-     {
-	 $method = strtoupper( $method );
-	 $ch = curl_init();
-	 // 设置请求url
-	 curl_setopt( $ch,CURLOPT_URL,$url );
-	 // 设置请求方法,默认执行GET请求，无需设置
-	 if( 'POST' == $method ){
-	     curl_setopt( $ch, CURLOPT_POST,1 );
-	 }elseif( 'GET' != $method ){
-	     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST,$method );
-	 }
-	 // 设置请求头
-	 if( null != $header && is_array($header) ){
-	     curl_setopt( $ch,CURLOPT_HTTPHEADER,array_map(function($field,$value){
-		 return $field . ':' . $value;
-	     }, array_keys($header), $header) );
-	 }
-	 // 设置请请求数据
-	 if( null != $req_data && 'GET' != $method ){
-	     if ( is_array($req_data) && !isset($req_data['isfile']) ){
-		 $req_data = http_build_query($req_data);
-	     }
-	     curl_setopt( $ch,CURLOPT_POSTFIELDS,$req_data );
-	 }
-	 //设置输出数据中包含http header
-	 curl_setopt( $ch, CURLOPT_HEADER,$response_header );
-	 // 将curl_exec()获取的信息以字符串返回，而不是直接输出
-	 curl_setopt( $ch,CURLOPT_RETURNTRANSFER,true );
-	 // 允许 cURL 函数执行的最长秒数。
-	 curl_setopt( $ch,CURLOPT_TIMEOUT,$exec_time );
-	 //在尝试连接时等待的秒数。设置为0，则无限等待
-	 curl_setopt( $ch,CURLOPT_CONNECTTIMEOUT,$connect_time );
-	 // 执行curl请求
-	 $response = curl_exec($ch);
-	 //获取状态码
-	 $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	 //关闭curl回话并释放资源
-	 curl_close($ch);
-	 //分离header与body
-	 if( $response_header ){
-	     $tmp         = explode("\r\n\r\n", $response);
-	     $resp_header = $tmp[0];
-	     $data        = $tmp[1];
-	 } else {
-	     $resp_header = null;
-	     $data        = $response;
-	 }
-	 $result['errcode'] = $status;
-	 $result['header']  = $resp_header;
-	 $result['data']    = $data;
-	 return $result;
-     }
-   #+END_SRC
-** Cookie 与 Session
-** 跨域请求问题处理
-*** 问题处理
-    #+NAME: 客户端请求代码
-    #+BEGIN_SRC php
-      // 客户端请求代码
-      // 上传文件
-      function upload_idcard_file(_this,type){
-	      var formData = new FormData();
-	      formData.append('type',type);
-	      formData.append('file',_this.files[0]);
-	      $.ajax({
-		      url: '{$upload_file_url}',
-		      type: 'POST',
-		      dataType: 'json',
-		      data: formData,
-		      cache: false,
-		      contentType : false,
-		      processData : false,
-		      headers : {"access_token" : "{$access_token}"},
-		      success:function(d){
-			      var img_url = d.data;
-			      img_url = 'http:'+img_url;
-			      load_img(_this.id,img_url);
-		      },
-		      error:function(err){
-			      console.log(err);
-		      }
-	      });
+*** PHP 手机号码中间4位加密
+    #+begin_src php
+      /**
+       ,* 中间加密 字符串截取法
+       ,*/
+      public static function encryptTel($tel) {
+	      $new_tel = substr($tel, 0, 3).'****'.substr($tel, 7);
+	      return $new_tel;
       }
-    #+END_SRC
+      /**
+       ,* 中间加密 替换字符串的子串
+       ,*/
+      public static function encryptTel($tel) {
+	      $new_tel = substr_replace($tel, '****', 3, 4);
+	      return $new_tel;
+      }
+      /**
+       ,* 中间加密 用正则
+       ,*/
+      public static function encryptTel($tel) {
+	      $new_tel = preg_replace('/(\d{3})\d{4}(\d{4})/', '$1****$2', $tel);
+	      return $new_tel;
+      }
 
-    #+NAME: 服务端处理：粗糙解决方式
+    #+end_src
+*** 数值中去除无效的0
     #+BEGIN_SRC php
-      // 服务端处理：粗糙解决方式
-      // 允许所有跨域请求
-      header('Access-Control-Allow-Origin: *');
-
-      // 只允许 http://www.baidu.com 发来的跨域请求
-      // header('Access-Control-Allow-Origin: http://www.baidu.com');
-
-      // 设置支持的 http 请求方式
-      header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
-
-      // 允许的响应头字段，请按照自己需求添加
-      header('Access-Control-Allow-Headers:access_token');
-    #+END_SRC
-
-    #+CAPTION: 服务端处理：动态判断处理跨域问题
-    #+BEGIN_SRC php
-      if(isset($_SERVER['HTTP_ORIGIN'])){
-	      // 请求方法
-	      $request_method = $_SERVER['REQUEST_METHOD'];
-	      // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
-	      $allow_origin = array(
-	      'baidu.com',
-	      'bing.com'
-	      );
-	      // 判断是否有origin请求头
-	      if(in_array($request_method, $allow_origin)
-	      {
-		      header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-		      // 客户端携带证书式访问。出于安全考虑，该项设置为true时，Access-Control-Allow-Origin 的值不允许为「*」
-		      header('Access-Control-Allow-Credentials: true'); 
-		      header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
-		      header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token');
-	      }
+      /**
+       ,* 去除多余的0
+       ,*/
+      function del0($s)
+      {
+	  $s = trim(strval($s));
+	  if (preg_match('#^-?\d+?\.0+$#', $s)) {
+	      return preg_replace('#^(-?\d+?)\.0+$#','$1',$s);
 	  }
+	  if (preg_match('#^-?\d+?\.[0-9]+?0+$#', $s)) {
+	      return preg_replace('#^(-?\d+\.[0-9]+?)0+$#','$1',$s);
+	  }
+	  return $s;
       }
     #+END_SRC
-*** Session 跨域问题
-    #+BEGIN_SRC php
-      ini_set('session.cookie_domain', '.a.com');
-      header('Access-Control-Allow-Credentials: true');
-    #+END_SRC
-*** References
-    + [[https://blog.csdn.net/z69183787/article/details/78954325][跨域Ajax请求时是否带Cookie的设置]]
+*** 地图坐标转换
+   1. 坐标系说明
+      + WGS84：为一种大地坐标系，也是目前广泛使用的GPS全球卫星定位系统使用的坐标系；
+      + GCJ02：表示经过国测局加密的坐标；
+      + BD09：为百度坐标系，其中bd09ll表示百度经纬度坐标，bd09mc表示百度墨卡托米制坐标；
+   2. 当前互联网地图的坐标系现状
+      \\
+      **地球坐标 (WGS84)**
+      + 国际标准，从专业GPS 设备中取出的数据的坐标系
+      + 国际地图提供商使用的坐标系
+     
+      **火星坐标 (GCJ-02)也叫国测局坐标系**
+      + 中国标准：从国行移动设备中定位获取的坐标数据使用这个坐标系
+      + 国家规定: 国内出版的各种地图系统（包括电子形式），必须至少采用GCJ-02对地理位置进行首次加密。
+       
+      **百度坐标 (BD-09)**
+      + 百度标准，百度 SDK，百度地图，Geocoding 使用(本来就乱了，百度又在火星坐标上来个二次加密)。
+   3. 开发注意事项
+      + 从设备获取经纬度（GPS）坐标
+	: 如果使用的是百度sdk那么可以获得百度坐标（bd09）或者火星坐标（GCJ02),默认是bd09    
+	: 如果使用的是ios的原生定位库，那么获得的坐标是WGS84
+	: 如果使用的是高德sdk,那么获取的坐标是GCJ02
+
+      + 互联网在线地图使用的坐标系
+	: 火星坐标系：
+	:     iOS 地图（其实是高德）
+	:     Gogole地图
+	:     搜搜、阿里云、高德地图、腾讯地图
+	: 百度坐标系：
+	:     当然只有百度地图
+	: WGS84坐标系：
+	:     国际标准，谷歌国外地图、osm地图等国外的地图一般都是这个
+   4. GCJ02 <--> BD09
+     #+begin_src php
+      <?php
+
+      /**
+       ,* 中国正常GCJ02坐标---->百度地图BD09坐标
+       ,* 腾讯地图用的也是GCJ02坐标
+       ,* @param double $lat 纬度
+       ,* @param double $lng 经度
+       ,*/
+      function Convert_GCJ02_To_BD09($lng,$lat){
+	  $x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+	  $x = $lng;
+	  $y = $lat;
+	  $z =sqrt($x * $x + $y * $y) + 0.00002 * sin($y * $x_pi);
+	  $theta = atan2($y, $x) + 0.000003 * cos($x * $x_pi);
+	  $lng = $z * cos($theta) + 0.0065;
+	  $lat = $z * sin($theta) + 0.006;
+	  return array('lng'=>$lng,'lat'=>$lat);
+      }
+
+      /**
+       ,* 百度地图BD09坐标---->中国正常GCJ02坐标
+       ,* 腾讯地图用的也是GCJ02坐标
+       ,* @param double $lat 纬度
+       ,* @param double $lng 经度
+       ,* @return array();
+       ,*/
+      function Convert_BD09_To_GCJ02($lng,$lat){
+	  $x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+	  $x = $lng - 0.0065;
+	  $y = $lat - 0.006;
+	  $z = sqrt($x * $x + $y * $y) - 0.00002 * sin($y * $x_pi);
+	  $theta = atan2($y, $x) - 0.000003 * cos($x * $x_pi);
+	  $lng = $z * cos($theta);
+	  $lat = $z * sin($theta);
+	  return ['lng'=>$lng,'lat'=>$lat];
+      }
+
+    #+end_src
+*** 跨域请求问题处理
+**** 问题处理
+     #+NAME: 客户端请求代码
+     #+BEGIN_SRC php
+       // 客户端请求代码
+       // 上传文件
+       function upload_idcard_file(_this,type){
+	       var formData = new FormData();
+	       formData.append('type',type);
+	       formData.append('file',_this.files[0]);
+	       $.ajax({
+		       url: '{$upload_file_url}',
+		       type: 'POST',
+		       dataType: 'json',
+		       data: formData,
+		       cache: false,
+		       contentType : false,
+		       processData : false,
+		       headers : {"access_token" : "{$access_token}"},
+		       success:function(d){
+			       var img_url = d.data;
+			       img_url = 'http:'+img_url;
+			       load_img(_this.id,img_url);
+		       },
+		       error:function(err){
+			       console.log(err);
+		       }
+	       });
+       }
+     #+END_SRC
+
+     #+NAME: 服务端处理：粗糙解决方式
+     #+BEGIN_SRC php
+       // 服务端处理：粗糙解决方式
+       // 允许所有跨域请求
+       header('Access-Control-Allow-Origin: *');
+
+       // 只允许 http://www.baidu.com 发来的跨域请求
+       // header('Access-Control-Allow-Origin: http://www.baidu.com');
+
+       // 设置支持的 http 请求方式
+       header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+
+       // 允许的响应头字段，请按照自己需求添加
+       header('Access-Control-Allow-Headers:access_token');
+     #+END_SRC
+
+     #+CAPTION: 服务端处理：动态判断处理跨域问题
+     #+BEGIN_SRC php
+       if(isset($_SERVER['HTTP_ORIGIN'])){
+	       // 请求方法
+	       $request_method = $_SERVER['REQUEST_METHOD'];
+	       // 定义一个允许跨域请求接口的域名列表，这里你可以用配置也可以用其它形式，我这里只是用$GLOBALS简单演示一下
+	       $allow_origin = array(
+	       'baidu.com',
+	       'bing.com'
+	       );
+	       // 判断是否有origin请求头
+	       if(in_array($request_method, $allow_origin)
+	       {
+		       header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+		       // 客户端携带证书式访问。出于安全考虑，该项设置为true时，Access-Control-Allow-Origin 的值不允许为「*」
+		       header('Access-Control-Allow-Credentials: true'); 
+		       header('Access-Control-Allow-Methods:POST,GET,OPTIONS,PUT,DELETE');
+		       header('Access-Control-Allow-Headers:x-requested-with,content-type,access_token');
+	       }
+	   }
+       }
+     #+END_SRC
+**** Session 跨域问题
+     #+BEGIN_SRC php
+       ini_set('session.cookie_domain', '.a.com');
+       header('Access-Control-Allow-Credentials: true');
+     #+END_SRC
+
+     **References**
+     + [[https://blog.csdn.net/z69183787/article/details/78954325][跨域Ajax请求时是否带Cookie的设置]]
 ** PHP 与 XML 技术
-** trait
-** yield 是什么？yield 使用场景？yield 核心原理？
+** yield 语句是什么？yield 使用场景？yield 核心原理？
 ** Slow array function used in loop
    #+begin_src php
      // Let's start with an example demonstrating the case:
@@ -1117,6 +1194,9 @@ photos:
 	 /* something happens here */
      }
    #+end_src
+* PHP 常见框架
+** ThinkPHP
+** Yii2 Framework
 * 附录 A：PHP 命名规范
 ** 类
 *** 类名称
