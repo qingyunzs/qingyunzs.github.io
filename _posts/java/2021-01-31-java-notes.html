@@ -25,6 +25,7 @@ photos:
 <ol class="org-ol">
 <li><p>
 什么是自动装箱、拆箱
+<br />
 简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。如下所示：
 </p>
 <div class="org-src-container">
@@ -85,6 +86,7 @@ javap -c StringTest
 </p></li>
 <li><p>
 进一步了解
+<br />
 在Integer的构造函数中，它分两种情况：
 </p>
 <pre class="example">
@@ -430,13 +432,279 @@ Class&lt;?&gt;它是个通配泛型，?可以代表任何类型，主要用于�
 </div>
 <div id="outline-container-orge8f592c" class="outline-4">
 <h4 id="orge8f592c"><span class="section-number-4">1.1.5</span> 深拷贝和浅拷贝</h4>
+<div class="outline-text-4" id="text-1-1-5">
+</div>
+<div id="outline-container-orgd694352" class="outline-5">
+<h5 id="orgd694352"><span class="section-number-5">1.1.5.1</span> 概念</h5>
+<div class="outline-text-5" id="text-1-1-5-1">
+<dl class="org-dl">
+<dt>浅拷贝（浅复制/浅克隆）</dt><dd>被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。换言之，浅复制仅仅复制所拥有的对象，而不复制它所引用的对象。</dd>
+<dt>深拷贝（深复制/深复制）</dt><dd>被复制对象的所有变量都含有与原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org35bb000" class="outline-5">
+<h5 id="org35bb000"><span class="section-number-5">1.1.5.2</span> java Cloneable 接口（浅拷贝）</h5>
+<div class="outline-text-5" id="text-1-1-5-2">
+<ol class="org-ol">
+<li>clone()
+<br />
+clone方法将对象复制了一份并返回给调用者。一般而言，clone() 方法满足：
+<ul class="org-ul">
+<li>对任何的对象x，都有x.clone() !=x//克隆对象与原对象不是同一个对象</li>
+<li>对任何的对象x，都有x.clone().getClass()==x.getClass()//克隆对象与原对象的类型一样</li>
+<li>如果对象x的equals()方法定义恰当，那么x.clone().equals(x)应该成立。</li>
+</ul></li>
+
+<li>Java中对象的克隆
+<ul class="org-ul">
+<li>为了获取对象的一份拷贝，我们可以利用Object类的clone()方法。</li>
+<li>在派生类中覆盖基类的clone()方法，并声明为public。</li>
+<li>在派生类的clone()方法中，调用super.clone()。</li>
+<li>在派生类中实现Cloneable接口。</li>
+</ul></li>
+<li><p>
+代码实现
+<br />
+基于Object#clone方法实现对象复制，但是Object#clone是protected方法，在覆写时，需要改成public修饰。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Address</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">Cloneable</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">street</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">city</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">country</span>;
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">standard constructors, getters and setters</span>
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">... ...</span>
+
+    <span style="color: #AF87FF;">@Override</span> <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Object</span> <span style="color: #87D700;">clone</span>(){
+        <span style="color: #FF1493;">try</span> {
+            <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">super</span>.clone();
+        } <span style="color: #FF1493;">catch</span> (<span style="color: #5FD7FF;">CloneNotSupportedException</span> <span style="color: #FF8C00;">e</span>) {
+            <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Address</span>(<span style="color: #FF1493;">this</span>.street, <span style="color: #FF1493;">this</span>.getCity(), <span style="color: #FF1493;">this</span>.getCountry());
+        }
+    }
+}
+
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">User</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">Cloneable</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">name</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Address</span> <span style="color: #FF8C00;">address</span>;
+
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">standard constructors, getters and setters</span>
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">... ...</span>
+
+    <span style="color: #AF87FF;">@Override</span> <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Object</span> <span style="color: #87D700;">clone</span>() {
+        <span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">user</span>;
+        <span style="color: #FF1493;">try</span> {
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">super.clone&#26041;&#27861;&#23454;&#29616;&#30340;&#26159;&#27973;&#25335;&#36125;&#65292;&#22240;&#27492;&#36820;&#22238;&#30340;&#20026;&#27973;&#25335;&#36125;&#23545;&#35937;&#12290;&#25105;&#20204;&#38656;&#35201;&#23545;&#20110;&#21487;&#21464;&#23545;&#35937;&#30340;&#23646;&#24615;&#65292;&#37325;&#26032;&#35774;&#32622;&#26032;&#30340;&#20540;&#12290;</span>
+            user = (User) <span style="color: #FF1493;">super</span>.clone();
+        } <span style="color: #FF1493;">catch</span> (<span style="color: #5FD7FF;">CloneNotSupportedException</span> <span style="color: #FF8C00;">e</span>) {
+            user = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>(<span style="color: #FF1493;">this</span>.getName(), <span style="color: #FF1493;">this</span>.getAddress());
+        }
+        user.address = (<span style="color: #5FD7FF;">Address</span>) <span style="color: #FF1493;">this</span>.address.clone();
+        <span style="color: #FF1493;">return</span> user;
+    }
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #FF1493;">static</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.Assert.<span style="color: #5FD7FF;">assertThat</span>;
+
+<span style="color: #5FD7FF;">Address</span> <span style="color: #FF8C00;">address</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Address</span>(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;380&#21495;"</span>, <span style="color: #CDC673;">"&#26477;&#24030;"</span>, <span style="color: #CDC673;">"&#20013;&#22269;"</span>);
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">origin</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>(<span style="color: #CDC673;">"&#21992;&#30382;&#30340;&#23401;&#23376;"</span>, address);
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">shallowCopy</span> = (<span style="color: #5FD7FF;">User</span>) origin.clone();
+address.setStreet(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;381&#21495;"</span>);
+assertThat(shallowCopy.getAddress().getStreet(), not(equalTo(origin.getAddress().getStreet())));
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3dc5cdf" class="outline-5">
+<h5 id="org3dc5cdf"><span class="section-number-5">1.1.5.3</span> 序列化方式（深拷贝）</h5>
+<div class="outline-text-5" id="text-1-1-5-3">
+<ol class="org-ol">
+<li>概念
+<br />
+把对象写到流里的过程是串行化（Serilization）过程；而把对象从流中读出来是并行化（Deserialization）过程。</li>
+<li><p>
+源代码
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Object</span> <span style="color: #87D700;">deepClone</span>() {    
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23558;&#23545;&#35937;&#20889;&#21040;&#27969;&#37324;    </span>
+    <span style="color: #5FD7FF;">ByteArrayOutoutStream</span> <span style="color: #FF8C00;">bo</span>=<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ByteArrayOutputStream</span>();    
+    <span style="color: #5FD7FF;">ObjectOutputStream</span> <span style="color: #FF8C00;">oo</span>=<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ObjectOutputStream</span>(bo);    
+    oo.writeObject(<span style="color: #FF1493;">this</span>);    
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20174;&#27969;&#37324;&#35835;&#20986;&#26469;    </span>
+    <span style="color: #5FD7FF;">ByteArrayInputStream</span> <span style="color: #FF8C00;">bi</span>=<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ByteArrayInputStream</span>(bo.toByteArray());    
+    <span style="color: #5FD7FF;">ObjectInputStream</span> <span style="color: #FF8C00;">oi</span>=<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ObjectInputStream</span>(bi);    
+    <span style="color: #FF1493;">return</span>(oi.readObject());    
+} 
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgda5375d" class="outline-5">
+<h5 id="orgda5375d"><span class="section-number-5">1.1.5.4</span> 第三方库：使用 Apache Commons Lang（深拷贝，推荐）</h5>
+<div class="outline-text-5" id="text-1-1-5-4">
+<p>
+Apache Commons Lang有SerializationUtils#clone方法，使用该方法可以深度复制出对象图中所有实现Serializable接口对象。此方法要求对象中的类都实现Serializable接口，否则会抛出SerializationException。
+</p>
+<div class="org-src-container">
+<pre class="src src-java" id="org9754f77"><span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Address</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">Serializable</span>, <span style="color: #5FD7FF;">Cloneable</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">street</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">city</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">country</span>;
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">standard constructors, getters and setters</span>
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">... ...</span>
+
+    <span style="color: #AF87FF;">@Override</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Object</span> <span style="color: #87D700;">clone</span>() {
+        <span style="color: #FF1493;">try</span> {
+            <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">super</span>.clone();
+        } <span style="color: #FF1493;">catch</span> (<span style="color: #5FD7FF;">CloneNotSupportedException</span> <span style="color: #FF8C00;">e</span>) {
+            <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Address</span>(<span style="color: #FF1493;">this</span>.street, <span style="color: #FF1493;">this</span>.getCity(), <span style="color: #FF1493;">this</span>.getCountry());
+        }
+    }
+}
+
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">User</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">Serializable</span>, <span style="color: #5FD7FF;">Cloneable</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">name</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Address</span> <span style="color: #FF8C00;">address</span>;
+
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">standard constructors, getters and setters</span>
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">... ...</span>
+
+    <span style="color: #AF87FF;">@Override</span> <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Object</span> <span style="color: #87D700;">clone</span>() {
+        <span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">user</span>;
+        <span style="color: #FF1493;">try</span> {
+            user = (User) <span style="color: #FF1493;">super</span>.clone();
+        } <span style="color: #FF1493;">catch</span> (<span style="color: #5FD7FF;">CloneNotSupportedException</span> <span style="color: #FF8C00;">e</span>) {
+            user = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>(<span style="color: #FF1493;">this</span>.getName(), <span style="color: #FF1493;">this</span>.getAddress());
+        }
+        user.address = (<span style="color: #5FD7FF;">Address</span>) <span style="color: #FF1493;">this</span>.address.clone();
+        <span style="color: #FF1493;">return</span> user;
+    }
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-java" id="orgf396b56"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">apache</span>.<span style="color: #AF87FF;">commons</span>.<span style="color: #AF87FF;">lang</span>.<span style="color: #5FD7FF;">SerializationUtils</span>;
+
+<span style="color: #5FD7FF;">Address</span> <span style="color: #FF8C00;">address</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Address</span>(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;380&#21495;"</span>, <span style="color: #CDC673;">"&#26477;&#24030;"</span>, <span style="color: #CDC673;">"&#20013;&#22269;"</span>);
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">origin</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>(<span style="color: #CDC673;">"&#21992;&#30382;&#30340;&#23401;&#23376;"</span>, address);
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">shallowCopy</span> = (<span style="color: #5FD7FF;">User</span>) SerializationUtils.clone(origin);
+address.setStreet(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;381&#21495;"</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfcf30b0" class="outline-5">
+<h5 id="orgfcf30b0"><span class="section-number-5">1.1.5.5</span> 第三方库：使用 Gson 的 JSON 系列化（深拷贝，推荐）</h5>
+<div class="outline-text-5" id="text-1-1-5-5">
+<p>
+使用 Json 系列化方式，也可以的达到深度复制，Gson 库可以用来将对象转为 JSON，或从 JSON 转为对象。Gson 不要求类实现 Serializable 接口。
+</p>
+<div class="org-src-container">
+<pre class="src src-java" id="org5c18bbe"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">com</span>.<span style="color: #AF87FF;">google</span>.<span style="color: #AF87FF;">gson</span>.<span style="color: #5FD7FF;">Gson</span>;
+
+<span style="color: #5FD7FF;">Address</span> <span style="color: #FF8C00;">address</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Address</span>(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;380&#21495;"</span>, <span style="color: #CDC673;">"&#26477;&#24030;"</span>, <span style="color: #CDC673;">"&#20013;&#22269;"</span>);
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">origin</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>(<span style="color: #CDC673;">"&#21992;&#30382;&#30340;&#23401;&#23376;"</span>, address);
+<span style="color: #5FD7FF;">Gson</span> <span style="color: #FF8C00;">gson</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Gson</span>();
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">shallowCopy</span> = gson.fromJson(gson.toJson(origin), User.<span style="color: #FF1493;">class</span>);
+address.setStreet(<span style="color: #CDC673;">"&#35199;&#28246;&#21306;&#20016;&#28525;&#36335;381&#21495;"</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcda7e9f" class="outline-5">
+<h5 id="orgcda7e9f"><span class="section-number-5">1.1.5.6</span> 第三方库：使用 Jackson 的 JSON 系列化（深拷贝，推荐）</h5>
+<div class="outline-text-5" id="text-1-1-5-6">
+<p>
+Jackson 实现上类似于 Gson，但是我们需要给类提供默认构造函数。
+</p>
+<div class="org-src-container">
+<pre class="src src-java" id="org95a21df"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">com</span>.<span style="color: #AF87FF;">fasterxml</span>.<span style="color: #AF87FF;">jackson</span>.<span style="color: #AF87FF;">databind</span>.<span style="color: #5FD7FF;">ObjectMapper</span>;
+<span style="color: #5FD7FF;">Invoice</span> <span style="color: #FF8C00;">invoice</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Invoice</span>(<span style="color: #CDC673;">"id123"</span>,<span style="color: #CDC673;">"blue"</span>);
+
+<span style="color: #5FD7FF;">ObjectMapper</span> <span style="color: #FF8C00;">objectMapper</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ObjectMapper</span>();
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21152;&#20837;&#27492;&#34892;&#20195;&#30721;&#65292;&#35299;&#20915; "Cannot construct instance of `java.time.LocalDateTime` (no Creators, like default construct, exist):</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">cannot deserialize from Object value (no delegate- or property-based Creator)"</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Stack Overflow&#65306;https://stackoverflow.com/questions/45863678/json-parse-error-can-not-construct-instance-of-java-time-localdate-no-string-a</span>
+objectMapper.registerModule(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">JavaTimeModule</span>());
+<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">writeValueAsString</span> = objectMapper.writeValueAsString(invoice);
+<span style="color: #5FD7FF;">Invoice</span> <span style="color: #FF8C00;">invoiceCopy</span> = objectMapper.readValue(writeValueAsString, Invoice.<span style="color: #FF1493;">class</span>);
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="outline-container-org1003d31" class="outline-4">
 <h4 id="org1003d31"><span class="section-number-4">1.1.6</span> 反射</h4>
 <div class="outline-text-4" id="text-1-1-6">
-<ul class="org-ul">
-<li>反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。</li>
-</ul>
+<p>
+反射：在日常生活中，通过放大镜可以看清楚物体的内部结构。在Java 中，反射机制就是起到放大镜的效果，可以通过类名，加载这个 类，显示出这个类的方法等信息。
+</p>
+<div class="org-src-container">
+<pre class="src src-java" id="orgdacc988"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * Java &#21453;&#23556;</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;class&#65288;&#26041;&#24335;1&#65289;</span>
+<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">path</span> = <span style="color: #CDC673;">"com.zrg.myReflection.bean.User"</span>;
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = Class.forName(path);
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;class&#65288;&#26041;&#24335;2&#65289;</span>
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = User.<span style="color: #FF1493;">class</span>;
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;class&#65288;&#26041;&#24335;3&#65289;</span>
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">user</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>();
+<span style="color: #5FD7FF;">Class</span> <span style="color: #FF8C00;">clazz</span> = user.getClass();
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#31867;&#21517;</span>
+<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">strName01</span> = clazz.getName();<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#23436;&#25972;&#31867;&#21517;com.zrg.myReflection.bean.User</span>
+<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">strName02</span> = clazz.getSimpleName();<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#30452;&#25509;&#33719;&#21462;&#31867;&#21517; User</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#26222;&#36890;&#26041;&#27861;</span>
+<span style="color: #5FD7FF;">Method</span>[] <span style="color: #FF8C00;">Method01</span> = clazz.getDeclaredMethods(); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36820;&#22238;public&#26041;&#27861;</span>
+<span style="color: #5FD7FF;">Method</span> <span style="color: #FF8C00;">method</span> = clazz.getDeclaredMethod(<span style="color: #CDC673;">"getId"</span>, <span style="color: #AF87FF;">null</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36820;&#22238;getId&#36825;&#20010;&#26041;&#27861;&#65292;&#22914;&#26524;&#27809;&#26377;&#21442;&#25968;&#65292;&#23601;&#40664;&#35748;&#20026;null</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#26500;&#36896;&#26041;&#27861;</span>
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">u1</span> = (<span style="color: #5FD7FF;">User</span>) clazz.newInstance(); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#26080;&#21442;&#30340;&#26500;&#36896;&#20989;&#25968;&#36825;&#37324;&#30340;&#21069;&#25552;&#30340;&#20445;&#35777;&#31867;&#20013;&#24212;&#35813;&#26377;&#26080;&#21442;&#30340;&#26500;&#36896;&#20989;&#25968;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#21442;&#25968;&#20026;(int,String,int)&#30340;&#26500;&#36896;&#20989;&#25968;</span>
+<span style="color: #5FD7FF;">Constructor</span> <span style="color: #FF8C00;">c2</span> = clazz.getDeclaredConstructor(<span style="color: #5FD7FF;">int</span>.<span style="color: #FF1493;">class</span>, String.<span style="color: #FF1493;">class</span>, <span style="color: #5FD7FF;">int</span>.<span style="color: #FF1493;">class</span>);
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36890;&#36807;&#26377;&#21442;&#26500;&#36896;&#20989;&#25968;&#21019;&#24314;&#23545;&#35937;</span>
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">u2</span> = (<span style="color: #5FD7FF;">User</span>) c2.newInstance(1001, <span style="color: #CDC673;">"&#23567;&#23567;"</span>, 18);
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36890;&#36807;&#21453;&#23556;&#35843;&#29992;&#26222;&#36890;&#26041;&#27861;</span>
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">u3</span> = (<span style="color: #5FD7FF;">User</span>) clazz.newInstance();
+<span style="color: #5FD7FF;">Method</span> <span style="color: #FF8C00;">method03</span> = clazz.getDeclaredMethod(<span style="color: #CDC673;">"setId"</span>, <span style="color: #5FD7FF;">int</span>.<span style="color: #FF1493;">class</span>);
+method.invoke(u3, 1002); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25226;&#23545;&#35937;u3&#30340;id&#35774;&#32622;&#20026;1002</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36890;&#36807;&#21453;&#23556;&#25805;&#20316;&#26222;&#36890;&#30340;&#23646;&#24615;</span>
+<span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">u4</span> = (<span style="color: #5FD7FF;">User</span>) clazz.newInstance();
+<span style="color: #5FD7FF;">Field</span> <span style="color: #FF8C00;">f</span> = clazz.getDeclaredField(<span style="color: #CDC673;">"name"</span>);
+f.setAccessible(<span style="color: #AF87FF;">true</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#23646;&#24615;&#21487;&#20197;&#30452;&#25509;&#30340;&#36827;&#34892;&#35775;&#38382;</span>
+f.set(u4, <span style="color: #CDC673;">"&#30707;&#22836;"</span>);
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#23646;&#24615;&#12289;&#23646;&#24615;&#20540;</span>
+<span style="color: #5FD7FF;">Field</span>[] <span style="color: #FF8C00;">fields</span> = clazz.getDeclaredFields(); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36820;&#22238;&#25152;&#26377;&#30340;&#23646;&#24615;</span>
+<span style="color: #5FD7FF;">Field</span>[] <span style="color: #FF8C00;">fields</span> = clazz.getFields(); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36820;&#22238;&#23646;&#24615;&#20026;public&#30340;&#23383;&#27573;</span>
+<span style="color: #5FD7FF;">Field</span> <span style="color: #FF8C00;">field</span> = clazz.getDeclaredField(<span style="color: #CDC673;">"id"</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#23646;&#24615;&#20026;id&#30340;&#23383;&#27573;</span>
+<span style="color: #FF1493;">for</span> (<span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">field</span> : fields) {
+    <span style="color: #FF1493;">try</span> {
+        field.setAccessible(<span style="color: #AF87FF;">true</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#31169;&#26377;&#23646;&#24615;&#20801;&#35768;&#35775;&#38382;</span>
+        <span style="color: #5FD7FF;">Object</span> <span style="color: #FF8C00;">value</span> = field.get(clazz); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#23646;&#24615;&#20540;</span>
+    }<span style="color: #FF1493;">catch</span>(<span style="color: #5FD7FF;">Exception</span> <span style="color: #FF8C00;">e</span>){
+        e.printStackTrace();
+    }
+}
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -629,6 +897,345 @@ input.close();
 </div>
 <div id="outline-container-org1e0ab1d" class="outline-3">
 <h3 id="org1e0ab1d"><span class="section-number-3">5.1</span> Spring 系列框架</h3>
+<div class="outline-text-3" id="text-5-1">
+</div>
+<div id="outline-container-org300d848" class="outline-4">
+<h4 id="org300d848"><span class="section-number-4">5.1.1</span> Spring Validation参数校验</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<ol class="org-ol">
+<li><p>
+Valid 和 Validated 的区别
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">Valid</th>
+<th scope="col" class="org-left">Validated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">提供者</td>
+<td class="org-left">JSR-303规范</td>
+<td class="org-left">Spring</td>
+</tr>
+
+<tr>
+<td class="org-left">是否支持分组</td>
+<td class="org-left">不支持</td>
+<td class="org-left">支持</td>
+</tr>
+
+<tr>
+<td class="org-left">标注位置</td>
+<td class="org-left">METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE</td>
+<td class="org-left">TYPE, METHOD, PARAMETER</td>
+</tr>
+
+<tr>
+<td class="org-left">嵌套校验</td>
+<td class="org-left">支持</td>
+<td class="org-left">不支持</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+引入依赖
+</p>
+<pre class="example">
+如果spring-boot版本小于2.3.x，spring-boot-starter-web会自动传入hibernate-validator依赖。
+如果spring-boot版本大于2.3.x，则需要手动引入依赖：
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+    &lt;<span style="color: #87D700;">groupId</span>&gt;org.hibernate&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;<span style="color: #87D700;">artifactId</span>&gt;hibernate-validator&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;<span style="color: #87D700;">version</span>&gt;6.0.1.Final&lt;/<span style="color: #87D700;">version</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div></li>
+<li>预定义对象的说明
+<dl class="org-dl">
+<dt>接口统一返回Result定义</dt><dd><div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">lombok</span>.<span style="color: #5FD7FF;">Data</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">lombok</span>.<span style="color: #AF87FF;">experimental</span>.<span style="color: #5FD7FF;">Accessors</span>;
+
+<span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * Return Result</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@Data</span>
+<span style="color: #AF87FF;">@Accessors</span>(chain = <span style="color: #AF87FF;">true</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">ReturnResult</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">code</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">message</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">T</span> <span style="color: #FF8C00;">data</span>;
+
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">boolean</span> <span style="color: #87D700;">ok</span>() {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">this</span>.code == 0;
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #87D700;">success</span>() {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt;().setCode(0).setMessage(<span style="color: #CDC673;">"SUCCESS"</span>);
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #87D700;">success</span>(<span style="color: #5FD7FF;">T</span> <span style="color: #FF8C00;">data</span>) {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt;().setCode(0).setMessage(<span style="color: #CDC673;">"SUCCESS"</span>).setData(data);
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #87D700;">failure</span>() {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt;().setCode(-1).setMessage(<span style="color: #CDC673;">"FAILURE"</span>);
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #87D700;">failure</span>(<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">code</span>, <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">msg</span>) {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt;().setCode(code).setMessage(msg);
+    }
+
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> &lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt; <span style="color: #87D700;">failure</span>(<span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">code</span>, <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">msg</span>, <span style="color: #5FD7FF;">T</span> <span style="color: #FF8C00;">data</span>) {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Result</span>&lt;<span style="color: #5FD7FF;">T</span>&gt;().setCode(-1).setMessage(<span style="color: #CDC673;">"FAILURE"</span>).setData(data);
+    }
+}
+</pre>
+</div></dd>
+<dt>ErrorCode</dt><dd><div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * Error Code</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">final</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">ErrorCode</span> {
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * Normal</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">NORMAL</span> = 200;
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * Request error</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">REQUEST_ERROR</span> = 400;
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * Server refuse request</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">SERVER_REFUSE_REQUEST</span> = 403;
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * Server internal error</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">SERVER_INTERNAL_ERROR</span> = 500;
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * Argument valid failure</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">int</span> <span style="color: #FF8C00;">ARGUMENT_VALID_FAILURE</span> = 1001;
+
+}
+</pre>
+</div></dd>
+</dl></li>
+<li><p>
+常用参数校验
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">限制</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">@Null</td>
+<td class="org-left">限制只能为null</td>
+</tr>
+
+<tr>
+<td class="org-left">@NotNull</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@AssertFalse</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@AssertTrue</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@DecimalMax(value)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@DecimalMin(value)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@Digits(integer,fraction)</td>
+<td class="org-left">限制必须为一个小数，且整数部分的位数不能超过integer，小数部分的位数不能超过fraction</td>
+</tr>
+
+<tr>
+<td class="org-left">@Future</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@Max(value)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@Min(value)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@Pattern(value)</td>
+<td class="org-left">必须符合指定的正则表达式</td>
+</tr>
+
+<tr>
+<td class="org-left">@Size(max,min)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@NotEmpty</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@NotBlank</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">@Email</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>
+RequestBody校验
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * RequestBody &#21442;&#25968;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> * &#26657;&#39564;&#22833;&#36133;&#20250;&#25243;&#20986; MethodArgumentNotValidException &#24322;&#24120;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/user"</span>)
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserController</span> {
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * RequestBody &#21442;&#25968;&#26657;&#39564;</span>
+<span style="color: #CDC673;">     * &#20351;&#29992; @Valid &#21644; @Validated &#37117;&#21487;&#20197;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/save/1"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">ReturnResult</span> <span style="color: #87D700;">saveUser</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span> <span style="color: #5FD7FF;">UserDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #FF1493;">return</span> ReturnResult.success();
+    }
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/save/2"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">ReturnResult</span> <span style="color: #87D700;">save2User</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Valid</span> <span style="color: #5FD7FF;">UserDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #FF1493;">return</span> ReturnResult.success();
+    }
+}
+</pre>
+</div></li>
+<li><p>
+RequestParam / PathVariable 校验
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * RequestMapping / PathVariable &#21442;&#25968;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> * &#26657;&#39564;&#22833;&#36133;&#20250;&#25243;&#20986; ConstraintViolationException &#24322;&#24120;</span>
+<span style="color: #CDC673;"> * </span>
+<span style="color: #CDC673;"> * &#27492;&#26102;&#24517;&#39035;&#22312;Controller&#19978;&#26631;&#27880; @Validated &#27880;&#35299;&#65292;&#24182;&#22312;&#20837;&#21442;&#19978;&#22768;&#26126;&#32422;&#26463;&#27880;&#35299;</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/user"</span>)
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #AF87FF;">@Validated</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserController</span> {
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#36335;&#24452;&#21464;&#37327;</span>
+<span style="color: #CDC673;">     * &#28155;&#21152;&#32422;&#26463;&#27880;&#35299; @Min</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@GetMapping</span>(<span style="color: #CDC673;">"{userId}"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">ReturnResult</span> <span style="color: #87D700;">detail</span>(<span style="color: #AF87FF;">@PathVariable</span>(<span style="color: #CDC673;">"userId"</span>) <span style="color: #AF87FF;">@Min</span>(10000000000000000L) <span style="color: #5FD7FF;">Long</span> <span style="color: #FF8C00;">userId</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#26597;&#35810;&#21442;&#25968;</span>
+<span style="color: #CDC673;">     * &#28155;&#21152;&#32422;&#26463;&#27880;&#35299; @Length @NotNull</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@GetMapping</span>(<span style="color: #CDC673;">"getByAccount"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">ReturnResult</span> <span style="color: #87D700;">getByAccount</span>(<span style="color: #AF87FF;">@Length</span>(min = 6, max = 20) <span style="color: #AF87FF;">@NotNull</span> <span style="color: #5FD7FF;">String</span>  <span style="color: #FF8C00;">account</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+    }
+}
+
+</pre>
+</div></li>
+<li><p>
+全局异常处理
+</p>
+<pre class="example">
+在实际项目开发中，通常会用统一异常处理来返回一个更友好的提示。
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#32479;&#19968;&#24322;&#24120;&#22788;&#29702;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RestControllerAdvice</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">GlobalExceptionHandler</span> {
+    <span style="color: #AF87FF;">@ExceptionHandler</span>({MethodArgumentNotValidException.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@ResponseStatus</span>(<span style="color: #AF87FF;">HttpStatus</span>.<span style="color: #5FD7FF;">OK</span>)
+    <span style="color: #AF87FF;">@ResponseBody</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">handleMethodArgumentNotValidException</span>(<span style="color: #5FD7FF;">MethodArgumentNotValidException</span> <span style="color: #FF8C00;">ex</span>) {
+        <span style="color: #5FD7FF;">BindingResult</span> <span style="color: #FF8C00;">bindingResult</span> = ex.getBindingResult();
+        <span style="color: #5FD7FF;">StringBuilder</span> <span style="color: #FF8C00;">sb</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">StringBuilder</span>(<span style="color: #CDC673;">"&#26657;&#39564;&#22833;&#36133;:"</span>);
+        <span style="color: #FF1493;">for</span> (<span style="color: #5FD7FF;">FieldError</span> <span style="color: #FF8C00;">fieldError</span> : bindingResult.getFieldErrors()) {
+            sb.append(fieldError.getField()).append(<span style="color: #CDC673;">"&#65306;"</span>).append(fieldError.getDefaultMessage()).append(<span style="color: #CDC673;">", "</span>);
+        }
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">msg</span> = sb.toString();
+        <span style="color: #FF1493;">return</span> ReturnResult.failure(<span style="color: #AF87FF;">ErrorCode</span>.ARGUMENT_VALID_FAILURE, msg);
+    }
+
+    <span style="color: #AF87FF;">@ExceptionHandler</span>({ConstraintViolationException.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@ResponseStatus</span>(<span style="color: #AF87FF;">HttpStatus</span>.<span style="color: #5FD7FF;">OK</span>)
+    <span style="color: #AF87FF;">@ResponseBody</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">handleConstraintViolationException</span>(<span style="color: #5FD7FF;">ConstraintViolationException</span> <span style="color: #FF8C00;">ex</span>) {
+        <span style="color: #FF1493;">return</span> ReturnResult.failure(<span style="color: #AF87FF;">ErrorCode</span>.ARGUMENT_VALID_FAILURE, ex.getMessage());
+    }
+}
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
 </div>
 <div id="outline-container-org9789d8a" class="outline-3">
 <h3 id="org9789d8a"><span class="section-number-3">5.2</span> ORM 框架</h3>

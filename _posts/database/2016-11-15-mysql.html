@@ -29,6 +29,14 @@ photos:
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li><p>
+连接 MySQL 数据库
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #8B8878;">/* &#36830;&#25509;&#19982;&#26029;&#24320;&#26381;&#21153;&#22120; */</span>
+mysql -h &#22320;&#22336; -P &#31471;&#21475; -u &#29992;&#25143;&#21517; -p &#23494;&#30721;
+</pre>
+</div></li>
+<li><p>
 数据库、数据表操作
 </p>
 <div class="org-src-container">
@@ -39,8 +47,6 @@ photos:
 <span style="color: #8B8878;">-- &#21019;&#24314;Windows&#26381;&#21153;</span>
 sc <span style="color: #FF1493;">create</span> mysql binPath= mysqld_bin_path(&#27880;&#24847;&#65306;&#31561;&#21495;&#19982;&#20540;&#20043;&#38388;&#26377;&#31354;&#26684;)
 
-<span style="color: #8B8878;">/* &#36830;&#25509;&#19982;&#26029;&#24320;&#26381;&#21153;&#22120; */</span>
-mysql -h &#22320;&#22336; -P &#31471;&#21475; -u &#29992;&#25143;&#21517; -p &#23494;&#30721;
 SHOW PROCESSLIST <span style="color: #8B8878;">-- &#26174;&#31034;&#21738;&#20123;&#32447;&#31243;&#27491;&#22312;&#36816;&#34892;</span>
 SHOW VARIABLES <span style="color: #8B8878;">-- &#26174;&#31034;&#31995;&#32479;&#21464;&#37327;&#20449;&#24687;</span>
 
@@ -1467,8 +1473,8 @@ log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以�
 <h2 id="orgc71bece"><span class="section-number-2">7</span> 集群</h2>
 <div class="outline-text-2" id="text-7">
 </div>
-<div id="outline-container-org8ed94ca" class="outline-3">
-<h3 id="org8ed94ca"><span class="section-number-3">7.1</span> 复制</h3>
+<div id="outline-container-org0e85c03" class="outline-3">
+<h3 id="org0e85c03"><span class="section-number-3">7.1</span> 复制(Replication)</h3>
 </div>
 <div id="outline-container-orgf4a83ce" class="outline-3">
 <h3 id="orgf4a83ce"><span class="section-number-3">7.2</span> 扩展</h3>
@@ -1477,202 +1483,20 @@ log缓存大小，一般为1-8M，默认为1M，对于较大的事务，可以�
 <h3 id="org9a9f9b6"><span class="section-number-3">7.3</span> 高可用性</h3>
 </div>
 </div>
-<div id="outline-container-org6b9c8b2" class="outline-2">
-<h2 id="org6b9c8b2"><span class="section-number-2">8</span> 实际应用查询</h2>
-<div class="outline-text-2" id="text-8">
-</div>
-<div id="outline-container-org47dd1fa" class="outline-3">
-<h3 id="org47dd1fa"><span class="section-number-3">8.1</span> MySQL 命令</h3>
-<div class="outline-text-3" id="text-8-1">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #8B8878;">--&#26174;&#31034;&#25968;&#25454;&#24211;&#21015;&#34920;</span>
-&gt;show databases;
-<span style="color: #8B8878;">--&#26174;&#31034;&#34920;&#30340;&#21015;&#34920;</span>
-&gt;show tables;
-&gt;show columns <span style="color: #FF1493;">from</span> <span style="color: #FF1493;">table_name</span>;
-<span style="color: #8B8878;">--&#29992;&#20197;&#26174;&#31034;&#26381;&#21153;&#22120;&#29366;&#24577;&#20449;&#24687;</span>
-&gt;show status;
-&gt;SHOW STATUS <span style="color: #FF1493;">LIKE</span> <span style="color: #CDC673;">'%&#21464;&#37327;&#21517;% '</span>;
-<span style="color: #8B8878;">--&#26174;&#31034;&#21019;&#24314;&#29305;&#23450;&#25968;&#25454;&#24211;&#25110;&#34920;&#30340;MySQL&#35821;&#21477;</span>
-&gt;show <span style="color: #FF1493;">create</span> database;
-&gt;show <span style="color: #FF1493;">create</span> <span style="color: #FF1493;">table</span>;
-<span style="color: #8B8878;">--&#26174;&#31034;&#25480;&#20104;&#29992;&#25143;&#65288;&#25152;&#26377;&#29992;&#25143;&#25110;&#29305;&#23450;&#29992;&#25143;&#65289;&#30340;&#23433;&#20840;&#26435;&#38480;</span>
-&gt;show grants;
-<span style="color: #8B8878;">--&#26174;&#31034;&#38169;&#35823;&#25110;&#35686;&#21578;&#20449;&#24687;</span>
-&gt;show errors;
-&gt;show warnings;
-<span style="color: #8B8878;">--&#26174;&#31034;&#31995;&#32479;&#21464;&#37327;</span>
-&gt;SHOW VARIABLES;
-
-<span style="color: #8B8878;">-- &#26597;&#30475;&#26381;&#21153;&#22120;&#29256;&#26412;&#20449;&#24687;</span>
-<span style="color: #FF1493;">SELECT</span> VERSION()
-<span style="color: #8B8878;">-- &#24403;&#21069;&#25968;&#25454;&#24211;&#21517; (&#25110;&#32773;&#36820;&#22238;&#31354;)</span>
-<span style="color: #FF1493;">SELECT</span> DATABASE()
-<span style="color: #8B8878;">-- &#24403;&#21069;&#29992;&#25143;&#21517;</span>
-<span style="color: #FF1493;">SELECT</span> <span style="color: #FF1493;">USER</span>()
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org202422d" class="outline-3">
-<h3 id="org202422d"><span class="section-number-3">8.2</span> 以某个字段进行分组查询，每组前n条记录</h3>
-<div class="outline-text-3" id="text-8-2">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">select</span> res.* <span style="color: #FF1493;">from</span>(
- <span style="color: #FF1493;">select</span> * <span style="color: #FF1493;">from</span> View_ArticleChannel a
- <span style="color: #FF1493;">where</span> a.ID <span style="color: #FF1493;">in</span>(
-        <span style="color: #FF1493;">select</span> top 3 ID <span style="color: #FF1493;">from</span> View_ArticleChannel <span style="color: #FF1493;">where</span> a.ChannelName=ChannelName <span style="color: #FF1493;">order</span> <span style="color: #FF1493;">by</span> a.ChannelName <span style="color: #FF1493;">DESC</span>
- )
-) <span style="color: #FF1493;">as</span> res
-<span style="color: #FF1493;">where</span> res.ChannelName <span style="color: #FF1493;">in</span>(<span style="color: #CDC673;">'&#29289;&#27969;&#20844;&#21496;'</span>,<span style="color: #CDC673;">'&#20113;&#20179;&#20844;&#21578;'</span>)
-<span style="color: #8B8878;">-- group by res.ID,res.ChannelName,res.Title</span>
-<span style="color: #FF1493;">order</span> <span style="color: #FF1493;">by</span> res.ChannelName
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgd6329cc" class="outline-3">
-<h3 id="orgd6329cc"><span class="section-number-3">8.3</span> 根据当天日期判断使用哪个字段排序</h3>
-<div class="outline-text-3" id="text-8-3">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">select</span> card_no
-<span style="color: #FF1493;">from</span> Customer_V_InTruckInfo
-<span style="color: #FF1493;">where</span> card_no <span style="color: #FF1493;">like</span> <span style="color: #CDC673;">'%dm16%'</span>
-<span style="color: #FF1493;">order</span> <span style="color: #FF1493;">by</span> (
-  <span style="color: #FF1493;">case</span>
-     <span style="color: #FF1493;">when</span> 19%2=0 <span style="color: #FF1493;">then</span> <span style="color: #FF1493;">name</span>
-     <span style="color: #FF1493;">else</span> truck_no <span style="color: #FF1493;">end</span>
-)
-<span style="color: #8B8878;">-- &#22914;&#26524;&#20351;&#29992;C#&#20195;&#30721;&#65292;19&#21487;&#26367;&#25442;&#20026;:"+DateTime.Now.Day+"</span>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org70a85af" class="outline-3">
-<h3 id="org70a85af"><span class="section-number-3">8.4</span> 分组获取记录的第一条数据</h3>
-<div class="outline-text-3" id="text-8-4">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">select</span> * <span style="color: #FF1493;">from</span>(
-<span style="color: #FF1493;">SELECT</span>   ROW_NUMBER()over(partition <span style="color: #FF1493;">by</span> VehicleId <span style="color: #FF1493;">order</span> <span style="color: #FF1493;">by</span> CreateTime <span style="color: #FF1493;">DESC</span>) <span style="color: #FF1493;">as</span> RowNumber,ID, VehicleId, VehicleNo, Driver, DriverPhone, ContactType,
-                (<span style="color: #FF1493;">CASE</span> ContactType <span style="color: #FF1493;">WHEN</span> <span style="color: #CDC673;">'1'</span> <span style="color: #FF1493;">THEN</span> <span style="color: #CDC673;">'&#30701;&#20449;'</span> <span style="color: #FF1493;">WHEN</span> <span style="color: #CDC673;">'2'</span> <span style="color: #FF1493;">THEN</span> <span style="color: #CDC673;">'&#30005;&#35805;'</span> <span style="color: #FF1493;">END</span>) <span style="color: #FF1493;">AS</span> ContactType_ex, ContactContent, CreateUser,
-                CreateTime, ModifyUser, ModifyTime, ContactResult,
-                (<span style="color: #FF1493;">CASE</span> ContactResult <span style="color: #FF1493;">WHEN</span> <span style="color: #CDC673;">'1'</span> <span style="color: #FF1493;">THEN</span> <span style="color: #CDC673;">'&#26377;&#24847;&#21521;'</span> <span style="color: #FF1493;">WHEN</span> <span style="color: #CDC673;">'2'</span> <span style="color: #FF1493;">THEN</span> <span style="color: #CDC673;">'&#26080;&#24847;&#21521;'</span> <span style="color: #FF1493;">WHEN</span> <span style="color: #CDC673;">'3'</span> <span style="color: #FF1493;">THEN</span> <span style="color: #CDC673;">'&#20572;&#21345;'</span> <span style="color: #FF1493;">END</span>)
-                <span style="color: #FF1493;">AS</span> ContactResult_ex, NextContactTime, ContactPersonIdea, IsDelete, ExtendField1, ExtendField2, ExtendField3,
-                ExtendField4, ExtendField5
-<span style="color: #FF1493;">FROM</span>      dbo.VehicleTrackInfo) <span style="color: #FF1493;">AS</span> track
-<span style="color: #FF1493;">where</span> track.RowNumber=1
-<span style="color: #FF1493;">and</span> track.VehicleId=<span style="color: #CDC673;">'95654e2ffb134f6581f94aa5ed178529'</span>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org1733bbe" class="outline-3">
-<h3 id="org1733bbe"><span class="section-number-3">8.5</span> 使用SQL语句清空数据库中所有表的数据</h3>
-<div class="outline-text-3" id="text-8-5">
-<p>
-表非常多,一张一张的清空,实在麻烦,想利用SQL语句一次清空所有数据.找到了三种方法进行清空.使用的数据库为MS SQL SERVER.
-</p>
-</div>
-<div id="outline-container-org4d0356d" class="outline-4">
-<h4 id="org4d0356d"><span class="section-number-4">8.5.1</span> Method 1:搜索出所有表名,构造为一条SQL语句</h4>
-<div class="outline-text-4" id="text-8-5-1">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">declare</span> @trun_name <span style="color: #5FD7FF;">varchar</span>(8000)
-<span style="color: #FF1493;">set</span> @trun_name=<span style="color: #CDC673;">''</span>
-<span style="color: #FF1493;">select</span> @trun_name=@trun_name + <span style="color: #CDC673;">'truncate table '</span> + [<span style="color: #FF1493;">name</span>] + <span style="color: #CDC673;">' '</span> <span style="color: #FF1493;">from</span> sysobjects <span style="color: #FF1493;">where</span> xtype=<span style="color: #CDC673;">'U'</span> <span style="color: #FF1493;">and</span> status &gt; 0
-<span style="color: #FF1493;">exec</span> (@trun_name)
-</pre>
-</div>
-<p>
-该方法适合表不是非常多的情况,否则表数量过多,超过字符串的长度,不能进行完全清理.
-</p>
-</div>
-</div>
-<div id="outline-container-orgafb2c85" class="outline-4">
-<h4 id="orgafb2c85"><span class="section-number-4">8.5.2</span> Method 2:利用游标清理所有表</h4>
-<div class="outline-text-4" id="text-8-5-2">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">declare</span> @trun_name <span style="color: #5FD7FF;">varchar</span>(50)
-<span style="color: #FF1493;">declare</span> name_cursor <span style="color: #FF1493;">cursor</span> <span style="color: #FF1493;">for</span>
-<span style="color: #FF1493;">select</span> <span style="color: #CDC673;">'truncate table'</span> + <span style="color: #FF1493;">name</span> <span style="color: #FF1493;">from</span> sysobjects <span style="color: #FF1493;">where</span> xtype=<span style="color: #CDC673;">'U'</span> <span style="color: #FF1493;">and</span> status &gt; 0
-<span style="color: #FF1493;">open</span> name_cursor
-<span style="color: #FF1493;">fetch</span> <span style="color: #FF1493;">next</span> <span style="color: #FF1493;">from</span> name_cursor <span style="color: #FF1493;">into</span> @trun_name
-while @@FETCH_STATUS = 0
-<span style="color: #FF1493;">begin</span>
-  <span style="color: #FF1493;">exec</span> (@trun_name)
-  print <span style="color: #CDC673;">'truncated table'</span> + @trun_name
-  <span style="color: #FF1493;">fetch</span> <span style="color: #FF1493;">next</span> <span style="color: #FF1493;">from</span> name_cursor <span style="color: #FF1493;">into</span> @trun_name
-<span style="color: #FF1493;">end</span>
-<span style="color: #FF1493;">close</span> name_cursor
-<span style="color: #FF1493;">deallocate</span> name_cursor
-</pre>
-</div>
-<p>
-可以做为存储过程调用, 能够一次清空所有表的数据,并且还可以进行有选择的清空表.
-</p>
-</div>
-</div>
-<div id="outline-container-orgf2ebe98" class="outline-4">
-<h4 id="orgf2ebe98"><span class="section-number-4">8.5.3</span> Method 3:利用微软未公开的存储过程</h4>
-<div class="outline-text-4" id="text-8-5-3">
-<div class="org-src-container">
-<pre class="src src-sql"><span style="color: #FF1493;">exec</span> sp_msforeachtable "truncate <span style="color: #FF1493;">table</span> ?"
-</pre>
-</div>
-<p>
-该方法可以一次清空所有表,但不能加过滤条件.
-</p>
-<pre class="example">
-附-删除表：exec sp_msforeachtable 'DROP table ?'
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org8fafb4c" class="outline-3">
-<h3 id="org8fafb4c"><span class="section-number-3">8.6</span> SQL Server修改表名前的用户</h3>
-<div class="outline-text-3" id="text-8-6">
-<p>
-1.只修改表前用户
-</p>
-<pre class="example">
-EXEC sp_MSforeachtable 'exec sp_changeobjectowner "？","dbo" '
-</pre>
-<p>
-2.用户表/存储过程/视图/触发器/自定义函数一起改
-</p>
-<pre class="example">
-declare tb cursor local for
-select 'sp_changeobjectowner ''['+replace(user_name(uid),']',']]')+'].['+replace(name,']',']]')+']'',''dbo'''
-from sysobjects 
-where xtype in('U','V','P','TR','FN','IF','TF') and status&gt;=0
-open tb
-declare @s nvarchar(4000)
-fetch tb into @s
-while @@fetch_status=0
-begin
-exec(@s)
-fetch tb into @s
-end
-close tb
-deallocate tb
-</pre>
-</div>
-</div>
-</div>
 <div id="outline-container-org1bbb1f5" class="outline-2">
-<h2 id="org1bbb1f5"><span class="section-number-2">9</span> 参考资料</h2>
-<div class="outline-text-2" id="text-9">
+<h2 id="org1bbb1f5"><span class="section-number-2">8</span> 参考资料</h2>
+<div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li><a href="http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html">http://www.cnblogs.com/Bozh/archive/2013/01/22/2871545.html</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgd1873cc" class="outline-2">
-<h2 id="orgd1873cc"><span class="section-number-2">10</span> 附-EXPLAIN</h2>
+<h2 id="orgd1873cc"><span class="section-number-2">9</span> 附-EXPLAIN</h2>
 </div>
 <div id="outline-container-org29a7547" class="outline-2">
-<h2 id="org29a7547"><span class="section-number-2">11</span> 附-MySQL 正则模式</h2>
-<div class="outline-text-2" id="text-11">
+<h2 id="org29a7547"><span class="section-number-2">10</span> 附-MySQL 正则模式</h2>
+<div class="outline-text-2" id="text-10">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -1740,4 +1564,7 @@ deallocate tb
 </tbody>
 </table>
 </div>
+</div>
+<div id="outline-container-org51c65c8" class="outline-2">
+<h2 id="org51c65c8"><span class="section-number-2">11</span> 附-MySQL 存储引擎</h2>
 </div>
