@@ -899,9 +899,13 @@ input.close();
 <h3 id="org1e0ab1d"><span class="section-number-3">5.1</span> Spring 系列框架</h3>
 <div class="outline-text-3" id="text-5-1">
 </div>
-<div id="outline-container-org300d848" class="outline-4">
-<h4 id="org300d848"><span class="section-number-4">5.1.1</span> Spring Validation参数校验</h4>
+<div id="outline-container-orgc81e7eb" class="outline-4">
+<h4 id="orgc81e7eb"><span class="section-number-4">5.1.1</span> Spring Validation 参数校验</h4>
 <div class="outline-text-4" id="text-5-1-1">
+</div>
+<div id="outline-container-org0cd7ba1" class="outline-5">
+<h5 id="org0cd7ba1"><span class="section-number-5">5.1.1.1</span> 参数校验的使用</h5>
+<div class="outline-text-5" id="text-5-1-1-1">
 <ol class="org-ol">
 <li><p>
 Valid 和 Validated 的区别
@@ -949,6 +953,7 @@ Valid 和 Validated 的区别
 </tr>
 </tbody>
 </table></li>
+
 <li><p>
 引入依赖
 </p>
@@ -965,9 +970,10 @@ Valid 和 Validated 的区别
 &lt;/<span style="color: #87D700;">dependency</span>&gt;
 </pre>
 </div></li>
+
 <li>预定义对象的说明
 <dl class="org-dl">
-<dt>接口统一返回Result定义</dt><dd><div class="org-src-container">
+<dt>接口统一返回 ReturnResult 定义</dt><dd><div class="org-src-container">
 <pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">lombok</span>.<span style="color: #5FD7FF;">Data</span>;
 <span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">lombok</span>.<span style="color: #AF87FF;">experimental</span>.<span style="color: #5FD7FF;">Accessors</span>;
 
@@ -1039,6 +1045,7 @@ Valid 和 Validated 的区别
 </pre>
 </div></dd>
 </dl></li>
+
 <li><p>
 常用参数校验
 </p>
@@ -1133,6 +1140,7 @@ Valid 和 Validated 的区别
 </tr>
 </tbody>
 </table></li>
+
 <li><p>
 RequestBody校验
 </p>
@@ -1162,6 +1170,7 @@ RequestBody校验
 }
 </pre>
 </div></li>
+
 <li><p>
 RequestParam / PathVariable 校验
 </p>
@@ -1197,13 +1206,12 @@ RequestParam / PathVariable 校验
 
 </pre>
 </div></li>
+
 <li><p>
 全局异常处理
-</p>
-<pre class="example">
+<br />
 在实际项目开发中，通常会用统一异常处理来返回一个更友好的提示。
-</pre>
-
+</p>
 <div class="org-src-container">
 <pre class="src src-java"><span style="color: #CDC673;">/**</span>
 <span style="color: #CDC673;"> * &#32479;&#19968;&#24322;&#24120;&#22788;&#29702;</span>
@@ -1211,6 +1219,9 @@ RequestParam / PathVariable 校验
 <span style="color: #CDC673;"> */</span>
 <span style="color: #AF87FF;">@RestControllerAdvice</span>
 <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">GlobalExceptionHandler</span> {
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#21442;&#25968;&#26657;&#39564;&#38169;&#35823;&#30340;&#24322;&#24120;&#22788;&#29702;</span>
+<span style="color: #CDC673;">     */</span>
     <span style="color: #AF87FF;">@ExceptionHandler</span>({MethodArgumentNotValidException.<span style="color: #FF1493;">class</span>})
     <span style="color: #AF87FF;">@ResponseStatus</span>(<span style="color: #AF87FF;">HttpStatus</span>.<span style="color: #5FD7FF;">OK</span>)
     <span style="color: #AF87FF;">@ResponseBody</span>
@@ -1230,10 +1241,332 @@ RequestParam / PathVariable 校验
     <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">handleConstraintViolationException</span>(<span style="color: #5FD7FF;">ConstraintViolationException</span> <span style="color: #FF8C00;">ex</span>) {
         <span style="color: #FF1493;">return</span> ReturnResult.failure(<span style="color: #AF87FF;">ErrorCode</span>.ARGUMENT_VALID_FAILURE, ex.getMessage());
     }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#26410;&#30693;&#24322;&#24120;&#22788;&#29702;</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@param</span><span style="color: #CDC673;"> e Exception</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@return</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@ExceptionHandler</span>(Exception.<span style="color: #FF1493;">class</span>)
+    <span style="color: #AF87FF;">@ResponseBody</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">ResponseEntity</span> <span style="color: #87D700;">handlerException</span>(<span style="color: #5FD7FF;">Exception</span> <span style="color: #FF8C00;">e</span>){
+        log.error(e.getMessage(),e);
+        <span style="color: #5FD7FF;">StringBuffer</span> <span style="color: #FF8C00;">errorMsg</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">StringBuffer</span>();
+        errorMsg.append(e.getMessage());
+        <span style="color: #5FD7FF;">HttpHeaders</span> <span style="color: #FF8C00;">httpHeaders</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HttpHeaders</span>();
+        httpHeaders.setContentType(<span style="color: #AF87FF;">MediaType</span>.APPLICATION_JSON);
+        <span style="color: #5FD7FF;">ResponseEntity</span>&lt;<span style="color: #5FD7FF;">ReturnData</span>&gt; <span style="color: #FF8C00;">returnDataResponseEntity</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ResponseEntity</span>&lt;&gt;(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ReturnData</span>(<span style="color: #AF87FF;">ReturnData</span>.FAIL_CODE, errorMsg.toString(), <span style="color: #AF87FF;">null</span>, <span style="color: #AF87FF;">null</span>), httpHeaders, <span style="color: #AF87FF;">HttpStatus</span>.OK);
+        <span style="color: #FF1493;">return</span> returnDataResponseEntity;
+    }
 }
 </pre>
 </div></li>
+
+<li><p>
+分组校验
+<br />
+为了区分业务场景，对于不同场景下的数据验证规则可能不一样（例如新增时可以不用传递 ID，而修改时必须传递ID），可以使用分组校验。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#20998;&#32452;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@Data</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserGroupValidDTO</span> {
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = Update.<span style="color: #FF1493;">class</span>)
+    <span style="color: #AF87FF;">@Min</span>(value = 10000000000000000L, groups = Update.<span style="color: #FF1493;">class</span>)
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Long</span> <span style="color: #FF8C00;">userId</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 2, max = 10, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">userName</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 6, max = 20, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">account</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 6, max = 20, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">password</span>;
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#20445;&#23384;&#30340;&#26102;&#20505;&#26657;&#39564;&#20998;&#32452;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">interface</span> <span style="color: #5FD7FF;">Save</span> {
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#26356;&#26032;&#30340;&#26102;&#20505;&#26657;&#39564;&#20998;&#32452;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">interface</span> <span style="color: #5FD7FF;">Update</span> {
+    }
+}
+</pre>
+</div>
+
+<p>
+<br />
+Controller 实现：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#20998;&#32452;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/user_group_valid"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserGroupValidController</span> {
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/save"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">saveUser</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span>(<span style="color: #AF87FF;">UserGroupValidDTO</span>.Save.<span style="color: #FF1493;">class</span>) <span style="color: #5FD7FF;">UserGroupValidDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/update"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">updateUser</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span>(<span style="color: #AF87FF;">UserGroupValidDTO</span>.Update.<span style="color: #FF1493;">class</span>) <span style="color: #5FD7FF;">UserGroupValidDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+}
+</pre>
+</div></li>
+
+<li><p>
+嵌套校验
+<br />
+上面的校验主要是针对基本类型进行了校验，如果DTO中包含了自定义的实体类，就需要用到嵌套校验。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#23884;&#22871;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> * DTO&#20013;&#30340;&#26576;&#20010;&#23383;&#27573;&#20063;&#26159;&#19968;&#20010;&#23545;&#35937;&#65292;&#36825;&#31181;&#24773;&#20917;&#19979;&#65292;&#21487;&#20197;&#20351;&#29992;&#23884;&#22871;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@Data</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserNestedValidDTO</span> {
+    <span style="color: #AF87FF;">@Min</span>(value = 10000000000000000L, groups = Update.<span style="color: #FF1493;">class</span>)
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Long</span> <span style="color: #FF8C00;">userId</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 2, max = 10, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">userName</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 6, max = 20, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">account</span>;
+
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #AF87FF;">@Length</span>(min = 6, max = 20, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">password</span>;
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#27492;&#26102;DTO&#31867;&#30340;&#23545;&#24212;&#23383;&#27573;&#24517;&#39035;&#26631;&#35760;@Valid&#27880;&#35299;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@Valid</span>
+    <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Job</span> <span style="color: #FF8C00;">job</span>;
+
+    <span style="color: #AF87FF;">@Data</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Job</span> {
+
+        <span style="color: #AF87FF;">@NotNull</span>(groups = {Update.<span style="color: #FF1493;">class</span>})
+        <span style="color: #AF87FF;">@Min</span>(value = 1, groups = Update.<span style="color: #FF1493;">class</span>)
+        <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Long</span> <span style="color: #FF8C00;">jobId</span>;
+
+        <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+        <span style="color: #AF87FF;">@Length</span>(min = 2, max = 10, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+        <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">jobName</span>;
+
+        <span style="color: #AF87FF;">@NotNull</span>(groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+        <span style="color: #AF87FF;">@Length</span>(min = 2, max = 10, groups = {Save.<span style="color: #FF1493;">class</span>, Update.<span style="color: #FF1493;">class</span>})
+        <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">position</span>;
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#20445;&#23384;&#30340;&#26102;&#20505;&#26657;&#39564;&#20998;&#32452;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">interface</span> <span style="color: #5FD7FF;">Save</span> {
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#26356;&#26032;&#30340;&#26102;&#20505;&#26657;&#39564;&#20998;&#32452;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">interface</span> <span style="color: #5FD7FF;">Update</span> {
+    }
+}
+</pre>
+</div>
+
+<p>
+<br />
+Controller 实现：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#23884;&#22871;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/user_nested_valid"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UserNestedValidController</span> {
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/save"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">saveUser</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span>(<span style="color: #AF87FF;">UserNestedValidDTO</span>.Save.<span style="color: #FF1493;">class</span>) <span style="color: #5FD7FF;">UserNestedValidDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/update"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">updateUser</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span>(<span style="color: #AF87FF;">UserNestedValidDTO</span>.Update.<span style="color: #FF1493;">class</span>) <span style="color: #5FD7FF;">UserNestedValidDTO</span> <span style="color: #FF8C00;">userDTO</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+}
+</pre>
+</div></li>
+
+<li><p>
+集合校验
+<br />
+如果请求体直接传递了json数组给后台，并希望对数组中的每一项都进行参数校验。此时，如果我们直接使用java.util.Collection下的list或者set来接收数据，参数校验并不会生效（单个数组可以使用）！我们可以使用自定义list集合来接收参数：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#21253;&#35013; List&#31867;&#22411;&#65292;&#24182;&#22768;&#26126; @Valid &#27880;&#35299;</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@param</span><span style="color: #CDC673;"> </span><span style="color: #AF87FF;">&lt;E&gt;</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@Data</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">ValidationList</span>&lt;<span style="color: #5FD7FF;">E</span>&gt; <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">List</span>&lt;<span style="color: #5FD7FF;">E</span>&gt; {
+
+    <span style="color: #AF87FF;">@Delegate</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">@Delegate&#26159;lombok&#27880;&#35299;</span>
+    <span style="color: #AF87FF;">@Valid</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#19968;&#23450;&#35201;&#21152;@Valid&#27880;&#35299;</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">List</span>&lt;<span style="color: #5FD7FF;">E</span>&gt; <span style="color: #FF8C00;">list</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ArrayList</span>&lt;&gt;();
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#19968;&#23450;&#35201;&#35760;&#24471;&#37325;&#20889;toString&#26041;&#27861;</span>
+    <span style="color: #AF87FF;">@Override</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">String</span> <span style="color: #87D700;">toString</span>() {
+        <span style="color: #FF1493;">return</span> list.toString();
+    }
+}
+</pre>
+</div>
+
+<p>
+Controller
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#38598;&#21512;&#26657;&#39564;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/valid_list"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">ValidListController</span> {
+
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/saveList"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">saveList</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #AF87FF;">@Validated</span>(<span style="color: #AF87FF;">UserGroupValidDTO</span>.Save.<span style="color: #FF1493;">class</span>) <span style="color: #5FD7FF;">ValidationList</span>&lt;<span style="color: #5FD7FF;">UserGroupValidDTO</span>&gt; <span style="color: #FF8C00;">userList</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+}
+</pre>
+</div></li>
+
+<li><p>
+编程式校验
+<br />
+上面都是通过注解来进行校验，也可以使用编程的方式进行校验：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#32534;&#31243;&#24335;&#26657;&#39564;&#21442;&#25968;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@RequestMapping</span>(<span style="color: #CDC673;">"/api/valid_with_code"</span>)
+<span style="color: #AF87FF;">@RestController</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">ValidWithCodeController</span> {
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #AF87FF;">javax</span>.<span style="color: #AF87FF;">validation</span>.<span style="color: #5FD7FF;">Validator</span> <span style="color: #FF8C00;">globalValidator</span>;
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#32534;&#31243;&#24335;&#26657;&#39564;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@PostMapping</span>(<span style="color: #CDC673;">"/saveWithCodingValidate"</span>)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Result</span> <span style="color: #87D700;">saveWithCodingValidate</span>(<span style="color: #AF87FF;">@RequestBody</span> <span style="color: #5FD7FF;">UserGroupValidDTO</span> <span style="color: #FF8C00;">userGroupValidDTO</span>) {
+        <span style="color: #5FD7FF;">Set</span>&lt;<span style="color: #5FD7FF;">ConstraintViolation</span>&lt;<span style="color: #5FD7FF;">UserGroupValidDTO</span>&gt;&gt; <span style="color: #FF8C00;">validate</span> = globalValidator.validate(userGroupValidDTO, <span style="color: #AF87FF;">UserGroupValidDTO</span>.Save.<span style="color: #FF1493;">class</span>);
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22914;&#26524;&#26657;&#39564;&#36890;&#36807;&#65292;validate&#20026;&#31354;&#65307;&#21542;&#21017;&#65292;validate&#21253;&#21547;&#26410;&#26657;&#39564;&#36890;&#36807;&#39033;</span>
+        <span style="color: #FF1493;">if</span> (validate.isEmpty()) {
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#36890;&#36807;&#65292;&#25165;&#20250;&#25191;&#34892;&#19994;&#21153;&#36923;&#36753;&#22788;&#29702;</span>
+
+        } <span style="color: #FF1493;">else</span> {
+            <span style="color: #FF1493;">for</span> (<span style="color: #5FD7FF;">ConstraintViolation</span>&lt;<span style="color: #5FD7FF;">UserGroupValidDTO</span>&gt; <span style="color: #FF8C00;">userGroupValidDTOConstraintViolation</span> : validate) {
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26657;&#39564;&#22833;&#36133;&#65292;&#20570;&#20854;&#23427;&#36923;&#36753;</span>
+                System.out.println(userGroupValidDTOConstraintViolation);
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">throw new RuntimeException();</span>
+            }
+        }
+        <span style="color: #FF1493;">return</span> Result.success();
+    }
+}
+</pre>
+</div>
+
+<p>
+<b><b>配置快速失败</b></b>
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * Web &#37197;&#32622;</span>
+<span style="color: #CDC673;"> *</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@author</span><span style="color: #CDC673;"> zrg</span>
+<span style="color: #CDC673;"> * </span><span style="color: #AF87FF;">@date</span><span style="color: #CDC673;"> 2021/5/17 16:11</span>
+<span style="color: #CDC673;"> */</span>
+<span style="color: #AF87FF;">@Configuration</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebConfig</span> {
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#26657;&#39564;&#21442;&#25968;&#26102;&#21482;&#35201;&#20986;&#29616;&#26657;&#39564;&#22833;&#36133;&#30340;&#24773;&#20917;&#65292;&#23601;&#31435;&#21363;&#25243;&#20986;&#23545;&#24212;&#30340;&#24322;&#24120;&#65292;&#32467;&#26463;&#26657;&#39564;&#65292;&#19981;&#20877;&#36827;&#34892;&#21518;&#32493;&#30340;&#26657;&#39564;</span>
+<span style="color: #CDC673;">     *</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@return</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@Bean</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">Validator</span> <span style="color: #87D700;">validator</span>() {
+        <span style="color: #5FD7FF;">ValidatorFactory</span> <span style="color: #FF8C00;">validatorFactory</span> = Validation.byProvider(HibernateValidator.<span style="color: #FF1493;">class</span>)
+                .configure()
+                .failFast(<span style="color: #AF87FF;">true</span>)
+                .buildValidatorFactory();
+        <span style="color: #FF1493;">return</span> validatorFactory.getValidator();
+    }
+
+    <span style="color: #AF87FF;">@Bean</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">MethodValidationPostProcessor</span> <span style="color: #87D700;">methodValidationPostProcessor</span>() {
+        <span style="color: #5FD7FF;">MethodValidationPostProcessor</span> <span style="color: #FF8C00;">methodValidationPostProcessor</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">MethodValidationPostProcessor</span>();
+        methodValidationPostProcessor.setValidator(validator());
+        <span style="color: #FF1493;">return</span> methodValidationPostProcessor;
+    }
+}
+</pre>
+</div></li>
+
+<li>参考资料
+<ul class="org-ul">
+<li><a href="https://www.cnblogs.com/codeclock/p/13632217.html">https://www.cnblogs.com/codeclock/p/13632217.html</a></li>
+</ul></li>
 </ol>
+</div>
+</div>
+<div id="outline-container-org7c91714" class="outline-5">
+<h5 id="org7c91714"><span class="section-number-5">5.1.1.2</span> 深入探索 Spring 参数校验（源码解析）</h5>
+<div class="outline-text-5" id="text-5-1-1-2">
+<p>
+参考资料
+</p>
+<ul class="org-ul">
+<li><a href="https://www.cnblogs.com/yourbatman/p/11272939.html">https://www.cnblogs.com/yourbatman/p/11272939.html</a></li>
+</ul>
+</div>
 </div>
 </div>
 </div>

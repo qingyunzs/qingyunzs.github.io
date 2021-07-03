@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Subversion、Git和GitHub
+title: Revision Control Tools
 author: zrg
 comments: false
-description: 本文主要对版本控制软件 git 做一些理解说明，以供日常运用提供参考。
+description: Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later.
 categories: 
 - software
 tags:
@@ -14,7 +14,7 @@ photos:
 ---
 
 <p>
-If you have any questions abount this article, or if you have found any errors in this article, email me, please. This is my email address: zrg1390556486@gmail.com
+If you have any questions abount this article, or if you have found any errors in this article, email to me, please. This is my email address: zrg1390556486@gmail.com
 </p>
 
 <div id="outline-container-org09194af" class="outline-2">
@@ -186,7 +186,7 @@ $ git config format.pretty oneline
 </ul>
 
 
-<div class="figure">
+<div id="orgc94eacd" class="figure">
 <p><img src="{{site.url}}/assets/images/commit1.png" alt="commit1.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>提交流程</p>
@@ -280,7 +280,7 @@ $ git reset --hard origin/master
 <h4 id="orgdc347dc"><span class="section-number-4">2.3.1</span> 理解分支</h4>
 <div class="outline-text-4" id="text-2-3-1">
 
-<div class="figure">
+<div id="orge3e76d1" class="figure">
 <p><img src="{{site.url}}/assets/images/branches.png" alt="branches.png" />
 </p>
 <p><span class="figure-number">Figure 2: </span>理解分支</p>
@@ -299,7 +299,7 @@ $ git commit -m 'initial commit of my project'
 现在，Git 仓库中有五个对象：三个表示文件快照内容的 blob 对象；一个记录着目录树内容及其中各个文件对应 blob 对象索引的 tree 对象；一个包含指向 tree 对象（根目录）的索引和其他提交信息元数据的 commit 对象。
 </p>
 
-<div class="figure">
+<div id="orgb1f06f5" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch01.png" alt="git-branch01.png" />
 </p>
 <p><span class="figure-number">Figure 3: </span>单个提交对象在仓库中的数据结构</p>
@@ -308,7 +308,7 @@ $ git commit -m 'initial commit of my project'
 作些修改后再次提交，那么这次的提交对象会包含一个指向上次提交对象的指针（译注：即下图中的 parent 对象）。两次提交后，仓库历史会变成下图的样子：
 </p>
 
-<div class="figure">
+<div id="orgfa4373d" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch02.png" alt="git-branch02.png" />
 </p>
 <p><span class="figure-number">Figure 4: </span>多个提交对象之间的链接关系</p>
@@ -317,7 +317,7 @@ $ git commit -m 'initial commit of my project'
 Git 中的分支，其实本质上仅仅是个指向 commit 对象的可变指针。在若干次提交后，你其实已经有了一个指向最后一次提交对象的 master 分支，它在每次提交的时候都会自动向前移动。
 </p>
 
-<div class="figure">
+<div id="org6f20abf" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch03.png" alt="git-branch03.png" />
 </p>
 <p><span class="figure-number">Figure 5: </span>分支其实就是从某个提交对象往回看的历史</p>
@@ -333,7 +333,7 @@ $ git branch test
 这会在当前 commit 对象上新建一个分支指针，如图：
 </p>
 
-<div class="figure">
+<div id="org0c38549" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch04.png" alt="git-branch04.png" />
 </p>
 <p><span class="figure-number">Figure 6: </span>多个分支指向提交数据的历史</p>
@@ -342,7 +342,7 @@ $ git branch test
 那么，Git 是如何知道你当前在哪个分支上工作的呢？它保存着一个名为 HEAD 的特别指针。在 Git 中，它是一个指向你正在工作中的本地分支的指针（译注：将 HEAD 想象为当前分支的别名）。 运行git branch 命令，仅仅是建立了一个新的分支，但不会自动切换到这个分支中去，所以，我们依然还在 master 分支里，如图：
 </p>
 
-<div class="figure">
+<div id="orgd78a9ff" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch05.png" alt="git-branch05.png" />
 </p>
 <p><span class="figure-number">Figure 7: </span>HEAD 指向当前所在的分支</p>
@@ -358,7 +358,7 @@ $ git checkout testing
 这样 HEAD 就指向了 testing 分支：
 </p>
 
-<div class="figure">
+<div id="org7dfbb5a" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch06.png" alt="git-branch06.png" />
 </p>
 <p><span class="figure-number">Figure 8: </span>HEAD 在你转换分支时指向新的分支</p>
@@ -374,7 +374,7 @@ $ git commit -a -m 'made a change'
 提交后的结果：
 </p>
 
-<div class="figure">
+<div id="orga936b9f" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch07.png" alt="git-branch07.png" />
 </p>
 <p><span class="figure-number">Figure 9: </span>每次提交后 HEAD 随着分支一起向前移动</p>
@@ -399,7 +399,7 @@ $ git commit -a -m 'made other changes'
 </pre>
 
 
-<div class="figure">
+<div id="org87229b8" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch09.png" alt="git-branch09.png" />
 </p>
 <p><span class="figure-number">Figure 10: </span>不同流向的分支历史</p>
@@ -448,7 +448,7 @@ $ git checkout -b branchName
 A.首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新：
 </p>
 
-<div class="figure">
+<div id="org86c8246" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch10.png" alt="git-branch10.png" />
 </p>
 <p><span class="figure-number">Figure 11: </span>一个简短的提交历史</p>
@@ -467,7 +467,7 @@ $ git checkout iss53
 </pre>
 
 
-<div class="figure">
+<div id="orgc1e38f2" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch11.png" alt="git-branch11.png" />
 </p>
 <p><span class="figure-number">Figure 12: </span>创建了一个新分支（专门解决53问题）的指针</p>
@@ -478,7 +478,7 @@ $ git checkout iss53
 </pre>
 
 
-<div class="figure">
+<div id="org616258c" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch12.png" alt="git-branch12.png" />
 </p>
 <p><span class="figure-number">Figure 13: </span>iss53 分支随工作进展向前推进</p>
@@ -506,7 +506,7 @@ $ git checkout -b 'hotfix'
 </pre>
 
 
-<div class="figure">
+<div id="org7287a63" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch13.png" alt="git-branch13.png" />
 </p>
 <p><span class="figure-number">Figure 14: </span>hotfix 分支是从 master 分支所在点分化出来的</p>
@@ -532,7 +532,7 @@ README |    1 -
 </pre>
 
 
-<div class="figure">
+<div id="org0759cd7" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch14.png" alt="git-branch14.png" />
 </p>
 <p><span class="figure-number">Figure 15: </span>合并之后，master 分支和 hotfix 分支指向同一位置</p>
@@ -559,7 +559,7 @@ $ git checkout iss53
 </pre>
 
 
-<div class="figure">
+<div id="orgb3dc661" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch15.png" alt="git-branch15.png" />
 </p>
 <p><span class="figure-number">Figure 16: </span>iss53 分支可以不受影响继续推进</p>
@@ -645,7 +645,7 @@ $ git merge iss53
 由于当前 master 分支所指向的提交对象（C4）并不是 iss53 分支的直接祖先，Git 不得不进行一些额外处理。就此例而言，Git 会用两个分支的末端（C4 和 C5）以及它们的共同祖先（C2）进行一次简单的三方合并计算。
 </p>
 
-<div id="orgd979a13" class="figure">
+<div id="orgdc506bb" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch16.png" alt="git-branch16.png" />
 </p>
 <p><span class="figure-number">Figure 17: </span>Git 为分支合并自动识别出最佳的同源合并点</p>
@@ -655,7 +655,7 @@ $ git merge iss53
 Git 没有简单地把分支指针右移，而是对三方合并后的结果重新做一个新的快照，并自动创建一个指向它的提交对象（C6），见下图所示。
 </p>
 
-<div id="orged183b0" class="figure">
+<div id="orge79d796" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch17.png" alt="git-branch17.png" />
 </p>
 <p><span class="figure-number">Figure 18: </span>Git 自动创建了一个包含了合并结果的提交对象</p>
@@ -772,7 +772,7 @@ index.html
 回顾之前有关合并的章节，开发进程分叉到两个不同分支，又各自提交了更新。
 </p>
 
-<div id="org83b7966" class="figure">
+<div id="orgeebb4a0" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch27.png" alt="git-branch27.png" />
 </p>
 <p><span class="figure-number">Figure 19: </span>最初分叉的提交历史</p>
@@ -782,7 +782,7 @@ index.html
 通过合并一个分支来整合分叉了的历史
 </p>
 
-<div id="org2c506a9" class="figure">
+<div id="org957a58a" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch28.png" alt="git-branch28.png" />
 </p>
 <p><span class="figure-number">Figure 20: </span>通过合并一个分支来整合分叉了的历史</p>
@@ -803,7 +803,7 @@ $ git rebase master
 </p>
 
 
-<div id="orgd23b974" class="figure">
+<div id="org2a9bc13" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch29.png" alt="git-branch29.png" />
 </p>
 <p><span class="figure-number">Figure 21: </span>把 C3 里产生的改变到 C4 上重演一遍</p>
@@ -814,7 +814,7 @@ $ git rebase master
 </p>
 
 
-<div id="org6de3c7c" class="figure">
+<div id="orgd8ad4e3" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch30.png" alt="git-branch30.png" />
 </p>
 <p><span class="figure-number">Figure 22: </span>master 分支的快进</p>
@@ -836,7 +836,7 @@ $ git rebase master
 衍合也可以放到其他分支进行，并不一定非得根据分化之前的分支。以下图为例，给服务器端代码添加一些功能而创建了特性分支 server，然后提交 C3 和 C4。然后又从 C3 的地方再增加一个client 分支来对客户端代码进行一些相应修改，所以提交了 C8 和 C9。最后，又回到 server 分支提交了 C10。
 </p>
 
-<div id="org44ea6f2" class="figure">
+<div id="org5d644e0" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch31.png" alt="git-branch31.png" />
 </p>
 <p><span class="figure-number">Figure 23: </span>从一个特性分支里再分出一个特性分支的历史</p>
@@ -851,7 +851,7 @@ $ git rebase --onto master server client
 </pre>
 
 
-<div id="org271b49b" class="figure">
+<div id="orgb695de2" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch32.png" alt="git-branch32.png" />
 </p>
 <p><span class="figure-number">Figure 24: </span>将特性分支上的另一个特性分支衍合到其他分支</p>
@@ -864,7 +864,7 @@ $ git merge client
 </pre>
 
 
-<div id="orgef7bb5b" class="figure">
+<div id="org1e73804" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch33.png" alt="git-branch33.png" />
 </p>
 <p><span class="figure-number">Figure 25: </span>快进 master 分支，使之包含 client 分支的变化</p>
@@ -877,7 +877,7 @@ $ git rebase master server
 </pre>
 
 
-<div id="orgd19b6df" class="figure">
+<div id="org8b7055c" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch34.png" alt="git-branch34.png" />
 </p>
 <p><span class="figure-number">Figure 26: </span>在 master 分支上衍合 server 分支</p>
@@ -897,7 +897,7 @@ $ git branch -d server
 </pre>
 
 
-<div id="org266ca25" class="figure">
+<div id="orgb4fbf85" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch35.png" alt="git-branch35.png" />
 </p>
 <p><span class="figure-number">Figure 27: </span>最终的提交历史</p>
@@ -908,7 +908,7 @@ $ git branch -d server
 奇妙的衍合也并非完美无缺，要用它得遵守一条准则：一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似下图所示：
 </p>
 
-<div id="orgf23214f" class="figure">
+<div id="org771834b" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch36.png" alt="git-branch36.png" />
 </p>
 <p><span class="figure-number">Figure 28: </span>克隆一个仓库，在其基础上工作一番</p>
@@ -918,7 +918,7 @@ $ git branch -d server
 现在，某人在 C1 的基础上做了些改变，并合并他自己的分支得到结果 C6，推送到中央服务器。当你抓取并合并这些数据到你本地的开发分支中后，会得到合并结果 C7，历史提交会变成：
 </p>
 
-<div id="orgcafe58e" class="figure">
+<div id="org72d111e" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch37.png" alt="git-branch37.png" />
 </p>
 <p><span class="figure-number">Figure 29: </span>抓取他人提交，并入自己主干</p>
@@ -928,7 +928,7 @@ $ git branch -d server
 接下来，那个推送 C6 上来的人决定用衍合取代之前的合并操作；继而又用 git push &#x2013;force 覆盖了服务器上的历史，得到 C4’。而之后当你再从服务器上下载最新提交后，会得到：
 </p>
 
-<div id="org90853b6" class="figure">
+<div id="org58cea65" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch38.png" alt="git-branch38.png" />
 </p>
 <p><span class="figure-number">Figure 30: </span>有人推送了衍合后得到的 C4’，丢弃了你作为开发基础的 C4 和 C6</p>
@@ -938,7 +938,7 @@ $ git branch -d server
 下载更新后需要合并，但此时衍合产生的提交对象 C4’ 的 SHA-1 校验值和之前 C4 完全不同，所以 Git 会把它们当作新的提交对象处理，而实际上此刻你的提交历史 C7 中早已经包含了 C4 的修改内容，于是合并操作会把 C7 和 C4’ 合并为 C8
 </p>
 
-<div id="org8c538ec" class="figure">
+<div id="org47fd4c5" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch39.png" alt="git-branch39.png" />
 </p>
 <p><span class="figure-number">Figure 31: </span>你把相同的内容又合并了一遍，生成一个新的提交 C8</p>
@@ -964,13 +964,13 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 本质上我们刚才谈论的，是随着提交对象不断右移的指针。稳定分支的指针总是在提交历史中落后一大截，而前沿分支总是比较靠前。
 </p>
 
-<div id="orgd809e95" class="figure">
+<div id="org7301b66" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch18.png" alt="git-branch18.png" />
 </p>
 <p><span class="figure-number">Figure 32: </span>稳定分支总是比较老旧</p>
 </div>
 
-<div id="orgdc506bb" class="figure">
+<div id="org1bcd844" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch19.png" alt="git-branch19.png" />
 </p>
 <p><span class="figure-number">Figure 33: </span>想象成流水线可能会容易点</p>
@@ -1003,7 +1003,7 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
 </p>
 
-<div class="figure">
+<div id="orgcbbced0" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch22.png" alt="git-branch22.png" />
 </p>
 <p><span class="figure-number">Figure 34: </span>Git克隆</p>
@@ -1013,7 +1013,7 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 如果你在本地 master 分支做了些改动，与此同时，其他人向 git.ourcompany.com 推送了他们的更新，那么服务器上的master 分支就会向前推进。不过只要你不和服务器通讯，你的 origin/master 指针仍然保持原位不会移动。
 </p>
 
-<div class="figure">
+<div id="orga73ccbc" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch23.png" alt="git-branch23.png" />
 </p>
 <p><span class="figure-number">Figure 35: </span>在本地工作的同时有人向远程仓库推送内容会让提交历史开始分流</p>
@@ -1023,7 +1023,7 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 可以运行 git fetch origin 来同步远程服务器上的数据到本地。
 </p>
 
-<div class="figure">
+<div id="orgcbbae27" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch24.png" alt="git-branch24.png" />
 </p>
 <p><span class="figure-number">Figure 36: </span>git fetch 命令会更新 remote 索引</p>
@@ -1033,7 +1033,7 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 把另一个服务器加为远程仓库
 </p>
 
-<div class="figure">
+<div id="org0580dac" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch25.png" alt="git-branch25.png" />
 </p>
 <p><span class="figure-number">Figure 37: </span>把另一个服务器加为远程仓库</p>
@@ -1043,7 +1043,7 @@ C8 这一步的合并是迟早会发生的，因为只有这样你才能和其�
 在本地有了一个指向 teamone 服务器上 master 分支的索引
 </p>
 
-<div class="figure">
+<div id="orge83d061" class="figure">
 <p><img src="{{site.url}}/assets/images/git-branch26.png" alt="git-branch26.png" />
 </p>
 <p><span class="figure-number">Figure 38: </span>在本地有了一个指向 teamone 服务器上 master 分支的索引</p>

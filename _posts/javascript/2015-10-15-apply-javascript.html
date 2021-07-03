@@ -230,7 +230,7 @@ photos:
 <div id="outline-container-orgfba8335" class="outline-4">
 <h4 id="orgfba8335"><span class="section-number-4">1.1.8</span> 倒计时</h4>
 <div class="outline-text-4" id="text-1-1-8">
-<div class="HTML">
+<div class="HTML" id="org3c58ed5">
 <p>
 &lt;strong&gt;剩余时间：&lt;/strong&gt;&lt;span id="timer"&gt;&lt;/span&gt;
 </p>
@@ -429,9 +429,129 @@ Math.floor((Math.random()*10)+1);
 </div>
 </div>
 </div>
-<div id="outline-container-org2ee6160" class="outline-4">
-<h4 id="org2ee6160"><span class="section-number-4">1.3.2</span> 直接取整(不考虑小数点后的部分)</h4>
+<div id="outline-container-orgd9fb3c1" class="outline-4">
+<h4 id="orgd9fb3c1"><span class="section-number-4">1.3.2</span> 保留2位小数</h4>
 <div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li><p>
+四舍五入
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">toFixed()</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20445;&#30041;&#20004;&#20301;&#23567;&#25968;&#65292;&#23558;&#25968;&#20540;&#31867;&#22411;&#30340;&#25968;&#25454;&#25913;&#21464;&#25104;&#20102;&#23383;&#31526;&#20018;&#31867;&#22411;</span>
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">num</span> =2.446242342;  
+num = num.toFixed(2); 
+console.log(num); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.45</span>
+console.log(<span style="color: #FF1493;">typeof</span> num); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">string</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Math.floor()</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#19981;&#22235;&#33293;&#20116;&#20837;&#65292;&#21521;&#19979;&#21462;&#25972;&#65292;&#19981;&#25913;&#21464;&#25968;&#25454;&#31867;&#22411;</span>
+num = Math.floor(num * 100) / 100;
+console.log(num); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.44</span>
+console.log(<span style="color: #FF1493;">typeof</span> num); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">number</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23383;&#31526;&#20018;&#21305;&#37197;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20808;&#23558;&#25968;&#25454;&#36716;&#25442;&#20026;&#23383;&#31526;&#20018;&#65292;&#26368;&#21518;&#20877;&#36716;&#20026;&#25968;&#20540;&#31867;&#22411;</span>
+num = Number(num.toString().match(<span style="color: #CDC673;">/^\d+(?:\.\d{0,2})?/</span>));
+console.log(num); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.44</span>
+console.log(<span style="color: #FF1493;">typeof</span> num); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">number</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22235;&#33293;&#20116;&#20837;&#20445;&#30041;2&#20301;&#23567;&#25968;&#65288;&#33509;&#31532;&#20108;&#20301;&#23567;&#25968;&#20026;0&#65292;&#21017;&#20445;&#30041;&#19968;&#20301;&#23567;&#25968;&#65289;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25968;&#25454;&#31867;&#22411;&#19981;&#21464;</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">keepTwoDecimal</span>(<span style="color: #FF8C00;">num</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">result</span> = parseFloat(num);
+    <span style="color: #FF1493;">if</span> (isNaN(result)) {
+        alert(<span style="color: #CDC673;">'&#20256;&#36882;&#21442;&#25968;&#38169;&#35823;&#65292;&#35831;&#26816;&#26597;&#65281;'</span>);
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>;
+    }
+    result = Math.round(num * 100) / 100;
+    <span style="color: #FF1493;">return</span> result;
+};
+keepTwoDecimal(num);
+console.log(num); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.44</span>
+console.log(<span style="color: #FF1493;">typeof</span> num); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">number</span>
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22235;&#33293;&#20116;&#20837;&#20445;&#30041;2&#20301;&#23567;&#25968;&#65288;&#19981;&#22815;&#20301;&#25968;&#65292;&#21017;&#29992;0&#26367;&#34917;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25968;&#25454;&#31867;&#22411;&#21464;&#20026;&#23383;&#31526;&#20018;&#31867;&#22411;</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">keepTwoDecimalFull</span>(<span style="color: #FF8C00;">num</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">result</span> = parseFloat(num);
+    <span style="color: #FF1493;">if</span> (isNaN(result)) {
+        alert(<span style="color: #CDC673;">'&#20256;&#36882;&#21442;&#25968;&#38169;&#35823;&#65292;&#35831;&#26816;&#26597;&#65281;'</span>);
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>;
+    }
+    result = Math.round(num * 100) / 100;
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">s_x</span> = result.toString(); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#23558;&#25968;&#23383;&#36716;&#25442;&#20026;&#23383;&#31526;&#20018;</span>
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">pos_decimal</span> = s_x.indexOf(<span style="color: #CDC673;">'.'</span>); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#23567;&#25968;&#28857;&#30340;&#32034;&#24341;&#20540;</span>
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#24403;&#25972;&#25968;&#26102;&#65292;pos_decimal=-1 &#33258;&#21160;&#34917;0</span>
+    <span style="color: #FF1493;">if</span> (pos_decimal &lt; 0) {
+        pos_decimal = s_x.length;
+        s_x += <span style="color: #CDC673;">'.'</span>;
+    }
+
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#24403;&#25968;&#23383;&#30340;&#38271;&#24230;&lt; &#23567;&#25968;&#28857;&#32034;&#24341;+2&#26102;&#65292;&#34917;0</span>
+    <span style="color: #FF1493;">while</span> (s_x.length &lt;= pos_decimal + 2) {
+        s_x += <span style="color: #CDC673;">'0'</span>;
+    }
+    <span style="color: #FF1493;">return</span> s_x;
+}
+
+console.log(keepTwoDecimalFull(120.5)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">120.50</span>
+console.log(<span style="color: #FF1493;">typeof</span> keepTwoDecimalFull(120.5)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">string</span>
+console.log(keepTwoDecimalFull(2.446242342)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.45</span>
+console.log(<span style="color: #FF1493;">typeof</span> keepTwoDecimalFull(2.446242342)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">string</span>
+</pre>
+</div></li>
+<li><p>
+浮点数保留两位小数
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#28014;&#28857;&#25968;&#20445;&#30041;&#20004;&#20301;&#23567;&#25968;</span>
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">1.&#21151;&#33021;&#65306;&#23558;&#28014;&#28857;&#25968;&#22235;&#33293;&#20116;&#20837;&#65292;&#21462;&#23567;&#25968;&#28857;&#21518;2&#20301;</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">toDecimal</span>(<span style="color: #FF8C00;">x</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">f</span> = parseFloat(x);
+    <span style="color: #FF1493;">if</span> (isNaN(f)) {
+        <span style="color: #FF1493;">return</span>;
+    }
+    f = Math.round(x*100)/100;
+    <span style="color: #FF1493;">return</span> f;
+}
+console.log(toDecimal(3.1465926)); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">3.15</span>
+console.log(<span style="color: #FF1493;">typeof</span> toDecimal(3.1415926)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">number</span>
+
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">2.&#24378;&#21046;&#20445;&#30041;2&#20301;&#23567;&#25968;&#65292;&#22914;&#65306;2&#65292;&#20250;&#22312;2&#21518;&#38754;&#34917;&#19978;00.&#21363;2.00</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">toDecimal2</span>(<span style="color: #FF8C00;">x</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">f</span> = parseFloat(x);
+    <span style="color: #FF1493;">if</span> (isNaN(f)) {
+        <span style="color: #FF1493;">return</span> <span style="color: #AF87FF;">false</span>;
+    }
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">f</span> = Math.round(x*100)/100;
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">s</span> = f.toString();
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">rs</span> = s.indexOf(<span style="color: #CDC673;">'.'</span>);
+    <span style="color: #FF1493;">if</span> (rs &lt; 0) {
+        rs = s.length;
+        s += <span style="color: #CDC673;">'.'</span>;
+    }
+    <span style="color: #FF1493;">while</span> (s.length &lt;= rs + 2) {
+        s += <span style="color: #CDC673;">'0'</span>;
+    }
+    <span style="color: #FF1493;">return</span> s;
+}
+console.log(toDecimal2(3.1)); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">3.10</span>
+console.log(<span style="color: #FF1493;">typeof</span> toDecimal2(3.1415926)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">string</span>
+
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">3.&#20445;&#30041;&#20004;&#20301;&#23567;&#25968; &#28014;&#28857;&#25968;&#22235;&#33293;&#20116;&#20837; &#20301;&#25968;&#19981;&#22815; &#19981;&#34917;0</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">fomatFloat</span>(<span style="color: #FF8C00;">src</span>,<span style="color: #FF8C00;">pos</span>){
+    <span style="color: #FF1493;">return</span> Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);
+}
+console.log(fomatFloat(3.12645,2)); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">3.13</span>
+console.log(<span style="color: #FF1493;">typeof</span> fomatFloat(3.1415926)); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">number</span>
+</pre>
+</div></li>
+<li><p>
+直接取整(不考虑小数点后的部分)
+</p>
 <div class="org-src-container">
 <pre class="src src-javascript"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26041;&#24335;&#19968;: parseInt()</span>
 <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">n</span> = parseInt(<span style="color: #CDC673;">"3.14"</span>); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">3</span>
@@ -445,12 +565,10 @@ Math.floor((Math.random()*10)+1);
 <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">n</span> = 3.14^0 <span style="color: #8B8878;">//</span><span style="color: #8B8878;">3</span>
 <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">n</span> = 3.14&lt;&lt;0 <span style="color: #8B8878;">//</span><span style="color: #8B8878;">3</span>
 </pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org7f1a2ca" class="outline-4">
-<h4 id="org7f1a2ca"><span class="section-number-4">1.3.3</span> 计算后取整(四舍五入,向上取整,向下取整)</h4>
-<div class="outline-text-4" id="text-1-3-3">
+</div></li>
+<li><p>
+计算后取整(四舍五入,向上取整,向下取整)
+</p>
 <div class="org-src-container">
 <pre class="src src-javascript"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22235;&#33293;&#20116;&#20837;</span>
 <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">n</span> = Math.round(3.14); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">3</span>
@@ -460,7 +578,8 @@ Math.floor((Math.random()*10)+1);
 <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21521;&#19979;&#21462;&#25972;</span>
 <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">n</span> = Math.ceil(3.14); <span style="color: #8B8878;">//</span><span style="color: #8B8878;">3</span>
 </pre>
-</div>
+</div></li>
+</ul>
 </div>
 </div>
 </div>
