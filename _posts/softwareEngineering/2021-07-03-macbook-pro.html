@@ -436,4 +436,21 @@ $ source ~/.bash_profile
 </ol>
 </div>
 </div>
+<div id="outline-container-org648d22b" class="outline-3">
+<h3 id="org648d22b"><span class="section-number-3">2.18</span> `ping baidu.com`，ping: Lacking privilege for raw socket.</h3>
+<div class="outline-text-3" id="text-2-18">
+<pre class="example">
+原因：
+通过 brew 安装了工具包：`brew install inetutils`
+安装以后需要设置 path，所以才有了 export PATH="/usr/local/opt/inetutils/libexec/gnubin:$PATH" 这行。这样会导致 ping 之类的命令都无权限。
+所以，在 install 之后继续运行`brew link --overrite inetutils`，这样才可以正常使用 ftp 之类的命令。
+</pre>
+
+
+<pre class="example">
+解决：
+编辑~/.zshrc，inetutils 那行注释就好了。或者使用上述方法解决（我没尝试过）。
+</pre>
+</div>
+</div>
 </div>
