@@ -370,12 +370,28 @@ photos:
 
 	: 重启可用
 **** 日期时间设置
-     : // Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
-     : // hwclock 用于查看硬件时间。设置硬件时间：
-     : $ sudo hwclock -set -date='07/17/2017 20:00'
-     : // 设置硬件时间与系统时钟同步。
-     : $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
-     : $ sudo hwclock -systohc
+     1. 设置时区
+	: $ tzselect
+
+	: $ vim .profile
+        #+begin_src shell
+	  TZ=’Asia/Shanghai’;
+	  export TZ
+        #+end_src
+
+	: $ source .profile
+     2. 设置时间
+	: 经过时区设置，一般情况下，时间已经切换为想要的时间了。以下是设置时间的命令：
+	: // hwclock 用于查看硬件时间。设置硬件时间：
+	: $ sudo hwclock -set -date='07/17/2017 20:00'
+	: // 设置硬件时间与系统时钟同步。
+	: $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
+	: $ sudo hwclock -systohc
+	
+	: 扩展知识点：
+	: 1. Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。
+	: 2. 系统时钟指当前 Linux Kernel 中的时钟。
+        : 3. 硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。	
 **** Linux 上挂载 NTFS 格式文件系统
      - 方案A：使用linux-ntfs
        : // 1. 获取安装

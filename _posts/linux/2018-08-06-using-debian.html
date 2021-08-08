@@ -883,14 +883,48 @@ $ sudo apt install fcitx-frontend-gtk2 fcitx-frontend-gtk3 fcitx-ui-classic
 <div id="outline-container-orgf93bf77" class="outline-5">
 <h5 id="orgf93bf77"><span class="section-number-5">2.1.3.5</span> 日期时间设置</h5>
 <div class="outline-text-5" id="text-2-1-3-5">
+<ol class="org-ol">
+<li><p>
+设置时区
+</p>
 <pre class="example">
-// Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。系统时钟指当前 Linux Kernel 中的时钟;硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。
+$ tzselect
+</pre>
+
+
+<pre class="example">
+$ vim .profile
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #FF8C00;">TZ</span>=&#8217;Asia/Shanghai&#8217;;
+<span style="color: #FF1493;">export</span> TZ
+</pre>
+</div>
+
+<pre class="example">
+$ source .profile
+</pre></li>
+<li><p>
+设置时间
+</p>
+<pre class="example">
+经过时区设置，一般情况下，时间已经切换为想要的时间了。以下是设置时间的命令：
 // hwclock 用于查看硬件时间。设置硬件时间：
 $ sudo hwclock -set -date='07/17/2017 20:00'
 // 设置硬件时间与系统时钟同步。
 $ sudo hwclock --hctosys(hc 代表硬件时间，sys 代表系统时间)
 $ sudo hwclock -systohc
 </pre>
+
+
+<pre class="example">
+扩展知识点：
+1. Linux 时钟分为系统时钟（System Clock）和硬件时钟（Real Time Clock，简称 RTC）。
+2. 系统时钟指当前 Linux Kernel 中的时钟。
+3. 硬件时钟指主板上由电池供电的时钟，可在 BIOS 中进行设置。	
+</pre></li>
+</ol>
 </div>
 </div>
 <div id="outline-container-orgc9bce4d" class="outline-5">
@@ -986,7 +1020,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org89431ae">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org5e6ef5c">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -1327,7 +1361,7 @@ xdg-user-dirs-gtk-update
 <h3 id="orga64b63a"><span class="section-number-3">2.2</span> Linux 目录结构</h3>
 <div class="outline-text-3" id="text-2-2">
 
-<div id="org66bb5ef" class="figure">
+<div id="org3e71649" class="figure">
 <p><img src="{{site.url}}/assets/images/cs2.png" alt="cs2.png" />
 </p>
 </div>
@@ -2054,7 +2088,7 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 <h4 id="org355dbea"><span class="section-number-4">2.3.6</span> Linux 压缩(Compression)和打包(Packaging)</h4>
 <div class="outline-text-4" id="text-2-3-6">
 
-<div id="org4c377d2" class="figure">
+<div id="orgb019a94" class="figure">
 <p><img src="{{site.url}}/assets/images/tar.png" alt="tar.png" />
 </p>
 </div>
@@ -2674,7 +2708,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org5e6ef5c"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org5305937"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -4299,7 +4333,7 @@ Docker 和传统虚拟化方式的区别
 </p>
 
 
-<div id="org9d04db0" class="figure">
+<div id="org6bd39d6" class="figure">
 <p><img src="{{site.url}}/assets/images/docker-01.png" alt="docker-01.png" />
 </p>
 </div>
@@ -4572,7 +4606,7 @@ LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 top
 </p>
 
-<div id="org5ce71aa" class="figure">
+<div id="orge11c9a9" class="figure">
 <p><img src="{{site.url}}/assets/images/top.jpg" alt="top.jpg" />
 </p>
 </div></li>
@@ -4745,8 +4779,8 @@ $ youtube-dl --write-sub --sub-lang zh-Hans --skip-download  https://www.youtube
 </pre>
 </div>
 </div>
-<div id="outline-container-orgca3395b" class="outline-4">
-<h4 id="orgca3395b"><span class="section-number-4">7.5.3</span> 参考资料</h4>
+<div id="outline-container-org9ef9332" class="outline-4">
+<h4 id="org9ef9332"><span class="section-number-4">7.5.3</span> 参考资料</h4>
 <div class="outline-text-4" id="text-7-5-3">
 <ul class="org-ul">
 <li><a href="https://zangchuantao.com/tech-zh/2020/use-you-get-to-download-youtube-playlist/">使用you-get 和 youtube-dl下载YouTube视频列表</a></li>
@@ -5529,8 +5563,8 @@ $ iptables -L
 </div>
 </div>
 </div>
-<div id="outline-container-org9ef9332" class="outline-2">
-<h2 id="org9ef9332"><span class="section-number-2">9</span> 参考资料</h2>
+<div id="outline-container-org181732a" class="outline-2">
+<h2 id="org181732a"><span class="section-number-2">9</span> 参考资料</h2>
 <div class="outline-text-2" id="text-9">
 <ul class="org-ul">
 <li><a href="http://linux.vbird.org/linux_basic/">鳥哥的 Linux 私房菜</a></li>
