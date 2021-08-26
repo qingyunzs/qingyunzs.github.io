@@ -603,17 +603,43 @@ photos:
 ***** 扩展阅读：其他远程连接工具
       : VNC、XDMCP 和 RDP
 **** 使用 scp 命令上传下载文件
+     + scp 命令 ::
+       scp命令用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。可能会稍微影响一下速度。当你服务器硬盘变为只读read only system时，用scp可以帮你把文件移出来。另外，scp还非常不占资源，不会提高多少系统负荷，在这一点上，rsync就远远不及它了。虽然 rsync比scp会快一点，但当小文件众多的情况下，rsync会导致硬盘I/O非常高，而scp基本不影响系统正常使用。
+     + 语法
+       : scp(选项)(参数)
+
+       #+begin_src shell
+	 选项：
+	 -1：使用ssh协议版本1；
+	 -2：使用ssh协议版本2；
+	 -4：使用ipv4；
+	 -6：使用ipv6；
+	 -B：以批处理模式运行；
+	 -C：使用压缩；
+	 -F：指定ssh配置文件；
+	 -l：指定宽带限制；
+	 -o：指定使用的ssh选项；
+	 -P：指定远程主机的端口号；
+	 -p：保留文件的最后修改时间，最后访问时间和权限模式；
+	 -q：不显示复制进度；
+	 -r：以递归方式复制。
+
+	 参数：
+	 - 源文件：指定要复制的源文件。
+	 - 目标文件：目标文件。格式为user@host：filename（文件名为目标文件的名称）。
+       #+end_src
      + 从服务器上下载文件
-       : $ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-       : // 示例：从 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+       : $ scp username@servername:/path/filename /var/www/
+
+       : // 示例：从 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/ 目录中
        : $ scp root@192.168.0.101:/var/www/test.txt
+     + 从服务器下载整个目录
+       : $ scp -r username@servername:/var/www/remote_dir/ /var/www/local_dir
+       : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/test
      + 上传本地文件到服务器
        : $ scp /path/filename username@servername:/path   
        : 例如把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
        : $ scp /var/www/test.php  root@192.168.0.101:/var/www/
-     + 从服务器下载整个目录
-       : $ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-       : 例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
      + 上传目录到服务器
        : $ scp  -r local_dir username@servername:remote_dir
        : 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
