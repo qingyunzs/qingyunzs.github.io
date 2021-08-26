@@ -1020,7 +1020,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org5e6ef5c">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
+<pre class="src src-shell" id="org5305937">/dev/sdb1 /mnt/ntfs/ ntfs nls-utf8,umask-0222,uid-1000,gid-1000,ro 0 0    
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">Notice:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">If /dev/sdb1 path will change due to system configuration, I recommend that you use the UUID (Universally Unique Identifier) of the partition. To find the UUID of /dev/sdb1, enter:</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#32763;&#35793;&#65306;/dev/sdb1 &#36335;&#24452;&#20250;&#38543;&#30528;&#31995;&#32479;&#37197;&#32622;&#32780;&#25913;&#21464;&#65292;&#24314;&#35758;&#20351;&#29992; UUID &#65288;&#36890;&#29992;&#21807;&#19968;&#26631;&#35782;&#31526;&#65289;</span>
@@ -1289,38 +1289,72 @@ VNC、XDMCP 和 RDP
 <div id="outline-container-org9aec165" class="outline-5">
 <h5 id="org9aec165"><span class="section-number-5">2.1.3.9</span> 使用 scp 命令上传下载文件</h5>
 <div class="outline-text-5" id="text-2-1-3-9">
-<ul class="org-ul">
-<li><p>
+<dl class="org-dl">
+<dt>scp 命令</dt><dd>scp命令用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。可能会稍微影响一下速度。当你服务器硬盘变为只读read only system时，用scp可以帮你把文件移出来。另外，scp还非常不占资源，不会提高多少系统负荷，在这一点上，rsync就远远不及它了。虽然 rsync比scp会快一点，但当小文件众多的情况下，rsync会导致硬盘I/O非常高，而scp基本不影响系统正常使用。</dd>
+<dt>(no term)</dt><dd><p>
+语法
+</p>
+<pre class="example">
+scp(选项)(参数)
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-shell">&#36873;&#39033;&#65306;
+-1&#65306;&#20351;&#29992;ssh&#21327;&#35758;&#29256;&#26412;1&#65307;
+-2&#65306;&#20351;&#29992;ssh&#21327;&#35758;&#29256;&#26412;2&#65307;
+-4&#65306;&#20351;&#29992;ipv4&#65307;
+-6&#65306;&#20351;&#29992;ipv6&#65307;
+-B&#65306;&#20197;&#25209;&#22788;&#29702;&#27169;&#24335;&#36816;&#34892;&#65307;
+-C&#65306;&#20351;&#29992;&#21387;&#32553;&#65307;
+-F&#65306;&#25351;&#23450;ssh&#37197;&#32622;&#25991;&#20214;&#65307;
+-l&#65306;&#25351;&#23450;&#23485;&#24102;&#38480;&#21046;&#65307;
+-o&#65306;&#25351;&#23450;&#20351;&#29992;&#30340;ssh&#36873;&#39033;&#65307;
+-P&#65306;&#25351;&#23450;&#36828;&#31243;&#20027;&#26426;&#30340;&#31471;&#21475;&#21495;&#65307;
+-p&#65306;&#20445;&#30041;&#25991;&#20214;&#30340;&#26368;&#21518;&#20462;&#25913;&#26102;&#38388;&#65292;&#26368;&#21518;&#35775;&#38382;&#26102;&#38388;&#21644;&#26435;&#38480;&#27169;&#24335;&#65307;
+-q&#65306;&#19981;&#26174;&#31034;&#22797;&#21046;&#36827;&#24230;&#65307;
+-r&#65306;&#20197;&#36882;&#24402;&#26041;&#24335;&#22797;&#21046;&#12290;
+
+&#21442;&#25968;&#65306;
+- &#28304;&#25991;&#20214;&#65306;&#25351;&#23450;&#35201;&#22797;&#21046;&#30340;&#28304;&#25991;&#20214;&#12290;
+- &#30446;&#26631;&#25991;&#20214;&#65306;&#30446;&#26631;&#25991;&#20214;&#12290;&#26684;&#24335;&#20026;user@host&#65306;filename&#65288;&#25991;&#20214;&#21517;&#20026;&#30446;&#26631;&#25991;&#20214;&#30340;&#21517;&#31216;&#65289;&#12290;
+</pre>
+</div></dd>
+<dt>(no term)</dt><dd><p>
 从服务器上下载文件
 </p>
 <pre class="example">
-$ scp username@servername:/path/filename /var/www/local_dir（本地目录）
-// 示例：从 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/local_dir（本地目录）
+$ scp username@servername:/path/filename /var/www/
+</pre>
+
+
+<pre class="example">
+// 示例：从 192.168.0.101 上的 /var/www/test.txt 的文件下载到 /var/www/ 目录中
 $ scp root@192.168.0.101:/var/www/test.txt
-</pre></li>
-<li><p>
+</pre></dd>
+<dt>(no term)</dt><dd><p>
+从服务器下载整个目录
+</p>
+<pre class="example">
+$ scp -r username@servername:/var/www/remote_dir/ /var/www/local_dir
+例如：scp -r root@192.168.0.101:/var/www/test  /var/www/test
+</pre></dd>
+<dt>(no term)</dt><dd><p>
 上传本地文件到服务器
 </p>
 <pre class="example">
 $ scp /path/filename username@servername:/path   
 例如把本机 /var/www/ 目录下的 test.php 文件上传到 192.168.0.101 这台服务器上的 /var/www/ 目录中
 $ scp /var/www/test.php  root@192.168.0.101:/var/www/
-</pre></li>
-<li><p>
-从服务器下载整个目录
-</p>
-<pre class="example">
-$ scp -r username@servername:/var/www/remote_dir/（远程目录） /var/www/local_dir（本地目录）
-例如：scp -r root@192.168.0.101:/var/www/test  /var/www/  
-</pre></li>
-<li><p>
+</pre></dd>
+<dt>(no term)</dt><dd><p>
 上传目录到服务器
 </p>
 <pre class="example">
 $ scp  -r local_dir username@servername:remote_dir
 例如：scp -r test  root@192.168.0.101:/var/www/ 把当前目录下的test目录上传到服务器的 /var/www/ 目录
-</pre></li>
-</ul>
+</pre></dd>
+</dl>
 </div>
 </div>
 <div id="outline-container-orgf69ccc0" class="outline-5">
@@ -1361,7 +1395,7 @@ xdg-user-dirs-gtk-update
 <h3 id="orga64b63a"><span class="section-number-3">2.2</span> Linux 目录结构</h3>
 <div class="outline-text-3" id="text-2-2">
 
-<div id="org3e71649" class="figure">
+<div id="org529e75b" class="figure">
 <p><img src="{{site.url}}/assets/images/cs2.png" alt="cs2.png" />
 </p>
 </div>
@@ -2088,7 +2122,7 @@ $ grep 'partial\[true\]' test.log |grep -o 'engine\[[0-9a-z]*\]' | awk '{enginea
 <h4 id="org355dbea"><span class="section-number-4">2.3.6</span> Linux 压缩(Compression)和打包(Packaging)</h4>
 <div class="outline-text-4" id="text-2-3-6">
 
-<div id="orgb019a94" class="figure">
+<div id="orgfb5833c" class="figure">
 <p><img src="{{site.url}}/assets/images/tar.png" alt="tar.png" />
 </p>
 </div>
@@ -2708,7 +2742,7 @@ $ sudo vim /etc/fstab
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org5305937"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
+<pre class="src src-shell" id="org267cad0"><span style="color: #FF8C00;">UUID</span>=e50dea0a-bcb6-4921-8762-dd96782846dd / ext4 defaults,acl 0 1     
 </pre>
 </div>
 <p>
@@ -4333,7 +4367,7 @@ Docker 和传统虚拟化方式的区别
 </p>
 
 
-<div id="org6bd39d6" class="figure">
+<div id="orgdd97f60" class="figure">
 <p><img src="{{site.url}}/assets/images/docker-01.png" alt="docker-01.png" />
 </p>
 </div>
@@ -4606,7 +4640,7 @@ LD_LIBRARY_PATH 环境变量：指定程序动态链接库文件搜索路径
 top
 </p>
 
-<div id="orge11c9a9" class="figure">
+<div id="org7b3e576" class="figure">
 <p><img src="{{site.url}}/assets/images/top.jpg" alt="top.jpg" />
 </p>
 </div></li>
@@ -4779,8 +4813,8 @@ $ youtube-dl --write-sub --sub-lang zh-Hans --skip-download  https://www.youtube
 </pre>
 </div>
 </div>
-<div id="outline-container-org9ef9332" class="outline-4">
-<h4 id="org9ef9332"><span class="section-number-4">7.5.3</span> 参考资料</h4>
+<div id="outline-container-org181732a" class="outline-4">
+<h4 id="org181732a"><span class="section-number-4">7.5.3</span> 参考资料</h4>
 <div class="outline-text-4" id="text-7-5-3">
 <ul class="org-ul">
 <li><a href="https://zangchuantao.com/tech-zh/2020/use-you-get-to-download-youtube-playlist/">使用you-get 和 youtube-dl下载YouTube视频列表</a></li>
@@ -5563,8 +5597,8 @@ $ iptables -L
 </div>
 </div>
 </div>
-<div id="outline-container-org181732a" class="outline-2">
-<h2 id="org181732a"><span class="section-number-2">9</span> 参考资料</h2>
+<div id="outline-container-orgc8159ff" class="outline-2">
+<h2 id="orgc8159ff"><span class="section-number-2">9</span> 参考资料</h2>
 <div class="outline-text-2" id="text-9">
 <ul class="org-ul">
 <li><a href="http://linux.vbird.org/linux_basic/">鳥哥的 Linux 私房菜</a></li>
