@@ -65,27 +65,27 @@ photos:
 1.只修改表前用户
 </p>
 <div class="org-src-container">
-<pre class="src src-sql"><span style="color: #F92672;">EXEC</span> sp_MSforeachtable <span style="color: #E6DB74;">'exec sp_changeobjectowner "&#65311;","dbo" '</span>
+<pre class="src src-sql"><span style="color: #FF1493;">EXEC</span> sp_MSforeachtable <span style="color: #CDC673;">'exec sp_changeobjectowner "&#65311;","dbo" '</span>
 </pre>
 </div>
 <p>
 2.用户表/存储过程/视图/触发器/自定义函数一起改
 </p>
 <div class="org-src-container">
-<pre class="src src-sql"><span style="color: #F92672;">declare</span> tb <span style="color: #F92672;">cursor</span> <span style="color: #F92672;">local</span> <span style="color: #F92672;">for</span>
-<span style="color: #F92672;">select</span> <span style="color: #E6DB74;">'sp_changeobjectowner ''['</span>+replace(user_name(uid),<span style="color: #E6DB74;">']'</span>,<span style="color: #E6DB74;">']]'</span>)+<span style="color: #E6DB74;">'].['</span>+replace(<span style="color: #F92672;">name</span>,<span style="color: #E6DB74;">']'</span>,<span style="color: #E6DB74;">']]'</span>)+<span style="color: #E6DB74;">']'',''dbo'''</span>
-<span style="color: #F92672;">from</span> sysobjects 
-<span style="color: #F92672;">where</span> xtype <span style="color: #F92672;">in</span>(<span style="color: #E6DB74;">'U'</span>,<span style="color: #E6DB74;">'V'</span>,<span style="color: #E6DB74;">'P'</span>,<span style="color: #E6DB74;">'TR'</span>,<span style="color: #E6DB74;">'FN'</span>,<span style="color: #E6DB74;">'IF'</span>,<span style="color: #E6DB74;">'TF'</span>) <span style="color: #F92672;">and</span> status&gt;=0
-<span style="color: #F92672;">open</span> tb
-<span style="color: #F92672;">declare</span> @s nvarchar(4000)
-<span style="color: #F92672;">fetch</span> tb <span style="color: #F92672;">into</span> @s
+<pre class="src src-sql"><span style="color: #FF1493;">declare</span> tb <span style="color: #FF1493;">cursor</span> <span style="color: #FF1493;">local</span> <span style="color: #FF1493;">for</span>
+<span style="color: #FF1493;">select</span> <span style="color: #CDC673;">'sp_changeobjectowner ''['</span>+replace(user_name(uid),<span style="color: #CDC673;">']'</span>,<span style="color: #CDC673;">']]'</span>)+<span style="color: #CDC673;">'].['</span>+replace(<span style="color: #FF1493;">name</span>,<span style="color: #CDC673;">']'</span>,<span style="color: #CDC673;">']]'</span>)+<span style="color: #CDC673;">']'',''dbo'''</span>
+<span style="color: #FF1493;">from</span> sysobjects 
+<span style="color: #FF1493;">where</span> xtype <span style="color: #FF1493;">in</span>(<span style="color: #CDC673;">'U'</span>,<span style="color: #CDC673;">'V'</span>,<span style="color: #CDC673;">'P'</span>,<span style="color: #CDC673;">'TR'</span>,<span style="color: #CDC673;">'FN'</span>,<span style="color: #CDC673;">'IF'</span>,<span style="color: #CDC673;">'TF'</span>) <span style="color: #FF1493;">and</span> status&gt;=0
+<span style="color: #FF1493;">open</span> tb
+<span style="color: #FF1493;">declare</span> @s nvarchar(4000)
+<span style="color: #FF1493;">fetch</span> tb <span style="color: #FF1493;">into</span> @s
 while @@fetch_status=0
-<span style="color: #F92672;">begin</span>
-<span style="color: #F92672;">exec</span>(@s)
-<span style="color: #F92672;">fetch</span> tb <span style="color: #F92672;">into</span> @s
-<span style="color: #F92672;">end</span>
-<span style="color: #F92672;">close</span> tb
-<span style="color: #F92672;">deallocate</span> tb
+<span style="color: #FF1493;">begin</span>
+<span style="color: #FF1493;">exec</span>(@s)
+<span style="color: #FF1493;">fetch</span> tb <span style="color: #FF1493;">into</span> @s
+<span style="color: #FF1493;">end</span>
+<span style="color: #FF1493;">close</span> tb
+<span style="color: #FF1493;">deallocate</span> tb
 </pre>
 </div>
 </div>
