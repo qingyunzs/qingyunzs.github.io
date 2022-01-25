@@ -76,21 +76,21 @@ tags:
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgf2f02e5"><span style="color: #75715E;"># </span><span style="color: #75715E;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
+<pre class="src src-shell" id="orgf2f02e5"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
 iptables -A INPUT -p tcp --dport 6379 -j DROP
-<span style="color: #75715E;"># </span><span style="color: #75715E;">&#28165;&#29702;&#23450;&#26102;&#20219;&#21153;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#29702;&#23450;&#26102;&#20219;&#21153;</span>
 crontab -r
-<span style="color: #75715E;"># </span><span style="color: #75715E;">&#28165;&#38500;redis key Back1 Back3 Back3</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#38500;redis key Back1 Back3 Back3</span>
 redis-cli -h xxx.xxx.xxx.xxx -x del Back1
 redis-cli -h xxx.xxx.xxx.xxx -x del Back2
 redis-cli -h xxx.xxx.xxx.xxx -x del Back3
 redis-cli -h xxx.xxx.xxx.xxx -x CONFIG SET dbfilename dump.rdb
 redis-cli -h xxx.xxx.xxx.xxx -x CONFIG SET dir /tmp
 redis-cli -h xxx.xxx.xxx.xxx -x save
-<span style="color: #75715E;"># </span><span style="color: #75715E;">&#28165;&#29702;&#36816;&#34892;&#33050;&#26412;</span>
-<span style="color: #F92672;">kill</span> -9 <span style="color: #AE81FF; font-weight: bold;">`ps -ef|grep shz.sh|grep -v grep|awk '{print $2}'`</span>
-<span style="color: #F92672;">kill</span> -9 <span style="color: #AE81FF; font-weight: bold;">`ps -ef|grep zigw|grep -v grep|awk '{print $2}'`</span>
-<span style="color: #F92672;">kill</span> -9 <span style="color: #AE81FF; font-weight: bold;">`ps -ef|grep cmd|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#29702;&#36816;&#34892;&#33050;&#26412;</span>
+<span style="color: #FF1493;">kill</span> -9 <span style="color: #AF87FF; font-weight: bold;">`ps -ef|grep shz.sh|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #FF1493;">kill</span> -9 <span style="color: #AF87FF; font-weight: bold;">`ps -ef|grep zigw|grep -v grep|awk '{print $2}'`</span>
+<span style="color: #FF1493;">kill</span> -9 <span style="color: #AF87FF; font-weight: bold;">`ps -ef|grep cmd|grep -v grep|awk '{print $2}'`</span>
 chattr -i /etc/zigw
 chattr -i /etc/shz.sh
 chattr -i /tmp/zigw
@@ -102,33 +102,33 @@ rm -rf /tmp/zigw
 rm -rf /tmp/shz.sh
 rm -rf ~/.cmd
 
-<span style="color: #75715E;"># </span><span style="color: #75715E;">&#28165;&#29702;SSH&#20813;&#30331;&#24405;&#20449;&#24687;</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#29702;SSH&#20813;&#30331;&#24405;&#20449;&#24687;</span>
 cat /dev/null&gt; ~/.ssh/authorized_keys
-<span style="color: #75715E;"># </span><span style="color: #75715E;">&#28165;&#29702;js&#33050;&#26412;</span>
-find / -name <span style="color: #E6DB74;">'*.js'</span>|xargs grep -L f4ce9|xargs sed -i <span style="color: #E6DB74;">'$d'</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#29702;js&#33050;&#26412;</span>
+find / -name <span style="color: #CDC673;">'*.js'</span>|xargs grep -L f4ce9|xargs sed -i <span style="color: #CDC673;">'$d'</span>
 mv /usr/bin/get /usr/bin/wget
 mv /usr/bin/url /usr/bin/curl
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org504c501"><span style="color: #75715E;">#</span><span style="color: #75715E;">!/bin/</span><span style="color: #F92672;">bash</span>
-<span style="color: #75715E;"># </span><span style="color: #75715E;">By xzeu</span>
-<span style="color: #75715E;"># </span><span style="color: #75715E;">http://www.xzeu.com</span>
-<span style="color: #75715E;"># </span><span style="color: #75715E;">Email: admin#xzeu.com</span>
-<span style="color: #75715E;"># </span><span style="color: #75715E;">Filename: clearlink.sh</span>
+<pre class="src src-shell" id="org504c501"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">By xzeu</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">http://www.xzeu.com</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Email: admin#xzeu.com</span>
+<span style="color: #8B8878;"># </span><span style="color: #8B8878;">Filename: clearlink.sh</span>
 
-<span style="color: #75715E;">#</span><span style="color: #75715E;">Begin</span>
-find / -type f -name <span style="color: #E6DB74;">'*.js'</span> |xargs fgrep -s -l <span style="color: #E6DB74;">"e02cf4ce91284dab9bc3fc4cc2a65e28"</span>|xargs ls -l |awk <span style="color: #E6DB74;">'{print $9}'</span>&gt;jsfile.txt
-<span style="color: #F92672;">for</span> file<span style="color: #F92672;"> in</span> <span style="color: #AE81FF; font-weight: bold;">`cat ~/jsfile.txt`</span>;
-<span style="color: #F92672;">do</span>
-  <span style="color: #F92672;">echo</span> $<span style="color: #FD971F;">file</span>
-  <span style="color: #75715E;"># </span><span style="color: #75715E;">sed -i '/e02cf4ce91284dab9bc3fc4cc2a65e28/d' $file</span>
-  <span style="color: #75715E;"># </span><span style="color: #75715E;">cp $file ${file}.bad</span>
-<span style="color: #F92672;">done</span>
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">Begin</span>
+find / -type f -name <span style="color: #CDC673;">'*.js'</span> |xargs fgrep -s -l <span style="color: #CDC673;">"e02cf4ce91284dab9bc3fc4cc2a65e28"</span>|xargs ls -l |awk <span style="color: #CDC673;">'{print $9}'</span>&gt;jsfile.txt
+<span style="color: #FF1493;">for</span> file<span style="color: #FF1493;"> in</span> <span style="color: #AF87FF; font-weight: bold;">`cat ~/jsfile.txt`</span>;
+<span style="color: #FF1493;">do</span>
+  <span style="color: #FF1493;">echo</span> $<span style="color: #FF8C00;">file</span>
+  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">sed -i '/e02cf4ce91284dab9bc3fc4cc2a65e28/d' $file</span>
+  <span style="color: #8B8878;"># </span><span style="color: #8B8878;">cp $file ${file}.bad</span>
+<span style="color: #FF1493;">done</span>
 
-<span style="color: #F92672;">exit</span> 0
-<span style="color: #75715E;">#</span><span style="color: #75715E;">END</span>
+<span style="color: #FF1493;">exit</span> 0
+<span style="color: #8B8878;">#</span><span style="color: #8B8878;">END</span>
 </pre>
 </div>
 

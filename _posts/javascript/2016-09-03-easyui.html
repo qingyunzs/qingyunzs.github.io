@@ -31,63 +31,63 @@ photos:
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">//&#29992;&#25143;&#36710;&#36742;&#31649;&#29702;
 function DataManage() {
-        var _this = this<span style="color: #75715E;">;</span><span style="color: #75715E;">// _this &#20026; DataManage&#23545;&#35937;</span>
+        var _this = this<span style="color: #8B8878;">;</span><span style="color: #8B8878;">// _this &#20026; DataManage&#23545;&#35937;</span>
         //&#21021;&#22987;&#39029;&#38754;&#20998;&#39029;&#25968;
-        _this.initPageSize = 20<span style="color: #75715E;">;</span>
-        _this.initpageIndex = 1<span style="color: #75715E;">;</span>
+        _this.initPageSize = 20<span style="color: #8B8878;">;</span>
+        _this.initpageIndex = 1<span style="color: #8B8878;">;</span>
         _this.Init = function () {
                 $('#vehicle_pp').pagination({
                       total: 0,
                       pageSize: _this.initPageSize,
                       onSelectPage: function (pageNumber, pageSize) {
-                        _this.initpageIndex = pageNumber<span style="color: #75715E;">;</span>
-                        _this.initPageSize = pageSize<span style="color: #75715E;">;</span>
-                        _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #75715E;">;</span>
+                        _this.initpageIndex = pageNumber<span style="color: #8B8878;">;</span>
+                        _this.initPageSize = pageSize<span style="color: #8B8878;">;</span>
+                        _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #8B8878;">;</span>
                       }
-                })<span style="color: #75715E;">;</span>
+                })<span style="color: #8B8878;">;</span>
         }
 
         //&#31532;&#19968;&#27425;&#26597;&#35810;&#65288;&#20256;&#20837;&#26465;&#20214;&#21363;&#21487;&#65289;
         _this.getVehicleInfo_First = function () {
-               var companyId = $('#company_code').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-               var onlineState = $('#online_state').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-               var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-               var licensePlate = $('#license_plate').val()<span style="color: #75715E;">;</span>
-               var simcardNo = $('#simcard_no').val()<span style="color: #75715E;">;</span>
-               var deviceId = $('#device_id').val()<span style="color: #75715E;">;</span>
-               var ownerName = $('#owner_name').val()<span style="color: #75715E;">;</span>
+               var companyId = $('#company_code').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+               var onlineState = $('#online_state').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+               var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+               var licensePlate = $('#license_plate').val()<span style="color: #8B8878;">;</span>
+               var simcardNo = $('#simcard_no').val()<span style="color: #8B8878;">;</span>
+               var deviceId = $('#device_id').val()<span style="color: #8B8878;">;</span>
+               var ownerName = $('#owner_name').val()<span style="color: #8B8878;">;</span>
                //&#27880;&#24847;&#65306;div #user_vehicle_data&#20043;&#38388;&#26377;&#20010;&#31354;&#26684;
-               $.getJSON(<span style="color: #E6DB74;">"/Data/GetUserVehicleData"</span>, { pageIndex: _this.initpageIndex, pageSize: _this.initPageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
+               $.getJSON(<span style="color: #CDC673;">"/Data/GetUserVehicleData"</span>, { pageIndex: _this.initpageIndex, pageSize: _this.initPageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
                $('div #user_vehicle_data').datagrid({
                  collapsible: true,
                  data: data.uservehiclelist,
-               })<span style="color: #75715E;">;</span>
+               })<span style="color: #8B8878;">;</span>
                $('#vehicle_pp').pagination({
                  total: data.count,
                  pageSize: 20,
                  onSelectPage: function (pageNumber, pageSize) {
-                 _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #75715E;">;</span>
+                 _this.getVehicleInfo_PageChnage(pageNumber, pageSize)<span style="color: #8B8878;">;</span>
                }
-            })<span style="color: #75715E;">;</span>
-         })<span style="color: #75715E;">;</span>
+            })<span style="color: #8B8878;">;</span>
+         })<span style="color: #8B8878;">;</span>
      }
 
      //&#39029;&#38754;page&#25913;&#21464;&#26102;&#26597;&#35810;
      _this.getVehicleInfo_PageChnage = function (pageNumber, pageSize) {
-        var companyId = $('#company_code').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-        var onlineState = $('#online_state').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-        var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #E6DB74;">"getValue"</span>)<span style="color: #75715E;">;</span>
-        var licensePlate = $('#license_plate').val()<span style="color: #75715E;">;</span>
-        var simcardNo = $('#simcard_no').val()<span style="color: #75715E;">;</span>
-        var deviceId = $('#device_id').val()<span style="color: #75715E;">;</span>
-        var ownerName = $('#owner_name').val()<span style="color: #75715E;">;</span>
-        $.getJSON(<span style="color: #E6DB74;">"/Data/GetUserVehicleData"</span>, { pageIndex: pageNumber, pageSize: pageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
+        var companyId = $('#company_code').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+        var onlineState = $('#online_state').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+        var forwardingFlag = $('#forwarding_flag').combobox(<span style="color: #CDC673;">"getValue"</span>)<span style="color: #8B8878;">;</span>
+        var licensePlate = $('#license_plate').val()<span style="color: #8B8878;">;</span>
+        var simcardNo = $('#simcard_no').val()<span style="color: #8B8878;">;</span>
+        var deviceId = $('#device_id').val()<span style="color: #8B8878;">;</span>
+        var ownerName = $('#owner_name').val()<span style="color: #8B8878;">;</span>
+        $.getJSON(<span style="color: #CDC673;">"/Data/GetUserVehicleData"</span>, { pageIndex: pageNumber, pageSize: pageSize, companyId: companyId, onlineState: onlineState, forwardingFlag: forwardingFlag, licensePlate: licensePlate, simcardNo: simcardNo, deviceId: deviceId, ownerName: ownerName }, function (data) {
                 $('div #user_vehicle_data').datagrid({
                         collapsible: true,
                         total: data.count,
                         data: data.uservehiclelist,
-                })<span style="color: #75715E;">;</span>
-        })<span style="color: #75715E;">;</span>
+                })<span style="color: #8B8878;">;</span>
+        })<span style="color: #8B8878;">;</span>
      }
 }
 </pre>
@@ -96,11 +96,11 @@ function DataManage() {
 //调用
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$(<span style="color: #F92672;">function</span> () {
-        p_dataManage=new DataManage()<span style="color: #75715E;">;</span>
-        p_dataManage.Init()<span style="color: #75715E;">; </span><span style="color: #75715E;">//&#21021;&#22987;&#21270;&#21152;&#36733;</span>
-})<span style="color: #75715E;">;</span>
-&lt;td&gt;&lt;a href=<span style="color: #E6DB74;">"#"</span> class=<span style="color: #E6DB74;">"easyui-linkbutton"</span> style=<span style="color: #E6DB74;">"border:1px #95B8E7 solid"</span> iconcls=<span style="color: #E6DB74;">"icon-search"</span> plain=<span style="color: #E6DB74;">"true"</span> onclick=<span style="color: #E6DB74;">"p_dataManage.getVehicleInfo_First()"</span>&gt;&#26597;&#35810;&lt;/a&gt;&lt;/td&gt;
+<pre class="src src-emacs-lisp">$(<span style="color: #FF1493;">function</span> () {
+        p_dataManage=new DataManage()<span style="color: #8B8878;">;</span>
+        p_dataManage.Init()<span style="color: #8B8878;">; </span><span style="color: #8B8878;">//&#21021;&#22987;&#21270;&#21152;&#36733;</span>
+})<span style="color: #8B8878;">;</span>
+&lt;td&gt;&lt;a href=<span style="color: #CDC673;">"#"</span> class=<span style="color: #CDC673;">"easyui-linkbutton"</span> style=<span style="color: #CDC673;">"border:1px #95B8E7 solid"</span> iconcls=<span style="color: #CDC673;">"icon-search"</span> plain=<span style="color: #CDC673;">"true"</span> onclick=<span style="color: #CDC673;">"p_dataManage.getVehicleInfo_First()"</span>&gt;&#26597;&#35810;&lt;/a&gt;&lt;/td&gt;
 </pre>
 </div>
 </div>
@@ -119,19 +119,19 @@ function DataManage() {
 //html code：
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #E6DB74;">"SearchDrawRect"</span> class=<span style="color: #E6DB74;">"easyui-datagrid"</span>
-data-options=<span style="color: #E6DB74;">"rownumbers:false,singleSelect:true,method:'get',fit:true"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;table id=<span style="color: #CDC673;">"SearchDrawRect"</span> class=<span style="color: #CDC673;">"easyui-datagrid"</span>
+data-options=<span style="color: #CDC673;">"rownumbers:false,singleSelect:true,method:'get',fit:true"</span>&gt;
 &lt;thead&gt;
         &lt;tr&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'vehicle_id',width:40,checkbox:true"</span>&gt;&#36712;&#36857;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'company_name',width:150"</span>&gt;&#20844;&#21496;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'license_plate',width:80"</span>&gt;&#36710;&#29260;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'owner_name',width:100"</span>&gt;&#32852;&#31995;&#20154;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'owner_telephone',width:120"</span>&gt;&#32852;&#31995;&#30005;&#35805;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'load_seat',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36733;&#37325;(&#21544;)&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'second_contact_phone',width:80,editor:{type:'textbox',options:{validType:'length[1,10]'}}"</span>&gt;&#36710;&#38271;(&#31859;)&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'traction',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36816;&#20215;&lt;/th&gt;
-                &lt;th data-options=<span style="color: #E6DB74;">"field:'location_time',width:125"</span>&gt;&#23450;&#20301;&#26102;&#38388;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'vehicle_id',width:40,checkbox:true"</span>&gt;&#36712;&#36857;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'company_name',width:150"</span>&gt;&#20844;&#21496;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'license_plate',width:80"</span>&gt;&#36710;&#29260;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'owner_name',width:100"</span>&gt;&#32852;&#31995;&#20154;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'owner_telephone',width:120"</span>&gt;&#32852;&#31995;&#30005;&#35805;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'load_seat',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36733;&#37325;(&#21544;)&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'second_contact_phone',width:80,editor:{type:'textbox',options:{validType:'length[1,10]'}}"</span>&gt;&#36710;&#38271;(&#31859;)&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'traction',width:80,editor:{type:'numberbox',options:{precision:2}}"</span>&gt;&#36816;&#20215;&lt;/th&gt;
+                &lt;th data-options=<span style="color: #CDC673;">"field:'location_time',width:125"</span>&gt;&#23450;&#20301;&#26102;&#38388;&lt;/th&gt;
         &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;/table&gt;
@@ -141,38 +141,38 @@ data-options=<span style="color: #E6DB74;">"rownumbers:false,singleSelect:true,m
 //JavaScript code：
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #E6DB74;">"text/javascript"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;script type=<span style="color: #CDC673;">"text/javascript"</span>&gt;
         $('#SearchDrawRect').datagrid({
                 data: data,
                 rowStyler: function (index, row) {
-                        if (row.is_online == <span style="color: #E6DB74;">"0"</span>) {
-                                return 'color:gray<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                        if (row.is_online == <span style="color: #CDC673;">"0"</span>) {
+                                return 'color:gray<span style="color: #8B8878;">;</span><span style="color: #8B8878;">';</span>
                         }
-                        if (row.is_online == <span style="color: #E6DB74;">"1"</span>) {
-                                var a = 'color:purple'<span style="color: #75715E;">;</span>
+                        if (row.is_online == <span style="color: #CDC673;">"1"</span>) {
+                                var a = 'color:purple'<span style="color: #8B8878;">;</span>
                                 if (row.speed &gt; 0) {
-                                        a = 'color:green<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                                        a = 'color:green<span style="color: #8B8878;">;</span><span style="color: #8B8878;">';</span>
                                 }
-                                if (row.alarm_desc != '' <span style="color: #66D9EF;">&amp;&amp;</span> row.alarm_desc != null) {
-                                        a = 'color:red<span style="color: #75715E;">;</span><span style="color: #75715E;">';</span>
+                                if (row.alarm_desc != '' <span style="color: #5FD7FF;">&amp;&amp;</span> row.alarm_desc != null) {
+                                        a = 'color:red<span style="color: #8B8878;">;</span><span style="color: #8B8878;">';</span>
                                 }
-                                                            return a<span style="color: #75715E;">;</span>
+                                                            return a<span style="color: #8B8878;">;</span>
                         }
                 },
                 onCheck: function (rowIndex, rowData) {
-                        var x = rowData.real_x<span style="color: #75715E;">;</span>
-                        var y = rowData.real_y<span style="color: #75715E;">;</span>
-                        _this.Map.SetCenterRect(x + <span style="color: #E6DB74;">"|"</span> + y, rowData.vehicle_id)<span style="color: #75715E;">;</span>
+                        var x = rowData.real_x<span style="color: #8B8878;">;</span>
+                        var y = rowData.real_y<span style="color: #8B8878;">;</span>
+                        _this.Map.SetCenterRect(x + <span style="color: #CDC673;">"|"</span> + y, rowData.vehicle_id)<span style="color: #8B8878;">;</span>
                 },
                 onDblClickCell: function (index, field, value) {
                         if (editIndex != index) {
                                 if (_this.endEditing()) {
-                                        $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('selectRow', index).datagrid('beginEdit', index)<span style="color: #75715E;">;</span>
-                                        var ed = $('#SearchDrawRect').datagrid('getEditor', { index: index, field: <span style="color: #E6DB74;">"load_seat"</span> })<span style="color: #75715E;">;</span>
-                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus()<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#33719;&#21462;&#28966;&#28857;</span>
-                    editIndex = index<span style="color: #75715E;">;</span>
+                                        $(<span style="color: #CDC673;">"#SearchDrawRect"</span>).datagrid('selectRow', index).datagrid('beginEdit', index)<span style="color: #8B8878;">;</span>
+                                        var ed = $('#SearchDrawRect').datagrid('getEditor', { index: index, field: <span style="color: #CDC673;">"load_seat"</span> })<span style="color: #8B8878;">;</span>
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus()<span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#33719;&#21462;&#28966;&#28857;</span>
+                    editIndex = index<span style="color: #8B8878;">;</span>
                 } else {
-                        $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('endEdit', editRow)<span style="color: #75715E;">;</span>
+                        $(<span style="color: #CDC673;">"#SearchDrawRect"</span>).datagrid('endEdit', editRow)<span style="color: #8B8878;">;</span>
                 }
             }
         },
@@ -180,44 +180,44 @@ data-options=<span style="color: #E6DB74;">"rownumbers:false,singleSelect:true,m
                 text: '&#20445;&#23384;',
                 iconCls: 'icon-save',
                 handler: function () {
-                        var row = $('#SearchDrawRect').datagrid('getSelected')<span style="color: #75715E;">;</span>
+                        var row = $('#SearchDrawRect').datagrid('getSelected')<span style="color: #8B8878;">;</span>
                         if (row != null) {
-                    var rowIndex = $('#SearchDrawRect').datagrid('getRowIndex', row)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#34892;Index</span>
+                    var rowIndex = $('#SearchDrawRect').datagrid('getRowIndex', row)<span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#34892;Index</span>
                     //&#33719;&#21462;&#24403;&#21069;&#32534;&#36753;&#34892;&#23545;&#35937;
-                    var loadSeatEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"load_seat"</span> })<span style="color: #75715E;">;</span>
-                    var secondContactPhoneEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"second_contact_phone"</span> })<span style="color: #75715E;">;</span>
-                    var tractionEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #E6DB74;">"traction"</span> })<span style="color: #75715E;">;</span>
+                    var loadSeatEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #CDC673;">"load_seat"</span> })<span style="color: #8B8878;">;</span>
+                    var secondContactPhoneEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #CDC673;">"second_contact_phone"</span> })<span style="color: #8B8878;">;</span>
+                    var tractionEditor = $('#SearchDrawRect').datagrid('getEditor', { index: rowIndex, field: <span style="color: #CDC673;">"traction"</span> })<span style="color: #8B8878;">;</span>
                     if (loadSeatEditor == null || secondContactPhoneEditor == null || tractionEditor==null) {
-                        AlertInfo(<span style="color: #E6DB74;">"&#35831;&#36873;&#20013;&#24403;&#21069;&#32534;&#36753;&#30340;&#34892;&#65281;"</span>)<span style="color: #75715E;">;</span>
-                        return<span style="color: #75715E;">;</span>
+                        AlertInfo(<span style="color: #CDC673;">"&#35831;&#36873;&#20013;&#24403;&#21069;&#32534;&#36753;&#30340;&#34892;&#65281;"</span>)<span style="color: #8B8878;">;</span>
+                        return<span style="color: #8B8878;">;</span>
                     }
                     var updateData = {
                         vehicleId: row.vehicle_id,
                         loadSeat: $(loadSeatEditor.target).textbox('getValue'),
                         secondContactPhone: $(secondContactPhoneEditor.target).textbox('getValue'),
                         traction: $(tractionEditor.target).textbox('getValue')
-                    }<span style="color: #75715E;">;</span>
-                    $.post(<span style="color: #E6DB74;">"/Data/UpdateVehicle"</span>, { vehicleId: updateData.vehicleId, loadSeat: updateData.loadSeat, secondContactPhone: updateData.secondContactPhone, traction: updateData.traction }, function (data) {
-                        if (data == <span style="color: #E6DB74;">"1"</span>) {
-                                AlertInfo(<span style="color: #E6DB74;">"&#30331;&#24405;&#24050;&#22833;&#25928;&#65292;&#35831;&#37325;&#26032;&#30331;&#24405;&#31995;&#32479;&#65281;"</span>)<span style="color: #75715E;">;</span>
-                        } else if (data == <span style="color: #E6DB74;">"2"</span>) {
-                                AlertInfo(<span style="color: #E6DB74;">"&#27809;&#26377;&#20445;&#23384;&#25104;&#21151;&#65292;&#35831;&#37325;&#26032;&#20445;&#23384;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                    }<span style="color: #8B8878;">;</span>
+                    $.post(<span style="color: #CDC673;">"/Data/UpdateVehicle"</span>, { vehicleId: updateData.vehicleId, loadSeat: updateData.loadSeat, secondContactPhone: updateData.secondContactPhone, traction: updateData.traction }, function (data) {
+                        if (data == <span style="color: #CDC673;">"1"</span>) {
+                                AlertInfo(<span style="color: #CDC673;">"&#30331;&#24405;&#24050;&#22833;&#25928;&#65292;&#35831;&#37325;&#26032;&#30331;&#24405;&#31995;&#32479;&#65281;"</span>)<span style="color: #8B8878;">;</span>
+                        } else if (data == <span style="color: #CDC673;">"2"</span>) {
+                                AlertInfo(<span style="color: #CDC673;">"&#27809;&#26377;&#20445;&#23384;&#25104;&#21151;&#65292;&#35831;&#37325;&#26032;&#20445;&#23384;&#65281;"</span>)<span style="color: #8B8878;">;</span>
                         }
                         else {
-                                if (data != <span style="color: #E6DB74;">""</span>) {
-                                        AlertInfo(data)<span style="color: #75715E;">;</span>
+                                if (data != <span style="color: #CDC673;">""</span>) {
+                                        AlertInfo(data)<span style="color: #8B8878;">;</span>
                                 } else {
-                                        AlertInfo(<span style="color: #E6DB74;">"&#20462;&#25913;&#25104;&#21151;"</span>)<span style="color: #75715E;">;</span>
-                                $(<span style="color: #E6DB74;">"#SearchDrawRect"</span>).datagrid('selectRow', rowIndex).datagrid('endEdit', rowIndex)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#32467;&#26463;&#32534;&#36753;&#34892;</span>
+                                        AlertInfo(<span style="color: #CDC673;">"&#20462;&#25913;&#25104;&#21151;"</span>)<span style="color: #8B8878;">;</span>
+                                $(<span style="color: #CDC673;">"#SearchDrawRect"</span>).datagrid('selectRow', rowIndex).datagrid('endEdit', rowIndex)<span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#32467;&#26463;&#32534;&#36753;&#34892;</span>
                             }
                         }
-                    })<span style="color: #75715E;">;</span>
+                    })<span style="color: #8B8878;">;</span>
                 } else {
-                        AlertInfo(<span style="color: #E6DB74;">"&#35831;&#36873;&#20013;&#38656;&#35201;&#20445;&#23384;&#30340;&#25968;&#25454;&#65281;"</span>)<span style="color: #75715E;">;</span>
+                        AlertInfo(<span style="color: #CDC673;">"&#35831;&#36873;&#20013;&#38656;&#35201;&#20445;&#23384;&#30340;&#25968;&#25454;&#65281;"</span>)<span style="color: #8B8878;">;</span>
                 }
             }
         }]
-})<span style="color: #75715E;">;</span>
+})<span style="color: #8B8878;">;</span>
 &lt;/script&gt;
 </pre>
 </div>
@@ -235,23 +235,23 @@ data-options=<span style="color: #E6DB74;">"rownumbers:false,singleSelect:true,m
 //sortName &#25490;&#24207;&#21015;&#21517;
 //sortOrder &#25490;&#24207;acs&#65292;desc
 _this.sort = function (obj, sortName, sortOrder) {
-        var queryParams = $('#' + obj).datagrid('options').queryParams<span style="color: #75715E;">;</span>
-        queryParams.sortName = sortName<span style="color: #75715E;">;</span>
-        queryParams.sortOrder = sortOrder<span style="color: #75715E;">;</span>
-        $('#' + obj).datagrid('reload')<span style="color: #75715E;">;</span>
+        var queryParams = $('#' + obj).datagrid('options').queryParams<span style="color: #8B8878;">;</span>
+        queryParams.sortName = sortName<span style="color: #8B8878;">;</span>
+        queryParams.sortOrder = sortOrder<span style="color: #8B8878;">;</span>
+        $('#' + obj).datagrid('reload')<span style="color: #8B8878;">;</span>
 }
 
 $('div #user_vehicle_data').datagrid({
       collapsible: true,
-      queryParams: { <span style="color: #E6DB74;">"sortName"</span>: <span style="color: #E6DB74;">""</span>, <span style="color: #E6DB74;">"sortOrder"</span>: <span style="color: #E6DB74;">""</span> },
+      queryParams: { <span style="color: #CDC673;">"sortName"</span>: <span style="color: #CDC673;">""</span>, <span style="color: #CDC673;">"sortOrder"</span>: <span style="color: #CDC673;">""</span> },
       remoteSort: false,
       onSortColumn: function (sort, order) {
-            _this.sort('user_vehicle_data', sort, order)<span style="color: #75715E;">;</span><span style="color: #75715E;">//&#35843;&#29992;&#25490;&#24207;&#26041;&#27861;&#12290;</span>
+            _this.sort('user_vehicle_data', sort, order)<span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#35843;&#29992;&#25490;&#24207;&#26041;&#27861;&#12290;</span>
       },
       sortable: true,
       total: data.count,
       data: data.uservehiclelist,
-})<span style="color: #75715E;">;</span>
+})<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 </div>
@@ -264,7 +264,7 @@ $('div #user_vehicle_data').datagrid({
 <h4 id="orgbaae1f3">效果图</h4>
 <div class="outline-text-4" id="text-orgbaae1f3">
 
-<div class="figure">
+<div id="org75f52e4" class="figure">
 <p><img src="{{site.url}}/assets/images/datagrid-filter.png" alt="datagrid-filter.png" />
 </p>
 </div>
@@ -276,11 +276,11 @@ $('div #user_vehicle_data').datagrid({
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">//&#24341;&#20837;filter&#25991;&#20214;
 //datagrid-filter-zh_CN.js&#20869;&#23481;&#26159;&#33258;&#23450;&#20041;&#30340;&#65292;&#26412;&#23567;&#33410;&#32467;&#23614;
-&lt;script src=<span style="color: #E6DB74;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter.js"</span>&gt;&lt;/script&gt;
-&lt;script src=<span style="color: #E6DB74;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter-zh_CN.js"</span>&gt;&lt;/script&gt;
+&lt;script src=<span style="color: #CDC673;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter.js"</span>&gt;&lt;/script&gt;
+&lt;script src=<span style="color: #CDC673;">"~/Content/EasyUI1.4.5/datagrid-filter/datagrid-filter-zh_CN.js"</span>&gt;&lt;/script&gt;
 
 //&#24320;&#21551;&#36807;&#28388;&#65292;&#23454;&#29616;&#36807;&#28388;&#26041;&#27861;
-$('#SearchDrawRect').datagrid('enableFilter')<span style="color: #75715E;">;</span>
+$('#SearchDrawRect').datagrid('enableFilter')<span style="color: #8B8878;">;</span>
 $('#SearchDrawRect').datagrid('enableFilter', [{
     field: 'vehicle_type_name',
     type: 'combobox',
@@ -292,17 +292,17 @@ $('#SearchDrawRect').datagrid('enableFilter', [{
         panelHeight: '200px',
         editable: false,
         onChange: function (value) {
-             var vehicleTypeName=<span style="color: #E6DB74;">""</span><span style="color: #75715E;">;</span>
+             var vehicleTypeName=<span style="color: #CDC673;">""</span><span style="color: #8B8878;">;</span>
              if (value == '') {
-                 $('#SearchDrawRect').datagrid('removeFilterRule', 'vehicle_type_name')<span style="color: #75715E;">;</span>
+                 $('#SearchDrawRect').datagrid('removeFilterRule', 'vehicle_type_name')<span style="color: #8B8878;">;</span>
              } else {
                  $('#SearchDrawRect').datagrid('addFilterRule', {
                     field: 'vehicle_type_name',
                     op: 'equal',
                     value: value
-                 })<span style="color: #75715E;">;</span>
+                 })<span style="color: #8B8878;">;</span>
              }
-             $('#SearchDrawRect').datagrid('doFilter')<span style="color: #75715E;">;</span>
+             $('#SearchDrawRect').datagrid('doFilter')<span style="color: #8B8878;">;</span>
         }
     }
 }, {
@@ -312,15 +312,15 @@ $('#SearchDrawRect').datagrid('enableFilter', [{
         precision: 2,
         onChange: function (value) {
             if (value == '') {
-                dg.datagrid('removeFilterRule', 'load_seat')<span style="color: #75715E;">;</span>
+                dg.datagrid('removeFilterRule', 'load_seat')<span style="color: #8B8878;">;</span>
             } else {
                 $('#SearchDrawRect').datagrid('addFilterRule', {
                     field: 'load_seat',
                     op: 'greaterorequal',
                     value: value
-                })<span style="color: #75715E;">;</span>
+                })<span style="color: #8B8878;">;</span>
             }                    
-            $('#SearchDrawRect').datagrid('doFilter')<span style="color: #75715E;">;</span>
+            $('#SearchDrawRect').datagrid('doFilter')<span style="color: #8B8878;">;</span>
        }
    }
 }
@@ -334,16 +334,16 @@ $('#SearchDrawRect').datagrid('enableFilter', [{
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">//Add by 20170510,zrg
 if ($.fn.datagrid) {
-    $.fn.datagrid.defaults.operators.nofilter.text = '&#19981;&#36807;&#28388;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.contains.text = '&#21253;&#21547;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.equal.text = '&#31561;&#20110;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.notequal.text = '&#19981;&#31561;&#20110;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.beginwith='&#24320;&#22836;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.endwith.text = '&#32467;&#23614;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.less.text = '&#23567;&#20110;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.lessorequal.text = '&#23567;&#20110;&#25110;&#31561;&#20110;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.greater.text = '&#22823;&#20110;'<span style="color: #75715E;">;</span>
-    $.fn.datagrid.defaults.operators.greaterorequal.text = '&#22823;&#20110;&#25110;&#31561;&#20110;'<span style="color: #75715E;">;</span>
+    $.fn.datagrid.defaults.operators.nofilter.text = '&#19981;&#36807;&#28388;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.contains.text = '&#21253;&#21547;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.equal.text = '&#31561;&#20110;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.notequal.text = '&#19981;&#31561;&#20110;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.beginwith='&#24320;&#22836;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.endwith.text = '&#32467;&#23614;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.less.text = '&#23567;&#20110;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.lessorequal.text = '&#23567;&#20110;&#25110;&#31561;&#20110;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.greater.text = '&#22823;&#20110;'<span style="color: #8B8878;">;</span>
+    $.fn.datagrid.defaults.operators.greaterorequal.text = '&#22823;&#20110;&#25110;&#31561;&#20110;'<span style="color: #8B8878;">;</span>
 }
 </pre>
 </div>
@@ -374,26 +374,26 @@ http://blog.csdn.net/hongping626/article/details/16856191
 <div class="outline-text-2" id="text-orge8bf746">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">var easyuiPanelOnOpen = function (left, top) {
-        var iframeWidth = $(this).parent().parent().width()<span style="color: #75715E;">;</span>
-        var iframeHeight = $(this).parent().parent().height()<span style="color: #75715E;">;</span>
-        var windowWidth = $(this).parent().width()<span style="color: #75715E;">;</span>
-        var windowHeight = $(this).parent().height()<span style="color: #75715E;">;</span>
-        var setWidth = (iframeWidth - windowWidth) / 2<span style="color: #75715E;">;</span>
-        var setHeight = (iframeHeight - windowHeight) / 2<span style="color: #75715E;">;</span>
+        var iframeWidth = $(this).parent().parent().width()<span style="color: #8B8878;">;</span>
+        var iframeHeight = $(this).parent().parent().height()<span style="color: #8B8878;">;</span>
+        var windowWidth = $(this).parent().width()<span style="color: #8B8878;">;</span>
+        var windowHeight = $(this).parent().height()<span style="color: #8B8878;">;</span>
+        var setWidth = (iframeWidth - windowWidth) / 2<span style="color: #8B8878;">;</span>
+        var setHeight = (iframeHeight - windowHeight) / 2<span style="color: #8B8878;">;</span>
         $(this).parent().css({/* &#20462;&#27491;&#38754;&#26495;&#20301;&#32622; */
                 left: setWidth,
                 top: setHeight
-        })<span style="color: #75715E;">;</span>
+        })<span style="color: #8B8878;">;</span>
         if (iframeHeight &lt; windowHeight)
         {
                 $(this).parent().css({/* &#20462;&#27491;&#38754;&#26495;&#20301;&#32622; */
                         left: setWidth,
                         top: 0
-                })<span style="color: #75715E;">;</span>
+                })<span style="color: #8B8878;">;</span>
         }
-        $(<span style="color: #E6DB74;">".window-shadow"</span>).hide()<span style="color: #75715E;">;</span>
-}<span style="color: #75715E;">;</span>
-$.fn.window.defaults.onOpen = easyuiPanelOnOpen<span style="color: #75715E;">;</span>
+        $(<span style="color: #CDC673;">".window-shadow"</span>).hide()<span style="color: #8B8878;">;</span>
+}<span style="color: #8B8878;">;</span>
+$.fn.window.defaults.onOpen = easyuiPanelOnOpen<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 </div>
@@ -405,7 +405,7 @@ $.fn.window.defaults.onOpen = easyuiPanelOnOpen<span style="color: #75715E;">;</
 html code:
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">&lt;input id=<span style="color: #E6DB74;">"tb"</span> type=<span style="color: #E6DB74;">"text"</span> style=<span style="color: #E6DB74;">"width:300px"</span>&gt;
+<pre class="src src-emacs-lisp">&lt;input id=<span style="color: #CDC673;">"tb"</span> type=<span style="color: #CDC673;">"text"</span> style=<span style="color: #CDC673;">"width:300px"</span>&gt;
 </pre>
 </div>
 <p>
@@ -413,11 +413,11 @@ html code:
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">//&#36825;&#31181;&#26041;&#27861;&#33539;&#22260;&#22826;&#24191;&#65292;&#22914;&#26524;&#39029;&#38754;&#26377;&#22810;&#20010;&#25991;&#26412;&#26694;&#23601;&#19981;&#22909;&#29992;&#20102;
-$(window).keydown(<span style="color: #F92672;">function</span>(event) {
+$(window).keydown(<span style="color: #FF1493;">function</span>(event) {
      if(event.keyCode == 13) {
-          alert('111')<span style="color: #75715E;">;</span>
+          alert('111')<span style="color: #8B8878;">;</span>
      }
-})<span style="color: #75715E;">;</span>
+})<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 <p>
@@ -429,22 +429,22 @@ $('#clientID').textbox({
     inputEvents: $.extend({},$.fn.textbox.defaults.inputEvents,{
         keyup: function(event){ 
             if(event.keyCode == 13) {
-                alert('OK')<span style="color: #75715E;">;</span>
+                alert('OK')<span style="color: #8B8878;">;</span>
             }
         }
-    })<span style="color: #75715E;">;</span>
-})<span style="color: #75715E;">; </span>
+    })<span style="color: #8B8878;">;</span>
+})<span style="color: #8B8878;">; </span>
 </pre>
 </div>
 <p>
 方法三：
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">$('#clientID').textbox('textbox').keydown(<span style="color: #F92672;">function</span> (e) {
+<pre class="src src-emacs-lisp">$('#clientID').textbox('textbox').keydown(<span style="color: #FF1493;">function</span> (e) {
     if (e.keyCode == 13) {
-        alert('000')<span style="color: #75715E;">;</span>
+        alert('000')<span style="color: #8B8878;">;</span>
     }
-})<span style="color: #75715E;">;</span>
+})<span style="color: #8B8878;">;</span>
 </pre>
 </div>
 </div>

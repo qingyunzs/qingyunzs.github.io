@@ -1,12 +1,12 @@
 ---
 title: Spring Boot 入门笔记
 author: zrg
-description: Spring Boot 入门笔记
+description: Spring Boot 入门笔记.
 date: 2021-06-25
 categories:
 - java
 tags:
-- SpringBoot 
+- Markdown
 mermaid: true
 ---
 
@@ -22,7 +22,7 @@ mermaid: true
 </parent>
 ```
 
-说明：spring-boot-starter，帮助导入了web模块正常运行所依赖的组件。Spring boot 将所有的功能场景都抽象出来，做成一个个starters（启动器），只需要在项目里面引入这些starter相关场景，依赖都会导入。
+>说明：spring-boot-starter，帮助导入了web模块正常运行所依赖的组件。Spring boot 将所有的功能场景都抽象出来，做成一个个starters（启动器），只需要在项目里面引入这些starter相关场景，依赖都会导入。
 
 ## 2、主程序类
 
