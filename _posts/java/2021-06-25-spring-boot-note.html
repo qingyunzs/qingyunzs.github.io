@@ -1,0 +1,1515 @@
+---
+layout: post
+title: Spring Boot Note
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Java
+- SpringBoot
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+
+<div id="outline-container-orgeefd951" class="outline-2">
+<h2 id="orgeefd951"><span class="section-number-2">1</span> 一、简单入门</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org049a657" class="outline-3">
+<h3 id="org049a657"><span class="section-number-3">1.1</span> 1、启动器</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">parent</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-parent&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">version</span>&gt;2.4.1&lt;/<span style="color: #87D700;">version</span>&gt;
+  &lt;<span style="color: #87D700;">relativePath</span>/&gt; <span style="color: #8B8878;">&lt;!-- </span><span style="color: #8B8878;">lookup parent from repository </span><span style="color: #8B8878;">--&gt;</span>
+&lt;/<span style="color: #87D700;">parent</span>&gt;
+</pre>
+</div>
+
+<p>
+说明：spring-boot-starter，帮助导入了web模块正常运行所依赖的组件。Spring boot 将所有的功能场景都抽象出来，做成一个个starters（启动器），只需要在项目里面引入这些starter相关场景，依赖都会导入。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdb698a9" class="outline-3">
+<h3 id="orgdb698a9"><span class="section-number-3">1.2</span> 2、主程序类</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>主程序类</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SpringBootApplication</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplication</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+        SpringApplication.run(WebDemoApplication.<span style="color: #FF1493;">class</span>, args);
+    }
+}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>@SpringBootApplication</li>
+</ul>
+
+<p>
+@SpringBootApplication标注在哪个类上说明这个类是SpringBoot的主配置类，SpringBoot就运行这个类的main方法启动应用。转到定义查看：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Target</span>({<span style="color: #AF87FF;">ElementType</span>.TYPE})
+<span style="color: #AF87FF;">@Retention</span>(<span style="color: #AF87FF;">RetentionPolicy</span>.<span style="color: #5FD7FF;">RUNTIME</span>)
+<span style="color: #AF87FF;">@Documented</span>
+<span style="color: #AF87FF;">@Inherited</span>
+<span style="color: #AF87FF;">@SpringBootConfiguration</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">SpringBoot&#30340;&#37197;&#32622;&#31867;</span>
+<span style="color: #AF87FF;">@EnableAutoConfiguration</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#24320;&#21551;&#33258;&#21160;&#37197;&#32622;&#21151;&#33021;</span>
+<span style="color: #AF87FF;">@ComponentScan</span>(
+               excludeFilters = {<span style="color: #AF87FF;">@Filter</span>(
+                                         type = <span style="color: #AF87FF;">FilterType</span>.CUSTOM,
+                                         classes = {TypeExcludeFilter.<span style="color: #FF1493;">class</span>}
+                                         ), <span style="color: #AF87FF;">@Filter</span>(
+                                                    type = <span style="color: #AF87FF;">FilterType</span>.CUSTOM,
+                                                    classes = {AutoConfigurationExcludeFilter.<span style="color: #FF1493;">class</span>}
+                                                    )}
+               )
+               <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">SpringBootApplication</span> {
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>@SpringBootConfiguration
+<ul class="org-ul">
+<li>@Configuration，配置类上来标注这个注解
+<ul class="org-ul">
+<li>@Component，配置类也是容器中的一个组件</li>
+</ul></li>
+</ul></li>
+<li>@EnableAutoConfiguration</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">@EnableAutoConfiguration &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #AF87FF;">@AutoConfigurationPackage</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33258;&#21160;&#37197;&#32622;&#21253;</span>
+<span style="color: #AF87FF;">@Import</span>({AutoConfigurationImportSelector.<span style="color: #FF1493;">class</span>})
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">EnableAutoConfiguration</span> {
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">@AutoConfigurationPackage &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #AF87FF;">@Import</span>({Registrar.<span style="color: #FF1493;">class</span>}) <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#32473;&#23481;&#22120;&#20013;&#23548;&#20837;&#19968;&#20010;&#32452;&#20214;&#65307;&#23548;&#20837;&#30340;&#32452;&#20214;&#30001;Registrar.class&#65307;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">AutoConfigurationPackage</span> {
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">@Import({AutoConfigurationImportSelector.class}) &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">EnableAutoConfigurationImportSelector</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23548;&#20837;&#21738;&#20123;&#32452;&#20214;&#30340;&#36873;&#25321;&#22120;</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>EnableAutoConfigurationImportSelector，导入哪些组件的选择器；</li>
+<li>将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；</li>
+<li>SpringBoot 在启动的时候从类路径下的META-IINF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中。以前我们需要自己配置。</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org91ee59f" class="outline-3">
+<h3 id="org91ee59f"><span class="section-number-3">1.3</span> 3、问题：Plugin 'org.springframework.boot:spring-boot-maven-plugin:' not found</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+解决：添加&lt;version&gt;2.4.1&lt;/version&gt;，版本号与启动器版本一致。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">&lt;<span style="color: #5FD7FF;">build</span>&gt;
+    &lt;<span style="color: #5FD7FF;">plugins</span>&gt;
+    &lt;<span style="color: #5FD7FF;">plugin</span>&gt;
+    &lt;<span style="color: #5FD7FF;">groupId</span>&gt;org.springframework.<span style="color: #5FD7FF;">boot</span>&lt;/groupId&gt;
+    &lt;<span style="color: #5FD7FF;">artifactId</span>&gt;spring-boot-maven-<span style="color: #5FD7FF;">plugin</span>&lt;/artifactId&gt;
+    &lt;<span style="color: #5FD7FF;">version</span>&gt;2.4.1&lt;/version&gt;
+    &lt;/plugin&gt;
+    &lt;/plugins&gt;
+    &lt;/build&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8096069" class="outline-2">
+<h2 id="org8096069"><span class="section-number-2">2</span> 二、Spring boot配置</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgf63547f" class="outline-3">
+<h3 id="orgf63547f"><span class="section-number-3">2.1</span> 1、配置文件：修改自动配置的默认值</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+SpringBoot 使用两种配置
+</p>
+
+<ul class="org-ul">
+<li>application.properties</li>
+<li>application.yml</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd0a8330" class="outline-3">
+<h3 id="orgd0a8330"><span class="section-number-3">2.2</span> 2、YAML</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+定义：YAML（YAML Ain’t Markup Language）以数据为中心，比json、xml等更适合做配置文件。注意last-name和lastName是一样的。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc9f0b8a" class="outline-3">
+<h3 id="orgc9f0b8a"><span class="section-number-3">2.3</span> 3、获取yml配置文件内容</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>@ConfigurationProperties</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@ConfigurationProperties</span>(prefix = &#8220;person&#8221;)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">xxx</span> {
+
+}
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>@value</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@value</span>(&#8220;$(person.last-name)&#8221;)
+
+<span style="color: #AF87FF;">@value</span>(&#8220;11*2&#8221;)
+</pre>
+</div>
+
+<p>
+应用场景：如果在某个业务逻辑中获取一下配置值，使用@value；专门编写了一个javaBean来和配置文件进行映射，那么就使用@ConfigurationProperties
+</p>
+
+<ul class="org-ul">
+<li>@PropertySource(value = {“”class path:person.properties})加载指定的配置文件</li>
+<li>@ImportResource导入spring的配置文件</li>
+</ul>
+
+<p>
+注意：SpringBoot推荐给容器中添加组件的方式：使用全注解的方式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0915d62" class="outline-3">
+<h3 id="org0915d62"><span class="section-number-3">2.4</span> 4、@Configuration</h3>
+<div class="outline-text-3" id="text-2-4">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">/*</span>
+<span style="color: #8B8878;"> *@Configuration: &#25351;&#26126;&#24403;&#21069;&#31867;&#26159;&#19968;&#20010;&#37197;&#32622;&#31867;&#65292;&#20195;&#26367;&#20043;&#21069;&#30340;spring&#37197;&#32622;&#25991;&#20214;</span>
+<span style="color: #8B8878;"> */</span>
+<span style="color: #AF87FF;">@Configuration</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">HelloConfig</span> {
+    <span style="color: #AF87FF;">@Bean</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">HelloService</span> <span style="color: #87D700;">helloService</span>(){
+        System.out.println(<span style="color: #CDC673;">"&#37197;&#32622;&#31867;@Bean&#28155;&#21152;&#32452;&#20214;"</span>);
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HelloService</span>();
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb721c40" class="outline-3">
+<h3 id="orgb721c40"><span class="section-number-3">2.5</span> 5、配置文件占位符</h3>
+<div class="outline-text-3" id="text-2-5">
+<ol class="org-ol">
+<li>随机数，${random.value}, ${random.int}</li>
+<li>占位符之前配置的值，没有可以用:指定默认值。${person.hello:hello}_dog</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgbc9524e" class="outline-3">
+<h3 id="orgbc9524e"><span class="section-number-3">2.6</span> 6、多环境配置</h3>
+<div class="outline-text-3" id="text-2-6">
+<ul class="org-ul">
+<li>多profile方式</li>
+</ul>
+
+<p>
+Application-{profile}.properties/yml，默认使用application.properties
+application-dev.properties
+application-test.properties
+application-prod.properties
+</p>
+
+<ul class="org-ul">
+<li>Yml支持多文档块方式：使用三横线分隔</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-yaml">server:
+  port: 8081
+# 不写下面三行，默认是8081
+spring:
+  profiles:
+    active: prod
+---
+server:
+  port: 8082
+spring:
+  config:
+    activate:
+      on-profile: test
+---
+server:
+  port: 8083
+spring:
+  config:
+    activate:
+      on-profile: prod
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>激活指定profile</li>
+<li>在配置文件中指定：spring.profiles.active=dev</li>
+<li>命令行$ jar -jar xxx.jar —spring.profiles.active=dev</li>
+<li>虚拟机选项: -Dspring.profiles.active=dev</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org74c5531" class="outline-3">
+<h3 id="org74c5531"><span class="section-number-3">2.7</span> 7、配置文件的加载</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+Springboot启动会扫描一下位置的application.properties或者application.yml文件作为springboot的默认配置。
+</p>
+
+<ul class="org-ul">
+<li><a href="./config">./config</a></li>
+<li><a href="./">./</a></li>
+<li>Classpath:/config/</li>
+<li>Classpath:/</li>
+</ul>
+
+<p>
+优先级从高到低，高优先级会覆盖低优先级的配置。Springboot会从这四个位置全部加载住配置文件：互补配置。
+</p>
+
+<p>
+可以通过spring.config.location来改变默认的配置文件位置。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d0f06d" class="outline-3">
+<h3 id="org8d0f06d"><span class="section-number-3">2.8</span> 8、外部配置的加载顺序</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+SpringBoot除了可以从项目中的application.properties/application.yml主配置文件中加载配置，还可以从以下位置加载配置：
+1、命令行参数：所有的配置都可以在命令行参数中指定，每个配置项前使用–，多个配置间使用空格隔开，例如：
+&gt; java -jar XXX.jar &#x2013;server.port=8088 &#x2013;server.context-path=boot
+</p>
+
+<p>
+2、来自java:comp/env的JNDI属性
+3、java的系统属性(System.getProperties(""))
+4、操作系统环境变量
+5、RandomValuePropertySource配置的random.*属性值
+6、jar包外部的application-{profile}.properties或application-{profile}.yml(带spring.profile配置)
+7、jar包内部的application-{profile}.properties或application-{profile}.yml(带spring.profile配置)
+8、jar包外部的application.properties或application.yml(不带spring.profile配置)
+9、jar包内部的application.properties或application.yml(不带spring.profile配置)
+10、@Configuration注解类上的@PropertySource
+11、通过SpringApplication.setDefaultProperties()指定的默认属性
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgac2c2cb" class="outline-3">
+<h3 id="orgac2c2cb"><span class="section-number-3">2.9</span> 9、自动配置原理</h3>
+<div class="outline-text-3" id="text-2-9">
+<p>
+1） Springboot启动的时候加载主配置类，开启自动配置功能@EnableAutoConfiguration
+2）@EnableAutoConfiguration作用：
+</p>
+
+<ul class="org-ul">
+<li>利用EnableAutoConfigurationImportSelector给容器中导入组件</li>
+<li>可以查看selectImports方法的内容</li>
+<li>获取候选的配置</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">List</span>&lt;<span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">configurations</span> = <span style="color: #FF1493;">this</span>.getCandidateConfigurations(annotationMetadata, attributes);
+</pre>
+</div>
+
+<p>
+<code>~</code>
+SpringFactoriesLoader.loadFactoryNames()
+扫描所有jar包类路径下  META-INF/spring.factories
+把扫描到的这些文件的内容包装成properties对象
+从properties中获取到EnableAutoConfiguration.class类（类名）对应的值，然后把他们添加在容器中
+<code>~</code>
+</p>
+
+<p>
+org.springframework.boot.autoconfigure.version.jar包中，**将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中。**
+</p>
+
+<p>
+每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中；用他们来做自动配置。
+</p>
+
+<p>
+3）每一个自动配置类进行自动配置功能；
+4）以**HttpEncodingAutoConfiguration（Http编码自动配置）**为例解释自动配置原理；
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#34920;&#31034;&#36825;&#26159;&#19968;&#20010;&#37197;&#32622;&#31867;&#65292;&#20197;&#21069;&#32534;&#20889;&#30340;&#37197;&#32622;&#25991;&#20214;&#19968;&#26679;&#65292;&#20063;&#21487;&#20197;&#32473;&#23481;&#22120;&#20013;&#28155;&#21152;&#32452;&#20214;</span>
+<span style="color: #AF87FF;">@Configuration</span>(
+               proxyBeanMethods = <span style="color: #AF87FF;">false</span>
+               )
+
+               <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21551;&#21160;&#25351;&#23450;&#31867;&#30340;ConfigurationProperties&#21151;&#33021;&#65307;&#23558;&#37197;&#32622;&#25991;&#20214;&#20013;&#23545;&#24212;&#30340;&#20540;&#21644;HttpEncodingProperties&#32465;&#23450;&#36215;&#26469;&#65307;</span>
+               <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#24182;&#25226;HttpEncodingProperties&#21152;&#20837;&#21040;ioc&#23481;&#22120;&#20013;</span>
+               <span style="color: #AF87FF;">@EnableConfigurationProperties</span>({ServerProperties.<span style="color: #FF1493;">class</span>})
+
+               <span style="color: #8B8878;">//</span><span style="color: #8B8878;">Spring&#24213;&#23618;@Conditional&#27880;&#35299;&#65288;Spring&#27880;&#35299;&#29256;&#65289;&#65292;&#26681;&#25454;&#19981;&#21516;&#30340;&#26465;&#20214;&#65292;&#22914;&#26524;&#28385;&#36275;&#25351;&#23450;&#30340;&#26465;&#20214;&#65292;</span>
+               <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#25972;&#20010;&#37197;&#32622;&#31867;&#37324;&#38754;&#30340;&#37197;&#32622;&#23601;&#20250;&#29983;&#25928;&#65307;&#21028;&#26029;&#24403;&#21069;&#24212;&#29992;&#26159;&#21542;&#26159;web&#24212;&#29992;&#65292;&#22914;&#26524;&#26159;&#65292;&#24403;&#21069;&#37197;&#32622;&#31867;&#29983;&#25928;</span>
+               <span style="color: #AF87FF;">@ConditionalOnWebApplication</span>(
+                                            type = <span style="color: #AF87FF;">Type</span>.SERVLET
+                                            )
+                                            <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#24403;&#21069;&#39033;&#30446;&#26377;&#27809;&#26377;&#36825;&#20010;&#31867;CharacterEncodingFilter&#65307;SpringMVC&#20013;&#36827;&#34892;&#20081;&#30721;&#35299;&#20915;&#30340;&#36807;&#28388;&#22120;&#65307;</span>
+                                            <span style="color: #AF87FF;">@ConditionalOnClass</span>({CharacterEncodingFilter.<span style="color: #FF1493;">class</span>})
+
+                                            <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#37197;&#32622;&#25991;&#20214;&#20013;&#26159;&#21542;&#23384;&#22312;&#26576;&#20010;&#37197;&#32622;spring.http.encoding.enabled&#65307;&#22914;&#26524;&#19981;&#23384;&#22312;&#65292;&#21028;&#26029;&#20063;&#26159;&#25104;&#31435;&#30340;</span>
+                                            <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21363;&#20351;&#25105;&#20204;&#37197;&#32622;&#25991;&#20214;&#20013;&#19981;&#37197;&#32622;pring.http.encoding.enabled=true&#65292;&#20063;&#26159;&#40664;&#35748;&#29983;&#25928;&#30340;&#65307;</span>
+                                            <span style="color: #AF87FF;">@ConditionalOnProperty</span>(
+                                                                   prefix = <span style="color: #CDC673;">"server.servlet.encoding"</span>,
+                                                                   value = {<span style="color: #CDC673;">"enabled"</span>},
+                                                                   matchIfMissing = <span style="color: #AF87FF;">true</span>
+                                                                   )
+
+                                                                   <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">HttpEncodingAutoConfiguration</span> {
+                                                                       <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#20182;&#24050;&#32463;&#21644;SpringBoot&#30340;&#37197;&#32622;&#25991;&#20214;&#26144;&#23556;&#20102;</span>
+                                                                       <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Encoding</span> <span style="color: #FF8C00;">properties</span>;
+
+                                                                       <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21482;&#26377;&#19968;&#20010;&#26377;&#21442;&#26500;&#36896;&#22120;&#30340;&#24773;&#20917;&#19979;&#65292;&#21442;&#25968;&#30340;&#20540;&#23601;&#20250;&#20174;&#23481;&#22120;&#20013;&#25343;</span>
+                                                                       <span style="color: #FF1493;">public</span> <span style="color: #87D700;">HttpEncodingAutoConfiguration</span>(<span style="color: #5FD7FF;">ServerProperties</span> <span style="color: #FF8C00;">properties</span>) {
+                                                                           <span style="color: #FF1493;">this</span>.properties = properties.getServlet().getEncoding();
+                                                                       }
+
+                                                                       <span style="color: #AF87FF;">@Bean</span> <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#32473;&#23481;&#22120;&#20013;&#28155;&#21152;&#19968;&#20010;&#32452;&#20214;&#65292;&#36825;&#20010;&#32452;&#20214;&#30340;&#26576;&#20123;&#20540;&#38656;&#35201;&#20174;properties&#20013;&#33719;&#21462;</span>
+                                                                       <span style="color: #AF87FF;">@ConditionalOnMissingBean</span> <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#23481;&#22120;&#27809;&#26377;&#36825;&#20010;&#32452;&#20214;&#65311;</span>
+                                                                       <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">CharacterEncodingFilter</span> <span style="color: #87D700;">characterEncodingFilter</span>() {
+                                                                           <span style="color: #5FD7FF;">CharacterEncodingFilter</span> <span style="color: #FF8C00;">filter</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">OrderedCharacterEncodingFilter</span>();
+                                                                           filter.setEncoding(<span style="color: #FF1493;">this</span>.properties.getCharset().name());
+                                                                           filter.setForceRequestEncoding(<span style="color: #FF1493;">this</span>.properties.shouldForce(<span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">servlet</span>.<span style="color: #AF87FF;">server</span>.<span style="color: #AF87FF;">Encoding</span>.<span style="color: #AF87FF;">Type</span>.REQUEST));
+                                                                           filter.setForceResponseEncoding(<span style="color: #FF1493;">this</span>.properties.shouldForce(<span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">servlet</span>.<span style="color: #AF87FF;">server</span>.<span style="color: #AF87FF;">Encoding</span>.<span style="color: #AF87FF;">Type</span>.RESPONSE));
+                                                                           <span style="color: #FF1493;">return</span> filter;
+                                                                       }
+
+                                                                       <span style="color: #AF87FF;">@Bean</span>
+                                                                       <span style="color: #FF1493;">public</span> <span style="color: #AF87FF;">HttpEncodingAutoConfiguration</span>.<span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span> <span style="color: #87D700;">localeCharsetMappingsCustomizer</span>() {
+                                                                           <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #AF87FF;">HttpEncodingAutoConfiguration</span>.<span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span>(<span style="color: #FF1493;">this</span>.properties);
+                                                                       }
+
+                                                                       <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">WebServerFactoryCustomizer</span>&lt;<span style="color: #5FD7FF;">ConfigurableServletWebServerFactory</span>&gt;, <span style="color: #5FD7FF;">Ordered</span> {
+                                                                           <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Encoding</span> <span style="color: #FF8C00;">properties</span>;
+
+                                                                           LocaleCharsetMappingsCustomizer(<span style="color: #5FD7FF;">Encoding</span> <span style="color: #FF8C00;">properties</span>) {
+                                                                               <span style="color: #FF1493;">this</span>.properties = properties;
+                                                                           }
+
+                                                                           <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">customize</span>(<span style="color: #5FD7FF;">ConfigurableServletWebServerFactory</span> <span style="color: #FF8C00;">factory</span>) {
+                                                                               <span style="color: #FF1493;">if</span> (<span style="color: #FF1493;">this</span>.properties.getMapping() != <span style="color: #AF87FF;">null</span>) {
+                                                                                   factory.setLocaleCharsetMappings(<span style="color: #FF1493;">this</span>.properties.getMapping());
+                                                                               }
+
+                                                                           }
+
+                                                                           <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">int</span> <span style="color: #87D700;">getOrder</span>() {
+                                                                               <span style="color: #FF1493;">return</span> 0;
+                                                                           }
+                                                                       }
+                                                                   }
+</pre>
+</div>
+
+<p>
+根据当前不同的条件判断，决定这个配置类是否生效？
+</p>
+
+<p>
+一但这个配置类生效；这个配置类就会给容器中添加各种组件；这些组件的属性是从对应的properties类中获取的，这些类里面的每一个属性又是和配置文件绑定的。
+</p>
+
+<p>
+总结：所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类（能配置的属性都是来源于这个功能的properties类）。
+</p>
+
+<p>
+精髓：
+1）、SpringBoot启动会加载大量的自动配置类
+2）、我们看我们需要的功能有没有SpringBoot默认写好的自动配置类；
+3）、我们再来看这个自动配置类中到底配置了哪些组件；（只要我们要用的组件有，我们就不需要再来配置了）
+4）、给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这些属性的值；
+</p>
+</div>
+</div>
+
+<div id="outline-container-org61fd761" class="outline-3">
+<h3 id="org61fd761"><span class="section-number-3">2.10</span> @Conditional&amp;自动配置报告</h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+1）@Conditional派生注解
+作用：必须是@Conditional指定的条件成立，才给容器中添加组件，配置配里面的所有内容才生效。
+</p>
+
+<p>
+@Conditional扩展注解	作用（判断是否满足当前指定条件）
+@ConditionalOnJava	系统的java版本是否符合要求
+@ConditionalOnBean	容器中存在指定Bean；
+@ConditionalOnMissingBean	容器中不存在指定Bean；
+@ConditionalOnExpression	满足SpEL表达式指定
+@ConditionalOnClass	系统中有指定的类
+@ConditionalOnMissingClass	系统中没有指定的类
+@ConditionalOnSingleCandidate	容器中只有一个指定的Bean，或者这个Bean是首选Bean
+@ConditionalOnProperty	系统中指定的属性是否有指定的值
+@ConditionalOnResource	类路径下是否存在指定资源文件
+@ConditionalOnWebApplication	当前是web环境
+@ConditionalOnNotWebApplication	当前不是web环境
+@ConditionalOnJndi	JNDI存在指定项
+</p>
+
+<p>
+2）怎么知道哪些自动配置类生效？
+可以通过application.properties启用 debug=true属性；来让控制台打印自动配置报告。
+</p>
+
+<ul class="org-ul">
+<li>Positive matches:（自动配置类启用的）</li>
+<li>Negative matches:（没有启动，没有匹配成功的自动配置类）</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org848a001" class="outline-2">
+<h2 id="org848a001"><span class="section-number-2">3</span> 三、日志</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-orgc64d47c" class="outline-3">
+<h3 id="orgc64d47c"><span class="section-number-3">3.1</span> 1、日志框架</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+市面上的日志框架：JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…
+</p>
+
+<ul class="org-ul">
+<li>日志门面（抽象）：JCL（Jakarta Commons Logging）,slf4j（Simple Login Facade for java）,  Jboss-logging&#x2026;</li>
+<li>日志实现：JUL, logback, log4j, log4j2</li>
+</ul>
+
+<p>
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；
+SpringBoot选用 SLF4j和logback；
+</p>
+</div>
+</div>
+
+<div id="outline-container-org127684b" class="outline-3">
+<h3 id="org127684b"><span class="section-number-3">3.2</span> 2、slf4j使用原理</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+1）如何在系统中使用SLF4j？<a href="https://wwwlslf4j.org">https://wwwlslf4j.org</a>
+开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法。
+给系统里面导入slf4j的jar和 logback的实现jar：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">slf4j</span>.<span style="color: #5FD7FF;">Logger</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">slf4j</span>.<span style="color: #5FD7FF;">LoggerFactory</span>;
+
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplication</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+        <span style="color: #5FD7FF;">Logger</span> <span style="color: #FF8C00;">logger</span> = LoggerFactory.getLogger(WebDemoApplication.<span style="color: #FF1493;">class</span>);
+        logger.info(<span style="color: #CDC673;">"Hello wolrd!"</span>);
+        SpringApplication.run(WebDemoApplication.<span style="color: #FF1493;">class</span>, args);
+    }
+}
+</pre>
+</div>
+
+<p>
+![日志关系图1](<img src="https://img-blog.csdnimg.cn/20190630153026862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" alt="watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" />)
+</p>
+
+<p>
+蓝颜色的是：实现
+浅蓝色的是：适配层，因为早期没有考虑到
+</p>
+
+<p>
+注意：每一个日志的实现框架都有自己的配置文件。使用slf4j以后，配置文件还是做成日志实现框架自己本身的配置文件。
+</p>
+
+<p>
+2）遗留问题
+假设a系统依赖框架，但是框架底层有自己的日志，而且各不相同（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx
+解决办法：统一日志记录，使用slf4j进行输出。在slf4j 网站上<a href="https://www.slf4j.org/">https://www.slf4j.org/</a> 有一个legacy APIs. <a href="https://www.slf4j.org/legacy.html">https://www.slf4j.org/legacy.html</a> ，如下图：
+</p>
+
+<p>
+![日志关系图2](<img src="http://www.slf4j.org/images/legacy.png" alt="legacy.png" />)
+</p>
+
+<p>
+<b><b>如何让系统中所有的日志都统一到slf4j？</b></b>
+</p>
+
+<p>
+由于底层Spring、Hibernate的日志实现与springboot不一样，所以springboot使用了**替换机制**（将系统中其他日志框架先排除出去；用中间包来替换原有的日志框架；导入SLF4j的实现）。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org3815932" class="outline-3">
+<h3 id="org3815932"><span class="section-number-3">3.3</span> 3、分析日志关系</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+打开pom.xml，右键，Diagrams，show dependencies
+</p>
+
+<p>
+![pom](<img src="https://img-blog.csdnimg.cn/20190630160808748.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" alt="watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" />)
+</p>
+
+<ul class="org-ul">
+<li>SpringBoot底层也是使用slf4j+logback的方式进行日志记录</li>
+<li>SpringBoot也把其他的日志都替换成了slf4j</li>
+<li>中间替换包</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SuppressWarnings</span>(<span style="color: #CDC673;">"rawtypes"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">abstract</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">LogFactory</span> {
+    <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J</span> = <span style="color: #CDC673;">"http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j"</span>;
+
+    <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">LogFactory</span> <span style="color: #FF8C00;">logFactory</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">SLF4JLogFactory</span>();
+</pre>
+</div>
+
+<p>
+![中间转换包](<img src="https://img-blog.csdnimg.cn/20190630160833465.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" alt="watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NodW5oYWNr,size_16,color_FFFFFF,t_70" />)
+</p>
+
+<p>
+结论：springboot能自动适配所有的日志，而且底层是SLF4j+Logback的方式进行日志记录，引入其他框架，一定要把这个框架的默认日志依赖移除掉。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-core&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;commons-logging&lt;/<span style="color: #87D700;">groupId</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;commons-logging&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb9bc2d6" class="outline-3">
+<h3 id="orgb9bc2d6"><span class="section-number-3">3.4</span> 4、默认配置</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+1）SpringBoot默认帮我们配置好了日志：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SpringBootTest</span>
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplicationTests</span> {
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#35760;&#24405;&#22120;</span>
+    <span style="color: #5FD7FF;">Logger</span> <span style="color: #FF8C00;">logger</span> = LoggerFactory.getLogger(getClass());
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">contextLoads</span>() {
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#26085;&#24535;&#30340;&#32423;&#21035;&#65307;</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#30001;&#20302;&#21040;&#39640;   trace&lt;debug&lt;info&lt;warn&lt;error</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21487;&#20197;&#35843;&#25972;&#36755;&#20986;&#30340;&#26085;&#24535;&#32423;&#21035;&#65307;&#26085;&#24535;&#23601;&#21482;&#20250;&#22312;&#36825;&#20010;&#32423;&#21035;&#20197;&#20197;&#21518;&#30340;&#39640;&#32423;&#21035;&#29983;&#25928;</span>
+        logger.trace(<span style="color: #CDC673;">"&#36825;&#26159;trace&#26085;&#24535;..."</span>);
+        logger.debug(<span style="color: #CDC673;">"&#36825;&#26159;debug&#26085;&#24535;..."</span>);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">SpringBoot&#40664;&#35748;&#32473;&#25105;&#20204;&#20351;&#29992;&#30340;&#26159;info&#32423;&#21035;&#30340;&#65292;&#27809;&#26377;&#25351;&#23450;&#32423;&#21035;&#30340;&#23601;&#29992;SpringBoot&#40664;&#35748;&#35268;&#23450;&#30340;&#32423;&#21035;&#65307;root&#32423;&#21035;</span>
+        logger.info(<span style="color: #CDC673;">"&#36825;&#26159;info&#26085;&#24535;..."</span>);
+        logger.warn(<span style="color: #CDC673;">"&#36825;&#26159;warn&#26085;&#24535;..."</span>);
+        logger.error(<span style="color: #CDC673;">"&#36825;&#26159;error&#26085;&#24535;..."</span>);
+    }
+}
+</pre>
+</div>
+
+<p>
+2）日志输出格式：
+<code>~</code>
+%d表示日期时间，
+%thread表示线程名，
+%-5level：级别从左显示5个字符宽度
+%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+%msg：日志消息，
+%n是换行
+</p>
+
+<p>
+%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+<code>~</code>
+</p>
+
+<p>
+3）SpringBoot修改日志的默认配置
+<code>~</code>
+logging.level.com.atguigu=trace
+</p>
+
+<p>
+#logging.path=
+</p>
+
+<p>
+#logging.file=G:/springboot.log
+</p>
+
+<p>
+logging.path=/spring/log
+</p>
+
+<p>
+logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
+</p>
+
+<p>
+logging.pattern.file=%d{yyyy-MM-dd} <code>=</code> [%thread] <code>=</code> %-5level <code>=</code> %logger{50} <code>==</code> %msg%n
+<code>~</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org03f0fe3" class="outline-3">
+<h3 id="org03f0fe3"><span class="section-number-3">3.5</span> 5、指定日志文件和日志Profile功能</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+给类路径下放上每个日志框架自己的配置文件即可；SpringBoot就不使用他默认配置的了，下面是对应的命名和放置：
+</p>
+
+<ul class="org-ul">
+<li>Logback：logback-spring.xml, logback-spring.groovy, logback.xml or logback.groovy</li>
+<li>Log4j2：log4j2-spring.xml or log4j2.xml</li>
+<li>JDK (Java Util Logging)：logging.properties</li>
+</ul>
+
+<p>
+logback.xml：直接就被日志框架识别了
+logback-spring.xml：日志框架就不直接加载日志的配置项，由SpringBoot解析日志配置，可以使用SpringBoot的高级Profile功能：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">&lt;<span style="color: #5FD7FF;">appender</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"stdout"</span> <span style="color: #FF1493;">class</span>=<span style="color: #CDC673;">"ch.qos.logback.core.ConsoleAppender"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">layout</span> <span style="color: #FF1493;">class</span>=<span style="color: #CDC673;">"ch.qos.logback.classic.PatternLayout"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">springProfile</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"dev"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">pattern</span>&gt;%d{yyyy-MM-dd HH:mm:<span style="color: #AF87FF;">ss</span>.SSS} ----&gt; [%thread] ---&gt; %-5level %logger{50} - %msg%<span style="color: #5FD7FF;">n</span>&lt;/pattern&gt;
+        &lt;/springProfile&gt;
+        &lt;<span style="color: #5FD7FF;">springProfile</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"!dev"</span>&gt;
+        &lt;<span style="color: #5FD7FF;">pattern</span>&gt;%d{yyyy-MM-dd HH:mm:<span style="color: #AF87FF;">ss</span>.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%<span style="color: #5FD7FF;">n</span>&lt;/pattern&gt;
+            &lt;/springProfile&gt;
+            &lt;/layout&gt;
+            &lt;/appender&gt;
+</pre>
+</div>
+
+<p>
+注意：如果使用logback.xml作为日志配置文件，还要使用profile功能，会有以下错误：
+&gt; no applicable action for [springProfile]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org815316f" class="outline-3">
+<h3 id="org815316f"><span class="section-number-3">3.6</span> 6、切换日志框架</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+可以按照slf4j的日志关系图，进行相关的切换。示例：slf4j+log4j切换为log4j2：
+</p>
+
+<ul class="org-ul">
+<li>slf4j+log4j</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-web&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;logback-classic&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;ch.qos.logback&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;log4j-over-slf4j&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.slf4j&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+
+&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.slf4j&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;slf4j-log4j12&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>log4j</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-web&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-logging&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+
+&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-log4j2&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge7fe45a" class="outline-2">
+<h2 id="orge7fe45a"><span class="section-number-2">4</span> 四、SpringBoot与Web开发</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org14915d2" class="outline-3">
+<h3 id="org14915d2"><span class="section-number-3">4.1</span> 1、静态资源映射规则</h3>
+<div class="outline-text-3" id="text-4-1">
+<ol class="org-ol">
+<li>所有webjars/*，都去classpath：/META-INF/resources/webjars/ 下找资源。</li>
+</ol>
+
+<p>
+webjars，以jar包的方式引入静态资源，官网：<a href="https://www.webjars.org/">https://www.webjars.org/</a>
+</p>
+
+<p>
+eg：localhost:8080/webjars/jquery/3.3.1/jquery.js
+</p>
+
+<ol class="org-ol">
+<li>访问当前项目内的资源</li>
+</ol>
+<p>
+<code>~</code>
+"classpath:/META-INF/resources/"
+"classpath:/resources/"
+"classpath:/static/"
+"classpath:/public/"
+<code>~</code>
+</p>
+
+<ol class="org-ol">
+<li>欢迎页：静态资源目录下的所有 index.html 页面</li>
+
+<li>所有的 /favicon.ico 都是在静态资源文件下找</li>
+</ol>
+
+<p>
+可配置：spring.web.resources.static-locations=classpath:/hello,classpath:/assets
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87d2431" class="outline-3">
+<h3 id="org87d2431"><span class="section-number-3">4.2</span> 2、模版引擎</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+JSP, Velocity,  Thymeleaf, [Mustache](<a href="https://mustache.github.io/">https://mustache.github.io/</a>), [FreeMarker](<a href="https://freemarker.apache.org/docs/">https://freemarker.apache.org/docs/</a>), [Groovy](<a href="https://docs.groovy-lang.org/docs/next/html/documentation/template-engines.html#_the_markuptemplateengine">https://docs.groovy-lang.org/docs/next/html/documentation/template-engines.html#_the_markuptemplateengine</a>)
+</p>
+
+<p>
+Thymeleaf用法：
+</p>
+
+<p>
+1）直接将html文件放在templates目录下，就能自动渲染。
+</p>
+
+<p>
+2）然后官网查看详细用法：<a href="https://www.thymeleaf.org/">https://www.thymeleaf.org/</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #87D700;">html</span> <span style="color: #FF8C00;">lang</span>=<span style="color: #CDC673;">"en"</span> <span style="color: #FF1493;">xmlns</span>:<span style="color: #FF8C00;">th</span>=<span style="color: #CDC673;">"http://www.thymeleaf.org"</span>&gt;
+</pre>
+</div>
+
+<p>
+3）语法规则
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #87D700;">p</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"${hello}"</span>&gt;&lt;/<span style="color: #87D700;">p</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga405c71" class="outline-2">
+<h2 id="orga405c71"><span class="section-number-2">5</span> 五、Spring MVC</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgcaa78c7" class="outline-3">
+<h3 id="orgcaa78c7"><span class="section-number-3">5.1</span> 1、Spring MVC auto-configuration原理</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Spring Boot 自动配置好了SpringMVC，以下是SpringBoot对SpringMVC的默认配置：**WebMvcAutoConfiguration**
+</p>
+
+<ul class="org-ul">
+<li>Inclusion of `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans.
+<ul class="org-ul">
+<li>自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染（转发？重定向？））</li>
+<li>ContentNegotiatingViewResolver：组合所有的视图解析器的；</li>
+<li>如何定制：我们可以自己给容器中添加一个视图解析器；自动的将其组合进来；</li>
+</ul></li>
+<li>Support for serving static resources, including support for WebJars (see below).静态资源文件夹路径,webjars</li>
+<li>Static `index.html` support. 静态首页访问</li>
+<li>Custom `Favicon` support (see below). favicon.ico</li>
+<li>自动注册了 of `Converter`, `GenericConverter`, `Formatter` beans.
+<ul class="org-ul">
+<li>Converter：转换器； public String hello(User user)：类型转换使用Converter</li>
+<li>`Formatter` 格式化器； 2017.12.17===Date；自己添加的格式化器转换器，我们只需要放在容器中即可</li>
+</ul></li>
+<li>Support for `HttpMessageConverters` (see below).
+<ul class="org-ul">
+<li>HttpMessageConverter：SpringMVC用来转换Http请求和响应的；User—Json；</li>
+<li>`HttpMessageConverters` 是从容器中确定；获取所有的HttpMessageConverter；自己给容器中添加HttpMessageConverter，只需要将自己的组件注册容器中（@Bean,@Component）</li>
+</ul></li>
+<li>Automatic registration of `MessageCodesResolver` (see below).定义错误代码生成规则</li>
+<li>Automatic use of a `ConfigurableWebBindingInitializer` bean (see below). 我们可以配置一个ConfigurableWebBindingInitializer来替换默认的；（添加到容器）</li>
+</ul>
+
+<p>
+[org.springframework.boot.autoconfigure.web](<a href="http://org.springframework.boot.autoconfigure.web/">http://org.springframework.boot.autoconfigure.web/</a>)：**web的所有自动场景**
+</p>
+
+<p>
+If you want to keep Spring Boot MVC features, and you just want to add additional [MVC configuration](<a href="https://docs.spring.io/spring/docs/4.3.14.RELEASE/spring-framework-reference/htmlsingle#mvc">https://docs.spring.io/spring/docs/4.3.14.RELEASE/spring-framework-reference/htmlsingle#mvc</a>) (interceptors, formatters, view controllers etc.) you can add your own `@Configuration` class of type `WebMvcConfigurerAdapter`, but <b><b>without</b></b> `@EnableWebMvc`. If you wish to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter` or `ExceptionHandlerExceptionResolver` you can declare a `WebMvcRegistrationsAdapter` instance providing such components.
+</p>
+
+<p>
+If you want to take complete control of Spring MVC, you can add your own `@Configuration` annotated with `@EnableWebMvc`.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org037ac66" class="outline-3">
+<h3 id="org037ac66"><span class="section-number-3">5.2</span> 2、扩展与全面接管SpringMVC</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+1）扩展SpringMVC
+原先在spring-mvc.xml中这样的：
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">view-controller</span> <span style="color: #FF8C00;">path</span>=<span style="color: #CDC673;">"/hello"</span> <span style="color: #FF8C00;">view-name</span>=<span style="color: #CDC673;">"success"</span>/&gt;
+&lt;<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">interceptors</span>&gt;
+  &lt;<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">interceptor</span>&gt;
+    &lt;<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">mapping</span> <span style="color: #FF8C00;">path</span>=<span style="color: #CDC673;">"/hello"</span>/&gt;
+    &lt;<span style="color: #87D700;">bean</span> /&gt;
+  &lt;/<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">interceptor</span>&gt;
+&lt;/<span style="color: #FF1493;">mvc</span>:<span style="color: #87D700;">interceptors</span>&gt;
+</pre>
+</div>
+
+<p>
+现在，SpringBoot可以编写一个配置类（@Configuration），是WebMvcConfigurerAdapter类型；不能标注@EnableWebMvc。这样既保留了所有的自动配置，也能用我们扩展的配置。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22312; Spring Boot 2.0 &#20043;&#21518; WebMvcConfigurerAdapter &#23601;&#24050;&#32463;&#36807;&#26102;&#20102;&#65292;&#24182;&#19988; WebMvcConfigurer &#25509;&#21475;&#20063;&#21457;&#29983;&#20102;&#21464;&#21270;&#65292;&#37324;&#38754;&#25152;&#26377;&#30340;&#26041;&#27861;&#37117;&#23450;&#20041;&#25104;&#20102;&#40664;&#35748;&#26041;&#27861;&#65288;default&#65289;&#12290;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22240;&#27492;&#25105;&#20204;&#21487;&#20197;&#30452;&#25509;&#23454;&#29616; WebMvcConfigurer &#25509;&#21475;&#65292;&#37325;&#20889;&#23545;&#24212;&#30340;&#26041;&#27861;&#21363;&#21487;&#12290;</span>
+<span style="color: #AF87FF;">@Configuration</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MvcConfig</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">WebMvcConfigurer</span> {
+    <span style="color: #AF87FF;">@Override</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">addViewControllers</span>(<span style="color: #5FD7FF;">ViewControllerRegistry</span> <span style="color: #FF8C00;">registry</span>) {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">super.addViewControllers(registry);</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#27983;&#35272;&#22120;&#21457;&#36865; /atguigu &#35831;&#27714;&#26469;&#21040; success</span>
+        registry.addViewController(<span style="color: #CDC673;">"/success"</span>).setViewName(<span style="color: #CDC673;">"index"</span>);
+    }
+}
+</pre>
+</div>
+
+<p>
+原理：
+</p>
+
+<ul class="org-ul">
+<li>WebMvcAutoConfiguration是SpringMVC的自动配置类，在做其他自动配置时会导入：@Import(EnableWebMvcConfiguration.class)</li>
+<li>容器中所有的WebMvcConfigurer都会一起起作用</li>
+<li>自定义的配置类也会被调用</li>
+</ul>
+
+<p>
+2）全面接管SpringMVC：SpringBoot对SpringMVC的自动配置不需要了，所有都是我们自己配置，所有的SpringMVC的自动配置都失效了。（但是实际开发中，不推荐全面接管，除非写很小的应用，因为大部分功能都会用到）
+方法：在配置类中添加@EnableWebMvc即可。
+</p>
+
+<p>
+注意：当我们使用@EnableWebMvc，则静态资源无法访问。
+</p>
+
+<p>
+<b><b>为什么添加@EnableWebMvc后，SpringBoot 自动配置就失效了？</b></b>
+</p>
+
+<ul class="org-ul">
+<li>@EnableWebMvc的核心</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Import</span>({DelegatingWebMvcConfiguration.<span style="color: #FF1493;">class</span>})
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">EnableWebMvc</span> {
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>DelegatingWebMvcConfiguration</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Configuration</span>(
+               proxyBeanMethods = <span style="color: #AF87FF;">false</span>
+               )
+               <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">DelegatingWebMvcConfiguration</span> <span style="color: #FF1493;">extends</span> <span style="color: #5FD7FF;">WebMvcConfigurationSupport</span> {
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>WebMvcAutoConfiguration</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Configuration</span>(
+               proxyBeanMethods = <span style="color: #AF87FF;">false</span>
+               )
+               <span style="color: #AF87FF;">@ConditionalOnWebApplication</span>(
+                                            type = <span style="color: #AF87FF;">Type</span>.SERVLET
+                                            )
+                                            <span style="color: #AF87FF;">@ConditionalOnClass</span>({Servlet.<span style="color: #FF1493;">class</span>, DispatcherServlet.<span style="color: #FF1493;">class</span>, WebMvcConfigurer.<span style="color: #FF1493;">class</span>})
+                                            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#27880;&#24847;&#65306;&#23481;&#22120;&#20013;&#27809;&#26377;&#36825;&#20010;&#32452;&#20214;&#30340;&#26102;&#20505;&#65292;&#36825;&#20010;&#33258;&#21160;&#37197;&#32622;&#31867;&#25165;&#29983;&#25928;</span>
+                                            <span style="color: #AF87FF;">@ConditionalOnMissingBean</span>({WebMvcConfigurationSupport.<span style="color: #FF1493;">class</span>})
+                                            <span style="color: #AF87FF;">@AutoConfigureOrder</span>(-2147483638)
+                                            <span style="color: #AF87FF;">@AutoConfigureAfter</span>({DispatcherServletAutoConfiguration.<span style="color: #FF1493;">class</span>, TaskExecutionAutoConfiguration.<span style="color: #FF1493;">class</span>, ValidationAutoConfiguration.<span style="color: #FF1493;">class</span>})
+                                            <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebMvcAutoConfiguration</span> {
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>@EnableWebMvc将WebMvcConfigurationSupport组件导入进来</li>
+<li>导入的WebMvcConfigurationSupport只是SpringMVC最基本的功能；</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org96c1821" class="outline-3">
+<h3 id="org96c1821"><span class="section-number-3">5.3</span> 3、引入资源</h3>
+<div class="outline-text-3" id="text-5-3">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Override</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">addResourceHandlers</span>(<span style="color: #5FD7FF;">ResourceHandlerRegistry</span> <span style="color: #FF8C00;">registry</span>){
+    registry.addResourceHandlers(<span style="color: #CDC673;">"/static/**"</span>).addResourceLocations(<span style="color: #CDC673;">"classpath:/static/"</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf7d692a" class="outline-3">
+<h3 id="orgf7d692a"><span class="section-number-3">5.4</span> 4、国际化</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+1）编写国际化配置文件
+</p>
+
+<p>
+2）使用ResourceBundleMessageSource管理国际化资源文件
+</p>
+
+<p>
+3）在页面使用fmt:message取出国际化内容
+</p>
+
+
+
+<p>
+步骤：
+</p>
+
+<p>
+1）编写国际化配置文件，抽取页面需要显示的国际化消息
+</p>
+
+<p>
+signin.properties
+</p>
+
+<p>
+signin_en_US.properties
+</p>
+
+<p>
+signin_zh_CN.properties
+</p>
+
+<p>
+2）SpringBoot自动配置好了管理国际化资源文件的组件
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Configuration</span>(
+               proxyBeanMethods = <span style="color: #AF87FF;">false</span>
+               )
+               <span style="color: #AF87FF;">@ConditionalOnMissingBean</span>(
+                                         name = {<span style="color: #CDC673;">"messageSource"</span>},
+                                         search = <span style="color: #AF87FF;">SearchStrategy</span>.CURRENT
+                                         )
+                                         <span style="color: #AF87FF;">@AutoConfigureOrder</span>(-2147483648)
+                                         <span style="color: #AF87FF;">@Conditional</span>({<span style="color: #AF87FF;">MessageSourceAutoConfiguration</span>.ResourceBundleCondition.<span style="color: #FF1493;">class</span>})
+                                         <span style="color: #AF87FF;">@EnableConfigurationProperties</span>
+                                         <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MessageSourceAutoConfiguration</span> {
+                                             <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Resource</span>[] <span style="color: #FF8C00;">NO_RESOURCES</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Resource</span>[0];
+
+                                             <span style="color: #FF1493;">public</span> <span style="color: #87D700;">MessageSourceAutoConfiguration</span>() {
+                                             }
+
+                                             <span style="color: #AF87FF;">@Bean</span>
+                                             <span style="color: #AF87FF;">@ConfigurationProperties</span>(
+                                                                      prefix = <span style="color: #CDC673;">"spring.messages"</span>
+                                                                      )
+                                                                      <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">MessageSourceProperties</span> <span style="color: #87D700;">messageSourceProperties</span>() {
+                                                 <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">MessageSourceProperties</span>();
+                                             }
+
+                                             <span style="color: #AF87FF;">@Bean</span>
+                                             <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">MessageSource</span> <span style="color: #87D700;">messageSource</span>(<span style="color: #5FD7FF;">MessageSourceProperties</span> <span style="color: #FF8C00;">properties</span>) {
+                                                 <span style="color: #5FD7FF;">ResourceBundleMessageSource</span> <span style="color: #FF8C00;">messageSource</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ResourceBundleMessageSource</span>();
+                                                 <span style="color: #FF1493;">if</span> (StringUtils.hasText(properties.getBasename())) {
+                                                     <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#35774;&#32622;&#22269;&#38469;&#21270;&#36164;&#28304;&#25991;&#20214;&#30340;&#22522;&#30784;&#21517;&#65288;&#21435;&#25481;&#35821;&#35328;&#22269;&#23478;&#20195;&#30721;&#30340;&#65289;</span>
+                                                     messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(properties.getBasename())));
+                                                 }
+
+                                                 <span style="color: #FF1493;">if</span> (properties.getEncoding() != <span style="color: #AF87FF;">null</span>) {
+                                                     messageSource.setDefaultEncoding(properties.getEncoding().name());
+                                                 }
+
+                                                 messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+                                                 <span style="color: #5FD7FF;">Duration</span> <span style="color: #FF8C00;">cacheDuration</span> = properties.getCacheDuration();
+                                                 <span style="color: #FF1493;">if</span> (cacheDuration != <span style="color: #AF87FF;">null</span>) {
+                                                     messageSource.setCacheMillis(cacheDuration.toMillis());
+                                                 }
+
+                                                 messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+                                                 messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
+                                                 <span style="color: #FF1493;">return</span> messageSource;
+                                             }
+</pre>
+</div>
+
+<p>
+3）去页面获取国际化的值
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #FF1493;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #87D700;">html</span> <span style="color: #FF8C00;">lang</span>=<span style="color: #CDC673;">"en"</span> <span style="color: #FF1493;">xmlns</span>:<span style="color: #FF8C00;">th</span>=<span style="color: #CDC673;">"http://www.thymeleaf.org"</span>&gt;
+  &lt;<span style="color: #87D700;">head</span>&gt;
+    &lt;<span style="color: #87D700;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Signin Template &#183; Bootstrap v5.0</span>&lt;/<span style="color: #87D700;">title</span>&gt;
+  &lt;/<span style="color: #87D700;">head</span>&gt;
+  &lt;<span style="color: #87D700;">body</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"text-center"</span>&gt;
+
+    &lt;<span style="color: #87D700;">main</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"form-signin"</span>&gt;
+      &lt;<span style="color: #87D700;">form</span>&gt;
+        &lt;<span style="color: #87D700;">img</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"mb-4"</span> <span style="color: #FF8C00;">src</span>=<span style="color: #CDC673;">"/assets/img/svg/bootstrap-logo.svg"</span> <span style="color: #FF8C00;">alt</span>=<span style="color: #CDC673;">""</span> <span style="color: #FF8C00;">width</span>=<span style="color: #CDC673;">"72"</span> <span style="color: #FF8C00;">height</span>=<span style="color: #CDC673;">"57"</span>&gt;
+        &lt;<span style="color: #87D700;">h1</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"h3 mb-3 fw-normal"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"#{signin.tip}"</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Please sign in</span>&lt;/<span style="color: #87D700;">h1</span>&gt;
+        &lt;<span style="color: #87D700;">label</span> <span style="color: #FF8C00;">for</span>=<span style="color: #CDC673;">"inputEmail"</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"visually-hidden"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"#{signin.email}"</span>&gt;Email address&lt;/<span style="color: #87D700;">label</span>&gt;
+        &lt;<span style="color: #87D700;">input</span> <span style="color: #FF8C00;">type</span>=<span style="color: #CDC673;">"email"</span> <span style="color: #FF8C00;">id</span>=<span style="color: #CDC673;">"inputEmail"</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"form-control"</span> <span style="color: #FF8C00;">placeholder</span>=<span style="color: #CDC673;">"Email address"</span>
+               <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">placeholder</span>=<span style="color: #CDC673;">"#{signin.email}"</span> <span style="color: #FF8C00;">required</span>=<span style="color: #CDC673;">""</span> <span style="color: #FF8C00;">autofocus</span>=<span style="color: #CDC673;">""</span>&gt;
+        &lt;<span style="color: #87D700;">label</span> <span style="color: #FF8C00;">for</span>=<span style="color: #CDC673;">"inputPassword"</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"visually-hidden"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"#{signin.password}"</span>&gt;Password&lt;/<span style="color: #87D700;">label</span>&gt;
+        &lt;<span style="color: #87D700;">input</span> <span style="color: #FF8C00;">type</span>=<span style="color: #CDC673;">"password"</span> <span style="color: #FF8C00;">id</span>=<span style="color: #CDC673;">"inputPassword"</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"form-control"</span> <span style="color: #FF8C00;">placeholder</span>=<span style="color: #CDC673;">"Password"</span>
+               <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">placeholder</span>=<span style="color: #CDC673;">"#{signin.password}"</span> <span style="color: #FF8C00;">required</span>=<span style="color: #CDC673;">""</span>&gt;
+        &lt;<span style="color: #87D700;">div</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"checkbox mb-3"</span>&gt;
+          &lt;<span style="color: #87D700;">label</span>&gt;
+            &lt;<span style="color: #87D700;">input</span> <span style="color: #FF8C00;">type</span>=<span style="color: #CDC673;">"checkbox"</span> <span style="color: #FF8C00;">value</span>=<span style="color: #CDC673;">"remember-me"</span>&gt; [[#{signin.remeber}]]
+          &lt;/<span style="color: #87D700;">label</span>&gt;
+        &lt;/<span style="color: #87D700;">div</span>&gt;
+        &lt;<span style="color: #87D700;">button</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"w-100 btn btn-lg btn-primary"</span> <span style="color: #FF8C00;">type</span>=<span style="color: #CDC673;">"submit"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"#{signin.btn}"</span>&gt;Sign in&lt;/<span style="color: #87D700;">button</span>&gt;
+        &lt;<span style="color: #87D700;">p</span> <span style="color: #FF8C00;">class</span>=<span style="color: #CDC673;">"mt-5 mb-3 text-muted"</span>&gt;&#169; 2017-2020&lt;/<span style="color: #87D700;">p</span>&gt;
+      &lt;/<span style="color: #87D700;">form</span>&gt;
+    &lt;/<span style="color: #87D700;">main</span>&gt;
+
+  &lt;/<span style="color: #87D700;">body</span>&gt;
+&lt;/<span style="color: #87D700;">html</span>&gt;
+</pre>
+</div>
+
+<p>
+效果：根据浏览器语言设置的信息切换了国际化。
+</p>
+
+
+
+<p>
+原理：
+</p>
+
+<p>
+国际化Locale（区域信息对象）；LocaleResolver（获取区域信息对象）；
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">WebMvcAutoConfiguration.class</span>
+<span style="color: #AF87FF;">@Bean</span>
+<span style="color: #AF87FF;">@ConditionalOnMissingBean</span>(
+                          name = {<span style="color: #CDC673;">"localeResolver"</span>}
+                          )
+                          <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">LocaleResolver</span> <span style="color: #87D700;">localeResolver</span>() {
+    <span style="color: #FF1493;">if</span> (<span style="color: #FF1493;">this</span>.webProperties.getLocaleResolver() == <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">autoconfigure</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">WebProperties</span>.<span style="color: #AF87FF;">LocaleResolver</span>.FIXED) {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">FixedLocaleResolver</span>(<span style="color: #FF1493;">this</span>.webProperties.getLocale());
+    } <span style="color: #FF1493;">else</span> <span style="color: #FF1493;">if</span> (<span style="color: #FF1493;">this</span>.mvcProperties.getLocaleResolver() == <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">autoconfigure</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">servlet</span>.<span style="color: #AF87FF;">WebMvcProperties</span>.<span style="color: #AF87FF;">LocaleResolver</span>.FIXED) {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">FixedLocaleResolver</span>(<span style="color: #FF1493;">this</span>.mvcProperties.getLocale());
+    } <span style="color: #FF1493;">else</span> {
+        <span style="color: #5FD7FF;">AcceptHeaderLocaleResolver</span> <span style="color: #FF8C00;">localeResolver</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">AcceptHeaderLocaleResolver</span>();
+        <span style="color: #5FD7FF;">Locale</span> <span style="color: #FF8C00;">locale</span> = <span style="color: #FF1493;">this</span>.webProperties.getLocale() != <span style="color: #AF87FF;">null</span> ? <span style="color: #FF1493;">this</span>.webProperties.getLocale() : <span style="color: #FF1493;">this</span>.mvcProperties.getLocale();
+        localeResolver.setDefaultLocale(locale);
+        <span style="color: #FF1493;">return</span> localeResolver;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0926115" class="outline-3">
+<h3 id="org0926115"><span class="section-number-3">5.5</span> 5、登录</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+1）登陆错误消息的显示
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Controller</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">LoginController</span> {
+    <span style="color: #AF87FF;">@RequestMapping</span>(value = <span style="color: #CDC673;">"/user/login"</span>, method = <span style="color: #AF87FF;">RequestMethod</span>.POST)
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">String</span> <span style="color: #87D700;">login</span>(<span style="color: #AF87FF;">@RequestParam</span>(<span style="color: #CDC673;">"username"</span>) <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">username</span>,
+                        <span style="color: #AF87FF;">@RequestParam</span>(<span style="color: #CDC673;">"password"</span>) <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">password</span>,
+                        <span style="color: #5FD7FF;">Map</span>&lt;<span style="color: #5FD7FF;">String</span>,<span style="color: #5FD7FF;">Object</span>&gt; <span style="color: #FF8C00;">map</span>) {
+        <span style="color: #FF1493;">if</span> (<span style="color: #CDC673; font-weight: bold;">!</span>StringUtils.isEmpty(username) &amp;&amp; <span style="color: #CDC673;">"123456"</span>.equals(password)) {
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#30331;&#24405;&#25104;&#21151;&#65292;&#38450;&#27490;&#34920;&#21333;&#37325;&#22797;&#25552;&#20132;&#65292;&#37325;&#23450;&#21521;&#21040;&#39318;&#39029;</span>
+            httpSession.setAttribute(<span style="color: #CDC673;">"user"</span>, username);
+            <span style="color: #FF1493;">return</span> <span style="color: #CDC673;">"redirect:/main.html"</span>;
+        } <span style="color: #FF1493;">else</span> {
+            map.put(<span style="color: #CDC673;">"msg"</span>,<span style="color: #CDC673;">"&#29992;&#25143;&#21517;&#25110;&#23494;&#30721;&#38169;&#35823;"</span>);
+            <span style="color: #FF1493;">return</span> <span style="color: #CDC673;">"signin"</span>;
+        }
+    }
+}
+</pre>
+</div>
+
+
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #87D700;">p</span> <span style="color: #FF8C00;">style</span>=<span style="color: #CDC673;">"color: red"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">text</span>=<span style="color: #CDC673;">"${msg}"</span> <span style="color: #FF1493;">th</span>:<span style="color: #FF8C00;">if</span>=<span style="color: #CDC673;">"${not #strings.isEmpty(msg)}"</span>&gt;&lt;/<span style="color: #87D700;">p</span>&gt;
+</pre>
+</div>
+
+<p>
+2）注册拦截器
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Bean</span>
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">WebMvcConfigurer</span> <span style="color: #87D700;">webMvcConfigurer</span>() {
+    <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">WebMvcConfigurer</span>() {
+        <span style="color: #AF87FF;">@Override</span>
+        <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">addViewControllers</span>(<span style="color: #5FD7FF;">ViewControllerRegistry</span> <span style="color: #FF8C00;">registry</span>) {
+            registry.addViewController(<span style="color: #CDC673;">"/"</span>).setViewName(<span style="color: #CDC673;">"signin"</span>);
+            registry.addViewController(<span style="color: #CDC673;">"/index.html"</span>).setViewName(<span style="color: #CDC673;">"signin"</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#30331;&#24405;&#39029;</span>
+            registry.addViewController(<span style="color: #CDC673;">"/main.html"</span>).setViewName(<span style="color: #CDC673;">"dashboard"</span>); <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#39318;&#39029;</span>
+        }
+
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#27880;&#20876;&#25318;&#25130;&#22120;</span>
+        <span style="color: #AF87FF;">@Override</span>
+        <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">addInterceptors</span>(<span style="color: #5FD7FF;">InterceptorRegistry</span> <span style="color: #FF8C00;">registry</span>) {
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">springboot&#24050;&#32463;&#20570;&#22909;&#20102;&#38745;&#24577;&#36164;&#28304;&#26144;&#23556;</span>
+            registry.addInterceptor(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">LoginHandlerInterceptor</span>()).addPathPatterns(<span style="color: #CDC673;">"/**"</span>).excludePathPatterns(<span style="color: #CDC673;">"/index.html"</span>, <span style="color: #CDC673;">"/"</span>, <span style="color: #CDC673;">"/user/login"</span>);
+        }
+    };
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e55169" class="outline-3">
+<h3 id="org3e55169"><span class="section-number-3">5.6</span> 6、CRUD</h3>
+</div>
+
+
+<div id="outline-container-orgec4d500" class="outline-3">
+<h3 id="orgec4d500"><span class="section-number-3">5.7</span> 7、使用Spring Data JPA、Hikari连接池操作MySQL数据库</h3>
+<div class="outline-text-3" id="text-5-7">
+<ol class="org-ol">
+<li>pom中引入spring-boot-starter-data-jpa依赖，以及MySQL连接类mysql-connector-java依赖。</li>
+<li>springboot 2.0 后默认连接池就是Hikari了，所以引用parents后不用专门加依赖。</li>
+<li>为了减少实体类或虚拟实体类的代码，引入**lombok**依赖。Lombok能以简单的注解形式来简化java代码，提高开发人员的开发效率。Lombok参考：<a href="https://www.jianshu.com/p/2ea9ff98f7d6">https://www.jianshu.com/p/2ea9ff98f7d6</a></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgf4631e3" class="outline-3">
+<h3 id="orgf4631e3"><span class="section-number-3">5.8</span> 配置数据源连接</h3>
+</div>
+<div id="outline-container-orgfe00cc4" class="outline-3">
+<h3 id="orgfe00cc4"><span class="section-number-3">5.9</span> RESTful API：CRUD</h3>
+</div>
+<div id="outline-container-org119c634" class="outline-3">
+<h3 id="org119c634"><span class="section-number-3">5.10</span> Data JPA在进行方法名解析时，会先把方法名多余的前缀截取掉，比如 find、findBy、read、readBy、get、getBy，然后对剩下部分进行解析。</h3>
+</div>
+<div id="outline-container-org71e87ae" class="outline-3">
+<h3 id="org71e87ae"><span class="section-number-3">5.11</span> @Query自定义查询语句</h3>
+<div class="outline-text-3" id="text-5-11">
+<p>
+在声明的方法上面标注@Query注解，即可通过写SQL实现自定义查询语句。正式生产编程中，除非迫不得已，否则不建议使用此方式进行数据查询或持久化操作。建议多用面向对象的思路进行编程，涉及多表关联等太过复杂的查询可以在业务层拼装数据。使用SQL，首先SQL维护起来不方便，其次而且如果大量使用了某个数据库的原生SQL将会造成系统与某一数据库绑定，无法更换数据库，各家数据库部分语法还是略有差异的。
+</p>
+
+<p>
+<b><b>原生查询</b></b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sql">@Query(<span style="color: #FF1493;">value</span> = "<span style="color: #FF1493;">SELECT</span> * <span style="color: #FF1493;">FROM</span> STUDENT <span style="color: #FF1493;">WHERE</span> GENDER = :gender",nativeQuery = <span style="color: #FF1493;">true</span>)
+<span style="color: #FF1493;">public</span> List&lt;Student&gt; findAllByGender(@Param("gender") String gender);
+
+<span style="color: #8B8878;">-- &#20854;&#20013;&#20351;&#29992;@Param("gender")&#27880;&#20837;&#21442;&#25968;&#65292;nativeQuery = true&#20195;&#34920;&#20351;&#29992;&#24403;&#21069;&#25968;&#25454;&#24211;&#21407;&#29983;SQL&#35821;&#21477;&#12290;&#21508;&#23478;&#25968;&#25454;&#24211;&#37096;&#20998;&#35821;&#27861;&#36824;&#26159;&#30053;&#26377;&#24046;&#24322;&#65292;&#22312;&#38750;&#29305;&#27530;&#24773;&#20917;&#19979;&#65292;&#19981;&#24314;&#35758;&#22823;&#37327;&#20351;&#29992;&#65292;&#22914;&#26524;&#22823;&#37327;&#20351;&#29992;&#65292;&#25442;&#25968;&#25454;&#24211;&#26102;&#20250;&#24456;&#30171;&#33510;&#65292;&#29978;&#33267;&#25972;&#22871;&#31995;&#32479;&#21482;&#33021;&#20351;&#29992;&#26576;&#19968;&#21697;&#29260;&#25968;&#25454;&#24211;&#12290;</span>
+@Query(<span style="color: #FF1493;">value</span> = "<span style="color: #FF1493;">SELECT</span> * <span style="color: #FF1493;">FROM</span> STUDENT <span style="color: #FF1493;">WHERE</span> GENDER = ?1 <span style="color: #FF1493;">AND</span> <span style="color: #FF1493;">NAME</span> <span style="color: #FF1493;">like</span> %?2%",nativeQuery = <span style="color: #FF1493;">true</span>)
+<span style="color: #FF1493;">public</span> List&lt;Student&gt; findAllByGender( String gender,String namelk);
+</pre>
+</div>
+
+<p>
+<b><b>HQL查询</b></b>
+</p>
+
+<p>
+HQL学习可参考[Hibernate 之强大的HQL查询](<a href="https://www.cnblogs.com/quchengfeng/p/4111749.html">https://www.cnblogs.com/quchengfeng/p/4111749.html</a>)
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org379b2fa" class="outline-3">
+<h3 id="org379b2fa"><span class="section-number-3">5.12</span> RESTful API</h3>
+<div class="outline-text-3" id="text-5-12">
+<p>
+我们项目封了 Data REST，又封了 Data JPA，其实最后执行持久化到数据库里，是基于Hibernate的。当我们的json或者其他格式的数据转换成这个需要持久化的对象时，没有的属性转换时自然就为空值，保存到数据库里的也就为空值。 所以做更新时，后台给前台对象的哪些属性，调用RESTful更新接口时，前台也要给后台返回全部字段，这样不管如何增减字段，都由后台控制，前端只需返回原样的数据模型即可。后端人员在编写接口说明时，一定要特别注意这个细节，否则处理不当可能会发生生产事故。
+</p>
+
+<p>
+还有另外一种方法就是后台接收到更新请求后，通过主键反查出此对象（findById），通过反射直接赋值。此种方式需重写更新方法不说，还牺牲了后台的效率，并不推荐。
+</p>
+
+<p>
+小结：Spring Data REST都可快速帮我们实现了HAL数据风格的RESTful API接口。HAL概念请参考：[分布式架构设计之Rest API HAL](<a href="https://blog.csdn.net/why_2012_gogo/article/details/77195387">https://blog.csdn.net/why_2012_gogo/article/details/77195387</a>)。换句话来说，Spring Data REST帮我们写了service层和controller层的代码。
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgb6e7f48" class="outline-3">
+<h3 id="orgb6e7f48"><span class="section-number-3">5.13</span> 基于spring data jpa封装带有动态分页查询、动态条件求和的基础service类和基础controller类</h3>
+</div>
+
+
+<div id="outline-container-orgd114e31" class="outline-3">
+<h3 id="orgd114e31"><span class="section-number-3">5.14</span> @Transactional配置参数详解</h3>
+<div class="outline-text-3" id="text-5-14">
+</div>
+<div id="outline-container-org1140ad6" class="outline-4">
+<h4 id="org1140ad6"><span class="section-number-4">5.14.1</span> <b><b>1、 rollbackFor：配置何种异常回滚</b></b></h4>
+<div class="outline-text-4" id="text-5-14-1">
+<p>
+在@Transactional注解中如果不配置rollbackFor属性,那么只会在遇到RuntimeException的时候才会回滚，加上rollbackFor=Exception.class,可以让事务在遇到非运行时异常时也回滚。一般在日常生产开发中，我们配置成rollbackFor=Exception.class
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd5d4e93" class="outline-4">
+<h4 id="orgd5d4e93"><span class="section-number-4">5.14.2</span> <b><b>2、readOnly：读写事务控制</b></b></h4>
+<div class="outline-text-4" id="text-5-14-2">
+<p>
+readOnly=true表明所注解的方法或类只是读取数据，我们的某个方法只提供查询时，可以进行此种配置。readOnly=false表明所注解的方法或类是增加，删除，修改数据。默认是false，一般使用默认即可，无需配置。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org275106d" class="outline-4">
+<h4 id="org275106d"><span class="section-number-4">5.14.3</span> <b><b>3、Propagation事务传播行为</b></b></h4>
+<div class="outline-text-4" id="text-5-14-3">
+<p>
+*开发人员不得进行此项配置，只能与项目负责人申请评估后方可进行配置
+</p>
+
+<p>
+Propagation属性用来枚举事务的传播行为。所谓事务传播行为就是多个事务方法相互调用时，事务如何在这些方法间传播。Spring支持7种事务传播行为，默认为REQUIRED。
+</p>
+
+<p>
+、REQUIRED
+</p>
+
+<p>
+REQUIRED是常用的事务传播行为，如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。
+</p>
+
+<p>
+我们使用sping data jpa时，它的实现类的方法就是使用了此项默认配置，所以我们操作各表时，事务能绑定到同一个，异常时全部回滚。
+</p>
+
+<p>
+2、SUPPORTS
+</p>
+
+<p>
+SUPPORTS表示当前方法不需要事务上下文，但是如果存在当前事务的话，那么这个方法会在这个事务中运行。
+</p>
+
+<p>
+3、MANDATORY
+</p>
+
+<p>
+MANDATORY表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常。不会主动开启一个事务。
+</p>
+
+<p>
+4、REQUIRES_NEW
+</p>
+
+<p>
+REQUIRES_NEW表示当前方法必须运行在它自己的事务中。一个新的事务将被启动，如果存在当前事务，在该方法执行期间，当前事务会被挂起（如果一个事务已经存在，则先将这个存在的事务挂起）。如果使用JTATransactionManager的话，则需要访问TransactionManager。
+</p>
+
+<p>
+5、NOT_SUPPORTED
+</p>
+
+<p>
+NOT_SUPPORTED表示该方法不应该运行在事务中，如果存在当前事务，在该方法运行期间，当前事务将被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager。
+</p>
+
+<p>
+6、NEVER
+</p>
+
+<p>
+NEVER表示当前方法不应该运行在事务上下文中，如果当前正有一个事务在运行，则会抛出异常。
+</p>
+
+<p>
+7、NESTED
+</p>
+
+<p>
+NESTED表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与REQUIRED一样。嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3b013f" class="outline-4">
+<h4 id="orga3b013f"><span class="section-number-4">5.14.4</span> <b><b>4、isolation：事务隔离级别 [详见数据库篇]</b></b></h4>
+<div class="outline-text-4" id="text-5-14-4">
+<p>
+*开发人员不得进行此项配置，只能与项目负责人申请评估后方可进行配置
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgdf139aa" class="outline-3">
+<h3 id="orgdf139aa"><span class="section-number-3">5.15</span> Spring Boot整合knife4j（swagger-bootstrap-ui）实现自动API文档</h3>
+</div>
+</div>
+<div id="outline-container-org3479026" class="outline-2">
+<h2 id="org3479026"><span class="section-number-2">6</span> 六、微服务</h2>
+</div>
+<div id="outline-container-org1bb9d54" class="outline-2">
+<h2 id="org1bb9d54"><span class="section-number-2">7</span> 七、Spring Cloud Eureka</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Spring Cloud Eureka是Spring Cloud Netflix服务套件中的一部分，它基于Netflix Eureka做了二次封装，主要负责完成微服务架构中的服务治理功能。
+</p>
+
+<p>
+Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。
+</p>
+
+<p>
+Eureka支持高可用的配置，当集群中有分片出现故障时，Eureka就会转入自动保护模式，它允许分片故障期间继续提供服务的发现和注册，当故障分片恢复正常时，集群中其他分片会把他们的状态再次同步回来。
+</p>
+
+<p>
+客户端组件包含服务消费者与服务生产者。在应用程序运行时，Eureka客户端向注册中心注册自身提供的服务并周期性的发送心跳来更新它的服务租约。同时也可以从服务端查询当前注册的服务信息并把他们缓存到本地并周期性的刷新服务状态。
+</p>
+
+
+
+<p>
+![img](<img src="https://img-blog.csdnimg.cn/20190715090723924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3R1b3l1bjY2NDc=,size_16,color_FFFFFF,t_70" alt="watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3R1b3l1bjY2NDc=,size_16,color_FFFFFF,t_70" />)
+</p>
+
+
+
+<p>
+@RestController：相当于@Controller和@ResponseBody的组合
+</p>
+</div>
+</div>
