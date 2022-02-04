@@ -48,7 +48,7 @@ photos:
 ** 安装和配置 Shadowsocks
    1. 安装 pip
       : // CentOS
-      : # yum install python-pip
+      : # yum install python3-pip
       或者:
       : # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
       : # python get-pip.py
@@ -108,9 +108,18 @@ photos:
       : # systemctl status shadowsocks -l
 ** 使用 Docker 安装 Shadowsocks(推荐)
    1. 安装 docker
+      : # CentOS Linux 系列
       : # yum install docker
       : # systemctl enable docker
       : # systemctl start docker
+
+      : # CentOS Stream
+      : # Docker官网安装教程：https://docs.docker.com/engine/install/centos/
+      : # yum install -y yum-utils
+      : # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      : # yum install docker-ce docker-ce-cli containerd.io
+      : # systemctl start docker
+      : # systemctl enable docker
    2. 部署 Shadowsocks
       : # docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
 * 客户端
