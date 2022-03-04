@@ -45,15 +45,15 @@ This article is for communication only, please do not use for business! The auth
    - [[https://www.vultr.com/][Vultr]]
 ** Solution 1: Using Original Shadowsocks
    1. Installing pip
-      : # yum install python-pip
+      : # yum install python3-pip
       : or
       : # curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
       : # python get-pip.py
       
       : // update
-      : # pip install --upgrade pip
+      : # pip3 install --upgrade pip
    2. Installing shadowsocks
-      : # pip install shadowsocks
+      : # pip3 install shadowsocks
       : # vim /etc/shadowsocks.json
       #+BEGIN_SRC shell
       {
@@ -106,9 +106,18 @@ This article is for communication only, please do not use for business! The auth
       : # ./install-shadowsocks.sh
 ** Solution 2: Using docker
    1. Installing docker
+      : # CentOS Linux
       : # yum install docker
       : # systemctl enable docker
       : # systemctl start docker
+
+      : # CentOS Stream
+      : # Official Site from Docker: https://docs.docker.com/engine/install/centos/
+      : # yum install -y yum-utils
+      : # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      : # yum install docker-ce docker-ce-cli containerd.io
+      : # systemctl start docker
+      : # systemctl enable docker
    2. Deploy shadowsocks
       : # docker run -dt --name ss -p 6443:6443 mritd/shadowsocks -s "-s 0.0.0.0 -p 6443 -m aes-256-cfb -k test123 --fast-open"
 * Client
