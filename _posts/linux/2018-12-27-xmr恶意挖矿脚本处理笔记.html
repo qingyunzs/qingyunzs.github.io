@@ -20,13 +20,13 @@ tags:
 感谢您阅读此文，如果您发现任何错误，请发邮件至 zrg1390556487@gmail.com，谢谢！
 </p>
 
-<div id="outline-container-org2e0b2e1" class="outline-2">
-<h2 id="org2e0b2e1">事件描述</h2>
-<div class="outline-text-2" id="text-org2e0b2e1">
+<div id="outline-container-org685b655" class="outline-2">
+<h2 id="org685b655">事件描述</h2>
+<div class="outline-text-2" id="text-org685b655">
 </div>
-<div id="outline-container-org914302c" class="outline-3">
-<h3 id="org914302c">概况</h3>
-<div class="outline-text-3" id="text-org914302c">
+<div id="outline-container-orgcdbaff7" class="outline-3">
+<h3 id="orgcdbaff7">概况</h3>
+<div class="outline-text-3" id="text-orgcdbaff7">
 <pre class="example">
 服务器安装系统为 CentOS 7，服务器用户一直采用密钥登录，通过用户登入攻击的可能性几乎为零。
 服务器上所有站点使用宝塔面板面板管理，所以可能性是通过攻破了宝塔面板进入，然后注入恶意挖矿脚本的。
@@ -34,9 +34,9 @@ tags:
 </pre>
 </div>
 </div>
-<div id="outline-container-orgf948ee5" class="outline-3">
-<h3 id="orgf948ee5">表象</h3>
-<div class="outline-text-3" id="text-orgf948ee5">
+<div id="outline-container-orgc7c485c" class="outline-3">
+<h3 id="orgc7c485c">表象</h3>
+<div class="outline-text-3" id="text-orgc7c485c">
 <pre class="example">
 下面陈述被攻击后的表象：
 </pre>
@@ -49,13 +49,13 @@ tags:
 </div>
 </div>
 </div>
-<div id="outline-container-org0926d2d" class="outline-2">
-<h2 id="org0926d2d">问题排查及解决</h2>
-<div class="outline-text-2" id="text-org0926d2d">
+<div id="outline-container-org2e28c94" class="outline-2">
+<h2 id="org2e28c94">问题排查及解决</h2>
+<div class="outline-text-2" id="text-org2e28c94">
 </div>
-<div id="outline-container-orgc16ccc7" class="outline-3">
-<h3 id="orgc16ccc7">排查</h3>
-<div class="outline-text-3" id="text-orgc16ccc7">
+<div id="outline-container-orga15a5bc" class="outline-3">
+<h3 id="orga15a5bc">排查</h3>
+<div class="outline-text-3" id="text-orga15a5bc">
 <pre class="example">
 1. 访问服务器上运行的站点（包括宝塔面板），F12，发现不停访问一个wss的地址（wss://xmr.omine.org:8181/），并且很慢。
 2. 搜索这个地址，得知此为 XMR 恶意挖矿脚本。
@@ -68,15 +68,15 @@ tags:
 </pre>
 </div>
 </div>
-<div id="outline-container-org8447931" class="outline-3">
-<h3 id="org8447931">解决</h3>
-<div class="outline-text-3" id="text-org8447931">
+<div id="outline-container-org9362b6e" class="outline-3">
+<h3 id="org9362b6e">解决</h3>
+<div class="outline-text-3" id="text-org9362b6e">
 <pre class="example">
 1. 整理清理脚本
 </pre>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="orgf2f02e5"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
+<pre class="src src-shell" id="orgf12c226"><span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#20808;&#20851;&#25481;redis&#31471;&#21475;</span>
 iptables -A INPUT -p tcp --dport 6379 -j DROP
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">&#28165;&#29702;&#23450;&#26102;&#20219;&#21153;</span>
 crontab -r
@@ -112,7 +112,7 @@ mv /usr/bin/url /usr/bin/curl
 </div>
 
 <div class="org-src-container">
-<pre class="src src-shell" id="org504c501"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
+<pre class="src src-shell" id="org0422e4f"><span style="color: #8B8878;">#</span><span style="color: #8B8878;">!/bin/</span><span style="color: #FF1493;">bash</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">By xzeu</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">http://www.xzeu.com</span>
 <span style="color: #8B8878;"># </span><span style="color: #8B8878;">Email: admin#xzeu.com</span>
@@ -139,9 +139,9 @@ find / -type f -name <span style="color: #CDC673;">'*.js'</span> |xargs fgrep -s
 </pre>
 </div>
 </div>
-<div id="outline-container-org765b1fe" class="outline-3">
-<h3 id="org765b1fe">预防</h3>
-<div class="outline-text-3" id="text-org765b1fe">
+<div id="outline-container-orgdff7223" class="outline-3">
+<h3 id="orgdff7223">预防</h3>
+<div class="outline-text-3" id="text-orgdff7223">
 <pre class="example">
 1. 限制内网访问，或者只限制本机访问
 只监听内网的IP，然后在iptables里面限制访问的主机：在/etc/redis/redis.conf中配置如下：
@@ -203,9 +203,9 @@ rename-command FLUSHALL ""
 </div>
 </div>
 </div>
-<div id="outline-container-org51c271a" class="outline-2">
-<h2 id="org51c271a">参考</h2>
-<div class="outline-text-2" id="text-org51c271a">
+<div id="outline-container-org137defb" class="outline-2">
+<h2 id="org137defb">参考</h2>
+<div class="outline-text-2" id="text-org137defb">
 <ul class="org-ul">
 <li><a href="https://www.cnblogs.com/Rebybyx/p/9913779.html">XMR恶意挖矿脚本处理笔记</a></li>
 <li><a href="https://www.freebuf.com/articles/system/186743.html">XMR恶意挖矿案例简析</a></li>
