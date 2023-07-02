@@ -54,6 +54,60 @@ tags:
      Access http://localhost:4000 on browser.
 * 写作规范
 ** 目录结构说明
+#+begin_src emacs-lisp
+  ├─_data		数据目录
+  │  ├─languages	语言目录
+  ├─_drafts	(预发布)草稿目录
+  ├─_include	固定文件模板引用目录
+  ├─_orgs		org文件目录
+  │  ├─_assets	资源目录，img,js,css,...
+  │  ├─_drafts	org草稿目录
+  │  ├─_posts	org发布目录
+  ├─_posts	文章目录，皆是html文件
+  ├─_sass		scss文件目录
+  ├─_site		站点访问目录
+  ├─about		关于目录
+  ├─archives	归档目录
+  ├─assets	资源目录
+  ├─categories	分类目录
+  ├─tag		标签目录
+  ├─tags		标签目录
+  ├─404.html	404页面
+  ├─Gemfile	jekyll文件
+  ├─Gemfile.lock	jekyll文件
+  ├─README.en.md	英文说明文件
+  ├─README.md	说明文件
+  ├─_config.yml	配置文件
+  ├─index.html	入口文件
+  └─search.xml	搜索配置文件
+#+end_src
+
+**重要目录或文件说明：**
++ _config.yml，保存配置数据。
++ _drafts，（草稿）是未发布的文章。
++ _includes，包含部分到你的布局或者文章中以方便重用。
++ _layouts，layouts（布局）是包裹在文章外部的模板。布局可以在 YAML 头信息中根据不同文章进行选择。
++ _posts，这里放的就是你的文章了。文件格式很重要，必须要符合: YEAR-MONTH-DAY-title.MARKUP。
++ _data，格式化好的网站数据应放在这里。jekyll 的引擎会自动加载在该目录下所有的 yaml 文件（后缀是 .yml, .yaml, .json 或者 .csv ）。这些文件可以经由 ｀site.data｀ 访问。如果有一个 members.yml 文件在该目录下，你就可以通过 site.data.members 获取该文件的内容。
++ _site  | 一旦 Jekyll 完成转换，就会将生成的页面放在这里（默认）。最好将这个目录放进你的 .gitignore 文件中。
++ index.html and other HTML, Markdown, Textile files  | 如果这些文件中包含 YAML 头信息 部分，Jekyll 就会自动将它们进行转换。当然，其他的如 .html, .markdown, .md, 或者 .textile 等在你的站点根目录下或者不是以上提到的目录中的文件也会被转换。
++ Other Files/Folders，其他一些未被提及的目录和文件如 css 还有 images 文件夹， favicon.ico 等文件都将被完全拷贝到生成的 site 中。
+** 命名规范
+1. 分类命名：英文名称全部小写，如algorithms，c#，javascript等。两个单词以上组成，采用-字符连接。分类名称不能重名。
+2. 标签命名：与实际常见命名一致，如MySQL，PHP，Jekyll等。另外一些两个单词以上组成的术语，建议采用-字符连接，如Design-Pattern。
+3. org 源文件命名：日期+文件描述名称，文件描述名称采用-字符连接，如2018-12-12-vue-iview.org。
+4. org 发布目录命名：采用驼峰法命名。
+** 内容规范
+1. 目录编号：文章内容最多支持 6 级目录，对于 6 级以上内容使用有序列表或无序列表表示。
+2. 标点符号：严格遵守中英文标点符号命名规则及行文规范。
+3. 中英文混用情况：
+   + 英文符号就近使用原则，也就是说包含英文则使用英文符号。
+   + 中英文混用时，英文单词两端使用空格隔开。
+4. 引用图片格式：
+   : [[file:{{site.url}}/assets/images/xxx/xxx.jpeg]]
+
+* 常见问题
+1. undefined method `new' for BigDecimal:Class (NoMethodError)
    #+begin_src emacs-lisp
     ├─_data		数据目录
     │  ├─languages	语言目录
