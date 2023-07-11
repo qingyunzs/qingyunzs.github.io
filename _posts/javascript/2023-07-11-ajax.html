@@ -1,0 +1,292 @@
+---
+layout: post
+title: Ajax 应用详解
+author: zrg
+comments: true
+description: JavaScript
+categories:
+- javascript
+tags:
+- JavaScript
+- Ajax
+photos:
+---
+
+<div id="outline-container-orgc961b26" class="outline-2">
+<h2 id="orgc961b26"><span class="section-number-2">1.</span> AJAX 简介</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+全称：Asynchronous Javascript and XML，由 Javascript+CSS+DOM+XMLHttpRequest+XSTL+XHTML+XML 七种技术组成，其中技术核心是 XMLHttpRequest。
+</p>
+</div>
+<div id="outline-container-orga77f06e" class="outline-3">
+<h3 id="orga77f06e"><span class="section-number-3">1.1.</span> 同步 vs 异步</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。</li>
+<li>异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbbc7553" class="outline-2">
+<h2 id="orgbbc7553"><span class="section-number-2">2.</span> Ajax 应用</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org40f89d7" class="outline-3">
+<h3 id="org40f89d7"><span class="section-number-3">2.1.</span> 原生代码实现：XMLHttpRequest</h3>
+<div class="outline-text-3" id="text-2-1">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>Ajax 原生代码示例</label><pre class="src src-javascript"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">Ajax GET</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">ajaxGet</span>(<span style="color: #FF8C00;">requestUrl</span>, <span style="color: #FF8C00;">callback</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">xhr</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">XMLHttpRequest</span>();
+    xhr.open(<span style="color: #CDC673;">'GET'</span>, requestUrl, <span style="color: #AF87FF;">true</span>);
+    xhr.send();
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20107;&#20214;&#32465;&#23450; &#22788;&#29702;&#26381;&#21153;&#31471;&#36820;&#22238;&#30340;&#32467;&#26524;</span>
+    <span style="color: #8B8878;">/*</span>
+<span style="color: #8B8878;">      onreadystatechange:</span>
+<span style="color: #8B8878;">      on&#65306;when&#65306;&#24403;...&#26102;&#20505;</span>
+<span style="color: #8B8878;">      readystate&#65306; &#26159;XHR&#23545;&#35937;&#20013;&#30340;&#19968;&#20010;&#23646;&#24615;&#65292;&#34920;&#31034;&#29366;&#24577;&#65306;</span>
+<span style="color: #8B8878;">      0&#65288;&#26410;&#21021;&#22987;&#21270;&#65289;</span>
+<span style="color: #8B8878;">      1&#65288;open&#26041;&#27861;&#35843;&#29992;&#23436;&#27605;&#65289;</span>
+<span style="color: #8B8878;">      2&#65288;send&#26041;&#27861;&#35843;&#29992;&#23436;&#27605;&#65289;</span>
+<span style="color: #8B8878;">      3&#65288;&#26381;&#21153;&#31471;&#36820;&#22238;&#37096;&#20998;&#32467;&#26524;&#65289;</span>
+<span style="color: #8B8878;">      4&#65288;&#26381;&#21153;&#31471;&#36820;&#22238;&#25152;&#26377;&#32467;&#26524;&#65289;</span>
+<span style="color: #8B8878;">      change&#65306;&#25913;&#21464;</span>
+<span style="color: #8B8878;">    */</span>
+    xhr.onreadystatechange = <span style="color: #FF1493;">function</span> () {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26159;4(&#26381;&#21153;&#31471;&#36820;&#22238;&#20102;&#25152;&#26377;&#30340;&#32467;&#26524;)&#25165;&#22788;&#29702;&#25968;&#25454;</span>
+        <span style="color: #FF1493;">if</span> (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">2XX &#37117;&#26159;&#25104;&#21151;</span>
+            <span style="color: #FF1493;">if</span>(xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300){
+                <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#22788;&#29702;&#26381;&#21153;&#31471;&#21709;&#24212;&#32467;&#26524;&#65306; &#34892; &#22836;  &#31354;&#34892;&#65288;&#21681;&#19981;&#31649;&#65289; &#20307;</span>
+                <span style="color: #8B8878;">//</span><span style="color: #8B8878;">1. &#22788;&#29702;&#21709;&#24212;&#34892;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">console.log(xhr.status);//&#29366;&#24577;&#30721;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">console.log(xhr.statusText);//&#29366;&#24577;&#23383;&#31526;&#20018;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">//2. &#25152;&#26377;&#21709;&#24212;&#22836;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">console.log(xhr.getAllResponseHeaders());</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">//3. &#21709;&#24212;&#20307;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">console.log(xhr.response)</span>
+                <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#35774;&#32622;result&#30340;&#25991;&#26412;</span>
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">result.innerHTML = xhr.response +','+ xhr.status;</span>
+                callback(xhr.response);
+            } <span style="color: #FF1493;">else</span> {
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">todo things</span>
+            }
+        }
+    }
+}
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">Ajax POST</span>
+<span style="color: #FF1493;">function</span> <span style="color: #87D700;">ajaxPost</span>(<span style="color: #FF8C00;">requestUrl</span>, <span style="color: #FF8C00;">data</span>, <span style="color: #FF8C00;">callback</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">xhr</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">XMLHttpRequest</span>();
+    xhr.open(<span style="color: #CDC673;">"POST"</span>, requestUrl, <span style="color: #AF87FF;">true</span>);
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#28155;&#21152; http &#22836;&#65292;&#21457;&#36865;&#20449;&#24687;&#33267;&#26381;&#21153;&#22120;&#26102;&#20869;&#23481;&#32534;&#30721;&#31867;&#22411;</span>
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");</span>
+    xhr.setRequestHeader(<span style="color: #CDC673;">"Content-Type"</span>, <span style="color: #CDC673;">"application/json"</span>);
+    xhr.send(JSON.stringify(data));
+    xhr.onreadystatechange=<span style="color: #FF1493;">function</span>(){
+        <span style="color: #FF1493;">if</span>(xhr.readyState == 4) {
+            <span style="color: #FF1493;">if</span>(xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300) {
+                callback(xhr.response);
+            } <span style="color: #FF1493;">else</span> {
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">todo things</span>
+            }
+        }
+    }
+}
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35843;&#29992;</span>
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">GET</span>
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">url</span> = <span style="color: #CDC673;">"https://www.bing.com/search?q=ajax"</span>;
+ajaxGet(url, <span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">res</span>) {
+    console.log(res);
+});
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">POST</span>
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">url</span>=<span style="color: #CDC673;">'http://test.xxx.cn/oms-svc/yzServiceUser/queryYzUsers'</span>;
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">data</span>= {
+    <span style="color: #CDC673;">"page"</span>: 1,
+    <span style="color: #CDC673;">"phoneNumber"</span>: <span style="color: #CDC673;">""</span>,
+    <span style="color: #CDC673;">"roleId"</span>: <span style="color: #CDC673;">""</span>,
+    <span style="color: #CDC673;">"size"</span>: 10,
+    <span style="color: #CDC673;">"userName"</span>: <span style="color: #CDC673;">""</span>,
+    <span style="color: #CDC673;">"userNickname"</span>: <span style="color: #CDC673;">""</span>
+};
+ajaxPost(url, data, <span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">res</span>) {
+    <span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">user</span> = JSON.parse(res);
+    console.log(user);
+    document.getElementById(<span style="color: #CDC673;">"gdata"</span>).innerHTML = res;
+});
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8042b06" class="outline-3">
+<h3 id="org8042b06"><span class="section-number-3">2.2.</span> 使用 jQuery Ajax</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgf808b90" class="outline-4">
+<h4 id="orgf808b90"><span class="section-number-4">2.2.1.</span> jQuery Ajax 参数详解</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>jQuery Ajax 代码格式示例</label><pre class="src src-javascript">$.ajax({
+    url: URL, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21457;&#36865;&#35831;&#27714;&#30340;&#22320;&#22336;&#65288;&#40664;&#35748;&#20026;&#24403;&#21069;&#39029;&#22320;&#22336;)</span>
+    type: <span style="color: #CDC673;">"POST"</span>, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35831;&#27714;&#26041;&#24335;&#65306;post/get/put/delete&#65288;&#40664;&#35748;&#20026;get)</span>
+    timeout: 600, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35831;&#27714;&#36229;&#26102;&#26102;&#38388;&#65292;&#21333;&#20301;&#27627;&#31186;</span>
+    <span style="color: #FF1493;">async</span>:<span style="color: #AF87FF;">true</span>, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">true&#65292;&#24322;&#27493;&#35831;&#27714;&#65307;false&#65292;&#21516;&#27493;&#35831;&#27714;&#12290;</span>
+    cache:<span style="color: #AF87FF;">false</span>, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">true&#65292;&#20174;&#27983;&#35272;&#22120;&#21152;&#36733;&#32531;&#23384;&#65307;false&#65292;&#19981;&#20174;&#27983;&#35272;&#22120;&#21152;&#36733;&#32531;&#23384;</span>
+    data: JSON.stringify(stream), <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21457;&#36865;&#21040;&#26381;&#21153;&#22120;&#30340;&#25968;&#25454;&#65292;&#35201;&#27714;&#20026;Object&#25110;String&#31867;&#22411;&#30340;&#21442;&#25968;&#12290;</span>
+    dataType: <span style="color: #CDC673;">"json"</span>,<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#39044;&#26399;&#26381;&#21153;&#22120;&#36820;&#22238;&#30340;&#25968;&#25454;&#31867;&#22411;&#12290;&#21487;&#29992;&#30340;&#31867;&#22411;&#26377;:xml,html,script,json,jsonp,text</span>
+    contentType: <span style="color: #CDC673;">"application/json; charset=utf-8"</span>, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#24403;&#21457;&#36865;&#20449;&#24687;&#33267;&#26381;&#21153;&#22120;&#26102;&#65292;&#20869;&#23481;&#32534;&#30721;&#31867;&#22411;&#12290;&#40664;&#35748;&#20026;"application/x-www-form-urlencoded"&#65292;multipart/form-data&#65306;&#26377;&#26102;&#20505;&#20063;&#20250;&#36825;&#20010;&#65292;&#19978;&#20256;&#19979;&#36733;&#21487;&#33021;&#20250;&#29992;&#21040;&#12290;</span>
+    <span style="color: #87D700;">beforeSend</span>: <span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">XMLHttpRequest</span>){
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35774;&#32622;&#35831;&#27714;&#22836;,&#21152;&#36733;loading&#30028;&#38754;</span>
+    },
+    <span style="color: #87D700;">dataFilter</span>:<span style="color: #FF1493;">function</span>(){ <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#32473;Ajax&#36820;&#22238;&#30340;&#21407;&#22987;&#25968;&#25454;&#36827;&#34892;&#39044;&#22788;&#29702;&#30340;&#20989;&#25968;&#12290;&#25552;&#20379;data&#21644;type&#20004;&#20010;&#21442;&#25968;&#12290;data&#26159;Ajax&#36820;&#22238;&#30340;&#21407;&#22987;&#25968;&#25454;&#65292;type&#26159;&#35843;&#29992;jQuery.ajax&#26102;&#25552;&#20379;&#30340;dataType&#21442;&#25968;&#12290;</span>
+        <span style="color: #8B8878;">//</span>
+    },
+    global:<span style="color: #AF87FF;">false</span>, <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#34920;&#31034;&#26159;&#21542;&#35302;&#21457;&#20840;&#23616;ajax&#20107;&#20214;&#12290;&#40664;&#35748;&#20026;true&#12290;</span>
+    ifModified:<span style="color: #AF87FF;">false</span>, <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#20165;&#22312;&#26381;&#21153;&#22120;&#25968;&#25454;&#25913;&#21464;&#26102;&#33719;&#21462;&#26032;&#25968;&#25454;&#12290;&#26381;&#21153;&#22120;&#25968;&#25454;&#25913;&#21464;&#21028;&#26029;&#30340;&#20381;&#25454;&#26159;Last-Modified&#22836;&#20449;&#24687;&#12290;&#40664;&#35748;&#20540;&#26159;false&#65292;&#21363;&#24573;&#30053;&#22836;&#20449;&#24687;&#12290;</span>
+    jsonP:<span style="color: #CDC673;">""</span>,<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#22312;&#19968;&#20010;jsonp&#35831;&#27714;&#20013;&#37325;&#20889;&#22238;&#35843;&#20989;&#25968;&#30340;&#21517;&#23383;&#12290;</span>
+    username:<span style="color: #CDC673;">"zrg"</span>, <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#29992;&#20110;&#21709;&#24212;HTTP&#35775;&#38382;&#35748;&#35777;&#35831;&#27714;&#30340;&#29992;&#25143;&#21517;&#12290;</span>
+    password:<span style="color: #CDC673;">"123456"</span>, <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#29992;&#20110;&#21709;&#24212;HTTP&#35775;&#38382;&#35748;&#35777;&#35831;&#27714;&#30340;&#23494;&#30721;&#12290;</span>
+    processData:<span style="color: #AF87FF;">false</span>, <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#40664;&#35748;&#24773;&#20917;&#19979;&#65292;&#21457;&#36865;&#30340;&#25968;&#25454;&#23558;&#34987;&#36716;&#25442;&#20026;&#23545;&#35937;&#65288;&#20174;&#25216;&#26415;&#35282;&#24230;&#26469;&#35762;&#24182;&#38750;&#23383;&#31526;&#20018;&#65289;&#20197;&#37197;&#21512;&#40664;&#35748;&#20869;&#23481;&#31867;&#22411;"application/x-www-form-urlencoded"&#12290;&#22914;&#26524;&#35201;&#21457;&#36865;DOM&#26641;&#20449;&#24687;&#25110;&#32773;&#20854;&#20182;&#19981;&#24076;&#26395;&#36716;&#25442;&#30340;&#20449;&#24687;&#65292;&#35831;&#35774;&#32622;&#20026;false&#12290;</span>
+    scriptCharset:<span style="color: #CDC673;">""</span>, <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21482;&#26377;&#24403;&#35831;&#27714;&#26102;dataType&#20026;"jsonp"&#25110;&#32773;"script"&#65292;&#24182;&#19988;type&#26159;GET&#26102;&#25165;&#20250;&#29992;&#20110;&#24378;&#21046;&#20462;&#25913;&#23383;&#31526;&#38598;(charset)&#12290;&#36890;&#24120;&#22312;&#26412;&#22320;&#21644;&#36828;&#31243;&#30340;&#20869;&#23481;&#32534;&#30721;&#19981;&#21516;&#26102;&#20351;&#29992;&#12290;</span>
+    <span style="color: #87D700;">complete</span>: <span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">XMLHttpRequest</span>, <span style="color: #FF8C00;">textStatus</span>){ <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35831;&#27714;&#23436;&#25104;&#21518;&#35843;&#29992;&#30340;&#22238;&#35843;&#20989;&#25968;&#65288;&#35831;&#27714;&#25104;&#21151;&#25110;&#22833;&#36133;&#26102;&#22343;&#35843;&#29992;&#65289;</span>
+        <span style="color: #8B8878;">//</span>
+    },
+    <span style="color: #87D700;">success</span>: <span style="color: #FF1493;">function</span> (<span style="color: #FF8C00;">data</span>,<span style="color: #FF8C00;">textStatus</span>) { <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35831;&#27714;&#25104;&#21151;&#21518;&#35843;&#29992;&#30340;&#22238;&#35843;&#20989;&#25968;&#65292;&#26377;&#20004;&#20010;&#21442;&#25968;: (1)&#30001;&#26381;&#21153;&#22120;&#36820;&#22238;&#65292;&#24182;&#26681;&#25454;dataType&#21442;&#25968;&#36827;&#34892;&#22788;&#29702;&#21518;&#30340;&#25968;&#25454;;(2)&#25551;&#36848;&#29366;&#24577;&#30340;&#23383;&#31526;&#20018;&#12290;</span>
+        <span style="color: #FF1493;">if</span> (data.success) {
+            <span style="color: #8B8878;">//</span>
+        } <span style="color: #FF1493;">else</span> {
+            <span style="color: #8B8878;">//</span>
+        }
+    },
+    <span style="color: #87D700;">error</span>: <span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">XMLHttpRequest</span>, <span style="color: #FF8C00;">textStatus</span>, <span style="color: #FF8C00;">errorThrown</span>){ <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#35831;&#27714;&#22833;&#36133;&#26102;&#34987;&#35843;&#29992;&#30340;&#20989;&#25968;&#12290;&#26377;3&#20010;&#21442;&#25968;&#65292;&#21363;XMLHttpRequest&#23545;&#35937;&#12289;&#38169;&#35823;&#20449;&#24687;&#12289;&#25429;&#33719;&#30340;&#38169;&#35823;&#23545;&#35937;(&#21487;&#36873;)&#12290;</span>
+        <span style="color: #8B8878;">//</span>
+    }
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcb29d9f" class="outline-3">
+<h3 id="orgcb29d9f"><span class="section-number-3">2.3.</span> 常见的 POST 提交数据方式</h3>
+<div class="outline-text-3" id="text-2-3">
+<ol class="org-ol">
+<li><p>
+application/x-www-form-urlencoded
+</p>
+<pre class="example">
+浏览器的原生 &lt;form&gt; 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。
+</pre></li>
+<li><p>
+multipart/form-data
+</p>
+<pre class="example">
+一般用来上传文件
+</pre></li>
+<li><p>
+application/json
+</p>
+<pre class="example">
+该方案可以方便的提交复杂的数据结构，特别适合 RESTful 的接口。
+</pre></li>
+<li><p>
+text/xml
+</p>
+<pre class="example">
+XML 结构传输。
+XML-RPC（XML Remote Procedure Call），它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。它的使用也很
+广泛，如 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等。
+</pre></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4be0e05" class="outline-3">
+<h3 id="org4be0e05"><span class="section-number-3">2.4.</span> 提交 Form 表单(包括文件上传)</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-orga9d48d1" class="outline-4">
+<h4 id="orga9d48d1"><span class="section-number-4">2.4.1.</span> 常规方法</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>一般是这样的</label><pre class="src src-js">$.ajax({
+    url:<span style="color: #CDC673;">"${pageContext.request.contextPath}/public/testupload"</span>,
+    type:<span style="color: #CDC673;">"post"</span>,
+    data:{username:username},
+    <span style="color: #87D700;">success</span>:<span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">data</span>){
+        window.clearInterval(timer);
+        <span style="color: #8B8878;">//</span>
+    },
+    <span style="color: #87D700;">error</span>:<span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">e</span>){
+        <span style="color: #8B8878;">//</span>
+    }
+});
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25110;&#32773;&#21333;&#19968;&#33719;&#21462;</span>
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">username</span> = $(<span style="color: #CDC673;">"#username"</span>).val();
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">password</span> = $(<span style="color: #CDC673;">"#password"</span>).val();
+...
+</pre>
+</div>
+<p>
+// 以上方式，如果数量少的话，那还没有什么，但是如果数据十分大的话，那就十分的麻烦。
+</p>
+</div>
+</div>
+<div id="outline-container-org8202757" class="outline-4">
+<h4 id="org8202757"><span class="section-number-4">2.4.2.</span> 使用 FormData 对象</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+// 下面就介绍提高开发效率的方法
+</p>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>使用 FormData 对象（XMLHttpRequest）</label><pre class="src src-js"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">FormData&#23545;&#35937;&#26159;html5&#30340;&#19968;&#20010;&#23545;&#35937;&#65292;&#30446;&#21069;&#30340;&#19968;&#20123;&#20027;&#27969;&#30340;&#27983;&#35272;&#22120;&#37117;&#24050;&#32463;&#20860;&#23481;&#12290;</span>
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">form</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">FormData</span>();
+form.append(<span style="color: #CDC673;">"username"</span>,<span style="color: #CDC673;">"zxj"</span>);
+form.append(<span style="color: #CDC673;">"password"</span>,123456);
+<span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">req</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">XMLHttpRequest</span>();
+req.open(<span style="color: #CDC673;">"post"</span>, <span style="color: #CDC673;">"${pageContext.request.contextPath}/public/testupload"</span>, <span style="color: #AF87FF;">false</span>);
+req.send(form);
+</pre>
+</div>
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>使用 FormData 对象（jQuery Ajax）</label><pre class="src src-js"><span style="color: #FF1493;">var</span> <span style="color: #FF8C00;">form</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">FormData</span>();
+form.append(<span style="color: #CDC673;">"username"</span>,<span style="color: #CDC673;">"zxj"</span>);
+form.append(<span style="color: #CDC673;">"password"</span>,123456);
+$.ajax({
+    url:<span style="color: #CDC673;">"${pageContext.request.contextPath}/public/testupload"</span>,
+    type:<span style="color: #CDC673;">"post"</span>,
+    data:form,
+    processData:<span style="color: #AF87FF;">false</span>,
+    contentType:<span style="color: #AF87FF;">false</span>,
+    <span style="color: #87D700;">success</span>:<span style="color: #FF1493;">function</span>(<span style="color: #FF8C00;">data</span>){
+        window.clearInterval(timer);
+        <span style="color: #8B8878;">//</span>
+    }
+});
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfeadcb6" class="outline-4">
+<h4 id="orgfeadcb6"><span class="section-number-4">2.4.3.</span> 使用 jQuery.form.js</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<pre class="example">
+具体参考https://github.com/jquery-form/form
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org73db29b" class="outline-3">
+<h3 id="org73db29b"><span class="section-number-3">2.5.</span> 参考资料</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li><a href="https://baike.baidu.com/item/ajax">Ajax 百度百科</a></li>
+<li><a href="https://blog.csdn.net/nilmao/article/details/123894943">https://blog.csdn.net/nilmao/article/details/123894943</a></li>
+<li><a href="https://www.jianshu.com/p/e1c0818ae3bb">https://www.jianshu.com/p/e1c0818ae3bb</a></li>
+<li><a href="https://blog.csdn.net/qq_27093465/article/details/49799341">$.ajax({});的各个参数的理解</a></li>
+<li><a href="https://www.cnblogs.com/zhuxiaojie/p/4783939.html">使用ajax提交form表单，包括ajax文件上传</a></li>
+</ul>
+</div>
+</div>
+</div>

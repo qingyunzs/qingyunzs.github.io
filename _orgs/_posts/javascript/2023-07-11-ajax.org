@@ -1,0 +1,234 @@
+#+TITLE:     Ajax 应用详解
+#+AUTHOR:    Rengui Zhao
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:100%; color:darkblue}</style>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+BEGIN_EXPORT html
+---
+layout: post
+title: Ajax 应用详解
+author: zrg
+comments: true
+description: JavaScript
+categories:
+- javascript
+tags:
+- JavaScript
+- Ajax
+photos:
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+# (setq org-export-html-style nil)
+
+* AJAX 简介
+全称：Asynchronous Javascript and XML，由 Javascript+CSS+DOM+XMLHttpRequest+XSTL+XHTML+XML 七种技术组成，其中技术核心是 XMLHttpRequest。
+** 同步 vs 异步
+- 同步：发送方发出数据后，等接收方发回响应以后才发下一个数据包的通讯方式。
+- 异步：发送方发出数据后，不等接收方发回响应，接着发送下个数据包的通讯方式。
+* Ajax 应用
+** 原生代码实现：XMLHttpRequest
+#+CAPTION: Ajax 原生代码示例
+#+BEGIN_SRC javascript
+  // Ajax GET
+  function ajaxGet(requestUrl, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', requestUrl, true);
+      xhr.send();
+      // 事件绑定 处理服务端返回的结果
+      /*
+	onreadystatechange:
+	on：when：当...时候
+	readystate： 是XHR对象中的一个属性，表示状态：
+	0（未初始化）
+	1（open方法调用完毕）
+	2（send方法调用完毕）
+	3（服务端返回部分结果）
+	4（服务端返回所有结果）
+	change：改变
+      ,*/
+      xhr.onreadystatechange = function () {
+	  // 是4(服务端返回了所有的结果)才处理数据
+	  if (xhr.readyState == 4 && xhr.status == 200) {
+	      // 2XX 都是成功
+	      if(xhr.status >= 200 && xhr.status < 300){
+		  //处理服务端响应结果： 行 头  空行（咱不管） 体
+		  //1. 处理响应行
+		  // console.log(xhr.status);//状态码
+		  // console.log(xhr.statusText);//状态字符串
+		  // //2. 所有响应头
+		  // console.log(xhr.getAllResponseHeaders());
+		  // //3. 响应体
+		  // console.log(xhr.response)
+		  //设置result的文本
+		  // result.innerHTML = xhr.response +','+ xhr.status;
+		  callback(xhr.response);
+	      } else {
+		  // todo things
+	      }
+	  }
+      }
+  }
+  // Ajax POST
+  function ajaxPost(requestUrl, data, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", requestUrl, true);
+      // 添加 http 头，发送信息至服务器时内容编码类型
+      //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(data));
+      xhr.onreadystatechange=function(){
+	  if(xhr.readyState == 4) {
+	      if(xhr.status >= 200 && xhr.status < 300) {
+		  callback(xhr.response);
+	      } else {
+		  // todo things
+	      }
+	  }
+      }
+  }
+  // 调用
+  // GET
+  var url = "https://www.bing.com/search?q=ajax";
+  ajaxGet(url, function(res) {
+      console.log(res);
+  });
+  // POST
+  var url='http://test.xxx.cn/oms-svc/yzServiceUser/queryYzUsers';
+  var data= {
+      "page": 1,
+      "phoneNumber": "",
+      "roleId": "",
+      "size": 10,
+      "userName": "",
+      "userNickname": ""
+  };
+  ajaxPost(url, data, function(res) {
+      var user = JSON.parse(res);
+      console.log(user);
+      document.getElementById("gdata").innerHTML = res;
+  });
+#+END_SRC
+** 使用 jQuery Ajax
+*** jQuery Ajax 参数详解
+#+CAPTION: jQuery Ajax 代码格式示例
+#+BEGIN_SRC javascript
+  $.ajax({
+      url: URL, // 发送请求的地址（默认为当前页地址)
+      type: "POST", // 请求方式：post/get/put/delete（默认为get)
+      timeout: 600, // 请求超时时间，单位毫秒
+      async:true, // true，异步请求；false，同步请求。
+      cache:false, // true，从浏览器加载缓存；false，不从浏览器加载缓存
+      data: JSON.stringify(stream), // 发送到服务器的数据，要求为Object或String类型的参数。
+      dataType: "json",// 预期服务器返回的数据类型。可用的类型有:xml,html,script,json,jsonp,text
+      contentType: "application/json; charset=utf-8", // 当发送信息至服务器时，内容编码类型。默认为"application/x-www-form-urlencoded"，multipart/form-data：有时候也会这个，上传下载可能会用到。
+      beforeSend: function(XMLHttpRequest){
+	  // 设置请求头,加载loading界面
+      },
+      dataFilter:function(){ //给Ajax返回的原始数据进行预处理的函数。提供data和type两个参数。data是Ajax返回的原始数据，type是调用jQuery.ajax时提供的dataType参数。
+	  //
+      },
+      global:false, //表示是否触发全局ajax事件。默认为true。
+      ifModified:false, //仅在服务器数据改变时获取新数据。服务器数据改变判断的依据是Last-Modified头信息。默认值是false，即忽略头信息。
+      jsonP:"",// 在一个jsonp请求中重写回调函数的名字。
+      username:"zrg", //用于响应HTTP访问认证请求的用户名。
+      password:"123456", //用于响应HTTP访问认证请求的密码。
+      processData:false, // 默认情况下，发送的数据将被转换为对象（从技术角度来讲并非字符串）以配合默认内容类型"application/x-www-form-urlencoded"。如果要发送DOM树信息或者其他不希望转换的信息，请设置为false。
+      scriptCharset:"", //只有当请求时dataType为"jsonp"或者"script"，并且type是GET时才会用于强制修改字符集(charset)。通常在本地和远程的内容编码不同时使用。
+      complete: function(XMLHttpRequest, textStatus){ // 请求完成后调用的回调函数（请求成功或失败时均调用）
+	  //
+      },
+      success: function (data,textStatus) { // 请求成功后调用的回调函数，有两个参数: (1)由服务器返回，并根据dataType参数进行处理后的数据;(2)描述状态的字符串。
+	  if (data.success) {
+	      //
+	  } else {
+	      //
+	  }
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown){ // 请求失败时被调用的函数。有3个参数，即XMLHttpRequest对象、错误信息、捕获的错误对象(可选)。
+	  //
+      }
+  });
+#+END_SRC
+** 常见的 POST 提交数据方式
+1. application/x-www-form-urlencoded
+   : 浏览器的原生 <form> 表单，如果不设置 enctype 属性，那么最终就会以 application/x-www-form-urlencoded 方式提交数据。
+2. multipart/form-data
+   : 一般用来上传文件
+3. application/json
+   : 该方案可以方便的提交复杂的数据结构，特别适合 RESTful 的接口。
+4. text/xml
+   : XML 结构传输。
+   : XML-RPC（XML Remote Procedure Call），它是一种使用 HTTP 作为传输协议，XML 作为编码方式的远程调用规范。它的使用也很
+   : 广泛，如 WordPress 的 XML-RPC Api，搜索引擎的 ping 服务等等。
+** 提交 Form 表单(包括文件上传)
+*** 常规方法
+#+CAPTION: 一般是这样的
+#+BEGIN_SRC js
+  $.ajax({
+      url:"${pageContext.request.contextPath}/public/testupload",
+      type:"post",
+      data:{username:username},
+      success:function(data){
+	  window.clearInterval(timer);
+	  //
+      },
+      error:function(e){
+	  //
+      }
+  });
+
+  // 或者单一获取
+  var username = $("#username").val();
+  var password = $("#password").val();
+  ...
+#+END_SRC
+// 以上方式，如果数量少的话，那还没有什么，但是如果数据十分大的话，那就十分的麻烦。
+*** 使用 FormData 对象
+// 下面就介绍提高开发效率的方法
+#+CAPTION: 使用 FormData 对象（XMLHttpRequest）
+#+BEGIN_SRC js
+  // FormData对象是html5的一个对象，目前的一些主流的浏览器都已经兼容。
+  var form = new FormData();
+  form.append("username","zxj");
+  form.append("password",123456);
+  var req = new XMLHttpRequest();
+  req.open("post", "${pageContext.request.contextPath}/public/testupload", false);
+  req.send(form);
+#+END_SRC
+#+CAPTION: 使用 FormData 对象（jQuery Ajax）
+#+BEGIN_SRC js
+  var form = new FormData();
+  form.append("username","zxj");
+  form.append("password",123456);
+  $.ajax({
+      url:"${pageContext.request.contextPath}/public/testupload",
+      type:"post",
+      data:form,
+      processData:false,
+      contentType:false,
+      success:function(data){
+	  window.clearInterval(timer);
+	  //
+      }
+  });
+#+END_SRC
+*** 使用 jQuery.form.js
+: 具体参考https://github.com/jquery-form/form
+** 参考资料
++ [[https://baike.baidu.com/item/ajax][Ajax 百度百科]]
++ https://blog.csdn.net/nilmao/article/details/123894943
++ https://www.jianshu.com/p/e1c0818ae3bb
++ [[https://blog.csdn.net/qq_27093465/article/details/49799341][$.ajax({});的各个参数的理解]]
++ [[https://www.cnblogs.com/zhuxiaojie/p/4783939.html][使用ajax提交form表单，包括ajax文件上传]]
