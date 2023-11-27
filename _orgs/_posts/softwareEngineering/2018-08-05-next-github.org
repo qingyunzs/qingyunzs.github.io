@@ -159,35 +159,263 @@ tags:
       + 中英文混用时，英文单词两端使用空格隔开。
 ** 构建写作环境
 *** 使用 org-mode 写作
-    1. 下载文件：https://github.com/zhaorengui/.emacs.d.git
-    2. 【修改】自定义 ~/.emacs.d/lisp/init-org-jekyll.el 参数
-    3. 配置 emacs 加载 init-org-jekyll
-    4. 【验证】打开 emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
-*** 使用 markdown 写作
-    1. （推荐）在 _orgs/_posts 目录下，以markdown格式写文章，每次发布时使用 org 发布方式（在下一小节中有讲解），即 org-publish。
-    2. 直接在_posts目录下写markdown文件
-*** 开始写作
-    1. 打开 emacs，M-x jekyll-draft-post，按提示输入标题，Emacs 便会在 _org/_drafts 中新建该文件，在 _org/_drafts 中编辑的文件不会被发布；
-    2. 当文章写好后，M-x jekyll-publish-post，Emacs 便会将文章转移至 _org/_posts 中；
-    3. M-x org-publish，选择 jekyll-zhaorengui-github-io（取决于你配置中改的名字），Emacs 会将 _org/_posts 中的所有 org 文件转换成 html 文件并存于 _posts 中，并把 _org/_assest 中图片等静态资源全部复制至站点根目录下的 _assest 目录中。
-*** 注意事项
-    1. 只有文章有更新，才会更新 _posts 目录下的内容，所以批量迁移时，注意保留 _posts 目录下的内容。
-    2. 如何彻底删除某篇文章呢？就是在删除 _orgs/_posts 目录下的文件后，接着删除 _posts 目录下的文件。
-* 常见问题
-  1. undefined method `new' for BigDecimal:Class (NoMethodError)
-     #+begin_src emacs-lisp
-       version  characteristics                                            Supported ruby version range
-       2.0.0    You cannot use BigDecimal.new and do subclassing           2.4 ..
-       1.4.x    BigDecimal.new and subclassing always prints warning.      2.3 .. 2.6
-       1.3.5    You can use BigDecimal.new and subclassing without warning .. 2.5
+1. 获取emacs配置：
+   ;; git clone https://github.com/qingyunzs/.emacs.d.git
+2. 自定义 ~/.emacs.d/lisp/init-org-jekyll.el 参数
+   #+begin_src emacs-lisp
+     ;; File Description: Using org to Blog with Jekyll
+     ;; From: https://segmentfault.com/a/1190000008313904
+     ;; @Author: Little Sentry
+     ;; @Date: 201808
+     (setq org-confirm-babel-evaluate nil)
+     (setq org-src-fontify-natively t)
+     ;; (setq org-export-with-sub-superscripts nil)
+     (setq org-publish-project-alist
+	   '(
+	     ("org-jekyll-qingyunzs" 
+	      ;; Path to org files.
+	      :base-directory "~/qingyunzs.github.io/_orgs/"
+	      :base-extension "org"
+	      ;; Path to Jekyll Posts
+	      :publishing-directory "~/qingyunzs.github.io/"
+	      :recursive t
+	      :publishing-function org-html-publish-to-html
+	      :with-toc nil
+	      :headline-levels 4
+	      :auto-preamble nil
+	      :auto-sitemap nil
+	      :table-of-contents nil
+	      :html-extension "html"
+	      :section-numbers nil
+	      ;;:html_head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../assets/themes/havee/css/style.css\" />"
+	      :body-only t)
+	     ("markdown-jekyll-qingyunzs"
+	      :base-directory "~/qingyunzs.github.io/_orgs/_posts/"
+	      :base-extension "md"
+	      :publishing-directory "~/qingyunzs.github.io/_posts/"
+	      :recursive t
+	      :publishing-function org-publish-attachment)
+	     ("org-static-images-qingyunzs"
+	      :base-directory "~/qingyunzs.github.io/_orgs/_assets/"
+	      :base-extension "png\\|jpg\\|jpeg\\|gif"
+	      :publishing-directory "~/qingyunzs.github.io/assets/images/"
+	      :recursive t
+	      :publishing-function org-publish-attachment)
+	     ("org-static-js-qingyunzs"
+	      :base-directory "~/qingyunzs.github.io/_orgs/_assets/"
+	      :base-extension "js"
+	      :publishing-directory "~/qingyunzs.github.io/assets/js/"
+	      :recursive t
+	      :publishing-function org-publish-attachment)
+	     ("org-static-css-qingyunzs"
+	      :base-directory "~/qingyunzs.github.io/_orgs/_assets/"
+	      :base-extension "css"
+	      :publishing-directory "~/qingyunzs.github.io/assets/css/"
+	      :recursive t
+	      :publishing-function org-publish-attachment)
+	     ("org-static-other-qingyunzs"
+	      :base-directory "~/qingyunzs.github.io/_orgs/_assets/"
+	      :base-extension "pdf\\|mp3\\|ogg\\|swf\\|php"
+	      :publishing-directory "~/qingyunzs.github.io/assets/other/"
+	      :recursive t
+	      :publishing-function org-publish-attachment)
+	     ("jekyll-qingyunzs-github-io"
+	      :components ("org-jekyll-qingyunzs"
+			   "markdown-jekyll-qingyunzs"
+			   "org-static-images-qingyunzs"
+			   "org-static-js-qingyunzs"
+			   "org-static-css-qingyunzs"
+			   "org-static-other-qingyunzs"))
+	     )
+	   )
+     (defvar jekyll-directory (expand-file-name "~/qingyunzs.github.io/_orgs/")
+       "Path to Jekyll blog.")
+     (defvar jekyll-drafts-dir "_drafts/"
+       "Relative path to drafts directory.")
+     (defvar jekyll-posts-dir "_posts/"
+       "Relative path to posts directory.")
+     (defvar jekyll-post-ext ".org"
+       "File extension of Jekyll posts.")
+     (defvar jekyll-post-template
+       "#+TITLE:  %s 
+       ,#+AUTHOR:    zrg
+       ,#+EMAIL:     zrg1390556487@gmail.com
+       ,#+LANGUAGE:  cn
+       ,#+OPTIONS:   H:6 num:t toc:nil \\n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+       ,#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+       ,#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+       ,#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"http://cs3.swfu.edu.cn/~20121156044/.org-manual.css\" />
+       ,#+EXPORT_SELECT_TAGS: export
+       ,#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+       ,#+EXPORT_EXCLUDE_TAGS: noexport
+       ,#+LINK_UP:   
+       ,#+LINK_HOME: 
+       ,#+XSLT: 
 
-       $ vim Gemfile
-       gem 'bigdecimal', '1.3.5'
-     #+end_src
-  2. warning: Using the last argument as keyword parameters is deprecated.
-     : 类似此类的一系列问题主要是依赖包需要更新，执行以下语句更新即可。
-     : $ bundle update
+       ,#+STARTUP: showall indent
+       ,#+STARTUP: hidestars
+       ,#+BEGIN_EXPORT HTML
+       ---
+       layout: post
+       title: This is a title 
+       author: zrg
+       description: This is description about the title
+       excerpt: 
+       comments: false
+       categories: 
+       - algorithms
+       tags:
+       - ACM
+       ---
+       ,#+END_EXPORT
+
+       # (setq org-export-html-use-infojs nil)
+       My email address: zrg1390556486@gmail.com
+       # (setq org-export-html-style nil)"
+
+       "Default template for Jekyll posts. %s will be replace by the post title.")
+     (defun jekyll-make-slug (s)
+       "Turn a string into a slug."
+       (replace-regexp-in-string
+	" " "-" (downcase
+		 (replace-regexp-in-string
+		  "[^A-Za-z0-9\u4e00-\u9fa5\-]" "" s))))
+     (defun jekyll-yaml-escape (s)
+       "Escape a string for YAML."
+       (if (or (string-match ":" s)
+	       (string-match "\"" s))
+	   (concat "\"" (replace-regexp-in-string "\"" "\\\\\"" s) "\"")
+	 s))
+
+     (defun jekyll-draft-post (title)
+       "Create a new Jekyll blog post."
+       (interactive "sPost Title: ")
+       (let ((draft-file (concat jekyll-directory jekyll-drafts-dir
+				 (jekyll-make-slug title)
+				 jekyll-post-ext)))
+	 (if (file-exists-p draft-file)
+	     (find-file draft-file)
+	   (find-file draft-file)
+	   (insert (format jekyll-post-template (jekyll-yaml-escape title))))))
+
+     (defun jekyll-publish-post ()
+       "Move a draft post to the posts directory, and rename it so that it
+       contains the date."
+       (interactive)
+       (cond
+	((not (equal
+	       (file-name-directory (buffer-file-name (current-buffer)))
+	       (concat jekyll-directory jekyll-drafts-dir)))
+	 (message "This is not a draft post."))
+	((buffer-modified-p)
+	 (message "Can't publish post; buffer has modifications."))
+	(t
+	 (let ((filename
+		(concat jekyll-directory jekyll-posts-dir
+			(format-time-string "%Y-%m-%d-")
+			(file-name-nondirectory
+			 (buffer-file-name (current-buffer)))))
+	       (old-point (point)))
+	   (rename-file (buffer-file-name (current-buffer))
+			filename)
+	   (kill-buffer nil)
+	   (find-file filename)
+	   (set-window-point (selected-window) old-point)))))
+     ;; provide
+     (provide 'init-org-jekyll)
+
+   #+end_src
+3. 配置 emacs 加载 init-org-jekyll
+   #+begin_src emacs-lisp
+     ;; Load ~/.emacs.d/lisp
+     (add-to-list 'load-path "~/.emacs.d/lisp/")
+   #+end_src
+4. 验证：打开 emacs，M-x jekyll-draft-post RET，检查是否正常提示输入文章标题，正常说明配置加载成功。
+*** 使用 markdown 写作
+1. （推荐）在 _orgs/_posts 目录下，以markdown格式写文章，每次发布时使用 org 发布方式（在下一小节中有讲解），即 org-publish。
+2. 直接在_posts目录下写markdown文件
+*** 开始写作
+1. 打开 emacs，M-x jekyll-draft-post，按提示输入标题，Emacs 便会在 _org/_drafts 中新建该文件，在 _org/_drafts 中编辑的文件不会被发布；
+2. 当文章写好后，M-x jekyll-publish-post，Emacs 便会将文章转移至 _org/_posts 中；
+3. M-x org-publish，选择 jekyll-qingyunzs-github-io（取决于你配置中改的名字），Emacs 会将 _org/_posts 中的所有 org 文件转换成 html 文件并存于 _posts 中，并把 _org/_assest 中图片等静态资源全部复制至站点根目录下的 _assest 目录中。
+*** 注意事项
+1. 只有文章有更新，才会更新 _posts 目录下的内容，所以批量迁移时，注意保留 _posts 目录下的内容。
+2. 如何彻底删除某篇文章呢？就是在删除 _orgs/_posts 目录下的文件后，接着删除 _posts 目录下的文件。
+* 写作规范
+** 目录结构说明
+#+begin_src emacs-lisp
+  ├─_data		数据目录
+  │  ├─languages	语言目录
+  ├─_drafts	(预发布)草稿目录
+  ├─_include	固定文件模板引用目录
+  ├─_orgs		org文件目录
+  │  ├─_assets	资源目录，img,js,css,...
+  │  ├─_drafts	org草稿目录
+  │  ├─_posts	org发布目录
+  ├─_posts	文章目录，皆是html文件
+  ├─_sass		scss文件目录
+  ├─_site		站点访问目录
+  ├─about		关于目录
+  ├─archives	归档目录
+  ├─assets	资源目录
+  ├─categories	分类目录
+  ├─tag		标签目录
+  ├─tags		标签目录
+  ├─404.html	404页面
+  ├─Gemfile	jekyll文件
+  ├─Gemfile.lock	jekyll文件
+  ├─README.en.md	英文说明文件
+  ├─README.md	说明文件
+  ├─_config.yml	配置文件
+  ├─index.html	入口文件
+  └─search.xml	搜索配置文件
+#+end_src
+
+**重要目录或文件说明：**
++ _config.yml，保存配置数据。
++ _drafts，（草稿）是未发布的文章。
++ _includes，包含部分到你的布局或者文章中以方便重用。
++ _layouts，layouts（布局）是包裹在文章外部的模板。布局可以在 YAML 头信息中根据不同文章进行选择。
++ _posts，这里放的就是你的文章了。文件格式很重要，必须要符合: YEAR-MONTH-DAY-title.MARKUP。
++ _data，格式化好的网站数据应放在这里。jekyll 的引擎会自动加载在该目录下所有的 yaml 文件（后缀是 .yml, .yaml, .json 或者 .csv ）。这些文件可以经由 ｀site.data｀ 访问。如果有一个 members.yml 文件在该目录下，你就可以通过 site.data.members 获取该文件的内容。
++ _site  | 一旦 Jekyll 完成转换，就会将生成的页面放在这里（默认）。最好将这个目录放进你的 .gitignore 文件中。
++ index.html and other HTML, Markdown, Textile files  | 如果这些文件中包含 YAML 头信息 部分，Jekyll 就会自动将它们进行转换。当然，其他的如 .html, .markdown, .md, 或者 .textile 等在你的站点根目录下或者不是以上提到的目录中的文件也会被转换。
++ Other Files/Folders，其他一些未被提及的目录和文件如 css 还有 images 文件夹， favicon.ico 等文件都将被完全拷贝到生成的 site 中。
+** 命名规范
+1. 分类命名：英文名称全部小写，如algorithms，c#，javascript等。两个单词以上组成，采用-字符连接。分类名称不能重名。
+2. 标签命名：与实际常见命名一致，如MySQL，PHP，Jekyll等。另外一些两个单词以上组成的术语，建议采用-字符连接，如Design-Pattern。
+3. org 源文件命名：日期+文件描述名称，文件描述名称采用-字符连接，如2018-12-12-vue-iview.org。
+4. org 发布目录命名：采用驼峰法命名。
+** 内容规范
+1. 目录编号：文章内容最多支持 6 级目录，对于 6 级以上内容使用有序列表或无序列表表示。
+2. 标点符号：严格遵守中英文标点符号命名规则及行文规范。
+3. 中英文混用情况：
+   + 英文符号就近使用原则，也就是说包含英文则使用英文符号。
+   + 中英文混用时，英文单词两端使用空格隔开。
+* 常见问题
+1. undefined method `new' for BigDecimal:Class (NoMethodError)
+   #+begin_src emacs-lisp
+     version  characteristics                                            Supported ruby version range
+     2.0.0    You cannot use BigDecimal.new and do subclassing           2.4 ..
+     1.4.x    BigDecimal.new and subclassing always prints warning.      2.3 .. 2.6
+     1.3.5    You can use BigDecimal.new and subclassing without warning .. 2.5
+
+     $ vim Gemfile
+     gem 'bigdecimal', '1.3.5'
+   #+end_src
+2. warning: Using the last argument as keyword parameters is deprecated.
+   : 类似此类的一系列问题主要是依赖包需要更新，执行以下语句更新即可。
+   : $ bundle update
 * 浏览器支持
-  [[http://iissnan.com/nexus/next/browser-support.png]]
+[[http://iissnan.com/nexus/next/browser-support.png]]
 * 提问的智慧
-  [[http://www.catb.org/~esr/faqs/smart-questions.html]]
+[[http://www.catb.org/~esr/faqs/smart-questions.html]]
+* 参考资料
+NexT theme from [[https://github.com/iissnan/hexo-theme-next][Hexo Theme]], and this site build  with org-mode. The following are some references:
++ https://jekyllrb.com/
++ [[http://theme-next.simpleyyt.com/][Next Theme]]
++ http://simpleyyt.github.io/jekyll-theme-next/
++ [[http://simpleyyt.com/][Yitao' Blog]]
++ http://theme-next.simpleyyt.com/
++ https://help.github.com/articles/setting-up-your-github-pages-site-locally-with-jekyll/
++ https://qingyunzs.github.io
