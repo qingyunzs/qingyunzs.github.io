@@ -12,13 +12,13 @@ tags:
 photos:
 ---
 
-<div id="outline-container-org81772b2" class="outline-2">
-<h2 id="org81772b2">线程入门</h2>
-<div class="outline-text-2" id="text-org81772b2">
+<div id="outline-container-orgc110c6d" class="outline-2">
+<h2 id="orgc110c6d">线程入门</h2>
+<div class="outline-text-2" id="text-orgc110c6d">
 </div>
-<div id="outline-container-orge175e3e" class="outline-3">
-<h3 id="orge175e3e">创建线程</h3>
-<div class="outline-text-3" id="text-orge175e3e">
+<div id="outline-container-org25347bd" class="outline-3">
+<h3 id="org25347bd">创建线程</h3>
+<div class="outline-text-3" id="text-org25347bd">
 <pre class="example">
 using system;
 using system.Threading;
@@ -36,9 +36,9 @@ static void CalcSum()
 </pre>
 </div>
 </div>
-<div id="outline-container-orgc195133" class="outline-3">
-<h3 id="orgc195133">Thread类几个重要方法</h3>
-<div class="outline-text-3" id="text-orgc195133">
+<div id="outline-container-orgc18e4f2" class="outline-3">
+<h3 id="orgc18e4f2">Thread类几个重要方法</h3>
+<div class="outline-text-3" id="text-orgc18e4f2">
 <pre class="example">
 Thread类用于创建线程，ThreadPool类用于管理线程池。
 </pre>
@@ -55,9 +55,9 @@ Thread类中几个重要的方法：
 </div>
 </div>
 
-<div id="outline-container-org093ac42" class="outline-3">
-<h3 id="org093ac42">Thread.ThreadState属性</h3>
-<div class="outline-text-3" id="text-org093ac42">
+<div id="outline-container-orga44f15d" class="outline-3">
+<h3 id="orga44f15d">Thread.ThreadState属性</h3>
+<div class="outline-text-3" id="text-orga44f15d">
 <pre class="example">
 Thread.ThreadState 在各种情况下的取值如下：
 1. Aborted：线程已停止
@@ -73,9 +73,9 @@ Thread.ThreadState 在各种情况下的取值如下：
 </pre>
 </div>
 </div>
-<div id="outline-container-org1ba6bf8" class="outline-3">
-<h3 id="org1ba6bf8">设定线程优先级</h3>
-<div class="outline-text-3" id="text-org1ba6bf8">
+<div id="outline-container-orgd3a6966" class="outline-3">
+<h3 id="orgd3a6966">设定线程优先级</h3>
+<div class="outline-text-3" id="text-orgd3a6966">
 <pre class="example">
 优先级由高到低分别是Highest，AboveNormal，Normal，BelowNormal，Lowest。默认为ThreadPriority.Normal。
 </pre>
@@ -88,16 +88,16 @@ myThread.Priority=ThreadPriority.Lowest;
 </div>
 </div>
 </div>
-<div id="outline-container-orgef31e7b" class="outline-2">
-<h2 id="orgef31e7b">线程的同步和通讯——生产者和消费者</h2>
-<div class="outline-text-2" id="text-orgef31e7b">
+<div id="outline-container-org9357d96" class="outline-2">
+<h2 id="org9357d96">线程的同步和通讯——生产者和消费者</h2>
+<div class="outline-text-2" id="text-org9357d96">
 <pre class="example">
 假设这样一种情况，两个线程同时维护一个队列，如果一个线程对队列中添加元素，而另外一个线程从队列中取用元素，那么我们称添加元素的线程为生产者，称取用元素的线程为消费者。
 </pre>
 </div>
-<div id="outline-container-orgbf6fc9f" class="outline-3">
-<h3 id="orgbf6fc9f">lock关键字</h3>
-<div class="outline-text-3" id="text-orgbf6fc9f">
+<div id="outline-container-org6d3e4f6" class="outline-3">
+<h3 id="org6d3e4f6">lock关键字</h3>
+<div class="outline-text-3" id="text-org6d3e4f6">
 <pre class="example">
 lock 关键字解决多个线程同时执行一个函数，导致数据的混乱，产生不可预料的结果的问题。
 lock 关键字将一段代码定义为互斥段（critical section）。互斥段在一个时刻内只允许一个线程进入执行，而其他线程必须等待。
@@ -112,9 +112,9 @@ lock(expression) statement_block
 </pre>
 </div>
 </div>
-<div id="outline-container-org06e22ad" class="outline-3">
-<h3 id="org06e22ad">Monitor类(System.Threading)</h3>
-<div class="outline-text-3" id="text-org06e22ad">
+<div id="outline-container-orgae94086" class="outline-3">
+<h3 id="orgae94086">Monitor类(System.Threading)</h3>
+<div class="outline-text-3" id="text-orgae94086">
 <pre class="example">
 Monitor提供了使线程共享资源的方案。
 Monitor类可以锁定一个对象，一个线程只有得到这把锁才可以对该对象进行操作。
@@ -132,9 +132,9 @@ Monitor.Exit(oQueue);//释放锁
 //当拥有对象锁的线程准备释放锁时，它使用Monitor.Pulse()方法通知等待队列中的第一个线程。
 </pre>
 </div>
-<div id="outline-container-orga79d495" class="outline-4">
-<h4 id="orga79d495">Monitor.Wait()和Monitor.Pulse()</h4>
-<div class="outline-text-4" id="text-orga79d495">
+<div id="outline-container-org74ea32d" class="outline-4">
+<h4 id="org74ea32d">Monitor.Wait()和Monitor.Pulse()</h4>
+<div class="outline-text-4" id="text-org74ea32d">
 <pre class="example">
 1. Wait()就是交出锁的使用权，使线程处于阻塞状态，直到再次获得锁的使用权。
 2. 当前线程调用Pulse()向队列中的下一个线程发出锁的信号。接收到脉冲后，等待线程就被移动到就绪队列中。
@@ -145,13 +145,13 @@ Monitor.Exit(oQueue);//释放锁
 </div>
 </div>
 
-<div id="outline-container-org53d54f4" class="outline-2">
-<h2 id="org53d54f4">实例：开辟一线程实现异步导出Excel</h2>
-<div class="outline-text-2" id="text-org53d54f4">
+<div id="outline-container-orgb6ec31c" class="outline-2">
+<h2 id="orgb6ec31c">实例：开辟一线程实现异步导出Excel</h2>
+<div class="outline-text-2" id="text-orgb6ec31c">
 </div>
-<div id="outline-container-orgeb2db3c" class="outline-3">
-<h3 id="orgeb2db3c">环境介绍及实例简述</h3>
-<div class="outline-text-3" id="text-orgeb2db3c">
+<div id="outline-container-org620cc00" class="outline-3">
+<h3 id="org620cc00">环境介绍及实例简述</h3>
+<div class="outline-text-3" id="text-org620cc00">
 <pre class="example">
 环境介绍：
 开发语言》C#;
@@ -169,9 +169,9 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-org3e66e28" class="outline-3">
-<h3 id="org3e66e28">实现思路及准备工作</h3>
-<div class="outline-text-3" id="text-org3e66e28">
+<div id="outline-container-orgbce02fd" class="outline-3">
+<h3 id="orgbce02fd">实现思路及准备工作</h3>
+<div class="outline-text-3" id="text-orgbce02fd">
 <pre class="example">
 思路：
 通过线程实现异步导出操作；
@@ -186,13 +186,13 @@ NIPO version》2.2.1;
 </pre>
 </div>
 </div>
-<div id="outline-container-orgac393cd" class="outline-3">
-<h3 id="orgac393cd">实例代码</h3>
-<div class="outline-text-3" id="text-orgac393cd">
+<div id="outline-container-orgf9a4c89" class="outline-3">
+<h3 id="orgf9a4c89">实例代码</h3>
+<div class="outline-text-3" id="text-orgf9a4c89">
 </div>
-<div id="outline-container-org1f2cf93" class="outline-4">
-<h4 id="org1f2cf93">UserController.cs</h4>
-<div class="outline-text-4" id="text-org1f2cf93">
+<div id="outline-container-org116f284" class="outline-4">
+<h4 id="org116f284">UserController.cs</h4>
+<div class="outline-text-4" id="text-org116f284">
 <div class="org-src-container">
 <pre class="src src-emacs">using Project.BLL;
 using Project.Class;
@@ -211,154 +211,154 @@ namespace Project.UI
     /// &lt;/summary&gt;
     public class FileInfoClass
     {
-	public int count { set; get; }
-	public IList&lt;string&gt; d_fileList { set; get; }
+        public int count { set; get; }
+        public IList&lt;string&gt; d_fileList { set; get; }
     }
     /// &lt;summary&gt;
     /// 用户控制器
     /// &lt;/summary&gt;
     public class UserController : BaseController
     {
-	//用户接口
-	private IUserBLL iuser = new UserBLL();
-	//返回信息
-	private ReturnInfo returninfo = new ReturnInfo();
+        //用户接口
+        private IUserBLL iuser = new UserBLL();
+        //返回信息
+        private ReturnInfo returninfo = new ReturnInfo();
 
-	/// &lt;summary&gt;
-	/// 导出用户数据，返回文件列表
-	/// &lt;/summary&gt;
-	public ActionResult UserInfoExportExcel()
-	{
-	    //搜索条件Model对象
-	    SearchUserModel searchUserModel = new SearchUserModel();
-	    //1.获取数据(具体如何获取数据，这里没有陈述)
-	    List&lt;UserViewModel&gt; list = iuser.GetUserInfo(searchUserModel, ref returninfo) as List&lt;UserViewModel&gt;;
+        /// &lt;summary&gt;
+        /// 导出用户数据，返回文件列表
+        /// &lt;/summary&gt;
+        public ActionResult UserInfoExportExcel()
+        {
+            //搜索条件Model对象
+            SearchUserModel searchUserModel = new SearchUserModel();
+            //1.获取数据(具体如何获取数据，这里没有陈述)
+            List&lt;UserViewModel&gt; list = iuser.GetUserInfo(searchUserModel, ref returninfo) as List&lt;UserViewModel&gt;;
 
-	    //2.调用方法，导出Excel
-	    //生成文件名称（改文件名称）
-	    var fileName = string.Format("{0}用户信息表.xls", DateTime.Now.ToString("yyyyMMddHHssmm"));
-	    //判断目录是否存在（该目录名称）
-	    if (!Directory.Exists(Server.MapPath("~/Downloads/用户信息")))
-	    {
-		Directory.CreateDirectory(Server.MapPath("~/Downloads/用户信息"));
-	    }
-	    //将生成的文件保存到服务器临时文件夹中
-	    string fullPath = Path.Combine(Server.MapPath("~/Downloads/用户信息"), fileName);
-	    //表头
-	    Dictionary&lt;string, string&gt; tableHeader = new Dictionary&lt;string, string&gt;
-	    {
-		{ "user_id","用户编号" },
-		{ "username","用户名" },
-		{ "sex","性别" },
-		{ "age","年龄" },
-		{ "tel","联系电话"},
-		{ "email","邮箱"},
-		{ "user_type", "用户类型" },
-		{ "nickname", "用户昵称" }
-	    };
-	    //导出到Excel。(Global.asax.cs)
-	    MvcApplication._VehicleQueueT.Enqueue(new Classes.DataExportPara { excelPath=fullPath, sheetName = "用户信息", tableHeard= tableHeader, list =list});
+            //2.调用方法，导出Excel
+            //生成文件名称（改文件名称）
+            var fileName = string.Format("{0}用户信息表.xls", DateTime.Now.ToString("yyyyMMddHHssmm"));
+            //判断目录是否存在（该目录名称）
+            if (!Directory.Exists(Server.MapPath("~/Downloads/用户信息")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Downloads/用户信息"));
+            }
+            //将生成的文件保存到服务器临时文件夹中
+            string fullPath = Path.Combine(Server.MapPath("~/Downloads/用户信息"), fileName);
+            //表头
+            Dictionary&lt;string, string&gt; tableHeader = new Dictionary&lt;string, string&gt;
+            {
+                { "user_id","用户编号" },
+                { "username","用户名" },
+                { "sex","性别" },
+                { "age","年龄" },
+                { "tel","联系电话"},
+                { "email","邮箱"},
+                { "user_type", "用户类型" },
+                { "nickname", "用户昵称" }
+            };
+            //导出到Excel。(Global.asax.cs)
+            MvcApplication._VehicleQueueT.Enqueue(new Classes.DataExportPara { excelPath=fullPath, sheetName = "用户信息", tableHeard= tableHeader, list =list});
 
-	    //获取路径
-	    string path = Server.MapPath("~/Downloads/用户信息");
-	    //获取所有xls文件路径
-	    IList&lt;string&gt; fileList = GetAllFileName(path);
-	    FileInfoClass f_info = new FileInfoClass();
-	    f_info.count = fileList.Count;
-	    f_info.d_fileList = fileList;
+            //获取路径
+            string path = Server.MapPath("~/Downloads/用户信息");
+            //获取所有xls文件路径
+            IList&lt;string&gt; fileList = GetAllFileName(path);
+            FileInfoClass f_info = new FileInfoClass();
+            f_info.count = fileList.Count;
+            f_info.d_fileList = fileList;
 
-	    //返回文件列表
-	    return new ContentResult
-	    {
-		Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(f_info),
-		ContentType = "application/json"
-	    };
-	}
-	/// &lt;summary&gt;
-	/// 仅获取文件列表
-	/// &lt;/summary&gt;
-	/// &lt;returns&gt;&lt;/returns&gt;
-	public ActionResult GetFileLists()
-	{
-	    if (!Directory.Exists(Server.MapPath("~/Downloads/用户信息")))
-	    {
-		Directory.CreateDirectory(Server.MapPath("~/Downloads/用户信息"));
-	    }
-	    //路径
-	    string path = Server.MapPath("~/Downloads/用户信息");
-	    //
-	    IList&lt;string&gt; fileList = GetAllFileName(path);
+            //返回文件列表
+            return new ContentResult
+            {
+                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(f_info),
+                ContentType = "application/json"
+            };
+        }
+        /// &lt;summary&gt;
+        /// 仅获取文件列表
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public ActionResult GetFileLists()
+        {
+            if (!Directory.Exists(Server.MapPath("~/Downloads/用户信息")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Downloads/用户信息"));
+            }
+            //路径
+            string path = Server.MapPath("~/Downloads/用户信息");
+            //
+            IList&lt;string&gt; fileList = GetAllFileName(path);
 
-	    FileInfoClass f_info = new FileInfoClass();
-	    f_info.count = fileList.Count;
-	    f_info.d_fileList = fileList;
-	    return new ContentResult
-	    {
-		Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(f_info),
-		ContentType = "application/json"
-	    };
-	}
-	/// &lt;summary&gt;
-	/// 删除文件
-	/// &lt;/summary&gt;
-	/// &lt;param name="fileName"&gt;&lt;/param&gt;
-	/// &lt;returns&gt;&lt;/returns&gt;
-	public ActionResult DeleteFile(string fileName)
-	{
-	    string result = "";
-	    //路径
-	    string filePath = Server.MapPath("~/Downloads/用户信息/"+fileName);
-	    if (!Directory.Exists(Server.MapPath("~/Downloads/已删除文件目录")))
-	    {
-		Directory.CreateDirectory(Server.MapPath("~/Downloads/已删除文件目录"));
-	    }
-	    string deletedFilePath = Server.MapPath("~/Downloads/已删除文件目录/"+fileName);
-	    try
-	    {
-		//System.IO.File.Delete(filePath);
-		//移动文件到"已删除文件目录"中
-		FileInfo file = new FileInfo(filePath);
-		file.MoveTo(deletedFilePath);
-		result += "成功删除文件";
-	    }
-	    catch (Exception)
-	    {
-		result += "删除文件失败";
-	    }
-	    //返回操作结果
-	    return Json(result, JsonRequestBehavior.AllowGet);
-	}
-	/// &lt;summary&gt;
-	/// 获取目录下的所有xls文件
-	/// &lt;/summary&gt;
-	/// &lt;param name="path"&gt;&lt;/param&gt;
-	/// &lt;returns&gt;&lt;/returns&gt;
-	private IList&lt;string&gt; GetAllFileName(string path)
-	{
-	    /*List&lt;FileInfo&gt; filelist = new List&lt;FileInfo&gt;();
-	    //if (System.IO.File.Exists(path+"\\*.xls"))
-	    var files = Directory.GetFiles(path, "*.xls");
-	    foreach (var file in files)
-	    {
-		filelist.Add(new FileInfo(file));
-	    }*/
-	    IList&lt;string&gt; list = new List&lt;string&gt;();
-	    DirectoryInfo folder = new DirectoryInfo(path);
-	    foreach (FileInfo file in folder.GetFiles("*.xls"))
-	    {
-		list.Add(file.Name);
-	    }
-	    return list;
-	}
+            FileInfoClass f_info = new FileInfoClass();
+            f_info.count = fileList.Count;
+            f_info.d_fileList = fileList;
+            return new ContentResult
+            {
+                Content = new JavaScriptSerializer { MaxJsonLength = Int32.MaxValue }.Serialize(f_info),
+                ContentType = "application/json"
+            };
+        }
+        /// &lt;summary&gt;
+        /// 删除文件
+        /// &lt;/summary&gt;
+        /// &lt;param name="fileName"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public ActionResult DeleteFile(string fileName)
+        {
+            string result = "";
+            //路径
+            string filePath = Server.MapPath("~/Downloads/用户信息/"+fileName);
+            if (!Directory.Exists(Server.MapPath("~/Downloads/已删除文件目录")))
+            {
+                Directory.CreateDirectory(Server.MapPath("~/Downloads/已删除文件目录"));
+            }
+            string deletedFilePath = Server.MapPath("~/Downloads/已删除文件目录/"+fileName);
+            try
+            {
+                //System.IO.File.Delete(filePath);
+                //移动文件到"已删除文件目录"中
+                FileInfo file = new FileInfo(filePath);
+                file.MoveTo(deletedFilePath);
+                result += "成功删除文件";
+            }
+            catch (Exception)
+            {
+                result += "删除文件失败";
+            }
+            //返回操作结果
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        /// &lt;summary&gt;
+        /// 获取目录下的所有xls文件
+        /// &lt;/summary&gt;
+        /// &lt;param name="path"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        private IList&lt;string&gt; GetAllFileName(string path)
+        {
+            /*List&lt;FileInfo&gt; filelist = new List&lt;FileInfo&gt;();
+            //if (System.IO.File.Exists(path+"\\*.xls"))
+            var files = Directory.GetFiles(path, "*.xls");
+            foreach (var file in files)
+            {
+                filelist.Add(new FileInfo(file));
+            }*/
+            IList&lt;string&gt; list = new List&lt;string&gt;();
+            DirectoryInfo folder = new DirectoryInfo(path);
+            foreach (FileInfo file in folder.GetFiles("*.xls"))
+            {
+                list.Add(file.Name);
+            }
+            return list;
+        }
     }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org86cd7c7" class="outline-4">
-<h4 id="org86cd7c7">Global.asax.cs</h4>
-<div class="outline-text-4" id="text-org86cd7c7">
+<div id="outline-container-org9be7fcc" class="outline-4">
+<h4 id="org9be7fcc">Global.asax.cs</h4>
+<div class="outline-text-4" id="text-org9be7fcc">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -374,58 +374,58 @@ namespace GpsProject.UI
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-	//数据导出队列
-	public static Queue&lt;DataExportPara&gt; _VehicleQueueT = new Queue&lt;DataExportPara&gt;();
+        //数据导出队列
+        public static Queue&lt;DataExportPara&gt; _VehicleQueueT = new Queue&lt;DataExportPara&gt;();
 
-	protected void Application_Start()
-	{
-	    AreaRegistration.RegisterAllAreas();
-	    FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-	    RouteConfig.RegisterRoutes(RouteTable.Routes);
-	    BundleConfig.RegisterBundles(BundleTable.Bundles);
+        protected void Application_Start()
+        {
+            AreaRegistration.RegisterAllAreas();
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-	    OutputVehicleExcel();//注册信息导出方法
-	}
+            OutputVehicleExcel();//注册信息导出方法
+        }
 
-	/// &lt;summary&gt;
-	/// 导出信息
-	/// &lt;/summary&gt;
-	public static void OutputVehicleExcel()
-	{
-	    DataExportPara exportPara = null;
-	    ThreadPool.QueueUserWorkItem(o =&gt;
-	    {
-		while (true)
-		{
-		    if (_VehicleQueueT != null &amp;&amp; _VehicleQueueT.Count &gt; 0)
-		    {
-			exportPara = _VehicleQueueT.Dequeue();
-			if (exportPara != null)
-			{
-			    //调用方法
-			    DataExport.ExportExcel(exportPara.excelPath, exportPara.sheetName, exportPara.tableHeard, exportPara.list);
-			}
-			else
-			{
-			    Thread.Sleep(6000);
-			}
-		    }
-		    else
-		    {
-			Thread.Sleep(6000);
-		    }
-		}
-	    });
-	}
+        /// &lt;summary&gt;
+        /// 导出信息
+        /// &lt;/summary&gt;
+        public static void OutputVehicleExcel()
+        {
+            DataExportPara exportPara = null;
+            ThreadPool.QueueUserWorkItem(o =&gt;
+            {
+                while (true)
+                {
+                    if (_VehicleQueueT != null &amp;&amp; _VehicleQueueT.Count &gt; 0)
+                    {
+                        exportPara = _VehicleQueueT.Dequeue();
+                        if (exportPara != null)
+                        {
+                            //调用方法
+                            DataExport.ExportExcel(exportPara.excelPath, exportPara.sheetName, exportPara.tableHeard, exportPara.list);
+                        }
+                        else
+                        {
+                            Thread.Sleep(6000);
+                        }
+                    }
+                    else
+                    {
+                        Thread.Sleep(6000);
+                    }
+                }
+            });
+        }
     }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbb197f7" class="outline-4">
-<h4 id="orgbb197f7">DataExportPara.cs</h4>
-<div class="outline-text-4" id="text-orgbb197f7">
+<div id="outline-container-org6681226" class="outline-4">
+<h4 id="org6681226">DataExportPara.cs</h4>
+<div class="outline-text-4" id="text-org6681226">
 <div class="org-src-container">
 <pre class="src src-emacs">using System.Collections;
 using System.Collections.Generic;
@@ -437,31 +437,31 @@ namespace Project.Classes
     /// &lt;/summary&gt;
     public class DataExportPara
     {
-	/// &lt;summary&gt;
-	/// 导出路径
-	/// &lt;/summary&gt;
-	public string excelPath { get; set; }
-	/// &lt;summary&gt;
-	/// 数据列表
-	/// &lt;/summary&gt;
-	public IList list { get; set; }
-	/// &lt;summary&gt;
-	/// 工作表名称
-	/// &lt;/summary&gt;
-	public string sheetName { get; set; }
-	/// &lt;summary&gt;
-	/// 表头
-	/// &lt;/summary&gt;
-	public Dictionary&lt;string, string&gt; tableHeard {get;set;}
+        /// &lt;summary&gt;
+        /// 导出路径
+        /// &lt;/summary&gt;
+        public string excelPath { get; set; }
+        /// &lt;summary&gt;
+        /// 数据列表
+        /// &lt;/summary&gt;
+        public IList list { get; set; }
+        /// &lt;summary&gt;
+        /// 工作表名称
+        /// &lt;/summary&gt;
+        public string sheetName { get; set; }
+        /// &lt;summary&gt;
+        /// 表头
+        /// &lt;/summary&gt;
+        public Dictionary&lt;string, string&gt; tableHeard {get;set;}
     }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5e0109c" class="outline-4">
-<h4 id="org5e0109c">DataExport.cs</h4>
-<div class="outline-text-4" id="text-org5e0109c">
+<div id="outline-container-orgfbcb330" class="outline-4">
+<h4 id="orgfbcb330">DataExport.cs</h4>
+<div class="outline-text-4" id="text-orgfbcb330">
 <div class="org-src-container">
 <pre class="src src-emacs">using GpsProject.Class;
 using System.Collections;
@@ -475,32 +475,32 @@ namespace Project.Classes
     /// &lt;/summary&gt;
     public class DataExport
     {
-	/// &lt;summary&gt;
-	/// 导出Excel到目录
-	/// &lt;/summary&gt;
-	/// &lt;param name="path"&gt;&lt;/param&gt;
-	/// &lt;param name="sheetName"&gt;&lt;/param&gt;
-	/// &lt;param name="tableHeard"&gt;&lt;/param&gt;
-	/// &lt;param name="list"&gt;&lt;/param&gt;
-	public static void ExportExcel(string path, string sheetName, Dictionary&lt;string, string&gt; tableHeard, IList list)
-	{
-	    using (var exportData = NPOIExcelHelper.ExportToExcelStream(list, sheetName, tableHeard))
-	    {
-		//创建一个文件
-		FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write);
-		exportData.WriteTo(file);
-		file.Close();
-	    }
-	}
+        /// &lt;summary&gt;
+        /// 导出Excel到目录
+        /// &lt;/summary&gt;
+        /// &lt;param name="path"&gt;&lt;/param&gt;
+        /// &lt;param name="sheetName"&gt;&lt;/param&gt;
+        /// &lt;param name="tableHeard"&gt;&lt;/param&gt;
+        /// &lt;param name="list"&gt;&lt;/param&gt;
+        public static void ExportExcel(string path, string sheetName, Dictionary&lt;string, string&gt; tableHeard, IList list)
+        {
+            using (var exportData = NPOIExcelHelper.ExportToExcelStream(list, sheetName, tableHeard))
+            {
+                //创建一个文件
+                FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write);
+                exportData.WriteTo(file);
+                file.Close();
+            }
+        }
     }
 }
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd602b2e" class="outline-4">
-<h4 id="orgd602b2e">NPOIExcelHelper.cs</h4>
-<div class="outline-text-4" id="text-orgd602b2e">
+<div id="outline-container-org97517c8" class="outline-4">
+<h4 id="org97517c8">NPOIExcelHelper.cs</h4>
+<div class="outline-text-4" id="text-org97517c8">
 <div class="org-src-container">
 <pre class="src src-emacs">using System;
 using System.Collections.Generic;
@@ -516,136 +516,136 @@ namespace Project.Class
     /// &lt;/summary&gt;
     public class NPOIExcelHelper
     {
-	/// &lt;summary&gt;
-	/// 导出Excel到文件流
-	/// &lt;/summary&gt;
-	/// &lt;param name="dt"&gt;&lt;/param&gt;
-	/// &lt;param name="sheetName"&gt;&lt;/param&gt;
-	/// &lt;param name="tableHeard"&gt;&lt;/param&gt;
-	/// &lt;returns&gt;文件流&lt;/returns&gt;
-	public static MemoryStream ExportToExcelStream(IList lists, string sheetName, Dictionary&lt;string, string&gt; tableHeard)
-	{
-	    //创建一个工作簿
-	    NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
-	    NPOI.SS.UserModel.ISheet sheet = book.CreateSheet(sheetName); //创建sheet
+        /// &lt;summary&gt;
+        /// 导出Excel到文件流
+        /// &lt;/summary&gt;
+        /// &lt;param name="dt"&gt;&lt;/param&gt;
+        /// &lt;param name="sheetName"&gt;&lt;/param&gt;
+        /// &lt;param name="tableHeard"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;文件流&lt;/returns&gt;
+        public static MemoryStream ExportToExcelStream(IList lists, string sheetName, Dictionary&lt;string, string&gt; tableHeard)
+        {
+            //创建一个工作簿
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            NPOI.SS.UserModel.ISheet sheet = book.CreateSheet(sheetName); //创建sheet
 
-	    //Excel表头
-	    NPOI.SS.UserModel.IRow row = sheet.CreateRow(0); //创建行
+            //Excel表头
+            NPOI.SS.UserModel.IRow row = sheet.CreateRow(0); //创建行
 
-	    ICellStyle style = book.CreateCellStyle(); //创建单元格
-	    style.Alignment = HorizontalAlignment.Center; //对齐方式
-	    style.VerticalAlignment = VerticalAlignment.Center;  //单元格居中对齐
+            ICellStyle style = book.CreateCellStyle(); //创建单元格
+            style.Alignment = HorizontalAlignment.Center; //对齐方式
+            style.VerticalAlignment = VerticalAlignment.Center;  //单元格居中对齐
 
-	    #region 设置表头
-	    List&lt;string&gt; headers = tableHeard.Keys.ToList();
-	    for (int i = 0; i &lt; headers.Count; i++)
-	    {
-		ICell cell = row.CreateCell(i);
-		cell.CellStyle = style;
-		cell.SetCellValue(tableHeard[headers[i]]);
-	    }
-	    /*for (int i = 0; i &lt; dt.Columns.Count; i++)
-	    {
-		ICell cell = row.CreateCell(i);
-		cell.CellStyle = style;
-		cell.SetCellValue(dt.Columns[i].ColumnName);
-	    }*/
-	    #endregion
+            #region 设置表头
+            List&lt;string&gt; headers = tableHeard.Keys.ToList();
+            for (int i = 0; i &lt; headers.Count; i++)
+            {
+                ICell cell = row.CreateCell(i);
+                cell.CellStyle = style;
+                cell.SetCellValue(tableHeard[headers[i]]);
+            }
+            /*for (int i = 0; i &lt; dt.Columns.Count; i++)
+            {
+                ICell cell = row.CreateCell(i);
+                cell.CellStyle = style;
+                cell.SetCellValue(dt.Columns[i].ColumnName);
+            }*/
+            #endregion
 
-	    #region 填充数据
-	    int rowIndex = 1;// 从第二行开始赋值(第一行已设置为单元头)
-	    if (lists != null &amp;&amp; lists.Count &gt; 0)
-	    {
-		foreach (var list in lists)
-		{
-		    IRow rowTemp = sheet.CreateRow(rowIndex);
-		    for (int i = 0; i &lt; headers.Count; i++)
-		    {
-			string cellValue = ""; // 单元格的值
-			object properotyValue = null; // 属性的值
-			System.Reflection.PropertyInfo properotyInfo = null; // 属性的信息
+            #region 填充数据
+            int rowIndex = 1;// 从第二行开始赋值(第一行已设置为单元头)
+            if (lists != null &amp;&amp; lists.Count &gt; 0)
+            {
+                foreach (var list in lists)
+                {
+                    IRow rowTemp = sheet.CreateRow(rowIndex);
+                    for (int i = 0; i &lt; headers.Count; i++)
+                    {
+                        string cellValue = ""; // 单元格的值
+                        object properotyValue = null; // 属性的值
+                        System.Reflection.PropertyInfo properotyInfo = null; // 属性的信息
 
-			if (headers[i].IndexOf(".") &gt; 0)
-			{
-			    // 3.1.1 解析子类属性(这里只解析1层子类，多层子类未处理)
-			    string[] properotyArray = headers[i].Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-			    string subClassName = properotyArray[0]; // '.'前面的为子类的名称
-			    string subClassProperotyName = properotyArray[1]; // '.'后面的为子类的属性名称
-			    System.Reflection.PropertyInfo subClassInfo = list.GetType().GetProperty(subClassName); // 获取子类的类型
-			    if (subClassInfo != null)
-			    {
-				// 3.1.2 获取子类的实例
-				var subClassEn = list.GetType().GetProperty(subClassName).GetValue(list, null);
-				// 3.1.3 根据属性名称获取子类里的属性类型
-				properotyInfo = subClassInfo.PropertyType.GetProperty(subClassProperotyName);
-				if (properotyInfo != null)
-				{
-				    properotyValue = properotyInfo.GetValue(subClassEn, null); // 获取子类属性的值
-				}
-			    }
-			}
-			else
-			{
-			    // 3.2 若不是子类的属性，直接根据属性名称获取对象对应的属性
-			    properotyInfo = list.GetType().GetProperty(headers[i]);
-			    if (properotyInfo != null)
-			    {
-				properotyValue = properotyInfo.GetValue(list, null);
-			    }
-			}
+                        if (headers[i].IndexOf(".") &gt; 0)
+                        {
+                            // 3.1.1 解析子类属性(这里只解析1层子类，多层子类未处理)
+                            string[] properotyArray = headers[i].Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+                            string subClassName = properotyArray[0]; // '.'前面的为子类的名称
+                            string subClassProperotyName = properotyArray[1]; // '.'后面的为子类的属性名称
+                            System.Reflection.PropertyInfo subClassInfo = list.GetType().GetProperty(subClassName); // 获取子类的类型
+                            if (subClassInfo != null)
+                            {
+                                // 3.1.2 获取子类的实例
+                                var subClassEn = list.GetType().GetProperty(subClassName).GetValue(list, null);
+                                // 3.1.3 根据属性名称获取子类里的属性类型
+                                properotyInfo = subClassInfo.PropertyType.GetProperty(subClassProperotyName);
+                                if (properotyInfo != null)
+                                {
+                                    properotyValue = properotyInfo.GetValue(subClassEn, null); // 获取子类属性的值
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // 3.2 若不是子类的属性，直接根据属性名称获取对象对应的属性
+                            properotyInfo = list.GetType().GetProperty(headers[i]);
+                            if (properotyInfo != null)
+                            {
+                                properotyValue = properotyInfo.GetValue(list, null);
+                            }
+                        }
 
-			// 3.3 属性值经过转换赋值给单元格值
-			if (properotyValue != null)
-			{
-			    cellValue = properotyValue.ToString();
-			    // 3.3.1 对时间初始值赋值为空
-			    if (cellValue.Trim() == "0001/1/1 0:00:00" || cellValue.Trim() == "0001/1/1 23:59:59")
-			    {
-				cellValue = "";
-			    }
-			}
+                        // 3.3 属性值经过转换赋值给单元格值
+                        if (properotyValue != null)
+                        {
+                            cellValue = properotyValue.ToString();
+                            // 3.3.1 对时间初始值赋值为空
+                            if (cellValue.Trim() == "0001/1/1 0:00:00" || cellValue.Trim() == "0001/1/1 23:59:59")
+                            {
+                                cellValue = "";
+                            }
+                        }
 
-			// 3.4 填充到Excel的单元格里
-			ICell icellcontent = rowTemp.CreateCell(i);
-			//icellcontent.CellStyle = Getcellstyle(workbook, cellStylecontent, fontcontent, stylexls.默认);
-			icellcontent.SetCellValue(cellValue);
-		    }
-		    rowIndex++;
-		    //达到65535行，跳出循环
-		    if (rowIndex== 65535)
-		    {
-			break;
-		    }
-		}
-	    }
-	    else
-	    {
-		//导出空数据
-		sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 0, headers.Count - 1));
-		IRow row2 = sheet.CreateRow(1);
-		ICell icellkong = row2.CreateCell(0);
-		//  icellkong.CellStyle = Getcellstyle(workbook, stylexls.默认);
-		string str = "没有满足条件的数据可导出";
-		icellkong.SetCellValue(str);
-	    }
+                        // 3.4 填充到Excel的单元格里
+                        ICell icellcontent = rowTemp.CreateCell(i);
+                        //icellcontent.CellStyle = Getcellstyle(workbook, cellStylecontent, fontcontent, stylexls.默认);
+                        icellcontent.SetCellValue(cellValue);
+                    }
+                    rowIndex++;
+                    //达到65535行，跳出循环
+                    if (rowIndex== 65535)
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                //导出空数据
+                sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(2, 2, 0, headers.Count - 1));
+                IRow row2 = sheet.CreateRow(1);
+                ICell icellkong = row2.CreateCell(0);
+                //  icellkong.CellStyle = Getcellstyle(workbook, stylexls.默认);
+                string str = "没有满足条件的数据可导出";
+                icellkong.SetCellValue(str);
+            }
 
-	    /* for (int i = 1; i &lt;= dt.Rows.Count; i++)//遍历DataTable行
-	 {
-	     DataRow dataRow = dt.Rows[i - 1];
-	     row = sheet.CreateRow(i);//在工作表中添加一行
+            /* for (int i = 1; i &lt;= dt.Rows.Count; i++)//遍历DataTable行
+         {
+             DataRow dataRow = dt.Rows[i - 1];
+             row = sheet.CreateRow(i);//在工作表中添加一行
 
-	     for (int j = 0; j &lt; dt.Columns.Count; j++)//遍历DataTable列
-	     {
-		 ICell cell = row.CreateCell(j);//在行中添加一列
-		 cell.SetCellValue(dataRow[j].ToString());//设置列的内容   
-	     }
-	 }*/
-	    #endregion
+             for (int j = 0; j &lt; dt.Columns.Count; j++)//遍历DataTable列
+             {
+                 ICell cell = row.CreateCell(j);//在行中添加一列
+                 cell.SetCellValue(dataRow[j].ToString());//设置列的内容   
+             }
+         }*/
+            #endregion
 
-	    MemoryStream ms = new MemoryStream();
-	    book.Write(ms);
-	    return ms; //返回文件流
-	}
+            MemoryStream ms = new MemoryStream();
+            book.Write(ms);
+            return ms; //返回文件流
+        }
     }
 }
 </pre>
@@ -653,39 +653,39 @@ namespace Project.Class
 </div>
 </div>
 </div>
-<div id="outline-container-org279b5ea" class="outline-3">
-<h3 id="org279b5ea">小结</h3>
-<div class="outline-text-3" id="text-org279b5ea">
+<div id="outline-container-org5bfbc73" class="outline-3">
+<h3 id="org5bfbc73">小结</h3>
+<div class="outline-text-3" id="text-org5bfbc73">
 <pre class="example">
 在阅读别人的文章时，认真。
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb02948b" class="outline-2">
-<h2 id="orgb02948b">实例：利用线程监听模拟车辆进出智能化停车场</h2>
-<div class="outline-text-2" id="text-orgb02948b">
+<div id="outline-container-org28adfc3" class="outline-2">
+<h2 id="org28adfc3">实例：利用线程监听模拟车辆进出智能化停车场</h2>
+<div class="outline-text-2" id="text-org28adfc3">
 </div>
-<div id="outline-container-orgfcf8a24" class="outline-3">
-<h3 id="orgfcf8a24">实例简述</h3>
+<div id="outline-container-orgd5e7218" class="outline-3">
+<h3 id="orgd5e7218">实例简述</h3>
 </div>
-<div id="outline-container-org3f66625" class="outline-3">
-<h3 id="org3f66625">实现效果</h3>
-<div class="outline-text-3" id="text-org3f66625">
+<div id="outline-container-org89b2050" class="outline-3">
+<h3 id="org89b2050">实现效果</h3>
+<div class="outline-text-3" id="text-org89b2050">
 
-<div id="org39328a3" class="figure">
+<div id="orgbc6db70" class="figure">
 <p><img src="{{site.url}}/assets/images/thread_20170616.png" alt="thread_20170616.png" />
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org329fce8" class="outline-3">
-<h3 id="org329fce8">主要代码</h3>
-<div class="outline-text-3" id="text-org329fce8">
+<div id="outline-container-org90a5c8c" class="outline-3">
+<h3 id="org90a5c8c">主要代码</h3>
+<div class="outline-text-3" id="text-org90a5c8c">
 </div>
-<div id="outline-container-orgfb4936e" class="outline-4">
-<h4 id="orgfb4936e">Main.cs</h4>
-<div class="outline-text-4" id="text-orgfb4936e">
+<div id="outline-container-orgf69461f" class="outline-4">
+<h4 id="orgf69461f">Main.cs</h4>
+<div class="outline-text-4" id="text-orgf69461f">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private void Main_Load(object sender, EventArgs e)
 {
@@ -723,9 +723,9 @@ private void ApplyChanged_Click(object sender, EventArgs e)
 </div>
 </div>
 </div>
-<div id="outline-container-org8cde0d5" class="outline-4">
-<h4 id="org8cde0d5">VehicleIO.cs</h4>
-<div class="outline-text-4" id="text-org8cde0d5">
+<div id="outline-container-orgabe4a8e" class="outline-4">
+<h4 id="orgabe4a8e">VehicleIO.cs</h4>
+<div class="outline-text-4" id="text-orgabe4a8e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">private string InStartRunTime=<span style="color: #CDC673;">""</span><span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#22253;&#21306;&#36827;&#22330;&#24320;&#21551;&#26102;&#38388;</span>
 private string InEndRunTime = <span style="color: #CDC673;">""</span><span style="color: #8B8878;">;</span><span style="color: #8B8878;">//&#22253;&#21306;&#36827;&#22330;&#32467;&#26463;&#26102;&#38388;</span>
@@ -846,9 +846,9 @@ private void working()
 </div>
 </div>
 </div>
-<div id="outline-container-org6920f73" class="outline-4">
-<h4 id="org6920f73">其他</h4>
-<div class="outline-text-4" id="text-org6920f73">
+<div id="outline-container-org5b8606a" class="outline-4">
+<h4 id="org5b8606a">其他</h4>
+<div class="outline-text-4" id="text-org5b8606a">
 <p>
 //显示实时时间
 </p>
@@ -907,9 +907,9 @@ private string getRandom(int min_value, int max_value, int number)
 </div>
 </div>
 </div>
-<div id="outline-container-org8eaea9c" class="outline-2">
-<h2 id="org8eaea9c">参考资料</h2>
-<div class="outline-text-2" id="text-org8eaea9c">
+<div id="outline-container-org919736f" class="outline-2">
+<h2 id="org919736f">参考资料</h2>
+<div class="outline-text-2" id="text-org919736f">
 <pre class="example">
 http://www.cnblogs.com/StupidsCat/archive/2013/01/05/2845505.html
   

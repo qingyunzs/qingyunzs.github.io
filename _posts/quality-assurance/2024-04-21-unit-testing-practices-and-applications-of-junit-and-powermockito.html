@@ -1,0 +1,1122 @@
+---
+layout: post
+title: 单元测试：JUnit与PowerMockito的实践与应用
+author: zrg
+description: 单元测试是针对最下可测试单元的测试，可以测试方法，所测试单元与外界的依赖应该尽可能为0。
+excerpt: 
+comments: true
+categories: 
+- 质量保障
+tags:
+- 单元测试
+- Unit Testing
+- JUnit
+- Mockito
+- PowerMockito
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+
+<div id="outline-container-orgc53063f" class="outline-2">
+<h2 id="orgc53063f"><span class="section-number-2">1.</span> 概述</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgceff5a8" class="outline-3">
+<h3 id="orgceff5a8"><span class="section-number-3">1.1.</span> 什么是单元测试？</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+单元测试（unit testing），是指对软件中的最小可测试单元进行检查和验证。
+<br />
+单元测试是在软件开发过程中要进行的最低级别的测试活动，软件的独立单元将在与程序的其他部分相隔离的情况下进行测试。
+</p>
+</div>
+<div id="outline-container-org9b01bb3" class="outline-4">
+<h4 id="org9b01bb3"><span class="section-number-4">1.1.1.</span> 测试类型</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<dl class="org-dl">
+<dt>单元测试(Unit testing)</dt><dd>单元测试关注单一的类. 它们存在的目的是检查这个类中的代码是否按照期望正确运行。</dd>
+<dt>集成测试(Integration testing)</dt><dd>集成测试是检查开发的模块和其他模块整合时是否正常工作。</dd>
+<dt>冒烟测试</dt><dd>在正式全面的测试之前，对主要功能进行的测试，确认主要功能是否满足需要，软件是否能正常运行。</dd>
+<dt>端到端测试(End-to-End testing)</dt><dd>也被称为功能测试(Functional Testing)，端到端测试是将整个系统作为一个整体, 然后从用户的角度进行测试的，测试者不了解程序的内部情况，不需要具备编程语言的专门知识，只知道程序的输入、输出和功能，从用户的角度针对软件界面、功能和外部结构进行测试，不考虑内部的逻辑。端到端测试的目的是测试系统在实际使用的是否正常的, 因此通常来说是不需要测试替身的(Test Double)。</dd>
+</dl>
+
+<p>
+<br />
+<b><b>测试的渐进性:</b></b>
+<img src="{{site.url}}/assets/images/test/unit-test.jpg" alt="unit-test.jpg" />
+</p>
+</div>
+</div>
+<div id="outline-container-orgf2dd2e8" class="outline-4">
+<h4 id="orgf2dd2e8"><span class="section-number-4">1.1.2.</span> 开发模式</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<dl class="org-dl">
+<dt>TDD</dt><dd>测试驱动开发，英文为 Testing Driven Development，强调的是一种开发方式，以测试来驱动整个项目，即先根据接口完成测试编写，然后在完成功能是要不断通过测试，最终目的是通过所有测试。</dd>
+<dt>BDD</dt><dd>行为驱动开发，英文为 Behavior Driven Development，BDD 的核心价值是体现在正确的对系统行为进行设计，所以它并非一种行之有效的测试方法。它强调的是系统最终的实现与用户期望的行为是一致的、验证代码实现是否符合设计目标。但是它本身并不强调对系统功能、性能以及边界值等的健全性做保证，无法像完整的测试一样发现系统的各种问题。但 BDD 倡导的用简洁的自然语言描述系统行为的理念，可以明确的根据设计产生测试，并保障测试用例的质量。</dd>
+<dt>DDD</dt><dd>Domain-drive Design,领域驱动设计。其目的是以一种领域专家、设计人员、开发人员都能理解的通用语言作为相互交流的工具，在交流的过程中发现领域概念，然后将这些概念设计成一个领域模型，再有该模型驱动软件设计和开发。</dd>
+</dl>
+
+<p>
+<br />
+<b><b>TDD 和 BDD 有各自的使用场景，BDD 一般偏向于系统功能和业务逻辑的自动化测试设计；而 TDD 在快速开发并测试功能模块的过程中则更加高效，以快速完成开发为目的。DDD 则较为复杂</b></b>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org6723b7f" class="outline-3">
+<h3 id="org6723b7f"><span class="section-number-3">1.2.</span> 为什么要写单元测试？</h3>
+<div class="outline-text-3" id="text-1-2">
+<pre class="example">
+使用单元测试可以有效地降低程序出错的机率，提供准确的文档，并帮助我们改进设计方案等等。
+</pre>
+
+<p>
+<b><b>单元测试的好处：</b></b>
+<br />
+</p>
+<ul class="org-ul">
+<li>允许你对代码做出任何改变，因为你了解单元测试会在你的预期之中。</li>
+<li>单元测试可以有效地降低程序出现BUG的机率。</li>
+<li>帮助你更深入地理解代码&#x2013;因为在写单元测试的时候，你需要明确程序所有的执行流程及对应的执行结果等等。</li>
+<li>允许在任何时候代码重构，而不必担心破坏现有的代码。这使得我们编写程序更灵活。</li>
+<li>确保你的代码的健壮性，因为所有的测试都是通过了的。</li>
+<li>文档记录。单元测试就是一种无价的文档，它是展示函数或类如何使用的最佳文档，这份文档是可编译、可运行的、并且它保持最新，永远与代码同步。</li>
+<li><b>具有回归性</b>::自动化的单元测试避免了代码出现回归，编写完成之后，可以随时随地地快速运行测试，而不是将代码部署到设备之后，然后再手动地覆盖各种执行路径，这样的行为效率低下，浪费时间。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org998d023" class="outline-3">
+<h3 id="org998d023"><span class="section-number-3">1.3.</span> 什么时候写单元测试？</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+写单元测试的三种时机：
+</p>
+<ul class="org-ul">
+<li>一是在具体实现代码之前，这是测试驱动开发（TDD）所提倡的。</li>
+<li>二是与具体实现代码同步进行。先写少量功能代码，紧接着写单元测试（重复这两个过程，直到完成功能代码开发）。其实这种方案跟第一种已经很接近，基本上功能代码开发完，单元测试也差不多完成了。</li>
+<li>三是编写完功能代码再写单元测试。根据实践经验，事后编写的单元测试“粒度”都比较粗。</li>
+</ul>
+<p>
+<b>推荐单元测试与具体实现代码同步进行。</b>
+</p>
+</div>
+</div>
+<div id="outline-container-org077fda4" class="outline-3">
+<h3 id="org077fda4"><span class="section-number-3">1.4.</span> 单元测试要写多细？</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+单元测试不是越多越好，而是越有效越好！需要有单元测试覆盖的地方：
+</p>
+<ul class="org-ul">
+<li>逻辑复杂的</li>
+<li>容易出错的</li>
+<li>不易理解的，即使是自己过段时间也会遗忘的，看不懂自己的代码，单元测试代码有助于理解代码的功能和需求</li>
+<li>公共代码。比如自定义的所有http请求都会经过的拦截器；工具类等。</li>
+<li>核心业务代码。一个产品里最核心最有业务价值的代码应该要有较高的单元测试覆盖率。</li>
+</ul>
+</div>
+
+<div id="outline-container-org7fa1cd9" class="outline-4">
+<h4 id="org7fa1cd9"><span class="section-number-4">1.4.1.</span> 单元测试的覆盖率</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+单测覆盖率是指业务代码被单测测试的比例和程度，它是衡量单元测试好坏的一个很重要的 指标，各类覆盖率指标从粗到细、从弱到强排列如下
+</p>
+<ul class="org-ul">
+<li>粗粒度的覆盖：包括类覆盖和方法覆盖两种。</li>
+<li>细粒度的覆盖：
+<ul class="org-ul">
+<li>分支覆盖（Branch Coverage )：分 支覆盖率的计算公式中的分子是代码中被执行到的分支数，分母是代码中所有分支的 总数。</li>
+<li>条件判定覆盖（Condition Decision Coverage）：条件判定覆盖要求设计足够的测试用例，能够让判定中每个条件的所有可能情况 至少被执行一次， 同时每个判定本身的所有可能结果也至少执行一次。</li>
+<li>条件组合覆盖( Multiple Condition Coverage)：条件组合覆盖是指判定中所有条件的各种组合情况都出现至少一次。</li>
+<li>路径覆盖( Path Coverage )：路径覆盖要求能够测试到程序中所有可能的路径。</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgce0eeee" class="outline-3">
+<h3 id="orgce0eeee"><span class="section-number-3">1.5.</span> 单元测试相关概念</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<div id="org0105f81" class="figure">
+<p><img src="{{site_url}}/assets/images/test/unit-testing-sut.png" alt="unit-testing-sut.png" />
+</p>
+</div>
+</div>
+<div id="outline-container-orgbfd7c2a" class="outline-4">
+<h4 id="orgbfd7c2a"><span class="section-number-4">1.5.1.</span> 被测系统(SUT)</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+被测系统(System under test, SUT)表示正在被测试的系统, 目的是测试系统能否正确操作. 根据测试类型的不同, SUT 指代的内容也不同, 例如 SUT 可以是一个类甚至是一整个系统。
+</p>
+</div>
+</div>
+<div id="outline-container-orgd802522" class="outline-4">
+<h4 id="orgd802522"><span class="section-number-4">1.5.2.</span> 测试依赖组件(DOC)</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+被测系统所依赖的组件, 例如进程 UserService 的单元测试时, UserService 会依赖 UserDao, 因此 UserDao 就是 DOC。
+<br />
+</p>
+<dl class="org-dl">
+<dt><b>SUT &amp; DOC</b></dt><dd>在做单元测试的时候，测试对象是SUT，但因为SUT会呼叫其他物件，使得SUT相依于DOC。
+<br />
+换句话说，要测试SUT，DOC也必须存在，这使得测试变得更复杂。例如，请参考下图的Observer设计模式，假设要测试Subject的notify函数，因此Subject的notify函数是SUT，Observer是DOC（因为notify函数会呼叫Observer的update函数）。 notify函数所影响的对象是Observer，透过测试notify无法直接观察到Observer的update函数是否有真的被呼叫，这样的相依性使得测试notify变得困难。
+<img src="{{site_url}}/assets/images/unit-testing-observer-design-pattern.png" alt="unit-testing-observer-design-pattern.png" /></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org01fb34f" class="outline-4">
+<h4 id="org01fb34f"><span class="section-number-4">1.5.3.</span> 测试替身(Test Double)</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<p>
+一个实际的系统会依赖多个外部对象, 但是在进行单元测试时, 我们会用一些功能较为简单的并且其行为和实际对象类似的假对象来作为 SUT 的依赖对象, 以此来降低单元测试的复杂性和可实现性，在这里, 这些假对象就被称为测试替身(Test Double)。测试替身有如下 5 种类型：
+</p>
+<dl class="org-dl">
+<dt>Test stub</dt><dd>为 SUT 提供数据的假对象。具体举例：假设我们的一个模块需要从 HTTP 接口中获取商品价格数据, 这个获取数据的接口被封装为 getPrice 方法. 在对这个模块进行测试时, 我们显然不太可能专门开一个 HTTP 服务器来提供此接口, 而是提供一个带有 getPrice 方法的假对象, 从这个假对象中获取数据. 在这个例子中, 提供数据的假对象就叫做 Test stub。</dd>
+<dt>Fake object</dt><dd>实现了简单功能的一个假对象。Fake object 和 Test stub 的主要区别就是 Test stub 侧重于用于提供数据的假对象, 而 Fake object 没有这层含义。使用 Fake object 的最主要的原因就是在测试时某些组件不可用或运行速度太慢, 因而使用 Fake object 来代替它们。</dd>
+<dt>Mock object</dt><dd>用于模拟实际的对象, 并且能够校验对这个 Mock object 的方法调用是否符合预期。Mock object 是 Test stub 或 Fake object 一种, 但是 Mock object 有 Test stub/Fake object 没有的特性, Mock object 可以很灵活地配置所调用的方法所产生的行为, 并且它可以追踪方法调用, 例如一个 Mock Object 方法调用时传递了哪些参数, 方法调用了几次等。</dd>
+<dt>Dummy object</dt><dd>在测试中并不使用的, 但是为了测试代码能够正常编译/运行而添加的对象。 例如我们调用一个 Test Double 对象的一个方法, 这个方法需要传递几个参数, 但是其中某个参数无论是什么值都不会影响测试的结果, 那么这个参数就是一个 Dummy object. Dummy object 可以是一个空引用, 一个空对象或者是一个常量等。
+<br />
+简单的说, Dummy object 就是那些没有使用到的, 仅仅是为了填充参数列表的对象。</dd>
+<dt>Test Spy</dt><dd>可以包装一个真实的 Java 对象, 并返回一个包装后的新对象。若没有特别配置的话, 对这个新对象的所有方法调用, 都会委派给实际的 Java 对象。
+<br />
+<b><b>mock 和 spy 的区别</b></b> 是：mock 是无中生有地生出一个完全虚拟的对象, 它的所有方法都是虚拟的; 而 spy 是在现有类的基础上包装了一个对象, 即如果我们没有重写 spy 的方法, 那么这些方法的实现其实都是调用的被包装的对象的方法。</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org4d85381" class="outline-4">
+<h4 id="org4d85381"><span class="section-number-4">1.5.4.</span> Test Fixture</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<p>
+所谓 test fixture, 就是运行测试程序所需要的先决条件(precondition)。即对被测对象进行测试时锁需要的一切东西(The test fixture is everything we need to have in place to exercise the SUT)。不单单指的是数据, 同时包括对被测对象的配置, 被测对象所需要的依赖对象等。JUnit4 通过 setUp 方法完成。
+</p>
+</div>
+</div>
+<div id="outline-container-org0e1fa3a" class="outline-4">
+<h4 id="org0e1fa3a"><span class="section-number-4">1.5.5.</span> 测试用例(Test Case)</h4>
+<div class="outline-text-4" id="text-1-5-5">
+<p>
+JUnit4 只要在每个测试方法标注 @Test 注解。
+</p>
+</div>
+</div>
+<div id="outline-container-org895e2b0" class="outline-4">
+<h4 id="org895e2b0"><span class="section-number-4">1.5.6.</span> 测试套件(Test Suite)</h4>
+<div class="outline-text-4" id="text-1-5-6">
+<p>
+通过@RunWith 和@SuteClass 两个注解, 我们可以创建一个测试套件。通过@RunWith 指定一个特殊的运行器，并通过@SuiteClasses 注解, 将需要进行测试的类列表作作为参数传入。
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd50e250" class="outline-3">
+<h3 id="orgd50e250"><span class="section-number-3">1.6.</span> 流行的测试框架</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+Java中存在很多单元测试框架，每种框架有着自己独特的特点，目前主流的测试框架有且不仅有以下几种：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">框架</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">JUnit</td>
+<td class="org-left">JUnit 是 Java 中最常用的单元测试框架。该框架提供了丰富的测试与断言方法，例如：assertNull、assertTrue、assertEquals等，使用方法比较简单。JUnit 目前已经更新到 JUnit5 版本，该版本的新特性，例如：动态测试，依赖注入等，使得该框架更为健壮。</td>
+</tr>
+
+<tr>
+<td class="org-left">TestNG</td>
+<td class="org-left">TestNG 是Java中的另一种测试框架，集团内使用的较为小众。该框架较JUnit相比，功能更加强大，提供了更多的高级特性，例如：测试套件、数据驱动测试、依赖测试、并行测试等。在更复杂的测试场景（如参数化测试、依赖测试等）中，TestNG的表现更加优异。</td>
+</tr>
+
+<tr>
+<td class="org-left">Spock</td>
+<td class="org-left">Spock是基于Groovy语言编写的测试框架，该框架可以用来测试Java和Groovy的代码程序。Spock用来写测试代码的语言十分优美、表达力强，这一优点大大提高了测试代码的可读性和可维护性。Spock框架融合了JUnit、jMock、RSpec、Groovy、Scala和Vulcans等多种框架和语言的优点，旨在提供一套强大的测试平台。</td>
+</tr>
+
+<tr>
+<td class="org-left">Mockito</td>
+<td class="org-left">Mockito不是一个完整的单元测试框架，而是专注于mock对象的创建、验证。它通常与JUnit或TestNG结合使用来简化对复杂依赖的测试。</td>
+</tr>
+
+<tr>
+<td class="org-left">EasyMock</td>
+<td class="org-left">EasyMock是一套通过简单方法对于给定的接口生成mock对象的类库，通过使用Java代理机制动态生成模拟对象。该框架提供对接口的模拟，能够通过录制、回放、检查三步来完成大体的测试过程，可以验证方法的调用种类、次数、顺序等，还可以令mock对象返回指定的值或抛出指定异常。开发者通过EasyMock可以方便的构造mock对象而忽略对象背后真正的业务逻辑。一般情况下，EasyMock与JUnit或TestNG配合使用。</td>
+</tr>
+
+<tr>
+<td class="org-left">PowerMock</td>
+<td class="org-left">PowerMock是一种用于Java单元测试的框架，它扩展了其他mocking框架的能力，比如EasyMock和Mockito。PowerMock的主要特点是它可以mock静态方法、私有方法、final方法、构造函数，甚至系统类（如System、String等），这些通常是传统mocking框架所做不到的。虽然PowerMock提供了强大的功能，但由于它修改了类加载器和字节码操作，可能会导致一些测试方法与JVM或第三方库之间的兼容性问题。所以，在使用PowerMock时需要权衡其提供的功能和可能带来的复杂性。</td>
+</tr>
+
+<tr>
+<td class="org-left">JMock</td>
+<td class="org-left">JMock是一种用于Java单元测试的框架，属于一种轻量级框架，该框架采用了行为驱动开发（BDD）的测试风格。用来在单元测试中mock接口或类的依赖项，对代码进行隔离测试，而无需关心整个系统的其他部分。JMock支持通过声明式的方式来指定对象间的交互行为。</td>
+</tr>
+
+<tr>
+<td class="org-left">Spring Test &amp; Spring Boot Test</td>
+<td class="org-left">Spring Boot 应用程序功能集成化测试支持。</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-org10a6f04" class="outline-2">
+<h2 id="org10a6f04"><span class="section-number-2">2.</span> 单元测试框架</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgbe0c005" class="outline-3">
+<h3 id="orgbe0c005"><span class="section-number-3">2.1.</span> JUnit</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org5bb0d3a" class="outline-4">
+<h4 id="org5bb0d3a"><span class="section-number-4">2.1.1.</span> JUnit 简介</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+JUint是Java编程语言的单元测试框架，用于编写和运行可重复的自动化测试。
+</p>
+</div>
+</div>
+<div id="outline-container-orgadd79f6" class="outline-4">
+<h4 id="orgadd79f6"><span class="section-number-4">2.1.2.</span> JUnit 特点</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<ul class="org-ul">
+<li>提供注解来识别测试方法。</li>
+<li>提供断言来测试预期结果。</li>
+<li>JUnit 测试允许你编写代码更快，并能提高质量。</li>
+<li>JUnit 优雅简洁。没那么复杂，花费时间较少。</li>
+<li>JUnit 测试可以自动运行并且检查自身结果并提供即时反馈。所以也没有必要人工梳理测试结果的报告。</li>
+<li>JUnit 测试可以被组织为测试套件，包含测试用例，甚至其他的测试套件。</li>
+<li>JUnit 在一个条中显示进度。如果运行良好则是绿色；如果运行失败，则变成红色。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5e8cd2b" class="outline-4">
+<h4 id="org5e8cd2b"><span class="section-number-4">2.1.3.</span> 官方资料</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<ul class="org-ul">
+<li>官网地址：<a href="https://junit.org/junit4/">https://junit.org/junit4/</a></li>
+<li>官方入门文档：<a href="https://github.com/junit-team/junit4/wiki/Assertions">https://github.com/junit-team/junit4/wiki/Assertions</a></li>
+<li>官方github：<a href="https://github.com/junit-team">https://github.com/junit-team</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0956df2" class="outline-4">
+<h4 id="org0956df2"><span class="section-number-4">2.1.4.</span> 常用注解（JUnit 4.x，【】表示JUnit5）</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">注解</th>
+<th scope="col" class="org-left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">@Test</td>
+<td class="org-left">标注测试方法。注意：测试方法必须是public void，即公共、无返回数据。可以抛出异常。</td>
+</tr>
+
+<tr>
+<td class="org-left">@Ignore【@Disabled】</td>
+<td class="org-left">有时候我们想暂时不运行某些测试方法\测试类，可以在方法前加上这个注解。在运行结果中，junit会统计忽略的用例数，来提醒你。但是不建议经常这么做，因为这样的坏处时，容易忘记去更新这些测试方法，导致代码不够干净，用例遗漏。使用此标注的时候不能与其它标注一起使用。</td>
+</tr>
+
+<tr>
+<td class="org-left">@BeforeClass【@BeforeAll】</td>
+<td class="org-left">当我们运行几个有关联的用例时，可能会在数据准备或其它前期准备中执行一些相同的命令，这个时候为了让代码更清晰，更少冗余，可以将公用的部分提取出来，放在一个方法里，并为这个方法注解@BeforeClass。意思是在测试类里所有用例运行之前，运行一次这个方法。例如创建数据库连接、读取文件等。注意：方法名可以任意，但必须是public static void，即公开、静态、无返回。这个方法只会运行一次</td>
+</tr>
+
+<tr>
+<td class="org-left">@AfterClass【@AfterAll】</td>
+<td class="org-left">跟@BeforeClass对应，在测试类里所有用例运行之后，运行一次。用于处理一些测试后续工作，例如清理数据，恢复现场。</td>
+</tr>
+
+<tr>
+<td class="org-left">@Before【@BeforeEach】</td>
+<td class="org-left">与@BeforeClass的区别在于，@Before不止运行一次，它会在每个用例运行之前都运行一次。主要用于一些独立于用例之间的准备工作。注意：必须是public void，不能为static。不止运行一次，根据用例数而定。</td>
+</tr>
+
+<tr>
+<td class="org-left">@After【@AfterEach】</td>
+<td class="org-left">与@Before对应。</td>
+</tr>
+
+<tr>
+<td class="org-left">@Runwith【@ExtendWith】</td>
+<td class="org-left">放在测试类名之前，用来确定这个类怎么运行的。</td>
+</tr>
+
+<tr>
+<td class="org-left">@Parameters</td>
+<td class="org-left">用于使用参数化功能</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org4590205" class="outline-4">
+<h4 id="org4590205"><span class="section-number-4">2.1.5.</span> 常用的断言（JUnit 5.x）</h4>
+<div class="outline-text-4" id="text-2-1-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">方法</th>
+<th scope="col" class="org-left">释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">fail</td>
+<td class="org-left">断言测试失败</td>
+</tr>
+
+<tr>
+<td class="org-left">assertTrue/assertFalse</td>
+<td class="org-left">断言条件为真或为假</td>
+</tr>
+
+<tr>
+<td class="org-left">assertEquals/assertNotFalse</td>
+<td class="org-left">断言指定两个值相等或不相等, 对于基本数据类型，使用值比较；对于对象，使用equals方法比较。</td>
+</tr>
+
+<tr>
+<td class="org-left">orgassertArrayEquals</td>
+<td class="org-left">断言数组元素全部相等</td>
+</tr>
+
+<tr>
+<td class="org-left">assertSame/assertNotSame</td>
+<td class="org-left">断言指定两个对象是否为同一个对象</td>
+</tr>
+
+<tr>
+<td class="org-left">assertThrows/assertDoesNotThrow</td>
+<td class="org-left">断言是否抛出了一个特定类型的异常</td>
+</tr>
+
+<tr>
+<td class="org-left">assertlimeout/assertTimeoutPreemptively</td>
+<td class="org-left">断言是否执行超时，区别在于测试程序是否在同一个线程内</td>
+</tr>
+
+<tr>
+<td class="org-left">assertlterableEquals</td>
+<td class="org-left">断言迭代器中的元素全部相等</td>
+</tr>
+
+<tr>
+<td class="org-left">assertLinesMatch</td>
+<td class="org-left">断言字符串列表元素全部正则匹配</td>
+</tr>
+
+<tr>
+<td class="org-left">assertAll</td>
+<td class="org-left">断言多个条件同时满足</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orga1dedef" class="outline-4">
+<h4 id="orga1dedef"><span class="section-number-4">2.1.6.</span> 使用 JUnit 测试</h4>
+<div class="outline-text-4" id="text-2-1-6">
+</div>
+<div id="outline-container-org1ce807a" class="outline-5">
+<h5 id="org1ce807a"><span class="section-number-5">2.1.6.1.</span> 简单示例</h5>
+<div class="outline-text-5" id="text-2-1-6-1">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">Factorial</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">long</span> <span style="color: #87D700;">fact</span>(<span style="color: #5FD7FF;">long</span> <span style="color: #FF8C00;">n</span>) {
+        <span style="color: #5FD7FF;">long</span> <span style="color: #FF8C00;">r</span> = 1;
+        <span style="color: #FF1493;">for</span> (<span style="color: #5FD7FF;">long</span> <span style="color: #FF8C00;">i</span> = 1; i &lt;= n; i++) {
+            r = r * i;
+        }
+        <span style="color: #FF1493;">return</span> r;
+    }
+}
+</pre>
+</div>
+
+<p>
+以Factorial.java文件为例，对其进行测试：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #FF1493;">static</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #AF87FF;">Assertions</span>.*;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">FactorialTest</span> {
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testFact</span>() {
+        assertEquals(1, Factorial.fact(1));
+        assertEquals(2, Factorial.fact(2));
+        assertEquals(6, Factorial.fact(3));
+        assertEquals(3628800, Factorial.fact(10));
+        assertEquals(2432902008176640000L, Factorial.fact(20));
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org475cfd4" class="outline-3">
+<h3 id="org475cfd4"><span class="section-number-3">2.2.</span> Spring boot Test</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Spring Boot 提供了许多实用工具和注解来帮助测试应用程序，主要包括以下两个模块。
+</p>
+<ul class="org-ul">
+<li>spring-boot-test：支持测试的核心内容。</li>
+<li>spring-boot-test-autoconfigure：支持测试的自动化配置。</li>
+</ul>
+</div>
+
+<div id="outline-container-org6084b55" class="outline-4">
+<h4 id="org6084b55"><span class="section-number-4">2.2.1.</span> 引入依赖</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependencies</span>&gt;
+    &lt;<span style="color: #87D700;">dependency</span>&gt;
+        &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+        &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;/<span style="color: #87D700;">dependency</span>&gt;
+
+    &lt;<span style="color: #87D700;">dependency</span>&gt;
+        &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+        &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-test&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+        &lt;<span style="color: #87D700;">scope</span>&gt;test&lt;/<span style="color: #87D700;">scope</span>&gt;
+    &lt;/<span style="color: #87D700;">dependency</span>&gt;
+&lt;/<span style="color: #87D700;">dependencies</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8597667" class="outline-4">
+<h4 id="org8597667"><span class="section-number-4">2.2.2.</span> 普通测试：hello</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">TestApplicationTests</span> {
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">contextLoads</span>() {
+        System.out.println(<span style="color: #CDC673;">"hello, Spring boot Test!!!"</span>);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org99784a0" class="outline-4">
+<h4 id="org99784a0"><span class="section-number-4">2.2.3.</span> 使用随机端口测试</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">testRestTemplate</span> = <span style="color: #AF87FF;">null</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testApi</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#19968;&#20010;&#38190;&#23545;&#24212;&#22810;&#20010;&#20540;, &#22914; put &#26041;&#27861;: put(String, List&lt;String&gt;)</span>
+        <span style="color: #5FD7FF;">MultiValueMap</span>&lt;<span style="color: #5FD7FF;">String</span>, <span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">params</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">LinkedMultiValueMap</span>&lt;&gt;();
+        params.add(<span style="color: #CDC673;">"orderId"</span>, <span style="color: #CDC673;">"ORDER20210312010000000046"</span>);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">postForObject &#40664;&#35748;&#21482;&#33021;&#26144;&#23556; Map &#31867;&#22411;&#36820;&#22238;&#65292;&#22914;&#26524;&#26159;&#23454;&#20307;&#31867;&#21017;&#26144;&#23556;&#19981;&#21040;&#23646;&#24615;&#30340;&#20540;&#65292;&#38656;&#35201;&#24378;&#36716;&#25110;&#32773;&#20351;&#29992; postForEntity</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">Map orderMap = testRestTemplate.postForObject("/api/mp/order/info", params, Map.class);</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">if (!ObjectUtils.isEmpty(orderMap)) {</span>
+        <span style="color: #8B8878;">//    </span><span style="color: #8B8878;">MpOrder order = (MpOrder) orderMap;</span>
+        <span style="color: #8B8878;">//    </span><span style="color: #8B8878;">System.out.println("order = " + order);</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">}</span>
+        <span style="color: #5FD7FF;">ResponseEntity</span>&lt;<span style="color: #5FD7FF;">MpOrder</span>&gt; <span style="color: #FF8C00;">mpOrderResponseEntity</span> = testRestTemplate.postForEntity(<span style="color: #CDC673;">"/api/mp/order/info"</span>, params, MpOrder.<span style="color: #FF1493;">class</span>);
+        <span style="color: #5FD7FF;">MpOrder</span> <span style="color: #FF8C00;">order</span> = mpOrderResponseEntity.getBody();
+        System.out.println(<span style="color: #CDC673;">"order = "</span> + order);
+    }
+}
+</pre>
+</div>
+</div>
+<div id="outline-container-org7efe075" class="outline-5">
+<h5 id="org7efe075"><span class="section-number-5">2.2.3.1.</span> TestRestTemplate 使用</h5>
+<div class="outline-text-5" id="text-2-2-3-1">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Slf4j</span>
+<span style="color: #AF87FF;">@RunWith</span>(SpringRunner.<span style="color: #FF1493;">class</span>)
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">AccountControllerTests</span> {
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">restTemplate</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">HttpEntity</span> <span style="color: #FF8C00;">httpEntity</span>;
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#30331;&#24405;</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@throws</span><span style="color: #CDC673;"> Exception</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">login</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">expectStr</span> = <span style="color: #CDC673;">"{\"code\":0,\"msg\":\"success\"}"</span>;
+        <span style="color: #5FD7FF;">MultiValueMap</span>&lt;<span style="color: #5FD7FF;">String</span>, <span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">map</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">LinkedMultiValueMap</span>&lt;&gt;();
+        map.add(<span style="color: #CDC673;">"username"</span>, <span style="color: #CDC673;">"183xxxxxxxx"</span>);
+        map.add(<span style="color: #CDC673;">"password"</span>, <span style="color: #CDC673;">"123456"</span>);
+        <span style="color: #5FD7FF;">ResponseEntity</span> <span style="color: #FF8C00;">responseEntity</span> = restTemplate.postForEntity(<span style="color: #CDC673;">"/api/account/sign_in"</span>, map, String.<span style="color: #FF1493;">class</span>);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#28155;&#21152;cookie&#20197;&#20445;&#25345;&#29366;&#24577;</span>
+        <span style="color: #5FD7FF;">HttpHeaders</span> <span style="color: #FF8C00;">headers</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HttpHeaders</span>();
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">headerValue</span> = responseEntity.getHeaders().get(<span style="color: #CDC673;">"Set-Cookie"</span>).toString().replace(<span style="color: #CDC673;">"["</span>, <span style="color: #CDC673;">""</span>);
+        headerValue = headerValue.replace(<span style="color: #CDC673;">"]"</span>, <span style="color: #CDC673;">""</span>);
+        headers.set(<span style="color: #CDC673;">"Cookie"</span>, headerValue);
+        httpEntity = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HttpEntity</span>(headers);
+        assertThat(responseEntity.getBody()).isEqualTo(expectStr);
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#30331;&#20986;</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@throws</span><span style="color: #CDC673;"> Exception</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">logout</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">expectStr</span> = <span style="color: #CDC673;">"{\"code\":0,\"msg\":\"success\"}"</span>;
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">result</span> = restTemplate.postForObject(<span style="color: #CDC673;">"/api/account/sign_out"</span>, <span style="color: #AF87FF;">null</span>, String.<span style="color: #FF1493;">class</span>, httpEntity);
+        httpEntity = <span style="color: #AF87FF;">null</span>;
+        assertThat(result).isEqualTo(expectStr);
+    }
+
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#33719;&#21462;&#20449;&#24687;</span>
+<span style="color: #CDC673;">     * </span><span style="color: #AF87FF;">@throws</span><span style="color: #CDC673;"> Exception</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">getUserInfo</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">Detail</span> <span style="color: #FF8C00;">detail</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Detail</span>();
+        detail.setNickname(<span style="color: #CDC673;">"&#30127;&#29378;&#30340;&#31859;&#32769;&#40736;"</span>);
+        detail.setNicknamePinyin(<span style="color: #CDC673;">"fengkuangdemilaoshu"</span>);
+        detail.setSex(1);
+        <span style="color: #5FD7FF;">SimpleDateFormat</span> <span style="color: #FF8C00;">sdf</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">SimpleDateFormat</span>(<span style="color: #CDC673;">"yyyy-MM-dd HH:mm:ss"</span>);
+        detail.setCreatedAt(sdf.parse(<span style="color: #CDC673;">"2017-11-03 16:43:27"</span>));
+        detail.setUpdatedAt(sdf.parse(<span style="color: #CDC673;">"2017-11-03 16:43:27"</span>));
+        <span style="color: #5FD7FF;">Role</span> <span style="color: #FF8C00;">role</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Role</span>();
+        role.setName(<span style="color: #CDC673;">"ROLE_USER_NORMAL"</span>);
+        <span style="color: #5FD7FF;">Set</span>&lt;<span style="color: #5FD7FF;">Role</span>&gt; <span style="color: #FF8C00;">roles</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HashSet</span>&lt;&gt;();
+        roles.add(role);
+        <span style="color: #5FD7FF;">User</span> <span style="color: #FF8C00;">user</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">User</span>();
+        user.setId(1L);
+        user.setPhone(<span style="color: #CDC673;">"183xxxxxxxx"</span>);
+        user.setEmail(<span style="color: #CDC673;">"xxxxxx@gmail.com"</span>);
+        user.setDetail(detail);
+        user.setRoles(roles);
+        <span style="color: #5FD7FF;">ResultBean</span>&lt;<span style="color: #5FD7FF;">User</span>&gt; <span style="color: #FF8C00;">resultBean</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ResultBean</span>&lt;&gt;();
+        resultBean.setData(user);
+        <span style="color: #5FD7FF;">ObjectMapper</span> <span style="color: #FF8C00;">om</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">ObjectMapper</span>();
+        <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">expectStr</span> = om.writeValueAsString(resultBean);
+        <span style="color: #5FD7FF;">ResponseEntity</span>&lt;<span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">responseEntity</span> = restTemplate.exchange(<span style="color: #CDC673;">"/api/user/get_user_info"</span>, <span style="color: #AF87FF;">HttpMethod</span>.GET, httpEntity, String.<span style="color: #FF1493;">class</span>);
+        assertThat(responseEntity.getBody()).isEqualTo(expectStr);
+    }
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testAccount</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        login();
+        getUserInfo();
+        logout();
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0c90412" class="outline-5">
+<h5 id="org0c90412"><span class="section-number-5">2.2.3.2.</span> GET 请求测试</h5>
+<div class="outline-text-5" id="text-2-2-3-2">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #5FD7FF;">Assert</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">beans</span>.<span style="color: #AF87FF;">factory</span>.<span style="color: #AF87FF;">annotation</span>.<span style="color: #5FD7FF;">Autowired</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">client</span>.<span style="color: #5FD7FF;">TestRestTemplate</span>;
+
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">java</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">HashMap</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">java</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">Map</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">testRestTemplate</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">get</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">Map</span>&lt;<span style="color: #5FD7FF;">String</span>, <span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">multiValueMap</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HashMap</span>&lt;&gt;();
+        multiValueMap.put(<span style="color: #CDC673;">"username"</span>, <span style="color: #CDC673;">"Jerry"</span>);
+        <span style="color: #5FD7FF;">Map</span> <span style="color: #FF8C00;">result</span> = testRestTemplate.getForObject(<span style="color: #CDC673;">"/test/getUser?username={username}"</span>, Map.<span style="color: #FF1493;">class</span>, multiValueMap);
+        Assert.assertEquals(result, 0);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf07001b" class="outline-5">
+<h5 id="orgf07001b"><span class="section-number-5">2.2.3.3.</span> POST 请求测试</h5>
+<div class="outline-text-5" id="text-2-2-3-3">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #5FD7FF;">Assert</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">beans</span>.<span style="color: #AF87FF;">factory</span>.<span style="color: #AF87FF;">annotation</span>.<span style="color: #5FD7FF;">Autowired</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">client</span>.<span style="color: #5FD7FF;">TestRestTemplate</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">LinkedMultiValueMap</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">MultiValueMap</span>;
+
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">java</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">Map</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">testRestTemplate</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">post</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">MultiValueMap</span> <span style="color: #FF8C00;">multiValueMap</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">LinkedMultiValueMap</span>();
+        multiValueMap.add(<span style="color: #CDC673;">"username"</span>, <span style="color: #CDC673;">"Jerry"</span>);
+        <span style="color: #5FD7FF;">Map</span> <span style="color: #FF8C00;">result</span> = testRestTemplate.postForObject(<span style="color: #CDC673;">"/test/post"</span>, multiValueMap, Map.<span style="color: #FF1493;">class</span>);
+        Assert.assertEquals(result, 0);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcde1cb5" class="outline-5">
+<h5 id="orgcde1cb5"><span class="section-number-5">2.2.3.4.</span> 文件上传请求测试</h5>
+<div class="outline-text-5" id="text-2-2-3-4">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #5FD7FF;">Assert</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">beans</span>.<span style="color: #AF87FF;">factory</span>.<span style="color: #AF87FF;">annotation</span>.<span style="color: #5FD7FF;">Autowired</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">client</span>.<span style="color: #5FD7FF;">TestRestTemplate</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">core</span>.<span style="color: #AF87FF;">io</span>.<span style="color: #5FD7FF;">FileSystemResource</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">core</span>.<span style="color: #AF87FF;">io</span>.<span style="color: #5FD7FF;">Resource</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">LinkedMultiValueMap</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">MultiValueMap</span>;
+
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">java</span>.<span style="color: #AF87FF;">util</span>.<span style="color: #5FD7FF;">Map</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">testRestTemplate</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">upload</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">Resource</span> <span style="color: #FF8C00;">resource</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">FileSystemResource</span>(<span style="color: #CDC673;">"/home/javastack/test.jar"</span>);
+        <span style="color: #5FD7FF;">MultiValueMap</span> <span style="color: #FF8C00;">multiValueMap</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">LinkedMultiValueMap</span>();
+        multiValueMap.add(<span style="color: #CDC673;">"username"</span>, <span style="color: #CDC673;">"Jerry"</span>);
+        multiValueMap.add(<span style="color: #CDC673;">"files"</span>, resource);
+        <span style="color: #5FD7FF;">Map</span> <span style="color: #FF8C00;">result</span> = testRestTemplate.postForObject(<span style="color: #CDC673;">"/test/upload"</span>, multiValueMap, Map.<span style="color: #FF1493;">class</span>);
+        Assert.assertEquals(result, 0);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge2cf0c4" class="outline-5">
+<h5 id="orge2cf0c4"><span class="section-number-5">2.2.3.5.</span> 文件下载请求测试</h5>
+<div class="outline-text-5" id="text-2-2-3-5">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">com</span>.<span style="color: #AF87FF;">google</span>.<span style="color: #AF87FF;">common</span>.<span style="color: #AF87FF;">io</span>.<span style="color: #5FD7FF;">Files</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">beans</span>.<span style="color: #AF87FF;">factory</span>.<span style="color: #AF87FF;">annotation</span>.<span style="color: #5FD7FF;">Autowired</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">client</span>.<span style="color: #5FD7FF;">TestRestTemplate</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">http</span>.*;
+
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">java</span>.<span style="color: #AF87FF;">io</span>.<span style="color: #5FD7FF;">File</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">TestRestTemplate</span> <span style="color: #FF8C00;">testRestTemplate</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">download</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #5FD7FF;">HttpHeaders</span> <span style="color: #FF8C00;">headers</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HttpHeaders</span>();
+        headers.set(<span style="color: #CDC673;">"token"</span>, <span style="color: #CDC673;">"Jerry"</span>);
+        <span style="color: #5FD7FF;">HttpEntity</span> <span style="color: #FF8C00;">formEntity</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HttpEntity</span>(headers);
+        <span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">urlVariables</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">String</span>[]{<span style="color: #CDC673;">"admin"</span>};
+        <span style="color: #5FD7FF;">ResponseEntity</span>&lt;<span style="color: #5FD7FF;">byte</span>[]&gt; <span style="color: #FF8C00;">response</span> = testRestTemplate.exchange(<span style="color: #CDC673;">"/test/download?username={1}"</span>, <span style="color: #AF87FF;">HttpMethod</span>.GET, formEntity, <span style="color: #5FD7FF;">byte</span>[].<span style="color: #FF1493;">class</span>, urlVariables);
+        <span style="color: #FF1493;">if</span> (response.getStatusCode() == <span style="color: #AF87FF;">HttpStatus</span>.OK) {
+            Files.write(response.getBody(), <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">File</span>(<span style="color: #CDC673;">"/home/Jerry/test.jar"</span>));
+        }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org574ebdc" class="outline-4">
+<h4 id="org574ebdc"><span class="section-number-4">2.2.4.</span> 使用Mock测试</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+使用 @MockBean 注解，以及虚拟数据进行测试，不会写入持久化数据库。（注意：这里仅做简单介绍和使用，在下一章节中详细介绍。）
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">junit</span>.<span style="color: #AF87FF;">jupiter</span>.<span style="color: #AF87FF;">api</span>.<span style="color: #5FD7FF;">Test</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">mockito</span>.<span style="color: #5FD7FF;">BDDMockito</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">context</span>.<span style="color: #5FD7FF;">SpringBootTest</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">test</span>.<span style="color: #AF87FF;">mock</span>.<span style="color: #AF87FF;">mockito</span>.<span style="color: #5FD7FF;">MockBean</span>;
+
+<span style="color: #AF87FF;">@SpringBootTest</span>(webEnvironment = <span style="color: #AF87FF;">SpringBootTest</span>.<span style="color: #AF87FF;">WebEnvironment</span>.RANDOM_PORT)
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MpServiceApplicationTests</span> {
+
+    <span style="color: #AF87FF;">@MockBean</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">MpUserrecvaddrService</span> <span style="color: #FF8C00;">mpUserrecvaddrService</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testMock</span>() {
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#26500;&#24314;&#34394;&#25311;&#23545;&#35937;</span>
+        <span style="color: #5FD7FF;">MpUserrecvaddr</span> <span style="color: #FF8C00;">mockAddr</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">MpUserrecvaddr</span>();
+        mockAddr.setUraId(<span style="color: #CDC673;">"1"</span>);
+        mockAddr.setUserId(<span style="color: #CDC673;">"001"</span>);
+        mockAddr.setUraName(<span style="color: #CDC673;">"name_"</span> + 1);
+        mockAddr.setUraAddress(<span style="color: #CDC673;">"address_"</span> + 1);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#25351;&#23450; Mock Bean &#26041;&#27861;&#21644;&#21442;&#25968;&#65292;&#24182;&#36820;&#22238;&#34394;&#25311;&#23545;&#35937;</span>
+        BDDMockito.given(mpUserrecvaddrService.getById(<span style="color: #CDC673;">"1"</span>)).willReturn(mockAddr);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#36827;&#34892; Mock &#27979;&#35797;</span>
+        <span style="color: #5FD7FF;">MpUserrecvaddr</span> <span style="color: #FF8C00;">addr</span> = mpUserrecvaddrService.getById(<span style="color: #CDC673;">"1"</span>);
+        System.out.println(<span style="color: #CDC673;">"addr = "</span> + addr);
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2e062f8" class="outline-2">
+<h2 id="org2e062f8"><span class="section-number-2">3.</span> PowerMockito 在单元测试中的应用</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org6b5cef0" class="outline-3">
+<h3 id="org6b5cef0"><span class="section-number-3">3.1.</span> PowerMock是什么？</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+PowerMock是一个Java模拟框架，用于解决测试问题。
+<br />
+举个例子，你在使用 JUnit 进行单元测试时，并不想让测试数据进入数据库，怎么办？这个时候就可以使用PowerMock，拦截数据库操作，并模拟返回参数。
+<br />
+官网：<a href="https://github.com/powermock/powermock">powermock</a>
+</p>
+</div>
+<div id="outline-container-orgc6ce060" class="outline-4">
+<h4 id="orgc6ce060"><span class="section-number-4">3.1.1.</span> PowerMockito 与 Mockito, PowerMock 的关系</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li><b><b>PowerMockito</b></b> 是Java语言中的一个测试框架，它是Mockito和PowerMock的结合体，旨在扩展Mockito的功能，使其能够模拟静态方法、final类、私有方法等无法被常规Mockito框架所模拟的场景。</li>
+<li>PowerMockito通过修改字节码来实现对这些场景的模拟，从而使得在单元测试中能够覆盖更多的情况。</li>
+<li>使用PowerMockito时，通常需要额外添加相关的依赖，并结合JUnit一起使用。它提供了一些特定的注解和方法，用于标记被测试的类和方法，并进行模拟和验证。</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org94a0dee" class="outline-3">
+<h3 id="org94a0dee"><span class="section-number-3">3.2.</span> PowerMock 使用</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org24c3262" class="outline-4">
+<h4 id="org24c3262"><span class="section-number-4">3.2.1.</span> 依赖包引入</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+<b><b>JUnit 4.4 or above:</b></b>
+<br />
+Add the following to your pom.xml if you're using JUnit 4.4 or above:
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">properties</span>&gt;
+    &lt;<span style="color: #87D700;">powermock.version</span>&gt;2.0.2&lt;/<span style="color: #87D700;">powermock.version</span>&gt;
+&lt;/<span style="color: #87D700;">properties</span>&gt;
+&lt;<span style="color: #87D700;">dependencies</span>&gt;
+   &lt;<span style="color: #87D700;">dependency</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.powermock&lt;/<span style="color: #87D700;">groupId</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;powermock-module-junit4&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">version</span>&gt;${powermock.version}&lt;/<span style="color: #87D700;">version</span>&gt;
+      &lt;<span style="color: #87D700;">scope</span>&gt;test&lt;/<span style="color: #87D700;">scope</span>&gt;
+   &lt;/<span style="color: #87D700;">dependency</span>&gt;
+   &lt;<span style="color: #87D700;">dependency</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.powermock&lt;/<span style="color: #87D700;">groupId</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;powermock-api-mockito2&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">version</span>&gt;${powermock.version}&lt;/<span style="color: #87D700;">version</span>&gt;
+      &lt;<span style="color: #87D700;">scope</span>&gt;test&lt;/<span style="color: #87D700;">scope</span>&gt;
+   &lt;/<span style="color: #87D700;">dependency</span>&gt;
+&lt;/<span style="color: #87D700;">dependencies</span>&gt;
+</pre>
+</div>
+<p>
+更多 Maven 配置点击下面链接查看。
+<br />
+<a href="https://github.com/powermock/powermock/wiki/Mockito#maven-configuration">https://github.com/powermock/powermock/wiki/Mockito#maven-configuration</a>
+</p>
+</div>
+</div>
+<div id="outline-container-org991ff2e" class="outline-4">
+<h4 id="org991ff2e"><span class="section-number-4">3.2.2.</span> 关键注解说明</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21578;&#35785;JUnit&#20351;&#29992;PowerMockRunner&#36827;&#34892;&#27979;&#35797;</span>
+<span style="color: #AF87FF;">@RunWith</span>(PowerMockRunner.<span style="color: #FF1493;">class</span>)
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#25152;&#26377;&#38656;&#35201;&#27979;&#35797;&#30340;&#31867;&#21015;&#22312;&#27492;&#22788;&#65292;&#36866;&#29992;&#20110;&#27169;&#25311;final&#31867;&#25110;&#26377;final, private, static, native&#26041;&#27861;&#30340;&#31867;</span>
+<span style="color: #AF87FF;">@PrepareForTest</span>({RandomUtil.<span style="color: #FF1493;">class</span>})
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20026;&#20102;&#35299;&#20915;&#20351;&#29992;powermock&#21518;&#65292;&#25552;&#31034;classloader&#38169;&#35823;</span>
+<span style="color: #AF87FF;">@PowerMockIgnore</span>(<span style="color: #CDC673;">"javax.management.*"</span>)
+</pre>
+</div>
+</div>
+<div id="outline-container-orge9fba76" class="outline-5">
+<h5 id="orge9fba76"><span class="section-number-5">3.2.2.1.</span> @Mock 和 @MockBean</h5>
+<div class="outline-text-5" id="text-3-2-2-1">
+<p>
+在 Spring Boot 中，`@Mock` 和 `@MockBean` 是用于模拟对象的注解，但它们之间有一些区别：
+</p>
+<ol class="org-ol">
+<li>@Mock：
+<ul class="org-ul">
+<li>用于模拟不属于 Spring 上下文的对象。</li>
+<li>在普通的 JUnit 测试中使用。</li>
+<li>不知道 Spring 上下文，通常用于单元测试隔离组件，而不需要完整的 Spring 上下文设置。</li>
+<li>可以通过 Mockito 框架创建一个空的类，其中方法体都是空的，方法的返回值（如果有的话）都是 `null`。</li>
+<li>使代码更易读，且在出现失败时，可以更容易地找到问题所在的模拟对象。</li>
+</ul></li>
+<li>@MockBean：
+<ul class="org-ul">
+<li>用于模拟属于 Spring 上下文的一部分的对象。</li>
+<li>在集成测试中很有用，当需要模拟特定的 Spring bean 时，例如外部的 Service。</li>
+<li>将 Mock 对象添加到 Spring 应用程序上下文中，它会替换掉相同类型的现有 bean，如果没有定义相同类型的 bean，它将添加一个新的 bean。</li>
+</ul></li>
+</ol>
+<p>
+<br />
+总之，`@Mock` 适用于普通的 JUnit 测试，而 `@MockBean` 适用于集成测试，需要模拟 Spring 上下文中的特定 bean。
+</p>
+</div>
+</div>
+<div id="outline-container-orgbbc8f88" class="outline-5">
+<h5 id="orgbbc8f88"><span class="section-number-5">3.2.2.2.</span> @Mock 和 @InjectMocks</h5>
+<div class="outline-text-5" id="text-3-2-2-2">
+<ol class="org-ol">
+<li>@InjectMocks
+<ul class="org-ul">
+<li>@InjectMocks 注解用于标记被测试类的实例，在测试中会自动创建该类的实例，并注入被@Mock注解标记的模拟对象。</li>
+<li>当测试类中的某个方法需要被测试时，使用@InjectMocks注解标记被测试的类实例，Mockito会自动将被标记为@Mock的模拟对象注入到被测试类的实例中。</li>
+<li>通常情况下，@InjectMocks用于测试目标类，即待测试的类，它会自动将依赖的模拟对象注入到目标类中。</li>
+</ul></li>
+<li>@Mock
+<ul class="org-ul">
+<li>@Mock注解用于标记需要模拟的对象，即需要在测试中替代的对象。通过@Mock注解，我们可以模拟外部依赖或者需要被测试类调用的其他对象。</li>
+<li>使用@Mock注解标记的对象会被Mockito框架创建为模拟对象，并在测试中被用于替代实际对象的行为。</li>
+<li>通常情况下，@Mock用于模拟测试类所依赖的其他类或者对象，以隔离测试对象与其依赖对象的关系。</li>
+<li><p>
+使用@Mock后，记得initMocks。
+</p>
+<div class="org-src-container">
+<pre class="src src-java">MockitoAnnotations.initMocks(<span style="color: #FF1493;">this</span>);
+</pre>
+</div></li>
+</ul></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgb46313b" class="outline-5">
+<h5 id="orgb46313b"><span class="section-number-5">3.2.2.3.</span> Mockito 和 PowerMockito</h5>
+<div class="outline-text-5" id="text-3-2-2-3">
+<p>
+Mockito 和 PowerMockito 都是 Java 单元测试中常用的模拟（Mocking）库，但它们之间存在一些关键的区别：
+<br />
+<b><b>Mockito</b></b>
+</p>
+<ol class="org-ol">
+<li>核心功能：
+<ul class="org-ul">
+<li>Mockito 主要用于模拟对象（实例方法）的行为，允许创建和配置模拟对象来替代真实对象，以便在测试中控制其输出和行为。</li>
+<li>它可以模拟非final类、非final方法、非static方法，以及具有可见性（public、protected、default）的方法。</li>
+</ul></li>
+<li>模拟方式：
+<ul class="org-ul">
+<li>使用Mockito.mock(Class&lt;T&gt;)方法创建模拟对象。</li>
+<li>通过when(&#x2026;).thenReturn(&#x2026;), doReturn(&#x2026;).when(&#x2026;)等方法设置模拟对象的方法调用返回值或行为。</li>
+</ul></li>
+<li>限制：
+<ul class="org-ul">
+<li>Mockito 本身不能直接模拟静态方法、构造函数、final类或方法、私有方法，以及静态初始化块。</li>
+<li>对于依赖注入困难或设计不佳导致难以模拟的情况，可能需要重构代码以适应 Mockito。</li>
+</ul></li>
+</ol>
+<p>
+<br />
+<b><b>PowerMockito</b></b>
+</p>
+<ol class="org-ol">
+<li>扩展功能：
+<ul class="org-ul">
+<li>PowerMockito 是基于 Mockito 构建的扩展库，它主要解决了 Mockito 不能模拟的一些特性，包括：
+<ul class="org-ul">
+<li>静态方法：可以模拟类的静态方法，无论它们是否为final或私有。</li>
+<li>构造函数：可以模拟构造函数的行为，如返回特定的模拟对象或抑制构造函数的副作用。</li>
+<li>final类与方法：可以模拟final类及其方法的行为。</li>
+<li>私有方法：可以模拟私有方法，使得它们在测试中可以被替换或控制其返回值。</li>
+<li>静态初始化块：可以抑制类的静态初始化块的执行。</li>
+</ul></li>
+</ul></li>
+<li>模拟方式：
+<ul class="org-ul">
+<li>使用PowerMockito.mockStatic(Class&lt;T&gt;)模拟静态方法。</li>
+<li>使用PowerMockito.whenNew(Constructor&lt;T&gt;)模拟构造函数。</li>
+<li>对于final类、方法或私有方法，仍然使用类似于 Mockito 的when(&#x2026;).thenReturn(&#x2026;)等方式设置模拟行为。</li>
+<li>有时需要配合@RunWith(PowerMockRunner.class)和@PrepareForTest(Class&lt;T&gt;)注解来启用PowerMockito的高级特性。</li>
+</ul></li>
+<li>使用场景：
+<ul class="org-ul">
+<li>适用于测试遗留代码、第三方库、框架代码或其他难以修改以适应标准单元测试的代码。</li>
+<li>当需要模拟上述Mockito无法处理的特性时，PowerMockito提供了强大的解决方案。</li>
+</ul></li>
+</ol>
+<p>
+<b><b>总结：</b></b>
+<br />
+</p>
+<ol class="org-ol">
+<li>Mockito 是一个轻量级、易于使用的模拟库，适用于大多数常规的单元测试场景，特别是在遵循良好设计原则（如依赖注入、接口隔离等）编写的代码中。</li>
+<li>PowerMockito 则提供了更强大的模拟能力，能够处理更复杂的场景，如模拟静态方法、构造函数、final类/方法、私有方法等。然而，由于其使用了类加载器替换和字节码操纵技术，可能会引入额外的复杂性和潜在风险，且对测试代码结构有一定要求（如使用特定的测试运行器和注解）。因此，PowerMockito通常是在必要时作为最后手段使用，特别是在面对难以修改或外部约束较多的遗留代码时。</li>
+<li>选择使用哪一个库取决于项目的具体需求、代码结构以及对测试侵入性的接受程度。通常建议优先考虑使用 Mockito，只有在遇到其无法解决的模拟问题时才考虑使用 PowerMockito。同时，应尽量避免过度依赖PowerMockito，因为它可能掩盖代码设计上的问题，长期来看不利于代码的维护和演进。</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgad2fc1e" class="outline-3">
+<h3 id="orgad2fc1e"><span class="section-number-3">3.3.</span> 常见问题</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-org443bf53" class="outline-4">
+<h4 id="org443bf53"><span class="section-number-4">3.3.1.</span> java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li>原因：`mockito-core`版本不兼容</li>
+<li><p>
+解决：指定mockito-core依赖版本，这里用`3.12.4`
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">mockito-core.version</span>&gt;3.12.4&lt;/<span style="color: #87D700;">mockito-core.version</span>&gt;
+
+&lt;<span style="color: #87D700;">dependency</span>&gt;
+    &lt;<span style="color: #87D700;">groupId</span>&gt;org.mockito&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;<span style="color: #87D700;">artifactId</span>&gt;mockito-core&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;<span style="color: #87D700;">version</span>&gt;${mockito-core.version}&lt;/<span style="color: #87D700;">version</span>&gt;
+    &lt;<span style="color: #87D700;">scope</span>&gt;test&lt;/<span style="color: #87D700;">scope</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div></li>
+<li>参考：<a href="https://github.com/mockito/mockito/issues/2568">https://github.com/mockito/mockito/issues/2568</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org1fc2ecd" class="outline-4">
+<h4 id="org1fc2ecd"><span class="section-number-4">3.3.2.</span> ScriptEngineManager providers.next(): javax.script.ScriptEngineFactory: Provider jdk.nashorn.api.scripting.NashornScriptEngineFactory not a subtype</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@PowerMockIgnore</span>({<span style="color: #CDC673;">"javax.script.*"</span>})
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf73289b" class="outline-4">
+<h4 id="orgf73289b"><span class="section-number-4">3.3.3.</span> Could not reconfigure JMX java.lang.LinkageError</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@PowerMockIgnore</span>({<span style="color: #CDC673;">"javax.management.*"</span>})
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org21d58d7" class="outline-4">
+<h4 id="org21d58d7"><span class="section-number-4">3.3.4.</span> 解决用 @Value 注解注入的属性</h4>
+<div class="outline-text-4" id="text-3-3-4">
+<div class="org-src-container">
+<pre class="src src-java">ReflectionTestUtils.setField(<span style="color: #5FD7FF;">invoiceTitleService</span>, <span style="color: #CDC673;">"invoiceTitleRegularExpression"</span>, <span style="color: #CDC673;">"^[a-zA-Z0-9\\u4e00-\\u9fa5\\s\\uFF08\\uFF09\\u3001\\(\\)\\&lt;\\&gt;\\u300a\\u300b\\(\\)\\-]+$"</span>);
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9780d56" class="outline-4">
+<h4 id="org9780d56"><span class="section-number-4">3.3.5.</span> 解决通过 environment.getProperty("property") 获取配置文件中的配置项值</h4>
+<div class="outline-text-4" id="text-3-3-5">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Mock</span>
+<span style="color: #5FD7FF;">Environment</span> <span style="color: #FF8C00;">environment</span>;
+
+<span style="color: #AF87FF;">@BeforeMethod</span>(alwaysRun = <span style="color: #AF87FF;">true</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">init</span> () {
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21021;&#22987;&#21270;&#24403;&#21069;&#27979;&#35797;&#31867;&#25152;&#26377;Mock&#27880;&#35299;&#27169;&#25311;&#23545;&#35937;</span>
+    MockitoAnnotations.initMocks(<span style="color: #FF1493;">this</span>);
+}
+
+<span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testXXX</span>() {
+    when(environment.getProperty(<span style="color: #CDC673;">"config.name"</span>)).thenReturn(<span style="color: #CDC673;">"tom"</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6ffb7fb" class="outline-4">
+<h4 id="org6ffb7fb"><span class="section-number-4">3.3.6.</span> 使用RestTemplate调用controller方法时，404错误</h4>
+<div class="outline-text-4" id="text-3-3-6">
+<ul class="org-ul">
+<li>检查controller类使用@RestController注解</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d2c756" class="outline-2">
+<h2 id="org1d2c756"><span class="section-number-2">4.</span> 单元测试的最佳实践</h2>
+</div>
+
+<div id="outline-container-org60578cc" class="outline-2">
+<h2 id="org60578cc"><span class="section-number-2">5.</span> 总结</h2>
+</div>
