@@ -102,7 +102,7 @@ My email address: zrg1390556486@gmail.com
 + *SUT & DOC* ::
   在做单元测试的时候，测试对象是SUT，但因为SUT会呼叫其他物件，使得SUT相依于DOC。
   \\
-  换句话说，要测试SUT，DOC也必须存在，这使得测试变得更复杂。例如，请参考下图的Observer设计模式，假设要测试Subject的notify函数，因此Subject的notify函数是SUT，Observer是DOC（因为notify函数会呼叫Observer的update函数）。 notify函数所影响的对象是Observer，透过测试notify无法直接观察到Observer的update函数是否有真的被呼叫，这样的相依性使得测试notify变得困难。
+  换句话说，要测试SUT，DOC也必须存在，这使得测试变得更复杂。例如，请参考下图的观察者设计模式（Observer Pattern），假设要测试Subject的notify函数，因此Subject的notify函数是SUT，Observer是DOC（因为notify函数会呼叫Observer的update函数）。 notify函数所影响的对象是Observer，透过测试notify无法直接观察到Observer的update函数是否有真的被呼叫，这样的相依性使得测试notify变得困难。
   [[file:{{site_url}}/assets/images/unit-testing-observer-design-pattern.png]]
 *** 测试替身(Test Double)
 一个实际的系统会依赖多个外部对象, 但是在进行单元测试时, 我们会用一些功能较为简单的并且其行为和实际对象类似的假对象来作为 SUT 的依赖对象, 以此来降低单元测试的复杂性和可实现性，在这里, 这些假对象就被称为测试替身(Test Double)。测试替身有如下 5 种类型：
@@ -138,7 +138,12 @@ Java中存在很多单元测试框架，每种框架有着自己独特的特点�
 ** JUnit
 *** JUnit 简介
 JUint是Java编程语言的单元测试框架，用于编写和运行可重复的自动化测试。
-*** JUnit 特点
+\\
+- 官网地址：https://junit.org/junit4/
+- 官方入门文档：https://github.com/junit-team/junit4/wiki/Assertions
+- 官方github：https://github.com/junit-team
+\\
+**JUnit 特点**
 - 提供注解来识别测试方法。
 - 提供断言来测试预期结果。
 - JUnit 测试允许你编写代码更快，并能提高质量。
@@ -146,10 +151,6 @@ JUint是Java编程语言的单元测试框架，用于编写和运行可重复�
 - JUnit 测试可以自动运行并且检查自身结果并提供即时反馈。所以也没有必要人工梳理测试结果的报告。
 - JUnit 测试可以被组织为测试套件，包含测试用例，甚至其他的测试套件。
 - JUnit 在一个条中显示进度。如果运行良好则是绿色；如果运行失败，则变成红色。
-*** 官方资料
-- 官网地址：https://junit.org/junit4/
-- 官方入门文档：https://github.com/junit-team/junit4/wiki/Assertions
-- 官方github：https://github.com/junit-team
 *** 常用注解（JUnit 4.x，【】表示JUnit5）
 | 注解                       | 描述                                                                                                                                                                                                                                                                                                                                                                           |
 |----------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -175,8 +176,29 @@ JUint是Java编程语言的单元测试框架，用于编写和运行可重复�
 | assertlterableEquals                    | 断言迭代器中的元素全部相等                                                               |
 | assertLinesMatch                        | 断言字符串列表元素全部正则匹配                                                           |
 | assertAll                               | 断言多个条件同时满足                                                                     |
-*** 使用 JUnit 测试
-**** 简单示例
+*** JUnit 使用
+**** maven 包依赖引入
+#+begin_src xml
+  <!-- JUnit 4 -->
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+  </dependency>
+#+end_src
+#+begin_src xml
+  <!-- JUnit 5 -->
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.8.2</version>
+    <scope>test</scope>
+  </dependency>
+#+end_src
+
+**注意：** JUnit 4.x 是junit；JUnit 5.x 是junit-jupiter-api
+**** 简单示例(JUnit 4)
 #+begin_src java
   public class Factorial {
       public static long fact(long n) {
@@ -189,28 +211,543 @@ JUint是Java编程语言的单元测试框架，用于编写和运行可重复�
   }
 #+end_src
 
-以Factorial.java文件为例，对其进行测试：
+以 Factorial.java 文件为例，对其进行测试：
 #+begin_src java
-  import static org.junit.jupiter.api.Assertions.*;
-  import org.junit.jupiter.api.Test;
+  import org.junit.Test;
 
   public class FactorialTest {
       @Test
       void testFact() {
-          assertEquals(1, Factorial.fact(1));
-          assertEquals(2, Factorial.fact(2));
-          assertEquals(6, Factorial.fact(3));
-          assertEquals(3628800, Factorial.fact(10));
-          assertEquals(2432902008176640000L, Factorial.fact(20));
+          Assert.assertEquals(1, Factorial.fact(1));
+          Assert.assertEquals(2, Factorial.fact(2));
+          Assert.assertEquals(6, Factorial.fact(3));
+          Assert.assertEquals(3628800, Factorial.fact(10));
+          Assert.assertEquals(2432902008176640000L, Factorial.fact(20));
       }
   }
 #+end_src
-** Spring boot Test
-Spring Boot 提供了许多实用工具和注解来帮助测试应用程序，主要包括以下两个模块。
-+ spring-boot-test：支持测试的核心内容。
-+ spring-boot-test-autoconfigure：支持测试的自动化配置。
 
-*** 引入依赖
+其他测试还有：
+- 测试：生命周期
+- 测试：禁用测试
+- 测试：断言测试
+- 测试：异常测试
+- 测试：时间测试
+- 测试：参数化测试
+- 测试：套件测试
+- 测试：测试顺序
+\\
+更多 JUnit 4 代码示例：https://www.pdai.tech/md/develop/ut/dev-ut-x-junit.html
+** Mockito
+*** Mockito 简介
+1. Mockito 是最流行的Java mock框架之一;
+2. PowerMockito 是一个用于 Java 单元测试的框架，它扩展了Mockitod的能力。举个例子，你在使用 JUnit 进行单元测试时，并不想让测试数据进入数据库，怎么办？这个时候就可以使用PowerMock，拦截数据库操作，并模拟返回参数
+3. PowerMockito 与 Mockito 的关系
+   - PowerMockito 是 Mockito 和 PowerMock 的结合体，旨在扩展 Mockito 的功能，使其能够模拟静态方法、final类、私有方法等无法被常规Mockito框架所模拟的场景。
+   - PowerMockito 通过修改字节码来实现对这些场景的模拟，从而使得在单元测试中能够覆盖更多的情况。
+   - 使用 PowerMockito 时，通常需要额外添加相关的依赖，并结合JUnit一起使用。它提供了一些特定的注解和方法，用于标记被测试的类和方法，并进行模拟和验证。
+4. Mockito 官方网站: https://site.mockito.org/
+5. PowerMockito Github: https://github.com/powermock/powermock/
+**** 节外生枝：什么是 Mock 测试
++ Mock通常是指，在测试一个对象A时，我们构造一些假的对象来模拟与A之间的交互，而这些Mock对象的行为是我们事先设定且符合预期。通过这些Mock对象来测试A在正常逻辑，异常逻辑或压力情况下工作是否正常。
++ Mock 测试就是在测试过程中，对于某些不容易构造（如 HttpServletRequest 必须在Servlet 容器中才能构造出来）或者不容易获取比较复杂的对象（如 JDBC 中的ResultSet 对象），用一个虚拟的对象（Mock 对象）来创建以便测试的测试方法。Mock 最大的功能是帮你把单元测试的耦合分解开，如果你的代码对另一个类或者接口有依赖，它能够帮你模拟这些依赖，并帮你验证所调用的依赖的行为。
++ **定义总结** ：mock测试就是在测试过程中，对那些不容易构建的对象用一个虚拟对象来代替测试的方法就叫mock测试。
++ Mock 适用在什么场景
+  + 真实对象具有不可确定的行为(产生不可预测的结果，如股票的行情)
+  + 真实对象很难被创建(比如具体的web容器)
+  + 真实对象的某些行为很难触发(比如网络错误)
+  + 真实情况令程序的运行速度很慢
+  + 真实对象有用户界面
+  + 测试需要询问真实对象它是如何被调用的(比如测试可能需要验证某个回调函数是否被调用了)
+  + 真实对象实际上并不存在(当需要和其他开发小组，或者新的硬件系统打交道的时候，这是一个普遍的问题)
+  + 一些比较难构造的Object：这类Object通常有很多依赖，在单元测试中构造出这样类通常花费的成本太大。
+  + 执行操作的时间较长Object：有一些Object的操作费时，而被测对象依赖于这一个操作的执行结果，例如大文件写操作，数据的更新等等，出于测试的需求，通常将这类操作进行Mock。
+  + 异常逻辑：一些异常的逻辑往往在正常测试中是很难触发的，通过Mock可以人为的控制触发异常逻辑。
+*** Mockito 使用
+**** Maven 包依赖引入
+#+begin_src xml
+  <properties>
+    <mockito-core.version>3.12.4</mockito-core.version>
+  </properties>
+  <dependencies>
+    <!-- Mockito core -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+#+end_src
+**** Hello Word
+#+caption: 待测试类
+#+begin_src java
+  // DemoService
+  public interface DemoService {
+      int getDemoStatus();
+  }
+
+  // DemoServiceImpl
+  public class DemoServiceImpl implements DemoService {
+
+      private DemoDao demoDao;
+
+      public DemoServiceImpl(DemoDao demoDao) {
+          this.demoDao = demoDao;
+      }
+
+      @Override
+      public int getDemoStatus() {
+          return demoDao.getDemoStatus();
+      }
+  }
+
+  // DemoDao
+  import java.util.Random;
+
+  public class DemoDao {
+      public int getDemoStatus(){
+          return new Random().nextInt();
+      }
+  }
+#+end_src
+
+#+caption: 测试类
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+  import org.mockito.Mockito;
+  import tech.pdai.mockito.dao.DemoDao;
+  import tech.pdai.mockito.service.DemoService;
+
+  /**
+   ,* Hello World Test.
+   ,*/
+  public class HelloWorldTest {
+
+      @Test
+      public void helloWorldTest() {
+          // mock DemoDao instance
+          DemoDao mockDemoDao = Mockito.mock(DemoDao.class);
+
+          // 使用 mockito 对 getDemoStatus 方法打桩
+          Mockito.when(mockDemoDao.getDemoStatus()).thenReturn(1);
+
+          // 调用 mock 对象的 getDemoStatus 方法，结果永远是 1
+          Assert.assertEquals(1, mockDemoDao.getDemoStatus());
+
+          // mock DemoService
+          DemoService mockDemoService = new DemoService(mockDemoDao);
+          Assert.assertEquals(1, mockDemoService.getDemoStatus() );
+      }
+  }
+#+end_src
+**** 一个完整的示例
+***** 使用 mock 方法
+#+caption: 包含两块测试：一个是类测试，一个接口测试
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+
+  import java.util.List;
+  import java.util.Random;
+
+  import static org.mockito.Mockito.mock;
+  import static org.mockito.Mockito.when;
+
+  /**
+   ,* Mock Class Test.
+   ,*/
+  public class MockClassTest {
+
+      @Test
+      public void mockClassTest() {
+          Random mockRandom = Mockito.mock(Random.class);
+
+          // 默认值: mock 对象的方法的返回值默认都是返回类型的默认值
+          System.out.println(mockRandom.nextBoolean()); // false
+          System.out.println(mockRandom.nextInt()); // 0
+          System.out.println(mockRandom.nextDouble()); // 0.0
+
+          // mock: 指定调用 nextInt 方法时，永远返回 100
+          Mockito.when(mockRandom.nextInt()).thenReturn(100);
+          Assert.assertEquals(100, mockRandom.nextInt());
+          Assert.assertEquals(100, mockRandom.nextInt());
+      }
+
+      @Test
+      public void mockInterfaceTest() {
+          List mockList = Mockito.mock(List.class);
+
+          // 接口的默认值：和类方法一致，都是默认返回值
+          Assert.assertEquals(0, mockList.size());
+          Assert.assertEquals(null, mockList.get(0));
+
+          // 注意：调用 mock 对象的写方法，是没有效果的
+          mockList.add("a");
+          Assert.assertEquals(0, mockList.size());      // 没有指定 size() 方法返回值，这里结果是默认值
+          Assert.assertEquals(null, mockList.get(0));   // 没有指定 get(0) 返回值，这里结果是默认值
+
+          // mock值测试
+          Mockito.when(mockList.get(0)).thenReturn("a");          // 指定 get(0)时返回 a
+          Assert.assertEquals(0, mockList.size());        // 没有指定 size() 方法返回值，这里结果是默认值
+          Assert.assertEquals("a", mockList.get(0));      // 因为上面指定了 get(0) 返回 a，所以这里会返回 a
+          Assert.assertEquals(null, mockList.get(1));     // 没有指定 get(1) 返回值，这里结果是默认值
+      }
+  }
+#+end_src
+***** 使用 @Mock 注解
+: @Mock 注解可以理解为对 mock 方法的一个替代。
+
+使用该注解时，要使用MockitoAnnotations.initMocks 方法，让注解生效, 比如放在@Before方法中初始化。
+\\
+比较优雅优雅的写法是用MockitoJUnitRunner，它可以自动执行MockitoAnnotations.initMocks 方法。
+
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+  import org.junit.runner.RunWith;
+  import org.mockito.Mock;
+  import org.mockito.junit.MockitoJUnitRunner;
+
+  import java.util.Random;
+
+  import static org.mockito.Mockito.when;
+
+  /**
+   ,* Mock Annotation
+   ,*/
+  @RunWith(MockitoJUnitRunner.class)
+  public class MockAnnotationTest {
+
+      @Mock
+      private Random random;
+
+      @Test
+      public void test() {
+          Mockito.when(random.nextInt()).thenReturn(100);
+          Assert.assertEquals(100, random.nextInt());
+      }
+  }
+#+end_src
+***** 使用参数匹配
+#+begin_src java
+  Mockito.when(testList.get(anyInt())).thenReturn("c");
+  Assert.assertEquals("c", testList.get(0));
+  Assert.assertEquals("c", testList.get(1));
+#+end_src
+
+目前 Mockito 有很多匹配函数，比如any()、anyInt()、anyLong()等等。
+***** 使用 mock 异常方法
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+  import java.util.Random;
+  import static org.mockito.Mockito.mock;
+  import static org.mockito.Mockito.when;
+
+  public class ThrowTest {
+      @Test
+      public void throwTest1() {
+
+          Random mockRandom = mock(Random.class);
+          when(mockRandom.nextInt()).thenThrow(new RuntimeException("异常"));
+
+          try {
+              mockRandom.nextInt();
+              Assert.fail();  // 上面会抛出异常，所以不会走到这里
+          } catch (Exception ex) {
+              Assert.assertTrue(ex instanceof RuntimeException);
+              Assert.assertEquals("异常", ex.getMessage());
+          }
+      }
+
+      /**
+       ,* thenThrow 中可以指定多个异常。在调用时异常依次出现。若调用次数超过异常的数量，再次调用时抛出最后一个异常。
+       ,*/
+      @Test
+      public void throwTest2() {
+
+          Random mockRandom = mock(Random.class);
+          when(mockRandom.nextInt()).thenThrow(new RuntimeException("异常1"), new RuntimeException("异常2"));
+
+          try {
+              mockRandom.nextInt();
+              Assert.fail();
+          } catch (Exception ex) {
+              Assert.assertTrue(ex instanceof RuntimeException);
+              Assert.assertEquals("异常1", ex.getMessage());
+          }
+
+          try {
+              mockRandom.nextInt();
+              Assert.fail();
+          } catch (Exception ex) {
+              Assert.assertTrue(ex instanceof RuntimeException);
+              Assert.assertEquals("异常2", ex.getMessage());
+          }
+      }
+  }
+#+end_src
+
+对应返回类型是 void 的函数，thenThrow 是无效的，要使用 doThrow。
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+  import org.junit.runner.RunWith;
+  import org.mockito.Mock;
+  import org.mockito.MockitoAnnotations;
+  import org.mockito.junit.MockitoJUnitRunner;
+
+  import static org.mockito.Mockito.doThrow;
+
+  /**
+   ,* Do Throw for void return.
+   ,*/
+  @RunWith(MockitoJUnitRunner.class)
+  public class DoThrowTest {
+
+      static class ExampleService {
+
+          public void hello() {
+              System.out.println("Hello");
+          }
+
+      }
+
+      @Mock
+      private ExampleService exampleService;
+
+      @Test
+      public void test() {
+
+          // 这种写法可以达到效果
+          doThrow(new RuntimeException("异常")).when(exampleService).hello();
+
+          try {
+              exampleService.hello();
+              Assert.fail();
+          } catch (RuntimeException ex) {
+              Assert.assertEquals("异常", ex.getMessage());
+          }
+
+      }
+  }
+#+end_src
+***** 使用 spy 和 @Spy 注解
+#+begin_src java
+  import org.junit.Assert;
+  import org.junit.Test;
+  import static org.mockito.Mockito.*;
+
+  class ExampleService {
+      int add(int a, int b) {
+          return a+b;
+      }
+  }
+
+  // MockitoDemo
+  public class MockitoDemo {
+      // 测试 spy
+      @Test
+      public void test_spy() {
+
+          ExampleService spyExampleService = Mockito.spy(new ExampleService());
+
+          // 默认会走真实方法
+          Assert.assertEquals(3, spyExampleService.add(1, 2));
+
+          // 打桩后，不会走了
+          Mockito.when(spyExampleService.add(1, 2)).thenReturn(10);
+          Assert.assertEquals(10, spyExampleService.add(1, 2));
+
+          // 但是参数比匹配的调用，依然走真实方法
+          Assert.assertEquals(3, spyExampleService.add(2, 1));
+
+      }
+
+      // 测试 mock
+      @Test
+      public void test_mock() {
+
+          ExampleService mockExampleService = Mockito.mock(ExampleService.class);
+
+          // 默认返回结果是返回类型int的默认值
+          Assert.assertEquals(0, mockExampleService.add(1, 2));
+      }
+  }
+
+#+end_src
+
+对于@Spy，如果发现修饰的变量是 null，会自动调用类的无参构造函数来初始化。所以下面两种写法是等价的：
+#+begin_src java
+  // 写法1
+  @Spy
+  private ExampleService spyExampleService;
+
+  // 写法2
+  @Spy
+  private ExampleService spyExampleService = new ExampleService();
+#+end_src
+如果没有无参构造函数，必须使用写法2。
+
+*** 结合 PowerMock 使用
+**** maven 包依赖引入
+**JUnit 4.4 or above:**
+#+caption: Add the following to your pom.xml if you're using JUnit 4.4 or above:
+#+begin_src xml
+  <properties>
+    <powermock.version>2.0.2</powermock.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>${powermock.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+#+end_src
+
+更多 Maven 配置点击链接查看：https://github.com/powermock/powermock/wiki/Mockito#maven-configuration
+**** 关键注解说明
+#+caption: 关键注解
+#+begin_src java
+  // 告诉JUnit使用PowerMockRunner进行测试
+  @RunWith(PowerMockRunner.class)
+  // 所有需要测试的类列在此处，适用于模拟final类或有final, private, static, native方法的类
+  @PrepareForTest({RandomUtil.class})
+  // 为了解决使用powermock后，提示classloader错误
+  @PowerMockIgnore("javax.management.*")
+  public class MockitoDemo {
+      @Test
+      public void test() {
+          PowerMockito.mockStatic(RandomUtil.class);
+
+          PowerMockito.when(RandomUtil.nextInt(Mockito.any())).thenReturn(100);
+
+          Assert.assertEquals(100, RandomUtil.nextInt(2));
+      }
+  }
+#+end_src
+
+***** @Mock 和 @MockBean
+`@Mock` 和 `@MockBean` 是用于模拟对象的注解，但它们之间有一些区别：
+1. @Mock：
+   - 用于模拟不属于 Spring 上下文的对象。
+   - 在普通的 JUnit 测试中使用。
+   - 不知道 Spring 上下文，通常用于单元测试隔离组件，而不需要完整的 Spring 上下文设置。
+   - 可以通过 Mockito 框架创建一个空的类，其中方法体都是空的，方法的返回值（如果有的话）都是 `null`。
+   - 使代码更易读，且在出现失败时，可以更容易地找到问题所在的模拟对象。
+2. @MockBean：
+   - 用于模拟属于 Spring 上下文的一部分的对象。
+   - 在集成测试中很有用，当需要模拟特定的 Spring bean 时，例如外部的 Service。
+   - 将 Mock 对象添加到 Spring 应用程序上下文中，它会替换掉相同类型的现有 bean，如果没有定义相同类型的 bean，它将添加一个新的 bean。
+   总之，`@Mock` 适用于普通的 JUnit 测试，而 `@MockBean` 适用于集成测试，需要模拟 Spring 上下文中的特定 bean。
+***** @Mock 和 @InjectMocks
+1. @InjectMocks
+   - @InjectMocks 注解用于标记被测试类的实例，在测试中会自动创建该类的实例，并注入被@Mock注解标记的模拟对象。
+   - 当测试类中的某个方法需要被测试时，使用@InjectMocks注解标记被测试的类实例，Mockito会自动将被标记为@Mock的模拟对象注入到被测试类的实例中。
+   - 通常情况下，@InjectMocks用于测试目标类，即待测试的类，它会自动将依赖的模拟对象注入到目标类中。
+2. @Mock
+   - @Mock注解用于标记需要模拟的对象，即需要在测试中替代的对象。通过@Mock注解，我们可以模拟外部依赖或者需要被测试类调用的其他对象。
+   - 使用@Mock注解标记的对象会被Mockito框架创建为模拟对象，并在测试中被用于替代实际对象的行为。
+   - 通常情况下，@Mock用于模拟测试类所依赖的其他类或者对象，以隔离测试对象与其依赖对象的关系。
+   - 使用@Mock后，记得initMocks。
+     #+begin_src java
+       MockitoAnnotations.initMocks(this);
+     #+end_src
+***** Mockito 和 PowerMockito
++ **Mockito**
+  1. 核心功能：
+     - Mockito 主要用于模拟对象（实例方法）的行为，允许创建和配置模拟对象来替代真实对象，以便在测试中控制其输出和行为。
+     - 它可以模拟非final类、非final方法、非static方法，以及具有可见性（public、protected、default）的方法。
+  2. 模拟方式：
+     - 使用Mockito.mock(Class<T>)方法创建模拟对象。
+     - 通过when(...).thenReturn(...), doReturn(...).when(...)等方法设置模拟对象的方法调用返回值或行为。
+  3. 限制：
+     - Mockito 本身不能直接模拟静态方法、构造函数、final类或方法、私有方法，以及静态初始化块。
+     - 对于依赖注入困难或设计不佳导致难以模拟的情况，可能需要重构代码以适应 Mockito。
++ **PowerMockito**
+  1. 扩展功能：
+     - PowerMockito 是基于 Mockito 构建的扩展库，它主要解决了 Mockito 不能模拟的一些特性，包括：
+     - 静态方法：可以模拟类的静态方法，无论它们是否为final或私有。
+     - 构造函数：可以模拟构造函数的行为，如返回特定的模拟对象或抑制构造函数的副作用。
+     - final类与方法：可以模拟final类及其方法的行为。
+     - 私有方法：可以模拟私有方法，使得它们在测试中可以被替换或控制其返回值。
+     - 静态初始化块：可以抑制类的静态初始化块的执行。
+  2. 模拟方式：
+     - 使用PowerMockito.mockStatic(Class<T>)模拟静态方法。
+     - 使用PowerMockito.whenNew(Constructor<T>)模拟构造函数。
+     - 对于final类、方法或私有方法，仍然使用类似于 Mockito 的when(...).thenReturn(...)等方式设置模拟行为。
+     - 有时需要配合@RunWith(PowerMockRunner.class)和@PrepareForTest(Class<T>)注解来启用PowerMockito的高级特性。
+  3. 使用场景：
+     - 适用于测试遗留代码、第三方库、框架代码或其他难以修改以适应标准单元测试的代码。
+     - 当需要模拟上述Mockito无法处理的特性时，PowerMockito提供了强大的解决方案。
+\\
+**总结：**
+1. Mockito 是一个轻量级、易于使用的模拟库，适用于大多数常规的单元测试场景，特别是在遵循良好设计原则（如依赖注入、接口隔离等）编写的代码中。
+2. PowerMockito 则提供了更强大的模拟能力，能够处理更复杂的场景，如模拟静态方法、构造函数、final类/方法、私有方法等。然而，由于其使用了类加载器替换和字节码操纵技术，可能会引入额外的复杂性和潜在风险，且对测试代码结构有一定要求（如使用特定的测试运行器和注解）。因此，PowerMockito通常是在必要时作为最后手段使用，特别是在面对难以修改或外部约束较多的遗留代码时。
+3. 选择使用哪一个库取决于项目的具体需求、代码结构以及对测试侵入性的接受程度。通常建议优先考虑使用 Mockito，只有在遇到其无法解决的模拟问题时才考虑使用 PowerMockito。同时，应尽量避免过度依赖PowerMockito，因为它可能掩盖代码设计上的问题，长期来看不利于代码的维护和演进。
+**** 常见问题
+***** java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
+- 原因：`mockito-core`版本不兼容
+- 解决：指定mockito-core依赖版本，这里用`3.12.4`
+  #+begin_src xml
+    <mockito-core.version>3.12.4</mockito-core.version>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito-core.version}</version>
+      <scope>test</scope>
+    </dependency>
+  #+end_src
+- 参考：https://github.com/mockito/mockito/issues/2568
+***** ScriptEngineManager providers.next(): javax.script.ScriptEngineFactory: Provider jdk.nashorn.api.scripting.NashornScriptEngineFactory not a subtype
+#+begin_src java
+  @PowerMockIgnore({"javax.script.*"})
+#+end_src
+***** Could not reconfigure JMX java.lang.LinkageError
+#+begin_src java
+  @PowerMockIgnore({"javax.management.*"})
+#+end_src
+***** 解决用 @Value 注解注入的属性
+#+begin_src java
+  ReflectionTestUtils.setField(invoiceTitleService, "invoiceTitleRegularExpression", "^[a-zA-Z0-9\\u4e00-\\u9fa5\\s\\uFF08\\uFF09\\u3001\\(\\)\\<\\>\\u300a\\u300b\\(\\)\\-]+$");
+#+end_src
+***** 解决通过 environment.getProperty("property") 获取配置文件中的配置项值
+#+begin_src java
+  @Mock
+  Environment environment;
+
+  @BeforeMethod(alwaysRun = true)
+  public void init () {
+      // 初始化当前测试类所有Mock注解模拟对象
+      MockitoAnnotations.initMocks(this);
+  }
+
+  public void testXXX() {
+      when(environment.getProperty("config.name")).thenReturn("tom");
+  }
+#+end_src
+***** 使用RestTemplate调用controller方法时，404错误
+- 检查controller类使用@RestController注解
+* 单元测试的最佳实践
+** 对 Controller 层的测试实践
+| 模块                           | 版本号 | 描述                 |
+|--------------------------------+--------+----------------------|
+| Spring boot test               |  2.7.6 | 支持测试的核心内容   |
+| Spring boot test autoconfigure |  2.7.6 | 支持测试的自动化配置 |
+| JUnit5                         |  5.8.2 |                      |
+
+*** maven 包依赖引入
 #+begin_src xml
   <dependencies>
     <dependency>
@@ -225,16 +762,58 @@ Spring Boot 提供了许多实用工具和注解来帮助测试应用程序，�
     </dependency>
   </dependencies>
 #+end_src
-*** 普通测试：hello
+*** Springboot + JUnit
+#+caption: Springboot + junit4
 #+begin_src java
-  import org.junit.jupiter.api.Test;
-  import org.springframework.boot.test.context.SpringBootTest;
-
+  @RunWith(SpringRunner.class)
   @SpringBootTest
-  class TestApplicationTests {
+  public class SpringBootQuickStartApplicationTests {
+
+      private MockMvc mvc;
+
+      @Before
+      public void setUp() throws Exception {
+          mvc = MockMvcBuilders.standaloneSetup(new UserController()).build();
+      }
+
       @Test
-      void contextLoads() {
-          System.out.println("hello, Spring boot Test!!!");
+      public void contextLoads() throws Exception {
+          RequestBuilder request = null;
+       
+          request = MockMvcRequestBuilders.get("/")
+                  .contentType(MediaType.APPLICATION_JSON);
+          mvc.perform(request)
+                  .andExpect(MockMvcResultMatchers.status().isOk())
+                  .andDo(MockMvcResultHandlers.print())
+                  .andReturn();
+     }
+  }
+#+end_src
+
+#+caption: Springboot + junit5
+#+begin_src java
+  @SpringBootTest
+  // 使用spring的测试框架
+  @ExtendWith(SpringExtension.class)
+  class SpringbootQuickStartApplicationTests {
+
+      private MockMvc mockMvc;
+
+      @BeforeEach // 类似于junit4的@Before
+      public void setUp() throws Exception {
+          mockMvc = MockMvcBuilders.standaloneSetup(new UserController()).build();
+      }
+
+      @Test
+      void contextLoads() throws Exception {
+          RequestBuilder request = null;
+
+          request = MockMvcRequestBuilders.get("/")
+                  .contentType(MediaType.APPLICATION_JSON);
+          mockMvc.perform(request)
+                  .andExpect(MockMvcResultMatchers.status().isOk())
+                  .andDo(MockMvcResultHandlers.print())
+                  .andReturn();
       }
   }
 #+end_src
@@ -485,159 +1064,194 @@ Spring Boot 提供了许多实用工具和注解来帮助测试应用程序，�
       }
   }
 #+end_src
-* PowerMockito 在单元测试中的应用
-** PowerMock是什么？
-PowerMock是一个Java模拟框架，用于解决测试问题。
-\\
-举个例子，你在使用 JUnit 进行单元测试时，并不想让测试数据进入数据库，怎么办？这个时候就可以使用PowerMock，拦截数据库操作，并模拟返回参数。
-\\
-官网：[[https://github.com/powermock/powermock][powermock]]
-*** PowerMockito 与 Mockito, PowerMock 的关系
-- **PowerMockito** 是Java语言中的一个测试框架，它是Mockito和PowerMock的结合体，旨在扩展Mockito的功能，使其能够模拟静态方法、final类、私有方法等无法被常规Mockito框架所模拟的场景。
-- PowerMockito通过修改字节码来实现对这些场景的模拟，从而使得在单元测试中能够覆盖更多的情况。
-- 使用PowerMockito时，通常需要额外添加相关的依赖，并结合JUnit一起使用。它提供了一些特定的注解和方法，用于标记被测试的类和方法，并进行模拟和验证。
-** PowerMock 使用
-*** 依赖包引入
-**JUnit 4.4 or above:**
-\\
-Add the following to your pom.xml if you're using JUnit 4.4 or above:
+** Spring boot + Mockito 的测试实践
+| 模块         | 版本号 | 描述                            |
+|--------------+--------+---------------------------------|
+| Springboot   |  2.7.6 |                                 |
+| JUnit4       | 4.13.2 |                                 |
+| Powermock    |  2.0.2 | 注意：目前PowerMock只支持JUnit4 |
+| Mockito-core | 3.12.4 |                                 |
+
+*** maven 包依赖引入
+#+caption: Spring boot test, Powermock, Mockito-core 依赖引入
 #+begin_src xml
   <properties>
+    <java.version>1.8</java.version>
+    <spring-boot.version>2.7.6</spring-boot.version>
     <powermock.version>2.0.2</powermock.version>
+    <mockito-core.version>3.12.4</mockito-core.version>
   </properties>
+
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>mockito-core</artifactId>
+          <groupId>org.mockito</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-module-junit4</artifactId>
       <version>${powermock.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>objenesis</artifactId>
+          <groupId>org.objenesis</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.powermock</groupId>
       <artifactId>powermock-api-mockito2</artifactId>
       <version>${powermock.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>mockito-core</artifactId>
+          <groupId>org.mockito</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
-  </dependencies>
-#+end_src
-更多 Maven 配置点击下面链接查看。
-\\
-https://github.com/powermock/powermock/wiki/Mockito#maven-configuration
-*** 关键注解说明
-#+begin_src java
-  // 告诉JUnit使用PowerMockRunner进行测试
-  @RunWith(PowerMockRunner.class)
-  // 所有需要测试的类列在此处，适用于模拟final类或有final, private, static, native方法的类
-  @PrepareForTest({RandomUtil.class})
-  // 为了解决使用powermock后，提示classloader错误
-  @PowerMockIgnore("javax.management.*")
-#+end_src
-**** @Mock 和 @MockBean
-在 Spring Boot 中，`@Mock` 和 `@MockBean` 是用于模拟对象的注解，但它们之间有一些区别：
-1. @Mock：
-   - 用于模拟不属于 Spring 上下文的对象。
-   - 在普通的 JUnit 测试中使用。
-   - 不知道 Spring 上下文，通常用于单元测试隔离组件，而不需要完整的 Spring 上下文设置。
-   - 可以通过 Mockito 框架创建一个空的类，其中方法体都是空的，方法的返回值（如果有的话）都是 `null`。
-   - 使代码更易读，且在出现失败时，可以更容易地找到问题所在的模拟对象。
-2. @MockBean：
-   - 用于模拟属于 Spring 上下文的一部分的对象。
-   - 在集成测试中很有用，当需要模拟特定的 Spring bean 时，例如外部的 Service。
-   - 将 Mock 对象添加到 Spring 应用程序上下文中，它会替换掉相同类型的现有 bean，如果没有定义相同类型的 bean，它将添加一个新的 bean。
-\\
-总之，`@Mock` 适用于普通的 JUnit 测试，而 `@MockBean` 适用于集成测试，需要模拟 Spring 上下文中的特定 bean。
-**** @Mock 和 @InjectMocks
-1. @InjectMocks
-   - @InjectMocks 注解用于标记被测试类的实例，在测试中会自动创建该类的实例，并注入被@Mock注解标记的模拟对象。
-   - 当测试类中的某个方法需要被测试时，使用@InjectMocks注解标记被测试的类实例，Mockito会自动将被标记为@Mock的模拟对象注入到被测试类的实例中。
-   - 通常情况下，@InjectMocks用于测试目标类，即待测试的类，它会自动将依赖的模拟对象注入到目标类中。
-2. @Mock
-   - @Mock注解用于标记需要模拟的对象，即需要在测试中替代的对象。通过@Mock注解，我们可以模拟外部依赖或者需要被测试类调用的其他对象。
-   - 使用@Mock注解标记的对象会被Mockito框架创建为模拟对象，并在测试中被用于替代实际对象的行为。
-   - 通常情况下，@Mock用于模拟测试类所依赖的其他类或者对象，以隔离测试对象与其依赖对象的关系。
-   - 使用@Mock后，记得initMocks。
-     #+begin_src java
-       MockitoAnnotations.initMocks(this);
-     #+end_src
-**** Mockito 和 PowerMockito
-Mockito 和 PowerMockito 都是 Java 单元测试中常用的模拟（Mocking）库，但它们之间存在一些关键的区别：
-\\
-**Mockito**
-1. 核心功能：
-   - Mockito 主要用于模拟对象（实例方法）的行为，允许创建和配置模拟对象来替代真实对象，以便在测试中控制其输出和行为。
-   - 它可以模拟非final类、非final方法、非static方法，以及具有可见性（public、protected、default）的方法。
-1. 模拟方式：
-   - 使用Mockito.mock(Class<T>)方法创建模拟对象。
-   - 通过when(...).thenReturn(...), doReturn(...).when(...)等方法设置模拟对象的方法调用返回值或行为。
-2. 限制：
-   - Mockito 本身不能直接模拟静态方法、构造函数、final类或方法、私有方法，以及静态初始化块。
-   - 对于依赖注入困难或设计不佳导致难以模拟的情况，可能需要重构代码以适应 Mockito。
-\\
-**PowerMockito**
-1. 扩展功能：
-   - PowerMockito 是基于 Mockito 构建的扩展库，它主要解决了 Mockito 不能模拟的一些特性，包括：
-     - 静态方法：可以模拟类的静态方法，无论它们是否为final或私有。
-     - 构造函数：可以模拟构造函数的行为，如返回特定的模拟对象或抑制构造函数的副作用。
-     - final类与方法：可以模拟final类及其方法的行为。
-     - 私有方法：可以模拟私有方法，使得它们在测试中可以被替换或控制其返回值。
-     - 静态初始化块：可以抑制类的静态初始化块的执行。
-2. 模拟方式：
-   - 使用PowerMockito.mockStatic(Class<T>)模拟静态方法。
-   - 使用PowerMockito.whenNew(Constructor<T>)模拟构造函数。
-   - 对于final类、方法或私有方法，仍然使用类似于 Mockito 的when(...).thenReturn(...)等方式设置模拟行为。
-   - 有时需要配合@RunWith(PowerMockRunner.class)和@PrepareForTest(Class<T>)注解来启用PowerMockito的高级特性。
-3. 使用场景：
-   - 适用于测试遗留代码、第三方库、框架代码或其他难以修改以适应标准单元测试的代码。
-   - 当需要模拟上述Mockito无法处理的特性时，PowerMockito提供了强大的解决方案。
-**总结：**
-\\
-1. Mockito 是一个轻量级、易于使用的模拟库，适用于大多数常规的单元测试场景，特别是在遵循良好设计原则（如依赖注入、接口隔离等）编写的代码中。
-2. PowerMockito 则提供了更强大的模拟能力，能够处理更复杂的场景，如模拟静态方法、构造函数、final类/方法、私有方法等。然而，由于其使用了类加载器替换和字节码操纵技术，可能会引入额外的复杂性和潜在风险，且对测试代码结构有一定要求（如使用特定的测试运行器和注解）。因此，PowerMockito通常是在必要时作为最后手段使用，特别是在面对难以修改或外部约束较多的遗留代码时。
-3. 选择使用哪一个库取决于项目的具体需求、代码结构以及对测试侵入性的接受程度。通常建议优先考虑使用 Mockito，只有在遇到其无法解决的模拟问题时才考虑使用 PowerMockito。同时，应尽量避免过度依赖PowerMockito，因为它可能掩盖代码设计上的问题，长期来看不利于代码的维护和演进。
-** 常见问题
-*** java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
-- 原因：`mockito-core`版本不兼容
-- 解决：指定mockito-core依赖版本，这里用`3.12.4`
-  #+begin_src xml
-    <mockito-core.version>3.12.4</mockito-core.version>
-
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito-core.version}</version>
       <scope>test</scope>
     </dependency>
-  #+end_src
-- 参考：https://github.com/mockito/mockito/issues/2568
-*** ScriptEngineManager providers.next(): javax.script.ScriptEngineFactory: Provider jdk.nashorn.api.scripting.NashornScriptEngineFactory not a subtype
-#+begin_src java
-  @PowerMockIgnore({"javax.script.*"})
+  </dependencies>
 #+end_src
-*** Could not reconfigure JMX java.lang.LinkageError
+*** 测试：获取用户信息接口
+**** 业务代码
 #+begin_src java
-  @PowerMockIgnore({"javax.management.*"})
-#+end_src
-*** 解决用 @Value 注解注入的属性
-#+begin_src java
-  ReflectionTestUtils.setField(invoiceTitleService, "invoiceTitleRegularExpression", "^[a-zA-Z0-9\\u4e00-\\u9fa5\\s\\uFF08\\uFF09\\u3001\\(\\)\\<\\>\\u300a\\u300b\\(\\)\\-]+$");
-#+end_src
-*** 解决通过 environment.getProperty("property") 获取配置文件中的配置项值
-#+begin_src java
-  @Mock
-  Environment environment;
+  // User
+  import lombok.Data;
 
-  @BeforeMethod(alwaysRun = true)
-  public void init () {
-      // 初始化当前测试类所有Mock注解模拟对象
-      MockitoAnnotations.initMocks(this);
+  import javax.persistence.Entity;
+  import javax.persistence.Id;
+  import javax.persistence.Table;
+
+  @Entity
+  @Table(name = "user")
+  @Data
+  public class User {
+
+      @Id
+      private Long id;
+
+      private String name;
+
+      private Integer age;
   }
 
-  public void testXXX() {
-      when(environment.getProperty("config.name")).thenReturn("tom");
+  // UserDao
+  import com.zrg.myspringbootdemo.demos.entity.User;
+  import org.springframework.data.jpa.repository.JpaRepository;
+  import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+  import org.springframework.stereotype.Repository;
+
+  @Repository
+  public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+  }
+
+  // UserService
+  import com.zrg.myspringbootdemo.demos.entity.User;
+
+  public interface UserService {
+      User getUserById(Long id);
+  }
+
+  // UserServiceImpl
+  import com.zrg.myspringbootdemo.demos.entity.User;
+  import com.zrg.myspringbootdemo.demos.dao.UserDao;
+  import com.zrg.myspringbootdemo.demos.services.MockMapper;
+  import com.zrg.myspringbootdemo.demos.services.UserService;
+  import lombok.extern.slf4j.Slf4j;
+  import org.springframework.beans.factory.annotation.Autowired;
+  import org.springframework.stereotype.Service;
+
+  @Service
+  @Slf4j
+  public class UserServiceImpl implements UserService {
+
+      @Autowired
+      private UserDao userDao;
+      @Autowired
+      private MockMapper mockMapper;
+
+      @Override
+      public User getUserById(Long id) {
+          if (mockMapper.makeFile("/test")) {
+              log.info("makeFile success");
+          }
+          return userDao.findById(id).orElse(null);
+      }
+  }
+
+  // TestController
+  @RestController
+  @RequestMapping("/test")
+  public class TestController {
+      @PostMapping("/getUser")
+      public User getUser(@RequestBody GetUserDTO getUserDTO) {
+          return userService.getUserById(Long.valueOf(getUserDTO.getUserId()));
+      }
   }
 #+end_src
-*** 使用RestTemplate调用controller方法时，404错误
-- 检查controller类使用@RestController注解
-* 单元测试的最佳实践
+**** 测试类
+#+begin_src java
+  import org.junit.Test;
+  import org.junit.Assert;
+  import org.junit.runner.RunWith;
 
-* 总结
+  @RunWith(SpringRunner.class)
+  @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+  public class TestControllerTest {
+
+      @Autowired
+      private TestRestTemplate testRestTemplate;
+
+      @MockBean
+      private UserDao mockUserDao;
+
+      @InjectMocks
+      private TestController testController;
+
+      @Before
+      public void setUp() {
+          MockitoAnnotations.openMocks(this);
+      }
+
+      @Test
+      public void testGetUser() throws Exception {
+          Long userId = 123L;
+          User expectUser = new User();
+          expectUser.setName("张三");
+          expectUser.setAge(28);
+          expectUser.setId(userId);
+          GetUserDTO getUserDTO = new GetUserDTO();
+          getUserDTO.setUserId(String.valueOf(userId));
+
+          PowerMockito.when(mockUserDao.findById(Mockito.anyLong())).thenReturn(Optional.of(expectUser));
+
+          ResponseEntity<User> result = testRestTemplate.postForEntity(
+                                                                       "/test/getUser",
+                                                                       new HttpEntity<>(getUserDTO),
+                                                                       User.class);
+          Assert.assertEquals(HttpStatus.OK, result.getStatusCode());
+          Assert.assertNotNull(result.getBody());
+      }
+  }
+#+end_src
+* 参考资料
++ https://github.com/junit-team/junit4/wiki
++ [[https://github.com/powermock/powermock/wiki/Mockito][Official: Using PowerMock with Mockito]]
++ [[https://www.pdai.tech/md/develop/ut/dev-ut-unit-test.html][单元测试 - 浅谈单元测试]]
++ [[https://janycode.github.io/2021/03/23/09_%E8%B0%83%E8%AF%95%E6%B5%8B%E8%AF%95/02_%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/03-SpringBoot%E9%9A%8F%E6%9C%BA%E7%AB%AF%E5%8F%A3%E5%92%8CMock%E6%B5%8B%E8%AF%95/][SpringBoot随机端口和Mock测试]]
++ [[https://blog.csdn.net/wwd0501/article/details/104216427][PowerMock使用详解]]
++ [[https://zhuanlan.zhihu.com/p/598857010][用PowerMock写Java单元/集成测试]]
