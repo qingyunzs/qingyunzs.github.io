@@ -16,7 +16,8 @@
 <script>
     const songs = [];
     const musicFiles = '{{site.data.music-files | jsonify}}';
-    for(var index in musicFiles) { 
+    const musicFilesObj = JSON.parse(musicFiles);
+    for(var index in musicFilesObj) { 
         let fileUrl = '{{site.url}}/assets/music-lib/' + musicFilesObj[index].file_name; 
         songs.push(fileUrl);
     }
