@@ -1,0 +1,4 @@
+---
+layout: page
+type: music
+---

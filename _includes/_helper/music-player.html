@@ -1,0 +1,51 @@
+<h1>Music Library</h1>
+<audio id="audioPlayer" controls>
+    <source id="audioSource" src="song1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+<br>
+<button onclick="prevSong()">Previous</button>
+<button onclick="nextSong()">Next</button>
+
+<ul>
+    {% for musicFile in site.data.music-files %}
+    <li>{{ musicFile.title }} - {{musicFile.artist}} {{musicFile.time}}</li>
+    {% endfor %}
+</ul>
+
+<script>
+    const songs = [];
+    const musicFiles = '{{site.data.music-files | jsonify}}';
+    const musicFilesObj = JSON.parse(musicFiles.replaceAll('=>', ':'));
+    for(var index in musicFilesObj) { 
+        let fileUrl = '{{site.url}}/assets/music-lib/' + musicFilesObj[index].file_name; 
+        songs.push(fileUrl);
+    }
+
+    let currentSongIndex = 0;
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioSource = document.getElementById('audioSource');
+
+    function loadSong(index) {
+        audioSource.src = songs[index];
+        audioPlayer.load();
+    }
+
+    function prevSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        loadSong(currentSongIndex);
+        audioPlayer.play();
+    }
+
+    function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        loadSong(currentSongIndex);
+        audioPlayer.play();
+    }
+
+    // 自动播放下一首歌
+    audioPlayer.addEventListener('ended', nextSong);
+
+    // 初始化加载第一首歌
+    loadSong(currentSongIndex);
+</script>
