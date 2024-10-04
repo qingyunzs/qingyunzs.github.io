@@ -1,0 +1,178 @@
+---
+layout: post
+title: Spring Boot 系列之简单入门
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: true
+categories: 
+- java
+tags:
+- Spring Boot
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+<div id="outline-container-orgeaf66d5" class="outline-2">
+<h2 id="orgeaf66d5"><span class="section-number-2">1.</span> 启动器</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-xml">&lt;?<span style="color: #FF1493;">xml</span> <span style="color: #CDC673;">version="1.0" encoding="UTF-8"</span>?&gt;
+&lt;<span style="color: #87D700;">project</span> <span style="color: #FF1493;">xmlns</span>=<span style="color: #CDC673;">"http://maven.apache.org/POM/4.0.0"</span> <span style="color: #FF1493;">xmlns</span>:<span style="color: #FF8C00;">xsi</span>=<span style="color: #CDC673;">"http://www.w3.org/2001/XMLSchema-instance"</span>
+         <span style="color: #FF1493;">xsi</span>:<span style="color: #FF8C00;">schemaLocation</span>=<span style="color: #CDC673;">"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;
+  &lt;<span style="color: #87D700;">modelVersion</span>&gt;4.0.0&lt;/<span style="color: #87D700;">modelVersion</span>&gt;
+  &lt;<span style="color: #87D700;">parent</span>&gt;
+    &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-parent&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;<span style="color: #87D700;">version</span>&gt;x.x.x&lt;/<span style="color: #87D700;">version</span>&gt;
+    &lt;<span style="color: #87D700;">relativePath</span>/&gt; <span style="color: #8B8878;">&lt;!-- </span><span style="color: #8B8878;">lookup parent from repository</span><span style="color: #8B8878;"> --&gt;</span>
+  &lt;/<span style="color: #87D700;">parent</span>&gt;
+
+  &lt;<span style="color: #87D700;">groupId</span>&gt;com.qyzs&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;hello&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">version</span>&gt;1.0-SNAPSHOT&lt;/<span style="color: #87D700;">version</span>&gt;
+  &lt;<span style="color: #87D700;">name</span>&gt;hello&lt;/<span style="color: #87D700;">name</span>&gt;
+  &lt;<span style="color: #87D700;">description</span>&gt;Hello World!&lt;/<span style="color: #87D700;">description</span>&gt;
+
+  &lt;<span style="color: #87D700;">properties</span>&gt;
+    &lt;<span style="color: #87D700;">maven.compiler.source</span>&gt;17&lt;/<span style="color: #87D700;">maven.compiler.source</span>&gt;
+    &lt;<span style="color: #87D700;">maven.compiler.target</span>&gt;17&lt;/<span style="color: #87D700;">maven.compiler.target</span>&gt;
+    &lt;<span style="color: #87D700;">java.version</span>&gt;17&lt;/<span style="color: #87D700;">java.version</span>&gt;
+    &lt;<span style="color: #87D700;">project.build.sourceEncoding</span>&gt;UTF-8&lt;/<span style="color: #87D700;">project.build.sourceEncoding</span>&gt;
+    &lt;<span style="color: #87D700;">project.reporting.outputEncoding</span>&gt;UTF-8&lt;/<span style="color: #87D700;">project.reporting.outputEncoding</span>&gt;
+    &lt;<span style="color: #87D700;">spring-boot.version</span>&gt;x.x.x&lt;/<span style="color: #87D700;">spring-boot.version</span>&gt;
+    &lt;<span style="color: #87D700;">spring-cloud.version</span>&gt;x.x.x&lt;/<span style="color: #87D700;">spring-cloud.version</span>&gt;
+  &lt;/<span style="color: #87D700;">properties</span>&gt;
+
+  &lt;<span style="color: #87D700;">dependencies</span>&gt;
+    <span style="color: #8B8878;">&lt;!-- </span><span style="color: #8B8878;">...</span><span style="color: #8B8878;"> --&gt;</span>
+  &lt;/<span style="color: #87D700;">dependencies</span>&gt;
+
+  &lt;<span style="color: #87D700;">dependencyManagement</span>&gt;
+    &lt;<span style="color: #87D700;">dependencies</span>&gt;
+      &lt;<span style="color: #87D700;">dependency</span>&gt;
+        &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.cloud&lt;/<span style="color: #87D700;">groupId</span>&gt;
+        &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-cloud-dependencies&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+        &lt;<span style="color: #87D700;">version</span>&gt;${spring-cloud.version}&lt;/<span style="color: #87D700;">version</span>&gt;
+        &lt;<span style="color: #87D700;">type</span>&gt;pom&lt;/<span style="color: #87D700;">type</span>&gt;
+        &lt;<span style="color: #87D700;">scope</span>&gt;import&lt;/<span style="color: #87D700;">scope</span>&gt;
+      &lt;/<span style="color: #87D700;">dependency</span>&gt;
+    &lt;/<span style="color: #87D700;">dependencies</span>&gt;
+  &lt;/<span style="color: #87D700;">dependencyManagement</span>&gt;
+
+  &lt;<span style="color: #87D700;">build</span>&gt;
+    &lt;<span style="color: #87D700;">plugins</span>&gt;
+    &lt;/<span style="color: #87D700;">plugins</span>&gt;
+  &lt;/<span style="color: #87D700;">build</span>&gt;
+
+  &lt;<span style="color: #87D700;">profiles</span>&gt;
+    &lt;<span style="color: #87D700;">profile</span>&gt;
+      &lt;<span style="color: #87D700;">id</span>&gt;xxx&lt;/<span style="color: #87D700;">id</span>&gt;
+      &lt;<span style="color: #87D700;">build</span>&gt;
+        &lt;<span style="color: #87D700;">plugins</span>&gt;
+        &lt;/<span style="color: #87D700;">plugins</span>&gt;
+      &lt;/<span style="color: #87D700;">build</span>&gt;
+    &lt;/<span style="color: #87D700;">profile</span>&gt;
+  &lt;/<span style="color: #87D700;">profiles</span>&gt;
+&lt;/<span style="color: #87D700;">project</span>&gt;
+</pre>
+</div>
+
+<p>
+说明：spring-boot-starter，帮助导入了web模块正常运行所依赖的组件。Spring boot 将所有的功能场景都抽象出来，做成一个个starters（启动器），只需要在项目里面引入这些starter相关场景，依赖都会导入。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org33219a3" class="outline-2">
+<h2 id="org33219a3"><span class="section-number-2">2.</span> 主程序类</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li><p>
+主程序类
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SpringBootApplication</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplication</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+        SpringApplication.run(WebDemoApplication.<span style="color: #FF1493;">class</span>, args);
+    }
+}
+</pre>
+</div></li>
+
+<li><p>
+@SpringBootApplication
+@SpringBootApplication标注在哪个类上说明这个类是Spring Boot的主配置类，SpringBoot就运行这个类的main方法启动应用。转到定义查看：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Target</span>({<span style="color: #AF87FF;">ElementType</span>.TYPE})
+<span style="color: #AF87FF;">@Retention</span>(<span style="color: #AF87FF;">RetentionPolicy</span>.<span style="color: #5FD7FF;">RUNTIME</span>)
+<span style="color: #AF87FF;">@Documented</span>
+<span style="color: #AF87FF;">@Inherited</span>
+<span style="color: #AF87FF;">@SpringBootConfiguration</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">SpringBoot&#30340;&#37197;&#32622;&#31867;</span>
+<span style="color: #AF87FF;">@EnableAutoConfiguration</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#24320;&#21551;&#33258;&#21160;&#37197;&#32622;&#21151;&#33021;</span>
+<span style="color: #AF87FF;">@ComponentScan</span>(excludeFilters = {
+        <span style="color: #AF87FF;">@Filter</span>(type = <span style="color: #AF87FF;">FilterType</span>.CUSTOM, classes = {TypeExcludeFilter.<span style="color: #FF1493;">class</span>}),
+        <span style="color: #AF87FF;">@Filter</span>(type = <span style="color: #AF87FF;">FilterType</span>.CUSTOM,classes = {AutoConfigurationExcludeFilter.<span style="color: #FF1493;">class</span>})})
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">SpringBootApplication</span> {
+}
+</pre>
+</div></li>
+
+<li>@SpringBootConfiguration</li>
+<li>@Configuration，配置类上来标注这个注解</li>
+<li>@Component，配置类也是容器中的一个组件</li>
+<li><p>
+@EnableAutoConfiguration
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">@EnableAutoConfiguration &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #AF87FF;">@AutoConfigurationPackage</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33258;&#21160;&#37197;&#32622;&#21253;</span>
+<span style="color: #AF87FF;">@Import</span>({AutoConfigurationImportSelector.<span style="color: #FF1493;">class</span>})
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">EnableAutoConfiguration</span> {
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">@AutoConfigurationPackage &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #AF87FF;">@Import</span>({Registrar.<span style="color: #FF1493;">class</span>}) <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#32473;&#23481;&#22120;&#20013;&#23548;&#20837;&#19968;&#20010;&#32452;&#20214;&#65307;&#23548;&#20837;&#30340;&#32452;&#20214;&#30001;Registrar.class&#65307;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">@interface</span> <span style="color: #5FD7FF;">AutoConfigurationPackage</span> {
+}
+
+<span style="color: #8B8878;">// </span><span style="color: #8B8878;">@Import({AutoConfigurationImportSelector.class}) &#36716;&#21040;&#23450;&#20041;&#65306;</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">EnableAutoConfigurationImportSelector</span> <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23548;&#20837;&#21738;&#20123;&#32452;&#20214;&#30340;&#36873;&#25321;&#22120;</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>EnableAutoConfigurationImportSelector，表示导入哪些组件的选择器；</li>
+<li>将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；</li>
+<li>SpringBoot 在启动的时候从类路径下的META-IINF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中。以前我们需要自己配置。</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org67a4582" class="outline-2">
+<h2 id="org67a4582"><span class="section-number-2">3.</span> 问题：Plugin 'org.springframework.boot:spring-boot-maven-plugin:' not found</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+解决：添加&lt;version&gt;2.4.1&lt;/version&gt;，版本号与启动器版本一致。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-java">&lt;<span style="color: #5FD7FF;">build</span>&gt;
+    &lt;<span style="color: #5FD7FF;">plugins</span>&gt;
+    &lt;<span style="color: #5FD7FF;">plugin</span>&gt;
+    &lt;<span style="color: #5FD7FF;">groupId</span>&gt;org.springframework.<span style="color: #5FD7FF;">boot</span>&lt;/groupId&gt;
+    &lt;<span style="color: #5FD7FF;">artifactId</span>&gt;spring-boot-maven-<span style="color: #5FD7FF;">plugin</span>&lt;/artifactId&gt;
+    &lt;<span style="color: #5FD7FF;">version</span>&gt;2.4.1&lt;/version&gt;
+    &lt;/plugin&gt;
+    &lt;/plugins&gt;
+    &lt;/build&gt;
+</pre>
+</div>
+</div>
+</div>

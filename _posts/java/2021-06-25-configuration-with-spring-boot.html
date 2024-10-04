@@ -1,0 +1,373 @@
+---
+layout: post
+title: Spring Boot 系列之配置
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: true
+categories: 
+- java
+tags:
+- Spring Boot
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+
+<div id="outline-container-org4d28e90" class="outline-2">
+<h2 id="org4d28e90"><span class="section-number-2">1.</span> 配置文件：修改自动配置的默认值</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+SpringBoot 使用两种格式的配置：
+</p>
+<ul class="org-ul">
+<li>application.properties</li>
+<li>application.yml</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9359f60" class="outline-2">
+<h2 id="org9359f60"><span class="section-number-2">2.</span> 获取yml配置文件内容的方式</h2>
+<div class="outline-text-2" id="text-2">
+<pre class="example">
+YAML（YAML Ain’t Markup Language）以数据为中心，比json、xml等更适合做配置文件。注意last-name和lastName是一样的。
+</pre>
+
+
+<ul class="org-ul">
+<li><p>
+@ConfigurationProperties
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@ConfigurationProperties</span>(prefix = &#8220;person&#8221;)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">xxx</span> {
+
+}
+</pre>
+</div></li>
+
+<li><p>
+@value
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@value</span>(&#8220;${person.last-name}&#8221;)
+
+<span style="color: #AF87FF;">@value</span>(&#8220;11*2&#8221;)
+</pre>
+</div>
+
+<p>
+应用场景：如果在某个业务逻辑中获取一下配置值，使用@value；专门编写了一个javaBean来和配置文件进行映射，那么就使用@ConfigurationProperties
+</p>
+<ul class="org-ul">
+<li>@PropertySource(value = {“”class path:person.properties})加载指定的配置文件</li>
+<li>@ImportResource导入spring的配置文件</li>
+</ul>
+
+<pre class="example">
+注意：SpringBoot推荐给容器中添加组件的方式：使用全注解的方式。
+</pre>
+
+
+<p>
+<b><b>配置文件占位符：</b></b>
+</p>
+<pre class="example">
+随机数：${random.value}, ${random.int}
+占位符之前配置的值，没有可以用:指定默认值。${person.hello:hello}_dog
+</pre></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org27b6541" class="outline-2">
+<h2 id="org27b6541"><span class="section-number-2">3.</span> @Configuration</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">/*</span>
+<span style="color: #8B8878;"> *@Configuration: &#25351;&#26126;&#24403;&#21069;&#31867;&#26159;&#19968;&#20010;&#37197;&#32622;&#31867;&#65292;&#20195;&#26367;&#20043;&#21069;&#30340;spring&#37197;&#32622;&#25991;&#20214;</span>
+<span style="color: #8B8878;"> */</span>
+<span style="color: #AF87FF;">@Configuration</span>
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">HelloConfig</span> {
+    <span style="color: #AF87FF;">@Bean</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">HelloService</span> <span style="color: #87D700;">helloService</span>(){
+        System.out.println(<span style="color: #CDC673;">"&#37197;&#32622;&#31867;@Bean&#28155;&#21152;&#32452;&#20214;"</span>);
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">HelloService</span>();
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc996b1" class="outline-2">
+<h2 id="orgdc996b1"><span class="section-number-2">4.</span> 多环境配置</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><p>
+多profile方式
+</p>
+<pre class="example">
+Application-{profile}.properties/yml，默认使用application.properties
+application-dev.properties
+application-test.properties
+application-prod.properties
+</pre></li>
+
+<li><p>
+Yml支持多文档块方式：使用三横线分隔
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">server:
+port: 8081
+# &#19981;&#20889;&#19979;&#38754;&#19977;&#34892;&#65292;&#40664;&#35748;&#26159;8081
+spring:
+profiles:
+active: prod
+---
+server:
+port: 8082
+spring:
+config:
+activate:
+on-profile: test
+---
+server:
+port: 8083
+spring:
+config:
+activate:
+on-profile: prod
+</pre>
+</div></li>
+
+<li>激活指定profile
+<ol class="org-ol">
+<li>在配置文件中指定：spring.profiles.active=dev</li>
+<li>命令行$ jar -jar xxx.jar —spring.profiles.active=dev</li>
+<li>虚拟机选项: -Dspring.profiles.active=dev</li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc2cb197" class="outline-2">
+<h2 id="orgc2cb197"><span class="section-number-2">5.</span> 配置文件的加载</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Springboot 启动会扫描以下位置的 application.properties 或者 application.yml 文件作为 springboot 的默认配置。
+</p>
+<pre class="example">
+优先级从高到低，高优先级会覆盖低优先级的配置。
+Springboot 会从这四个位置全部加载住配置文件：互补配置。
+可以通过spring.config.location来改变默认的配置文件位置。
+</pre>
+
+
+<ul class="org-ul">
+<li><a href="./config">./config</a></li>
+<li><a href="./">./</a></li>
+<li>Classpath:/config/</li>
+<li>Classpath:/</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5b3fcd6" class="outline-2">
+<h2 id="org5b3fcd6"><span class="section-number-2">6.</span> 外部配置的加载顺序</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+SpringBoot 除了可以从项目中的 application.properties/application.yml 主配置文件中加载配置，还可以从以下位置加载配置：
+1、命令行参数：所有的配置都可以在命令行参数中指定，每个配置项前使用–，多个配置间使用空格隔开，例如：
+</p>
+<pre class="example">
+java -jar XXX.jar --server.port=8088 --server.context-path=boot
+</pre>
+
+<p>
+2、来自 java:comp/env 的 JNDI 属性
+3、java的系统属性(System.getProperties(""))
+4、操作系统环境变量
+5、RandomValuePropertySource 配置的 random.* 属性值
+6、jar 包外部的 application-{profile}.properties 或 application-{profile}.yml(带spring.profile配置)
+7、jar 包内部的 application-{profile}.properties 或 application-{profile}.yml(带spring.profile配置)
+8、jar 包外部的 application.properties 或 application.yml(不带spring.profile配置)
+9、jar 包内部的 application.properties 或 application.yml(不带spring.profile配置)
+10、@Configuration 注解类上的 @PropertySource
+11、通过 SpringApplication.setDefaultProperties() 指定的默认属性
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5effe5e" class="outline-2">
+<h2 id="org5effe5e"><span class="section-number-2">7.</span> 自动配置加载原理</h2>
+<div class="outline-text-2" id="text-7">
+<ol class="org-ol">
+<li>Springboot 启动的时候加载主配置类，开启自动配置功能 @EnableAutoConfiguration</li>
+<li><p>
+@EnableAutoConfiguration 作用：
+</p>
+<ul class="org-ul">
+<li>利用EnableAutoConfigurationImportSelector给容器中导入组件</li>
+<li>可以查看selectImports方法的内容</li>
+<li><p>
+获取候选的配置     
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #5FD7FF;">List</span>&lt;<span style="color: #5FD7FF;">String</span>&gt; <span style="color: #FF8C00;">configurations</span> = <span style="color: #FF1493;">this</span>.getCandidateConfigurations(annotationMetadata, attributes);
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">SpringFactoriesLoader.loadFactoryNames()
+&#25195;&#25551;&#25152;&#26377; jar &#21253;&#31867;&#36335;&#24452;&#19979; META-INF/spring.factories
+&#25226;&#25195;&#25551;&#21040;&#30340;&#36825;&#20123;&#25991;&#20214;&#30340;&#20869;&#23481;&#21253;&#35013;&#25104; properties &#23545;&#35937;
+&#20174;properties &#20013;&#33719;&#21462;&#21040; EnableAutoConfiguration.class &#31867;&#65288;&#31867;&#21517;&#65289;&#23545;&#24212;&#30340;&#20540;&#65292;&#28982;&#21518;&#25226;&#20182;&#20204;&#28155;&#21152;&#22312;&#23481;&#22120;&#20013;
+</pre>
+</div></li>
+</ul>
+
+<p>
+org.springframework.boot.autoconfigure.version.jar包中，**将类路径下 META-INF/spring.factories 里面配置的所有 EnableAutoConfiguration 的值加入到了容器中。**
+每一个这样的 xxxAutoConfiguration类都是容器中的一个组件，都加入到容器中；用他们来做自动配置。
+</p></li>
+<li>每一个自动配置类进行自动配置功能；</li>
+<li><p>
+以**HttpEncodingAutoConfiguration（Http编码自动配置）**为例解释自动配置原理；
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#34920;&#31034;&#36825;&#26159;&#19968;&#20010;&#37197;&#32622;&#31867;&#65292;&#20197;&#21069;&#32534;&#20889;&#30340;&#37197;&#32622;&#25991;&#20214;&#19968;&#26679;&#65292;&#20063;&#21487;&#20197;&#32473;&#23481;&#22120;&#20013;&#28155;&#21152;&#32452;&#20214;</span>
+<span style="color: #AF87FF;">@Configuration</span>(proxyBeanMethods = <span style="color: #AF87FF;">false</span>)
+
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21551;&#21160;&#25351;&#23450;&#31867;&#30340;ConfigurationProperties&#21151;&#33021;&#65307;&#23558;&#37197;&#32622;&#25991;&#20214;&#20013;&#23545;&#24212;&#30340;&#20540;&#21644;HttpEncodingProperties&#32465;&#23450;&#36215;&#26469;&#65307;</span>
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#24182;&#25226;HttpEncodingProperties&#21152;&#20837;&#21040;ioc&#23481;&#22120;&#20013;</span>
+<span style="color: #AF87FF;">@EnableConfigurationProperties</span>({ServerProperties.<span style="color: #FF1493;">class</span>})
+
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">Spring&#24213;&#23618;@Conditional&#27880;&#35299;&#65288;Spring&#27880;&#35299;&#29256;&#65289;&#65292;&#26681;&#25454;&#19981;&#21516;&#30340;&#26465;&#20214;&#65292;&#22914;&#26524;&#28385;&#36275;&#25351;&#23450;&#30340;&#26465;&#20214;&#65292;</span>
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#25972;&#20010;&#37197;&#32622;&#31867;&#37324;&#38754;&#30340;&#37197;&#32622;&#23601;&#20250;&#29983;&#25928;&#65307;&#21028;&#26029;&#24403;&#21069;&#24212;&#29992;&#26159;&#21542;&#26159;web&#24212;&#29992;&#65292;&#22914;&#26524;&#26159;&#65292;&#24403;&#21069;&#37197;&#32622;&#31867;&#29983;&#25928;</span>
+<span style="color: #AF87FF;">@ConditionalOnWebApplication</span>(type = <span style="color: #AF87FF;">Type</span>.SERVLET)
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#24403;&#21069;&#39033;&#30446;&#26377;&#27809;&#26377;&#36825;&#20010;&#31867;CharacterEncodingFilter&#65307;SpringMVC&#20013;&#36827;&#34892;&#20081;&#30721;&#35299;&#20915;&#30340;&#36807;&#28388;&#22120;&#65307;</span>
+<span style="color: #AF87FF;">@ConditionalOnClass</span>({CharacterEncodingFilter.<span style="color: #FF1493;">class</span>})
+
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#37197;&#32622;&#25991;&#20214;&#20013;&#26159;&#21542;&#23384;&#22312;&#26576;&#20010;&#37197;&#32622;spring.http.encoding.enabled&#65307;&#22914;&#26524;&#19981;&#23384;&#22312;&#65292;&#21028;&#26029;&#20063;&#26159;&#25104;&#31435;&#30340;</span>
+<span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21363;&#20351;&#25105;&#20204;&#37197;&#32622;&#25991;&#20214;&#20013;&#19981;&#37197;&#32622;pring.http.encoding.enabled=true&#65292;&#20063;&#26159;&#40664;&#35748;&#29983;&#25928;&#30340;&#65307;</span>
+<span style="color: #AF87FF;">@ConditionalOnProperty</span>(
+                       prefix = <span style="color: #CDC673;">"server.servlet.encoding"</span>,
+                       value = {<span style="color: #CDC673;">"enabled"</span>},
+                       matchIfMissing = <span style="color: #AF87FF;">true</span>
+                       )
+
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">HttpEncodingAutoConfiguration</span> {
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#20182;&#24050;&#32463;&#21644;SpringBoot&#30340;&#37197;&#32622;&#25991;&#20214;&#26144;&#23556;&#20102;</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Encoding</span> <span style="color: #FF8C00;">properties</span>;
+
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21482;&#26377;&#19968;&#20010;&#26377;&#21442;&#26500;&#36896;&#22120;&#30340;&#24773;&#20917;&#19979;&#65292;&#21442;&#25968;&#30340;&#20540;&#23601;&#20250;&#20174;&#23481;&#22120;&#20013;&#25343;</span>
+    <span style="color: #FF1493;">public</span> HttpEncodingAutoConfiguration(ServerProperties properties) {
+        <span style="color: #FF1493;">this</span>.properties = properties.getServlet().getEncoding();
+    }
+
+    <span style="color: #AF87FF;">@Bean</span> <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#32473;&#23481;&#22120;&#20013;&#28155;&#21152;&#19968;&#20010;&#32452;&#20214;&#65292;&#36825;&#20010;&#32452;&#20214;&#30340;&#26576;&#20123;&#20540;&#38656;&#35201;&#20174;properties&#20013;&#33719;&#21462;</span>
+    <span style="color: #AF87FF;">@ConditionalOnMissingBean</span> <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21028;&#26029;&#23481;&#22120;&#27809;&#26377;&#36825;&#20010;&#32452;&#20214;&#65311;</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">CharacterEncodingFilter</span> <span style="color: #87D700;">characterEncodingFilter</span>() {
+        <span style="color: #5FD7FF;">CharacterEncodingFilter</span> <span style="color: #FF8C00;">filter</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">OrderedCharacterEncodingFilter</span>();
+        filter.setEncoding(<span style="color: #FF1493;">this</span>.properties.getCharset().name());
+        filter.setForceRequestEncoding(<span style="color: #FF1493;">this</span>.properties.shouldForce(<span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">servlet</span>.<span style="color: #AF87FF;">server</span>.<span style="color: #AF87FF;">Encoding</span>.<span style="color: #AF87FF;">Type</span>.REQUEST));
+        filter.setForceResponseEncoding(<span style="color: #FF1493;">this</span>.properties.shouldForce(<span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">springframework</span>.<span style="color: #AF87FF;">boot</span>.<span style="color: #AF87FF;">web</span>.<span style="color: #AF87FF;">servlet</span>.<span style="color: #AF87FF;">server</span>.<span style="color: #AF87FF;">Encoding</span>.<span style="color: #AF87FF;">Type</span>.RESPONSE));
+        <span style="color: #FF1493;">return</span> filter;
+    }
+
+    <span style="color: #AF87FF;">@Bean</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #AF87FF;">HttpEncodingAutoConfiguration</span>.<span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span> <span style="color: #87D700;">localeCharsetMappingsCustomizer</span>() {
+        <span style="color: #FF1493;">return</span> <span style="color: #FF1493;">new</span> <span style="color: #AF87FF;">HttpEncodingAutoConfiguration</span>.<span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span>(<span style="color: #FF1493;">this</span>.properties);
+    }
+
+    <span style="color: #FF1493;">static</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">LocaleCharsetMappingsCustomizer</span> <span style="color: #FF1493;">implements</span> <span style="color: #5FD7FF;">WebServerFactoryCustomizer</span>&lt;<span style="color: #5FD7FF;">ConfigurableServletWebServerFactory</span>&gt;, <span style="color: #5FD7FF;">Ordered</span> {
+        <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">final</span> <span style="color: #5FD7FF;">Encoding</span> <span style="color: #FF8C00;">properties</span>;
+
+        LocaleCharsetMappingsCustomizer(Encoding properties) {
+            <span style="color: #FF1493;">this</span>.properties = properties;
+        }
+
+        <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">customize</span>(<span style="color: #5FD7FF;">ConfigurableServletWebServerFactory</span> <span style="color: #FF8C00;">factory</span>) {
+            <span style="color: #FF1493;">if</span> (<span style="color: #FF1493;">this</span>.properties.getMapping() != <span style="color: #AF87FF;">null</span>) {
+                factory.setLocaleCharsetMappings(<span style="color: #FF1493;">this</span>.properties.getMapping());
+            }
+
+        }
+
+        <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">int</span> <span style="color: #87D700;">getOrder</span>() {
+            <span style="color: #FF1493;">return</span> 0;
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+根据当前不同的条件判断，决定这个配置类是否生效。一但这个配置类生效；这个配置类就会给容器中添加各种组件；这些组件的属性是从对应的properties类中获取的，这些类里面的每一个属性又是和配置文件绑定的。
+</p>
+
+<p>
+<b><b>总结：</b></b>
+所有在配置文件中能配置的属性都是在 xxxxProperties 类中封装着，配置文件能配置什么就可以参照某个功能对应的这个属性类（能配置的属性都是来源于这个功能的 properties 类）。
+</p>
+
+<p>
+<b><b>精髓：</b></b>
+</p>
+<ul class="org-ul">
+<li>SpringBoot启动会加载大量的自动配置类</li>
+<li>我们看我们需要的功能有没有SpringBoot默认写好的自动配置类；</li>
+<li>我们再来看这个自动配置类中到底配置了哪些组件；（只要我们要用的组件有，我们就不需要再来配置了）</li>
+<li>给容器中自动配置类添加组件的时候，会从properties类中获取某些属性。我们就可以在配置文件中指定这些属性的值；</li>
+</ul></li>
+<li>Springboot 加载原理图：
+<img src="{{site.url}}/assets/images/spring/springboot-load-princible.jpeg" alt="springboot-load-princible.jpeg" /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org4824291" class="outline-2">
+<h2 id="org4824291"><span class="section-number-2">8.</span> @Conditional &amp; 自动配置报告</h2>
+<div class="outline-text-2" id="text-8">
+<ol class="org-ol">
+<li><p>
+@Conditional派生注解
+</p>
+<pre class="example">
+作用：必须是@Conditional指定的条件成立，才给容器中添加组件，配置配里面的所有内容才生效。
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">@Conditional&#25193;&#23637;&#27880;&#35299;        &#20316;&#29992;&#65288;&#21028;&#26029;&#26159;&#21542;&#28385;&#36275;&#24403;&#21069;&#25351;&#23450;&#26465;&#20214;&#65289;
+@ConditionalOnJava      &#31995;&#32479;&#30340;java&#29256;&#26412;&#26159;&#21542;&#31526;&#21512;&#35201;&#27714;
+@ConditionalOnBean      &#23481;&#22120;&#20013;&#23384;&#22312;&#25351;&#23450;Bean&#65307;
+@ConditionalOnMissingBean       &#23481;&#22120;&#20013;&#19981;&#23384;&#22312;&#25351;&#23450;Bean&#65307;
+@ConditionalOnExpression        &#28385;&#36275;SpEL&#34920;&#36798;&#24335;&#25351;&#23450;
+@ConditionalOnClass     &#31995;&#32479;&#20013;&#26377;&#25351;&#23450;&#30340;&#31867;
+@ConditionalOnMissingClass      &#31995;&#32479;&#20013;&#27809;&#26377;&#25351;&#23450;&#30340;&#31867;
+@ConditionalOnSingleCandidate   &#23481;&#22120;&#20013;&#21482;&#26377;&#19968;&#20010;&#25351;&#23450;&#30340;Bean&#65292;&#25110;&#32773;&#36825;&#20010;Bean&#26159;&#39318;&#36873;Bean
+@ConditionalOnProperty  &#31995;&#32479;&#20013;&#25351;&#23450;&#30340;&#23646;&#24615;&#26159;&#21542;&#26377;&#25351;&#23450;&#30340;&#20540;
+@ConditionalOnResource  &#31867;&#36335;&#24452;&#19979;&#26159;&#21542;&#23384;&#22312;&#25351;&#23450;&#36164;&#28304;&#25991;&#20214;
+@ConditionalOnWebApplication    &#24403;&#21069;&#26159;web&#29615;&#22659;
+@ConditionalOnNotWebApplication &#24403;&#21069;&#19981;&#26159;web&#29615;&#22659;
+@ConditionalOnJndi      JNDI&#23384;&#22312;&#25351;&#23450;&#39033;
+
+</pre>
+</div></li>
+<li><p>
+怎么知道哪些自动配置类生效？
+</p>
+<pre class="example">
+可以通过 application.properties 启用 debug=true 属性；来让控制台打印自动配置报告。
+</pre>
+
+<ul class="org-ul">
+<li>Positive matches:（自动配置类启用的）</li>
+<li>Negative matches:（没有启动，没有匹配成功的自动配置类）</li>
+</ul></li>
+</ol>
+</div>
+</div>

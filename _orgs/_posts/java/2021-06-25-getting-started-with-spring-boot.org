@@ -1,0 +1,170 @@
+#+TITLE:  Spring Boot 笔记
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Spring Boot 系列之简单入门
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: true
+categories: 
+- java
+tags:
+- Spring Boot
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+My email address: zrg1390556486@gmail.com
+# (setq org-export-html-style nil)
+
+* 启动器
+#+begin_src xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>x.x.x</version>
+      <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.qyzs</groupId>
+    <artifactId>hello</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>hello</name>
+    <description>Hello World!</description>
+
+    <properties>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
+      <java.version>17</java.version>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <spring-boot.version>x.x.x</spring-boot.version>
+      <spring-cloud.version>x.x.x</spring-cloud.version>
+    </properties>
+
+    <dependencies>
+      <!-- ... -->
+    </dependencies>
+
+    <dependencyManagement>
+      <dependencies>
+        <dependency>
+          <groupId>org.springframework.cloud</groupId>
+          <artifactId>spring-cloud-dependencies</artifactId>
+          <version>${spring-cloud.version}</version>
+          <type>pom</type>
+          <scope>import</scope>
+        </dependency>
+      </dependencies>
+    </dependencyManagement>
+
+    <build>
+      <plugins>
+      </plugins>
+    </build>
+
+    <profiles>
+      <profile>
+        <id>xxx</id>
+        <build>
+          <plugins>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
+  </project>
+#+end_src
+
+说明：spring-boot-starter，帮助导入了web模块正常运行所依赖的组件。Spring boot 将所有的功能场景都抽象出来，做成一个个starters（启动器），只需要在项目里面引入这些starter相关场景，依赖都会导入。
+
+* 主程序类
+
+- 主程序类
+  #+begin_src java
+    @SpringBootApplication
+    public class WebDemoApplication {
+        public static void main(String[] args) {
+            SpringApplication.run(WebDemoApplication.class, args);
+        }
+    }
+  #+end_src
+
+- @SpringBootApplication
+  @SpringBootApplication标注在哪个类上说明这个类是Spring Boot的主配置类，SpringBoot就运行这个类的main方法启动应用。转到定义查看：
+  #+begin_src java
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Inherited
+    @SpringBootConfiguration // SpringBoot的配置类
+    @EnableAutoConfiguration // 开启自动配置功能
+    @ComponentScan(excludeFilters = {
+            @Filter(type = FilterType.CUSTOM, classes = {TypeExcludeFilter.class}),
+            @Filter(type = FilterType.CUSTOM,classes = {AutoConfigurationExcludeFilter.class})})
+    public @interface SpringBootApplication {
+    }
+  #+end_src
+
+- @SpringBootConfiguration
+- @Configuration，配置类上来标注这个注解
+- @Component，配置类也是容器中的一个组件
+- @EnableAutoConfiguration
+  #+begin_src java
+    // @EnableAutoConfiguration 转到定义：
+    @AutoConfigurationPackage // 自动配置包
+    @Import({AutoConfigurationImportSelector.class})
+    public @interface EnableAutoConfiguration {
+    }
+
+    // @AutoConfigurationPackage 转到定义：
+    @Import({Registrar.class}) // 给容器中导入一个组件；导入的组件由Registrar.class；
+    public @interface AutoConfigurationPackage {
+    }
+
+    // @Import({AutoConfigurationImportSelector.class}) 转到定义：
+    public class EnableAutoConfigurationImportSelector // 导入哪些组件的选择器
+  #+end_src
+
+  - EnableAutoConfigurationImportSelector，表示导入哪些组件的选择器；
+  - 将所有需要导入的组件以全类名的方式返回；这些组件就会被添加到容器中；
+  - SpringBoot 在启动的时候从类路径下的META-IINF/spring.factories中获取EnableAutoConfiguration指定的值，将这些值作为自动配置类导入到容器中。以前我们需要自己配置。
+
+* 问题：Plugin 'org.springframework.boot:spring-boot-maven-plugin:' not found
+
+解决：添加<version>2.4.1</version>，版本号与启动器版本一致。
+
+#+begin_src java
+  <build>
+      <plugins>
+      <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+      <version>2.4.1</version>
+      </plugin>
+      </plugins>
+      </build>
+#+end_src
+
+

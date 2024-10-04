@@ -1,0 +1,314 @@
+---
+layout: post
+title: Spring Boot 系列之日志
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Spring Boot
+---
+
+<p>
+My email address: zrg1390556486@gmail.com
+</p>
+
+<div id="outline-container-org44192fe" class="outline-2">
+<h2 id="org44192fe"><span class="section-number-2">1.</span> 日志框架</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+市面上的日志框架：JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…
+</p>
+
+<ul class="org-ul">
+<li>日志门面（抽象）：JCL（Jakarta Commons Logging）,slf4j（Simple Login Facade for java）,  Jboss-logging&#x2026;</li>
+<li>日志实现：JUL, logback, log4j, log4j2</li>
+</ul>
+
+<p>
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；
+SpringBoot 选用 SLF4j和logback；
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8195455" class="outline-2">
+<h2 id="org8195455"><span class="section-number-2">2.</span> slf4j使用原理</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li><p>
+如何在系统中使用SLF4j？<a href="https://wwwlslf4j.org">https://wwwlslf4j.org</a>
+开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法。
+给系统里面导入 slf4j 的 jar 和 logback 的实现 jar：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">slf4j</span>.<span style="color: #5FD7FF;">Logger</span>;
+<span style="color: #FF1493;">import</span> <span style="color: #AF87FF;">org</span>.<span style="color: #AF87FF;">slf4j</span>.<span style="color: #5FD7FF;">LoggerFactory</span>;
+
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplication</span> {
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">main</span>(<span style="color: #5FD7FF;">String</span>[] <span style="color: #FF8C00;">args</span>) {
+        <span style="color: #5FD7FF;">Logger</span> <span style="color: #FF8C00;">logger</span> = LoggerFactory.getLogger(WebDemoApplication.<span style="color: #FF1493;">class</span>);
+        logger.info(<span style="color: #CDC673;">"Hello wolrd!"</span>);
+        SpringApplication.run(WebDemoApplication.<span style="color: #FF1493;">class</span>, args);
+    }
+}
+</pre>
+</div>
+
+
+<div id="org85fb7bf" class="figure">
+<p><img src="{{site.url}}/assets/images/spring-boot/concrete-bindings.png" alt="concrete-bindings.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>日志关系图</p>
+</div>
+
+<p>
+蓝颜色的是：实现
+浅蓝色的是：适配层，因为早期没有考虑到
+注意：每一个日志的实现框架都有自己的配置文件。使用slf4j以后，配置文件还是做成日志实现框架自己本身的配置文件。
+</p></li>
+
+<li><p>
+遗留问题
+假设a系统依赖框架，但是框架底层有自己的日志，而且各不相同（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx
+<br />
+解决办法：统一日志记录，使用slf4j进行输出。在slf4j 网站上<a href="https://www.slf4j.org/">https://www.slf4j.org/</a> 有一个legacy APIs. <a href="https://www.slf4j.org/legacy.html">https://www.slf4j.org/legacy.html</a> ，如下图：
+</p>
+
+
+<div id="org6e0762a" class="figure">
+<p><img src="{{site.url}}/assets/images/spring-boot/legacy.png" alt="legacy.png" />
+</p>
+</div></li>
+</ol>
+
+<p>
+<b><b>如何让系统中所有的日志都统一到slf4j？</b></b>
+由于底层Spring、Hibernate的日志实现与springboot不一样，所以springboot使用了**替换机制**（将系统中其他日志框架先排除出去；用中间包来替换原有的日志框架；导入SLF4j的实现）。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7aed6e4" class="outline-2">
+<h2 id="org7aed6e4"><span class="section-number-2">3.</span> 分析日志关系</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+打开pom.xml，右键，Diagrams，show dependencies
+</p>
+
+
+<div id="org39d9d94" class="figure">
+<p><img src="{{site.url}}/assets/images/spring-boot/20190630160808748.png" alt="20190630160808748.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>日志关系</p>
+</div>
+
+<ul class="org-ul">
+<li>SpringBoot底层也是使用slf4j+logback的方式进行日志记录</li>
+<li>SpringBoot也把其他的日志都替换成了slf4j</li>
+<li><p>
+中间替换包
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SuppressWarnings</span>(<span style="color: #CDC673;">"rawtypes"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">abstract</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">LogFactory</span> {
+    <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J</span> = <span style="color: #CDC673;">"http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j"</span>;
+
+    <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">LogFactory</span> <span style="color: #FF8C00;">logFactory</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">SLF4JLogFactory</span>();
+</pre>
+</div>
+
+
+<div id="org73bc2ff" class="figure">
+<p><img src="{{site.url}}/assets/images/spring-boot/20190630160833465.png" alt="20190630160833465.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>中间替换包</p>
+</div>
+
+<p>
+结论：springboot能自动适配所有的日志，而且底层是 SLF4j+Logback 的方式进行日志记录，引入其他框架，一定要把这个框架的默认日志依赖移除掉。
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-core&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;commons-logging&lt;/<span style="color: #87D700;">groupId</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;commons-logging&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge02c9e9" class="outline-2">
+<h2 id="orge02c9e9"><span class="section-number-2">4.</span> 默认配置</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li><p>
+SpringBoot默认帮我们配置好了日志：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@SpringBootTest</span>
+<span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">WebDemoApplicationTests</span> {
+    <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#35760;&#24405;&#22120;</span>
+    <span style="color: #5FD7FF;">Logger</span> <span style="color: #FF8C00;">logger</span> = LoggerFactory.getLogger(getClass());
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">contextLoads</span>() {
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#26085;&#24535;&#30340;&#32423;&#21035;&#65307;</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#30001;&#20302;&#21040;&#39640;   trace&lt;debug&lt;info&lt;warn&lt;error</span>
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">&#21487;&#20197;&#35843;&#25972;&#36755;&#20986;&#30340;&#26085;&#24535;&#32423;&#21035;&#65307;&#26085;&#24535;&#23601;&#21482;&#20250;&#22312;&#36825;&#20010;&#32423;&#21035;&#20197;&#20197;&#21518;&#30340;&#39640;&#32423;&#21035;&#29983;&#25928;</span>
+        logger.trace(<span style="color: #CDC673;">"&#36825;&#26159;trace&#26085;&#24535;..."</span>);
+        logger.debug(<span style="color: #CDC673;">"&#36825;&#26159;debug&#26085;&#24535;..."</span>);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">SpringBoot&#40664;&#35748;&#32473;&#25105;&#20204;&#20351;&#29992;&#30340;&#26159;info&#32423;&#21035;&#30340;&#65292;&#27809;&#26377;&#25351;&#23450;&#32423;&#21035;&#30340;&#23601;&#29992;SpringBoot&#40664;&#35748;&#35268;&#23450;&#30340;&#32423;&#21035;&#65307;root&#32423;&#21035;</span>
+        logger.info(<span style="color: #CDC673;">"&#36825;&#26159;info&#26085;&#24535;..."</span>);
+        logger.warn(<span style="color: #CDC673;">"&#36825;&#26159;warn&#26085;&#24535;..."</span>);
+        logger.error(<span style="color: #CDC673;">"&#36825;&#26159;error&#26085;&#24535;..."</span>);
+    }
+}
+</pre>
+</div></li>
+
+<li><p>
+日志输出格式：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">%d&#34920;&#31034;&#26085;&#26399;&#26102;&#38388;&#65292;
+%thread&#34920;&#31034;&#32447;&#31243;&#21517;&#65292;
+%-5level&#65306;&#32423;&#21035;&#20174;&#24038;&#26174;&#31034;5&#20010;&#23383;&#31526;&#23485;&#24230;
+%logger{50} &#34920;&#31034;logger&#21517;&#23383;&#26368;&#38271;50&#20010;&#23383;&#31526;&#65292;&#21542;&#21017;&#25353;&#29031;&#21477;&#28857;&#20998;&#21106;&#12290; 
+%msg&#65306;&#26085;&#24535;&#28040;&#24687;&#65292;
+%n&#26159;&#25442;&#34892;
+
+%D{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+</pre>
+</div></li>
+
+<li><p>
+SpringBoot修改日志的默认配置
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">logging.level.com.atguigu=trace
+#logging.path=
+# &#19981;&#25351;&#23450;&#36335;&#24452;&#22312;&#24403;&#21069;&#39033;&#30446;&#19979;&#29983;&#25104;springboot.log&#26085;&#24535;
+# &#21487;&#20197;&#25351;&#23450;&#23436;&#25972;&#30340;&#36335;&#24452;&#65307;
+#logging.file=G:/springboot.log
+
+# &#22312;&#24403;&#21069;&#30913;&#30424;&#30340;&#26681;&#36335;&#24452;&#19979;&#21019;&#24314;spring&#25991;&#20214;&#22841;&#21644;&#37324;&#38754;&#30340;log&#25991;&#20214;&#22841;&#65307;&#20351;&#29992; spring.log &#20316;&#20026;&#40664;&#35748;&#25991;&#20214;
+logging.path=/spring/log
+
+#  &#22312;&#25511;&#21046;&#21488;&#36755;&#20986;&#30340;&#26085;&#24535;&#30340;&#26684;&#24335;
+logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
+# &#25351;&#23450;&#25991;&#20214;&#20013;&#26085;&#24535;&#36755;&#20986;&#30340;&#26684;&#24335;
+logging.pattern.file=%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgb2fc51e" class="outline-2">
+<h2 id="orgb2fc51e"><span class="section-number-2">5.</span> 指定日志文件和日志Profile功能</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+给类路径下放上每个日志框架自己的配置文件即可；SpringBoot 就不使用他默认配置的了，下面是对应的命名和放置：
+</p>
+
+<ul class="org-ul">
+<li>Logback：logback-spring.xml, logback-spring.groovy, logback.xml or logback.groovy</li>
+<li>Log4j2：log4j2-spring.xml or log4j2.xml</li>
+<li><p>
+JDK (Java Util Logging)：logging.properties
+logback.xml：直接就被日志框架识别了
+logback-spring.xml：日志框架就不直接加载日志的配置项，由 SpringBoot 解析日志配置，可以使用 SpringBoot 的高级 Profile 功能：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">&lt;<span style="color: #5FD7FF;">appender</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"stdout"</span> <span style="color: #FF1493;">class</span>=<span style="color: #CDC673;">"ch.qos.logback.core.ConsoleAppender"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">layout</span> <span style="color: #FF1493;">class</span>=<span style="color: #CDC673;">"ch.qos.logback.classic.PatternLayout"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">springProfile</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"dev"</span>&gt;
+    &lt;<span style="color: #5FD7FF;">pattern</span>&gt;%d{yyyy-MM-dd HH:mm:<span style="color: #AF87FF;">ss</span>.SSS} ----&gt; [%thread] ---&gt; %-5level %logger{50} - %msg%<span style="color: #5FD7FF;">n</span>&lt;/pattern&gt;
+        &lt;/springProfile&gt;
+        &lt;<span style="color: #5FD7FF;">springProfile</span> <span style="color: #FF8C00;">name</span>=<span style="color: #CDC673;">"!dev"</span>&gt;
+        &lt;<span style="color: #5FD7FF;">pattern</span>&gt;%d{yyyy-MM-dd HH:mm:<span style="color: #AF87FF;">ss</span>.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%<span style="color: #5FD7FF;">n</span>&lt;/pattern&gt;
+            &lt;/springProfile&gt;
+            &lt;/layout&gt;
+            &lt;/appender&gt;
+</pre>
+</div>
+
+<p>
+注意：如果使用 logback.xml 作为日志配置文件，还要使用 profile 功能，会有以下错误：
+</p>
+<pre class="example">
+no applicable action for [springProfile]
+</pre></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge063da7" class="outline-2">
+<h2 id="orge063da7"><span class="section-number-2">6.</span> 切换日志框架</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+可以按照 slf4j 的日志关系图，进行相关的切换。示例：slf4j+log4j 切换为 log4j2：
+</p>
+
+<ul class="org-ul">
+<li><p>
+slf4j+log4j
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-web&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;logback-classic&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;ch.qos.logback&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;log4j-over-slf4j&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.slf4j&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+
+&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.slf4j&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;slf4j-log4j12&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div></li>
+
+<li><p>
+log4j
+</p>
+<div class="org-src-container">
+<pre class="src src-xml">&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-web&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+  &lt;<span style="color: #87D700;">exclusions</span>&gt;
+    &lt;<span style="color: #87D700;">exclusion</span>&gt;
+      &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-logging&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+      &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+    &lt;/<span style="color: #87D700;">exclusion</span>&gt;
+  &lt;/<span style="color: #87D700;">exclusions</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+
+&lt;<span style="color: #87D700;">dependency</span>&gt;
+  &lt;<span style="color: #87D700;">groupId</span>&gt;org.springframework.boot&lt;/<span style="color: #87D700;">groupId</span>&gt;
+  &lt;<span style="color: #87D700;">artifactId</span>&gt;spring-boot-starter-log4j2&lt;/<span style="color: #87D700;">artifactId</span>&gt;
+&lt;/<span style="color: #87D700;">dependency</span>&gt;
+</pre>
+</div></li>
+</ul>
+</div>
+</div>

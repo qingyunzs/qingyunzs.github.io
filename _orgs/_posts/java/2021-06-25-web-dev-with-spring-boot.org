@@ -1,0 +1,895 @@
+#+TITLE:  Spring Boot 笔记
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Spring Boot 系列之 Web 开发
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Spring Boot
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+My email address: zrg1390556486@gmail.com
+# (setq org-export-html-style nil)
+
+* 静态资源映射规则
+1. 所有 webjars/*，都去 classpath：/META-INF/resources/webjars/ 下找资源。
+   webjars，以jar包的方式引入静态资源，官网：https://www.webjars.org/
+   : eg：localhost:8080/webjars/jquery/3.3.1/jquery.js
+
+2. 访问当前项目内的资源
+   : "classpath:/META-INF/resources/"
+   : "classpath:/resources/"
+   : "classpath:/static/"
+   : "classpath:/public/"
+
+3. 欢迎页：静态资源目录下的所有 index.html 页面
+
+4. 所有的 /favicon.ico 都是在静态资源文件下找
+   : 可配置：spring.web.resources.static-locations=classpath:/hello,classpath:/assets
+
+* 模版引擎
+JSP, Velocity,  Thymeleaf, [[https://mustache.github.io/][Mustache]], [[https://freemarker.apache.org/docs/][freeMarker]], [[https://docs.groovy-lang.org/docs/next/html/documentation/template-engines.html#_the_markuptemplateengine][Groovy]]
+
+Thymeleaf用法：
+1. 直接将html文件放在templates目录下，就能自动渲染。
+2. 然后官网查看详细用法：https://www.thymeleaf.org/
+   #+begin_src html
+     <html lang="en" xmlns:th="http://www.thymeleaf.org">
+   #+end_src
+3. 语法规则
+   #+begin_src html
+     <p th:text="${hello}"></p>
+   #+end_src
+
+* Spring MVC
+** Spring MVC auto-configuration原理
+Spring Boot 自动配置好了 SpringMVC，以下是 SpringBoot 对 SpringMVC 的默认配置：**WebMvcAutoConfiguration**
+
+- Inclusion of `ContentNegotiatingViewResolver` and `BeanNameViewResolver` beans.
+  - 自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染（转发？重定向？））
+  - ContentNegotiatingViewResolver：组合所有的视图解析器的；
+  - 如何定制：我们可以自己给容器中添加一个视图解析器；自动的将其组合进来；
+- Support for serving static resources, including support for WebJars (see below).静态资源文件夹路径,webjars
+- Static `index.html` support. 静态首页访问
+- Custom `Favicon` support (see below). favicon.ico
+- 自动注册了 of `Converter`, `GenericConverter`, `Formatter` beans.
+  - Converter：转换器； public String hello(User user)：类型转换使用Converter
+  - `Formatter` 格式化器； 2017.12.17===Date；自己添加的格式化器转换器，我们只需要放在容器中即可
+- Support for `HttpMessageConverters` (see below).
+  - HttpMessageConverter：SpringMVC用来转换Http请求和响应的；User—Json；
+  - `HttpMessageConverters` 是从容器中确定；获取所有的HttpMessageConverter；自己给容器中添加HttpMessageConverter，只需要将自己的组件注册容器中（@Bean,@Component）
+- Automatic registration of `MessageCodesResolver` (see below).定义错误代码生成规则
+- Automatic use of a `ConfigurableWebBindingInitializer` bean (see below). 我们可以配置一个ConfigurableWebBindingInitializer来替换默认的；（添加到容器）
+
+  [org.springframework.boot.autoconfigure.web](http://org.springframework.boot.autoconfigure.web/)：**web的所有自动场景**
+
+  If you want to keep Spring Boot MVC features, and you just want to add additional [MVC configuration](https://docs.spring.io/spring/docs/4.3.14.RELEASE/spring-framework-reference/htmlsingle#mvc) (interceptors, formatters, view controllers etc.) you can add your own `@Configuration` class of type `WebMvcConfigurerAdapter`, but **without** `@EnableWebMvc`. If you wish to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter` or `ExceptionHandlerExceptionResolver` you can declare a `WebMvcRegistrationsAdapter` instance providing such components.
+
+  If you want to take complete control of Spring MVC, you can add your own `@Configuration` annotated with `@EnableWebMvc`.
+
+** 扩展与全面接管SpringMVC
+1. 扩展SpringMVC
+   原先在spring-mvc.xml中这样的：
+   #+begin_src xml
+     <mvc:view-controller path="/hello" view-name="success"/>
+     <mvc:interceptors>
+       <mvc:interceptor>
+         <mvc:mapping path="/hello"/>
+         <bean />
+       </mvc:interceptor>
+     </mvc:interceptors>
+   #+end_src
+
+   现在，SpringBoot 可以编写一个配置类（@Configuration），是 WebMvcConfigurerAdapter 类型；不能标注 @EnableWebMvc。这样既保留了所有的自动配置，也能用我们扩展的配置。
+   #+begin_src java
+     // 在 Spring Boot 2.0 之后 WebMvcConfigurerAdapter 就已经过时了，并且 WebMvcConfigurer 接口也发生了变化，里面所有的方法都定义成了默认方法（default）。
+     // 因此我们可以直接实现 WebMvcConfigurer 接口，重写对应的方法即可。
+     @Configuration
+     public class MvcConfig implements WebMvcConfigurer {
+         @Override
+         public void addViewControllers(ViewControllerRegistry registry) {
+             // super.addViewControllers(registry);
+             //浏览器发送 /atguigu 请求来到 success
+             registry.addViewController("/success").setViewName("index");
+         }
+     }
+   #+end_src
+
+   **原理：**
+   - WebMvcAutoConfiguration是SpringMVC的自动配置类，在做其他自动配置时会导入：@Import(EnableWebMvcConfiguration.class)
+   - 容器中所有的WebMvcConfigurer都会一起起作用
+   - 自定义的配置类也会被调用
+2. 全面接管 SpringMVC
+   SpringBoot 对 SpringMVC 的自动配置不需要了，所有都是我们自己配置，所有的 SpringMVC 的自动配置都失效了。（但是实际开发中，不推荐全面接管，除非写很小的应用，因为大部分功能都会用到）
+
+   **方法**：在配置类中添加 @EnableWebMvc 即可。在springboot中，有非常多的xxxx Configuration 帮助我们进行扩展配置，只要看见了这个东西，我们就要注意了！因为它可能改变了 Spring 原有的东西。
+   **注意**：当我们使用 @EnableWebMvc，则静态资源无法访问。
+
+**为什么添加@EnableWebMvc后，SpringBoot 自动配置就失效了？**
+- @EnableWebMvc的核心
+  #+begin_src java
+    @Import({DelegatingWebMvcConfiguration.class})
+    public @interface EnableWebMvc {
+  #+end_src
+- DelegatingWebMvcConfiguration
+  #+begin_src java
+    @Configuration(
+                   proxyBeanMethods = false
+                   )
+    public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
+  #+end_src
+- WebMvcAutoConfiguration
+  #+begin_src java
+    @Configuration(
+                   proxyBeanMethods = false
+                   )
+    @ConditionalOnWebApplication(
+                                 type = Type.SERVLET
+                                 )
+    @ConditionalOnClass({Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class})
+    // 注意：容器中没有这个组件的时候，这个自动配置类才生效
+    @ConditionalOnMissingBean({WebMvcConfigurationSupport.class})
+    @AutoConfigureOrder(-2147483638)
+    @AutoConfigureAfter({DispatcherServletAutoConfiguration.class, TaskExecutionAutoConfiguration.class, ValidationAutoConfiguration.class})
+    public class WebMvcAutoConfiguration {
+  #+end_src
+- @EnableWebMvc将WebMvcConfigurationSupport组件导入进来
+- 导入的WebMvcConfigurationSupport只是SpringMVC最基本的功能.
+** 引入资源
+#+begin_src java
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry){
+      registry.addResourceHandlers("/static/**").addResourceLocations("classpath:/static/");
+  }
+#+end_src
+** 国际化
+1. 编写国际化配置文件
+2. 使用ResourceBundleMessageSource管理国际化资源文件
+3. 在页面使用fmt:message取出国际化内容
+
+**步骤：**
+1. 编写国际化配置文件，抽取页面需要显示的国际化消息
+   : signin.properties
+   : signin_en_US.properties
+   : signin_zh_CN.properties
+2. SpringBoot自动配置好了管理国际化资源文件的组件
+   #+begin_src java
+     @Configuration(proxyBeanMethods = false)
+     @ConditionalOnMissingBean(
+                               name = {"messageSource"},
+                               search = SearchStrategy.CURRENT
+                               )
+     @AutoConfigureOrder(-2147483648)
+     @Conditional({MessageSourceAutoConfiguration.ResourceBundleCondition.class})
+     @EnableConfigurationProperties
+     public class MessageSourceAutoConfiguration {
+         private static final Resource[] NO_RESOURCES = new Resource[0];
+
+         public MessageSourceAutoConfiguration() {
+         }
+
+         @Bean
+         @ConfigurationProperties(
+                                  prefix = "spring.messages"
+                                  )
+         public MessageSourceProperties messageSourceProperties() {
+             return new MessageSourceProperties();
+         }
+
+         @Bean
+         public MessageSource messageSource(MessageSourceProperties properties) {
+             ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+             if (StringUtils.hasText(properties.getBasename())) {
+                 //设置国际化资源文件的基础名（去掉语言国家代码的）
+                 messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(properties.getBasename())));
+             }
+
+             if (properties.getEncoding() != null) {
+                 messageSource.setDefaultEncoding(properties.getEncoding().name());
+             }
+
+             messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+             Duration cacheDuration = properties.getCacheDuration();
+             if (cacheDuration != null) {
+                 messageSource.setCacheMillis(cacheDuration.toMillis());
+             }
+
+             messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+             messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
+             return messageSource;
+         }
+   #+end_src
+3. 去页面获取国际化的值
+   #+begin_src html
+     <!DOCTYPE html>
+     <html lang="en" xmlns:th="http://www.thymeleaf.org">
+       <head>
+         <title>Signin Template · Bootstrap v5.0</title>
+       </head>
+       <body class="text-center">
+
+         <main class="form-signin">
+           <form>
+             <img class="mb-4" src="/assets/img/svg/bootstrap-logo.svg" alt="" width="72" height="57">
+             <h1 class="h3 mb-3 fw-normal" th:text="#{signin.tip}">Please sign in</h1>
+             <label for="inputEmail" class="visually-hidden" th:text="#{signin.email}">Email address</label>
+             <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                    th:placeholder="#{signin.email}" required="" autofocus="">
+             <label for="inputPassword" class="visually-hidden" th:text="#{signin.password}">Password</label>
+             <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                    th:placeholder="#{signin.password}" required="">
+             <div class="checkbox mb-3">
+               <label>
+                 <input type="checkbox" value="remember-me"> [[#{signin.remeber}]]
+               </label>
+             </div>
+             <button class="w-100 btn btn-lg btn-primary" type="submit" th:text="#{signin.btn}">Sign in</button>
+             <p class="mt-5 mb-3 text-muted">© 2017-2020</p>
+           </form>
+         </main>
+
+       </body>
+     </html>
+   #+end_src
+   
+效果：根据浏览器语言设置的信息切换了国际化。
+
+**原理**：国际化Locale（区域信息对象）；LocaleResolver（获取区域信息对象）；
+#+begin_src java
+  // WebMvcAutoConfiguration.class
+  @Bean
+  @ConditionalOnMissingBean(
+                            name = {"localeResolver"}
+                            )
+  public LocaleResolver localeResolver() {
+      if (this.webProperties.getLocaleResolver() == org.springframework.boot.autoconfigure.web.WebProperties.LocaleResolver.FIXED) {
+          return new FixedLocaleResolver(this.webProperties.getLocale());
+      } else if (this.mvcProperties.getLocaleResolver() == org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.LocaleResolver.FIXED) {
+          return new FixedLocaleResolver(this.mvcProperties.getLocale());
+      } else {
+          AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+          Locale locale = this.webProperties.getLocale() != null ? this.webProperties.getLocale() : this.mvcProperties.getLocale();
+          localeResolver.setDefaultLocale(locale);
+          return localeResolver;
+      }
+  }
+#+end_src
+
+** 登录
+1. 登陆错误消息的显示
+   #+begin_src java
+     @Controller
+     public class LoginController {
+         @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+         public String login(@RequestParam("username") String username,
+                             @RequestParam("password") String password,
+                             Map<String,Object> map) {
+             if (!StringUtils.isEmpty(username) && "123456".equals(password)) {
+                 // 登录成功，防止表单重复提交，重定向到首页
+                 httpSession.setAttribute("user", username);
+                 return "redirect:/main.html";
+             } else {
+                 map.put("msg","用户名或密码错误");
+                 return "signin";
+             }
+         }
+     }
+   #+end_src
+
+   #+begin_src html
+     <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+   #+end_src
+2. 注册拦截器
+   #+begin_src java
+     @Bean
+     public WebMvcConfigurer webMvcConfigurer() {
+         return new WebMvcConfigurer() {
+             @Override
+             public void addViewControllers(ViewControllerRegistry registry) {
+                 registry.addViewController("/").setViewName("signin");
+                 registry.addViewController("/index.html").setViewName("signin"); // 登录页
+                 registry.addViewController("/main.html").setViewName("dashboard"); // 首页
+             }
+
+             // 注册拦截器
+             @Override
+             public void addInterceptors(InterceptorRegistry registry) {
+                 // springboot已经做好了静态资源映射
+                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/index.html", "/", "/user/login");
+             }
+         };
+     }
+   #+end_src
+** 使用Spring Data JPA、Hikari连接池操作MySQL数据库
+
+1. pom中引入spring-boot-starter-data-jpa依赖，以及MySQL连接类mysql-connector-java依赖。
+2. springboot 2.0 后默认连接池就是Hikari了，所以引用parents后不用专门加依赖。
+3. 为了减少实体类或虚拟实体类的代码，引入**lombok**依赖。Lombok能以简单的注解形式来简化java代码，提高开发人员的开发效率。Lombok参考：https://www.jianshu.com/p/2ea9ff98f7d6
+
+** RESTful API：CRUD
+** Data JPA在进行方法名解析时，会先把方法名多余的前缀截取掉，比如 find、findBy、read、readBy、get、getBy，然后对剩下部分进行解析。
+** @Query自定义查询语句
+   
+在声明的方法上面标注@Query注解，即可通过写SQL实现自定义查询语句。正式生产编程中，除非迫不得已，否则不建议使用此方式进行数据查询或持久化操作。建议多用面向对象的思路进行编程，涉及多表关联等太过复杂的查询可以在业务层拼装数据。使用SQL，首先SQL维护起来不方便，其次而且如果大量使用了某个数据库的原生SQL将会造成系统与某一数据库绑定，无法更换数据库，各家数据库部分语法还是略有差异的。
+
+**原生查询**
+
+#+begin_src sql
+  @Query(value = "SELECT * FROM STUDENT WHERE GENDER = :gender",nativeQuery = true)
+  public List<Student> findAllByGender(@Param("gender") String gender);
+
+  -- 其中使用@Param("gender")注入参数，nativeQuery = true代表使用当前数据库原生SQL语句。各家数据库部分语法还是略有差异，在非特殊情况下，不建议大量使用，如果大量使用，换数据库时会很痛苦，甚至整套系统只能使用某一品牌数据库。
+  @Query(value = "SELECT * FROM STUDENT WHERE GENDER = ?1 AND NAME like %?2%",nativeQuery = true)
+  public List<Student> findAllByGender( String gender,String namelk);
+#+end_src
+
+**HQL查询**
+
+HQL学习可参考[Hibernate 之强大的HQL查询](https://www.cnblogs.com/quchengfeng/p/4111749.html)
+
+
+** RESTful API
+
+我们项目封了 Data REST，又封了 Data JPA，其实最后执行持久化到数据库里，是基于Hibernate的。当我们的json或者其他格式的数据转换成这个需要持久化的对象时，没有的属性转换时自然就为空值，保存到数据库里的也就为空值。 所以做更新时，后台给前台对象的哪些属性，调用RESTful更新接口时，前台也要给后台返回全部字段，这样不管如何增减字段，都由后台控制，前端只需返回原样的数据模型即可。后端人员在编写接口说明时，一定要特别注意这个细节，否则处理不当可能会发生生产事故。
+
+还有另外一种方法就是后台接收到更新请求后，通过主键反查出此对象（findById），通过反射直接赋值。此种方式需重写更新方法不说，还牺牲了后台的效率，并不推荐。
+
+小结：Spring Data REST都可快速帮我们实现了HAL数据风格的RESTful API接口。HAL概念请参考：[分布式架构设计之Rest API HAL](https://blog.csdn.net/why_2012_gogo/article/details/77195387)。换句话来说，Spring Data REST帮我们写了service层和controller层的代码。
+
+** Spring Validation 参数校验
+*** Valid 和 Validated 的区别
+|              | Valid                                           | Validated               |
+|--------------+-------------------------------------------------+-------------------------|
+| 提供者       | JSR-303规范                                     | Spring                  |
+| 是否支持分组 | 不支持                                          | 支持                    |
+| 标注位置     | METHOD, FIELD, CONSTRUCTOR, PARAMETER, TYPE_USE | TYPE, METHOD, PARAMETER |
+| 嵌套校验     | 支持                                            | 不支持                  |
+*** 引入依赖
+: 如果spring-boot版本小于2.3.x，spring-boot-starter-web会自动传入hibernate-validator依赖。
+: 如果spring-boot版本大于2.3.x，则需要手动引入依赖：
+#+begin_src xml
+  <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.0.1.Final</version>
+  </dependency>
+#+end_src
+*** 预定义对象的说明
++ 接口统一返回 ReturnResult 定义 ::
+  #+begin_src java
+    import lombok.Data;
+    import lombok.experimental.Accessors;
+
+    /**
+     ,* Return Result
+     ,*
+     ,*/
+    @Data
+    @Accessors(chain = true)
+    public class ReturnResult<T> {
+        private int code;
+        private String message;
+        private T data;
+
+        public boolean ok() {
+            return this.code == 0;
+        }
+
+        public static <T> Result<T> success() {
+            return new Result<T>().setCode(0).setMessage("SUCCESS");
+        }
+
+        public static <T> Result<T> success(T data) {
+            return new Result<T>().setCode(0).setMessage("SUCCESS").setData(data);
+        }
+
+        public static <T> Result<T> failure() {
+            return new Result<T>().setCode(-1).setMessage("FAILURE");
+        }
+
+        public static <T> Result<T> failure(int code, String msg) {
+            return new Result<T>().setCode(code).setMessage(msg);
+        }
+
+        public static <T> Result<T> failure(int code, String msg, T data) {
+            return new Result<T>().setCode(-1).setMessage("FAILURE").setData(data);
+        }
+    }
+  #+end_src
++ ErrorCode :: 
+  #+begin_src java
+    /**
+     ,* Error Code
+     ,*
+     ,*/
+    public final class ErrorCode {
+        /**
+         ,* Normal
+         ,*/
+        public static final int NORMAL = 200;
+        /**
+         ,* Request error
+         ,*/
+        public static final int REQUEST_ERROR = 400;
+        /**
+         ,* Server refuse request
+         ,*/
+        public static final int SERVER_REFUSE_REQUEST = 403;
+        /**
+         ,* Server internal error
+         ,*/
+        public static final int SERVER_INTERNAL_ERROR = 500;
+        /**
+         ,* Argument valid failure
+         ,*/
+        public static final int ARGUMENT_VALID_FAILURE = 1001;
+
+    }
+  #+end_src
+*** 常用参数校验
+| 限制                      | 说明                                                                                |
+|---------------------------+-------------------------------------------------------------------------------------|
+| @Null                     | 限制只能为null                                                                      |
+| @NotNull                  |                                                                                     |
+| @AssertFalse              |                                                                                     |
+| @AssertTrue               |                                                                                     |
+| @DecimalMax(value)        |                                                                                     |
+| @DecimalMin(value)        |                                                                                     |
+| @Digits(integer,fraction) | 限制必须为一个小数，且整数部分的位数不能超过integer，小数部分的位数不能超过fraction |
+| @Future                   |                                                                                     |
+| @Max(value)               |                                                                                     |
+| @Min(value)               |                                                                                     |
+| @Pattern(value)           | 必须符合指定的正则表达式                                                            |
+| @Size(max,min)            |                                                                                     |
+| @NotEmpty                 |                                                                                     |
+| @NotBlank                 |                                                                                     |
+| @Email                    |                                                                                     |
+*** RequestBody校验
+#+begin_src java
+  /**
+   ,* RequestBody 参数校验
+   ,* 校验失败会抛出 MethodArgumentNotValidException 异常
+   ,*
+   ,*/
+  @RequestMapping("/api/user")
+  @RestController
+  public class UserController {
+
+      /**
+       ,* RequestBody 参数校验
+       ,* 使用 @Valid 和 @Validated 都可以
+       ,*/
+      @PostMapping("/save/1")
+      public ReturnResult saveUser(@RequestBody @Validated UserDTO userDTO) {
+          return ReturnResult.success();
+      }
+
+      @PostMapping("/save/2")
+      public ReturnResult save2User(@RequestBody @Valid UserDTO userDTO) {
+          return ReturnResult.success();
+      }
+  }
+#+end_src
+*** RequestParam / PathVariable 校验
+#+begin_src java
+  /**
+   ,* RequestMapping / PathVariable 参数校验
+   ,* 校验失败会抛出 ConstraintViolationException 异常
+   ,* 
+   ,* 此时必须在Controller上标注 @Validated 注解，并在入参上声明约束注解
+   ,*/
+  @RequestMapping("/api/user")
+  @RestController
+  @Validated
+  public class UserController {
+      /**
+       ,* 路径变量
+       ,* 添加约束注解 @Min
+       ,*/
+      @GetMapping("{userId}")
+      public ReturnResult detail(@PathVariable("userId") @Min(10000000000000000L) Long userId) {
+          // 校验通过，才会执行业务逻辑处理
+      }
+
+      /**
+       ,* 查询参数
+       ,* 添加约束注解 @Length @NotNull
+       ,*/
+      @GetMapping("getByAccount")
+      public ReturnResult getByAccount(@Length(min = 6, max = 20) @NotNull String  account) {
+          // 校验通过，才会执行业务逻辑处理
+      }
+  }
+
+#+end_src
+*** 全局异常处理
+\\
+在实际项目开发中，通常会用统一异常处理来返回一个更友好的提示。
+#+begin_src java
+  /**
+   ,* 统一异常处理
+   ,*
+   ,*/
+  @RestControllerAdvice
+  public class GlobalExceptionHandler {
+      /**
+       ,* 参数校验错误的异常处理
+       ,*/
+      @ExceptionHandler({MethodArgumentNotValidException.class})
+      @ResponseStatus(HttpStatus.OK)
+      @ResponseBody
+      public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+          BindingResult bindingResult = ex.getBindingResult();
+          StringBuilder sb = new StringBuilder("校验失败:");
+          for (FieldError fieldError : bindingResult.getFieldErrors()) {
+              sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
+          }
+          String msg = sb.toString();
+          return ReturnResult.failure(ErrorCode.ARGUMENT_VALID_FAILURE, msg);
+      }
+
+      @ExceptionHandler({ConstraintViolationException.class})
+      @ResponseStatus(HttpStatus.OK)
+      @ResponseBody
+      public Result handleConstraintViolationException(ConstraintViolationException ex) {
+          return ReturnResult.failure(ErrorCode.ARGUMENT_VALID_FAILURE, ex.getMessage());
+      }
+
+      /**
+       ,* 未知异常处理
+       ,* @param e Exception
+       ,* @return
+       ,*/
+      @ExceptionHandler(Exception.class)
+      @ResponseBody
+      public ResponseEntity handlerException(Exception e){
+          log.error(e.getMessage(),e);
+          StringBuffer errorMsg = new StringBuffer();
+          errorMsg.append(e.getMessage());
+          HttpHeaders httpHeaders = new HttpHeaders();
+          httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+          ResponseEntity<ReturnData> returnDataResponseEntity = new ResponseEntity<>(new ReturnData(ReturnData.FAIL_CODE, errorMsg.toString(), null, null), httpHeaders, HttpStatus.OK);
+          return returnDataResponseEntity;
+      }
+  }
+#+end_src
+*** 分组校验
+\\
+为了区分业务场景，对于不同场景下的数据验证规则可能不一样（例如新增时可以不用传递 ID，而修改时必须传递ID），可以使用分组校验。
+#+begin_src java
+  /**
+   ,* 分组校验
+   ,*
+   ,*/
+  @Data
+  public class UserGroupValidDTO {
+
+      @NotNull(groups = Update.class)
+      @Min(value = 10000000000000000L, groups = Update.class)
+      private Long userId;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 2, max = 10, groups = {Save.class, Update.class})
+      private String userName;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 6, max = 20, groups = {Save.class, Update.class})
+      private String account;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 6, max = 20, groups = {Save.class, Update.class})
+      private String password;
+
+      /**
+       ,* 保存的时候校验分组
+       ,*/
+      public interface Save {
+      }
+
+      /**
+       ,* 更新的时候校验分组
+       ,*/
+      public interface Update {
+      }
+  }
+#+end_src
+
+\\
+Controller 实现：
+#+begin_src java
+  /**
+   ,* 分组校验
+   ,*
+   ,*/
+  @RestController
+  @RequestMapping("/api/user_group_valid")
+  public class UserGroupValidController {
+
+      @PostMapping("/save")
+      public Result saveUser(@RequestBody @Validated(UserGroupValidDTO.Save.class) UserGroupValidDTO userDTO) {
+          // 校验通过，才会执行业务逻辑处理
+          return Result.success();
+      }
+
+      @PostMapping("/update")
+      public Result updateUser(@RequestBody @Validated(UserGroupValidDTO.Update.class) UserGroupValidDTO userDTO) {
+          // 校验通过，才会执行业务逻辑处理
+          return Result.success();
+      }
+  }
+#+end_src
+*** 嵌套校验
+\\
+上面的校验主要是针对基本类型进行了校验，如果DTO中包含了自定义的实体类，就需要用到嵌套校验。
+#+begin_src java
+  /**
+   ,* 嵌套校验
+   ,* DTO中的某个字段也是一个对象，这种情况下，可以使用嵌套校验
+   ,*
+   ,*/
+  @Data
+  public class UserNestedValidDTO {
+      @Min(value = 10000000000000000L, groups = Update.class)
+      private Long userId;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 2, max = 10, groups = {Save.class, Update.class})
+      private String userName;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 6, max = 20, groups = {Save.class, Update.class})
+      private String account;
+
+      @NotNull(groups = {Save.class, Update.class})
+      @Length(min = 6, max = 20, groups = {Save.class, Update.class})
+      private String password;
+
+      /**
+       ,* 此时DTO类的对应字段必须标记@Valid注解
+       ,*/
+      @Valid
+      @NotNull(groups = {Save.class, Update.class})
+      private Job job;
+
+      @Data
+      public static class Job {
+
+          @NotNull(groups = {Update.class})
+          @Min(value = 1, groups = Update.class)
+          private Long jobId;
+
+          @NotNull(groups = {Save.class, Update.class})
+          @Length(min = 2, max = 10, groups = {Save.class, Update.class})
+          private String jobName;
+
+          @NotNull(groups = {Save.class, Update.class})
+          @Length(min = 2, max = 10, groups = {Save.class, Update.class})
+          private String position;
+      }
+
+      /**
+       ,* 保存的时候校验分组
+       ,*/
+      public interface Save {
+      }
+
+      /**
+       ,* 更新的时候校验分组
+       ,*/
+      public interface Update {
+      }
+  }
+#+end_src
+
+\\
+Controller 实现：
+#+begin_src java
+  /**
+   ,* 嵌套校验
+   ,*
+   ,*/
+  @RestController
+  @RequestMapping("/api/user_nested_valid")
+  public class UserNestedValidController {
+
+      @PostMapping("/save")
+      public Result saveUser(@RequestBody @Validated(UserNestedValidDTO.Save.class) UserNestedValidDTO userDTO) {
+          // 校验通过，才会执行业务逻辑处理
+          return Result.success();
+      }
+
+      @PostMapping("/update")
+      public Result updateUser(@RequestBody @Validated(UserNestedValidDTO.Update.class) UserNestedValidDTO userDTO) {
+          // 校验通过，才会执行业务逻辑处理
+          return Result.success();
+      }
+  }
+#+end_src
+*** 集合校验
+\\
+如果请求体直接传递了json数组给后台，并希望对数组中的每一项都进行参数校验。此时，如果我们直接使用java.util.Collection下的list或者set来接收数据，参数校验并不会生效（单个数组可以使用）！我们可以使用自定义list集合来接收参数：
+#+begin_src java
+  /**
+   ,* 包装 List类型，并声明 @Valid 注解
+   ,* @param <E>
+   ,*/
+  @Data
+  public class ValidationList<E> implements List<E> {
+
+      @Delegate // @Delegate是lombok注解
+      @Valid // 一定要加@Valid注解
+      public List<E> list = new ArrayList<>();
+
+      // 一定要记得重写toString方法
+      @Override
+      public String toString() {
+          return list.toString();
+      }
+  }
+#+end_src
+
+Controller
+#+begin_src java
+  /**
+   ,* 集合校验
+   ,*
+   ,*/
+  @RestController
+  @RequestMapping("/api/valid_list")
+  public class ValidListController {
+
+      @PostMapping("/saveList")
+      public Result saveList(@RequestBody @Validated(UserGroupValidDTO.Save.class) ValidationList<UserGroupValidDTO> userList) {
+          // 校验通过，才会执行业务逻辑处理
+          return Result.success();
+      }
+  }
+#+end_src
+*** 编程式校验
+\\
+上面都是通过注解来进行校验，也可以使用编程的方式进行校验：
+#+begin_src java
+  /**
+   ,* 编程式校验参数
+   ,*
+   ,*/
+  @RequestMapping("/api/valid_with_code")
+  @RestController
+  public class ValidWithCodeController {
+      @Autowired
+      private javax.validation.Validator globalValidator;
+
+      /**
+       ,* 编程式校验
+       ,*/
+      @PostMapping("/saveWithCodingValidate")
+      public Result saveWithCodingValidate(@RequestBody UserGroupValidDTO userGroupValidDTO) {
+          Set<ConstraintViolation<UserGroupValidDTO>> validate = globalValidator.validate(userGroupValidDTO, UserGroupValidDTO.Save.class);
+          // 如果校验通过，validate为空；否则，validate包含未校验通过项
+          if (validate.isEmpty()) {
+              // 校验通过，才会执行业务逻辑处理
+
+          } else {
+              for (ConstraintViolation<UserGroupValidDTO> userGroupValidDTOConstraintViolation : validate) {
+                  // 校验失败，做其它逻辑
+                  System.out.println(userGroupValidDTOConstraintViolation);
+                  // throw new RuntimeException();
+              }
+          }
+          return Result.success();
+      }
+  }
+#+end_src
+
+**配置快速失败**
+#+begin_src java
+  /**
+   ,* Web 配置
+   ,*
+   ,* @author zrg
+   ,* @date 2021/5/17 16:11
+   ,*/
+  @Configuration
+  public class WebConfig {
+      /**
+       ,* 校验参数时只要出现校验失败的情况，就立即抛出对应的异常，结束校验，不再进行后续的校验
+       ,*
+       ,* @return
+       ,*/
+      @Bean
+      public Validator validator() {
+          ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+              .configure()
+              .failFast(true)
+              .buildValidatorFactory();
+          return validatorFactory.getValidator();
+      }
+
+      @Bean
+      public MethodValidationPostProcessor methodValidationPostProcessor() {
+          MethodValidationPostProcessor methodValidationPostProcessor = new MethodValidationPostProcessor();
+          methodValidationPostProcessor.setValidator(validator());
+          return methodValidationPostProcessor;
+      }
+  }
+#+end_src
+*** 参考资料
++ https://www.cnblogs.com/codeclock/p/13632217.html
+** 基于spring data jpa封装带有动态分页查询、动态条件求和的基础service类和基础controller类
+** @Transactional配置参数详解
+
+*** **1、 rollbackFor：配置何种异常回滚**
+
+在@Transactional注解中如果不配置rollbackFor属性,那么只会在遇到RuntimeException的时候才会回滚，加上rollbackFor=Exception.class,可以让事务在遇到非运行时异常时也回滚。一般在日常生产开发中，我们配置成rollbackFor=Exception.class
+
+*** **2、readOnly：读写事务控制**
+
+readOnly=true表明所注解的方法或类只是读取数据，我们的某个方法只提供查询时，可以进行此种配置。readOnly=false表明所注解的方法或类是增加，删除，修改数据。默认是false，一般使用默认即可，无需配置。
+
+*** **3、Propagation事务传播行为**
+
+*开发人员不得进行此项配置，只能与项目负责人申请评估后方可进行配置
+
+Propagation属性用来枚举事务的传播行为。所谓事务传播行为就是多个事务方法相互调用时，事务如何在这些方法间传播。Spring支持7种事务传播行为，默认为REQUIRED。
+
+、REQUIRED
+
+REQUIRED是常用的事务传播行为，如果当前没有事务，就新建一个事务，如果已经存在一个事务中，加入到这个事务中。
+
+我们使用sping data jpa时，它的实现类的方法就是使用了此项默认配置，所以我们操作各表时，事务能绑定到同一个，异常时全部回滚。
+
+2、SUPPORTS
+
+SUPPORTS表示当前方法不需要事务上下文，但是如果存在当前事务的话，那么这个方法会在这个事务中运行。
+
+3、MANDATORY
+
+MANDATORY表示该方法必须在事务中运行，如果当前事务不存在，则会抛出一个异常。不会主动开启一个事务。
+
+4、REQUIRES_NEW
+
+REQUIRES_NEW表示当前方法必须运行在它自己的事务中。一个新的事务将被启动，如果存在当前事务，在该方法执行期间，当前事务会被挂起（如果一个事务已经存在，则先将这个存在的事务挂起）。如果使用JTATransactionManager的话，则需要访问TransactionManager。
+
+5、NOT_SUPPORTED
+
+NOT_SUPPORTED表示该方法不应该运行在事务中，如果存在当前事务，在该方法运行期间，当前事务将被挂起。如果使用JTATransactionManager的话，则需要访问TransactionManager。
+
+6、NEVER
+
+NEVER表示当前方法不应该运行在事务上下文中，如果当前正有一个事务在运行，则会抛出异常。
+
+7、NESTED
+
+NESTED表示如果当前已经存在一个事务，那么该方法将会在嵌套事务中运行。嵌套的事务可以独立于当前事务进行单独地提交或回滚。如果当前事务不存在，那么其行为与REQUIRED一样。嵌套事务一个非常重要的概念就是内层事务依赖于外层事务。外层事务失败时，会回滚内层事务所做的动作。而内层事务操作失败并不会引起外层事务的回滚。
+
+*** **4、isolation：事务隔离级别 [详见数据库篇]**
+
+*开发人员不得进行此项配置，只能与项目负责人申请评估后方可进行配置
+
+
+
+** Spring Boot整合knife4j（swagger-bootstrap-ui）实现自动API文档

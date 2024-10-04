@@ -1,0 +1,239 @@
+#+TITLE:  Spring Boot 笔记
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:http://cs3.swfc.edu.cn/~20121156044/.org-info.js />
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://cs3.swfu.edu.cn/~20121156044/.org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Spring Boot 系列之日志
+author: zrg
+date: 2021-06-25
+description: Spring Boot
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Spring Boot
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+My email address: zrg1390556486@gmail.com
+# (setq org-export-html-style nil)
+
+* 日志框架
+市面上的日志框架：JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j…
+
+- 日志门面（抽象）：JCL（Jakarta Commons Logging）,slf4j（Simple Login Facade for java）,  Jboss-logging...
+- 日志实现：JUL, logback, log4j, log4j2
+
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；
+SpringBoot 选用 SLF4j和logback；
+
+* slf4j使用原理
+1. 如何在系统中使用SLF4j？https://wwwlslf4j.org
+   开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法。
+   给系统里面导入 slf4j 的 jar 和 logback 的实现 jar：
+   #+begin_src java
+     import org.slf4j.Logger;
+     import org.slf4j.LoggerFactory;
+
+     public class WebDemoApplication {
+         public static void main(String[] args) {
+             Logger logger = LoggerFactory.getLogger(WebDemoApplication.class);
+             logger.info("Hello wolrd!");
+             SpringApplication.run(WebDemoApplication.class, args);
+         }
+     }
+   #+end_src
+
+   #+CAPTION: 日志关系图
+   [[file:{{site.url}}/assets/images/spring-boot/concrete-bindings.png]]
+
+   蓝颜色的是：实现
+   浅蓝色的是：适配层，因为早期没有考虑到
+   注意：每一个日志的实现框架都有自己的配置文件。使用slf4j以后，配置文件还是做成日志实现框架自己本身的配置文件。
+
+2. 遗留问题
+   假设a系统依赖框架，但是框架底层有自己的日志，而且各不相同（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx
+   \\
+   解决办法：统一日志记录，使用slf4j进行输出。在slf4j 网站上https://www.slf4j.org/ 有一个legacy APIs. https://www.slf4j.org/legacy.html ，如下图：
+
+   #+CAPTION: 
+   [[file:{{site.url}}/assets/images/spring-boot/legacy.png]]
+
+**如何让系统中所有的日志都统一到slf4j？**
+由于底层Spring、Hibernate的日志实现与springboot不一样，所以springboot使用了**替换机制**（将系统中其他日志框架先排除出去；用中间包来替换原有的日志框架；导入SLF4j的实现）。
+
+* 分析日志关系
+
+打开pom.xml，右键，Diagrams，show dependencies
+
+#+CAPTION: 日志关系
+[[file:{{site.url}}/assets/images/spring-boot/20190630160808748.png]]
+
+- SpringBoot底层也是使用slf4j+logback的方式进行日志记录
+- SpringBoot也把其他的日志都替换成了slf4j
+- 中间替换包
+  #+begin_src java
+    @SuppressWarnings("rawtypes")
+    public abstract class LogFactory {
+        static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = "http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j";
+
+        static LogFactory logFactory = new SLF4JLogFactory();
+  #+end_src
+
+  #+CAPTION: 中间替换包
+  file:{{site.url}}/assets/images/spring-boot/20190630160833465.png
+
+  结论：springboot能自动适配所有的日志，而且底层是 SLF4j+Logback 的方式进行日志记录，引入其他框架，一定要把这个框架的默认日志依赖移除掉。
+  #+begin_src xml
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  #+end_src
+
+* 默认配置
+1. SpringBoot默认帮我们配置好了日志：
+   #+begin_src java
+     @SpringBootTest
+     class WebDemoApplicationTests {
+         //记录器
+         Logger logger = LoggerFactory.getLogger(getClass());
+
+         @Test
+         void contextLoads() {
+             //日志的级别；
+             //由低到高   trace<debug<info<warn<error
+             //可以调整输出的日志级别；日志就只会在这个级别以以后的高级别生效
+             logger.trace("这是trace日志...");
+             logger.debug("这是debug日志...");
+             //SpringBoot默认给我们使用的是info级别的，没有指定级别的就用SpringBoot默认规定的级别；root级别
+             logger.info("这是info日志...");
+             logger.warn("这是warn日志...");
+             logger.error("这是error日志...");
+         }
+     }
+   #+end_src
+
+2. 日志输出格式：
+   #+begin_src emacs-lisp
+     %d表示日期时间，
+     %thread表示线程名，
+     %-5level：级别从左显示5个字符宽度
+     %logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+     %msg：日志消息，
+     %n是换行
+
+     %D{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+   #+end_src
+
+3. SpringBoot修改日志的默认配置
+   #+begin_src emacs-lisp
+     logging.level.com.atguigu=trace
+     #logging.path=
+     # 不指定路径在当前项目下生成springboot.log日志
+     # 可以指定完整的路径；
+     #logging.file=G:/springboot.log
+
+     # 在当前磁盘的根路径下创建spring文件夹和里面的log文件夹；使用 spring.log 作为默认文件
+     logging.path=/spring/log
+
+     #  在控制台输出的日志的格式
+     logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
+     # 指定文件中日志输出的格式
+     logging.pattern.file=%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n
+   #+end_src
+
+* 指定日志文件和日志Profile功能
+给类路径下放上每个日志框架自己的配置文件即可；SpringBoot 就不使用他默认配置的了，下面是对应的命名和放置：
+
+- Logback：logback-spring.xml, logback-spring.groovy, logback.xml or logback.groovy
+- Log4j2：log4j2-spring.xml or log4j2.xml
+- JDK (Java Util Logging)：logging.properties
+  logback.xml：直接就被日志框架识别了
+  logback-spring.xml：日志框架就不直接加载日志的配置项，由 SpringBoot 解析日志配置，可以使用 SpringBoot 的高级 Profile 功能：
+  #+begin_src java
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+        <springProfile name="dev">
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+            <springProfile name="!dev">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
+                </springProfile>
+                </layout>
+                </appender>
+  #+end_src
+
+  注意：如果使用 logback.xml 作为日志配置文件，还要使用 profile 功能，会有以下错误：
+  : no applicable action for [springProfile]
+
+* 切换日志框架
+可以按照 slf4j 的日志关系图，进行相关的切换。示例：slf4j+log4j 切换为 log4j2：
+
+- slf4j+log4j
+  #+begin_src xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>logback-classic</artifactId>
+          <groupId>ch.qos.logback</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>log4j-over-slf4j</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+  #+end_src
+
+- log4j
+  #+begin_src xml
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>spring-boot-starter-logging</artifactId>
+          <groupId>org.springframework.boot</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+  #+end_src
+
+
+   

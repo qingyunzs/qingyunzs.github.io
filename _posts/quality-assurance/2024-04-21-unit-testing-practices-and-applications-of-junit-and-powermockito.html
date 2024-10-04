@@ -20,8 +20,8 @@ My email address: zrg1390556486@gmail.com
 </p>
 
 
-<div id="outline-container-orgc53063f" class="outline-2">
-<h2 id="orgc53063f"><span class="section-number-2">1.</span> 概述</h2>
+<div id="outline-container-orgc80f80e" class="outline-2">
+<h2 id="orgc80f80e"><span class="section-number-2">1.</span> 单元测试概述</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 <div id="outline-container-orgceff5a8" class="outline-3">
@@ -33,49 +33,65 @@ My email address: zrg1390556486@gmail.com
 单元测试是在软件开发过程中要进行的最低级别的测试活动，软件的独立单元将在与程序的其他部分相隔离的情况下进行测试。
 </p>
 </div>
-<div id="outline-container-org9b01bb3" class="outline-4">
-<h4 id="org9b01bb3"><span class="section-number-4">1.1.1.</span> 测试类型</h4>
-<div class="outline-text-4" id="text-1-1-1">
-<dl class="org-dl">
-<dt>单元测试(Unit testing)</dt><dd>单元测试关注单一的类. 它们存在的目的是检查这个类中的代码是否按照期望正确运行。</dd>
-<dt>集成测试(Integration testing)</dt><dd>集成测试是检查开发的模块和其他模块整合时是否正常工作。</dd>
-<dt>冒烟测试</dt><dd>在正式全面的测试之前，对主要功能进行的测试，确认主要功能是否满足需要，软件是否能正常运行。</dd>
-<dt>端到端测试(End-to-End testing)</dt><dd>也被称为功能测试(Functional Testing)，端到端测试是将整个系统作为一个整体, 然后从用户的角度进行测试的，测试者不了解程序的内部情况，不需要具备编程语言的专门知识，只知道程序的输入、输出和功能，从用户的角度针对软件界面、功能和外部结构进行测试，不考虑内部的逻辑。端到端测试的目的是测试系统在实际使用的是否正常的, 因此通常来说是不需要测试替身的(Test Double)。</dd>
-</dl>
-
-<p>
-<b><b>测试的渐进性:</b></b>
-<img src="{{site.url}}/assets/images/test/unit-test.jpg" alt="unit-test.jpg" />
-</p>
-</div>
-</div>
-<div id="outline-container-orgf2dd2e8" class="outline-4">
-<h4 id="orgf2dd2e8"><span class="section-number-4">1.1.2.</span> 开发模式</h4>
-<div class="outline-text-4" id="text-1-1-2">
-<dl class="org-dl">
-<dt>TDD</dt><dd>测试驱动开发，英文为 Testing Driven Development，强调的是一种开发方式，以测试来驱动整个项目，即先根据接口完成测试编写，然后在完成功能是要不断通过测试，最终目的是通过所有测试。</dd>
-<dt>BDD</dt><dd>行为驱动开发，英文为 Behavior Driven Development，BDD 的核心价值是体现在正确的对系统行为进行设计，所以它并非一种行之有效的测试方法。它强调的是系统最终的实现与用户期望的行为是一致的、验证代码实现是否符合设计目标。但是它本身并不强调对系统功能、性能以及边界值等的健全性做保证，无法像完整的测试一样发现系统的各种问题。但 BDD 倡导的用简洁的自然语言描述系统行为的理念，可以明确的根据设计产生测试，并保障测试用例的质量。</dd>
-<dt>DDD</dt><dd>Domain-drive Design,领域驱动设计。其目的是以一种领域专家、设计人员、开发人员都能理解的通用语言作为相互交流的工具，在交流的过程中发现领域概念，然后将这些概念设计成一个领域模型，再有该模型驱动软件设计和开发。</dd>
-</dl>
-
-<p>
-<br />
-<b><b>TDD 和 BDD 有各自的使用场景，BDD 一般偏向于系统功能和业务逻辑的自动化测试设计；而 TDD 在快速开发并测试功能模块的过程中则更加高效，以快速完成开发为目的。DDD 则较为复杂</b></b>
-</p>
-</div>
-</div>
 </div>
 <div id="outline-container-org6723b7f" class="outline-3">
 <h3 id="org6723b7f"><span class="section-number-3">1.2.</span> 为什么要写单元测试？</h3>
 <div class="outline-text-3" id="text-1-2">
+<p>
+随着 DevOps、敏捷、微服务的发展，产品的迭代速度越来越快，“速度” 与 “质量” 经常被视为互相矛盾点。由于业务逐渐服务化，导致微服务野蛮生长。企业在实施传统的分层自动化测试也由 “金字塔模型” 转变为 “橄榄球模型”，如下图所示。由于 UI、API 自动化测试都需要依赖被测系统正常运行，且经常出现由于测试数据、环境 (前端、后端) 部署、用例依赖等原因导致自动化测试执行失败。即使环境正常的情况下由于测试用例的数量由开始的核心场景覆盖延伸到各个分支覆盖，数量成几何指数的倍增，带来了测试用例执行失败定位问题极为困难。基于这种背景下衍生出了对 “分层自动化测试” 更加深入的思考。
+</p>
+
+<div id="org86335eb" class="figure">
+<p><img src="{{site.url}}/assets/images/test/auto-testing-pyramid.png" alt="auto-testing-pyramid.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>金字塔模型-&gt;橄榄球模型</p>
+</div>
+
+<p>
+金字塔模型中指出自动化测试策略应该首先将更多的测试投入到底层 “单元测试”，其次是 “集成测试”，最后是 “端到端测试”。然而当前微服务现状中，企业将自动化测试更多放在 “集成测试 (API 测试)” 环节，这也是接口测试最近几年爆发式增长原因之一。
+</p>
+<p>
+<img src="{{site.url}}/assets/images/test/auto-testing-pyramid-bug.png" alt="auto-testing-pyramid-bug.png" />
+从 “缺陷的产生率” 倒三角模型来看，缺陷更多产生在 “单元级别”，而且在单元级别修复缺陷的成本更低、效率更高。通过从单元层面消灭缺陷使得 “集成/端到端测试” 缺陷会明显减少，而且排查问题的效率也更。特别是当需要对代码模块进行重构或重新设计时单元测试是保证质量的最重要手段之一。从单元级别解决缺陷是最快的反馈机制，执行效率也最高，结合 “测试替身 (Test Double)” 等技术进行依赖的隔离能降低单元之间的依赖性，提高测试用例的执行成功率，使得持续测试变为可能。
+</p>
+
+
+<div id="org457f75c" class="figure">
+<p><img src="{{site.url}}/assets/images/test/unit-test-3.png" alt="unit-test-3.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>自动化测试金字塔</p>
+</div>
+<dl class="org-dl">
+<dt>UI/端到端测试(UI/End-to-End testing)</dt><dd>UI 测试适用于确保用户界面的正确性和功能性，它主要关注用户交互和界面元素的行为，成熟的自动化工具有QTP、Selenium、微信小程序自动化框架minium；端到端测试(E2E)也被称为功能测试(Functional Testing)，用于模拟真实用户场景，将整个系统作为一个整体，然后从用户的角度进行测试的，测试应用程序的整个流程。端到端测试的目的是测试系统在实际使用的是否正常的, 因此通常来说是不需要测试替身的(Test Double)。UI 测试主要关注用户界面的正确性和功能性，而端到端测试关注整个应用程序的各个界面和组件之间的交互。
+<ul class="org-ul">
+<li>UI测试通常涉及以下方面:
+<ul class="org-ul">
+<li>验证用户界面元素是否正确显示和布局，例如按钮、文本框、下拉菜单等。</li>
+<li>验证用户输入是否能够正确处理和响应，例如通过输入文本后是否能够正确搜索或提交表单。</li>
+<li>验证用户界面上的交互是否按预期工作，例如点击按钮后是否触发正确的操作。</li>
+</ul></li>
+<li>端到端测试通常涉及以下方面：
+<ul class="org-ul">
+<li>验证用户界面的正确性和功能性，类似于UI测试。</li>
+<li>验证后端服务和数据库的正确性，例如数据的读写操作是否正常。</li>
+<li>验证整个应用程序的各个模块和组件之间的交互是否按预期工作。</li>
+</ul></li>
+</ul></dd>
+<dt>集成/接口测试(Integration/Interface testing)</dt><dd>集成/接口测试是现在在企业中应用最广泛的自动化测试之一，它的优点在于规避了UI层自动化测试的缺点，一旦形成较为稳定、完整的框架后基本上是比较通用的，并且接口测试关注的重点更多在于数据（数据处理、数据状态、数据传递），不论是在Web端还是移动端都可以使用。缺点也很明显，就是对测试工程师的编码能力要求较高，一般接口自动化测试都会用Python、Java等语言开发。</dd>
+<dt>单元测试(Unit testing)</dt><dd>单元测试关注的重点更多在于代码的实现与内部逻辑关系。对于不同产品的开发技术栈，都会有对应的单元测试框架，如Java有JUnit、testNG，C#有NUnit，Python有UnitTest、Pytest等。基本上可以肯定的是，单元测试是成本最低的，也是最容易推广，见效最大的。</dd>
+</dl>
+<p>
+<br />
+关于分层自动化测试的更多内容，在<a href="#orge485e12">附录A-分层自动化测试</a>中查看。
+</p>
+</div>
+<div id="outline-container-org1b1a883" class="outline-4">
+<h4 id="org1b1a883"><span class="section-number-4">1.2.1.</span> 单元测试的好处</h4>
+<div class="outline-text-4" id="text-1-2-1">
 <pre class="example">
 使用单元测试可以有效地降低程序出错的机率，提供准确的文档，并帮助我们改进设计方案等等。
 </pre>
 
-<p>
-<b><b>单元测试的好处：</b></b>
-<br />
-</p>
 <ul class="org-ul">
 <li>允许你对代码做出任何改变，因为你了解单元测试会在你的预期之中。</li>
 <li>单元测试可以有效地降低程序出现BUG的机率。</li>
@@ -85,6 +101,7 @@ My email address: zrg1390556486@gmail.com
 <li>文档记录。单元测试就是一种无价的文档，它是展示函数或类如何使用的最佳文档，这份文档是可编译、可运行的、并且它保持最新，永远与代码同步。</li>
 <li><b>具有回归性</b>::自动化的单元测试避免了代码出现回归，编写完成之后，可以随时随地地快速运行测试，而不是将代码部署到设备之后，然后再手动地覆盖各种执行路径，这样的行为效率低下，浪费时间。</li>
 </ul>
+</div>
 </div>
 </div>
 <div id="outline-container-org998d023" class="outline-3">
@@ -122,13 +139,13 @@ My email address: zrg1390556486@gmail.com
 <h4 id="org7fa1cd9"><span class="section-number-4">1.4.1.</span> 单元测试的覆盖率</h4>
 <div class="outline-text-4" id="text-1-4-1">
 <p>
-单测覆盖率是指业务代码被单测测试的比例和程度，它是衡量单元测试好坏的一个很重要的 指标，各类覆盖率指标从粗到细、从弱到强排列如下
+单测覆盖率是指业务代码被单测测试的比例和程度，它是衡量单元测试好坏的一个很重要的指标，各类覆盖率指标从粗到细、从弱到强排列如下
 </p>
 <ul class="org-ul">
 <li>粗粒度的覆盖：包括类覆盖和方法覆盖两种。</li>
 <li>细粒度的覆盖：
 <ul class="org-ul">
-<li>分支覆盖（Branch Coverage )：分 支覆盖率的计算公式中的分子是代码中被执行到的分支数，分母是代码中所有分支的 总数。</li>
+<li>分支覆盖（Branch Coverage )：分支覆盖率的计算公式中的分子是代码中被执行到的分支数，分母是代码中所有分支的 总数。</li>
 <li>条件判定覆盖（Condition Decision Coverage）：条件判定覆盖要求设计足够的测试用例，能够让判定中每个条件的所有可能情况 至少被执行一次， 同时每个判定本身的所有可能结果也至少执行一次。</li>
 <li>条件组合覆盖( Multiple Condition Coverage)：条件组合覆盖是指判定中所有条件的各种组合情况都出现至少一次。</li>
 <li>路径覆盖( Path Coverage )：路径覆盖要求能够测试到程序中所有可能的路径。</li>
@@ -141,22 +158,41 @@ My email address: zrg1390556486@gmail.com
 <h3 id="orgce0eeee"><span class="section-number-3">1.5.</span> 单元测试相关概念</h3>
 <div class="outline-text-3" id="text-1-5">
 
-<div id="org97912e3" class="figure">
+<div id="org10cd3a2" class="figure">
 <p><img src="{{site_url}}/assets/images/test/unit-testing-sut.png" alt="unit-testing-sut.png" />
 </p>
 </div>
 </div>
-<div id="outline-container-orgbfd7c2a" class="outline-4">
-<h4 id="orgbfd7c2a"><span class="section-number-4">1.5.1.</span> 被测系统(SUT)</h4>
+<div id="outline-container-org352b9b8" class="outline-4">
+<h4 id="org352b9b8"><span class="section-number-4">1.5.1.</span> 四阶段测试模式</h4>
 <div class="outline-text-4" id="text-1-5-1">
+<p>
+上图中左侧部分表示四阶段测试模式：Setup - Exercise - Verify - Teardown
+</p>
+<ol class="org-ol">
+<li>Setup :: 测试准备阶段（Fixture Setup），准备测试所依赖的外部环境（例如被测类要读写文件，就先在文件系统中创建这个文件，必要时还写入特定的内容），创建被测类（System Under Test，简称 SUT）的实例，设置被测类的内部状态，注入它的外部依赖（一般用测试替身替代），等等。一句话：为测试的执行满足各种内外条件，使被测系统（SUT）和环境达到一个确定的状态（称为 Fixture）。</li>
+<li>Exercise :: 执行测试阶段（exercise SUT），与被测类（SUT）交互，执行测试。</li>
+<li>Verify :: 结果验证阶段（Result verification），验证测试的结果是否符合方方面面的预期：方法的返回值是否和我们的期望值相同？SUT 的内部状态是否更新到我们期望的值？是否向文件或数据库写入了预期的数据？是否按照契约调用了外部依赖的指定方法？等等。</li>
+<li>Teardown :: 环境清理阶段（Fixture teardown），在这个阶段将系统和环境恢复到测试前的状态--<b>测试不应该对系统和环境造成持久性的改变</b> ，包括：从数据库中删除测试插入的数据，从文件系统删除测试创建的文件，将修改了的数据行恢复原状等等。</li>
+</ol>
+<p>
+<br />
+<i>下面对图中右侧部分做详细介绍。</i>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbfd7c2a" class="outline-4">
+<h4 id="orgbfd7c2a"><span class="section-number-4">1.5.2.</span> 被测系统(SUT)</h4>
+<div class="outline-text-4" id="text-1-5-2">
 <p>
 被测系统(System under test, SUT)表示正在被测试的系统, 目的是测试系统能否正确操作. 根据测试类型的不同, SUT 指代的内容也不同, 例如 SUT 可以是一个类甚至是一整个系统。
 </p>
 </div>
 </div>
 <div id="outline-container-orgd802522" class="outline-4">
-<h4 id="orgd802522"><span class="section-number-4">1.5.2.</span> 测试依赖组件(DOC)</h4>
-<div class="outline-text-4" id="text-1-5-2">
+<h4 id="orgd802522"><span class="section-number-4">1.5.3.</span> 测试依赖组件(DOC)</h4>
+<div class="outline-text-4" id="text-1-5-3">
 <p>
 被测系统所依赖的组件, 例如进程 UserService 的单元测试时, UserService 会依赖 UserDao, 因此 UserDao 就是 DOC。
 <br />
@@ -170,8 +206,8 @@ My email address: zrg1390556486@gmail.com
 </div>
 </div>
 <div id="outline-container-org01fb34f" class="outline-4">
-<h4 id="org01fb34f"><span class="section-number-4">1.5.3.</span> 测试替身(Test Double)</h4>
-<div class="outline-text-4" id="text-1-5-3">
+<h4 id="org01fb34f"><span class="section-number-4">1.5.4.</span> 测试替身(Test Double)</h4>
+<div class="outline-text-4" id="text-1-5-4">
 <p>
 一个实际的系统会依赖多个外部对象, 但是在进行单元测试时, 我们会用一些功能较为简单的并且其行为和实际对象类似的假对象来作为 SUT 的依赖对象, 以此来降低单元测试的复杂性和可实现性，在这里, 这些假对象就被称为测试替身(Test Double)。测试替身有如下 5 种类型：
 </p>
@@ -189,24 +225,24 @@ My email address: zrg1390556486@gmail.com
 </div>
 </div>
 <div id="outline-container-org4d85381" class="outline-4">
-<h4 id="org4d85381"><span class="section-number-4">1.5.4.</span> Test Fixture</h4>
-<div class="outline-text-4" id="text-1-5-4">
+<h4 id="org4d85381"><span class="section-number-4">1.5.5.</span> Test Fixture</h4>
+<div class="outline-text-4" id="text-1-5-5">
 <p>
 所谓 test fixture, 就是运行测试程序所需要的先决条件(precondition)。即对被测对象进行测试时锁需要的一切东西(The test fixture is everything we need to have in place to exercise the SUT)。不单单指的是数据, 同时包括对被测对象的配置, 被测对象所需要的依赖对象等。JUnit4 通过 setUp 方法完成。
 </p>
 </div>
 </div>
 <div id="outline-container-org0e1fa3a" class="outline-4">
-<h4 id="org0e1fa3a"><span class="section-number-4">1.5.5.</span> 测试用例(Test Case)</h4>
-<div class="outline-text-4" id="text-1-5-5">
+<h4 id="org0e1fa3a"><span class="section-number-4">1.5.6.</span> 测试用例(Test Case)</h4>
+<div class="outline-text-4" id="text-1-5-6">
 <p>
 JUnit4 只要在每个测试方法标注 @Test 注解。
 </p>
 </div>
 </div>
 <div id="outline-container-org895e2b0" class="outline-4">
-<h4 id="org895e2b0"><span class="section-number-4">1.5.6.</span> 测试套件(Test Suite)</h4>
-<div class="outline-text-4" id="text-1-5-6">
+<h4 id="org895e2b0"><span class="section-number-4">1.5.7.</span> 测试套件(Test Suite)</h4>
+<div class="outline-text-4" id="text-1-5-7">
 <p>
 通过@RunWith 和@SuteClass 两个注解, 我们可以创建一个测试套件。通过@RunWith 指定一个特殊的运行器，并通过@SuiteClasses 注解, 将需要进行测试的类列表作作为参数传入。
 </p>
@@ -449,8 +485,8 @@ JUint是Java编程语言的单元测试框架，用于编写和运行可重复�
 <h4 id="org32df989"><span class="section-number-4">2.1.4.</span> JUnit 使用</h4>
 <div class="outline-text-4" id="text-2-1-4">
 </div>
-<div id="outline-container-org3c68c5c" class="outline-5">
-<h5 id="org3c68c5c"><span class="section-number-5">2.1.4.1.</span> maven 包依赖引入</h5>
+<div id="outline-container-org281bd95" class="outline-5">
+<h5 id="org281bd95"><span class="section-number-5">2.1.4.1.</span> maven 包依赖引入</h5>
 <div class="outline-text-5" id="text-2-1-4-1">
 <div class="org-src-container">
 <pre class="src src-xml"><span style="color: #8B8878;">&lt;!-- </span><span style="color: #8B8878;">JUnit 4</span><span style="color: #8B8878;"> --&gt;</span>
@@ -582,7 +618,7 @@ JUint是Java编程语言的单元测试框架，用于编写和运行可重复�
 <h4 id="orga6ae34e"><span class="section-number-4">2.2.2.</span> Mockito 使用</h4>
 <div class="outline-text-4" id="text-2-2-2">
 
-<div id="org0a98c9c" class="figure">
+<div id="org3ef3615" class="figure">
 <p><img src="{{site.url}}/assets/images/test/mockito.png" alt="mockito.png" />
 </p>
 </div>
@@ -971,8 +1007,8 @@ Assert.assertEquals(<span style="color: #CDC673;">"c"</span>, testList.get(1));
 <h4 id="org024a455"><span class="section-number-4">2.2.3.</span> 结合 PowerMock 使用</h4>
 <div class="outline-text-4" id="text-2-2-3">
 </div>
-<div id="outline-container-orgcfdf373" class="outline-5">
-<h5 id="orgcfdf373"><span class="section-number-5">2.2.3.1.</span> maven 包依赖引入</h5>
+<div id="outline-container-orgcf37695" class="outline-5">
+<h5 id="orgcf37695"><span class="section-number-5">2.2.3.1.</span> maven 包依赖引入</h5>
 <div class="outline-text-5" id="text-2-2-3-1">
 <p>
 <b><b>JUnit 4.4 or above:</b></b>
@@ -1273,8 +1309,8 @@ Assert.assertEquals(<span style="color: #CDC673;">"c"</span>, testList.get(1));
 </table>
 </div>
 
-<div id="outline-container-orgf481956" class="outline-4">
-<h4 id="orgf481956"><span class="section-number-4">3.1.1.</span> maven 包依赖引入</h4>
+<div id="outline-container-org9a3c90a" class="outline-4">
+<h4 id="org9a3c90a"><span class="section-number-4">3.1.1.</span> maven 包依赖引入</h4>
 <div class="outline-text-4" id="text-3-1-1">
 <div class="org-src-container">
 <pre class="src src-xml">&lt;<span style="color: #87D700;">dependencies</span>&gt;
@@ -1685,8 +1721,8 @@ Assert.assertEquals(<span style="color: #CDC673;">"c"</span>, testList.get(1));
 </table>
 </div>
 
-<div id="outline-container-org908e7c2" class="outline-4">
-<h4 id="org908e7c2"><span class="section-number-4">3.2.1.</span> maven 包依赖引入</h4>
+<div id="outline-container-orgb6188f6" class="outline-4">
+<h4 id="orgb6188f6"><span class="section-number-4">3.2.1.</span> maven 包依赖引入</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <div class="org-src-container">
 <label class="org-src-name"><span class="listing-number">Listing 8: </span>Spring boot test, Powermock, Mockito-core 依赖引入</label><pre class="src src-xml">&lt;<span style="color: #87D700;">properties</span>&gt;
@@ -1881,9 +1917,498 @@ Assert.assertEquals(<span style="color: #CDC673;">"c"</span>, testList.get(1));
 </div>
 </div>
 </div>
-<div id="outline-container-org31387a5" class="outline-2">
-<h2 id="org31387a5"><span class="section-number-2">4.</span> 参考资料</h2>
+<div id="outline-container-orge485e12" class="outline-2">
+<h2 id="orge485e12"><span class="section-number-2">4.</span> 附A-分层自动化测试</h2>
 <div class="outline-text-2" id="text-4">
+<p>
+<b><b>温馨提示：如果急于在项目中做单元测试实践和应用，可以先跳过本章节。</b></b>
+<br />
+</p>
+<ol class="org-ol">
+<li>在有了持续交付、自动化测试等基本理念之后，我们梳理一下分层自动化实施的具体方法。</li>
+<li>传统的 “集成测试” 更多是通过调用 “接口” 来完成自动化测试用例设计，而并非是单独测试 “接口” 本身。通过调用 “接口” 完成整个后端的业务逻辑测试与 “UI” 自动化测试相同都需要依赖整个后端服务器被正常的加载，且环境 “初始化” 成功。</li>
+<li>当实施 UI、API 自动化测试时，团队经常会有一个疑问？为什么 UI 自动化已经保证了业务核心流程的正确性，还需要在通过 API 测试进行 “重复” 的用例开发？从代码覆盖率角度而言，相同的代码逻辑被不用的测试类型覆盖确实没有什么意义。这也引发了对于测试策略的思考，手工、UI、API、Unit 应该如何去分配资源。</li>
+<li>通过合理的测试策略的划分减少测试过程种的浪费，这也是DevOps 三步法则之三 “精益” 思想的体现之一。长链路的测试带来测试设计上的难题，比如：用例之间的依赖、测试数据的依赖、环境的依赖等，虽然这些问题都可以通过 “工程化” 方式得以缓解，但是测试用例执行效率、如何精准发现被测代码具体问题依然没有能有效的解决，导致流水线执行失败时排查 “用例问题” 或 “被测代码问题” 的效率极其低下。</li>
+</ol>
+
+<p>
+<img src="{{site.url}}/assets/images/test/layer-architecture.png" alt="layer-architecture.png" />
+<br />
+针对上图的技术架构如果要进行分层自动化测试，测试大致可以分为前端测试、后端测试和集成测试。需要注意的是实际项目中后端往往是微服务架构。
+</p>
+</div>
+<div id="outline-container-orgbd24253" class="outline-3">
+<h3 id="orgbd24253"><span class="section-number-3">4.1.</span> 前端测试</h3>
+<div class="outline-text-3" id="text-4-1">
+<ol class="org-ol">
+<li>传统的分层自动化测试对 UI 层更多的是使用 Selenium、Playwright、Nightwatch 等 “外置驱动” 的方式开展自动化测试，比如：启动浏览器，进行模拟用户真实的操作。而分层自动的思想是通过 “内置驱动” 的方式通过测试代码驱动研发代码的方式开展自动化测试。前端工程通过分层技术进行拆解之后可以达到独立隔离测试前端以提高持续测试的成功率。</li>
+<li>以 Vue 项目为例，分层自动化在前端测试时会将自动化测试分层三个层面。函数级别 JavaScript、组件级别 component、端到端级别 End-to-End。在每一次层测试的重点及使用的技术栈不同。
+<ul class="org-ul">
+<li>函数级别的测试通常会使用单元测试框架 jest 对函数本身进行测试，通过 “测试数据” 调用函数验证函数的执行逻辑是否符合预期，对于函数内部的调用链通过 jest.mock() 完成隔离。</li>
+<li>组件级别的测试通过 Vue 官方的 Vue Test Utils 工具对组件进行浅渲染（shallowMount）只渲染组件的第一层 DOM 结构，其嵌套的子组件不会被渲染出来，从而使得渲染的效率更高，单元测试执行的速度也会更快。</li>
+<li>UI(E2E，端到端)自动化测试通过 Mock Server 作为前后端挡板可以实现无需启动后端服务器即可完成前端的 UI 自动化测试，极大的提高了 UI 自动化测试的稳定性，当然UI 自动化测试本身也依赖于被测代码的规范性。</li>
+</ul></li>
+<li>通过分层自动化使得前端分层测试职责更加明确，也减少了外部依赖。关于函数、组件、端到端，其投入的测试比例可以参考 “测试金字塔模型”。前端分层自动化测试拆分之后如下图所示：
+<img src="{{site.url}}/assets/images/test/frontend-auto-testing.png" alt="frontend-auto-testing.png" />
+<dl class="org-dl">
+<dt>函数测试</dt><dd><p>
+通过给定的一组数据校验输入、输出是否符合预期结果，及函数执行是否对其他资源产生了影响。比如：使用 JavaScript 单元测试框架 Jest 进行函数的测试。Jest 可以理解为与 JUnit 5 具有相同的作用。Jest 功能更加齐全，比如：内置函数 mock、代码覆盖率、快照测试等特性。Jest 支持前端主流框架，比如：TypeScript, Node, React, Angular, Vue 等等。使用 Jest 进行单元测试示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;"> * &#20351;&#29992; Mock &#20989;&#25968;&#23450;&#20041; Mock &#20989;&#25968;&#30340;&#23454;&#29616;&#20307;</span>
+<span style="color: #CDC673;"> */</span>
+test(<span style="color: #CDC673;">'Test Mock function implements'</span>, () =&gt; {
+  <span style="color: #FF1493;">let</span> <span style="color: #FF8C00;">sum</span> = jest.fn().mockImplementation(
+    () =&gt; {
+      console.log(<span style="color: #CDC673;">'mockImplementation function be invoked!'</span>)
+      <span style="color: #FF1493;">return</span> <span style="color: #CDC673;">'Miller_'</span> + 30 + <span style="color: #CDC673;">'_Male'</span>
+    }
+  )
+  expect(sum(1, 2, 3)).toMatch(<span style="color: #CDC673;">/Miller/</span>)
+})
+</pre>
+</div></dd>
+<dt>组件测试</dt><dd><p>
+在 Vue 项目中组件就是一个个.vue 文件，组件包含三大块内容，HTML&lt; template&gt;、CSS&lt; style&gt;、Function&lt; script&gt;。通过模拟行为验证组件的函数、数据、事件是否正确。而不是像单元测试那样直接调用函数验证函数和数据的正确性。相对与单元测试，组件测试需要加载更多的代码进行测试。对于组件的测试通常还需要隔离组件与组件之间的依赖，以及 Mock 组件内部的网络请求等。在 Vue 项目中可以通过 Vue.extend 渲染组件，然后通过构造器挂载组件获取浏览器上下文对象。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #FF1493;">import</span> Vue from <span style="color: #CDC673;">'vue'</span>
+<span style="color: #FF1493;">import</span> HelloWorld from <span style="color: #CDC673;">'@/views/HelloWorld'</span>
+describe(<span style="color: #CDC673;">'HelloWorld.vue'</span>, () =&gt; {
+  <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Vue &#21019;&#24314;&#24037;&#31243;&#26159;&#33258;&#24102;&#30340;&#27979;&#35797;&#29992;&#20363;</span>
+  it(<span style="color: #CDC673;">'should render correct contents'</span>, () =&gt; {
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36890;&#36807; Vue.extend &#28210;&#26579; HelloWorld &#32452;&#20214;</span>
+    <span style="color: #FF1493;">const</span> <span style="color: #FF8C00;">Constructor</span> = Vue.extend(HelloWorld)
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#33719;&#21462;&#27983;&#35272;&#22120;&#19978;&#19979;&#25991;&#23545;&#35937; vm&#65292; &#36825;&#20010; vm &#23545;&#35937;&#21253;&#21547;&#20102; HelloWorld &#32452;&#20214;&#30340;&#25152;&#26377;&#20449;&#24687;</span>
+    <span style="color: #FF1493;">const</span> <span style="color: #FF8C00;">vm</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Constructor</span>().$mount()
+    expect(vm.$el.querySelector(<span style="color: #CDC673;">'.hello h1'</span>).textContent)
+      .toEqual(<span style="color: #CDC673;">'Welcome to Your Vue.js App'</span>)
+  })
+})
+</pre>
+</div>
+<p>
+也可以通过官方的 Vue Test Utils 工具包对组件进行测试，其支持浅渲染（shallowMount）的特性，可以只渲染组件的第一层 DOM 结构，其嵌套的子组件不会被渲染出来，从而使得渲染的效率更高，单元测试执行的速度也会更快，使用 VueTestUtils 工具包测试组件示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23548;&#20837;Vue Test Utils &#24037;&#20855;&#24211;</span>
+<span style="color: #FF1493;">import</span> {shallowMount} from <span style="color: #CDC673;">'@vue/test-utils'</span>
+<span style="color: #FF1493;">import</span> HelloWorld from <span style="color: #CDC673;">'@/views/HelloWorld'</span>
+describe(<span style="color: #CDC673;">'TestSuite_HelloWorld'</span>, () =&gt; {
+  test(<span style="color: #CDC673;">'TestCase_CheckChangeData'</span>, () =&gt; {
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Given...&#27979;&#35797;&#29992;&#20363;&#21021;&#22987;&#21270;&#30340;&#26465;&#20214;&#21644;&#21021;&#22987;&#29366;&#24577;</span>
+    <span style="color: #FF1493;">const</span> <span style="color: #FF8C00;">wrapper</span> = shallowMount(HelloWorld)
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">When...&#25191;&#34892;&#21160;&#20316;</span>
+    <span style="color: #FF1493;">const</span> <span style="color: #FF8C00;">message</span> = wrapper.vm.$data.msg
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Then...&#26029;&#35328;&#21160;&#20316;&#24102;&#26469;&#30340;&#32467;&#26524;</span>
+    expect(message).toMatch(<span style="color: #CDC673;">'Welcome'</span>)
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20462;&#25913; data &#23646;&#24615;&#20869;&#23481;</span>
+    wrapper.setData({msg: <span style="color: #CDC673;">'Miller'</span>})
+    expect(wrapper.vm.$data.msg).toMatch(<span style="color: #CDC673;">'Miller'</span>)
+  })
+})
+</pre>
+</div></dd>
+<dt>端到端测试</dt><dd><p>
+以自然人类的操作方式对被测系统进行模拟点击、输入等行为，校验系统是否符合预期结果。通常这种测试需要依赖被测系统的稳定性，需要使用完整的真实环境进行测试。Vue 创建完之后默认端到端测试工具为 Nightwatch。如果你是一个前端工程师那么使用 Nightwatch 是个不错的选择，它可以将测试代码打包到工程中，方便进行代码协作、版本管理是个非常好的实践，其底层使用的是 selenium 作为测试驱动框架。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">module.exports = {
+  <span style="color: #CDC673;">'e2e_Login_Page_CheckElement'</span>: <span style="color: #FF1493;">function</span> (<span style="color: #FF8C00;">browser</span>) {
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20351;&#29992; nightwatch.conf.js &#20013;&#30340;&#40664;&#35748;&#22320;&#22336;&#21644;&#31471;&#21475;</span>
+    <span style="color: #FF1493;">const</span> <span style="color: #FF8C00;">devServer</span> = browser.globals.devServerURL
+    browser
+      .url(devServer)
+      .waitForElementVisible(<span style="color: #CDC673;">'#app'</span>, 5000)
+      .assert.containsText(<span style="color: #CDC673;">'h3'</span>, <span style="color: #CDC673;">'&#25345;&#32493;&#27979;&#35797;-&#20998;&#23618;&#33258;&#21160;&#21270;'</span>)
+      .assert.elementCount(<span style="color: #CDC673;">'h3'</span>, 1)
+      .end()
+  }
+}
+</pre>
+</div>
+<p>
+如果你是一个测试工程师那么推荐使用 Playwright 进行端到端的自动化测试，它支持一些很方便的特性能够快速、稳定的构建自动化测试用例，比如：智能等待、录制、运行中调试、回放等特性。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">@DisplayName(value = <span style="color: #CDC673;">"Playwright&#27979;&#35797;&#31471;&#21040;&#31471;&#29992;&#20363;&#38598;"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> PlaywrightEndToEndTests {
+    @DisplayName(<span style="color: #CDC673;">"&#27979;&#35797;&#28155;&#21152;&#32570;&#38519;&#27969;&#31243;"</span>)
+    @Test
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">void</span> <span style="color: #FF8C00;">testAddIssueFlow</span>() {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Given.</span>
+        <span style="color: #FF1493;">try</span> (Playwright playwright = Playwright.create(options)) {
+            BrowserType.LaunchOptions launchOptions = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">BrowserType.LaunchOptions</span>().setHeadless(<span style="color: #AF87FF;">false</span>).setSlowMo(200);
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">When.</span>
+            Browser browser = playwright.chromium().launch(launchOptions);
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#21551;&#29992;&#36861;&#36394;&#21151;&#33021;&#65292;&#36825;&#26679;&#21487;&#20197;&#22312;&#36816;&#34892;&#33258;&#21160;&#21270;&#33050;&#26412;&#20043;&#21518;&#26597;&#30475;&#25972;&#20010;&#25191;&#34892;&#30340;&#36807;&#31243;</span>
+            BrowserContext context = browser.newContext();
+            context.tracing().start(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Tracing.StartOptions</span>().setScreenshots(<span style="color: #AF87FF;">true</span>).setSnapshots(<span style="color: #AF87FF;">true</span>).setSources(<span style="color: #AF87FF;">true</span>));
+            Page page = context.newPage();
+            page.navigate(url);
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23450;&#20301;&#20803;&#32032;</span>
+            page.locator(<span style="color: #CDC673;">"#username"</span>).fill(<span style="color: #CDC673;">"admin@aliyun.com"</span>);
+            page.locator(<span style="color: #CDC673;">"button.el-button.submit.el-button--primary"</span>).click();
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#36339;&#36716;&#21040;&#32570;&#38519;&#21015;&#34920;</span>
+            page.navigate(url + <span style="color: #CDC673;">"/issues/list"</span>);
+            page.locator(<span style="color: #CDC673;">"#addIssue"</span>).click();
+            page.locator(<span style="color: #CDC673;">"#issueTitle"</span>).fill(<span style="color: #CDC673;">"playwright test by Miller"</span>);
+            page.locator(<span style="color: #CDC673;">"#issueHandler"</span>).click();
+           page.locator(<span style="color: #CDC673;">"li[id=\"miller.shan@aliyun.com\"]"</span>).click();
+            page.locator(<span style="color: #CDC673;">"#submit"</span>).click();
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Then</span>
+            assertThat(page.content(), Matchers.containsStringIgnoringCase(<span style="color: #CDC673;">"playwright test by Miller"</span>));
+            <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26242;&#20572;&#21551;&#21160;&#35843;&#35797;&#12289;&#24405;&#21046;&#27169;&#24335;</span>
+            page.pause();
+            context.tracing().stop(<span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Tracing.StopOptions</span>().setPath(Paths.get(<span style="color: #CDC673;">"trace.zip"</span>)));
+        }
+    }
+}
+</pre>
+</div></dd>
+</dl></li>
+<li>综上，得出前端测试的渐进性图：
+<img src="{{site.url}}/assets/images/test/unit-test.jpg" alt="unit-test.jpg" /></li>
+</ol>
+<p>
+<br />
+通过以上技术方案可以实现前端的分层自动化测试，但是这里需要注意的一点是当执行端到端自动化测试时由于需要依赖后端服务正常运行，所以需要使用 MockServer 技术进行前后端隔离。
+<br />
+为了在端到端的自动化测试过程中正确断言，保证后台服务器处于正常运行状态是必备的，前端开发、测试往往会因为后端的实现进度而滞后，而由于团队中数据的公用也会影响效率。
+</p>
+<ul class="org-ul">
+<li>比较理想的前后端分离研发，后端在项目初期就已将表结构定义完成，配套生成了 Java Bean 对象，并且将接口定义完成，提供至少一个 Mock 的数据返回；</li>
+<li>前端可以根据 Swagger 自动生成的文档进行联调，随着后端接口的逐步完成，前端也与之同步，达到业务逻辑的同步实现。</li>
+<li>当出现前端需要一个新的接口，后端还没有该接口的定义和实体的开发时，前端可以根据原型设计进行前端静态页面的开发，通过使用 Mock 技术来访问一个非真实的服务端接口。这样就可以在不依赖后端服务器，进行独立的前端开发及测试。</li>
+</ul>
+<p>
+<br />
+其内部处理流程可以参考如下图：
+<img src="{{site.url}}/assets/images/test/internal-handle-flow.png" alt="internal-handle-flow.png" />
+MockServer 不单单可以作为前后端隔离服务，而且也可以用于后端的微服务隔离，它不但支持 JSON 文件数据的方式作为响应数据，而且也支持代码的方式，比如：通过 JUnit 方式对微服务之前的调用进行隔离。也可以作为一个代理服务器用于代理负载均衡器 (比如 Nginx)。作为代理服务其状态流程如下图：
+<img src="{{site.url}}/assets/images/test/proxy-service-status-flow.png" alt="proxy-service-status-flow.png" />
+</p>
+</div>
+</div>
+<div id="outline-container-orgbc5a1e4" class="outline-3">
+<h3 id="orgbc5a1e4"><span class="section-number-3">4.2.</span> 后端测试</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+后端根据被测系统的架构可以拆分为 Mapper、Service、Controller 等层测试，其分层策略大概如下图：
+<img src="{{site.url}}/assets/images/test/backend-auto-testing.png" alt="backend-auto-testing.png" />
+</p>
+<dl class="org-dl">
+<dt>Mapper 测试</dt><dd><p>
+对于 Mapper 层的测试更多的是关注与 SQL 语句的正确性，还有就是如果使用了动态 SQL 特性，那么需要校验不同分支的逻辑正确性。Mapper 测试可以使用 mybatis-config-test.xml 文件配置数据源，然后使用原生的 SqlSessionFactory 创建与数据库的 session 连接，进而完成 CRUD 的操作。这种方式的在于无需依赖 SpringBoot 即可完成 Mapper 层的测试。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#20351;&#29992;&#32431;Java&#20195;&#30721;&#27979;&#35797;Mapper&#23618;&#25509;&#21475;&#21450;Xml"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorHasDBMapperTestByJavaCodeTests</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">SqlSession</span> <span style="color: #FF8C00;">sqlSession</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorHasDBMapper</span> <span style="color: #FF8C00;">mapper</span>;
+    <span style="color: #AF87FF;">@BeforeAll</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">beforeAll</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">IOException</span> {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#20174; mybatis-config-test.xml &#35835;&#21462; MyBatis &#37197;&#32622;</span>
+        <span style="color: #5FD7FF;">Reader</span> <span style="color: #FF8C00;">reader</span> = Resources.getResourceAsReader(<span style="color: #CDC673;">"mybatis-config-test.xml"</span>);
+        <span style="color: #5FD7FF;">SqlSessionFactory</span> <span style="color: #FF8C00;">sqlSessionFactory</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">SqlSessionFactoryBuilder</span>().build(reader);
+        sqlSession = sqlSessionFactory.openSession();
+    }
+    <span style="color: #AF87FF;">@AfterAll</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #FF1493;">static</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">afterAll</span>() {
+        sqlSession.close();
+    }
+    <span style="color: #AF87FF;">@BeforeEach</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">beforeEach</span>() {
+        mapper = sqlSession.getMapper(CalculatorHasDBMapper.<span style="color: #FF1493;">class</span>);
+    }
+    <span style="color: #AF87FF;">@AfterEach</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">afterEach</span>() {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23558;&#20462;&#25913;&#25552;&#20132;&#21040;&#25968;&#25454;&#24211;&#65292;&#19981;&#25552;&#20132;&#21017;&#25968;&#25454;&#24211;&#19981;&#29983;&#25928;&#65292;&#22914;&#26524;&#20165;&#20165;&#21482;&#26159;&#27979;&#35797; Mapper &#25509;&#21475;&#21487;&#20197;&#19981;&#25552;&#20132;</span>
+        sqlSession.commit();
+    }
+<span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#27979;&#35797;Insert&#35821;&#21477;"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testInsert</span>() {
+        <span style="color: #5FD7FF;">Calculator</span> <span style="color: #FF8C00;">calculator</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Calculator</span>();
+        calculator.setFirstNumber(1.0);
+        calculator.setSecondNumber(2.0);
+        calculator.setResult(3.0);
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">insert</span> = mapper.insert(calculator);
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">System.out.println(calculator.getId());</span>
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26029;&#35328;&#24433;&#21709;&#30340;&#35760;&#24405;&#25968;&#25454;&#20026;1</span>
+        assertThat(insert, Matchers.is(1));
+    }
+}
+</pre>
+</div>
+<p>
+第二种方式是通过 MyBatis 官方提供的@MybatisTest注解测试 MyBatis，使用@MybatisTest注解会自动配置 SqlSessionFactory，并且自动配置一个内存数据库。使用@MyBatisTest注解编写的测试用例在测试结束时会自动进行事务的回滚，而且@MybatisTest运行时是不会加载其他的 Bean 组件到当前测试用例。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@MybatisTest</span>
+<span style="color: #AF87FF;">@AutoConfigureTestDatabase</span>(replace = <span style="color: #AF87FF;">AutoConfigureTestDatabase</span>.<span style="color: #AF87FF;">Replace</span>.NONE)
+<span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#20351;&#29992;@MyBatisTest&#27979;&#35797;Mapper"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorHasDBMapperTestByMyBatisTestAnnotationTests</span> {
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorHasDBMapper</span> <span style="color: #FF8C00;">calculatorHasDBMapper</span>;
+    <span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#27979;&#35797;Insert&#35821;&#21477;"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testInsert</span>() {
+        <span style="color: #5FD7FF;">Calculator</span> <span style="color: #FF8C00;">calculator</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Calculator</span>();
+        calculator.setFirstNumber(1.0);
+        calculator.setSecondNumber(2.0);
+        calculator.setResult(3.0);
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">insert</span> = calculatorHasDBMapper.insert(calculator);
+        assertThat(insert, Matchers.is(1));
+    }
+}
+</pre>
+</div>
+<p>
+第三种方式是通过 Spring 的事务功能进行 Mapper 的测试。使用 @Transactional 的方式数据并不会真实入库，可以理解为之前用纯 Java 代码的 SqlSession 的方式不做 commit，主键自增 ID 会被使用掉了，但数据会被回滚，这是事务的默认行为。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@Transactional</span>
+<span style="color: #AF87FF;">@SpringBootTest</span>
+<span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#20351;&#29992;Spring&#30340;&#20107;&#21153;Transaction&#38548;&#31163;&#25968;&#25454;"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorHasDBMapperTestByTransactionTests</span> {
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorHasDBMapper</span> <span style="color: #FF8C00;">calculatorHasDBMapper</span>;
+    <span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#27979;&#35797;Insert&#35821;&#21477;"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testInsert</span>() {
+        <span style="color: #5FD7FF;">Calculator</span> <span style="color: #FF8C00;">calculator</span> = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">Calculator</span>();
+        calculator.setFirstNumber(1.0);
+        calculator.setSecondNumber(2.0);
+        calculator.setResult(3.0);
+        <span style="color: #5FD7FF;">Integer</span> <span style="color: #FF8C00;">insert</span> = calculatorHasDBMapper.insert(calculator);
+        assertThat(insert, Matchers.is(1));
+    }
+}
+</pre>
+</div>
+<p>
+第四种方式是使用 H2 Database 内存数据库，通过将数据源切换到 application-h2.properties 配置的方式让所有测试数据都指向内存数据库，通过会结合 flyway 一起使用，使用这种方式对于 SQL 语句的语法有一定要求。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@ActiveProfiles</span>(<span style="color: #CDC673;">"h2"</span>)
+<span style="color: #AF87FF;">@SpringBootTest</span>
+<span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#20351;&#29992;&#20869;&#23384;&#25968;&#25454;&#24211;H2"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorHasDBMapperTestByH2Tests</span> {
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorHasDBMapper</span> <span style="color: #FF8C00;">calculatorHasDBMapper</span>;
+    <span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#27979;&#35797;Select&#35821;&#21477;"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testSelect</span>() {
+        <span style="color: #5FD7FF;">List</span>&lt;<span style="color: #5FD7FF;">Calculator</span>&gt; <span style="color: #FF8C00;">select</span> = calculatorHasDBMapper.getCalculatorList();
+        assertThat(select.size(), Matchers.greaterThanOrEqualTo(0));
+        <span style="color: #8B8878;">//</span><span style="color: #8B8878;">select.forEach(System.out::println);</span>
+    }
+}
+</pre>
+</div></dd>
+<dt>Controller 测试</dt><dd><p>
+对于 Controller 层测试的重点应该关注于输入数据的正确性校验，以及返回数据的结构是否正确即可。因为 Controller 层调用的 Service 已经在 Service 层进行单元验证了。同理 Controller 层也是一个普通的 Java 类，所以我们可以通过 Mock 的方式把它当作普通类进行测试，但是这样就会丢失 HTTP 服务器的数据报文。将 Controller 作为普通 Java 类测试示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"&#27979;&#35797;&#35745;&#31639;&#22120;Controller&#23618;&#20195;&#30721;"</span>)
+<span style="color: #AF87FF;">@ExtendWith</span>(MockitoExtension.<span style="color: #FF1493;">class</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorControllerTestByMockitoTests</span> {
+    <span style="color: #AF87FF;">@InjectMocks</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorController</span> <span style="color: #FF8C00;">calculatorController</span>;
+    <span style="color: #AF87FF;">@Mock</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorServiceImpl</span> <span style="color: #FF8C00;">calculatorService</span>;
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#27979;&#35797;&#25968;&#25454;</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Calculator</span> <span style="color: #FF8C00;">calculator</span>;
+    <span style="color: #CDC673;">/**</span>
+<span style="color: #CDC673;">     * &#30452;&#25509;&#35843;&#29992; Controller &#23545;&#35937;&#30340;&#26041;&#27861;&#65292;&#25226; Controller &#24403;&#26222;&#36890;&#31867;&#36827;&#34892;&#27979;&#35797;&#65292;&#32780;&#19981;&#26159; HTTP &#25509;&#21475;</span>
+<span style="color: #CDC673;">     */</span>
+    <span style="color: #AF87FF;">@DisplayName</span>(value = <span style="color: #CDC673;">"&#27979;&#35797;Restful&#30340;POST&#26041;&#27861;&#65292;&#21442;&#25968;&#20026;JSON"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testPostMethod</span>() {
+        when(calculatorService.add(anyDouble(), anyDouble())).thenReturn(calculator);
+        assertAll(
+                <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#26500;&#36896;POST&#26041;&#27861;&#35831;&#27714;&#21442;&#25968;, &#31532;&#19968;&#31181;&#24773;&#20917;:&#20256;null</span>
+                () -&gt; {
+                    <span style="color: #5FD7FF;">String</span> <span style="color: #FF8C00;">nullObject</span> = calculatorController.testPostMethod(<span style="color: #AF87FF;">null</span>);
+                    assertThat(nullObject, equalToIgnoringCase(<span style="color: #CDC673;">"Request body can't be empty."</span>));
+                };
+    }
+}
+</pre>
+</div>
+<p>
+第二种方式是使用 SpringBoot 中提供了@WebMvcTest 注解可以单独注入需要测试的 Controller，通过 MockMvc 模拟客户端发送请求到服务器，然后通过@MockBean注解 Mock 具体 Service 方法的行为，进而达到单独对 Controller 测试的目的。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #FF1493;">package</span> com.github.millergo.<span style="color: #AF87FF;">controller</span>;
+<span style="color: #AF87FF;">@WebMvcTest</span>(value = {CalculatorController.<span style="color: #FF1493;">class</span>})
+<span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"Test CalculatorController by @WebMvcController"</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">CalculatorControllerTestByWebMvcTestTests</span> {
+    <span style="color: #AF87FF;">@MockBean</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorServiceImpl</span> <span style="color: #FF8C00;">calculatorService</span>;
+    <span style="color: #AF87FF;">@Autowired</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">MockMvc</span> <span style="color: #FF8C00;">mockMvc</span>;
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">Calculator</span> <span style="color: #FF8C00;">calculator</span>;
+    <span style="color: #AF87FF;">@DisplayName</span>(<span style="color: #CDC673;">"Test RESTFul GET Method"</span>)
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testGetMethod</span>() <span style="color: #FF1493;">throws</span> <span style="color: #5FD7FF;">Exception</span> {
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">Stubbing, &#38548;&#31163; Service</span>
+        when(calculatorService.add(anyDouble(), anyDouble())).thenReturn(calculator);
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">MockMvc &#25317;&#26377; Client &#33021;&#21147;&#65292;&#21487;&#20197;&#23545;&#26381;&#21153;&#22120;&#21457;&#36865;&#35831;&#27714;</span>
+        <span style="color: #5FD7FF;">ResultActions</span> <span style="color: #FF8C00;">resultActions</span> = mockMvc.perform(MockMvcRequestBuilders.get(<span style="color: #CDC673;">"/calc/add/1/2"</span>));
+resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+resultActions.andDo(MockMvcResultHandlers.print());
+    }
+}
+</pre>
+</div>
+<p>
+对于Controller 层的测试推荐使用@WebMvcTest注解进行测试，当然使用@SpringBootTest、REST-Assured 等其他方式也支持测试 Controller。
+</p></dd>
+<dt>Service 测试</dt><dd><p>
+Service 层测试是整个后端最重要的测试层，其关乎后端系统业务的正确性，在实际项目中大部分的后端测试都是在校验 Service 的正确性。目前大部分团队在进行 SpringBoot 单元测试基本上就是使用@SpringBootTest注解标注进行，这种方式测试用例执行期间会启动 Spring IOC 容器加载所有依赖的 Bean 对象，并且自动注入所有对象，测试用例通过调用 Service 层的方法进行单元测试，这样做带来的弊端是测试用例执行时需要被依赖的所有服务均处于正常运行，现在微服务下很多 RPC 的调用，我们以为是调用一个方法，实际可能调用了成千上万的服务。并且需要保证 Service 依赖的数据库、Kafka、Redis 等都正常运行，否则测试用例很可能导致失败。而分层自动化测试则不同，分层自动化通过 Test Double(测试替身) 的方式对 Service 进行隔离，通过 Mock 技术可以单独针对某一个方法甚至是某一行代码行进行单独的测试，而不依赖于方法内部的调用链路。由于 Mapper 层我们已经单独对其进行了测试，所以测试 Service 层时完全可以自己构造测试数据，Mock 掉 Mapper 层的依赖，达到独立测试 Service。Service 层测试可以使用 Mockito、PowerMock、spring-test 等技术手段。比如：下面的代码使用 spring-test 结合 Mockito 进行一个简单的计算器测试示例代码。
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@ExtendWith</span>(MockitoExtension.<span style="color: #FF1493;">class</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">UseMockitoInJunit5ByAnnotation</span> {
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorServiceImpl</span> <span style="color: #FF8C00;">calculatorService</span>;
+    <span style="color: #AF87FF;">@Mock</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorMapper</span> <span style="color: #FF8C00;">mockCalculatorMapper</span>;
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testGetCalcResultUseMockito</span>() {
+        <span style="color: #FF1493;">this</span>.calculatorService = <span style="color: #FF1493;">new</span> <span style="color: #5FD7FF;">CalculatorServiceImpl</span>();
+        ReflectionTestUtils.setField(calculatorService, <span style="color: #CDC673;">"calculatorMapper"</span>, mockCalculatorMapper);
+Mockito.when(mockCalculatorMapper.getCalcResultByDesc(<span style="color: #CDC673;">"desc"</span>)).thenReturn(4.0);
+        calculatorService.getCalcResult(<span style="color: #CDC673;">"desc"</span>);
+        <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#39564;&#35777; Mock &#30340;&#23545;&#35937; CalculatorMapper &#34987;&#35843;&#29992;&#30340;&#27425;&#25968;&#20026;1</span>
+        Mockito.verify(mockCalculatorMapper, Mockito.times(1)).getCalcResultByDesc(<span style="color: #CDC673;">"desc"</span>);
+    }
+}
+</pre>
+</div>
+<p>
+CalculatorServiceImpl 里需要注入 CalculatorMapper 所以这里需要借助 Spring-test 的反射测试工具来实现将 Mock 出来的 CalculatorMapper 注入到 CalculatorServiceImpl 类中。当然也可以不使用 spring-test 包的反射工具类注入对象而使用 Mockito 的@InjectMocks注解自动注入 CalculatorServiceImpl 的一个 Mock 对象。示例代码如下：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #AF87FF;">@ExtendWith</span>(MockitoExtension.<span style="color: #FF1493;">class</span>)
+<span style="color: #FF1493;">public</span> <span style="color: #FF1493;">class</span> <span style="color: #5FD7FF;">MockitoInjectMocksTests</span> {
+    <span style="color: #8B8878;">// </span><span style="color: #8B8878;">&#23558; @Mock &#27880;&#35299;&#30340;&#23545;&#35937;&#27880;&#20837;&#21040; @InjectMocks &#23545;&#35937;&#20013;&#30340;&#23646;&#24615;</span>
+    <span style="color: #AF87FF;">@InjectMocks</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorServiceImpl</span> <span style="color: #FF8C00;">calculatorService</span>;
+    <span style="color: #AF87FF;">@Mock</span>
+    <span style="color: #FF1493;">private</span> <span style="color: #5FD7FF;">CalculatorMapper</span> <span style="color: #FF8C00;">mockCalculatorMapper</span>;
+
+    <span style="color: #AF87FF;">@Test</span>
+    <span style="color: #FF1493;">public</span> <span style="color: #5FD7FF;">void</span> <span style="color: #87D700;">testInjectMocks</span>() {
+       calculatorService.getCalcResult(<span style="color: #AF87FF;">null</span>);
+    }
+}
+</pre>
+</div>
+<p>
+InjectMocks 注解会尝试通过构造方法自动注入需要的 Mock 对象，如果没有构造方法，则会使用 setXxx() 尝试进行注入。在后面的实践章节将详细介绍使用方法。
+</p></dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgbaf7753" class="outline-3">
+<h3 id="orgbaf7753"><span class="section-number-3">4.3.</span> 集成测试</h3>
+<div class="outline-text-3" id="text-4-3">
+<ol class="org-ol">
+<li>集成测试的 “集成 “是一个相对概念，一般我们将测试会分为几个级别，单元测试、集成测试、系统测试、验收测试等。</li>
+<li>集成测试更多指的是在单元被组合在一起之后的测试。比如：方法之间的集成、类之间的集成、模块之间的集成、微服务之间的集成、服务与中间件的集成、前后端的集成、系统之间的集成等。在上面的前端测试中组件测试和端到端测试可以理解为是一种集成测试。后端测试中对 Controller 使用 REST-Assured 也可以理解为是一种集成测试。</li>
+<li>在集成测试中更多关注的是模块之间组合在一起之后的正确性。如果直接使用 Postman、HttpClient、REST-Assured 就可以认为是后端的集成测试或者叫服务端测试。但是如果只是想测试 Controller 与 Service 之间的集成测试，那么则需要隔离 Mapper，这种方式通常在调式中完成，而非自动化的集成测试，或者使用 H2 Database 进行后端的集成测试。
+<img src="{{site.url}}/assets/images/test/integration-auto-testing.png" alt="integration-auto-testing.png" /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgd334b83" class="outline-3">
+<h3 id="orgd334b83"><span class="section-number-3">4.4.</span> 分层测试架构</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+通过使用分层自动化中的这些技术能有有效的进行 “真正” 分层自动化测试，但是对于传统的端到端测试、服务端测试也是有其价值的，具体还需要根据项目及团队进行取舍。传统的分层自动化与分层自动化也可以通过配置化的方式选择是否使用测试替身 Test Double 的切换，不过这个属于测试框架、测试平台层面需要去配合实现。关于分层自动化测试架构完整图可以参考如下：
+<img src="{{site.url}}/assets/images/test/layer-auto-testing-architecture.png" alt="layer-auto-testing-architecture.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4f6ce7d" class="outline-2">
+<h2 id="org4f6ce7d"><span class="section-number-2">5.</span> 附B-开发模式</h2>
+<div class="outline-text-2" id="text-5">
+<dl class="org-dl">
+<dt>TDD</dt><dd><p>
+测试驱动开发，英文为 Testing Driven Development，强调的是一种开发方式，以测试来驱动整个项目，即先根据接口完成测试编写，然后在完成功能是要不断通过测试，最终目的是通过所有测试。本质上，我们重复遵循三个简单的步骤：
+</p>
+<ol class="org-ol">
+<li>为要添加的下一个功能编写测试。</li>
+<li>编写功能代码直到测试通过。</li>
+<li>重构新旧代码以使其结构良好。</li>
+</ol>
+
+<div id="org3363ea4" class="figure">
+<p><img src="{{site.url}}/assets/images/test/test-driven-development.png" alt="test-driven-development.png" />
+</p>
+</div>
+
+<div id="org42f410f" class="figure">
+<p><img src="{{site.url}}/assets/images/test/tdd.jpg" alt="tdd.jpg" />
+</p>
+</div></dd>
+<dt>BDD</dt><dd>行为驱动开发，英文为 Behavior Driven Development，BDD 的核心价值是体现在正确的对系统行为进行设计，所以它并非一种行之有效的测试方法。它强调的是系统最终的实现与用户期望的行为是一致的、验证代码实现是否符合设计目标。但是它本身并不强调对系统功能、性能以及边界值等的健全性做保证，无法像完整的测试一样发现系统的各种问题。但 BDD 倡导的用简洁的自然语言描述系统行为的理念，可以明确的根据设计产生测试，并保障测试用例的质量。
+<img src="{{site.url}}/assets/images/test/bdd.jpg" alt="bdd.jpg" /></dd>
+<dt>ATDD</dt><dd>验收测试驱动开发，英文为 Acceptance Test Driven Development，通过单元测试用例来驱动功能代码的实现，团队需要定义出期望的质量标准和验收细则，以明确而且达成共识的验收测试计划（包含一系列测试场景）来驱动开发人员的TDD实践和测试人员的测试脚本开发。面向开发人员，强调如何实现系统以及如何检验。</dd>
+<dt>DDD</dt><dd><p>
+Domain-drive Design,领域驱动设计。其目的是以一种领域专家、设计人员、开发人员都能理解的通用语言作为相互交流的工具，在交流的过程中发现领域概念，然后将这些概念设计成一个领域模型，再有该模型驱动软件设计和开发。
+<img src="{{site.url}}/assets/images/test/ddd.jpg" alt="ddd.jpg" />
+<b><b>领域模型：</b></b>
+</p>
+<ul class="org-ul">
+<li>领域模型是是对具有某个边界的领域的一个抽象，反映了领域内用户需求的本质</li>
+<li>领域模型只反映业务，和技术无关</li>
+<li>领域模型可以反映领域中的实体和过程</li>
+<li>领域模型确保业务逻辑都在一个模型中，有助于提高应用的维护性和可重用性</li>
+<li>领域模型可以让开发人员相对平滑地将业务知识转换为软件架构</li>
+<li>领域模型贯穿软件分析、设计，以及开发的整个过程</li>
+<li>建立正确的领域模型需要领域专家、设计、开发人员积极沟通共同努力，是大家对领域内的业务不断深入，从而不断细化和完善领域模型</li>
+<li>领域模型的表达方式有多种</li>
+<li>领域模型是整个软件的核心，设计足够精良且符合业务需求的领域模型能够更快速的响应需求变化</li>
+</ul>
+<p>
+<b><b>领域驱动设计的分成架构：</b></b>
+</p>
+<ul class="org-ul">
+<li>用户界面/表现层</li>
+<li>应用层</li>
+<li>领域层 - 表达业务概念，业务信息和业务规则</li>
+<li>基础设施层</li>
+</ul>
+<p>
+<b><b>业务对象的职责和策略：</b></b>
+</p>
+<ul class="org-ul">
+<li>实体（Entities）：具备唯一ID，能够被持久化，具备业务逻辑，对应业务对象</li>
+<li>值对象（Value objects）：不具有唯一ID，由对象的属性描述，一般为内存中的临时对象，可以用来传递参数或对实体进行补充描述。</li>
+<li>工厂（Factories）：主要用来创建实体，目前架构实践中一般采用IOC容器来实现工厂的功能</li>
+<li>仓库（Repositories）：用来管理实体的集合，封装持久化框架</li>
+<li>服务（Services）：为上层建筑提供可操作的接口，负责对领域对象进行调度和封装，同时可以对外提供各种形式的服务</li>
+</ul></dd>
+</dl>
+<p>
+<br />
+<b><b>TDD 和 BDD 有各自的使用场景，BDD 一般偏向于系统功能和业务逻辑的自动化测试设计；而 TDD 在快速开发并测试功能模块的过程中则更加高效，以快速完成开发为目的。DDD 则较为复杂</b></b>
+</p>
+
+<div id="org2203bcf" class="figure">
+<p><img src="{{site.url}}/assets/images/test/mixing-dev.jpg" alt="mixing-dev.jpg" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeca476d" class="outline-2">
+<h2 id="orgeca476d"><span class="section-number-2">6.</span> 附C-参考资料</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li><a href="https://github.com/junit-team/junit4/wiki">https://github.com/junit-team/junit4/wiki</a></li>
 <li><a href="https://github.com/powermock/powermock/wiki/Mockito">Official: Using PowerMock with Mockito</a></li>
@@ -1891,6 +2416,9 @@ Assert.assertEquals(<span style="color: #CDC673;">"c"</span>, testList.get(1));
 <li><a href="https://janycode.github.io/2021/03/23/09_%E8%B0%83%E8%AF%95%E6%B5%8B%E8%AF%95/02_%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/03-SpringBoot%E9%9A%8F%E6%9C%BA%E7%AB%AF%E5%8F%A3%E5%92%8CMock%E6%B5%8B%E8%AF%95/">SpringBoot随机端口和Mock测试</a></li>
 <li><a href="https://blog.csdn.net/wwd0501/article/details/104216427">PowerMock使用详解</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/598857010">用PowerMock写Java单元/集成测试</a></li>
+<li><a href="https://martinfowler.com/bliki/TestDrivenDevelopment.html">Test Driven Development</a></li>
+<li><a href="https://testerhome.com/topics/36401/show_wechat">持续交付下的分层自动化测试</a></li>
+<li><a href="https://medium.datadriveninvestor.com/the-value-at-the-intersection-of-tdd-ddd-and-bdd-da58ea1f3ac8">The Value at the Intersection of TDD, DDD, and BDD</a></li>
 </ul>
 </div>
 </div>
