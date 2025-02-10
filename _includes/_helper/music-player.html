@@ -12,41 +12,66 @@ ul li button {
 }
 </style>
 <h1>Music Library</h1>
-<audio id="audioPlayer" controls>
-    <source id="audioSource" src="" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-<br>
-<button onclick="prevSong()">Previous</button>
-<button onclick="nextSong()">Next</button>
+<div class="record-player">
+    <div class="turntable">
+        <div class="record" id="record">
+            <img src="../../assets/images/music/record.png" alt="Record">
+        </div>
+        <div class="tone-arm-container">
+            <div class="tone-arm" id="tone-arm">
+                <img src="../../assets/images/music/tone-arm.png" alt="Tone Arm">
+            </div>
+        </div>
+    </div>
+    <div class="current-source">
+        <p id="source-title"></p> - <p id="source-artist"></p>
+    </div>
+    <div class="controls">
+        <audio id="audio-player" controls>
+            <source id="audio-source" src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <br>
+        <button onclick="prevSong()">Previous</button>
+        <button onclick="nextSong()">Next</button>
 
-<ul>
-    {% for musicFile in site.data.music-files %}
-    {% assign musicFileIndex = {{forloop.index}} %}
-    <li>{{musicFileIndex}} <button onclick="loadSongAndPlay({{musicFileIndex}})">{{ musicFile.title }} - {{musicFile.artist}}</button></li>
-    {% endfor %}
-</ul>
-
+        <div class="playlist">
+            <ul>
+                {% for musicFile in site.data.music-files %}
+                {% assign musicFileIndex = {{forloop.index}} %}
+                <li>{{musicFileIndex}} <button onclick="loadSongAndPlay({{musicFileIndex}})">{{ musicFile.title }} - {{musicFile.artist}}</button></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
 <script>
     const songs = [];
     const musicFiles = '{{site.data.music-files | jsonify}}';
     const musicFilesObj = JSON.parse(musicFiles);
-    for(var index in musicFilesObj) { 
-        let fileUrl = '../../assets/music-lib/' + musicFilesObj[index].file_name; 
+    for(var index in musicFilesObj) {
+        let fileUrl = '../../assets/music-lib/' + musicFilesObj[index].file_name;
         songs.push(fileUrl);
     }
 
     let currentSongIndex = 0;
-    const audioPlayer = document.getElementById('audioPlayer');
-    const audioSource = document.getElementById('audioSource');
+    const record = document.getElementById('record');
+    const toneArm = document.getElementById('tone-arm');
+    const audioPlayer = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    const currentSourceDiv = document.querySelector('.current-source');
 
     function loadSong(index) {
         audioSource.src = songs[index];
         audioPlayer.load();
+
+        readMP3Metadata(audioSource.src);
     }
 
     function loadSongAndPlay(index) {
-        loadSong(index - 1);
+        currentSongIndex = index - 1;
+        loadSong(currentSongIndex);
         audioPlayer.play();
     }
 
@@ -62,9 +87,47 @@ ul li button {
         audioPlayer.play();
     }
 
+    function readMP3Metadata(fileUrl) {
+        const sourceTitle = document.getElementById('source-title');
+        const sourceArtist = document.getElementById('source-artist');
+        jsmediatags.read(fileUrl, {
+            onSuccess: function (tag) {
+                console.log(`🎶 解析音频: ${fileUrl}`);
+                console.log("🎼 歌曲名称:", tag.tags.title || "未知");
+                console.log("🎤 艺术家:", tag.tags.artist || "未知");
+                console.log("💿 专辑:", tag.tags.album || "未知");
+                sourceTitle.innerHTML = tag.tags.title;
+                sourceArtist.innerHTML = tag.tags.artist;
+            },
+            onError: function (error) {
+                console.error("❌ 解析失败:", error);
+            },
+        });
+    }
+
+    // 对音频播放器增加监听事件
+    // 播放
+    audioPlayer.addEventListener('play', () => {
+        // 第一步：唱臂搭上唱盘
+        toneArm.classList.add('move');
+        // 第二步：等待唱臂移动完成后，开始旋转唱盘
+        toneArm.addEventListener('transitionend', () => {
+            record.style.animationPlayState = 'running'; // 开始旋转唱盘
+        }, { once: true }); // 只监听一次
+
+        currentSourceDiv.classList.add('playing');
+    })
+    // 暂停
+    audioPlayer.addEventListener('pause', () => {
+        record.style.animationPlayState = 'paused';
+        // 唱臂离开
+        toneArm.classList.remove('move');
+
+        currentSourceDiv.classList.remove('playing');
+    })
     // 自动播放下一首歌
     audioPlayer.addEventListener('ended', nextSong);
 
-    // 初始化加载第一首歌
+    // 默认加载第一首歌
     loadSong(currentSongIndex);
 </script>
