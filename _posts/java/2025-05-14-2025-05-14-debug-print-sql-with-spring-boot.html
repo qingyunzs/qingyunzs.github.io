@@ -1,0 +1,275 @@
+---
+layout: post
+title: Spring Boot 系列之调试时打印 SQL
+author: zrg
+description: 在 Spring Boot 开发过程中，查看实际执行的 SQL 语句有助于排查数据库操作问题、优化查询性能。注意：生产环境应关闭 SQL 日志以避免性能损耗和安全风险。根据项目使用的持久层技术（JPA、MyBatis 等），选择合适的方式即可快速定位数据库操作问题。
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Spring Boot
+- SQL
+---
+
+<p>
+在 Spring Boot 开发中，调试数据库操作时，打印 SQL 语句是必不可少的。无论是使用 Hibernate/JPA 还是 MyBatis，查看完整的 SQL 语句及其绑定参数都能帮助开发者快速定位问题。本文将介绍两种常见的 SQL 打印方式：简单打印 SQL（基于 Hibernate/JPA 和 MyBatis 的内置配置）以及详细打印 SQL（借助第三方工具 log4jdbc）。
+</p>
+<div id="outline-container-orgf03fe88" class="outline-2">
+<h2 id="orgf03fe88"><span class="section-number-2">1.</span> 简单打印 SQL</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Spring Boot 集成了 Hibernate/JPA 或 MyBatis 作为主流的 ORM 框架，它们都提供了内置的 SQL 打印功能。通过简单的日志配置，即可实现基本的 SQL 输出，适合快速调试。
+</p>
+</div>
+<div id="outline-container-org2c68f66" class="outline-3">
+<h3 id="org2c68f66"><span class="section-number-3">1.1.</span> Hibernate/JPA 配置</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org6539d31" class="outline-4">
+<h4 id="org6539d31"><span class="section-number-4">1.1.1.</span> 配置步骤</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+在 application.properties 或 application.yml 中添加以下配置：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"># &#21551;&#29992; SQL &#25171;&#21360;
+spring.jpa.show-sql=true
+
+# &#26684;&#24335;&#21270; SQL &#35821;&#21477;
+spring.jpa.properties.hibernate.format_sql=true
+
+# &#35774;&#32622;&#26085;&#24535;&#32423;&#21035;&#65292;&#25171;&#21360; SQL &#21644;&#32465;&#23450;&#21442;&#25968;
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.orm.jdbc.bind=TRACE
+</pre>
+</div>
+<p>
+等价的 application.yml 配置：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcd084f8" class="outline-4">
+<h4 id="orgcd084f8"><span class="section-number-4">1.1.2.</span> 配置说明</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>spring.jpa.show-sql=true：将 SQL 语句输出到控制台。</li>
+<li>spring.jpa.properties.hibernate.format_sql=true：格式化 SQL，使其更易读。</li>
+<li>logging.level.org.hibernate.SQL=DEBUG：显示 Hibernate 生成的 SQL 语句。</li>
+<li>logging.level.org.hibernate.orm.jdbc.bind=TRACE：显示绑定参数值（如 ? 的实际值）。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5366c97" class="outline-4">
+<h4 id="org5366c97"><span class="section-number-4">1.1.3.</span> 注意事项</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<dl class="org-dl">
+<dt>参数未显示</dt><dd>如果绑定参数仍为 ?，确保 org.hibernate.orm.jdbc.bind 的日志级别为 TRACE。</dd>
+<dt>性能影响</dt><dd>生产环境中建议关闭 spring.jpa.show-sql 或降低日志级别，避免性能开销。</dd>
+<dt>日志框架</dt><dd>确保项目使用 Logback（Spring Boot 默认日志框架）或其他支持的日志框架。</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="outline-container-org13dc156" class="outline-3">
+<h3 id="org13dc156"><span class="section-number-3">1.2.</span> MyBatis 配置</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+对于使用 MyBatis 的 Spring Boot 项目，SQL 打印主要依赖 MyBatis 的日志级别配置，通常结合 Logback 实现。
+</p>
+</div>
+<div id="outline-container-org94bab6d" class="outline-4">
+<h4 id="org94bab6d"><span class="section-number-4">1.2.1.</span> 配置步骤</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+在 application.properties 中设置 MyBatis 映射器的日志级别：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"># &#35774;&#32622; MyBatis Mapper &#21253;&#30340;&#26085;&#24535;&#32423;&#21035;
+logging.level.com.example.demo.mapper=DEBUG
+</pre>
+</div>
+<p>
+等价的 application.yml 配置：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">logging:
+  level:
+    com.example.demo.mapper: DEBUG
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org79c2194" class="outline-2">
+<h2 id="org79c2194"><span class="section-number-2">2.</span> 详细打印 SQL（使用 log4jdbc 第三方依赖）</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Hibernate/JPA 和 MyBatis 的内置日志配置虽然简单，但在某些情况下（如复杂查询或参数值未正确显示），可能无法满足需求。第三方工具 log4jdbc 是一个轻量级的 JDBC 代理工具，可以打印完整的 SQL 语句及其绑定参数值，参数直接嵌入 SQL，日志更直观。
+</p>
+</div>
+<div id="outline-container-orga069207" class="outline-3">
+<h3 id="orga069207"><span class="section-number-3">2.1.</span> 为什么选择 log4jdbc</h3>
+<div class="outline-text-3" id="text-2-1">
+<dl class="org-dl">
+<dt>参数嵌入</dt><dd>将绑定参数值直接替换 ?，生成可直接执行的 SQL。</dd>
+<dt>轻量级</dt><dd>配置简单，性能开销低，适合开发和调试。</dd>
+<dt>与 Spring Boot 集成良好</dt><dd>无缝配合 Logback，复用项目日志配置。</dd>
+</dl>
+<p>
+<br />
+相比另一款流行的工具 p6spy，log4jdbc 配置更简单，适合快速调试，但功能稍逊于 p6spy 的自定义性和扩展性。
+</p>
+</div>
+</div>
+<div id="outline-container-orgc71d910" class="outline-3">
+<h3 id="orgc71d910"><span class="section-number-3">2.2.</span> 操作流程</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org4b9fa5e" class="outline-4">
+<h4 id="org4b9fa5e"><span class="section-number-4">2.2.1.</span> 添加依赖</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+在 pom.xml 中添加 log4jdbc 依赖：
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">dependency</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">groupId</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">com.googlecode.log4jdbc</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">groupId</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">artifactId</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">log4jdbc</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">artifactId</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">version</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">1.2</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">version</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+<span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">dependency</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga22f5fd" class="outline-4">
+<h4 id="orga22f5fd"><span class="section-number-4">2.2.2.</span> 配置 log4jdbc</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ol class="org-ol">
+<li><p>
+修改数据源配置（application.properties）
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">spring.datasource.url=jdbc:log4jdbc:mysql://localhost:3306/yourdb?useSSL=false&amp;serverTimezone=UTC
+spring.datasource.driver-class-name=net.sf.log4jdbc.DriverSpy
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.jpa.show-sql=false
+</pre>
+</div>
+<p>
+等价的 application.yml 配置：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">spring:
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/yourdb?useSSL=false&amp;serverTimezone=UTC
+    # driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    username: your_username
+    password: your_password
+  jpa:
+    show-sql: false
+</pre>
+</div></li>
+<li><p>
+创建 log4jdbc.properties（src/main/resources/log4jdbc.properties）
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">log4jdbc.drivers=com.mysql.cj.jdbc.Driver
+log4jdbc.auto.load.popular.drivers=false
+log4jdbc.log4j2.properties.file=log4j2.properties
+</pre>
+</div></li>
+<li><p>
+配置 Logback（src/main/resources/logback-spring.xml）：
+</p>
+<div class="org-src-container">
+<pre class="src src-xml"><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">configuration</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">appender</span> <span style="color: #eedd82;">name</span>=<span style="color: #ffa07a;">"CONSOLE"</span> <span style="color: #eedd82;">class</span>=<span style="color: #ffa07a;">"ch.qos.logback.core.ConsoleAppender"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+        <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">encoder</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+            <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">pattern</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">pattern</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+        <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">encoder</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">appender</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">logger</span> <span style="color: #eedd82;">name</span>=<span style="color: #ffa07a;">"jdbc.sqlonly"</span> <span style="color: #eedd82;">level</span>=<span style="color: #ffa07a;">"DEBUG"</span> <span style="color: #eedd82;">additivity</span>=<span style="color: #ffa07a;">"false"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+        <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">appender-ref</span> <span style="color: #eedd82;">ref</span>=<span style="color: #ffa07a;">"CONSOLE"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">logger</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">logger</span> <span style="color: #eedd82;">name</span>=<span style="color: #ffa07a;">"jdbc.resultsettable"</span> <span style="color: #eedd82;">level</span>=<span style="color: #ffa07a;">"DEBUG"</span> <span style="color: #eedd82;">additivity</span>=<span style="color: #ffa07a;">"false"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+        <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">appender-ref</span> <span style="color: #eedd82;">ref</span>=<span style="color: #ffa07a;">"CONSOLE"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">logger</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">root</span> <span style="color: #eedd82;">level</span>=<span style="color: #ffa07a;">"INFO"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+        <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #87cefa;">appender-ref</span> <span style="color: #eedd82;">ref</span>=<span style="color: #ffa07a;">"CONSOLE"</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+    <span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">root</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+<span style="color: #F5F5F5; background-color: #1B1E1C;">&lt;</span><span style="color: #F5F5F5; background-color: #1B1E1C;">/</span><span style="color: #87cefa;">configuration</span><span style="color: #F5F5F5; background-color: #1B1E1C;">&gt;</span>
+</pre>
+</div></li>
+</ol>
+<p>
+<br />
+<b><b>配置说明:</b></b>
+</p>
+<ul class="org-ul">
+<li>jdbc:log4jdbc:mysql：使用 log4jdbc 代理 MySQL 驱动。</li>
+<li>net.sf.log4jdbc.DriverSpy：log4jdbc 的代理驱动类。</li>
+<li>log4jdbc.drivers：指定实际的数据库驱动（如 MySQL 的 com.mysql.cj.jdbc.Driver）。</li>
+<li>jdbc.sqlonly：控制 SQL 语句的日志输出。</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4fe0ac1" class="outline-4">
+<h4 id="org4fe0ac1"><span class="section-number-4">2.2.3.</span> 注意事项</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ul class="org-ul">
+<li>性能开销：log4jdbc 是一个 JDBC 代理，调试时启用无明显影响，但生产环境中建议禁用。</li>
+<li>数据库兼容性：确保 log4jdbc.drivers 配置的驱动与数据库版本匹配（如 MySQL 8.x 使用 com.mysql.cj.jdbc.Driver）。</li>
+<li>日志未显示：检查 logback spring.xml 是否正确配置 jdbc.sqlonly 日志级别。</li>
+<li>替代工具：如果需要更灵活的配置（如自定义日志格式或慢查询分析），可考虑 p6spy，但配置稍复杂。</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf7a9f86" class="outline-2">
+<h2 id="orgf7a9f86"><span class="section-number-2">3.</span> 总结</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>简单打印 SQL：
+<dl class="org-dl">
+<dt>Hibernate/JPA</dt><dd>通过 spring.jpa.show-sql 和 Hibernate 日志级别（org.hibernate.SQL 和 org.hibernate.orm.jdbc.bind）实现，适合快速调试。</dd>
+<dt>MyBatis</dt><dd>通过设置 Mapper 包的日志级别（logging.level）实现，配置简单，日志清晰。</dd>
+</dl></li>
+<li>详细打印 SQL：
+<ul class="org-ul">
+<li>使用 log4jdbc，通过代理 JDBC 驱动打印完整的 SQL 语句，参数值直接嵌入，适合需要直观日志的场景。</li>
+<li>配置简单，与 Spring Boot 和 Logback 集成良好，适合开发和测试环境。</li>
+</ul></li>
+</ul>
+<p>
+<br />
+在实际项目中，建议根据需求选择合适的方案：
+</p>
+<ul class="org-ul">
+<li>如果仅需快速验证 SQL，内置配置（Hibernate/JPA 或 MyBatis）已足够。</li>
+<li>如果需要更直观的日志或参数值嵌入，log4jdbc 是一个轻量且高效的选择。</li>
+<li>对于更复杂的需求（如慢查询分析或日志定制），可进一步探索 p6spy。</li>
+</ul>
+<p>
+<br />
+通过以上方法，你可以轻松在 Spring Boot 中实现 SQL 打印，加速调试和开发流程。如果有其他疑问，欢迎留言探讨！
+</p>
+</div>
+</div>

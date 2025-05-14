@@ -1,0 +1,178 @@
+#+Title:  Print SQL during debugging with Spring-boot 
+#+AUTHOR:    zrg
+#+EMAIL:     zrg1390556487@gmail.com
+#+LANGUAGE:  cn
+#+OPTIONS:   H:6 num:t toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:plain toc:t ltoc:t mouse:underline buttons:0 path:/assets/js/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/assets/css/org-manual.css" />
+#+EXPORT_SELECT_TAGS: export
+#+HTML_HEAD_EXTRA: <style>body {font-size:14pt} code {font-weight:bold;font-size:12px; color:darkblue}</style>
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT: 
+
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+BEGIN_EXPORT HTML
+---
+layout: post
+title: Spring Boot 系列之调试时打印 SQL
+author: zrg
+description: 在 Spring Boot 开发过程中，查看实际执行的 SQL 语句有助于排查数据库操作问题、优化查询性能。注意：生产环境应关闭 SQL 日志以避免性能损耗和安全风险。根据项目使用的持久层技术（JPA、MyBatis 等），选择合适的方式即可快速定位数据库操作问题。
+excerpt: 
+comments: false
+categories: 
+- java
+tags:
+- Spring Boot
+- SQL
+---
+#+END_EXPORT
+
+# (setq org-export-html-use-infojs nil)
+在 Spring Boot 开发中，调试数据库操作时，打印 SQL 语句是必不可少的。无论是使用 Hibernate/JPA 还是 MyBatis，查看完整的 SQL 语句及其绑定参数都能帮助开发者快速定位问题。本文将介绍两种常见的 SQL 打印方式：简单打印 SQL（基于 Hibernate/JPA 和 MyBatis 的内置配置）以及详细打印 SQL（借助第三方工具 log4jdbc）。
+# (setq org-export-html-style nil)
+
+* 简单打印 SQL
+Spring Boot 集成了 Hibernate/JPA 或 MyBatis 作为主流的 ORM 框架，它们都提供了内置的 SQL 打印功能。通过简单的日志配置，即可实现基本的 SQL 输出，适合快速调试。
+** Hibernate/JPA 配置
+*** 配置步骤
+在 application.properties 或 application.yml 中添加以下配置：
+#+begin_src emacs-lisp
+  # 启用 SQL 打印
+  spring.jpa.show-sql=true
+
+  # 格式化 SQL 语句
+  spring.jpa.properties.hibernate.format_sql=true
+
+  # 设置日志级别，打印 SQL 和绑定参数
+  logging.level.org.hibernate.SQL=DEBUG
+  logging.level.org.hibernate.orm.jdbc.bind=TRACE
+#+end_src
+等价的 application.yml 配置：
+#+begin_src emacs-lisp
+  spring:
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+      org.hibernate.orm.jdbc.bind: TRACE
+#+end_src
+*** 配置说明
+- spring.jpa.show-sql=true：将 SQL 语句输出到控制台。
+- spring.jpa.properties.hibernate.format_sql=true：格式化 SQL，使其更易读。
+- logging.level.org.hibernate.SQL=DEBUG：显示 Hibernate 生成的 SQL 语句。
+- logging.level.org.hibernate.orm.jdbc.bind=TRACE：显示绑定参数值（如 ? 的实际值）。
+*** 注意事项
+- 参数未显示 :: 如果绑定参数仍为 ?，确保 org.hibernate.orm.jdbc.bind 的日志级别为 TRACE。
+- 性能影响 :: 生产环境中建议关闭 spring.jpa.show-sql 或降低日志级别，避免性能开销。
+- 日志框架 :: 确保项目使用 Logback（Spring Boot 默认日志框架）或其他支持的日志框架。
+** MyBatis 配置
+对于使用 MyBatis 的 Spring Boot 项目，SQL 打印主要依赖 MyBatis 的日志级别配置，通常结合 Logback 实现。
+*** 配置步骤
+在 application.properties 中设置 MyBatis 映射器的日志级别：
+#+begin_src emacs-lisp
+  # 设置 MyBatis Mapper 包的日志级别
+  logging.level.com.example.demo.mapper=DEBUG
+#+end_src
+等价的 application.yml 配置：
+#+begin_src emacs-lisp
+  logging:
+    level:
+      com.example.demo.mapper: DEBUG
+#+end_src
+* 详细打印 SQL（使用 log4jdbc 第三方依赖）
+Hibernate/JPA 和 MyBatis 的内置日志配置虽然简单，但在某些情况下（如复杂查询或参数值未正确显示），可能无法满足需求。第三方工具 log4jdbc 是一个轻量级的 JDBC 代理工具，可以打印完整的 SQL 语句及其绑定参数值，参数直接嵌入 SQL，日志更直观。
+** 为什么选择 log4jdbc
+- 参数嵌入 :: 将绑定参数值直接替换 ?，生成可直接执行的 SQL。
+- 轻量级 :: 配置简单，性能开销低，适合开发和调试。
+- 与 Spring Boot 集成良好 :: 无缝配合 Logback，复用项目日志配置。
+\\
+相比另一款流行的工具 p6spy，log4jdbc 配置更简单，适合快速调试，但功能稍逊于 p6spy 的自定义性和扩展性。
+** 操作流程
+*** 添加依赖
+在 pom.xml 中添加 log4jdbc 依赖：
+#+begin_src xml
+  <dependency>
+      <groupId>com.googlecode.log4jdbc</groupId>
+      <artifactId>log4jdbc</artifactId>
+      <version>1.2</version>
+  </dependency>
+#+end_src
+*** 配置 log4jdbc
+1. 修改数据源配置（application.properties）
+   #+begin_src emacs-lisp
+     spring.datasource.url=jdbc:log4jdbc:mysql://localhost:3306/yourdb?useSSL=false&serverTimezone=UTC
+     spring.datasource.driver-class-name=net.sf.log4jdbc.DriverSpy
+     spring.datasource.username=your_username
+     spring.datasource.password=your_password
+     spring.jpa.show-sql=false
+   #+end_src
+   等价的 application.yml 配置：
+   #+begin_src emacs-lisp
+     spring:
+       datasource:
+         url: jdbc:log4jdbc:mysql://localhost:3306/yourdb?useSSL=false&serverTimezone=UTC
+         # driver-class-name: com.mysql.jdbc.Driver
+         driver-class-name: net.sf.log4jdbc.DriverSpy
+         username: your_username
+         password: your_password
+       jpa:
+         show-sql: false
+   #+end_src
+2. 创建 log4jdbc.properties（src/main/resources/log4jdbc.properties）
+   #+begin_src emacs-lisp
+     log4jdbc.drivers=com.mysql.cj.jdbc.Driver
+     log4jdbc.auto.load.popular.drivers=false
+     log4jdbc.log4j2.properties.file=log4j2.properties
+   #+end_src
+3. 配置 Logback（src/main/resources/logback-spring.xml）：
+   #+begin_src xml
+     <configuration>
+         <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+             <encoder>
+                 <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+             </encoder>
+         </appender>
+         <logger name="jdbc.sqlonly" level="DEBUG" additivity="false">
+             <appender-ref ref="CONSOLE"/>
+         </logger>
+         <logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
+             <appender-ref ref="CONSOLE"/>
+         </logger>
+         <root level="INFO">
+             <appender-ref ref="CONSOLE"/>
+         </root>
+     </configuration>
+   #+end_src
+\\
+**配置说明:**
+- jdbc:log4jdbc:mysql：使用 log4jdbc 代理 MySQL 驱动。
+- net.sf.log4jdbc.DriverSpy：log4jdbc 的代理驱动类。
+- log4jdbc.drivers：指定实际的数据库驱动（如 MySQL 的 com.mysql.cj.jdbc.Driver）。
+- jdbc.sqlonly：控制 SQL 语句的日志输出。
+*** 注意事项
+- 性能开销：log4jdbc 是一个 JDBC 代理，调试时启用无明显影响，但生产环境中建议禁用。
+- 数据库兼容性：确保 log4jdbc.drivers 配置的驱动与数据库版本匹配（如 MySQL 8.x 使用 com.mysql.cj.jdbc.Driver）。
+- 日志未显示：检查 logback spring.xml 是否正确配置 jdbc.sqlonly 日志级别。
+- 替代工具：如果需要更灵活的配置（如自定义日志格式或慢查询分析），可考虑 p6spy，但配置稍复杂。
+* 总结
++ 简单打印 SQL：
+  + Hibernate/JPA :: 通过 spring.jpa.show-sql 和 Hibernate 日志级别（org.hibernate.SQL 和 org.hibernate.orm.jdbc.bind）实现，适合快速调试。
+  + MyBatis :: 通过设置 Mapper 包的日志级别（logging.level）实现，配置简单，日志清晰。 
++ 详细打印 SQL：
+  + 使用 log4jdbc，通过代理 JDBC 驱动打印完整的 SQL 语句，参数值直接嵌入，适合需要直观日志的场景。
+  + 配置简单，与 Spring Boot 和 Logback 集成良好，适合开发和测试环境。
+\\
+在实际项目中，建议根据需求选择合适的方案：
+- 如果仅需快速验证 SQL，内置配置（Hibernate/JPA 或 MyBatis）已足够。
+- 如果需要更直观的日志或参数值嵌入，log4jdbc 是一个轻量且高效的选择。
+- 对于更复杂的需求（如慢查询分析或日志定制），可进一步探索 p6spy。
+\\
+通过以上方法，你可以轻松在 Spring Boot 中实现 SQL 打印，加速调试和开发流程。如果有其他疑问，欢迎留言探讨！
