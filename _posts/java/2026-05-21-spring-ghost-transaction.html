@@ -1,0 +1,500 @@
+---
+layout: post
+title: Spring 事务 + 事务监听器引发的"幽灵事务"陷阱与架构层修复方案
+author: zrg
+description: Spring 事务 + 事务监听器引发的"幽灵事务"陷阱与架构层修复方案
+excerpt: 
+comments: true
+categories: 
+- java
+tags:
+- Spring
+- 事务
+---
+<div id="outline-container-org9d8830b" class="outline-2">
+<h2 id="org9d8830b"><span class="section-number-2">1.</span> 问题现象回顾</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在"日采请购单审批回调"这条链路里发生了两个怪现象：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">现象</td>
+<td class="org-left">表现</td>
+</tr>
+
+<tr>
+<td class="org-left">① 查不到上一步的数据</td>
+<td class="org-left">autoCreateInWarehouseBill 查 purchaseBillQuery.queryBySourceId(billId) 拿不到刚创建的采购单</td>
+</tr>
+
+<tr>
+<td class="org-left">② 日志成功但数据不落库</td>
+<td class="org-left">listener 打出 自动创建入库点检单成功，DB 里查不到入库点检单</td>
+</tr>
+</tbody>
+</table>
+<p>
+两个现象根因相同：整条链路的事务边界没有按业务期望切分，写操作复用了一个"已经提交但尚未清理"的事务上下文，导致 entity persist 进 Session 后永远不会再被 commit。
+</p>
+</div>
+</div>
+<div id="outline-container-orgddea4a9" class="outline-2">
+<h2 id="orgddea4a9"><span class="section-number-2">2.</span> 完整调用链与事务边界</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+先把链路画清楚（→ 表示方法调用，每行右侧标注 @Transactional 状态）：
+</p>
+<div class="org-src-container">
+<pre class="src src-java">HTTP /workFlow/checkCallback
+&#9492;&#9472; CheckFlowApplicationImpl.checkCallback                     [<span style="color: #ff6e65;">@Transactional</span> &#8594; TX_outer]
+   &#9492;&#9472; flowCallbackApplication.handleAfterCallback             [<span style="color: #ff6e65;">@Transactional</span>(REQUIRES_NEW) &#8594; &#25346;&#36215; TX_outer&#65292;&#24320; TX_inner]
+      &#9492;&#9472; publishEvent(FlowCallbackEvent)
+         (&#20107;&#20214;&#34987;&#27880;&#20876;&#20026; TX_inner &#30340; <span style="color: #4e9dff;">AFTER_COMMIT</span> <span style="color: #e45c9c;">&#21516;&#27493;&#22238;&#35843;</span>)
+   &#9472;&#9472; TX_inner.commit() &#9472;&#9472;
+      &#8595; &#28784;&#33394;&#22320;&#24102;&#65306;commit &#23436;&#25104;&#12289;cleanup &#23578;&#26410;&#25191;&#34892;
+   &#9492;&#9472; FlowCallbackEventDispatcher.handleFlowCallbackEvent     [<span style="color: #ff6e65;">@TransactionalEventListener</span>(AFTER_COMMIT)]
+      &#9492;&#9472; PreRequestDayFlowCallbackListener.handleCallback     [&#26080; <span style="color: #ff6e65;">@Transactional</span>]
+         &#9500;&#9472; autoCreatePurchaseBill         (&#21407;: &#26080; <span style="color: #ff6e65;">@Tx</span>&#65292;&#20869;&#37096; saveBills <span style="color: #ff6e65;">@Tx</span> REQUIRED)
+         &#9500;&#9472; autoApprove                    (&#21407;: &#26080; <span style="color: #ff6e65;">@Tx</span>&#65292;&#20869;&#37096; submitCheck <span style="color: #ff6e65;">@Tx</span> REQUIRED)
+         &#9492;&#9472; autoCreateInWarehouseBill      (&#21407;: <span style="color: #ff6e65;">@Tx</span> REQUIRED)
+&#9472;&#9472; &#22238;&#21040; TX_outer&#65292;TX_outer.commit() &#9472;&#9472;
+</pre>
+</div>
+<p>
+记住三个关键事实：
+</p>
+<ul class="org-ul">
+<li><b><b>TX_outer</b></b> 是 `checkCallback` 自己开的，事件触发时它处于"挂起"状态。</li>
+<li><b><b>TX_inner</b></b> 是 `handleAfterCallback` 用 `REQUIRES_NEW` 开的，事件触发**就发生在它的 commit 流程里**。</li>
+<li>监听器方法本身没有 `@Transactional`。</li>
+</ul>
+
+<pre class="example">
+TX = Transaction 事务
+</pre>
+</div>
+</div>
+<div id="outline-container-org7929c03" class="outline-2">
+<h2 id="org7929c03"><span class="section-number-2">3.</span> @TransactionalEventListener(AFTER_COMMIT) 到底在什么时机触发？</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+很多人误以为"AFTER_COMMIT 触发时已经没有任何事务了"。实际上要看 Spring 的 commit 流程（AbstractPlatformTransactionManager.processCommit）：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">1. prepareForCommit()
+2. triggerBeforeCommit()
+3. triggerBeforeCompletion()
+4. doCommit()                        &#8592; &#29289;&#29702; commit &#21040; DB&#65288;TX_inner &#33853;&#24211;&#23436;&#25104;&#65289;
+5. triggerAfterCommit()              &#8592; &#9733; AFTER_COMMIT &#22238;&#35843;&#22312;&#36825;&#37324;&#25191;&#34892; &#9733;
+6. triggerAfterCompletion()
+7. cleanupAfterCompletion()          &#8592; &#36825;&#19968;&#27493;&#25165;&#30495;&#27491;&#35299;&#32465;&#36164;&#28304;&#12289;resume &#25346;&#36215;&#30340; TX_outer
+</pre>
+</div>
+<p>
+也就是说，AFTER_COMMIT 回调执行时，处于一个**"灰色地带"**：
+</p>
+<ul class="org-ul">
+<li>TX_inner **物理上已提交**，但 `TransactionSynchronizationManager` 里**还没解绑**（Connection、EntityManager 等资源仍挂在当前线程上）。</li>
+<li>TX_outer 处于挂起状态，但因为 cleanup 还没跑，它的恢复也没发生。</li>
+</ul>
+
+<p>
+这个"灰色地带"会直接影响后续在监听器里调用的 `@Transactional` 方法的传播行为。
+</p>
+</div>
+</div>
+<div id="outline-container-org61461f2" class="outline-2">
+<h2 id="org61461f2"><span class="section-number-2">4.</span> @Transactional 传播级别在"灰色地带"里的实际表现</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+`@Transactional` 默认是 `Propagation.REQUIRED`。它的判断逻辑（简化）是：
+</p>
+
+<pre class="example">
+"当前线程是否已经有一个事务上下文（看 `TransactionSynchronizationManager` 的资源绑定）？有 → 加入它；没有 → 开一个新的。"
+</pre>
+
+<p>
+在 AFTER_COMMIT 这个灰色地带里：
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">调用方式</td>
+<td class="org-left">实际行为</td>
+</tr>
+
+<tr>
+<td class="org-left">REQUIRED</td>
+<td class="org-left">大概率复用 TX_inner 残留的资源（Connection / Hibernate Session），但这个事务已经 commit 过了。新的 DML 操作进了同一个 Session，但这个 Session 永远不会再 commit 第二次</td>
+</tr>
+
+<tr>
+<td class="org-left">REQUIRES_NEW</td>
+<td class="org-left">强制挂起当前残留上下文，开一个全新的物理事务，方法返回时独立 commit</td>
+</tr>
+</tbody>
+</table>
+<p>
+这就是关键陷阱：
+</p>
+<pre class="example">
+AFTER_COMMIT 监听器里用 REQUIRED 的 @Transactional 方法，写入的数据有极大概率"看起来成功了，实际从未 commit"。
+</pre>
+
+<p>
+具体落到我们的代码：
+现象 ① 的成因（查不到采购单）
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">autoCreatePurchaseBill (&#26080; @Tx)
+  &#9492;&#9472; saveBills (@Tx REQUIRED) &#8594; &#21152;&#20837;&#27531;&#30041; Session
+                              &#8594; entity persist &#21040;&#19968;&#32423;&#32531;&#23384;
+                              &#8594; &#26041;&#27861;&#36820;&#22238;&#65292;&#27809;&#26377;&#26032; commit / flush
+autoCreateInWarehouseBill (@Tx REQUIRED) &#8594; &#21152;&#20837;&#21516;&#19968;&#27531;&#30041; Session
+  &#9492;&#9472; purchaseBillQuery.queryBySourceId(billId)
+       &#8594; &#21363;&#20415; JPA AUTO flush &#25226;&#32531;&#23384;&#20889;&#21040; Connection&#65292;
+         &#21069;&#19968;&#27493;&#30340;<span style="color: #6adf73;">"&#27531;&#30041;&#20107;&#21153;"</span>&#20063;&#20174;&#26410;&#30495;&#27491; commit&#65292;
+         &#26356;&#31967;&#31957;&#30340;&#26159;&#65306;&#25972;&#26465;&#38142;&#32467;&#26463;&#21518;&#36825;&#20123;&#21464;&#26356;&#38543;&#25346;&#36215;&#20107;&#21153;&#28165;&#29702;&#19968;&#36215;&#34987;&#20002;&#24323;
+</pre>
+</div>
+<p>
+结果：第二步查询返回空集合，`autoCreateInWarehouseBill` 直接 `return RetData.error("采购单据不存在")`。
+</p>
+
+<p>
+<b><b>现象 ② 的成因（日志成功但单据没生成）</b></b>
+</p>
+
+<p>
+把前两步改成 `REQUIRES_NEW` 后，采购单确实被 commit 了。第三步 `autoCreateInWarehouseBill` 仍是 `REQUIRED`：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">autoCreateInWarehouseBill (@Tx REQUIRED) &#8594; &#22797;&#29992;&#27531;&#30041;&#19978;&#19979;&#25991;
+  &#9492;&#9472; operationBillApplication.saveBill (@Tx REQUIRED) &#8594; &#21516;&#19968;&#19978;&#19979;&#25991;
+       &#8594; entity &#36827; Session
+       &#8594; &#26041;&#27861;&#38142;&#36820;&#22238;&#65292;&#27809;&#24322;&#24120;
+  &#8594; return RetData.ok()
+
+listener: createInWarehouseBillResult.isOk() == true
+           &#8594; log.info(<span style="color: #6adf73;">"&#33258;&#21160;&#21019;&#24314;&#20837;&#24211;&#28857;&#26816;&#21333;&#25104;&#21151;"</span>)    &#8592; &#26085;&#24535;&#34987;&#25171;&#20986;&#26469;
+           &#8594; markSuccess(...)                       &#8592; &#19994;&#21153;&#26085;&#24535;&#34920;&#20063;&#20889;<span style="color: #6adf73;">"&#25104;&#21151;"</span>
+
+&#30495;&#23454;&#24773;&#20917;:
+  &#36825;&#20010;<span style="color: #6adf73;">"&#25346;&#30528;&#30340;&#20107;&#21153;"</span>&#22312;&#21518;&#32493; cleanupAfterCompletion() &#38454;&#27573;&#34987;&#20002;&#24323;&#65292;
+  &#20837;&#24211;&#28857;&#26816;&#21333;&#30340; INSERT &#20174;&#26410;&#30495;&#27491; commit &#21040;&#25968;&#25454;&#24211;&#12290;
+</pre>
+</div>
+<p>
+→ 日志骗了我们：返回值 OK ≠ 数据已经 commit。
+</p>
+</div>
+</div>
+<div id="outline-container-org0e21c3d" class="outline-2">
+<h2 id="org0e21c3d"><span class="section-number-2">5.</span> 两层修复策略</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orge577b23" class="outline-3">
+<h3 id="orge577b23"><span class="section-number-3">5.1.</span> 第一层：业务语义层 —— 给"必须独立提交"的步骤标 REQUIRES_NEW</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+业务上，"采购单创建成功"和"自动审批通过"是不可回滚的事实，不应因为后续入库点检单失败被回滚。这是业务语义边界，应在 application service 上声明：
+AutoCreatePurchaseBillApplicationImpl.java
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #ff6e65;">@Override</span>
+<span style="color: #ff6e65;">@Transactional</span>(propagation = <span style="color: #ff6e65;">Propagation</span>.REQUIRES_NEW, rollbackFor = Exception.<span style="color: #4e9dff;">class</span>)
+<span style="color: #4e9dff;">public</span> <span style="color: #4e9dff;">RetData</span>&lt;?&gt; <span style="color: #91f3e7;">autoCreatePurchaseBill</span>(<span style="color: #4e9dff;">Long</span> <span style="color: #e45c9c;">billId</span>, <span style="color: #4e9dff;">UserDto</span> <span style="color: #e45c9c;">userDto</span>) { ... }
+
+<span style="color: #ff6e65;">@Override</span>
+<span style="color: #ff6e65;">@Transactional</span>(propagation = <span style="color: #ff6e65;">Propagation</span>.REQUIRES_NEW, rollbackFor = Exception.<span style="color: #4e9dff;">class</span>)
+<span style="color: #4e9dff;">public</span> <span style="color: #4e9dff;">void</span> <span style="color: #91f3e7;">autoApprove</span>(<span style="color: #4e9dff;">Long</span> <span style="color: #e45c9c;">billId</span>) { ... }
+</pre>
+</div>
+<p>
+`REQUIRES_NEW` 的语义是：
+</p>
+
+<ol class="org-ol">
+<li>把当前线程上**所有已绑定的事务资源**（包括灰色地带的残留）**强制挂起**；</li>
+<li>从连接池**重新拿一个 Connection**，开一个**全新的物理事务**；</li>
+<li>方法返回时**独立 commit**这个新事务；</li>
+<li>然后恢复之前挂起的资源。</li>
+</ol>
+
+<p>
+这就把每一步彻底变成"自包含、独立可见"的事务单元：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">autoCreatePurchaseBill   [REQUIRES_NEW] &#8594; &#29420;&#31435; commit &#8594; DB &#37324;&#30475;&#24471;&#21040;&#37319;&#36141;&#21333;
+autoApprove              [REQUIRES_NEW] &#8594; &#29420;&#31435; commit &#8594; &#23457;&#25209;&#29366;&#24577;&#33853;&#24211;
+autoCreateInWarehouseBill[REQUIRES_NEW] &#8594; &#29420;&#31435; commit &#8594; &#20837;&#24211;&#28857;&#26816;&#21333;&#33853;&#24211;
+</pre>
+</div>
+<p>
+第三步查询第一步的数据时，因为前两步已经物理 commit，任何新事务、任何 Session 都能看到，不存在可见性问题。同时，第三步的"成功"日志严格等价于"已 commit"。
+</p>
+</div>
+</div>
+<div id="outline-container-org2f046ea" class="outline-3">
+<h3 id="org2f046ea"><span class="section-number-3">5.2.</span> 第二层：架构层 —— 在事件分发器上加 REQUIRES_NEW 安全网</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+业务语义层只解决了 `PreRequestDayFlowCallbackListener` 一个监听器。工程里 5 个 `FlowCallbackListener` 都跑在同一个灰色地带，**每个监听器内部都加 REQUIRES_NEW 既繁琐又容易破坏既有事务原子性**（domain 层方法可能被正常请求路径以 REQUIRED 复用）。
+</p>
+
+<p>
+更根本的修法是在 `FlowCallbackEventDispatcher` 中**统一**用 `TransactionTemplate(REQUIRES_NEW)` 包裹 listener 调用：
+</p>
+<div class="org-src-container">
+<pre class="src src-java"><span style="color: #4e9dff;">public</span> FlowCallbackEventDispatcher(<span style="color: #4e9dff;">List</span>&lt;<span style="color: #4e9dff;">FlowCallbackListener</span>&gt; <span style="color: #e45c9c;">listeners</span>,
+                                   <span style="color: #4e9dff;">AutoCreateBillLogDomainService</span> <span style="color: #e45c9c;">autoCreateBillLogDomainService</span>,
+                                   PlatformTransactionManager transactionManager) {
+    <span style="color: #4e9dff;">this</span>.listeners = listeners;
+    <span style="color: #4e9dff;">this</span>.autoCreateBillLogDomainService = autoCreateBillLogDomainService;
+    <span style="color: #4e9dff;">this</span>.listenerTxTemplate = <span style="color: #4e9dff;">new</span> <span style="color: #4e9dff;">TransactionTemplate</span>(transactionManager);
+    <span style="color: #4e9dff;">this</span>.listenerTxTemplate.setPropagationBehavior(<span style="color: #ff6e65;">TransactionDefinition</span>.PROPAGATION_REQUIRES_NEW);
+}
+
+<span style="color: #4e9dff;">try</span> {
+    listenerTxTemplate.execute(status -&gt; {
+        listener.handleCallback(billId);
+        <span style="color: #4e9dff;">return</span> <span style="color: #ff6e65;">null</span>;
+    });
+    handleSuccess(callbackLog, billType, billId);
+} <span style="color: #4e9dff;">catch</span> (Exception e) {
+    handleFailure(callbackLog, billType, billId, e.getMessage(), e);
+}
+</pre>
+</div>
+<p>
+加上之后，链路变成：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">Dispatcher.handleFlowCallbackEvent (AFTER_COMMIT &#28784;&#33394;&#22320;&#24102;)
+&#9492;&#9472; requiresNewTx.execute(...)                  &#8592; &#25346;&#36215;&#28784;&#33394;&#22320;&#24102;&#27531;&#30041;&#65292;&#24320; TX_listener
+   &#9492;&#9472; listener.handleCallback(billId)
+      &#9500;&#9472; [@Tx REQUIRES_NEW] &#19994;&#21153;&#24517;&#39035;&#29420;&#31435;&#25552;&#20132;&#30340;&#27493;&#39588;   &#8594; &#33258;&#24320; TX_xxx &#29420;&#31435; commit
+      &#9492;&#9472; [@Tx REQUIRED] &#36319;&#30417;&#21548;&#22120;&#21516;&#29983;&#20849;&#27515;&#30340;&#27493;&#39588;      &#8594; &#21152;&#20837; TX_listener&#65292;&#38543; TX_listener &#19968;&#36215; commit
+&#9472;&#9472; TX_listener.commit() &#9472;&#9472;
+&#9472;&#9472; &#27531;&#30041;&#36164;&#28304;&#24674;&#22797; &#9472;&#9472;
+</pre>
+</div>
+<p>
+<b><b>关键设计点:</b></b>
+</p>
+
+<ol class="org-ol">
+<li>**只包裹 `listener.handleCallback`**：`createLog / markSuccess / markFailed` 不进包裹，它们自己已经是 `REQUIRES_NEW`，并且日志必须在 listener TX 回滚时仍能写入"失败"记录。</li>
+<li>**用 `execute(&#x2026; return null)`**：项目用 Spring Boot 2.1.4（Spring 5.1.x），没有 5.2+ 才有的 `executeWithoutResult` 方法。</li>
+<li>**异常语义保持**：lambda 里抛 RuntimeException → `TransactionTemplate.execute` rollback `TX_listener` 并抛出 → 外层 `try/catch` 接住 → 走 `handleFailure` → `markFailed` 写日志（独立 REQUIRES_NEW，不受 `TX_listener` 回滚影响）。</li>
+<li>**去掉 `@RequiredArgsConstructor`**：因为需要在构造器里初始化 `TransactionTemplate`，改用显式构造器。</li>
+</ol>
+
+<p>
+<b><b>两层修复的协同效果（不是替代关系）</b></b>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">TX_listener {                                       &#8592; &#26550;&#26500;&#23618;&#23433;&#20840;&#32593;&#65288;dispatcher&#65289;
+    [TX_purchase REQUIRES_NEW]  &#29420;&#31435; commit          &#8592; &#19994;&#21153;&#35821;&#20041;&#36793;&#30028;&#65306;&#37319;&#36141;&#21333;&#19981;&#21487;&#22238;&#28378;
+    [TX_approve  REQUIRES_NEW]  &#29420;&#31435; commit          &#8592; &#19994;&#21153;&#35821;&#20041;&#36793;&#30028;&#65306;&#23457;&#25209;&#19981;&#21487;&#22238;&#28378;
+    autoCreateInWarehouseBill (REQUIRED) join TX_listener  &#8592; &#22833;&#36133;&#26102;&#21482;&#22238;&#28378;&#33258;&#24049;
+}
+</pre>
+</div>
+<ul class="org-ul">
+<li>**业务语义层（REQUIRES_NEW on application service）**：保证业务原子性边界。</li>
+<li>**架构层（REQUIRES_NEW on dispatcher）**：保证灰色地带下 REQUIRED 也能正确提交。</li>
+<li>**两者不冲突、不重复**，是不同维度的保险。</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org419cba7" class="outline-2">
+<h2 id="org419cba7"><span class="section-number-2">6.</span> 为什么不在 listener 上加 @Transactional 解决？</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+这是个常见的"看起来更优雅"的方案，但对这个场景**行不通**：
+</p>
+
+<ol class="org-ol">
+<li>**`@TransactionalEventListener` 的 listener 方法本身加 `@Transactional` 会迷惑事务边界**——它跑在 AFTER_COMMIT 的灰色地带，加 REQUIRED 仍会撞上残留上下文，加 REQUIRES_NEW 又会把"三个独立步骤"重新捆成一个大事务（其中一步失败导致前两步也回滚，与业务期望不符）。</li>
+<li>业务上希望"采购单创建成功就保留，入库点检单失败只回滚自己"，**天然就是三个独立事务边界**。</li>
+<li>listener 是回调编排层，让它做事务编排会污染职责。应该让**应用服务层**自己声明事务边界（这是 DDD 分层里 application service 的天职）。</li>
+</ol>
+
+<p>
+所以正确的修法就是我们做的：**把三个应用服务方法各自标 `@Transactional(REQUIRES_NEW)`**。
+</p>
+</div>
+</div>
+<div id="outline-container-orgf140112" class="outline-2">
+<h2 id="orgf140112"><span class="section-number-2">7.</span> 可以提炼的几条通用经验</h2>
+<div class="outline-text-2" id="text-7">
+<ol class="org-ol">
+<li><p>
+@TransactionalEventListener(AFTER_COMMIT) 里调用的写操作，必须有明确的事务边界
+不要依赖默认 `REQUIRED`。两个方案二选一：
+</p>
+<ul class="org-ul">
+<li>**集中式**（推荐）：在事件分发器统一用 `TransactionTemplate(REQUIRES_NEW)` 包裹 listener 调用。一处改、N 处受益。</li>
+<li>**分布式**：每个 listener 调用的入口方法都自带 `@Transactional(REQUIRES_NEW)`。</li>
+</ul>
+<p>
+监听器里要写库 / 调用其他写操作的 service，**不要依赖默认 REQUIRED**。否则一旦撞上"灰色地带"，会出现"无异常但数据丢失"，这是最难排查的 bug 类型。
+</p></li>
+<li><p>
+"无 @Transactional 注解的方法"不等于"无事务"
+AutoCreatePurchaseBillApplicationImpl.autoCreatePurchaseBill 本身没注解，但它内部调用了 saveBills (@Tx REQUIRED)。在不同的上层上下文中，这个 REQUIRED 的实际行为完全不同：
+</p>
+<ul class="org-ul">
+<li>上层无事务 → 新开并自己 commit</li>
+<li>上层有正常 TX → 加入上层</li>
+<li>上层是"灰色地带残留" → 加入残留，永不 commit ← <b><b>就是这个场景</b></b></li>
+</ul>
+
+<pre class="example">
+做应用服务编排的时候，事务边界一定要在 application service 这一层就明确标注，不要让它"看运气"。
+</pre></li>
+<li>RetData.ok() ≠ "数据已经持久化"
+任何依赖返回值判断业务结果的代码，都隐含一个假设：返回值是在事务 commit 之后才被消费的。这个假设在 REQUIRED 嵌套时不成立——返回值是方法栈帧弹出时拿到的，而 commit 发生在最外层 TX 结束时。</li>
+<li><p>
+@TransactionalEventListener 选择 phase 时的取舍
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Phase</th>
+<th scope="col" class="org-left">时机</th>
+<th scope="col" class="org-left">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">BEFORE_COMMIT</td>
+<td class="org-left">TX commit 之前</td>
+<td class="org-left">还需要参与原事务，必须保证一致</td>
+</tr>
+
+<tr>
+<td class="org-left">AFTER_COMMIT</td>
+<td class="org-left">TX commit 之后（但 cleanup 之前）</td>
+<td class="org-left">解耦后置动作，原事务必须已经成功</td>
+</tr>
+
+<tr>
+<td class="org-left">AFTER_ROLLBACK</td>
+<td class="org-left">TX rollback 之后</td>
+<td class="org-left">失败补偿</td>
+</tr>
+
+<tr>
+<td class="org-left">AFTER_COMPLETION</td>
+<td class="org-left">不管成功失败</td>
+<td class="org-left">资源清理</td>
+</tr>
+</tbody>
+</table>
+<p>
+只要选了 AFTER_*，就一定要意识到回调代码处于"灰色地带"，回调里要写库就一律 REQUIRES_NEW。
+</p></li>
+<li>fallbackExecution=true 是把双刃剑
+@TransactionalEventListener(AFTER_COMMIT, fallbackExecution=true) 意思是"如果发布事件时没有事务上下文，也照常同步触发"。这让代码兼容了"无事务路径"（比如手动重试入口），但也意味着监听器内的事务行为要在"有 TX 上下文"和"无 TX 上下文"两种情况下都正确。REQUIRES_NEW 在两种情况下都是确定行为（新开 TX），是最安全的选择。</li>
+<li>REQUIRES_NEW 的代价要心里有数
+<ul class="org-ul">
+<li>会从连接池**多拿一个 Connection**。在嵌套调用时如果池子小，可能引发死锁（持有 Conn1 等 Conn2）。</li>
+<li>父事务的回滚**不会**回滚 `REQUIRES_NEW` 子事务的修改 → 业务上必须接受这种"已提交无法撤销"的语义。</li>
+<li>不要在 read-only 场景滥用，常规读不需要 REQUIRES_NEW。</li>
+</ul></li>
+<li><p>
+"业务语义边界" vs "技术安全网"是两件事
+我们最终的修复是两层叠加：
+</p>
+<ul class="org-ul">
+<li>application service 的 @Transactional(REQUIRES_NEW) —— 业务语义边界，表达"这一步必须独立提交，不可回滚"；</li>
+<li>dispatcher 的 TransactionTemplate(REQUIRES_NEW) —— 技术安全网，兜住"REQUIRED 在灰色地带的不确定行为"。</li>
+</ul>
+<p>
+两者不互斥，业务边界不能用安全网替代（语义不同），安全网也不能用业务边界替代（覆盖面不够）。
+</p></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orge3730ea" class="outline-2">
+<h2 id="orge3730ea"><span class="section-number-2">8.</span> 版本兼容备忘</h2>
+<div class="outline-text-2" id="text-8">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">API</th>
+<th scope="col" class="org-left">引入版本</th>
+<th scope="col" class="org-left">备选</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">TransactionTemplate.executeWithoutResult(Consumer)</td>
+<td class="org-left">Spring 5.2</td>
+<td class="org-left">5.1 用 execute(TransactionCallback) + return null</td>
+</tr>
+
+<tr>
+<td class="org-left">@TransactionalEventListener</td>
+<td class="org-left">Spring 4.2</td>
+<td class="org-left">—</td>
+</tr>
+
+<tr>
+<td class="org-left">@TransactionalEventListener.fallbackExecution</td>
+<td class="org-left">Spring 4.3</td>
+<td class="org-left">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org46ac83b" class="outline-2">
+<h2 id="org46ac83b"><span class="section-number-2">9.</span> 一句话总结</h2>
+<div class="outline-text-2" id="text-9">
+<pre class="example">
+@TransactionalEventListener(AFTER_COMMIT) 监听器里执行的写操作链，必须每一步都用 @Transactional(REQUIRES_NEW) 划清事务边界；否则 REQUIRED 会复用一个"已 commit 但尚未清理"的幽灵事务上下文，导致写入"无异常 / 看起来成功 / 实际丢失"。
+修复方式：
+1）业务语义边界用方法级 @Transactional(REQUIRES_NEW)；
+2）技术安全网用事件分发器集中包裹 TransactionTemplate(REQUIRES_NEW)。两层叠加，互不冲突。
+</pre>
+</div>
+</div>
